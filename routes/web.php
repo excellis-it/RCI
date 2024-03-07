@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\PaybandTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,4 +34,22 @@ Route::middleware('permssions')->group(function () {
         Route::get('/', [ProfileController::class, 'password'])->name('password'); // password change
         Route::post('/update', [ProfileController::class, 'passwordUpdate'])->name('password.update'); // password update
     });
+
+    Route::resources([
+        'categories' => CategoryController::class,
+        'payband-types' => PaybandTypeController::class,
+    ]);
+
+    // category
+    Route::prefix('categories')->group(function () {
+        Route::get('/categories-delete/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
+    });
+    Route::get('/categories-fetch-data', [CategoryController::class, 'fetchData'])->name('categories.fetch-data');
+
+    // Payband Type
+    Route::prefix('payband-types')->group(function () {
+        Route::get('/payband-types-delete/{id}', [PaybandTypeController::class, 'delete'])->name('payband-types.delete');
+    });
+    Route::get('/payband-types-fetch-data', [PaybandTypeController::class, 'fetchData'])->name('payband-types.fetch-data');
+
 });

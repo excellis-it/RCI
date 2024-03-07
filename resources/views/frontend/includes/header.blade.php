@@ -42,11 +42,15 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Category Update</a>
+                                    href="{{route('categories.index')}}">Category Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">PayScale Update</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('payband-types.index')}}">PayBand Type</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
