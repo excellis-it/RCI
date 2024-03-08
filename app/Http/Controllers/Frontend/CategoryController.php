@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\DesignationType;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,8 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $designation_types = DesignationType::orderBy('designation_type', 'asc')->get();
         $categories = Category::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.categories.list', compact('categories'));
+        return view('frontend.categories.list', compact('categories','designation_types'));
     }
 
     public function fetchData(Request $request)
@@ -28,7 +30,9 @@ class CategoryController extends Controller
             $categories = Category::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('category', 'like', '%' . $query . '%')
-                    ->orWhere('designation_type', 'like', '%' . $query . '%')
+                    ->orWhereHas('designationType', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('designation_type', 'like', '%' . $query . '%');
+                    })
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null))
                     ->orWhere('gazetted', '=', $query == 'Gazetted' ? 1 : ($query == 'Non-Gazetted' ? 0 : null));
             })
@@ -57,14 +61,14 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category' => 'required|unique:categories',
-            'designation_type' => 'required',
+            'designation_type_id' => 'required',
             'gazetted' => 'required',
             'status' => 'required',
         ]);
 
         $category = new Category();
         $category->category = $request->category;
-        $category->designation_type = $request->designation_type;
+        $category->designation_type_id = $request->designation_type_id;
         $category->gazetted = $request->gazetted;
         $category->status = $request->status;
         $category->save();
@@ -86,9 +90,10 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
+        $designation_types = DesignationType::orderBy('designation_type', 'asc')->get();
         $category = Category::find($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.categories.form', compact('edit', 'category'))->render()]);
+        return response()->json(['view' => view('frontend.categories.form', compact('edit', 'category','designation_types'))->render()]);
     }
 
     /**
@@ -98,14 +103,14 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category' => 'required|unique:categories,category,' . $id,
-            'designation_type' => 'required',
+            'designation_type_id' => 'required',
             'gazetted' => 'required',
             'status' => 'required',
         ]);
 
         $category = Category::find($id);
         $category->category = $request->category;
-        $category->designation_type = $request->designation_type;
+        $category->designation_type_id = $request->designation_type_id;
         $category->gazetted = $request->gazetted;
         $category->status = $request->status;
         $category->save();

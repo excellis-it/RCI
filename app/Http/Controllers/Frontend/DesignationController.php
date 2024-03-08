@@ -1,0 +1,159 @@
+<?php
+
+namespace App\Http\Controllers\Frontend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Designation;
+use App\Models\DesignationType;
+use App\Models\PaybandType;
+use App\Models\PayscaleType;
+use Illuminate\Http\Request;
+
+class DesignationController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $designations = Designation::orderBy('id', 'desc')->paginate(10);
+        $designation_types = DesignationType::orderBy('designation_type', 'asc')->get();
+        $categories = Category::orderBy('category', 'asc')->get();
+        $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
+        $payscale_types = PayscaleType::orderBy('payscale_type', 'asc')->get();
+        return view('frontend.designations.list', compact('designations', 'designation_types', 'categories', 'payband_types', 'payscale_types'));
+    }
+
+    public function fetchData(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $designations = Designation::where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('id', 'like', '%' . $query . '%')
+                    ->orWhere('full_name', 'like', '%' . $query . '%')
+                    ->orWhere('designation', 'like', '%' . $query . '%')
+                    ->orWhereHas('designationType', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('designation_type', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('paybandType', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('payband_type', 'like', '%' . $query . '%');
+                    })
+                    ->orWhereHas('payscaleType', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('payscale_type', 'like', '%' . $query . '%');
+                    })
+                    ->orwhereHas('category', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('category', 'like', '%' . $query . '%');
+                    });
+            })
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
+
+            return response()->json(['data' => view('frontend.designations.table', compact('designations'))->render()]);
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required',
+            'designation' => 'required',
+            'designation_type_id' => 'required',
+            'category_id' => 'required',
+            'payband_type_id' => 'required',
+            'payscale_type_id' => 'required',
+        ]);
+
+        $designation = new Designation();
+        $designation->full_name = $request->full_name;
+        $designation->designation = $request->designation;
+        $designation->designation_type_id = $request->designation_type_id;
+        $designation->category_id = $request->category_id;
+        $designation->payband_type_id = $request->payband_type_id;
+        $designation->payscale_type_id = $request->payscale_type_id;
+        $designation->save();
+
+        session()->flash('message', 'Designation added successfully');
+        return response()->json(['success' => 'Designation added successfully']);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $designation = Designation::find($id);
+        $edit = true;
+        $designation_types = DesignationType::orderBy('designation_type', 'asc')->get();
+        $categories = Category::orderBy('category', 'asc')->get();
+        $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
+        $payscale_types = PayscaleType::orderBy('payscale_type', 'asc')->get();
+        return response()->json(['view' => view('frontend.designations.form', compact('edit', 'designation', 'designation_types', 'categories', 'payband_types', 'payscale_types'))->render()]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'full_name' => 'required',
+            'designation' => 'required',
+            'designation_type_id' => 'required',
+            'category_id' => 'required',
+            'payband_type_id' => 'required',
+            'payscale_type_id' => 'required',
+        ]);
+
+        $designation = Designation::find($id);
+        $designation->full_name = $request->full_name;
+        $designation->designation = $request->designation;
+        $designation->designation_type_id = $request->designation_type_id;
+        $designation->category_id = $request->category_id;
+        $designation->payband_type_id = $request->payband_type_id;
+        $designation->payscale_type_id = $request->payscale_type_id;
+        $designation->save();
+
+        session()->flash('message', 'Designation updated successfully');
+        return response()->json(['success' => 'Designation updated successfully']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+
+    public function delete($id)
+    {
+        $designation = Designation::find($id);
+        $designation->delete();
+        session()->flash('message', 'Designation deleted successfully');
+        return response()->json(['success' => 'Designation deleted successfully']);
+    }
+}

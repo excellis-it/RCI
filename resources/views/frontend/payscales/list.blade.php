@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Category List
+    Payscale List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Category Listing</h3>
+                    <h3>Payscale Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Category Listing</span></li>
+                        <li><span class="bread-blod">Payscale Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.categories.form')
+                            @include('frontend.payscales.form')
                         </div>
 
                         <div class="row">
@@ -48,19 +48,38 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="category"
-                                                    style="cursor: pointer">Category Name <span id="category_icon"><i
+                                                <th>Scale Type</th>
+                                                {{-- payscale_number --}}
+                                                <th data-sorting_type="desc" class="sorting" data-column_name="payscale_number"
+                                                    style="cursor: pointer">
+                                                    Payscale Number <span id="payscale_number_icon"><i
+                                                            class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th data-sorting_type="desc" class="sorting" data-column_name="basic1"
+                                                    style="cursor: pointer">
+                                                    Basic 1 <span id="basic1_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th data-sorting_type="desc" class="sorting" data-column_name="basic2"
+                                                    style="cursor: pointer">
+                                                    Basic 2 <span id="basic2_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th data-sorting_type="desc" class="sorting" data-column_name="basic3"
+                                                    style="cursor: pointer">
+                                                    Basic 3 <span id="basic3_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th data-sorting_type="desc" class="sorting" data-column_name="increment1"
+                                                    style="cursor: pointer">
+                                                    Increment 1 <span id="increment1_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th>Code</th> --}}
-                                                <th>Gazetted </th>
-                                                <th>
-                                                    Designation Type </th>
-                                                <th>Status </th>
+                                                <th data-sorting_type="desc" class="sorting" data-column_name="increment2"
+                                                    style="cursor: pointer">
+                                                    Increment 2 <span id="increment2_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.categories.table')
+                                            @include('frontend.payscales.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -83,7 +102,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this category.",
+                    text: "To delete this payscale.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -106,7 +125,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('categories.fetch-data') }}",
+                    url: "{{ route('payscales.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -171,7 +190,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#category-create-form').submit(function(e) {
+            $('#payscale-create-form').submit(function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -224,7 +243,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#category-edit-form', function(e) {
+            $(document).on('submit', '#payscale-edit-form', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -244,6 +263,22 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('keyup', '.payscale_number', function() {
+                var inputValue = $(this).val().replace(/\D/g, '');
+
+                // Add a hyphen after every 5 characters
+                var formattedValue = inputValue.replace(/(\d{5})(\d{3})(\d{5})/, '$1-$2-$3');
+
+                // Limit the total length to 13 characters
+                formattedValue = formattedValue.substring(0, 15);
+
+                // Update the input field value
+                $(this).val(formattedValue);
             });
         });
     </script>

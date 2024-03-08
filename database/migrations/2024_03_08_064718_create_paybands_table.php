@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('paybands', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('designation_type_id')->nullable();
-            $table->string('category')->nullable();
-            $table->boolean('gazetted')->default(0)->comment('0=Non-Gazetted, 1=Gazetted');
-            $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
+            $table->bigInteger('payband_type_id')->unsigned()->nullable();
+            $table->string('low_band')->nullable();
+            $table->string('high_band')->nullable();
+            $table->string('grade_pay')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('paybands');
     }
 };

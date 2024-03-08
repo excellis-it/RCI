@@ -38,7 +38,11 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Desig Update</a>
+                                    href="{{route('designation-types.index')}}">Designation Type</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('designations.index')}}">Desig Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -46,7 +50,11 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">PayScale Update</a>
+                                    href="{{route('payscale-types.index')}}">PayScale Type</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('payscales.index')}}">PayScale Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -54,7 +62,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">PayBand Update</a>
+                                    href="{{route('paybands.index')}}">PayBand Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -186,11 +194,11 @@
                 <a class="nav-link" href="">PayCertificate</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="">Exit</a>
+                <a class="nav-link" href="{{route('logout')}}">Exit</a>
             </li>
         </ul>
         <div class="d-block d-lg-none">
-            <img src="images/logo.png" class="dark-logo" width="" alt="">
+            <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
@@ -206,7 +214,7 @@
                     <i class="ti ti-logout fs-4"></i> Logout
                 </a>
             </li>
-            <li class="nav-item dropdown">
+            {{-- <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="ti ti-bell-ringing"></i>
@@ -290,7 +298,7 @@
                         <button class="btn btn-outline-primary w-100"> See All Notifications </button>
                     </div>
                 </div>
-            </li>
+            </li> --}}
             <li class="nav-item dropdown">
                 <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
                     aria-expanded="false">

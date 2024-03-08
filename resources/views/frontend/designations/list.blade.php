@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Category List
+    Designation List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Category Listing</h3>
+                    <h3>Designation Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Category Listing</span></li>
+                        <li><span class="bread-blod">Designation Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.categories.form')
+                            @include('frontend.designations.form')
                         </div>
 
                         <div class="row">
@@ -48,19 +48,24 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="category"
-                                                    style="cursor: pointer">Category Name <span id="category_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="designation"
+                                                    style="cursor: pointer">Designation Name <span id="designation_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th>Code</th> --}}
-                                                <th>Gazetted </th>
-                                                <th>
-                                                    Designation Type </th>
-                                                <th>Status </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="full_name"
+                                                    style="cursor: pointer">Full Name <span id="full_name_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="order"
+                                                    style="cursor: pointer">Order <span id="order_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                        <th>Category</th>
+                                                <th>Type</th>
+                                                <th>Payscale</th>
+                                                <th>Payband</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.categories.table')
+                                            @include('frontend.designations.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -83,7 +88,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this category.",
+                    text: "To delete this designation.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -106,7 +111,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('categories.fetch-data') }}",
+                    url: "{{ route('designations.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -171,7 +176,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#category-create-form').submit(function(e) {
+            $('#designation-create-form').submit(function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -224,7 +229,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#category-edit-form', function(e) {
+            $(document).on('submit', '#designation-edit-form', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 

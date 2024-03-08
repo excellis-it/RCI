@@ -12,8 +12,8 @@
         <td colspan="3" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
-                     (Showing {{ $payband_types->firstItem() }} – {{ $payband_types->lastItem() }} payband_types of
-                    {{$payband_types->total() }} payband_types)
+                     (Showing {{ $payband_types->firstItem() }} – {{ $payband_types->lastItem() }} payband types of
+                    {{$payband_types->total() }} payband types)
                 </div>
                 <div>{!! $payband_types->links() !!}</div>
             </div>

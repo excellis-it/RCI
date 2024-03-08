@@ -3,18 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\PaybandType;
+use App\Models\PayscaleType;
 use Illuminate\Http\Request;
 
-class PaybandTypeController extends Controller
+class PayscaleTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $payband_types = PaybandType::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.payband-types.list', compact('payband_types'));
+        $payscale_types = PayscaleType::orderBy('id', 'desc')->paginate(10);
+        return view('frontend.payscale-types.list', compact('payscale_types'));
     }
 
     public function fetchData(Request $request)
@@ -25,14 +22,14 @@ class PaybandTypeController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $payband_types = PaybandType::where(function ($queryBuilder) use ($query) {
+            $payscale_types = PayscaleType::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('payband_type', 'like', '%' . $query . '%');
+                    ->orWhere('payscale_type', 'like', '%' . $query . '%');
             })
                 ->orderBy($sort_by, $sort_type)
                 ->paginate(10);
 
-            return response()->json(['data' => view('frontend.payband-types.table', compact('payband_types'))->render()]);
+            return response()->json(['data' => view('frontend.payscale-types.table', compact('payscale_types'))->render()]);
         }
     }
 
@@ -49,12 +46,12 @@ class PaybandTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'payband_type' => 'required|unique:payband_types,payband_type',
+            'payscale_type' => 'required|unique:payscale_types,payscale_type',
         ]);
 
-        $payband_type = new PaybandType();
-        $payband_type->payband_type = $request->payband_type;
-        $payband_type->save();
+        $payscale_type = new PayscaleType();
+        $payscale_type->payscale_type = $request->payscale_type;
+        $payscale_type->save();
 
         session()->flash('message', 'Payband Type added successfully');
         return response()->json(['success' => 'Payband Type added successfully']);
@@ -73,9 +70,9 @@ class PaybandTypeController extends Controller
      */
     public function edit(string $id)
     {
-        $payband_type = PaybandType::find($id);
+        $payscale_type = PayscaleType::find($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.payband-types.form', compact('edit', 'payband_type'))->render()]);
+        return response()->json(['view' => view('frontend.payscale-types.form', compact('edit', 'payscale_type'))->render()]);
     }
 
     /**
@@ -84,12 +81,12 @@ class PaybandTypeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'payband_type' => 'required|unique:payband_types,payband_type,' . $id,
+            'payscale_type' => 'required|unique:payscale_types,payscale_type,' . $id,
         ]);
 
-        $payband_type = PaybandType::find($id);
-        $payband_type->payband_type = $request->payband_type;
-        $payband_type->save();
+        $payscale_type = PayscaleType::find($id);
+        $payscale_type->payscale_type = $request->payscale_type;
+        $payscale_type->save();
 
         session()->flash('message', 'Payband Type updated successfully');
         return response()->json(['success' => 'Payband Type updated successfully']);
@@ -105,8 +102,8 @@ class PaybandTypeController extends Controller
 
     public function delete($id)
     {
-        $payband_type = PaybandType::find($id);
-        $payband_type->delete();
+        $payscale_type = PayscaleType::find($id);
+        $payscale_type->delete();
         return redirect()->back()->with('message', 'Payband Type deleted successfully');
     }
 }

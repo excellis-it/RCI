@@ -2,7 +2,12 @@
 
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\DesignationController;
+use App\Http\Controllers\Frontend\DesignationTypeController;
+use App\Http\Controllers\Frontend\PaybandController;
 use App\Http\Controllers\Frontend\PaybandTypeController;
+use App\Http\Controllers\Frontend\PayscaleController;
+use App\Http\Controllers\Frontend\PayscaleTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +43,11 @@ Route::middleware('permssions')->group(function () {
     Route::resources([
         'categories' => CategoryController::class,
         'payband-types' => PaybandTypeController::class,
+        'payscale-types' => PayscaleTypeController::class,
+        'payscales' => PayscaleController::class,
+        'paybands' => PaybandController::class,
+        'designation-types' => DesignationTypeController::class,
+        'designations' => DesignationController::class,
     ]);
 
     // category
@@ -52,4 +62,33 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/payband-types-fetch-data', [PaybandTypeController::class, 'fetchData'])->name('payband-types.fetch-data');
 
+    // Payscale Type
+    Route::prefix('payscale-types')->group(function () {
+        Route::get('/payscale-types-delete/{id}', [PayscaleTypeController::class, 'delete'])->name('payscale-types.delete');
+    });
+    Route::get('/payscale-types-fetch-data', [PayscaleTypeController::class, 'fetchData'])->name('payscale-types.fetch-data');
+
+    // Payscale
+    Route::prefix('payscales')->group(function () {
+        Route::get('/payscales-delete/{id}', [PayscaleController::class, 'delete'])->name('payscales.delete');
+    });
+    Route::get('/payscales-fetch-data', [PayscaleController::class, 'fetchData'])->name('payscales.fetch-data');
+
+    // Payband
+    Route::prefix('paybands')->group(function () {
+        Route::get('/paybands-delete/{id}', [PaybandController::class, 'delete'])->name('paybands.delete');
+    });
+    Route::get('/paybands-fetch-data', [PaybandController::class, 'fetchData'])->name('paybands.fetch-data');
+
+    // Designation Type
+    Route::prefix('designation-types')->group(function () {
+        Route::get('/designation-types-delete/{id}', [DesignationTypeController::class, 'delete'])->name('designation-types.delete');
+    });
+    Route::get('/designation-types-fetch-data', [DesignationTypeController::class, 'fetchData'])->name('designation-types.fetch-data');
+
+    // Designation
+    Route::prefix('designations')->group(function () {
+        Route::get('/designations-delete/{id}', [DesignationController::class, 'delete'])->name('designations.delete');
+    });
+    Route::get('/designations-fetch-data', [DesignationController::class, 'fetchData'])->name('designations.fetch-data');
 });

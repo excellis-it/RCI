@@ -38,9 +38,13 @@
                             <label>Designation Type</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" value="{{ $category->designation_type }}" name="designation_type"
-                                id="designation_type" placeholder="">
-                            <span class="text-danger" id="designation_type-error"></span>
+                            <select class="form-select" name="designation_type_id" id="designation_type_id">
+                                <option value="">Select Designation Type</option>
+                                @foreach ($designation_types as $designationType)
+                                    <option value="{{ $designationType->id }}" {{ ($category->designation_type_id == $designationType->id) ? 'selected' : '' }}>{{ $designationType->designation_type }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger" id="designation_type_id-error"></span>
                         </div>
                     </div>
                 </div>
@@ -110,8 +114,12 @@
                             <label>Designation Type</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" value="" name="designation_type"
-                                id="designation_type" placeholder="">
+                            <select class="form-select" name="designation_type_id" id="designation_type_id">
+                                <option value="">Select Designation Type</option>
+                                @foreach ($designation_types as $designationType)
+                                    <option value="{{ $designationType->id }}">{{ $designationType->designation_type }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger"></span>
                         </div>
                     </div>

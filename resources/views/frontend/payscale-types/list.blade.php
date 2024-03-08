@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Category List
+    Payscale Type List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Category Listing</h3>
+                    <h3>Payscale Type Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Category Listing</span></li>
+                        <li><span class="bread-blod">Payscale Type Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.categories.form')
+                            @include('frontend.payscale-types.form')
                         </div>
 
                         <div class="row">
@@ -48,19 +48,15 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="category"
-                                                    style="cursor: pointer">Category Name <span id="category_icon"><i
+                                                <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="payscale_type"
+                                                    style="cursor: pointer">Payscale Type Name <span id="payband_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th>Code</th> --}}
-                                                <th>Gazetted </th>
-                                                <th>
-                                                    Designation Type </th>
-                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.categories.table')
+                                            @include('frontend.payscale-types.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -83,7 +79,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this category.",
+                    text: "To delete this payscale type.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -106,7 +102,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('categories.fetch-data') }}",
+                    url: "{{ route('payscale-types.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -171,7 +167,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#category-create-form').submit(function(e) {
+            $('#payscale-type-create-form').submit(function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -224,8 +220,9 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#category-edit-form', function(e) {
+            $(document).on('submit', '#payscale-type-edit-form', function(e) {
                 e.preventDefault();
+
                 var formData = $(this).serialize();
 
                 $.ajax({
