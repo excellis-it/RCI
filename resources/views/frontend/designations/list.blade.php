@@ -198,6 +198,8 @@
                             // Assuming you have a div with class "text-danger" next to each input
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
+                                $('#' + key + '_msg').html(value[0]);
+
                         });
                     }
                 });
@@ -247,6 +249,29 @@
                             // Assuming you have a span with class "text-danger" next to each input
                             $('#' + key + '-error').html(value[0]);
                         });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.payscale_type_id', function(e) {
+                e.preventDefault();
+                var payscale_type_id = $(this).val();
+                var route = '{{ route("designations.get-payscale-type") }}';
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    data: {
+                        payscale_type_id: payscale_type_id
+                    },
+                    success: function(response) {
+                        $('#payscale_number').val(response.payscale_type.payscale_number);
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        console.log(xhr);
                     }
                 });
             });

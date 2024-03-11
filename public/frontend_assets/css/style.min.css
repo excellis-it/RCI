@@ -23379,7 +23379,7 @@ label {
     margin-bottom: 0px;
     margin-right: 0px;
     font-weight: 500;
-    text-align: right;
+    /* text-align: right; */
     width: 100%;
 }
 
@@ -25560,7 +25560,7 @@ progress {
 .form-control {
     display: block;
     width: 100%;
-    padding: 6px 10px;
+    padding: 4px 10px;
     font-size: 13px;
     font-weight: 500;
     line-height: 1.5;
@@ -25569,7 +25569,7 @@ progress {
     background-clip: padding-box;
     border: 1px solid #C4C4C4;
     appearance: none;
-    border-radius: 7px;
+    border-radius: 4px;
     box-shadow: unset;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
@@ -25734,7 +25734,7 @@ textarea.form-control-lg {
     --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
     display: block;
     width: 100%;
-    padding: 8px 38px 8px 16px;
+    padding: 4px 38px 4px 16px;
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -25745,7 +25745,7 @@ textarea.form-control-lg {
     background-position: right 16px center;
     background-size: 16px 12px;
     border: var(--bs-border-width) solid #dfe5ef;
-    border-radius: 7px;
+    border-radius: 4px;
     box-shadow: unset;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     appearance: none

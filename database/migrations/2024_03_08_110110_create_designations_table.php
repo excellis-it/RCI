@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('designation_type_id')->unsigned()->nullable();
             $table->bigInteger('payscale_type_id')->unsigned()->nullable();
             $table->bigInteger('payband_type_id')->unsigned()->nullable();
+            $table->string('payscale_number')->nullable();
             $table->string('designation')->unique();
             $table->string('full_name')->nullable();
             $table->string('order')->nullable();

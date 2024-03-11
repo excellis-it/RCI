@@ -91,4 +91,5 @@ Route::middleware('permssions')->group(function () {
         Route::get('/designations-delete/{id}', [DesignationController::class, 'delete'])->name('designations.delete');
     });
     Route::get('/designations-fetch-data', [DesignationController::class, 'fetchData'])->name('designations.fetch-data');
+    Route::get('/get-payscale-type', [DesignationController::class, 'getPayscaleType'])->name('designations.get-payscale-type');
 });

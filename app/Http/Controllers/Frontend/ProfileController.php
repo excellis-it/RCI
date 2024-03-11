@@ -42,7 +42,7 @@ class ProfileController extends Controller
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture) {
                 $currentImageFilename = $user->profile_picture; // get current image name
-                Storage::delete('app/'.$currentImageFilename);
+                Storage::delete('app/' . $currentImageFilename);
             }
             $user->profile_picture = $this->imageUpload($request->file('profile_picture'), 'user');
         }
@@ -57,14 +57,15 @@ class ProfileController extends Controller
 
     public function passwordUpdate(Request $request)
     {
-        $request->validate([
-            'old_password' => 'required|min:8|password',
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|min:8',
             'new_password' => 'required|min:8|different:old_password',
             'confirm_password' => 'required|min:8|same:new_password',
-
-        ],[
-            'old_password.password'=> 'Old password is not correct',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $data = User::find(Auth::user()->id);
         $data->password = Hash::make($request->new_password);

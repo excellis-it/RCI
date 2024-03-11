@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Designation;
 use App\Models\DesignationType;
+use App\Models\Payband;
 use App\Models\PaybandType;
+use App\Models\Payscale;
 use App\Models\PayscaleType;
 use Illuminate\Http\Request;
 
@@ -72,11 +74,12 @@ class DesignationController extends Controller
     {
         $request->validate([
             'full_name' => 'required',
-            'designation' => 'required',
+            'designation' => 'required|unique:designations',
             'designation_type_id' => 'required',
             'category_id' => 'required',
             'payband_type_id' => 'required',
             'payscale_type_id' => 'required',
+            'order' => 'required|numeric|gt:0|unique:designations',
         ]);
 
         $designation = new Designation();
@@ -86,6 +89,8 @@ class DesignationController extends Controller
         $designation->category_id = $request->category_id;
         $designation->payband_type_id = $request->payband_type_id;
         $designation->payscale_type_id = $request->payscale_type_id;
+        $designation->order = $request->order;
+        $designation->payscale_number = $request->payscale_number;
         $designation->save();
 
         session()->flash('message', 'Designation added successfully');
@@ -121,11 +126,12 @@ class DesignationController extends Controller
     {
         $request->validate([
             'full_name' => 'required',
-            'designation' => 'required',
+            'designation' => 'required|unique:designations,designation,' . $id,
             'designation_type_id' => 'required',
             'category_id' => 'required',
             'payband_type_id' => 'required',
             'payscale_type_id' => 'required',
+            'order' => 'required|numeric|gt:0|unique:designations,order,' . $id,
         ]);
 
         $designation = Designation::find($id);
@@ -135,6 +141,8 @@ class DesignationController extends Controller
         $designation->category_id = $request->category_id;
         $designation->payband_type_id = $request->payband_type_id;
         $designation->payscale_type_id = $request->payscale_type_id;
+        $designation->order = $request->order;
+        $designation->payscale_number = $request->payscale_number;
         $designation->save();
 
         session()->flash('message', 'Designation updated successfully');
@@ -154,6 +162,12 @@ class DesignationController extends Controller
         $designation = Designation::find($id);
         $designation->delete();
         session()->flash('message', 'Designation deleted successfully');
-        return response()->json(['success' => 'Designation deleted successfully']);
+        return redirect()->back();
+    }
+
+    public function getPayscaleType(Request $request)
+    {
+         $payscale_type = Payscale::where('payscale_type_id', $request->payscale_type_id)->orderBy('id', 'desc')->first();
+        return response()->json(['payscale_type' => $payscale_type]);
     }
 }
