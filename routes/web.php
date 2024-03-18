@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\PaybandTypeController;
 use App\Http\Controllers\Frontend\PayscaleController;
 use App\Http\Controllers\Frontend\PayscaleTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\MemberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,7 @@ Route::middleware('permssions')->group(function () {
         'paybands' => PaybandController::class,
         'designation-types' => DesignationTypeController::class,
         'designations' => DesignationController::class,
+        'members' => MemberController::class,
     ]);
 
     // category
