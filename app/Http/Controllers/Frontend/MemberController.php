@@ -20,7 +20,7 @@ class MemberController extends Controller
     {
         $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
         $paybands = Payband::orderBy('id', 'desc')->get();
-        $categories = Category::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('id', 'desc')->where('status',1)->get();
         $designation_types = DesignationType::orderBy('id', 'desc')->get();
         $payscale_types = PayscaleType::orderBy('id', 'desc')->get();
 

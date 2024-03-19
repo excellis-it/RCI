@@ -32,8 +32,8 @@
                         <div id="form">
                             @include('frontend.members.form')
                         </div>
-
-                        <div class="row">
+                        
+                        {{-- <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
@@ -44,7 +44,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="table-responsive rounded-2">
+                                <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
@@ -72,9 +72,9 @@
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
                                         value="id" />
                                     <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div> --}}
+                                </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
