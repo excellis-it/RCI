@@ -27,6 +27,11 @@ class MemberController extends Controller
         return view('frontend.members.list',compact('paybands', 'payband_types', 'categories', 'designation_types', 'payscale_types'));
     }
 
+    public function editMember()
+    {
+        return view('frontend.members.edit');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

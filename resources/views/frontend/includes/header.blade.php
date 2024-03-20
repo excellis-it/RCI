@@ -196,6 +196,71 @@
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="{{route('logout')}}">Exit</a>
             </li>
+
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pages<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('edit.member') }}">edit member</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </li> --}}
+
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Member Management<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pm-levels.index') }}">PM Level</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pm-index.index') }}">PM Index</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('divisions.index') }}">Divisions</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('groups.index') }}">Groups</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('cadres.index') }}">Cadres</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('fund-types.index') }}">Fund Types</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('quarters.index') }}">Quarters</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('ex-services.index') }}">Ex-Services</a>
+                            </li>
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pgs.index') }}">Pgs</a>
+                            </li> --}}
+                            
+                            
+                        </ul>
+                    </div>
+                </div>
+            </li>
         </ul>
         <div class="d-block d-lg-none">
             <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">

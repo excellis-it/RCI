@@ -11,6 +11,14 @@ use App\Http\Controllers\Frontend\PayscaleTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\PmLevelController;
 use App\Http\Controllers\Frontend\PmIndexController;
+use App\Http\Controllers\Frontend\DesigController;
+use App\Http\Controllers\Frontend\DivisionController;
+use App\Http\Controllers\Frontend\GroupController;
+use App\Http\Controllers\Frontend\CadreController;
+use App\Http\Controllers\Frontend\FundTypeController;
+use App\Http\Controllers\Frontend\QuaterController;
+use App\Http\Controllers\Frontend\ExServiceController;
+use App\Http\Controllers\Frontend\PgController;
 use App\Http\Controllers\Frontend\MemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +61,13 @@ Route::middleware('permssions')->group(function () {
         'designations' => DesignationController::class,
         'pm-levels' => PmLevelController::class,
         'pm-index' => PmIndexController::class,
+        'divisions' => DivisionController::class,
+        'groups' => GroupController::class,
+        'cadres' => CadreController::class,
+        'fund-types' => FundTypeController::class,
+        'quarters' => QuaterController::class, 
+        'ex-services' => ExServiceController::class,
+        'pgs' => PgController::class,
         'members' => MemberController::class,
     ]);
 
@@ -110,5 +125,51 @@ Route::middleware('permssions')->group(function () {
         Route::get('/pm-index-delete/{id}', [PmIndexController::class, 'delete'])->name('pm-index.delete');
     });
     Route::get('/pm-index-fetch-data', [PmIndexController::class, 'fetchData'])->name('pm-index.fetch-data');
+
+
+    //division
+    Route::prefix('divisions')->group(function () {
+        Route::get('/divisions-delete/{id}', [DivisionController::class, 'delete'])->name('divisions.delete');
+    });
+    Route::get('/divisions-fetch-data', [DivisionController::class, 'fetchData'])->name('divisions.fetch-data');
+
+    //group
+    Route::prefix('groups')->group(function () {
+        Route::get('/groups-delete/{id}', [GroupController::class, 'delete'])->name('groups.delete');
+    });
+    Route::get('/groups-fetch-data', [GroupController::class, 'fetchData'])->name('groups.fetch-data');
+
+    //cadres
+    Route::prefix('cadres')->group(function () {
+        Route::get('/cadres-delete/{id}', [CadreController::class, 'delete'])->name('cadres.delete');
+    });
+    Route::get('/cadres-fetch-data', [CadreController::class, 'fetchData'])->name('cadres.fetch-data');
+
+    //fund types
+    Route::prefix('fund-types')->group(function () {
+        Route::get('/fund-types-delete/{id}', [FundTypeController::class, 'delete'])->name('fund-types.delete');
+    });
+    Route::get('/fund-types-fetch-data', [FundTypeController::class, 'fetchData'])->name('fund-types.fetch-data');
+
+    //quarters
+    Route::prefix('quarters')->group(function () {
+        Route::get('/quarters-delete/{id}', [QuaterController::class, 'delete'])->name('quarters.delete');
+    });
+    Route::get('/quarters-fetch-data', [QuaterController::class, 'fetchData'])->name('quarters.fetch-data');
+
+
+    //ex-service
+    Route::prefix('ex-services')->group(function () {
+        Route::get('/ex-services-delete/{id}', [ExServiceController::class, 'delete'])->name('ex-services.delete');
+    });
+    Route::get('/ex-services-fetch-data', [ExServiceController::class, 'fetchData'])->name('ex-services.fetch-data');
+
+    //pg 
+    Route::prefix('pgs')->group(function () {
+        Route::get('/pgs-delete/{id}', [PgController::class, 'delete'])->name('pgs.delete');
+    });
+    Route::get('/pgs-fetch-data', [PgController::class, 'fetchData'])->name('pgs.fetch-data');
+
+    Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
    
 });

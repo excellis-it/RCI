@@ -1356,6 +1356,213 @@ Members List
                                         aria-labelledby="recoveries-tab" tabindex="0">
                                         <div class="credit-frm">
                                             <form>
+                                          <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <label>Basic</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control"
+                                                                name="basic" id="basic"
+                                                                value="{{ old('basic') ?? '' }}"
+                                                                placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <label>Basic</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control"
+                                                                name="basic" id="basic"
+                                                                value="{{ old('basic') ?? '' }}"
+                                                                placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <label>Basic</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control"
+                                                                name="basic" id="basic"
+                                                                value="{{ old('basic') ?? '' }}"
+                                                                placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <label>Basic</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <select class="form-select" name="gender" id="gender">
+                                                                <option value="">Select</option>
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                                <option value="Others">Others</option>
+                                                            </select>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-3 mb-2">
+                                                                <button type="submit"
+                                                                    class="listing_add">Save</button>
+                                                            </div>
+                                                            <div class="form-group col-md-3 mb-2">
+                                                                <button type="submit"
+                                                                    class="delete-btn-1">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                          <div class="gross-div mt-3">
+                                            <div
+                                                class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
+                                                <div class="col">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control"
+                                                                    name="basic" id="basic"
+                                                                    value="{{ old('basic') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control"
+                                                                    name="basic" id="basic"
+                                                                    value="{{ old('basic') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control"
+                                                                    name="basic" id="basic"
+                                                                    value="{{ old('basic') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control"
+                                                                    name="basic" id="basic"
+                                                                    value="{{ old('basic') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control"
+                                                                    name="basic" id="basic"
+                                                                    value="{{ old('basic') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-md-6">
+                                                        <div class="row justify-content-end">
+                                                            <div class="form-group col-md-3 mb-2">
+                                                                <button type="submit"
+                                                                    class="another-btn">Another</button>
+                                                            </div>
+                                                            <div class="form-group col-md-3 mb-2">
+                                                                <button type="submit"
+                                                                    class="listing_add">Save</button>
+                                                            </div>
+                                                            <div class="form-group col-md-3 mb-2">
+                                                                <button type="submit"
+                                                                    class="listing_exit">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="core-tab-pane" role="tabpanel"
+                                        aria-labelledby="core-tab" tabindex="0">
+                                        <div class="credit-frm">
+                                            <form>
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <div class="form-group mb-2">
@@ -1379,12 +1586,24 @@ Members List
                                                                     <label>Basic</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <select class="form-select" name="gender" id="gender">
-                                                                        <option value="">Select</option>
-                                                                        <option value="Male">Male</option>
-                                                                        <option value="Female">Female</option>
-                                                                        <option value="Others">Others</option>
-                                                                    </select>
+                                                                    <input type="text" class="form-control" name="basic"
+                                                                        id="basic" value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
+                                                                    <span class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4">
+                                                                    <label>Basic</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control" name="basic"
+                                                                        id="basic" value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -1399,9 +1618,13 @@ Members List
                                                                     <label>Basic</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic"
-                                                                        id="basic" value="{{ old('basic') ?? '' }}"
-                                                                        placeholder="">
+                                                                    <select class="form-select" name="gender"
+                                                                        id="gender">
+                                                                        <option value="">Select</option>
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                        <option value="Others">Others</option>
+                                                                    </select>
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -1697,13 +1920,257 @@ Members List
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="core-tab-pane" role="tabpanel"
-                                        aria-labelledby="core-tab" tabindex="0">
-                                        Core Info
-                                    </div>
                                     <div class="tab-pane fade" id="policy-tab-pane" role="tabpanel"
                                         aria-labelledby="policy-tab" tabindex="0">
-                                        policy
+                                        <div class="credit-frm">
+                                            <form>
+                                              <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <div class="recov-table">
+                                                        <table class="table customize-table mb-0 align-middle bg_tbody">
+                                                            <thead class="text-white fs-4 bg_blue">
+                                                                <tr>
+                                                                    <th>Policy </th>
+                                                                    <th>Policy No.</th>
+                                                                    <th>Amount</th>
+                                                                    <th>Stop Rec</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="tbody_height_scroll">
+                                                                <tr>
+                                                                    <td>ABC</td>
+                                                                    <td>1234567890</td>
+                                                                    <td>1500000</td>
+                                                                    <td>Stop Rec</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>ABC</td>
+                                                                    <td>1234567890</td>
+                                                                    <td>1500000</td>
+                                                                    <td>Stop Rec</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>ABC</td>
+                                                                    <td>1234567890</td>
+                                                                    <td>1500000</td>
+                                                                    <td>Stop Rec</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>ABC</td>
+                                                                    <td>1234567890</td>
+                                                                    <td>1500000</td>
+                                                                    <td>Stop Rec</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>    
+                                                </div>
+                                              </div>
+
+                                              <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select class="form-select" name="gender"
+                                                                    id="gender">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                    <option value="Others">Others</option>
+                                                                </select>
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select class="form-select" name="gender"
+                                                                    id="gender">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                    <option value="Others">Others</option>
+                                                                </select>
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" name="basic"
+                                                                    id="basic" value="{{ old('basic') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-4">
+                                                                <label>Basic</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <select class="form-select" name="gender"
+                                                                    id="gender">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                    <option value="Others">Others</option>
+                                                                </select>
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+
+                                              <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-md-6">
+                                                            <div class="row justify-content-end">
+                                                                <div class="form-group col-md-3 mb-2">
+                                                                    <button type="submit"
+                                                                        class="listing_add">Save</button>
+                                                                </div>
+                                                                <div class="form-group col-md-3 mb-2">
+                                                                    <button type="submit"
+                                                                        class="delete-btn-1">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                              <div class="gross-div mt-3">
+                                                <div
+                                                    class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
+                                                    <div class="col">
+                                                        <div class="form-group mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4">
+                                                                    <label>Basic</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control"
+                                                                        name="basic" id="basic"
+                                                                        value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
+                                                                    <span class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4">
+                                                                    <label>Basic</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control"
+                                                                        name="basic" id="basic"
+                                                                        value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
+                                                                    <span class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4">
+                                                                    <label>Basic</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control"
+                                                                        name="basic" id="basic"
+                                                                        value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
+                                                                    <span class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4">
+                                                                    <label>Basic</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control"
+                                                                        name="basic" id="basic"
+                                                                        value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
+                                                                    <span class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-4">
+                                                                    <label>Basic</label>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control"
+                                                                        name="basic" id="basic"
+                                                                        value="{{ old('basic') ?? '' }}"
+                                                                        placeholder="">
+                                                                    <span class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-md-6">
+                                                            <div class="row justify-content-end">
+                                                                <div class="form-group col-md-3 mb-2">
+                                                                    <button type="submit"
+                                                                        class="another-btn">Another</button>
+                                                                </div>
+                                                                <div class="form-group col-md-3 mb-2">
+                                                                    <button type="submit"
+                                                                        class="listing_add">Save</button>
+                                                                </div>
+                                                                <div class="form-group col-md-3 mb-2">
+                                                                    <button type="submit"
+                                                                        class="listing_exit">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                              
+                                            </form>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="loan-tab-pane" role="tabpanel"
                                         aria-labelledby="loan-tab" tabindex="0">
