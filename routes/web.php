@@ -9,6 +9,8 @@ use App\Http\Controllers\Frontend\PaybandTypeController;
 use App\Http\Controllers\Frontend\PayscaleController;
 use App\Http\Controllers\Frontend\PayscaleTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\PmLevelController;
+use App\Http\Controllers\Frontend\PmIndexController;
 use App\Http\Controllers\Frontend\MemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +51,8 @@ Route::middleware('permssions')->group(function () {
         'paybands' => PaybandController::class,
         'designation-types' => DesignationTypeController::class,
         'designations' => DesignationController::class,
+        'pm-levels' => PmLevelController::class,
+        'pm-index' => PmIndexController::class,
         'members' => MemberController::class,
     ]);
 
@@ -94,4 +98,17 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/designations-fetch-data', [DesignationController::class, 'fetchData'])->name('designations.fetch-data');
     Route::get('/get-payscale-type', [DesignationController::class, 'getPayscaleType'])->name('designations.get-payscale-type');
+
+    // PM Level
+    Route::prefix('pm-levels')->group(function () {
+        Route::get('/pm-levels-delete/{id}', [PmLevelController::class, 'delete'])->name('pm-levels.delete');
+    });
+    Route::get('/pm-levels-fetch-data', [PmLevelController::class, 'fetchData'])->name('pm-levels.fetch-data');
+
+    //PM Index
+    Route::prefix('pm-index')->group(function () {
+        Route::get('/pm-index-delete/{id}', [PmIndexController::class, 'delete'])->name('pm-index.delete');
+    });
+    Route::get('/pm-index-fetch-data', [PmIndexController::class, 'fetchData'])->name('pm-index.fetch-data');
+   
 });
