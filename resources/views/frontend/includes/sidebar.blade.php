@@ -16,21 +16,22 @@
                 <!-- Dashboard -->
                 <!-- =================== -->
                 <!-- <li class="sidebar-item">
-        <a class="sidebar-link" href="index.html" aria-expanded="false">
-          <span>
-            <i class="ti ti-aperture"></i>
-          </span>
-          <span class="hide-menu">Dashboard</span>
-        </a>
-      </li> -->
-                <li class="sidebar-item">
+                    <a class="sidebar-link" href="index.html" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-aperture"></i>
+                    </span>
+                    <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li> -->
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('members') ? 'active' : ''}}" href="{{route('members.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
                         <span class="hide-menu">Add Person</span>
                     </a>
-                </li>
+                </li> --}}
+                
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
@@ -40,24 +41,34 @@
                     </a>
                 </li>
 
-                <!-- <li class="sidebar-item">
-        <a class="sidebar-link has-arrow" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
-          <span>
-            <i class="ti ti-shopping-cart"></i>
-          </span>
-          <span class="hide-menu">Attendance</span>
-        </a>
-        <ul class="collapse" id="collapseExample">
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="" aria-expanded="false">
-              <span>
-                <i class="ti ti-shopping-cart"></i>
-              </span>
-              <span class="hide-menu">Add Person</span>
-            </a>
-          </li>
-        </ul>
-      </li> -->
+              <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow {{Request::is('members') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-user"></i>
+                    </span>
+                    <span class="hide-menu">Person</span>
+                    </a>
+                    <ul class="collapse" id="collapseExample">
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{route('members.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Add</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-user"></i>
+                            </span>
+                        <span class="hide-menu">List</span>
+                        </a>
+                    </li>
+                    </ul>
+                </li> 
+
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>

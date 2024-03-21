@@ -197,7 +197,7 @@
                 <a class="nav-link" href="{{route('logout')}}">Exit</a>
             </li>
 
-            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
+           <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pages<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -207,11 +207,15 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('edit.member') }}">edit member</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('income.tax') }}">Income Tax</a>
+                            </li>
                             
                         </ul>
                     </div>
                 </div>
-            </li> --}}
+            </li> 
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Member Management<span
@@ -251,10 +255,14 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('ex-services.index') }}">Ex-Services</a>
                             </li>
-                            {{-- <li class="mb-2">
+                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pgs.index') }}">Pgs</a>
-                            </li> --}}
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('cgegis.index') }}">CGEGIS</a>
+                            </li>
                             
                             
                         </ul>

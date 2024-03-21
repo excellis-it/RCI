@@ -19,6 +19,7 @@ use App\Http\Controllers\Frontend\FundTypeController;
 use App\Http\Controllers\Frontend\QuaterController;
 use App\Http\Controllers\Frontend\ExServiceController;
 use App\Http\Controllers\Frontend\PgController;
+use App\Http\Controllers\Frontend\CgegisController;
 use App\Http\Controllers\Frontend\MemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,7 @@ Route::middleware('permssions')->group(function () {
         'quarters' => QuaterController::class, 
         'ex-services' => ExServiceController::class,
         'pgs' => PgController::class,
+        'cgegis' => CgegisController::class,
         'members' => MemberController::class,
     ]);
 
@@ -170,6 +172,16 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/pgs-fetch-data', [PgController::class, 'fetchData'])->name('pgs.fetch-data');
 
+    //cgegis
+    Route::prefix('cgegis')->group(function () {
+        Route::get('/cgegis-delete/{id}', [CgegisController::class, 'delete'])->name('cgegis.delete');
+    });
+    Route::get('/cgegis-fetch-data', [CgegisController::class, 'fetchData'])->name('cgegis.fetch-data');
+
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
+    
+    Route::get('/income-tax', function () {
+        return view('income.index');
+    });
    
 });

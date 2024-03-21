@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Group;
+use App\Models\Cgegis;
 
-class GroupController extends Controller
+class CgegisController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $groups = Group::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.group.list', compact('groups'));
+        $cgeGis = Cgegis::orderBy('id', 'desc')->paginate(10);
+        return view('frontend.cgegis.list',compact('cgeGis'));
     }
 
     public function fetchData(Request $request)
@@ -25,7 +25,7 @@ class GroupController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $groups = Group::where(function($queryBuilder) use ($query) {
+            $cgeGis = Cgegis::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('value', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
@@ -33,7 +33,7 @@ class GroupController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.group.table', compact('groups'))->render()]);
+            return response()->json(['data' => view('frontend.cgegis.table', compact('cgeGis'))->render()]);
         }
     }
 
@@ -55,13 +55,14 @@ class GroupController extends Controller
             'status' => 'required',
         ]);
 
-        $group_value = new Group();
-        $group_value->value = $request->value;
-        $group_value->status = $request->status;
-        $group_value->save();
+        $cgegis_value = new Cgegis();
+        $cgegis_value->value = $request->value;
+        $cgegis_value->status = $request->status;
+        $cgegis_value->save();
 
-        session()->flash('message', 'Group added successfully');
-        return response()->json(['success' => 'Group added successfully']);
+        session()->flash('message', 'Cgegis added successfully');
+        return response()->json(['success' => 'Cgegis added successfully']);
+        
     }
 
     /**
@@ -77,9 +78,9 @@ class GroupController extends Controller
      */
     public function edit(string $id)
     {
-        $group = Group::find($id);
+        $cgegis = Cgegis::find($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.group.form', compact('edit','group'))->render()]);
+        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis'))->render()]);
     }
 
     /**
@@ -92,13 +93,13 @@ class GroupController extends Controller
             'status' => 'required',
         ]);
 
-        $group = Group::find($id);
-        $group->value = $request->value;
-        $group->status = $request->status;
-        $group->save();
+        $cgegis_update = Cgegis::find($id);
+        $cgegis_update->value = $request->value;
+        $cgegis_update->status = $request->status;
+        $cgegis_update->save();
 
-        session()->flash('message', 'Group updated successfully');
-        return response()->json(['success' => 'Group updated successfully']);
+        session()->flash('message', 'Cgegis updated successfully');
+        return response()->json(['success' => 'Cgegis updated successfully']);
     }
 
     /**
@@ -109,10 +110,10 @@ class GroupController extends Controller
         //
     }
 
-    public function delete($id)
+    public function delete($id) 
     {
-        $group = Group::find($id);
-        $group->delete();
-        return redirect()->back()->with('message', 'Group deleted successfully');
+        $cgegis_delete = Cgegis::find($id);
+        $cgegis_delete->delete();
+        return redirect()->back()->with('message', 'Cgegis deleted successfully');
     }
 }

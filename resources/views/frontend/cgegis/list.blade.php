@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Group List
+   CGEGIS List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Group Listing</h3>
+                    <h3>CGEGIS Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Group Listing</span></li>
+                        <li><span class="bread-blod">CGEGIS Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.group.form')
+                            @include('frontend.cgegis.form')
                         </div>
 
                         <div class="row">
@@ -50,14 +50,14 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Group Value <span id="value_icon"><i
+                                                    style="cursor: pointer">CGEGIS Value <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.group.table')
+                                            @include('frontend.cgegis.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -80,7 +80,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Group!",
+                    text: "To delete this CGEGIS!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -103,7 +103,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('groups.fetch-data') }}",
+                    url: "{{ route('cgegis.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -168,7 +168,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#group-create-form').submit(function(e) {
+            $('#cgegis-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -223,7 +223,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#groups-edit-form', function(e) {
+            $(document).on('submit', '#cgegis-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

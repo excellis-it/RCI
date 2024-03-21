@@ -32,7 +32,7 @@
                         <div id="form">
                             @include('frontend.members.form')
                         </div>
-                        
+
                         {{-- <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
@@ -79,44 +79,93 @@
                 </div>
             </div>
         </div>
-        </form>
+       
     </div>
 @endsection
 
 @push('scripts')
-    
-    <script>
-        $(document).ready(function() {
-            $('#designation-create-form').submit(function(e) {
-                e.preventDefault();
+{{-- 
+<script>
+    $(document).ready(function() {
+        //pers no view
+        $('#pers_no').on('keyup', function() {
+            var pers_no = $(this).val();
+            $('#pers_no_view').val(pers_no);
+        });
 
-                var formData = $(this).serialize();
+        //emp_id view
+        $('#emp_id').on('keyup', function() {
+            var emp_id = $(this).val();
+            $('#emp_id_view').val(emp_id);
+        });
 
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                                $('#' + key + '_msg').html(value[0]);
+        //name_view 
+        $('#name').on('keyup', function() {
+            var name = $(this).val();
+            $('#name_view').val(name);
+        });
+        //desig_view
+        $('#desig').on('keyup', function() {
+            var desig = $(this).val();
+            $('#desig_view').val(desig);
+        });
 
-                        });
-                    }
-                });
+        //basic_view
+        $('#basic').on('keyup', function() {
+            var basic = $(this).val();
+            $('#basic_view').val(basic);
+        });
+        //grade_view
+        $('#grade').on('keyup', function() {
+            var grade = $(this).val();
+            $('#grade_view').val(grade);
+        });
+        //devision_view
+        $('#devision').on('keyup', function() {
+            var devision = $(this).val();
+            $('#devision_view').val(devision);
+        });
+    });
+</script> --}}
+
+<script>
+   $(document).ready(function() {
+        var randomId = 'RCI-CHESE-' + Math.random().toString().substr(2, 8);
+        document.getElementById('emp_id').value = randomId;
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#member-create-form').submit(function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+        
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                   
+                    //windows load with toastr message
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                   
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
             });
         });
-    </script>
-   
-   
+    });
+</script>
+    
 @endpush

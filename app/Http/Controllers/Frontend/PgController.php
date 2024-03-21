@@ -78,7 +78,9 @@ class PgController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $pg = Pg::find($id);
+        $edit = true;
+        return response()->json(['view' => view('frontend.pg.form', compact('edit','pg'))->render()]);
     }
 
     /**
@@ -86,7 +88,18 @@ class PgController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'value' => 'required',
+            'status' => 'required',
+        ]);
+
+        $pg = Pg::find($id);
+        $pg->value = $request->value;
+        $pg->status = $request->status;
+        $pg->save();
+
+        session()->flash('message', 'PG updated successfully');
+        return response()->json(['success' => 'PG updated successfully']);
     }
 
     /**
@@ -95,5 +108,12 @@ class PgController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function delete($id) 
+    {
+        $pg = Pg::find($id);
+        $pg->delete();
+        return redirect()->back()->with('message', 'PG deleted successfully');
     }
 }
