@@ -203,13 +203,13 @@
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('edit.member') }}">edit member</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('income.tax') }}">Income Tax</a>
+                                    href="{{ route('income-tax') }}">Income Tax</a>
                             </li>
                             
                         </ul>

@@ -29,6 +29,46 @@ class MemberController extends Controller
     public function index()
     {
         
+        $members = Member::orderBy('id', 'desc')->paginate(10);
+        return view('frontend.members.list',compact('members'));
+    }
+
+    public function fetchData(Request $request)
+    {
+
+        
+        if ($request->ajax()) {
+
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $members = Member::where(function($queryBuilder) use ($query) {
+                $queryBuilder->where('id', 'like', '%' . $query . '%')
+                    ->orWhere('pers_no', 'like', '%' . $query . '%')
+                    ->orWhere('emp_id', 'like', '%' . $query . '%')
+                    ->orWhere('gender', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
+            })
+            ->orderBy($sort_by, $sort_type)
+            ->paginate(10);
+
+            return response()->json(['data' => view('frontend.members.table', compact('members'))->render()]);
+        }
+    }
+
+    public function editMember()
+    {
+        return view('frontend.members.edit');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
         $paybands = PaybandType::orderBy('id', 'desc')->get();
         $categories = Category::orderBy('id', 'desc')->where('status',1)->get();
         $pmLevels = PmLevel::orderBy('id', 'desc')->where('status',1)->get();
@@ -43,21 +83,7 @@ class MemberController extends Controller
         $pgs = Pg::orderBy('id', 'desc')->where('status',1)->get();
         $cgegises = Cgegis::orderBy('id', 'desc')->where('status',1)->get();
 
-
-        return view('frontend.members.list',compact('paybands', 'categories', 'pmLevels', 'pmIndexes', 'divisions', 'groups', 'cadres', 'designations', 'fundTypes', 'quaters', 'exServices', 'pgs', 'cgegises'));
-    }
-
-    public function editMember()
-    {
-        return view('frontend.members.edit');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('frontend.members.form',compact('paybands','categories','pmLevels','pmIndexes','divisions','groups','cadres','designations','fundTypes','quaters','exServices','pgs','cgegises'));
     }
 
     /**
@@ -66,8 +92,6 @@ class MemberController extends Controller
     public function store(Request $request)
     {
 
-        
-        // validation
         $validated = $request->validate([
             'pers_no' => 'required',
             'emp_id' => 'required',
@@ -160,7 +184,8 @@ class MemberController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $member = Member::with('designation','divisions','groups')->find(1);
+        return view('frontend.members.edit',compact('member'));
     }
 
     /**
@@ -168,7 +193,7 @@ class MemberController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return $id;
     }
 
     /**
@@ -177,5 +202,10 @@ class MemberController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function deleteMember($id)
+    {
+        return $id;
     }
 }

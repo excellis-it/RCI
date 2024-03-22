@@ -3,7 +3,7 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="index.html" class="text-nowrap logo-img">
-                <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" alt="">
+                <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" alt="">
             </a>
             <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8 text-muted"></i>
@@ -23,15 +23,15 @@
                     <span class="hide-menu">Dashboard</span>
                     </a>
                 </li> -->
-                {{-- <li class="sidebar-item">
-                    <a class="sidebar-link {{Request::is('members') ? 'active' : ''}}" href="{{route('members.index')}}" aria-expanded="false">
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('members*') ? 'active' : ''}}" href="{{route('members.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
                         <span class="hide-menu">Add Person</span>
                     </a>
-                </li> --}}
-                
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
@@ -40,34 +40,6 @@
                         <span class="hide-menu">Attendance</span>
                     </a>
                 </li>
-
-              <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow {{Request::is('members') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
-                    <span>
-                        <i class="ti ti-user"></i>
-                    </span>
-                    <span class="hide-menu">Person</span>
-                    </a>
-                    <ul class="collapse" id="collapseExample">
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{route('members.index')}}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user"></i>
-                        </span>
-                        <span class="hide-menu">Add</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-user"></i>
-                            </span>
-                        <span class="hide-menu">List</span>
-                        </a>
-                    </li>
-                    </ul>
-                </li> 
-
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
@@ -126,7 +98,8 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{Request::is('password') ? 'active' : ''}}" href="{{route('password')}}" aria-expanded="false">
+                    <a class="sidebar-link {{ Request::is('password') ? 'active' : '' }}" href="{{ route('password') }}"
+                        aria-expanded="false">
                         <span>
                             <i class="ti ti-password"></i>
                         </span>
@@ -134,7 +107,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{route('logout')}}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-logout"></i>
                         </span>

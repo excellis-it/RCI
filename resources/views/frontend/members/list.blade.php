@@ -26,14 +26,13 @@
         <!--  Row 1 -->
 
         <div class="row">
+            <div class="col-md-12 text-end mb-3">
+                <a class="print_btn" href="{{ route('members.create') }}">Add member</a>
+              </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div id="form">
-                            @include('frontend.members.form')
-                        </div>
-
-                        {{-- <div class="row">
+                        <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
@@ -48,24 +47,24 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="designation"
-                                                    style="cursor: pointer">Designation Name <span id="designation_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
+                                                    style="cursor: pointer">Name <span id="name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="full_name"
-                                                    style="cursor: pointer">Full Name <span id="full_name_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
+                                                    style="cursor: pointer">Employee Id<span id="emp_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="order"
-                                                    style="cursor: pointer">Order <span id="order_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="gender"
+                                                    style="cursor: pointer">Gender <span id="gender_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                        <th>Category</th>
-                                                <th>Type</th>
-                                                <th>Payscale</th>
-                                                <th>Payband</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="pers_no"
+                                                style="cursor: pointer">Pers No <span id="pers_no_icon"><i
+                                                    class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Designation </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.designations.table')
+                                            @include('frontend.members.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -74,7 +73,7 @@
                                     <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,54 +83,80 @@
 @endsection
 
 @push('scripts')
-{{-- 
-<script>
-    $(document).ready(function() {
-        //pers no view
-        $('#pers_no').on('keyup', function() {
-            var pers_no = $(this).val();
-            $('#pers_no_view').val(pers_no);
-        });
-
-        //emp_id view
-        $('#emp_id').on('keyup', function() {
-            var emp_id = $(this).val();
-            $('#emp_id_view').val(emp_id);
-        });
-
-        //name_view 
-        $('#name').on('keyup', function() {
-            var name = $(this).val();
-            $('#name_view').val(name);
-        });
-        //desig_view
-        $('#desig').on('keyup', function() {
-            var desig = $(this).val();
-            $('#desig_view').val(desig);
-        });
-
-        //basic_view
-        $('#basic').on('keyup', function() {
-            var basic = $(this).val();
-            $('#basic_view').val(basic);
-        });
-        //grade_view
-        $('#grade').on('keyup', function() {
-            var grade = $(this).val();
-            $('#grade_view').val(grade);
-        });
-        //devision_view
-        $('#devision').on('keyup', function() {
-            var devision = $(this).val();
-            $('#devision_view').val(devision);
-        });
-    });
-</script> --}}
 
 <script>
    $(document).ready(function() {
         var randomId = 'RCI-CHESE-' + Math.random().toString().substr(2, 8);
         document.getElementById('emp_id').value = randomId;
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        function fetch_data(page, sort_type, sort_by, query) {
+            $.ajax({
+                url: "{{ route('members.fetch-data') }}",
+                data: {
+                    page: page,
+                    sortby: sort_by,
+                    sorttype: sort_type,
+                    query: query
+                },
+                success: function(data) {
+                    $('tbody').html(data.data);
+                }
+            });
+        }
+
+        $(document).on('keyup', '#search', function() {
+            var query = $('#search').val();
+            var column_name = $('#hidden_column_name').val();
+            var sort_type = $('#hidden_sort_type').val();
+            var page = $('#hidden_page').val();
+            fetch_data(page, sort_type, column_name, query);
+        });
+
+        $(document).on('click', '.sorting', function() {
+            var column_name = $(this).data('column_name');
+            var order_type = $(this).data('sorting_type');
+            var reverse_order = '';
+            if (order_type == 'asc') {
+                $(this).data('sorting_type', 'desc');
+                reverse_order = 'desc';
+                // clear_icon();
+                $('#' + column_name + '_icon').html(
+                    '<i class="fa fa-arrow-down"></i>');
+            }
+            if (order_type == 'desc') {
+                // alert(order_type);
+                $(this).data('sorting_type', 'asc');
+                reverse_order = 'asc';
+                // clear_icon();
+                $('#' + column_name + '_icon').html(
+                    '<i class="fa fa-arrow-up"></i>');
+            }
+            $('#hidden_column_name').val(column_name);
+            $('#hidden_sort_type').val(reverse_order);
+            var page = $('#hidden_page').val();
+            var query = $('#search').val();
+            fetch_data(page, reverse_order, column_name, query);
+        });
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            $('#hidden_page').val(page);
+            var column_name = $('#hidden_column_name').val();
+            var sort_type = $('#hidden_sort_type').val();
+
+            var query = $('#search').val();
+
+            $('li').removeClass('active');
+            $(this).parent().addClass('active');
+            fetch_data(page, sort_type, column_name, query);
+        });
+
     });
 </script>
 
@@ -167,5 +192,6 @@
         });
     });
 </script>
+
     
 @endpush

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-Members List
+Members Edit
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@ Members List
         <div class="d-flex">
             <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
             <div class="">
-                <h3>Member Listing</h3>
+                <h3>Member Edit</h3>
                 <ul class="breadcome-menu mb-0">
                     <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                    <li><span class="bread-blod">Member Listing</span></li>
+                    <li><span class="bread-blod">Member Edit</span></li>
                 </ul>
             </div>
         </div>
@@ -30,7 +30,8 @@ Members List
             <div class="card w-100">
                 <div class="card-body">
                     <div id="form">
-                        <form action="" method="POST" id="designation-create-form">
+                        <form action="{{ route('members.update', $member->id) }}" method="POST" id="designation-create-form">
+                            @method('PUT')
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
@@ -48,7 +49,7 @@ Members List
                                                     <label>Pers No</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="pers_no" id="pers_no" value="{{ old('pers_no') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="pers_no" id="pers_no" value="{{ $member->pers_no }}" >
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -59,7 +60,7 @@ Members List
                                                     <label>EMP-ID</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="emp_id" id="emp_id" value="{{ old('emp_id') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="emp_id" id="emp_id" value="{{ $member->emp_id }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -70,7 +71,7 @@ Members List
                                                     <label>Name</label>
                                                 </div>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="name" id="name" value="{{ $member->name }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -88,7 +89,7 @@ Members List
                                                     <label>Desig</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="desig" id="desig" value="{{ old('desig') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="desig" id="desig" value="{{ $member->designation->designation_type }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -99,7 +100,7 @@ Members List
                                                     <label>Basic</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ $member->basic }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -110,7 +111,7 @@ Members List
                                                     <label>Group</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="group" id="group" value="{{ old('group') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="group" id="group" value="{{ $member->groups->value }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -121,7 +122,7 @@ Members List
                                                     <label>Devision</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="devision" id="devision" value="{{ old('devision') ?? '' }}" placeholder="">
+                                                    <input type="text" class="form-control" name="devision" id="devision" value="{{ $member->divisions->value }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -173,7 +174,7 @@ Members List
                                                                     <label>Pay</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="pay" id="pay" value="{{ old('pay') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -186,7 +187,7 @@ Members List
                                                                     <label>DA</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="da" id="da" value="{{ old('da') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -199,7 +200,7 @@ Members List
                                                                     <label>TPT</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="tpt" id="tpt" value="{{ old('tpt') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -212,7 +213,7 @@ Members List
                                                                     <label>Cr Rent</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="cr_rent" id="cr_rent" value="{{ old('cr_rent') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -227,7 +228,7 @@ Members List
                                                                     <label>G.Pay</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="g_pay" id="g_pay" value="{{ old('g_pay') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -240,7 +241,7 @@ Members List
                                                                     <label>HRA</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="hra" id="hra" value="{{ old('hra') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -253,7 +254,7 @@ Members List
                                                                     <label>DA on TPT</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="da_on_tpt" id="da_on_tpt" value="{{ old('da_on_tpt') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -266,7 +267,7 @@ Members List
                                                                     <label>Cr Elec</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="cr_elec" id="cr_elec" value="{{ old('cr_elec') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -281,7 +282,7 @@ Members List
                                                                     <label>FPA</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="fpa" id="fpa" value="{{ old('fpa') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -294,7 +295,7 @@ Members List
                                                                     <label>S.Pay</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="s_pay" id="s_pay" value="{{ old('s_pay') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -307,7 +308,7 @@ Members List
                                                                     <label>Hindi</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="hindi" id="hindi" value="{{ old('hindi') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -320,7 +321,7 @@ Members List
                                                                     <label>Cr Water</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="cr_water" id="cr_water" value="{{ old('cr_water') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -335,7 +336,7 @@ Members List
                                                                     <label>2 Add Inc</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="2_add_inc" id="2_add_inc" value="{{ old('2_add_inc') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -348,7 +349,7 @@ Members List
                                                                     <label>NPA</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="npa" id="npa" value="{{ old('npa') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -361,7 +362,7 @@ Members List
                                                                     <label>Deptn Alw</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="deptn_alw" id="deptn_alw" value="{{ old('deptn_alw') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -374,7 +375,7 @@ Members List
                                                                     <label>Misc 1</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="misc_1" id="misc_1" value="{{ old('misc_1') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -389,7 +390,7 @@ Members List
                                                                     <label>Var Incr</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="var_incr" id="var_incr" value="{{ old('var_incr') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -402,7 +403,7 @@ Members List
                                                                     <label>Wash Alw</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="wash_alw" id="wash_alw" value="{{ old('wash_alw') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -415,7 +416,7 @@ Members List
                                                                     <label>Dis Alw</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="dis_alw" id="dis_alw" value="{{ old('dis_alw') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -428,7 +429,7 @@ Members List
                                                                     <label>Misc 2</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="misc_2" id="misc_2" value="{{ old('misc_2') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -445,7 +446,7 @@ Members List
                                                                             <label>Risk Alw</label>
                                                                         </div>
                                                                         <div class="col-md-8">
-                                                                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                            <input type="text" class="form-control" name="risk_alw" id="risk_alw" value="{{ old('risk_alw') ?? '' }}" placeholder="">
                                                                             <span class="text-danger"></span>
                                                                         </div>
                                                                     </div>
@@ -458,7 +459,7 @@ Members List
                                                                             <label>Tot.Credits</label>
                                                                         </div>
                                                                         <div class="col-md-8">
-                                                                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                            <input type="text" class="form-control" name="tot_credits" id="tot_credits" value="{{ old('tot_credits') ?? '' }}" placeholder="">
                                                                             <span class="text-danger"></span>
                                                                         </div>
                                                                     </div>
@@ -475,7 +476,7 @@ Members List
                                                                     <label>Remarks</label>
                                                                 </div>
                                                                 <div class="col-md-10">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="remarks" id="remarks" value="{{ old('remarks') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -491,7 +492,7 @@ Members List
                                                                         <label>Gross Pay</label>
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                        <input type="text" class="form-control" name="gross_pay" id="gross_pay" value="{{ old('gross_pay') ?? '' }}" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
@@ -504,7 +505,7 @@ Members List
                                                                         <label>Top Debits</label>
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                        <input type="text" class="form-control" name="top_debits" id="top_debits" value="{{ old('top_debits') ?? '' }}" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
@@ -517,7 +518,7 @@ Members List
                                                                         <label>Net Pay</label>
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                        <input type="text" class="form-control" name="net_pay" id="net_pay" value="{{ old('net_pay') ?? '' }}" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
@@ -530,7 +531,7 @@ Members List
                                                                         <label>Tot Rec</label>
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                        <input type="text" class="form-control" name="tot_rec" id="tot_rec" value="{{ old('tot_rec') ?? '' }}" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
@@ -543,7 +544,7 @@ Members List
                                                                         <label>Take Home</label>
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                        <input type="text" class="form-control" name="take_home" id="take_home" value="{{ old('take_home') ?? '' }}" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
@@ -584,7 +585,7 @@ Members List
                                                                     <label>GPA Sub</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="gpa_sub" id="gpa_sub" value="{{ old('gpa_sub') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -597,7 +598,7 @@ Members List
                                                                     <label>Eol/Hpl</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="eol" id="eol" value="{{ old('eol') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -610,7 +611,7 @@ Members List
                                                                     <label>Rent</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="rent" id="rent" value="{{ old('rent') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -623,7 +624,7 @@ Members List
                                                                     <label>LF Arr</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="lf_arr" id="lf_arr" value="{{ old('lf_arr') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -636,7 +637,7 @@ Members List
                                                                     <label>TADA</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="tada" id="tada" value="{{ old('tada') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -649,7 +650,7 @@ Members List
                                                                     <label>HBA</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="hba" id="hba" value="{{ old('hba') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -664,7 +665,7 @@ Members List
                                                                     <label>Misc 1</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="misc_1" id="misc_1" value="{{ old('misc_1') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -677,7 +678,7 @@ Members List
                                                                     <label>GPF Rec</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="gpf_rec" id="gpf_rec" value="{{ old('gpf_rec') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -690,7 +691,7 @@ Members List
                                                                     <label>I.Tax</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="i_tax" id="i_tax" value="{{ old('i_tax') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -703,7 +704,7 @@ Members List
                                                                     <label>Elec</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="elec" id="elec" value="{{ old('elec') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -716,7 +717,7 @@ Members List
                                                                     <label>Elec Arr</label>
                                                                 </div>
                                                                 <div class="col-md-8">
-                                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                                                                    <input type="text" class="form-control" name="elec_arr" id="elec_arr" value="{{ old('elec_arr') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>

@@ -56685,6 +56685,11 @@ ul {
     text-align: center;
     border: 1px solid #ff0303;
 }
+@media (max-width:1440px) {
+    .app-header .navbar .navbar-nav .nav-item .nav-link {
+        padding: 8px 8px;
+    }
+}
 
 
 @media (max-width:1280px) {

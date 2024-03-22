@@ -20,6 +20,7 @@ use App\Http\Controllers\Frontend\QuaterController;
 use App\Http\Controllers\Frontend\ExServiceController;
 use App\Http\Controllers\Frontend\PgController;
 use App\Http\Controllers\Frontend\CgegisController;
+use App\Http\Controllers\Frontend\IncomeTaxController;
 use App\Http\Controllers\Frontend\MemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -178,10 +179,12 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/cgegis-fetch-data', [CgegisController::class, 'fetchData'])->name('cgegis.fetch-data');
 
+    //delete memeber
+    Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');
+    Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
+
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     
-    Route::get('/income-tax', function () {
-        return view('income.index');
-    });
+    Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
    
 });
