@@ -182,6 +182,7 @@ Route::middleware('permssions')->group(function () {
     //delete memeber
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
+    Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
 
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     

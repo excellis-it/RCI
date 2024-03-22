@@ -188,6 +188,11 @@ class MemberController extends Controller
         return view('frontend.members.edit',compact('member'));
     }
 
+    public function memberCreditUpdate(Request $request)
+    {
+        return $request;
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -201,7 +206,7 @@ class MemberController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return $id;
     }
 
     public function deleteMember($id)

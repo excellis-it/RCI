@@ -1,6 +1,5 @@
 
 
-
 @extends('frontend.layouts.master')
 @section('title')
     Members List
@@ -46,7 +45,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-3 mb-2">
+                                                
+                                                <div class="form-group ">
                                                     <div class="row align-items-center">
                                                         <div class="col-md-4">
                                                             <label>Pers No</label>
@@ -150,10 +150,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Pers No</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="pers_no" id="pers_no"
                                                                         value="{{ old('pers_no') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -162,12 +162,12 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>EMP-ID</label>
                                                                 </div>
                                                                 {{-- random id generate --}}
 
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="emp_id" id="emp_id"
                                                                         value="{{ old('emp_id') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -176,10 +176,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Gender</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="gender" id="gender">
                                                                         <option value="">Select</option>
                                                                         <option value="Male">Male</option>
@@ -196,10 +196,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-12 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-12">
                                                                     <label>Name</label>
                                                                 </div>
-                                                                <div class="col-md-10">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="name" id="name"
                                                                         value="{{ old('name') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -219,10 +219,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>PM Level</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="pm_level" id="pm_level">
                                                                         <option value="">Select</option>
                                                                         @foreach($pmLevels as $pm_level)
@@ -236,10 +236,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>PM Index</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="pm_index" id="pm_index">
                                                                         <option value="">Select</option>
                                                                         @foreach($pmIndexes as $pmIndex)
@@ -252,10 +252,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Basic</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="basic" id="basic"
                                                                         value="{{ old('basic') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -268,10 +268,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-12 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-12">
                                                                     <label>Desig</label>
                                                                 </div>
-                                                                <div class="col-md-10">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="desig" id="desig">
                                                                         <option value="">Select</option>
                                                                         @foreach($designations as $designation)
@@ -295,10 +295,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Division</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="division" id="division">
                                                                         <option value="">Select</option>
                                                                         @foreach($divisions as $division)
@@ -311,10 +311,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Group</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="group" id="group">
                                                                         <option value="">Select</option>
                                                                         @foreach($groups as $group)
@@ -327,10 +327,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Cadre</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="cadre" id="cadre">
                                                                         <option value="">Select</option>
                                                                         @foreach($cadres as $cadre)
@@ -347,10 +347,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-12 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-12">
                                                                     <label>Category</label>
                                                                 </div>
-                                                                <div class="col-md-10">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="category" id="category">
                                                                         <option value="">Select</option>
                                                                         @foreach ($categories as $category)
@@ -377,10 +377,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Status</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="status" id="status">
                                                                         <option value="">Select</option>
                                                                         <option value="Yes">YES</option>
@@ -392,10 +392,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>OLD BP</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="old_bp" id="old_bp"
                                                                         value="{{ old('old_bp') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -404,10 +404,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>G.Pay</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="g_pay" id="g_pay"
                                                                         value="{{ old('g_pay') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -420,10 +420,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>PayBand</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="pay_band" id="pay_band">
                                                                         <option value="">Select Payband</option>
                                                                         @foreach ($paybands as $payband)
@@ -438,10 +438,10 @@
                                                         </div>
                                                         <div class="form-group col-md-6 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Fund Type</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="fund_type" id="fund_type">
                                                                         <option value="">Select</option>
                                                                         @foreach ($fundTypes as $fundType)
@@ -466,10 +466,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>DOB</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="dob" id="dob"
                                                                         value="{{ old('dob') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -478,10 +478,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>DOJ Lab</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="doj_lab" id="doj_lab"
                                                                         value="{{ old('doj_lab') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -490,10 +490,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>DOJ Service1</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="doj_service1" id="doj_service1"
                                                                         value="{{ old('doj_service1') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -506,10 +506,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-6 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>DOP</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="dop"
                                                                         id="dop" value="{{ old('dop') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -518,10 +518,10 @@
                                                         </div>
                                                         <div class="form-group col-md-6 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Next Incr</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="next_inr"
                                                                         id="next_inr" value="{{ old('next_inr') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -541,10 +541,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Quater</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="quater" id="quater">
                                                                         <option value="">Select</option>
                                                                         @foreach ($quaters as $quater)
@@ -558,10 +558,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Quater No</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="quater_no" id="quater_no"
                                                                         value="{{ old('quater_no') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -570,10 +570,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>DOJ Service2</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="doj_service2" id="doj_service2"
                                                                         value="{{ old('doj_service2') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -586,10 +586,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-12 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-12">
                                                                     <label>CGEIS</label>
                                                                 </div>
-                                                                <div class="col-md-10">
+                                                                <div class="col-md-12">
                                                                     <input type="text" class="form-control" name="cgeis"
                                                                         id="cgeis" value="{{ old('cgeis') ?? '' }}" placeholder="">
                                                                     <span class="text-danger"></span>
@@ -609,10 +609,10 @@
                                                     <div class="row">
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Ex-Service</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="ex_service" id="ex_service">
                                                                         <option value="">Select</option>
                                                                         @foreach ($exServices as $exService)
@@ -626,10 +626,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>PG</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="pg" id="pg">
                                                                         <option value="">Select</option>
                                                                         @foreach ($pgs as $pg)
@@ -643,10 +643,10 @@
                                                         </div>
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>CGEGIS</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <select class="form-select" name="cgegis" id="cgegis">
                                                                         <option value="">Select</option>
                                                                         @foreach ($cgegises as $cgegis)
@@ -664,10 +664,10 @@
                                                     <div class="row">
                                                         <div class="form-group">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label>Paystop</label>
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <div class="form-inline">
                                                                         <div class="form-check form-check-inline">
                                                                             <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio1" value="none">
@@ -697,10 +697,10 @@
                                             <div class="row">
                                                 <div class="form-group col-md-3 mb-2">
                                                     <div class="row align-items-center">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-12">
                                                             <label for="PIS">PIS</label>
                                                         </div>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-12">
                                                             <input type="text" class="form-control" name="pis" id="pis"
                                                                 value="{{ old('pis') ?? '' }}" placeholder="">
                                                             <span class="text-danger"></span>
@@ -709,10 +709,10 @@
                                                 </div>
                                                 <div class="form-group col-md-9 mb-2">
                                                     <div class="row align-items-center">
-                                                        <div class="col-md-1">
+                                                        <div class="col-md-12">
                                                             <label for="PM_Index">Address</label>
                                                         </div>
-                                                        <div class="col-md-11">
+                                                        <div class="col-md-12">
                                                             <input type="text" class="form-control" name="pis_address" id="pis_address"
                                                                 value="{{ old('pis_address') ?? '' }}" placeholder="">
                                                             <span class="text-danger"></span>
@@ -727,10 +727,10 @@
                                             <div class="row">
                                                 <div class="form-group col-md-3 mb-2">
                                                     <div class="row align-items-center">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-12">
                                                             <label for="PIS">SOS</label>
                                                         </div>
-                                                        <div class="col-md-7">
+                                                        <div class="col-md-12">
                                                             <input type="text" class="form-control" name="sos" id="sos"
                                                                 value="{{ old('sos') ?? '' }}" placeholder="">
                                                             <span class="text-danger"></span>
@@ -739,10 +739,10 @@
                                                 </div>
                                                 <div class="form-group col-md-9 mb-2">
                                                     <div class="row align-items-center">
-                                                        <div class="col-md-1">
+                                                        <div class="col-md-12">
                                                             <label for="PM_Index">Address</label>
                                                         </div>
-                                                        <div class="col-md-11">
+                                                        <div class="col-md-12">
                                                             <input type="text" class="form-control" name="sos_address" id="sos_address"
                                                                 value="{{ old('sos_address') ?? '' }}" placeholder="">
                                                             <span class="text-danger"></span>
@@ -786,7 +786,7 @@
     @push('scripts')
     <script>
         $(document).ready(function() {
-             var randomId = 'RCI-CHESE-' + Math.random().toString().substr(2, 8);
+             var randomId = 'RCI-CHESS-' + Math.random().toString().substr(2, 8);
              document.getElementById('emp_id').value = randomId;
          });
      </script>

@@ -37,10 +37,10 @@ Members List
                                     <div class="row">
                                         <div class="form-group col-md-3 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <label>Pers No</label>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="pers_no" id="pers_no" value="{{ old('pers_no') ?? '' }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -48,10 +48,10 @@ Members List
                                         </div>
                                         <div class="form-group col-md-3 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <label>ID No</label>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="emp_id" id="emp_id" value="{{ old('emp_id') ?? '' }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -59,10 +59,10 @@ Members List
                                         </div>
                                         <div class="form-group col-md-6 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-2">
+                                                <div class="col-md-12">
                                                     <label>Name</label>
                                                 </div>
-                                                <div class="col-md-10">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?? '' }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -72,10 +72,10 @@ Members List
                                     <div class="row">
                                         <div class="form-group col-md-3 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <label>Desig</label>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="pers_no" id="pers_no" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -83,10 +83,10 @@ Members List
                                         </div>
                                         <div class="form-group col-md-3 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <label>Basic</label>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="pers_no" id="pers_no" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -94,10 +94,10 @@ Members List
                                         </div>
                                         <div class="form-group col-md-3 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <label>Group</label>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="pers_no" id="pers_no" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -105,10 +105,10 @@ Members List
                                         </div>
                                         <div class="form-group col-md-3 mb-2">
                                             <div class="row align-items-center">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
                                                     <label>Section</label>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-12">
                                                     <input type="text" class="form-control" name="pers_no" id="pers_no" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -119,10 +119,10 @@ Members List
                                         <div class="col-md-4">
                                             <div class="form-group mb-2">
                                                 <div class="row align-items-center">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-12">
                                                         <label>Financial Year</label>
                                                     </div>
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-12">
                                                         <input type="date" class="form-control" name="name" id="name" value="" placeholder="">
                                                     </div>
                                                 </div>
@@ -157,10 +157,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Monthly Year</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <select class="form-select" name="gender" id="gender">
                                                                     <option value="">Select</option>
                                                                     <option value="Male">1</option>
@@ -175,10 +175,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Var Incr</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -188,10 +188,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Misc</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -201,10 +201,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>PTax</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -214,10 +214,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>HDFC</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -229,10 +229,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Basic</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -242,10 +242,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>DA</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -255,10 +255,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>OT</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -268,10 +268,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>ITax</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -281,10 +281,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>DMisc</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -296,10 +296,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>D.Pay</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -309,10 +309,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>HRA</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -322,10 +322,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Arrears</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -335,10 +335,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>HBA</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -348,10 +348,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>GMC</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -363,10 +363,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>S.Pay</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -376,10 +376,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>CCA</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -389,10 +389,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>GPF</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -402,10 +402,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>PLI</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -417,10 +417,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>F.Pay</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -430,10 +430,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>TPT</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -443,10 +443,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>CGEIS</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -456,10 +456,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>LIC</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -471,10 +471,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Add Incr</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -484,10 +484,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Wash Alw</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -497,10 +497,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>CGHS</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -510,10 +510,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>EOL/HPL</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -542,90 +542,94 @@ Members List
                                     <div class="tab-pane fade" id="areas-tab-pane" role="tabpanel" aria-labelledby="areas-tab" tabindex="0">
                                         <div class="credit-frm">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-7">
                                                     <div class="recov-table">
-                                                        <table class="table customize-table mb-0 align-middle bg_tbody">
-                                                            <thead class="text-white fs-4 bg_blue">
-                                                                <tr>
-                                                                    <th>Date</th>
-                                                                    <th>Name</th>
-                                                                    <th>Amt</th>
-                                                                    <th>CPS</th>
-                                                                    <th>I.Tax</th>
-                                                                    <th>CGHS</th>
-                                                                    <th>GMC</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="tbody_height_scroll">
-                                                                <tr>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>12456</td>
-                                                                    <td>1050</td>
-                                                                    <td>0</td>
-                                                                    <td>0</td>
-                                                                    <td>1473</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>12456</td>
-                                                                    <td>1050</td>
-                                                                    <td>0</td>
-                                                                    <td>0</td>
-                                                                    <td>1473</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>12456</td>
-                                                                    <td>1050</td>
-                                                                    <td>0</td>
-                                                                    <td>0</td>
-                                                                    <td>1473</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>12456</td>
-                                                                    <td>1050</td>
-                                                                    <td>0</td>
-                                                                    <td>0</td>
-                                                                    <td>1473</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>22/03/2024</td>
-                                                                    <td>12456</td>
-                                                                    <td>1050</td>
-                                                                    <td>0</td>
-                                                                    <td>0</td>
-                                                                    <td>1473</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                        <div class="table-responsive">
+                                                            <table class="table customize-table mb-0 align-middle bg_tbody">
+                                                                <thead class="text-white fs-4 bg_blue">
+                                                                    <tr>
+                                                                        <th>Date</th>
+                                                                        <th>Name</th>
+                                                                        <th>Amt</th>
+                                                                        <th>CPS</th>
+                                                                        <th>I.Tax</th>
+                                                                        <th>CGHS</th>
+                                                                        <th>GMC</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="tbody_height_scroll">
+                                                                    <tr>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>12456</td>
+                                                                        <td>1050</td>
+                                                                        <td>0</td>
+                                                                        <td>0</td>
+                                                                        <td>1473</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>12456</td>
+                                                                        <td>1050</td>
+                                                                        <td>0</td>
+                                                                        <td>0</td>
+                                                                        <td>1473</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>12456</td>
+                                                                        <td>1050</td>
+                                                                        <td>0</td>
+                                                                        <td>0</td>
+                                                                        <td>1473</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>12456</td>
+                                                                        <td>1050</td>
+                                                                        <td>0</td>
+                                                                        <td>0</td>
+                                                                        <td>1473</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>22/03/2024</td>
+                                                                        <td>12456</td>
+                                                                        <td>1050</td>
+                                                                        <td>0</td>
+                                                                        <td>0</td>
+                                                                        <td>1473</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>Date</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <input type="date" class="form-control" name="name" id="name" value="" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>Name</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <select class="form-select" name="gender" id="gender">
                                                                             <option value="">Select</option>
                                                                             <option value="Male">1</option>
@@ -636,56 +640,66 @@ Members List
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>Amt</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>CPS Rec</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>I.Tax Rec</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>CGHS Rec</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="form-group mb-2">
                                                                 <div class="row align-items-center">
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-12">
                                                                         <label>GMC Rec</label>
                                                                     </div>
-                                                                    <div class="col-md-8">
+                                                                    <div class="col-md-12">
                                                                         <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                         <span class="text-danger"></span>
                                                                     </div>
@@ -719,10 +733,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Annual Rent</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -732,12 +746,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>PH/Disable
                                                                     <smal>(80 U)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -747,10 +761,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>FD int</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -760,12 +774,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>NSC/CTC
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -775,12 +789,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>TFree
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -792,10 +806,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>HBA</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -805,12 +819,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Edu Loan Int
                                                                     <smal>(80 E)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -820,10 +834,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>NSC Int</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -833,12 +847,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>HBA Prncpl
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -848,12 +862,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Others-S
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -865,12 +879,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>HBA Int
                                                                     <smal>(80 EE)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -880,12 +894,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Other-D
                                                                     <smal>(80 G)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -895,10 +909,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Let Out</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -908,12 +922,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>PLI
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -923,10 +937,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Infra Bound </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -938,12 +952,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Med Ins
                                                                     <small>80 EE</small>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -953,12 +967,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>A/C Int
                                                                     <smal>(80 TTA)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -968,10 +982,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Pension</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -981,12 +995,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>JS / Sukanya
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -996,12 +1010,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>NSDI
                                                                     <smal>80 CCD (1b)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1013,12 +1027,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Med Trt
                                                                     <small>(80 EE)</small>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1028,12 +1042,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Equity / MF
                                                                     <small>(80 CCG)</small>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1043,12 +1057,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>PPF
                                                                     <small>(80 C)</small>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1058,12 +1072,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>LIC
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1073,10 +1087,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Sec 89</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1088,12 +1102,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Cancer
                                                                     <small>(80 EE)</small>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1103,12 +1117,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>CEA
                                                                     <small>U/S 10(14)</small>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1118,10 +1132,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>Bonds</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1131,12 +1145,12 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>ULIP
                                                                     <smal>(80 C)</smal>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1146,10 +1160,10 @@ Members List
                                                 <div class="col">
                                                     <div class="form-group mb-2">
                                                         <div class="row align-items-center">
-                                                            <div class="col-md-4">
+                                                            <div class="col-md-12">
                                                                 <label>PH</label>
                                                             </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -1162,10 +1176,10 @@ Members List
                                                     <div class="col-lg-4 col-md-6">
                                                         <div class="form-group mb-3">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <label>Med Ins (80) Sr. Citizen Dependent included</label>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                                                                         <label class="form-check-label" for="inlineRadio1">No</label>
@@ -1181,10 +1195,10 @@ Members List
                                                     <div class="col-lg-4 col-md-6">
                                                         <div class="form-group mb-3">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <label>Cancer (80 DDB) Sr. Citizen Dependent included</label>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                                                                         <label class="form-check-label" for="inlineRadio1">No</label>
@@ -1197,34 +1211,13 @@ Members List
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-lg-4 col-md-6">
                                                         <div class="form-group mb-3">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
                                                                     <label>Med Trt (80 DD) Severe Disability</label>
                                                                 </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                                                    </div>
-                                                                    <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                                                        <label class="form-check-label" for="inlineRadio2">Yes</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form-group mb-3">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-8">
-                                                                    <label>PH / Disable (80 U) Severe Disability</label>
-                                                                </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                                                                         <label class="form-check-label" for="inlineRadio1">No</label>
@@ -1242,10 +1235,29 @@ Members List
                                                     <div class="col-lg-4 col-md-6">
                                                         <div class="form-group mb-3">
                                                             <div class="row align-items-center">
-                                                                <div class="col-md-8">
+                                                                <div class="col-md-12">
+                                                                    <label>PH / Disable (80 U) Severe Disability</label>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                                        <label class="form-check-label" for="inlineRadio1">No</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                                        <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-6">
+                                                        <div class="form-group mb-3">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-12">
                                                                     <label>IT Rules</label>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                                                                         <label class="form-check-label" for="inlineRadio1">Old</label>
