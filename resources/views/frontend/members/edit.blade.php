@@ -49,7 +49,7 @@ Members Edit
                                                     <label>Pers No</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="pers_no" id="pers_no" value="{{ $member->pers_no }}" >
+                                                    <input type="text" class="form-control" name="pers_no" id="pers_no" value="" >
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -60,7 +60,7 @@ Members Edit
                                                     <label>EMP-ID</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="emp_id" id="emp_id" value="{{ $member->emp_id }}" placeholder="">
+                                                    <input type="text" class="form-control" name="emp_id" id="emp_id" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -71,7 +71,7 @@ Members Edit
                                                     <label>Name</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="name" id="name" value="{{ $member->name }}" placeholder="">
+                                                    <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -89,7 +89,7 @@ Members Edit
                                                     <label>Desig</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="desig" id="desig" value="{{ $member->designation->designation_type }}" placeholder="">
+                                                    <input type="text" class="form-control" name="desig" id="desig" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@ Members Edit
                                                     <label>Basic</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="basic" id="basic" value="{{ $member->basic }}" placeholder="">
+                                                    <input type="text" class="form-control" name="basic" id="basic" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -111,7 +111,7 @@ Members Edit
                                                     <label>Group</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="group" id="group" value="{{ $member->groups->value }}" placeholder="">
+                                                    <input type="text" class="form-control" name="group" id="group" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@ Members Edit
                                                     <label>Devision</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" class="form-control" name="devision" id="devision" value="{{ $member->divisions->value }}" placeholder="">
+                                                    <input type="text" class="form-control" name="devision" id="devision" value="" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -164,8 +164,8 @@ Members Edit
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="credits-tab-pane" role="tabpanel" aria-labelledby="credits-tab" tabindex="0">
                                         <div class="credit-frm">
-                                            <form action="{{ route('members.credit.update') }}" method="post" id="member-credit-form">
-                                                @csrf
+                                            <form action=""  id="member-credit-form">
+                                               
                                                  
                                                 <input type="hidden" name="member_id" value="{{ $member->id }}">
                                                 <div class="row">
