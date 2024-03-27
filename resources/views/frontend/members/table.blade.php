@@ -5,7 +5,7 @@
             <td>{{$member->emp_id ?? 'N/A'}}</td>
             <td>{{$member->gender ?? 'N/A'}}</td>
             <td>{{$member->pers_no ?? 'N/A'}}</td>
-            <td></td>
+            <td>{{ $member->designation->designation_type ?? 'N/A' }}</td>
             <td class="sepharate"><a  href="{{ route('members.edit', $member->id)}}" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('members.delete', $member->id)}}"><i class="ti ti-trash"></i></a>
             </td>
@@ -22,6 +22,7 @@
             </div>
         </td>
     </tr>
+
 @else
     <tr>
         <td colspan="6" class="text-center">No Members Found</td>

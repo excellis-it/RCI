@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('fpa')->nullable();
             $table->string('bank')->nullable();
             $table->string('gpf_sub')->nullable();
-            $table->string('2_add')->nullable();
+            $table->string('add2')->nullable();
             $table->string('gpf_acc_no')->nullable();
             $table->string('i_tax')->nullable();
             $table->string('pran_no')->nullable();

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('s_pay')->nullable();  
             $table->string('hindi')->nullable();
             $table->string('cr_water')->nullable();    
-            $table->string('2_add_inc')->nullable();  
+            $table->string('add_inc2')->nullable();  
             $table->string('npa')->nullable();  
             $table->string('deptn_alw')->nullable();  
             $table->string('misc1')->nullable();  

@@ -21,6 +21,7 @@ use App\Http\Controllers\Frontend\ExServiceController;
 use App\Http\Controllers\Frontend\PgController;
 use App\Http\Controllers\Frontend\CgegisController;
 use App\Http\Controllers\Frontend\IncomeTaxController;
+use App\Http\Controllers\Frontend\BankController;
 use App\Http\Controllers\Frontend\MemberController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,7 +72,9 @@ Route::middleware('permssions')->group(function () {
         'ex-services' => ExServiceController::class,
         'pgs' => PgController::class,
         'cgegis' => CgegisController::class,
+        'banks' => BankController::class,
         'members' => MemberController::class,
+        
     ]);
 
     // category
@@ -179,10 +182,25 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/cgegis-fetch-data', [CgegisController::class, 'fetchData'])->name('cgegis.fetch-data');
 
+    //bank route
+    Route::prefix('banks')->group(function () {
+        Route::get('/banks-delete/{id}', [BankController::class, 'delete'])->name('banks.delete');
+    });
+    Route::get('/banks-fetch-data', [BankController::class, 'fetchData'])->name('banks.fetch-data');
+
     //delete memeber
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
+    //member credit update
     Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
+    //member debit update
+    Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
+    //member recovery update
+    Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
+    //member core-info update
+    Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
+    
+
 
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     
