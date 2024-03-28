@@ -199,6 +199,14 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
+
+    //member loan info
+    Route::post('/members-loan-info-store',[MemberController::class,'memberLoanInfoStore'])->name('members.loan.create');
+    //member loan edit
+    Route::get('/members-loan-edit/{id}',[MemberController::class,'memberLoanEdit'])->name('members.loan.edit');
+    //member personal update
+    Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
+    Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
     
 
 
