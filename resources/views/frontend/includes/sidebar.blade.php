@@ -31,6 +31,14 @@
                         <span class="hide-menu">Add Person</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('public-funds*') ? 'active' : ''}}" href="{{route('public-funds.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Add Public fund</span>
+                    </a>
+                </li>
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">

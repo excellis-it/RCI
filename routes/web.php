@@ -23,6 +23,7 @@ use App\Http\Controllers\Frontend\CgegisController;
 use App\Http\Controllers\Frontend\IncomeTaxController;
 use App\Http\Controllers\Frontend\BankController;
 use App\Http\Controllers\Frontend\MemberController;
+use App\Http\Controllers\Frontend\PublicFundController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +75,7 @@ Route::middleware('permssions')->group(function () {
         'cgegis' => CgegisController::class,
         'banks' => BankController::class,
         'members' => MemberController::class,
+        'public-funds' => PublicFundController::class,
         
     ]);
 
@@ -197,6 +199,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
+    Route::get('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery.delete');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
 

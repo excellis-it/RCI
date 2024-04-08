@@ -189,12 +189,16 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
+                                    {{-- credit --}}
                                     <div class="tab-pane fade show active" id="credits-tab-pane" role="tabpanel"
                                         aria-labelledby="credits-tab" tabindex="0">
                                         <div class="credit-frm">
                                             @include('frontend.members.credit-form')
                                         </div>
                                     </div>
+                                    {{-- credit end --}}
+
+                                    {{-- debit --}}
                                     <div class="tab-pane fade" id="debits-tab-pane" role="tabpanel"
                                         aria-labelledby="debits-tab" tabindex="0">
                                         <div class="credit-frm">
@@ -202,13 +206,19 @@
 
                                         </div>
                                     </div>
+                                    {{-- debit end --}}
+
+                                    {{-- recovery  --}}
                                     <div class="tab-pane fade" id="recoveries-tab-pane" role="tabpanel"
                                         aria-labelledby="recoveries-tab" tabindex="0">
                                         <div class="credit-frm">
                                             @include('frontend.members.recovery-form')
 
                                         </div>
-                                    </div>
+                                    </div> 
+                                    {{-- recovery end --}}
+
+                                    {{-- core --}}
                                     <div class="tab-pane fade" id="core-tab-pane" role="tabpanel"
                                         aria-labelledby="core-tab" tabindex="0">
                                         <div class="credit-frm">
@@ -216,6 +226,9 @@
 
                                         </div>
                                     </div>
+                                    {{-- core end --}}
+
+                                    {{-- policy --}}
                                     <div class="tab-pane fade" id="policy-tab-pane" role="tabpanel"
                                         aria-labelledby="policy-tab" tabindex="0">
                                         <div class="credit-frm">
@@ -449,11 +462,9 @@
                                             </form>
                                         </div>
                                     </div>
-
-
+                                    {{-- policy end --}}
 
                                     {{-- loan --}}
-
                                     <div class="tab-pane fade" id="loan-tab-pane" role="tabpanel"
                                         aria-labelledby="loan-tab" tabindex="0">
                                         <div class="credit-frm">
@@ -473,7 +484,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="tbody_height_scroll">
-                                                               @include('frontend.members.loan.table')
+                                                                @include('frontend.members.loan.table')
 
                                                             </tbody>
                                                         </table>
@@ -481,16 +492,15 @@
                                                 </div>
 
                                                 <div class="col-md-6" id="loan-form">
-                                                    
-                                                       @include('frontend.members.loan.form')
-                                                   
+
+                                                    @include('frontend.members.loan.form')
+
                                                 </div>
 
                                             </div>
 
                                         </div>
                                     </div>
-
                                     {{-- loan end --}}
 
 
@@ -1098,10 +1108,10 @@
                     // Define rules for your form fields
                     'pay': {
                         required: true
-                    },
-                    'da': {
-                        required: true
                     }
+                    // 'da': {
+                    //     required: true
+                    // }
                     // 'tpt': {
                     //     required: true
                     // },
@@ -1172,10 +1182,10 @@
                     // Define messages for your form fields
                     'pay': {
                         required: "Please enter pay",
-                    },
-                    'da': {
-                        required: "Please enter DA",
                     }
+                    // 'da': {
+                    //     required: "Please enter DA",
+                    // }
                     // 'tpt': {
                     //     required: "Please enter TPT",
                     // },
@@ -1525,43 +1535,39 @@
         });
     </script>
 
-
-
     <script>
         $(document).ready(function() {
             $('#member-recovery-form').validate({ // Initialize form validation
-                //  rules: {
-                //      // Define rules for your form fields
-                //      'v_incr': {
-                //          required: true
-                //      },
-                //      'noi': {
-                //          required: true
-                //      },
-                //      'total': {
-                //          required: true
-                //      },
-                //      'stop': {
-                //          required: true
-                //      }
-
-
-                //  },
-                //  messages: {
-                //      // Define messages for your form fields
-                //      'v_incr': {
-                //          required: "Please enter VIncr",
-                //      },
-                //      'noi': {
-                //          required: "Please enter NOI",
-                //      },
-                //      'total': {
-                //          required: "Please enter Total",
-                //      },
-                //      'stop': {
-                //          required: "Please enter Stop",
-                //      }
-                //  },
+                rules: {
+                    // Define rules for your form fields
+                    'v_incr': {
+                        required: true
+                    },
+                    'noi': {
+                        required: true
+                    },
+                    'total': {
+                        required: true
+                    }
+                    //      'stop': {
+                    //          required: true
+                    //      }
+                },
+                messages: {
+                    // Define messages for your form fields
+                    'v_incr': {
+                        required: "Please enter VIncr",
+                    },
+                    'noi': {
+                        required: "Please enter NOI",
+                    },
+                    'total': {
+                        required: "Please enter Total",
+                    }
+                    //      'stop': {
+                    //          required: "Please enter Stop",
+                    //      }
+                },
                 submitHandler: function(form) {
                     var formData = $(form).serialize();
 
@@ -1721,7 +1727,7 @@
             $('#member-loan-info-form').validate({
                 submitHandler: function(form) {
                     var formData = $(form).serialize();
-                    
+
 
                     $.ajax({
                         url: $(form).attr('action'),
@@ -1733,22 +1739,24 @@
                         success: function(response) {
                             // Extract form data
                             var data = response.data;
-                                var loanName = response.loan_name;
-                                
-                                // Construct table row HTML
-                                var newRow = '<tr>';
-                                newRow += '<td>' + loanName.loan_name + '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                                newRow += '<td>' + data.present_inst_no + '</td>';
-                                newRow += '<td>' + data.total_amount + '</td>';
-                                newRow += '<td>' + new Date().toISOString().split('T')[0] + '</td>';
-                                newRow += '<td>' + data.remark + '</td>';
-                                newRow += '</tr>';
+                            var loanName = response.loan_name;
 
-                                // Append new row to table
-                                $('#loan-table tbody').append(newRow);
+                            // Construct table row HTML
+                            var newRow = '<tr>';
+                            newRow += '<td>' + loanName.loan_name +
+                                '</td>'; // Use loanName directly if it's a string, adjust accordingly
+                            newRow += '<td>' + data.present_inst_no + '</td>';
+                            newRow += '<td>' + data.total_amount + '</td>';
+                            newRow += '<td>' + new Date().toISOString().split('T')[0] +
+                                '</td>';
+                            newRow += '<td>' + data.remark + '</td>';
+                            newRow += '</tr>';
 
-                                // Show success message if needed
-                                toastr.success(response.message);
+                            // Append new row to table
+                            $('#loan-table tbody').append(newRow);
+
+                            // Show success message if needed
+                            toastr.success(response.message);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1813,4 +1821,27 @@
             });
         });
     </script>
+
+<script>
+    $(document).on('click', '#delete-recovery', function(e) {
+        swal({
+                title: "Are you sure?",
+                text: "To delete this recovery.",
+                type: "warning",
+                confirmButtonText: "Yes",
+                showCancelButton: true
+            })
+            .then((result) => {
+                if (result.value) {
+                    window.location = $(this).data('route');
+                } else if (result.dismiss === 'cancel') {
+                    swal(
+                        'Cancelled',
+                        'Your stay here :)',
+                        'error'
+                    )
+                }
+            })
+    });
+</script>
 @endpush

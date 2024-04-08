@@ -224,7 +224,7 @@ class MemberController extends Controller
         //validation 
         $validated = $request->validate([
             'pay' => 'required',
-            'da' => 'required',
+            // 'da' => 'required',
             // 'tpt' => 'required',
             // 'cr_rent' => 'required',
             // 'g_pay' => 'required',
@@ -483,7 +483,16 @@ class MemberController extends Controller
         }
 
         // session()->flash('message', 'Member recovery updated successfully');
+        
         return response()->json(['message' => 'Member recovery updated successfully']);
+    }
+    public function memberRecoveryDelete($id)
+    {
+       
+        $delete_recovery = MemberRecovery::where('id',$id)->delete();
+        session()->flash('message', 'Member recovery delete successfully');
+        return response()->json(['message' => 'Member recovery delete successfully']);
+
     }
 
     public function memberCoreInfoUpdate(Request $request)
@@ -658,8 +667,7 @@ class MemberController extends Controller
 
     public function memberLoanInfoStore(Request $request)
     {
-        
-        
+    
         $loan_info = new MemberLoanInfo;
         $loan_info->member_id = $request->member_id;
         $loan_info->loan_id = $request->loan_name;
@@ -690,8 +698,6 @@ class MemberController extends Controller
     {
 
     }
-
-
 
     /**
      * Update the specified resource in storage.

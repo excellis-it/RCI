@@ -320,8 +320,8 @@ id="member-core-form" method="post">
             <div class="col-md-6">
                 <div class="row justify-content-end">
                     <div class="form-group col-md-3 mb-2">
-                        <button type=""
-                            class="another-btn">Another</button>
+                        <a href="{{ route('members.create') }}"><button type="button"
+                            class="another-btn">Another</button></a>
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <button type="submit"
