@@ -11,7 +11,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="4" class="text-left">
+        <td colspan="5" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $policies->firstItem() }} – {{ $policies->lastItem() }} Policy of
@@ -23,6 +23,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="4" class="text-center">No Policy Found</td>
+        <td colspan="5" class="text-center">No Policy Found</td>
     </tr>
 @endif

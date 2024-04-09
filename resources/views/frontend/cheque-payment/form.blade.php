@@ -138,11 +138,106 @@
                                     </div>
                                 </div>
                                 <div class="row mb-2">
+                                    <div class="col-lg-5">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>Desig</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>Bill Ref</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="row">
+                                            <div class="col-lg-8">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>Bank A/C</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>DV No</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-5">
+                                   <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-2">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-12">
+                                                    <label>Chq No</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
+                                                    <span class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-2">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-12">
+                                                    <label>Chq Date</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="text" class="form-control" name="name" id="name" value="" placeholder="">
+                                                    <span class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   </div>
+                                  </div>
+                                </div>
+
+                                <div class="row mb-2">
                                     <div class="col-lg-12">
                                         <div class="form-group ">
                                             <div class="row align-items-center">
                                                 <div class="col-md-12">
-                                                    <label>Name</label>
+                                                    <label>Narration</label>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <input type="text" class="form-control" name=""
@@ -153,8 +248,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row justify-content-between">
-                                    <div class="col-lg-7">
+                                <div class="row justify-content-between mb-3">
+                                    <div class="col-xl-7 mb-lg-3">
                                         <div class="form-group">
                                             <div class="row align-items-center">
                                                 <div class="col-md-12">
@@ -207,7 +302,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-xl-3">
                                         <div class="row justify-content-end">
                                             <div class="form-group col-md-6 mb-2">
                                                 <button type="submit" class="listing_add">Save</button>

@@ -95,6 +95,13 @@ class PolicyController extends Controller
         //
     }
 
+    public function deletePolicy(Request $request)
+    {
+        $policy_delete = Policy::find($id);
+        $policy_delete->delete();
+        return redirect()->back()->with('message', 'Policy deleted successfully');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

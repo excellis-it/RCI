@@ -198,7 +198,9 @@ Route::middleware('permssions')->group(function () {
     Route::get('/banks-fetch-data', [BankController::class, 'fetchData'])->name('banks.fetch-data');
 
     // policy route
-   
+    Route::prefix('policy')->group(function () {
+        Route::get('/policy-delete/{id}', [PolicyController::class, 'deletePolicy'])->name('policy.delete');
+    });
     Route::get('/policy-fetch-data',[PolicyController::class, 'fetchData'])->name('policy.fetch-data');
 
     // memeber route
