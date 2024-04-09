@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('policy_name')->nullable();
             $table->string('policy_no')->nullable();
+            $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });
     }

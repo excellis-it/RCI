@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\PgController;
 use App\Http\Controllers\Frontend\CgegisController;
 use App\Http\Controllers\Frontend\IncomeTaxController;
 use App\Http\Controllers\Frontend\BankController;
+use App\Http\Controllers\Frontend\PolicyController;
 use App\Http\Controllers\Frontend\MemberController;
 use App\Http\Controllers\Frontend\PublicFundController;
 use App\Http\Controllers\Frontend\ChequePaymentController;
@@ -76,10 +77,12 @@ Route::middleware('permssions')->group(function () {
         'pgs' => PgController::class,
         'cgegis' => CgegisController::class,
         'banks' => BankController::class,
+        'policy' => PolicyController::class,
         'members' => MemberController::class,
         'public-funds' => PublicFundController::class,
         'cash-payments' => CashPaymentController::class, 
         'cheque-payments' => ChequePaymentController::class,
+
         
     ]);
 
@@ -194,7 +197,11 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/banks-fetch-data', [BankController::class, 'fetchData'])->name('banks.fetch-data');
 
-    //delete memeber
+    // policy route
+   
+    Route::get('/policy-fetch-data',[PolicyController::class, 'fetchData'])->name('policy.fetch-data');
+
+    // memeber route
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
