@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Public Fund List
+    Cash Payment List
 @endsection
 
 @push('styles')
@@ -13,13 +13,13 @@
     <div class="container-fluid">
         <div class="breadcome-list">
             <div class="d-flex">
-                <div class="arrow_left"><a href="{{ route('public-funds.index') }}" class="text-white"><i
+                <div class="arrow_left"><a href="{{ route('cash-payments.index') }}" class="text-white"><i
                             class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Public Fund Create</h3>
+                    <h3>Cash Payment Create</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Public Fund Create</span></li>
+                        <li><span class="bread-blod">Cash Payment Create</span></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <div id="form">
 
-                            <form action="{{ route('public-funds.store') }}" method="POST" id="member-create-form">
+                            <form action="" method="POST" id="member-create-form">
                                 @csrf
 
                                 <div class="row justify-content-center align-items-center">

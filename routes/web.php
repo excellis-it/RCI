@@ -24,6 +24,8 @@ use App\Http\Controllers\Frontend\IncomeTaxController;
 use App\Http\Controllers\Frontend\BankController;
 use App\Http\Controllers\Frontend\MemberController;
 use App\Http\Controllers\Frontend\PublicFundController;
+use App\Http\Controllers\Frontend\ChequePaymentController;
+use App\Http\Controllers\Frontend\CashPaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,6 +78,8 @@ Route::middleware('permssions')->group(function () {
         'banks' => BankController::class,
         'members' => MemberController::class,
         'public-funds' => PublicFundController::class,
+        'cash-payments' => CashPaymentController::class, 
+        'cheque-payments' => ChequePaymentController::class,
         
     ]);
 

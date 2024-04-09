@@ -4,7 +4,7 @@
 
 <form action="{{ route('members.loan.create') }}" id="member-loan-info-form" method="post">
     @csrf
-    <input type="hidden" name="member_id" value="{{ $member->id }}">
+    
     <div class="row">
         <div class="col-md-6">
             <div class="form-group mb-2">
@@ -29,7 +29,7 @@
                         <label>Present InstNo</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
+                        <input type="text" class="form-control" name="present_inst_no" value="{{  }}" id="present_inst_no"
                             value="" placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -130,5 +130,6 @@
 </form>
 
 @else
+
 
 @endif

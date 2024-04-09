@@ -559,7 +559,6 @@ class MemberController extends Controller
         return response()->json(['message' => 'Member recovery updated successfully']);
     }
 
-
     public function memberPersonalUpdate(Request $request)
     {
         //validation 
@@ -668,6 +667,7 @@ class MemberController extends Controller
     public function memberLoanInfoStore(Request $request)
     {
     
+        
         $loan_info = new MemberLoanInfo;
         $loan_info->member_id = $request->member_id;
         $loan_info->loan_id = $request->loan_name;
@@ -679,8 +679,7 @@ class MemberController extends Controller
         $loan_info->balance = $request->balance;
         $loan_info->save();
         
-
-        $loan_name = Loan::where('id',$request->loan_name)->first();
+     return   $loan_name = Loan::where('id',$request->loan_name)->first();
 
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info, 'loan_name' => $loan_name]);
 
@@ -696,7 +695,7 @@ class MemberController extends Controller
 
     public function memberLoanUpdate(Request $request)
     {
-
+       
     }
 
     /**

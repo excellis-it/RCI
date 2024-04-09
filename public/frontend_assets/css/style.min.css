@@ -55246,8 +55246,7 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
     font-size: 14px;
     color: red !important;
     padding: 10px 0px 0px 5px !important;
-  }
-  
+}
 
 @media (max-width:1199px) {
     .app-calendar .calendar-container {
@@ -55554,9 +55553,9 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
     display: none
 }
 
-/* .error .form-control {
+.error .form-control {
     border-color: #fa896b
-} */
+}
 
 .error .help-block {
     color: #fa896b

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Public Fund List
+Cheque Payment List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Public Fund Listing</h3>
+                    <h3>Cheque Payment Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Public Fund Listing</span></li>
+                        <li><span class="bread-blod">Cheque Payment Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('public-funds.create') }}">Add Public Fund</a>
+                <a class="print_btn" href="{{ route('cheque-payments.create') }}">Add Cheque Payments</a>
               </div>
             <div class="col-lg-12">
                 <div class="card w-100">

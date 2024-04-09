@@ -215,7 +215,7 @@
                                             @include('frontend.members.recovery-form')
 
                                         </div>
-                                    </div> 
+                                    </div>
                                     {{-- recovery end --}}
 
                                     {{-- core --}}
@@ -1822,26 +1822,27 @@
         });
     </script>
 
-<script>
-    $(document).on('click', '#delete-recovery', function(e) {
-        swal({
-                title: "Are you sure?",
-                text: "To delete this recovery.",
-                type: "warning",
-                confirmButtonText: "Yes",
-                showCancelButton: true
-            })
-            .then((result) => {
-                if (result.value) {
-                    window.location = $(this).data('route');
-                } else if (result.dismiss === 'cancel') {
-                    swal(
-                        'Cancelled',
-                        'Your stay here :)',
-                        'error'
-                    )
-                }
-            })
-    });
-</script>
+    <script>
+        $(document).on('click', '#delete-recovery', function(e) {
+
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this recovery.",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
+                    }
+                })
+        });
+    </script>
 @endpush

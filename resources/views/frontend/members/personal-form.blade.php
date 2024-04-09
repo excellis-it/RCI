@@ -507,7 +507,7 @@
                     <div class="row justify-content-end">
                         <div class="form-group col-md-3 mb-2">
                             <a href="{{ route('members.create') }}"><button type="button"
-                                class="another-btn">Another</button></a>
+                                    class="another-btn">Another</button></a>
                         </div>
                         <div class="form-group col-md-3 mb-2">
                             <button type="submit" class="listing_add">Update</button>
