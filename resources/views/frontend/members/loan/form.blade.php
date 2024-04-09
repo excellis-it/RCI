@@ -7,7 +7,7 @@
    
     <div class="row">
 
-        <input type="text" name="member_id" value="{{ $member_loan->id }}" hidden>
+        <input type="hidden" name="member_loan_id" value="{{ $member_loan->id }}" >
         <div class="col-md-6">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -136,6 +136,8 @@
 
 <form action="{{ route('members.loan.create') }}" id="member-loan-info-form" method="post">
     @csrf
+
+    <input type="hidden" name="member_id" value="{{ $member->id }}" >
     
     <div class="row">
         <div class="col-md-6">

@@ -212,7 +212,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
-    Route::get('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery.delete');
+    Route::post('/members-recovery-delete',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery.delete');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
 

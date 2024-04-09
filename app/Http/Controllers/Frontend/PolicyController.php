@@ -27,8 +27,8 @@ class PolicyController extends Controller
             $query = str_replace(" ", "%", $query);
             $policies = Policy::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
-                    ->orWhere('no', 'like', '%' . $query . '%')
+                    ->orWhere('policy_name', 'like', '%' . $query . '%')
+                    ->orWhere('policy_no', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
                 
             })
@@ -92,11 +92,25 @@ class PolicyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'policy_name' => 'required',
+            'policy_no' => 'required|unique:policies,policy_no,'.$id,
+            'status' => 'required',
+        ]);
+
+        $policy_update = Policy::find($id);
+        $policy_update->policy_name = $request->policy_name;
+        $policy_update->policy_no =  $request->policy_no;
+        $policy_update->status = $request->status;
+        $policy_update->update();
+
+        session()->flash('message', 'Policy updated successfully');
+        return response()->json(['success' => 'Policy updated successfully']);
     }
 
-    public function deletePolicy(Request $request)
+    public function deletePolicy($id)
     {
+       
         $policy_delete = Policy::find($id);
         $policy_delete->delete();
         return redirect()->back()->with('message', 'Policy deleted successfully');

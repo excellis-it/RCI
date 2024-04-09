@@ -214,7 +214,7 @@ class MemberController extends Controller
         $loans = Loan::orderBy('id', 'desc')->get();
 
 
-        $members_loans_info = MemberLoanInfo::where('member_id',$id)->orderBy('id','desc')->with('loan')->get();
+        $members_loans_info = MemberLoanInfo::where('member_id',$id)->orderBy('id','desc')->get();
 
         return view('frontend.members.edit',compact('member','member_credit','member_debit','member_recovery','banks','member_core','member_personal','cadres','exServices','paybands','quaters','pgs','pmLevels','designations','pmIndexes','cgegises','categories','loans','members_loans_info'));
     }
@@ -486,10 +486,12 @@ class MemberController extends Controller
         
         return response()->json(['message' => 'Member recovery updated successfully']);
     }
-    public function memberRecoveryDelete($id)
+    public function memberRecoveryDelete(Request $request)
     {
-       
-        $delete_recovery = MemberRecovery::where('id',$id)->delete();
+        
+        $delete_recovery = MemberRecovery::where('id',$request->id)->first();
+        $delete_recovery->delete();
+        
         session()->flash('message', 'Member recovery delete successfully');
         return response()->json(['message' => 'Member recovery delete successfully']);
 
@@ -666,11 +668,12 @@ class MemberController extends Controller
 
     public function memberLoanInfoStore(Request $request)
     {
-    
-        
+        $loan_detail = Loan::where('id',$request->loan_name)->first() ?? '';
+
         $loan_info = new MemberLoanInfo;
         $loan_info->member_id = $request->member_id;
         $loan_info->loan_id = $request->loan_name;
+        $loan_info->loan_name = $loan_detail->loan_name;
         $loan_info->present_inst_no = $request->present_inst_no;
         $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
         $loan_info->remark = $request->remark;
@@ -678,15 +681,16 @@ class MemberController extends Controller
         $loan_info->total_amount = $request->total_amount;
         $loan_info->balance = $request->balance;
         $loan_info->save();
-        
-     return   $loan_name = Loan::where('id',$request->loan_name)->first();
 
-        return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info, 'loan_name' => $loan_name]);
+         
+
+        return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
 
     }
 
     public function memberLoanEdit($id)
     {
+        
         $member_loan = MemberLoanInfo::find($id);
         $edit = true;
         $loans = Loan::orderBy('id', 'desc')->get();
@@ -695,7 +699,21 @@ class MemberController extends Controller
 
     public function memberLoanUpdate(Request $request)
     {
-       
+        $loan_detail = Loan::where('id',$request->loan_name)->first() ?? '';
+
+        $loan_info = MemberLoanInfo::where('id',$request->member_loan_id)->first();
+        $loan_info->loan_id = $request->loan_name;
+        $loan_info->loan_name = $loan_detail->loan_name;
+        $loan_info->present_inst_no = $request->present_inst_no;
+        $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
+        $loan_info->remark = $request->remark;
+        $loan_info->inst_amount = $request->inst_amount;
+        $loan_info->total_amount = $request->total_amount;
+        $loan_info->balance = $request->balance;
+        $loan_info->update();
+
+        return response()->json(['message' => 'Member loan info updated successfully', 'data' => $loan_info]);
+        
     }
 
     /**

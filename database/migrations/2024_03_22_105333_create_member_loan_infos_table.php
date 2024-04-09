@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('member_id')->references('id')->on('members')->nullable();     
             $table->string('loan_id')->references('id')->on('loans')->nullable();
+            $table->string('loan_name')->nullable();
             $table->string('present_inst_no')->nullable();
             $table->string('tot_no_of_inst')->nullable();
             $table->string('inst_amount')->nullable();

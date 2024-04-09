@@ -464,6 +464,8 @@
                                     </div>
                                     {{-- policy end --}}
 
+
+
                                     {{-- loan --}}
                                     <div class="tab-pane fade" id="loan-tab-pane" role="tabpanel"
                                         aria-labelledby="loan-tab" tabindex="0">
@@ -492,13 +494,9 @@
                                                 </div>
 
                                                 <div class="col-md-6" id="loan-form">
-
                                                     @include('frontend.members.loan.form')
-
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     </div>
                                     {{-- loan end --}}
@@ -1739,11 +1737,9 @@
                         success: function(response) {
                             // Extract form data
                             var data = response.data;
-                            var loanName = response.loan_name;
-
                             // Construct table row HTML
                             var newRow = '<tr>';
-                            newRow += '<td>' + loanName.loan_name +
+                            newRow += '<td>' + data.loan_name +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
                             newRow += '<td>' + data.present_inst_no + '</td>';
                             newRow += '<td>' + data.total_amount + '</td>';
@@ -1807,7 +1803,20 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                        window.location.reload();
+                       // respobnse data replcae by id
+                        var data = response.data;
+                        var row = $('#loan-table tbody').find('tr[data-id="' + data.id + '"]');
+                        row.find('td:eq(0)').text(data.loan_name);
+                        row.find('td:eq(1)').text(data.present_inst_no);
+                        row.find('td:eq(2)').text(data.total_amount);
+                        row.find('td:eq(4)').text(data.remark);
+
+                        // Hide the offcanvas
+                        $('#offcanvasEdit').offcanvas('hide');
+
+                        // Show success message if needed
+                        toastr.success(response.message);
+                       
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -1825,24 +1834,42 @@
     <script>
         $(document).on('click', '#delete-recovery', function(e) {
 
+            //first swal alert then call jax
+            e.preventDefault();
+            var id = $(this).data('id');
+            var route = $(this).data('route');
+           
             swal({
                     title: "Are you sure?",
-                    text: "To delete this recovery.",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
+                    text: "Once delete you can not recover this data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
                 })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: route,
+                            type: 'POST',
+                            data: 
+                            {
+                                "_token": "{{ csrf_token() }}",
+                                "id": id
+                            },
+                            success: function(response) {
+                               // how to load page thwn back to recovery tab
+                                window.location.reload();
+                                
+                                
+                            },
+                            error: function(xhr) {
+                                toastr.error('Something went wrong!');
+                            }
+                        });
                     }
-                })
+                });
+
+
         });
     </script>
 @endpush
