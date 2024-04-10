@@ -212,7 +212,12 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
-    Route::post('/members-recovery-delete',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery.delete');
+    Route::get('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
+
+    //member expectation route
+    Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');
+    Route::get('/members-expectation-edit/{id}',[MemberController::class,'memberExpectationEdit'])->name('members.expectation.edit');
+    Route::post('/members-expectation-update',[MemberController::class,'memberExpectationUpdate'])->name('members.expectation.update');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
 
@@ -220,6 +225,11 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-info-store',[MemberController::class,'memberLoanInfoStore'])->name('members.loan.create');
     //member loan edit
     Route::get('/members-loan-edit/{id}',[MemberController::class,'memberLoanEdit'])->name('members.loan.edit');
+
+    //member personal info
+    Route::post('/members-policy-info-store',[MemberController::class,'memberPolicyInfoStore'])->name('members.policy-info.submit');
+    Route::get('/members-policy-edit/{id}',[MemberController::class,'memberPolicyInfoEdit'])->name('members.policy-info.edit');
+    Route::post('/members-policy-update',[MemberController::class,'memberPolicyInfoUpdate'])->name('members.policy-info.update');
     //member personal update
     Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');

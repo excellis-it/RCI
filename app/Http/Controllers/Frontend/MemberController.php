@@ -27,6 +27,9 @@ use App\Models\MemberPersonalInfo;
 use App\Models\Bank;
 use App\Models\Loan;
 use App\Models\MemberLoanInfo;
+use App\Models\Policy;
+use App\Models\MemberPolicyInfo;
+use App\Models\MemberExpectation;
 
 class MemberController extends Controller
 {
@@ -197,26 +200,28 @@ class MemberController extends Controller
         $member_recovery = MemberRecovery::where('member_id',$id)->orderBy('id','desc')->first() ?? '';
         $member_core = MemberCoreInfo::where('member_id',$id)->orderBy('id','desc')->first() ?? '';
         $member_personal = MemberPersonalInfo::where('member_id',$id)->orderBy('id','desc')->first() ?? '';
-        $paybands = PaybandType::orderBy('id', 'desc')->get();
-        $categories = Category::orderBy('id', 'desc')->where('status',1)->get();
-        $pmLevels = PmLevel::orderBy('id', 'desc')->where('status',1)->get();
-        $pmIndexes = PmIndex::orderBy('id', 'desc')->where('status',1)->get();
-        $divisions = Division::orderBy('id', 'desc')->where('status',1)->get();
-        $groups = Group::orderBy('id', 'desc')->where('status',1)->get();
-        $cadres = Cadre::orderBy('id', 'desc')->where('status',1)->get();
-        $designations = DesignationType::orderBy('id', 'desc')->get();
-        $fundTypes = FundType::orderBy('id', 'desc')->where('status',1)->get();
-        $quaters = Quater::orderBy('id', 'desc')->where('status',1)->get();
-        $exServices = ExService::orderBy('id', 'desc')->where('status',1)->get();
-        $pgs = Pg::orderBy('id', 'desc')->where('status',1)->get();
-        $cgegises = Cgegis::orderBy('id', 'desc')->where('status',1)->get();
-        $banks = Bank::orderBy('id', 'desc')->get();
-        $loans = Loan::orderBy('id', 'desc')->get();
-
+        $member_policies = MemberPolicyInfo::where('member_id',$id)->orderBy('id','desc')->get() ?? '';
+        $member_expectations = MemberExpectation::where('member_id',$id)->orderBy('id','desc')->get() ?? '';
+        $paybands = PaybandType::orderBy('id', 'desc')->get() ?? '';
+        $categories = Category::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $pmLevels = PmLevel::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $pmIndexes = PmIndex::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $divisions = Division::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $groups = Group::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $cadres = Cadre::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $designations = DesignationType::orderBy('id', 'desc')->get() ?? '';
+        $fundTypes = FundType::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $quaters = Quater::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $exServices = ExService::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $pgs = Pg::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $cgegises = Cgegis::orderBy('id', 'desc')->where('status',1)->get() ?? '';
+        $banks = Bank::orderBy('id', 'desc')->get() ?? '';
+        $loans = Loan::orderBy('id', 'desc')->get() ?? '';
+        $policies = Policy::orderBy('id', 'desc')->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id',$id)->orderBy('id','desc')->get();
 
-        return view('frontend.members.edit',compact('member','member_credit','member_debit','member_recovery','banks','member_core','member_personal','cadres','exServices','paybands','quaters','pgs','pmLevels','designations','pmIndexes','cgegises','categories','loans','members_loans_info'));
+        return view('frontend.members.edit',compact('member','member_credit','member_debit','member_recovery','banks','member_core','member_personal','cadres','exServices','paybands','quaters','pgs','pmLevels','designations','pmIndexes','cgegises','categories','loans','members_loans_info','policies','member_policies','member_expectations'));
     }
 
     public function memberCreditUpdate(Request $request)
@@ -473,27 +478,27 @@ class MemberController extends Controller
             $update_recovery_member->stop = $request->stop;
             $update_recovery_member->update();  
         }else{
-            $recovery_member = new MemberRecovery();
-            $recovery_member->member_id = $request->member_id;
-            $recovery_member->v_incr = $request->v_incr;
-            $recovery_member->noi = $request->noi;
-            $recovery_member->total = $request->total;
-            $recovery_member->stop = $request->stop;
-            $recovery_member->save();
+            $update_recovery_member = new MemberRecovery();
+            $update_recovery_member->member_id = $request->member_id;
+            $update_recovery_member->v_incr = $request->v_incr;
+            $update_recovery_member->noi = $request->noi;
+            $update_recovery_member->total = $request->total;
+            $update_recovery_member->stop = $request->stop;
+            $update_recovery_member->save();
         }
 
         // session()->flash('message', 'Member recovery updated successfully');
         
-        return response()->json(['message' => 'Member recovery updated successfully']);
+        return response()->json(['message' => 'Member recovery updated successfully', 'data' => $update_recovery_member]);
     }
-    public function memberRecoveryDelete(Request $request)
+    public function memberRecoveryDelete($id)
     {
         
-        $delete_recovery = MemberRecovery::where('id',$request->id)->first();
+        $delete_recovery = MemberRecovery::where('id',$id)->first();
         $delete_recovery->delete();
-        
-        session()->flash('message', 'Member recovery delete successfully');
-        return response()->json(['message' => 'Member recovery delete successfully']);
+
+        $del_recv = true;
+        return redirect()->back()->with('del_recv', $del_recv);
 
     }
 
@@ -714,6 +719,77 @@ class MemberController extends Controller
 
         return response()->json(['message' => 'Member loan info updated successfully', 'data' => $loan_info]);
         
+    }
+
+    public function memberPolicyInfoStore(Request $request)
+    {
+        
+        $policy_store = new MemberPolicyInfo;
+        $policy_store->member_id = $request->member_id;
+        $policy_store->policy_name = $request->policy_name;
+        $policy_store->policy_no = $request->policy_no;
+        $policy_store->amount = $request->amount;
+        $policy_store->rec_stop = $request->rec_stop;
+        $policy_store->save();
+
+        return response()->json(['message' => 'Member policy info added successfully', 'data' => $policy_store]);
+
+    }
+
+    public function memberPolicyInfoEdit($id)
+    {
+        $member_policy = MemberPolicyInfo::find($id);
+        $edit = true;
+        $policies = Policy::orderBy('id', 'desc')->get();
+        return response()->json(['view' => view('frontend.members.policy-info.form', compact('edit','member_policy','policies'))->render()]);
+    }
+
+    public function memberPolicyInfoUpdate(Request $request)
+    {
+        $policy_info = MemberPolicyInfo::where('id',$request->member_policy_id)->first();
+        $policy_info->policy_name = $request->policy_name;
+        $policy_info->policy_no = $request->policy_no;
+        $policy_info->amount = $request->amount;
+        $policy_info->rec_stop = $request->rec_stop;
+        $policy_info->update();
+
+        return response()->json(['message' => 'Member policy info updated successfully', 'data' => $policy_info]);
+    }
+
+    public function memberExpectationStore(Request $request)
+    {
+        $expectation_store = new MemberExpectation;
+        $expectation_store->member_id = $request->member_id;
+        $expectation_store->rule_name = $request->rule_name;
+        $expectation_store->percent = $request->percent;
+        $expectation_store->amount = $request->amount;
+        $expectation_store->year = $request->year;
+        $expectation_store->month = $request->month;
+        $expectation_store->remark = $request->remark;
+        $expectation_store->save();
+
+        return response()->json(['message' => 'Member expectation added successfully', 'data' => $expectation_store]);
+    }
+
+    public function memberExpectationEdit($id)
+    {
+        $member_expectation = MemberExpectation::find($id);
+        $edit = true;
+        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit','member_expectation'))->render()]);
+    }
+
+    public function memberExpectationUpdate(Request $request)
+    {
+        $expectation_info = MemberExpectation::where('id',$request->member_expectation_id)->first();
+        $expectation_info->rule_name = $request->rule_name;
+        $expectation_info->percent = $request->percent;
+        $expectation_info->amount = $request->amount;
+        $expectation_info->year = $request->year;
+        $expectation_info->month = $request->month;
+        $expectation_info->remark = $request->remark;
+        $expectation_info->update();
+
+        return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info]);
     }
 
     /**
