@@ -8,6 +8,37 @@
                 </a>
             </li>
         </ul>
+        @if(Route::currentRouteNamed('cash-payments*') || Route::currentRouteNamed('cheque-payments*'))
+        <ul class="navbar-nav quick-links d-none d-lg-flex">
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Payment Category<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="">Group Updation</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="">Pay Computation</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li> --}}
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="#"> Payment Category</a>
+            </li>
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="#">Reset Voucher</a>
+            </li>
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="#">Report</a>
+            </li>
+        </ul>
+        @else
         <ul class="navbar-nav quick-links d-none d-lg-flex">
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)"
@@ -276,7 +307,41 @@
                     </div>
                 </div>
             </li>
+
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Payment Modules<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('cash-payments.index')}}">Public Fund</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="#">Imprest</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="#">Pay & Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="#">Material Management</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="#">Income Tax</a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+                </div>
+            </li>
         </ul>
+        @endif
         <div class="d-block d-lg-none">
             <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
         </div>

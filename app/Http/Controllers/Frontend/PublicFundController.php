@@ -29,7 +29,31 @@ class PublicFundController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'vr_no' => 'required',
+            'vr_date' => 'required',
+            'sr_no' => 'required',
+            'amount' => 'required',
+            'name' => 'required',
+            'designation' => 'required',
+            'bill_ref' => 'required',
+            'bank_account' => 'required',
+            'dv_no' => 'required',
+            'cheque_no' => 'required',
+            'cheque_date' => 'required',
+            'cheque_amt' => 'required', // 'cheque_amt' should be 'cheque_amount'
+            'narration' => 'required',
+            'category' => 'required',
+            'cbre_no' => 'required',
+            'cbre_date' => 'required',
+            'cbpe_no' => 'required',
+            'cbpe_date' => 'required',
+            'ct_no' => 'required',
+            'pay_amt' => 'required',
+        ]);
+
+        $public_fund = new PublicFund();
+
     }
 
     /**
