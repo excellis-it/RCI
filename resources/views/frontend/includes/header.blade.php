@@ -8,7 +8,7 @@
                 </a>
             </li>
         </ul>
-        @if(Route::currentRouteNamed('cash-payments*') || Route::currentRouteNamed('cheque-payments*'))
+        @if(Route::currentRouteNamed('cash-payments*') || Route::currentRouteNamed('cheque-payments*') || Route::currentRouteNamed('payment-categories*'))
         <ul class="navbar-nav quick-links d-none d-lg-flex">
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Payment Category<span
@@ -29,7 +29,7 @@
                 </div>
             </li> --}}
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="#"> Payment Category</a>
+                <a class="nav-link" href="{{ route('payment-categories.index') }}"> Payment Category</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="#">Reset Voucher</a>

@@ -59,146 +59,16 @@ Cash Payments List
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="pers_no"
                                                 style="cursor: pointer">AMT<span id="pers_no_icon"><i
                                                     class="fa fa-arrow-down"></i></span> </th>
-                                                <th>NAME</th>
-                                                <th>DESIG</th>
-                                                <th>BILL REF</th>
-                                                <th>CHQ.NO</th>
-                                                <th>DV.NO</th>
-                                                <th>CT.NO</th>
-                                                <th>CAT</th>
+                                                <th>RCT No</th>
+                                                <th>Form</th>
+                                                <th>Details</th>
+                                                <th>name</th>
+                                                <th>category</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
-                                            <tr>
-                                                <td>15</td>
-                                                <td>14</td>
-                                                <td>08/04/2024</td>
-                                                <td>55561</td>
-                                                <td>M/S. LASER SCIEN</td>
-                                                <td>ICICI BANK</td>
-                                                <td>SECURITY DEPOSIT</td>
-                                                <td>0</td>
-                                                <td>7268/1/24</td>
-                                                <td></td>
-                                                <td>X</td>
-                                            </tr>
+                                            @include('frontend.cash-payment.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -215,3 +85,177 @@ Cash Payments List
        
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).on('click', '#delete', function(e) {
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this Payment Category!",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
+                    }
+                })
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            function fetch_data(page, sort_type, sort_by, query) {
+                $.ajax({
+                    url: "{{ route('cash-payments.fetch-data') }}",
+                    data: {
+                        page: page,
+                        sortby: sort_by,
+                        sorttype: sort_type,
+                        query: query
+                    },
+                    success: function(data) {
+                        $('tbody').html(data.data);
+                    }
+                });
+            }
+
+            $(document).on('keyup', '#search', function() {
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, sort_type, column_name, query);
+            });
+
+            $(document).on('click', '.sorting', function() {
+                var column_name = $(this).data('column_name');
+                var order_type = $(this).data('sorting_type');
+                var reverse_order = '';
+                if (order_type == 'asc') {
+                    $(this).data('sorting_type', 'desc');
+                    reverse_order = 'desc';
+                    // clear_icon();
+                    $('#' + column_name + '_icon').html(
+                        '<i class="fa fa-arrow-down"></i>');
+                }
+                if (order_type == 'desc') {
+                    // alert(order_type);
+                    $(this).data('sorting_type', 'asc');
+                    reverse_order = 'asc';
+                    // clear_icon();
+                    $('#' + column_name + '_icon').html(
+                        '<i class="fa fa-arrow-up"></i>');
+                }
+                $('#hidden_column_name').val(column_name);
+                $('#hidden_sort_type').val(reverse_order);
+                var page = $('#hidden_page').val();
+                var query = $('#search').val();
+                fetch_data(page, reverse_order, column_name, query);
+            });
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                $('#hidden_page').val(page);
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+
+                var query = $('#search').val();
+
+                $('li').removeClass('active');
+                $(this).parent().addClass('active');
+                fetch_data(page, sort_type, column_name, query);
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#cash-payment-create-form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+            
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                       
+                        //windows load with toastr message
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                       
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#form').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle the form submission
+            $(document).on('submit', '#cash-payment-edit-form', function(e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

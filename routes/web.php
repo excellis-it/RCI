@@ -27,6 +27,7 @@ use App\Http\Controllers\Frontend\MemberController;
 use App\Http\Controllers\Frontend\PublicFundController;
 use App\Http\Controllers\Frontend\ChequePaymentController;
 use App\Http\Controllers\Frontend\CashPaymentController;
+use App\Http\Controllers\Frontend\PaymentCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,7 +83,7 @@ Route::middleware('permssions')->group(function () {
         'public-funds' => PublicFundController::class,
         'cash-payments' => CashPaymentController::class, 
         'cheque-payments' => ChequePaymentController::class,
-
+        'payment-categories' => PaymentCategoryController::class,
         
     ]);
 
@@ -223,6 +224,24 @@ Route::middleware('permssions')->group(function () {
     //member personal update
     Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
+
+    //payment category
+    Route::prefix('payment-categories')->group(function () {
+        Route::get('/payment-categories-delete/{id}', [PaymentCategoryController::class, 'delete'])->name('payment-categories.delete');
+    });
+    Route::get('/payment-categories-fetch-data', [PaymentCategoryController::class, 'fetchData'])->name('payment-categories.fetch-data');
+
+    //cash payment
+    Route::prefix('cash-payments')->group(function () {
+        Route::get('/cash-payments-delete/{id}', [CashPaymentController::class, 'delete'])->name('cash-payments.delete');
+    });
+    Route::get('/cash-payments-fetch-data', [CashPaymentController::class, 'fetchData'])->name('cash-payments.fetch-data');
+
+    //cheque payment
+    Route::prefix('cheque-payments')->group(function () {
+        Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
+    });
+    Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
     
 
 

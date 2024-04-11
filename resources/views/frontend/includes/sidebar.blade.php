@@ -11,7 +11,7 @@
         </div>
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-            @if (Route::currentRouteNamed('cash-payments*') || Route::currentRouteNamed('cheque-payments*'))
+            @if (Route::currentRouteNamed('cash-payments*') || Route::currentRouteNamed('cheque-payments*') || Route::currentRouteNamed('payment-categories*'))
                 <ul id="sidebarnav">
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow {{Request::is('cash-payments*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">

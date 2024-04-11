@@ -168,7 +168,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#pm-index-create-form').submit(function(e) {
+            $('#payment-category-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -223,7 +223,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#pm-index-edit-form', function(e) {
+            $(document).on('submit', '#payment-category-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
