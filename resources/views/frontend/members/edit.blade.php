@@ -153,9 +153,9 @@
                                             aria-controls="debits-tab-pane" aria-selected="false">Debits</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="recoveries-tab" data-bs-toggle="tab"
-                                            data-bs-target="#recoveries-tab-pane" type="button" role="tab"
-                                            aria-controls="recoveries-tab-pane" aria-selected="false">Recoveries</button>
+                                        <button class="nav-link" id="recovery-tab" data-bs-toggle="tab"
+                                            data-bs-target="#recovery-tab-pane" type="button" role="tab"
+                                            aria-controls="recovery-tab-pane" aria-selected="false">Recoveries</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="core-tab" data-bs-toggle="tab"
@@ -172,6 +172,12 @@
                                             data-bs-target="#loan-tab-pane" type="button" role="tab"
                                             aria-controls="loan-tab-pane" aria-selected="false">Loan Info</button>
                                     </li>
+                                    {{-- <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="var-tab" data-bs-toggle="tab"
+                                            data-bs-target="#var-tab-pane" type="button" role="tab"
+                                            aria-controls="var-tab-pane" aria-selected="false">Var.Info</button>
+                                    </li> --}}
+
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="var-tab" data-bs-toggle="tab"
                                             data-bs-target="#var-tab-pane" type="button" role="tab"
@@ -208,15 +214,15 @@
                                     </div>
                                     {{-- debit end --}}
 
-                                    {{-- recovery  --}}
-                                    <div class="tab-pane fade" id="recoveries-tab-pane" role="tabpanel"
-                                        aria-labelledby="recoveries-tab" tabindex="0">
+                                    {{-- var info  --}}
+                                    <div class="tab-pane fade" id="var-tab-pane" role="tabpanel"
+                                        aria-labelledby="var-tab" tabindex="0">
                                         <div class="credit-frm">
                                             @include('frontend.members.recovery-form')
 
                                         </div>
                                     </div>
-                                    {{-- recovery end --}}
+                                    {{-- var info end --}}
 
                                     {{-- core --}}
                                     <div class="tab-pane fade" id="core-tab-pane" role="tabpanel"
@@ -302,332 +308,13 @@
                                     </div>
                                     {{-- loan end --}}
 
-                                    <div class="tab-pane fade" id="var-tab-pane" role="tabpanel"
-                                        aria-labelledby="var-tab" tabindex="0">
+
+                                    {{-- recovery --}}
+                                    <div class="tab-pane fade" id="recovery-tab-pane" role="tabpanel"
+                                        aria-labelledby="recovery-tab" tabindex="0">
                                         <div class="credit-frm">
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Bank A/c No.</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>CCM Mem No</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>FPA</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Bank</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <select class="form-select" name="gender"
-                                                                        id="gender">
-                                                                        <option value="">Select</option>
-                                                                        <option value="Male">1</option>
-                                                                        <option value="Female">2</option>
-                                                                        <option value="Others">3</option>
-                                                                    </select>
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>GPF Sub</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>2 Add</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>GPF A/c No</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>I.Tax</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>PRAN No</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>PAN No</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Ecess</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Ben A/C No</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" class="form-control"
-                                                                        name="basic" id="basic"
-                                                                        value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                    <span class="text-danger"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-2">
-                                                                    <div class="row align-items-center">
-                                                                        <div class="col-md-12">
-                                                                            <label>DCMAF No</label>
-                                                                        </div>
-                                                                        <div class="col-md-12">
-                                                                            <input type="text" class="form-control"
-                                                                                name="basic" id="basic"
-                                                                                value="{{ old('basic') ?? '' }}"
-                                                                                placeholder="">
-                                                                            <span class="text-danger"></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group mb-2">
-                                                                    <div class="row align-items-center">
-                                                                        <div class="col-md-12">
-                                                                            <label>S.Pay</label>
-                                                                        </div>
-                                                                        <div class="col-md-12">
-                                                                            <input type="text" class="form-control"
-                                                                                name="basic" id="basic"
-                                                                                value="{{ old('basic') ?? '' }}"
-                                                                                placeholder="">
-                                                                            <span class="text-danger"></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {{-- <div class="gross-div mt-3">
-                                                    <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Gross Pay</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Top Debits</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Net Pay</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Tot Rec</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Take Home</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
-                                                <div class="row mt-3">
-                                                    <div class="col-md-12">
-                                                        <div class="row justify-content-end">
-                                                            <div class="col-md-6">
-                                                                <div class="row justify-content-end">
-                                                                    <div class="form-group col-md-3 mb-2">
-                                                                        <button type="submit"
-                                                                            class="another-btn">Another</button>
-                                                                    </div>
-                                                                    <div class="form-group col-md-3 mb-2">
-                                                                        <button type="submit"
-                                                                            class="listing_add">Update</button>
-                                                                    </div>
-                                                                    <div class="form-group col-md-3 mb-2">
-                                                                        <button type="submit"
-                                                                            class="listing_exit">Cancel</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            @include('frontend.members.recovery-original-form')
+                                            
                                         </div>
                                     </div>
 
@@ -861,9 +548,12 @@
 
         function deleteRecovery(id) {
             // load
+            var id= id;
+            var route = "{{ route('members.recovery-delete', ['id' => ':id']) }}";
+            route = route.replace(':id', id);
 
             $.ajax({
-                url: '/members-recovery-delete/' + id,
+                url: route,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1024,7 +714,7 @@
                            
                             var route = '/members-loan-edit/' + data.id;
                             // Construct table row HTML
-                            var newRow = '<tr class="edit-route-loan" data-route="' + route +
+                            var newRow = '<tr class="edit-route-loan"  data-id="'+ data.id +'" data-route="' + route +
                                 '">';
                             newRow += '<td>' + data.loan_name +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
@@ -1135,24 +825,30 @@
                 if (id !== '#') {
                     $('#loading').addClass('loading');
                     $('#loading-content').addClass('loading-content');
-                    deleteRecovery(id);
+                    deleteLoan(id);
                 } else {
                     console.log('Invalid ID');
                 }
             });
         });
 
-        function deleteRecovery(id) {
+        function deleteLoan(id) {
             // load
+            
+            var id= id;
+            var route = "{{ route('members.loan.delete', ['id' => ':id']) }}";
+            route = route.replace(':id', id);
 
             $.ajax({
-                url: '/members-loan-delete/' + id,
+                url: route,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     toastr.success(response.message);
+
+                    $('.edit-route-loan[data-id="' + id + '"]').remove();
                     $('#loan_name').val('');
                     $('#present_inst_no').val('');
                     $('#tot_no_of_inst').val('');
@@ -1162,7 +858,7 @@
                     $('#balance').val('');
                     // edit-route-policy tr remove
 
-                    $('#edit-route-policy').remove();
+                   
                     // remove value from form
                     
                     $('#loading').removeClass('loading');
@@ -1229,7 +925,7 @@
                             var route = '/members-policy-info-edit/' + data.id;
                        
                             //construct table row html
-                            var newRow = '<tr class="edit-route-policy" data-route="' + route +
+                            var newRow = '<tr class="edit-route-policy"  data-id="'+ data.id +'" data-route="' + route +
                                 '">';
                             newRow += '<td>' + (data.policy_name ? data.policy_name : 'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
@@ -1342,9 +1038,13 @@
         function deletePolicy(id) {
             $('#loading').addClass('loading');
             $('#loading-content').addClass('loading-content');
+            
+            var id= id;
+            var route = "{{ route('members.policy-info.delete', ['id' => ':id']) }}";
+            route = route.replace(':id', id);
 
             $.ajax({
-                url: '/members-policy-info-delete/' + id,
+                url: route,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1358,8 +1058,9 @@
                     $('#amount').val('');
                     $('#rec_stop').val('');
                     // edit-route-policy tr remove
+                    $('.edit-route-policy[data-id="' + id + '"]').remove();
 
-                    $('#edit-route-policy').remove();
+                   
 
 
                     $('#loading').removeClass('loading');
@@ -1425,10 +1126,12 @@
                             //extract from data
 
                             var data = response.data;
-                            var route = '/members-expectation-edit/' + data.id;
-
+                            var id = data.id;
+                            var route = "{{ route('members.expectation.edit', ['id' => ':id']) }}";
+                            route = route.replace(':id', id);
+                        
                             //construct table row html
-                            var newRow = '<tr class="edit-route-expectation" data-route="' + route +
+                            var newRow = '<tr class="edit-route-expectation" data-id="'+id +'" data-route="' + route +
                                 '">';
                             newRow += '<td>' + (data.rule_name ? data.rule_name : 'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
@@ -1440,7 +1143,7 @@
                                 '</td>';
                             newRow += '</tr>';
 
-
+                            $('#no-expectation').remove();
                             // Append new row to table
                             $('#expectation-table tbody').append(newRow);
                         },
@@ -1462,6 +1165,7 @@
         $(document).ready(function() {
             $(document).on('click', '.edit-route-expectation', function() {
                 var route = $(this).data('route');
+
 
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
@@ -1495,17 +1199,15 @@
                     data: formData,
                     success: function(response) {
                         // updated value replace with old value using tr class edit-route-expectation
-                        var data = response.data;
-
-                        // Find the row corresponding to the data.id
-                        var row = $('#fetch-exp-table tbody').find('tr[data-id="' + data.id +
-                            '"]');
-
-                        // Update the values in the table cells with the new data
-                        row.find('td:eq(0)').text(data.rule_name);
-                        row.find('td:eq(1)').text(data.percent);
-                        row.find('td:eq(2)').text(data.amount);
-                        row.find('td:eq(4)').text(data.remark);
+                        // var data = response.data;
+                        
+                        // var row = $('#fetch-exp-table tbody').find('tr[data-id="' + data.id +
+                        //     '"]');
+                        // var row = $('.edit-route-expectation[data-id="' + id + '"]');
+                        // row.find('td:eq(0)').text(data.rule_name);
+                        // row.find('td:eq(1)').text(data.percent);
+                        // row.find('td:eq(2)').text(data.amount);
+                        // row.find('td:eq(3)').text(data.remark);
 
                         // Show success message if needed
                         toastr.success(response.message);
@@ -1524,54 +1226,108 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
-       $(document).on('click', '#expectation-delete', function(e) {
-           e.preventDefault();
+    <script>
+        $(document).ready(function() {
+        $(document).on('click', '#expectation-delete', function(e) {
+            e.preventDefault();
 
-           var id = $(this).data('id');
-           
-           if (id !== '#') {
-               
-               deletePolicy(id);
-           } else {
-               console.log('Invalid ID');
-           }
-       });
-   });
+            var id = $(this).data('id');
+            
+            if (id !== '#') {
+                
+                deleteExpectation(id);
+            } else {
+                console.log('Invalid ID');
+            }
+        });
+    });
 
-   function deletePolicy(id) {
-       $('#loading').addClass('loading');
-       $('#loading-content').addClass('loading-content');
+    function deleteExpectation(id) {
+        
+        $('#loading').addClass('loading');
+        $('#loading-content').addClass('loading-content');
+        
+        var id = id;
+        var route = "{{ route('members.expectation-delete', ['id' => ':id']) }}";
+        route = route.replace(':id', id);
+        
 
-       $.ajax({
-           url: '/members-expectation-delete/' + id,
-           type: 'DELETE',
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           },
-           success: function(response) {
-               toastr.success(response.message);
-               $('#exp_rule_name').val('');
-               $('#exp_percent').val('');
-               $('#exp_amount').val('');
-               $('#exp_year').val('');
-               $('#exp_month').val('');
-               $('#exp_remark').val('');
-               // edit-route-policy tr remove
+        $.ajax({
+            url: route,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                    toastr.success(response.message);           
+                    $('.edit-route-expectation[data-id="' + id + '"]').remove();
+                    
+                    $('#exp_rule_name').val('');
+                    $('#exp_percent').val('');
+                    $('#exp_amount').val('');
+                    $('#exp_year').val('');
+                    $('#exp_month').val('');
+                    $('#exp_remark').val('');
 
-               $('#loading').removeClass('loading');
-               $('#loading-content').removeClass('loading-content');
-               // Optionally, remove the deleted item from the UI
-           },
-           error: function(xhr) {
-               // Handle errors
-               console.log(xhr);
-           }
-       });
-   }
-</script>
+                    
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                // Optionally, remove the deleted item from the UI
+            },
+            error: function(xhr) {
+                // Handle errors
+                console.log(xhr);
+            }
+        });
+    }
+    </script>
     {{-- expectation script end --}}
 
-    
+
+   {{-- original recovery script --}} 
+
+   <script>
+     $(document).ready(function() {
+            $('#member-original-recovery-form').validate({ // Initialize form validation
+                //  rules: {
+                //      // Define rules for your form fields
+                //      'v_incr': {
+                //          required: true
+                //      }
+                //  },
+                //  messages: {
+                //      // Define messages for your form fields
+                //      'v_incr': {
+                //          required: "Please enter VIncr",
+                //      }
+                //  },
+                submitHandler: function(form) {
+                    var formData = $(form).serialize();
+
+
+                    $.ajax({
+                        url: $(form).attr('action'),
+                        type: $(form).attr('method'),
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            toastr.success(response.message);
+                        },
+                        error: function(xhr) {
+                            $('.text-danger').html('');
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                $('[name="' + key + '"]').next('.text-danger').html(
+                                    value[0]);
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+   {{-- original recovery script end --}} 
+
 @endpush

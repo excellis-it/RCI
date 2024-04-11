@@ -196,9 +196,9 @@
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="submit" class="listing_add">Save</button>
                                 </div>
-                                <div class="form-group col-md-3 mb-2">
+                                {{-- <div class="form-group col-md-3 mb-2">
                                     <button type="button" id="policy-delete" class="delete-btn-1" data-id="{{ isset($member_policy->id) ? $member_policy->id :'#' }}">Delete</button>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

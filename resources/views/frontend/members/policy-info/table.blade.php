@@ -1,6 +1,6 @@
 @if (isset($member_policies) && count($member_policies) > 0)
     @foreach ($member_policies as $member_policy)
-        <tr class="edit-route-policy" data-route="{{ route('members.policy-info.edit', $member_policy->id) }}">
+        <tr class="edit-route-policy" data-id="{{ $member_policy->id }}" data-route="{{ route('members.policy-info.edit', $member_policy->id) }}">
             <td>{{ $member_policy->policy_name ?? 'N/A' }}</td>
             <td>{{ $member_policy->policy_no ?? 'N/A' }}</td>
             <td>{{ $member_policy->amount ?? 'N/A' }}</td>

@@ -134,7 +134,7 @@
 
 @else
 
-<form action="{{ route('members.loan.create') }}" id="member-loan-info-form" method="post">
+<form action="{{ route('members.loan.store') }}" id="member-loan-info-form" method="post">
     @csrf
 
     <input type="hidden" name="member_id" value="{{ $member->id }}" >
@@ -239,9 +239,9 @@
                 <div class="form-group col-md-6 mb-2">
                     <button type="submit" class="listing_add">Save</button>
                 </div>
-                <div class="form-group col-md-6 mb-2">
+                {{-- <div class="form-group col-md-6 mb-2">
                     <button type="button" id="loan-delete" class="delete-btn-1" data-id="{{ isset($member_loan->id) ? $member_loan->id :'#' }}">Delete</button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

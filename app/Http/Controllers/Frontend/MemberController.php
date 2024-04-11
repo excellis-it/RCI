@@ -30,6 +30,7 @@ use App\Models\MemberLoanInfo;
 use App\Models\Policy;
 use App\Models\MemberPolicyInfo;
 use App\Models\MemberExpectation;
+use App\Models\MemberOriginalRecovery;
 
 class MemberController extends Controller
 {
@@ -220,8 +221,9 @@ class MemberController extends Controller
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id',$id)->orderBy('id','desc')->get();
+        $member_original_recovery = MemberOriginalRecovery::where('member_id',$id)->orderBy('id','desc')->first() ?? '';
 
-        return view('frontend.members.edit',compact('member','member_credit','member_debit','member_recovery','banks','member_core','member_personal','cadres','exServices','paybands','quaters','pgs','pmLevels','designations','pmIndexes','cgegises','categories','loans','members_loans_info','policies','member_policies','member_expectations'));
+        return view('frontend.members.edit',compact('member','member_credit','member_debit','member_recovery','banks','member_core','member_personal','cadres','exServices','paybands','quaters','pgs','pmLevels','designations','pmIndexes','cgegises','categories','loans','members_loans_info','policies','member_policies','member_expectations','member_original_recovery'));
     }
 
     public function memberCreditUpdate(Request $request)
@@ -454,6 +456,71 @@ class MemberController extends Controller
 
             // session()->flash('message', 'Member debit added successfully');
             return response()->json(['message' => 'Member debit added successfully']);
+        }
+    }
+
+    public function memberRecoveryOriginalUpdate(Request $request)
+    {
+        
+        $check_original_recovery_member = MemberOriginalRecovery::where('member_id',$request->member_id)->get();
+        if(count($check_original_recovery_member) > 0)
+        {
+            $update_recovery_org_member = MemberOriginalRecovery::where('member_id',$request->member_id)->first();
+            $update_recovery_org_member->ccs_sub = $request->ccs_sub;
+            $update_recovery_org_member->mess = $request->mess;
+            $update_recovery_org_member->security = $request->security;
+            $update_recovery_org_member->misc1 = $request->misc1;
+            $update_recovery_org_member->ccs_rec = $request->ccs_rec;
+            $update_recovery_org_member->asso_fee = $request->asso_fee;
+            $update_recovery_org_member->dbf = $request->dbf;
+            $update_recovery_org_member->misc2 = $request->misc2;
+            $update_recovery_org_member->wel_sub = $request->wel_sub;
+            $update_recovery_org_member->ben = $request->ben;
+            $update_recovery_org_member->med_ins = $request->med_ins;
+            $update_recovery_org_member->tot_rec = $request->tot_rec;
+            $update_recovery_org_member->wel_rec = $request->wel_rec;
+            $update_recovery_org_member->hdfc = $request->hdfc;
+            $update_recovery_org_member->maf = $request->maf;
+            $update_recovery_org_member->final_pay = $request->final_pay;
+            $update_recovery_org_member->lic = $request->lic;
+            $update_recovery_org_member->cort_atch = $request->cort_atch;
+            $update_recovery_org_member->ogpf = $request->ogpf;
+            $update_recovery_org_member->ntp = $request->ntp;
+            $update_recovery_org_member->remarks = $request->remarks;
+            $update_recovery_org_member->update();
+
+            // session()->flash('message', 'Member debit updated successfully');
+            return response()->json(['message' => 'Member recovery updated successfully']);
+
+        }else{
+            
+            $recovery_org_member = new MemberOriginalRecovery();
+            $recovery_org_member->member_id = $request->member_id;
+            $recovery_org_member->ccs_sub = $request->ccs_sub;
+            $recovery_org_member->mess = $request->mess;
+            $recovery_org_member->security = $request->security;
+            $recovery_org_member->misc1 = $request->misc1;
+            $recovery_org_member->ccs_rec = $request->ccs_rec;
+            $recovery_org_member->asso_fee = $request->asso_fee;
+            $recovery_org_member->dbf = $request->dbf;
+            $recovery_org_member->misc2 = $request->misc2;
+            $recovery_org_member->wel_sub = $request->wel_sub;
+            $recovery_org_member->ben = $request->ben;
+            $recovery_org_member->med_ins = $request->med_ins;
+            $recovery_org_member->tot_rec = $request->tot_rec;
+            $recovery_org_member->wel_rec = $request->wel_rec;
+            $recovery_org_member->hdfc = $request->hdfc;
+            $recovery_org_member->maf = $request->maf;
+            $recovery_org_member->final_pay = $request->final_pay;
+            $recovery_org_member->lic = $request->lic;
+            $recovery_org_member->cort_atch = $request->cort_atch;
+            $recovery_org_member->ogpf = $request->ogpf;
+            $recovery_org_member->ntp = $request->ntp;
+            $recovery_org_member->remarks = $request->remarks;
+            $recovery_org_member->save();
+
+            // session()->flash('message', 'Member debit added successfully');
+            return response()->json(['message' => 'Member recovery added successfully']);
         }
     }
 
@@ -799,6 +866,7 @@ class MemberController extends Controller
 
     public function memberExpectationUpdate(Request $request)
     {
+        
         $expectation_info = MemberExpectation::where('id',$request->member_expectation_id)->first();
         $expectation_info->rule_name = $request->rule_name;
         $expectation_info->percent = $request->percent;
