@@ -245,7 +245,7 @@
                                                                     <th>Stop Rec</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody class="tbody_height_scroll">
+                                                            <tbody class="tbody_height_scroll" id="policy-data">
                                                                 {{-- <tr>
                                                                     <td>ABC</td>
                                                                     <td>1234567890</td>
@@ -696,7 +696,7 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
-
+    {{-- credit script --}}
     <script>
         $(document).ready(function() {
             $('#member-credit-form').validate({ // Initialize form validation
@@ -736,7 +736,9 @@
             });
         });
     </script>
+    {{-- credit script end --}}
 
+    {{-- debit script --}}
     <script>
         $(document).ready(function() {
             $('#member-debit-form').validate({ // Initialize form validation
@@ -768,7 +770,9 @@
             });
         });
     </script>
+    {{-- debit script end --}}
 
+    {{-- recovery script --}}
     <script>
         $(document).ready(function() {
             $('#member-recovery-form').validate({ // Initialize form validation
@@ -815,12 +819,13 @@
                         },
                         success: function(response) {
 
-                            $('#recovery_id').val(response.data.id);
+
+                            $('#delete-recovery').attr('data-id', response.data.id);
 
                             // Update the data-route of #delete-recovery
-                            var deleteUrl = '/members/recovery-delete/' + response.data
-                                .id; // Update this URL based on your route structure
-                            $('#delete-recovery').attr('href', deleteUrl);
+                            // var deleteUrl = '/members/recovery-delete/' + response.data
+                            //     .id; // Update this URL based on your route structure
+                            // $('#delete-recovery').attr('href', deleteUrl);
                             toastr.success(response.message);
                         },
                         error: function(xhr) {
@@ -837,6 +842,53 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#delete-recovery', function(e) {
+                e.preventDefault();
+
+                var id = $(this).data('id');
+
+                if (id !== '#') {
+                    $('#loading').addClass('loading');
+                    $('#loading-content').addClass('loading-content');
+                    deleteRecovery(id);
+                } else {
+                    console.log('Invalid ID');
+                }
+            });
+        });
+
+        function deleteRecovery(id) {
+            // load
+
+            $.ajax({
+                url: '/members-recovery-delete/' + id,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    toastr.success(response.message);
+                    // remove value from form
+                    $('#v_incr').val('');
+                    $('#noi').val('');
+                    $('#total').val('');
+                    $('#stop').val('');
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    // Optionally, remove the deleted item from the UI
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    console.log(xhr);
+                }
+            });
+        }
+    </script>
+    {{-- recovery script end --}}
+
+    {{-- core script --}}
     <script>
         $(document).ready(function() {
             $('#member-core-form').validate({ // Initialize form validation
@@ -844,32 +896,12 @@
                 //      // Define rules for your form fields
                 //      'v_incr': {
                 //          required: true
-                //      },
-                //      'noi': {
-                //          required: true
-                //      },
-                //      'total': {
-                //          required: true
-                //      },
-                //      'stop': {
-                //          required: true
                 //      }
-
-
                 //  },
                 //  messages: {
                 //      // Define messages for your form fields
                 //      'v_incr': {
                 //          required: "Please enter VIncr",
-                //      },
-                //      'noi': {
-                //          required: "Please enter NOI",
-                //      },
-                //      'total': {
-                //          required: "Please enter Total",
-                //      },
-                //      'stop': {
-                //          required: "Please enter Stop",
                 //      }
                 //  },
                 submitHandler: function(form) {
@@ -899,46 +931,26 @@
             });
         });
     </script>
+    {{-- core script end --}}
 
+    {{-- personal script --}}
     <script>
         $(document).ready(function() {
-            $('#member-personal-form').validate({ // Initialize form validation
+            $('#member-personal-form').validate({ 
                 //  rules: {
                 //      // Define rules for your form fields
                 //      'v_incr': {
                 //          required: true
-                //      },
-                //      'noi': {
-                //          required: true
-                //      },
-                //      'total': {
-                //          required: true
-                //      },
-                //      'stop': {
-                //          required: true
                 //      }
-
-
                 //  },
                 //  messages: {
                 //      // Define messages for your form fields
                 //      'v_incr': {
                 //          required: "Please enter VIncr",
-                //      },
-                //      'noi': {
-                //          required: "Please enter NOI",
-                //      },
-                //      'total': {
-                //          required: "Please enter Total",
-                //      },
-                //      'stop': {
-                //          required: "Please enter Stop",
                 //      }
                 //  },
                 submitHandler: function(form) {
                     var formData = $(form).serialize();
-
-
                     $.ajax({
                         url: $(form).attr('action'),
                         type: $(form).attr('method'),
@@ -962,7 +974,9 @@
             });
         });
     </script>
+    {{-- personal script end --}}
 
+    {{-- loan script --}}
     <script>
         $(document).ready(function() {
             $('#member-loan-info-form').validate({
@@ -1007,8 +1021,11 @@
                         success: function(response) {
                             // Extract form data
                             var data = response.data;
+                           
+                            var route = '/members-loan-edit/' + data.id;
                             // Construct table row HTML
-                            var newRow = '<tr>';
+                            var newRow = '<tr class="edit-route-loan" data-route="' + route +
+                                '">';
                             newRow += '<td>' + data.loan_name +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
                             newRow += '<td>' + (data.present_inst_no ? data
@@ -1046,7 +1063,7 @@
 
     <script>
         $(document).ready(function() {
-            $(document).on('click', '.edit-route', function() {
+            $(document).on('click', '.edit-route-loan', function() {
                 var route = $(this).data('route');
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
@@ -1109,33 +1126,59 @@
 
     <script>
         $(document).ready(function() {
-            $(document).on('click', '#delete-recovery', function() {
-                
-                var route = $(this).data('route');
-                
-                var row = $(this).closest('tr');
-                $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
-                $.ajax({
-                    url: route,
-                    type: 'GET',
-                    success: function(response) {
-                        row.remove();
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        toastr.success(response.message);
-                    },
-                    error: function(xhr) {
-                        // Handle errors
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        console.log(xhr);
-                    }
-                });
+            $(document).on('click', '#loan-delete', function(e) {
+                e.preventDefault();
+
+                var id = $(this).data('id');
+
+
+                if (id !== '#') {
+                    $('#loading').addClass('loading');
+                    $('#loading-content').addClass('loading-content');
+                    deleteRecovery(id);
+                } else {
+                    console.log('Invalid ID');
+                }
             });
         });
-    </script>
 
+        function deleteRecovery(id) {
+            // load
+
+            $.ajax({
+                url: '/members-loan-delete/' + id,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    toastr.success(response.message);
+                    $('#loan_name').val('');
+                    $('#present_inst_no').val('');
+                    $('#tot_no_of_inst').val('');
+                    $('#remark').val('');
+                    $('#inst_amount').val('');
+                    $('#total_amount').val('');
+                    $('#balance').val('');
+                    // edit-route-policy tr remove
+
+                    $('#edit-route-policy').remove();
+                    // remove value from form
+                    
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    // Optionally, remove the deleted item from the UI
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    console.log(xhr);
+                }
+            });
+        }
+    </script>
+    {{-- loan script end --}}
+
+    {{-- policy script --}}
     <script>
         $(document).ready(function() {
             $('#member-create-policy-form').validate({ // Initialize form validation
@@ -1179,19 +1222,22 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
+                            
                             //extract from data
 
                             var data = response.data;
-                            var route = '/members/policy-edit/' + data.id;
+                            var route = '/members-policy-info-edit/' + data.id;
+                       
                             //construct table row html
-                            var newRow = '<tr class="edit-route" data-route="' + route +
+                            var newRow = '<tr class="edit-route-policy" data-route="' + route +
                                 '">';
-                            newRow += '<td>' + data.policy_name +
+                            newRow += '<td>' + (data.policy_name ? data.policy_name : 'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                            newRow += '<td>' + data.policy_no + '</td>';
-                            newRow += '<td>' + data.amount + '</td>';
-                            newRow += '<td>' + data.rec_stop + '</td>';
+                            newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') + '</td>';
+                            newRow += '<td>' + (data.amount ? data.amount : 'N/A') + '</td>';
+                            newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') + '</td>';
                             newRow += '</tr>';
+                            
 
                             // Append new row to table
                             $('#policy-table tbody').append(newRow);
@@ -1247,16 +1293,18 @@
                     data: formData,
                     success: function(response) {
                         // respobnse data replcae by id
-                        var data = response.data;
-                        var row = $('#policy-table tbody').find('tr[data-id="' + data.id +
-                            '"]');
-                        row.find('td:eq(0)').text(data.loan_name);
-                        row.find('td:eq(1)').text(data.present_inst_no);
-                        row.find('td:eq(2)').text(data.total_amount);
-                        row.find('td:eq(4)').text(data.remark);
+                        
+                        $('#policy-delete').attr('data-id', response.data.id);
+                        // var data = response.data;
+                        // var row = $('#policy-table tbody').find('tr[data-id="' + data.id +
+                        //     '"]');
+                        // row.find('td:eq(0)').text(data.loan_name);
+                        // row.find('td:eq(1)').text(data.present_inst_no);
+                        // row.find('td:eq(2)').text(data.total_amount);
+                        // row.find('td:eq(4)').text(data.remark);
 
-                        // Hide the offcanvas
-                        $('#offcanvasEdit').offcanvas('hide');
+                        // // Hide the offcanvas
+                        // $('#offcanvasEdit').offcanvas('hide');
 
                         // Show success message if needed
                         toastr.success(response.message);
@@ -1275,6 +1323,60 @@
         });
     </script>
 
+    <script>
+         $(document).ready(function() {
+            $(document).on('click', '#policy-delete', function(e) {
+                e.preventDefault();
+
+                var id = $(this).data('id');
+                
+                if (id !== '#') {
+                    
+                    deletePolicy(id);
+                } else {
+                    console.log('Invalid ID');
+                }
+            });
+        });
+
+        function deletePolicy(id) {
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+
+            $.ajax({
+                url: '/members-policy-info-delete/' + id,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    toastr.success(response.message);
+
+                    // remove value from form
+                    $('#policy_name').val('');
+                    $('#policy_no').val('');
+                    $('#amount').val('');
+                    $('#rec_stop').val('');
+                    // edit-route-policy tr remove
+
+                    $('#edit-route-policy').remove();
+
+
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    // Optionally, remove the deleted item from the UI
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    console.log(xhr);
+                }
+            });
+        }
+    </script>
+
+    {{-- policy script end --}}
+
+    {{-- expectation script --}}
     <script>
         $(document).ready(function() {
             $('#member-expectation-form').validate({ // Initialize form validation
@@ -1326,16 +1428,16 @@
                             var route = '/members-expectation-edit/' + data.id;
 
                             //construct table row html
-                            var newRow = '<tr class="edit-route" data-route="' + route +
+                            var newRow = '<tr class="edit-route-expectation" data-route="' + route +
                                 '">';
                             newRow += '<td>' + (data.rule_name ? data.rule_name : 'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
                             newRow += '<td>' + (data.percent ? data.percent : 'N/A') +
                                 '</td>';
                             newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
-                            '</td>';
+                                '</td>';
                             newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
-                            '</td>';
+                                '</td>';
                             newRow += '</tr>';
 
 
@@ -1357,7 +1459,7 @@
     </script>
 
     <script>
-          $(document).ready(function() {
+        $(document).ready(function() {
             $(document).on('click', '.edit-route-expectation', function() {
                 var route = $(this).data('route');
 
@@ -1392,11 +1494,12 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       // updated value replace with old value using tr class edit-route-expectation
-                       var data = response.data;
+                        // updated value replace with old value using tr class edit-route-expectation
+                        var data = response.data;
 
                         // Find the row corresponding to the data.id
-                        var row = $('#fetch-exp-table tbody').find('tr[data-id="' + data.id + '"]');
+                        var row = $('#fetch-exp-table tbody').find('tr[data-id="' + data.id +
+                            '"]');
 
                         // Update the values in the table cells with the new data
                         row.find('td:eq(0)').text(data.rule_name);
@@ -1421,20 +1524,54 @@
         });
     </script>
 
-{{-- @if (isset($del_recv))
 <script>
     $(document).ready(function() {
-        alert();
-        // Check if the button exists before triggering the click event
-        if ($('#recoveries-tab').length) {
-            $('#recoveries-tab').click(); // Simulate click event on the tab button
-        } else {
-            console.error("Button not found");
-        }
-    });
+       $(document).on('click', '#expectation-delete', function(e) {
+           e.preventDefault();
+
+           var id = $(this).data('id');
+           
+           if (id !== '#') {
+               
+               deletePolicy(id);
+           } else {
+               console.log('Invalid ID');
+           }
+       });
+   });
+
+   function deletePolicy(id) {
+       $('#loading').addClass('loading');
+       $('#loading-content').addClass('loading-content');
+
+       $.ajax({
+           url: '/members-expectation-delete/' + id,
+           type: 'DELETE',
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           success: function(response) {
+               toastr.success(response.message);
+               $('#exp_rule_name').val('');
+               $('#exp_percent').val('');
+               $('#exp_amount').val('');
+               $('#exp_year').val('');
+               $('#exp_month').val('');
+               $('#exp_remark').val('');
+               // edit-route-policy tr remove
+
+               $('#loading').removeClass('loading');
+               $('#loading-content').removeClass('loading-content');
+               // Optionally, remove the deleted item from the UI
+           },
+           error: function(xhr) {
+               // Handle errors
+               console.log(xhr);
+           }
+       });
+   }
 </script>
-@endif --}}
+    {{-- expectation script end --}}
 
-
-   
+    
 @endpush

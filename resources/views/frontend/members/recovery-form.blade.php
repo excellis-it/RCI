@@ -81,7 +81,7 @@
                             <button type="submit" class="listing_add">Save</button>
                         </div>
                         <div class="form-group col-md-3 mb-2">
-                            <a class="delete_acma"  id="delete-recovery" href="{{ isset($member_recovery->id) ? route('members.recovery-delete', $member_recovery->id) :'#' }}">
+                            <a class="delete_acma"  id="delete-recovery" data-id="{{ isset($member_recovery->id) ? $member_recovery->id :'#' }}">
                                 <button type="button" class="delete-btn-1">Delete</button>
                             </a>
 

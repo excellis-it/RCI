@@ -110,7 +110,7 @@
                     <button type="submit" class="listing_add">Update</button>
                 </div>
                 <div class="form-group col-md-6 mb-2">
-                    <button type="" class="delete-btn-1">Delete</button>
+                    <button type="button" id="loan-delete" class="delete-btn-1" data-id="{{ isset($member_loan->id) ? $member_loan->id :'#' }}">Delete</button>
                 </div>
             </div>
         </div>
@@ -240,7 +240,7 @@
                     <button type="submit" class="listing_add">Save</button>
                 </div>
                 <div class="form-group col-md-6 mb-2">
-                    <button type="" class="delete-btn-1">Delete</button>
+                    <button type="button" id="loan-delete" class="delete-btn-1" data-id="{{ isset($member_loan->id) ? $member_loan->id :'#' }}">Delete</button>
                 </div>
             </div>
         </div>

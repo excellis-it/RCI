@@ -496,9 +496,8 @@ class MemberController extends Controller
         
         $delete_recovery = MemberRecovery::where('id',$id)->first();
         $delete_recovery->delete();
-
-        $del_recv = true;
-        return redirect()->back()->with('del_recv', $del_recv);
+        
+        return response()->json(['message' => 'Member recovery deleted successfully']);
 
     }
 
@@ -721,6 +720,15 @@ class MemberController extends Controller
         
     }
 
+    public function memberLoanDelete($id)
+    {
+        $delete_loan = MemberLoanInfo::where('id',$id)->first();
+        $delete_loan->delete();
+        
+        return response()->json(['message' => 'Member loan deleted successfully']);
+
+    }
+
     public function memberPolicyInfoStore(Request $request)
     {
         
@@ -738,6 +746,7 @@ class MemberController extends Controller
 
     public function memberPolicyInfoEdit($id)
     {
+        
         $member_policy = MemberPolicyInfo::find($id);
         $edit = true;
         $policies = Policy::orderBy('id', 'desc')->get();
@@ -746,6 +755,7 @@ class MemberController extends Controller
 
     public function memberPolicyInfoUpdate(Request $request)
     {
+        
         $policy_info = MemberPolicyInfo::where('id',$request->member_policy_id)->first();
         $policy_info->policy_name = $request->policy_name;
         $policy_info->policy_no = $request->policy_no;
@@ -754,6 +764,15 @@ class MemberController extends Controller
         $policy_info->update();
 
         return response()->json(['message' => 'Member policy info updated successfully', 'data' => $policy_info]);
+    }
+
+    public function memberPolicyInfoDelete($id)
+    {
+       
+        $delete_policy = MemberPolicyInfo::where('id',$id)->first();
+        $delete_policy->delete();
+        
+        return response()->json(['message' => 'Member policy deleted successfully']);
     }
 
     public function memberExpectationStore(Request $request)
@@ -790,6 +809,14 @@ class MemberController extends Controller
         $expectation_info->update();
 
         return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info]);
+    }
+
+    public function memberExpectationDelete($id)
+    {
+        $delete_expectation = MemberExpectation::where('id',$id)->first();
+        $delete_expectation->delete();
+        
+        return response()->json(['message' => 'Member expectation deleted successfully']);
     }
 
     /**

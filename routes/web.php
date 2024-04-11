@@ -212,12 +212,13 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
-    Route::get('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
+    Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
 
     //member expectation route
     Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');
     Route::get('/members-expectation-edit/{id}',[MemberController::class,'memberExpectationEdit'])->name('members.expectation.edit');
     Route::post('/members-expectation-update',[MemberController::class,'memberExpectationUpdate'])->name('members.expectation.update');
+    Route::delete('/members-expectation-delete/{id}',[MemberController::class, 'memberExpectationDelete'])->name('members-expectation-delete');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
 
@@ -228,14 +229,14 @@ Route::middleware('permssions')->group(function () {
 
     //member personal info
     Route::post('/members-policy-info-store',[MemberController::class,'memberPolicyInfoStore'])->name('members.policy-info.submit');
-    Route::get('/members-policy-edit/{id}',[MemberController::class,'memberPolicyInfoEdit'])->name('members.policy-info.edit');
-    Route::post('/members-policy-update',[MemberController::class,'memberPolicyInfoUpdate'])->name('members.policy-info.update');
+    Route::get('/members-policy-info-edit/{id}',[MemberController::class,'memberPolicyInfoEdit'])->name('members.policy-info.edit');
+    Route::post('/members-policy-info-update',[MemberController::class,'memberPolicyInfoUpdate'])->name('members.policy-info.update');
+    Route::delete('/members-policy-info-delete/{id}',[MemberController::class, 'memberPolicyInfoDelete'])->name('members.policy-info.delete');
     //member personal update
     Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
+    Route::delete('/members-loan-delete/{id}',[MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
     
-
-
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     
     Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');

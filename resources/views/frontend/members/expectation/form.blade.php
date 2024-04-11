@@ -10,7 +10,7 @@
                     <label>Rule Name</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="rule_name" id="basic"
+                    <input type="text" class="form-control" name="rule_name" id="exp_rule_name"
                         value="{{ $member_expectation->rule_name }}" placeholder="">
                     <span class="text-danger"></span>
                 </div>
@@ -24,7 +24,7 @@
                             <label>Percent </label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="percent" id="percent"
+                            <input type="text" class="form-control" name="percent" id="exp_percent"
                                 value="{{ $member_expectation->percent }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -36,7 +36,7 @@
                             <label>Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="amount" id="amount"
+                            <input type="text" class="form-control" name="amount" id="exp_amount"
                                 value="{{ $member_expectation->amount }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -50,7 +50,7 @@
                             <label>Year</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="year" id="year">
+                            <select class="form-select" name="year" id="exp_year">
                                 @for ($i = date('Y'); $i >= 1950; $i--)
                                     <option value="{{ $i }}"
                                         {{ $member_expectation->year == $i ? 'selected' : '' }}>{{ $i }}
@@ -67,7 +67,7 @@
                             <label>Month</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="month" id="month">
+                            <select class="form-select" name="month" id="exp_month">
                                 <option value="1" {{ $member_expectation->month == 1 ? 'selected' : '' }}>January</option>
                                 <option value="2" {{ $member_expectation->month == 2 ? 'selected' : '' }}>February</option>
                                 <option value="3" {{ $member_expectation->month == 3 ? 'selected' : '' }}>March</option>
@@ -93,7 +93,7 @@
                     <label>Remark</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="remark" id="remark" value="{{ $member_expectation->remark }}"
+                    <input type="text" class="form-control" name="remark" id="exp_remark" value="{{ $member_expectation->remark }}"
                         placeholder="">
                     <span class="text-danger"></span>
                 </div>
@@ -108,7 +108,7 @@
                                 <button type="submit" class="listing_add">Update</button>
                             </div>
                             <div class="form-group col-md-3 mb-2">
-                                <button type="submit" class="delete-btn-1">Delete</button>
+                                <button type="button" id="expectation-delete" class="delete-btn-1" data-id="{{ isset($member_expectation->id) ? $member_expectation->id :'#' }}">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                     <label>Rule Name</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="rule_name" id="rule_name">
+                    <input type="text" class="form-control" name="rule_name" id="exp_rule_name">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -161,7 +161,7 @@
                             <label>Percent </label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="percent" id="percent" value=""
+                            <input type="text" class="form-control" name="percent" id="exp_percent" value=""
                                 placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -173,7 +173,7 @@
                             <label>Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="amount" id="amount" value=""
+                            <input type="text" class="form-control" name="amount" id="exp_amount" 
                                 placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -187,7 +187,7 @@
                             <label>Year</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="year" id="year">
+                            <select class="form-select" name="year" id="exp_year">
                                 <option value="">Select</option>
                                 @for ($i = date('Y'); $i >= 1950; $i--)
                                     <option value="{{ $i }}">{{ $i }}</option>
@@ -204,7 +204,7 @@
                             <label>Month</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="month" id="month">
+                            <select class="form-select" name="month" id="exp_month">
                                 <option value="">Select</option>
                                 <option value="1">January</option>
                                 <option value="2">February</option>
@@ -231,7 +231,7 @@
                     <label>Remark</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="remark" id="remark">
+                    <input type="text" class="form-control" name="remark" id="exp_remark">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -245,7 +245,7 @@
                                 <button type="submit" class="listing_add">Save</button>
                             </div>
                             <div class="form-group col-md-3 mb-2">
-                                <button type="reset" class="delete-btn-1">Delete</button>
+                                <button type="button" id="expectation-delete" class="delete-btn-1" data-id="{{ isset($member_expectation->id) ? $member_expectation->id :'#' }}">Delete</button>
                             </div>
                         </div>
                     </div>
