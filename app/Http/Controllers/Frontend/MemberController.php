@@ -47,7 +47,6 @@ class MemberController extends Controller
     public function fetchData(Request $request)
     {
 
-        
         if ($request->ajax()) {
 
             $sort_by = $request->get('sortby');
