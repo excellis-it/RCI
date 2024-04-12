@@ -22,6 +22,7 @@ class CashPaymentController extends Controller
 
     public function fetchData(Request $request)
     {
+        dd($request->all());
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
@@ -40,7 +41,7 @@ class CashPaymentController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.cash-payment.table', compact('cashPayments'))->render()]);
+            return response()->json(['data' => view('frontend.public-fund.cash-payment.table', compact('cashPayments'))->render()]);
         }
     }
 

@@ -1,6 +1,6 @@
 @extends('frontend.public-fund.layouts.master')
 @section('title')
-    Cash Payment List
+Cheque Payment Create
 @endsection
 
 @push('styles')
@@ -15,13 +15,23 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="{{ route('cash-payments.index') }}" class="text-white"><i
                             class="ti ti-arrow-left"></i></a></div>
+                @if(isset($edit))
                 <div class="">
-                    <h3>Cash Payment Create</h3>
+                    <h3>Cheque Payment Update</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Cash Payment Create</span></li>
+                        <li><span class="bread-blod">Cheque Payment Update</span></li>
                     </ul>
                 </div>
+                @else
+                <div class="">
+                    <h3>Cheque Payment Create</h3>
+                    <ul class="breadcome-menu mb-0">
+                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                        <li><span class="bread-blod">Cheque Payment Create</span></li>
+                    </ul>
+                </div>
+                @endif
             </div>
         </div>
         <!--  Row 1 -->
@@ -32,7 +42,7 @@
                     <div class="card-body">
                         <div id="form">
                             @if(isset($edit))
-                                <form action="{{ route('cheque-payments.update') }}" method="POST" id="cheque-payment-edit-form">
+                                <form action="{{ route('cheque-payments.update', $chequePayment->id) }}" method="POST" id="cheque-payment-edit-form">
                                     @method('PUT')
                                     @csrf
 

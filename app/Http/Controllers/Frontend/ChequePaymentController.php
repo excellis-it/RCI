@@ -111,7 +111,8 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::findOrFail($id);
-        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
+        $edit = true;
+        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment', 'edit'));
     }
 
     /**

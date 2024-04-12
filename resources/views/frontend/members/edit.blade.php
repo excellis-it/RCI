@@ -711,10 +711,14 @@
                         success: function(response) {
                             // Extract form data
                             var data = response.data;
+                            var id= data.id;
+                            // var route = '/members-policy-info-edit/' + data.id;
+                            var route = "{{ route('members.loan.edit', ['id' => ':id']) }}";
+                            route = route.replace(':id', id);
                            
-                            var route = '/members-loan-edit/' + data.id;
+                            // var route = '/members-loan-edit/' + data.id;
                             // Construct table row HTML
-                            var newRow = '<tr class="edit-route-loan"  data-id="'+ data.id +'" data-route="' + route +
+                            var newRow = '<tr class="edit-route-loan"  data-id="'+ id +'" data-route="' + route +
                                 '">';
                             newRow += '<td>' + data.loan_name +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
@@ -922,7 +926,10 @@
                             //extract from data
 
                             var data = response.data;
-                            var route = '/members-policy-info-edit/' + data.id;
+                            var id= data.id;
+                            // var route = '/members-policy-info-edit/' + data.id;
+                            var route = "{{ route('members.policy-info.edit', ['id' => ':id']) }}";
+                            route = route.replace(':id', id);
                        
                             //construct table row html
                             var newRow = '<tr class="edit-route-policy"  data-id="'+ data.id +'" data-route="' + route +

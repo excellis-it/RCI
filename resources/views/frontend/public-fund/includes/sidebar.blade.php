@@ -20,7 +20,7 @@
                           </span>
                           <span class="hide-menu">Cash</span>
                         </a>
-                        <ul class="collapse" id="collapseExample">
+                        <ul class="collapse {{Request::is('cash-payments*') ? 'show' : ''}}" id="collapseExample">
                             <li class="sidebar-item">
                                 <a class="sidebar-link {{Request::is('cash-payments*') ? 'active' : ''}}" href="{{route('cash-payments.index')}}"  aria-expanded="false">
                                   <span>
@@ -57,13 +57,13 @@
                         </a>
                     </li> --}}
                     <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow {{Request::is('cheque-payments*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
+                        <a class="sidebar-link has-arrow {{Request::is('cheque-payments*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" aria-expanded="false">
                           <span>
                             <i class="ti fa-money-bill-alt"></i>
                           </span>
                           <span class="hide-menu">Cheque</span>
                         </a>
-                        <ul class="collapse" id="collapseExample">
+                        <ul class="collapse {{Request::is('cheque-payments*') ? 'show' : ''}}" id="collapseExample1">
                             <li class="sidebar-item">
                                 <a class="sidebar-link {{Request::is('cheque-payments.index') ? 'active' : ''}}" href="{{route('cheque-payments.index')}}"  aria-expanded="false">
                                   <span>
