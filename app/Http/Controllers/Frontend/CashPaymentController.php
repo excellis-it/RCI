@@ -7,6 +7,7 @@ use App\Models\CashPayment;
 use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
 use App\Models\ResetVoucher;
+use Illuminate\Support\Str;
 
 class CashPaymentController extends Controller
 {
@@ -51,9 +52,9 @@ class CashPaymentController extends Controller
     public function create()
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $cashPayment = CashPayment::latest()->first();
-        $voucherText = ResetVoucher::where('status', 1)->first();
-        return view('frontend.public-fund.cash-payment.form', compact('paymentCategories', 'cashPayment', 'voucherText'));
+        
+        
+        return view('frontend.public-fund.cash-payment.form', compact('paymentCategories'));
     }
 
     /**
@@ -72,10 +73,21 @@ class CashPaymentController extends Controller
         //     'name' => 'required',
         //     'category' => 'required',
         // ]);
+        $voucherText = ResetVoucher::where('status', 1)->first();
+        $cashPayment = CashPayment::latest()->first();
 
+        $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
+        if(isset($cashPayment))
+        {
+            $serial_no = Str::substr($cashPayment->vr_no, -1);
+            $counter = $serial_no + 1;
+            // dd($serial_no);
+        } else {
+            $counter = 1;
+        }
        
         $cashPayment = new CashPayment();
-        $cashPayment->vr_no = $request->vr_no;
+        $cashPayment->vr_no = $constantString . $counter++;
         $cashPayment->vr_date = $request->vr_date;
         $cashPayment->amount = $request->amount;
         $cashPayment->rct_no = $request->rct_no;

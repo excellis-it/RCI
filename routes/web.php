@@ -29,6 +29,8 @@ use App\Http\Controllers\Frontend\ChequePaymentController;
 use App\Http\Controllers\Frontend\CashPaymentController;
 use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
+use App\Http\Controllers\Imprest\CdaReceiptDetailController;
+use App\Http\Controllers\Imprest\ImprestResetVoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,7 +100,8 @@ Route::middleware('permssions')->group(function () {
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
         'reset-voucher' => ResetVoucherController::class,
-        
+        'cda-receipt-details' => CdaReceiptDetailController::class,
+        'imprest-reset-voucher' => ImprestResetVoucherController::class,
     ]);
 
     // category
@@ -276,6 +279,20 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('reset-voucher')->group(function () {
         Route::get('/reset-voucher-delete/{id}', [ResetVoucherController::class, 'delete'])->name('reset-voucher.delete');
     });
+
+    // cda receipt details
+    Route::prefix('cda-receipt-details')->group(function () {
+        Route::get('/cda-receipt-details-delete/{id}', [CdaReceiptDetailController::class, 'delete'])->name('cda-receipt-details.delete');
+    });
+    Route::get('/cda-receipt-details-fetch-data', [CdaReceiptDetailController::class, 'fetchData'])->name('cda-receipt-details.fetch-data');
+
+    // imprest reset voucher
+    Route::prefix('imprest-reset-voucher')->group(function () {
+        Route::get('/imprest-reset-voucher-delete/{id}', [ImprestResetVoucherController::class, 'delete'])->name('imprest-reset-voucher.delete');
+    });
+    Route::get('/imprest-reset-voucher-fetch-data', [ImprestResetVoucherController::class, 'fetchData'])->name('imprest-reset-voucher.fetch-data');
+
+
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
