@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('inventory.layouts.master')
 @section('title')
     Item List
 @endsection

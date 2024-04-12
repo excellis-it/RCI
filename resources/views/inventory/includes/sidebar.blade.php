@@ -12,7 +12,7 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                
-                <ul id="sidebarnav">
+            <ul id="sidebarnav">
                 <!-- =================== -->
                 <!-- Dashboard -->
                 <!-- =================== -->
@@ -25,105 +25,16 @@
                     </a>
                 </li> -->
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{Request::is('members*') ? 'active' : ''}}" href="{{route('members.index')}}" aria-expanded="false">
+                    <a class="sidebar-link {{Request::is('inventory/items*') ? 'active' : ''}}" href="{{route('items.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
-                        <span class="hide-menu">Add Person</span>
+                        <span class="hide-menu">Items</span>
                     </a>
                 </li>
-                {{-- <li class="sidebar-item">
-                    <a class="sidebar-link {{Request::is('public-funds*') ? 'active' : ''}}" href="{{route('public-funds.index')}}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user"></i>
-                        </span>
-                        <span class="hide-menu">Public fund</span>
-                    </a>
-                </li> --}}
-                
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-notebook"></i>
-                        </span>
-                        <span class="hide-menu">Attendance</span>
-                    </a>
-                </li>
+            </ul>
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-note"></i>
-                        </span>
-                        <span class="hide-menu">IND Update</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cpu"></i>
-                        </span>
-                        <span class="hide-menu">GRP Update</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-checkup-list"></i>
-                        </span>
-                        <span class="hide-menu">Reports</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-checkup-list"></i>
-                        </span>
-                        <span class="hide-menu">OldReports</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-list-numbers"></i>
-                        </span>
-                        <span class="hide-menu">Bill No</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-playlist"></i>
-                        </span>
-                        <span class="hide-menu">Assoc</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-certificate"></i>
-                        </span>
-                        <span class="hide-menu">PayCertificate</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('password') ? 'active' : '' }}" href="{{ route('password') }}"
-                        aria-expanded="false">
-                        <span>
-                            <i class="ti ti-password"></i>
-                        </span>
-                        <span class="hide-menu">Password Change</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('logout') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-logout"></i>
-                        </span>
-                        <span class="hide-menu">Exit</span>
-                    </a>
-                </li>
-                </ul>
+            
             
         </nav>
 

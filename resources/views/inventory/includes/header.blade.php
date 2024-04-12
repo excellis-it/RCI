@@ -10,274 +10,6 @@
         </ul>
         
         <ul class="navbar-nav quick-links d-none d-lg-flex">
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)"
-                    data-bs-toggle="dropdown">Administration<span class="mt-1"><i
-                            class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Rule Updation</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Exception</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Backup</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">CD Backup</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Installment Update</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('designation-types.index')}}">Designation Type</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('designations.index')}}">Desig Update</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('categories.index')}}">Category Update</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('payscale-types.index')}}">PayScale Type</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('payscales.index')}}">PayScale Update</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('payband-types.index')}}">PayBand Type</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('paybands.index')}}">PayBand Update</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Pers Update</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">New User</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Password Change</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Permission</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Clear Remarks</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Signature Authority</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">CCS</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">BILLNO</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Annual Increment</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">PostAutharisation</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Association</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Updations<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Individual</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Negative Payment</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Attendence</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">QtrInfo</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Computations<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Group Updation</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Pay Computation</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Floppy<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Bank</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Bank Loan</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">LIC</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">ITAV</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">CDA Loan</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">CDA</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="">PayCertificate</a>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pages<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            {{-- <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('edit.member') }}">edit member</a>
-                            </li> --}}
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('income-tax') }}">Income Tax</a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </li> 
-
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Member Management<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-levels.index') }}">PM Level</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-index.index') }}">PM Index</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('divisions.index') }}">Divisions</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('groups.index') }}">Groups</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('cadres.index') }}">Cadres</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('fund-types.index') }}">Fund Types</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('quarters.index') }}">Quarters</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('ex-services.index') }}">Ex-Services</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pgs.index') }}">Pgs</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('cgegis.index') }}">CGEGIS</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('banks.index') }}">Bank</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('policy.index') }}">Policy</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('loans.index') }}">Loans</a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </div>
-                </div>
-            </li>
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pay & Allowance<span
@@ -370,16 +102,14 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-levels.index') }}">PM Level</a>
-                            </li>
-                            
-                            
+                                    href="">PM Level</a>
+                            </li> 
                         </ul>
                     </div>
                 </div>
             </li> --}}
 
-            {{-- 
+            
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Imprest<span
@@ -389,17 +119,12 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-levels.index') }}">PM Level</a>
+                                    href="">PM Level</a>
                             </li>
-                            
-                            
                         </ul>
                     </div>
                 </div>
-            </li>
-
-            
-            --}}
+            </li>  
         </ul>
         
         <div class="d-block d-lg-none">
