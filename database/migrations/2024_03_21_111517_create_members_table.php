@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('g_pay')->nullable();
             $table->foreignId('pay_band')->references('id')->on('payband_types')->nullable();
             $table->foreignId('fund_type')->references('id')->on('fund_types')->nullable();
-            $table->string('dob')->nullable();
+            $table->date('dob')->nullable();
             $table->string('doj_lab')->nullable();
             $table->string('doj_service1')->nullable();
             $table->string('dop')->nullable();

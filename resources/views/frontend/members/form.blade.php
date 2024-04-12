@@ -491,7 +491,7 @@
                                                                 <label>DOB</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" name="dob"
+                                                                <input type="date" class="form-control" name="dob"
                                                                     id="dob" value="{{ old('dob') ?? '' }}"
                                                                     placeholder="">
                                                                 <span class="text-danger"></span>

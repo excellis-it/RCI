@@ -51,7 +51,7 @@ class CadreController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'value' => 'required|unique:divisions,value',
+            'value' => 'required|unique:cadres,value',
             'status' => 'required',
         ]);
 
