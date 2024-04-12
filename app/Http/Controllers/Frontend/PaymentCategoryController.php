@@ -14,7 +14,7 @@ class PaymentCategoryController extends Controller
     public function index()
     {
         $paymentCategories = PaymentCategory::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.payment-categories.list', compact('paymentCategories'));
+        return view('frontend.public-fund.payment-categories.list', compact('paymentCategories'));
     }
 
     public function fetchData(Request $request)
@@ -31,7 +31,7 @@ class PaymentCategoryController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.payment-categories.table', compact('paymentCategories'))->render()]);
+            return response()->json(['data' => view('frontend.public-fund.payment-categories.table', compact('paymentCategories'))->render()]);
         }
     }
 
@@ -77,7 +77,7 @@ class PaymentCategoryController extends Controller
     {
         $paymentCategory = PaymentCategory::findOrFail($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.payment-categories.form', compact('edit','paymentCategory'))->render()]);
+        return response()->json(['view' => view('frontend.public-fund.payment-categories.form', compact('edit','paymentCategory'))->render()]);
     }
 
     /**

@@ -187,7 +187,6 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/quarters-fetch-data', [QuaterController::class, 'fetchData'])->name('quarters.fetch-data');
 
-
     //ex-service
     Route::prefix('ex-services')->group(function () {
         Route::get('/ex-services-delete/{id}', [ExServiceController::class, 'delete'])->name('ex-services.delete');

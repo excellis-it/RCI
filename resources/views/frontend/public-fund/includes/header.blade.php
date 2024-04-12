@@ -37,6 +37,10 @@
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="#">Report</a>
             </li>
+
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="{{ route('members.index') }}">Member</a>
+            </li>
         </ul>
         
         <div class="d-block d-lg-none">
