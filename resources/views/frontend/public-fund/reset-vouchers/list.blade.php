@@ -1,6 +1,6 @@
-@extends('frontend.layouts.master')
+@extends('frontend.public-fund.layouts.master')
 @section('title')
-Cash Payments List
+   Reset Voucher Listing
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@ Cash Payments List
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Cash Payments Listing</h3>
+                    <h3>Reset Voucher Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Cash Payments Listing</span></li>
+                        <li><span class="bread-blod">Reset Voucher Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -26,16 +26,17 @@ Cash Payments List
         <!--  Row 1 -->
 
         <div class="row">
-            <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('cash-payments.create') }}">Add Cash Payments</a>
-              </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
+                        <div id="form">
+                            @include('frontend.public-fund.reset-vouchers.form')
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -47,28 +48,16 @@ Cash Payments List
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
-                                                    style="cursor: pointer">SR.NO<span id="name_icon"><i
+                                                <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">Voucher No. Text<span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
-                                                    style="cursor: pointer">VR.NO<span id="emp_id_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="gender"
-                                                    style="cursor: pointer">VR.DATE<span id="gender_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="pers_no"
-                                                style="cursor: pointer">AMT<span id="pers_no_icon"><i
-                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th>RCT No</th>
-                                                <th>Form</th>
-                                                <th>Details</th>
-                                                <th>name</th>
-                                                <th>category</th>
+                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.cash-payment.table')
+                                            @include('frontend.public-fund.reset-vouchers.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -82,7 +71,7 @@ Cash Payments List
                 </div>
             </div>
         </div>
-       
+        </form>
     </div>
 @endsection
 
@@ -91,7 +80,7 @@ Cash Payments List
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Payment Category!",
+                    text: "To delete this Voucher No.!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -114,7 +103,7 @@ Cash Payments List
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('cash-payments.fetch-data') }}",
+                    url: "{{ route('reset-voucher.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -179,7 +168,7 @@ Cash Payments List
     </script>
     <script>
         $(document).ready(function() {
-            $('#cash-payment-create-form').submit(function(e) {
+            $('#reset-voucher-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -234,7 +223,7 @@ Cash Payments List
             });
 
             // Handle the form submission
-            $(document).on('submit', '#cash-payment-edit-form', function(e) {
+            $(document).on('submit', '#reset-voucher-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

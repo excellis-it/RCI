@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.public-fund.layouts.master')
 @section('title')
     Cash Payment List
 @endsection
@@ -260,10 +260,10 @@
                                     @csrf
 
                                     @php 
-                                        $constantString = 'RCI-CHESS-';
-                                        if(isset($cashPayment))
+                                        $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
+                                        if(isset($chequePayment))
                                         {
-                                            $serial_no = Str::substr($cashPayment->vr_no, -1);
+                                            $serial_no = Str::substr($chequePayment->vr_no, -1);
                                             $counter = $serial_no + 1;
                                             // dd($serial_no);
                                         } else {

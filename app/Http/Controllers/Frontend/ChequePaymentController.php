@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
 use App\Models\ChequePayment;
+use App\Models\ResetVoucher;
 
 class ChequePaymentController extends Controller
 {
@@ -16,7 +17,7 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayments = ChequePayment::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.cheque-payment.list', compact('chequePayments', 'paymentCategories'));
+        return view('frontend.public-fund.cheque-payment.list', compact('chequePayments', 'paymentCategories'));
 
     }
 
@@ -27,7 +28,8 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::latest()->first();
-        return view('frontend.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
+        $voucherText = ResetVoucher::where('status', 1)->first();
+        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
     }
 
     public function fetchData(Request $request)
@@ -55,7 +57,7 @@ class ChequePaymentController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.cheque-payment.table', compact('chequePayments'))->render()]);
+            return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('chequePayments'))->render()]);
         }
     }
 
@@ -109,7 +111,7 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::findOrFail($id);
-        return view('frontend.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
+        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
     }
 
     /**

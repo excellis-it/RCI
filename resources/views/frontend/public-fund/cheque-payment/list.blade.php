@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.public-fund.layouts.master')
 @section('title')
 Cheque Payment List
 @endsection
@@ -72,7 +72,7 @@ Cheque Payment List
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.cheque-payment.table')
+                                            @include('frontend.public-fund.cheque-payment.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />

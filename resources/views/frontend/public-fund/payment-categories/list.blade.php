@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.public-fund.layouts.master')
 @section('title')
    Payment Categories Listing
 @endsection
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.payment-categories.form')
+                            @include('frontend.public-fund.payment-categories.form')
                         </div>
 
                         <div class="row">
@@ -57,7 +57,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.payment-categories.table')
+                                            @include('frontend.public-fund.payment-categories.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />

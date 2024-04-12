@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+@extends('frontend.public-fund.layouts.master')
 @section('title')
 Cash Payment List
 @endsection
@@ -190,7 +190,7 @@ Cash Payment List
                                     <div class="col-xl-7">
                                         <div class="row">
                                             @php 
-                                                $constantString = 'RCI-CHESS-';
+                                                $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
                                                 if(isset($cashPayment))
                                                 {
                                                     $serial_no = Str::substr($cashPayment->vr_no, -1);

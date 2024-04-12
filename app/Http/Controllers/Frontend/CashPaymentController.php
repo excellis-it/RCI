@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CashPayment;
 use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
+use App\Models\ResetVoucher;
 
 class CashPaymentController extends Controller
 {
@@ -16,7 +17,7 @@ class CashPaymentController extends Controller
     {
         $cashPayments = CashPayment::orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        return view('frontend.cash-payment.list', compact('cashPayments', 'paymentCategories'));
+        return view('frontend.public-fund.cash-payment.list', compact('cashPayments', 'paymentCategories'));
     }
 
     public function fetchData(Request $request)
@@ -50,7 +51,8 @@ class CashPaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $cashPayment = CashPayment::latest()->first();
-        return view('frontend.cash-payment.form', compact('paymentCategories', 'cashPayment'));
+        $voucherText = ResetVoucher::where('status', 1)->first();
+        return view('frontend.public-fund.cash-payment.form', compact('paymentCategories', 'cashPayment', 'voucherText'));
     }
 
     /**
@@ -103,7 +105,7 @@ class CashPaymentController extends Controller
         $cashPayment = CashPayment::findOrFail($id);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $edit = true;
-        return view('frontend.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories'));
+        return view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories'));
     }
 
     /**
@@ -133,7 +135,7 @@ class CashPaymentController extends Controller
         $cashPayment->category = $request->category;
         $cashPayment->save();
 
-        // return redirect()->route('cash-payments.index')->with('message', 'Cash Payment updated successfully');
+        return redirect()->route('cash-payments.index')->with('message', 'Cash Payment updated successfully');
     }
 
     /**

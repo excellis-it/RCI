@@ -28,6 +28,7 @@ use App\Http\Controllers\Frontend\PublicFundController;
 use App\Http\Controllers\Frontend\ChequePaymentController;
 use App\Http\Controllers\Frontend\CashPaymentController;
 use App\Http\Controllers\Frontend\PaymentCategoryController;
+use App\Http\Controllers\Frontend\ResetVoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -84,6 +85,7 @@ Route::middleware('permssions')->group(function () {
         'cash-payments' => CashPaymentController::class, 
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
+        'reset-voucher' => ResetVoucherController::class,
         
     ]);
 
@@ -242,6 +244,12 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
     });
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
+
+    //reset voucher
+    Route::prefix('reset-voucher')->group(function () {
+        Route::get('/reset-voucher-delete/{id}', [ResetVoucherController::class, 'delete'])->name('reset-voucher.delete');
+    });
+    Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     
 
 
