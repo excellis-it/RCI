@@ -104,7 +104,6 @@ class MemberController extends Controller
 
         $validated = $request->validate([
             'pers_no' => 'required',
-            'emp_id' => 'required',
             'gender' => 'required',
             'name' => 'required',
             'pm_level' => 'required',
