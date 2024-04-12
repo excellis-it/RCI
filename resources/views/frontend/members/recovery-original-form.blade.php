@@ -318,13 +318,14 @@
                 <div class="col-md-6">
                     <div class="row justify-content-end">
                         <div class="form-group col-md-3 mb-2">
-                            <button type="" class="another-btn">Another</button>
+                            <a href="{{ route('members.create') }}"><button type="button"
+                                class="another-btn">Another</button></a>
                         </div>
                         <div class="form-group col-md-3 mb-2">
                             <button type="submit" class="listing_add">Update</button>
                         </div>
                         <div class="form-group col-md-3 mb-2">
-                            <button type="reset" class="listing_exit">Cancel</button>
+                            <button type="#" class="listing_exit">Cancel</button>
                         </div>
                     </div>
                 </div>

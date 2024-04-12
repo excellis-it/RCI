@@ -237,7 +237,7 @@
                     <button type="submit" class="listing_add">Save</button>
                 </div>
                 <div class="form-group col-md-6 mb-2">
-                    <button type="" class="delete-btn-1">Delete</button>
+                    <button type="#" class="delete-btn-1">Delete</button>
                 </div>
             </div>
         </div>
@@ -253,7 +253,7 @@
                     <button type="submit" class="listing_add">Save</button>
                 </div>
                 <div class="form-group col-md-4 mb-2">
-                    <button type="" class="listing_exit">Cancel</button>
+                    <button type="#" class="listing_exit">Cancel</button>
                 </div>
             </div>
         </div>

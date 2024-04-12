@@ -935,6 +935,8 @@
                             newRow += '</tr>';
                             
 
+                            $('#no-policy').hide();
+
                             // Append new row to table
                             $('#policy-table tbody').append(newRow);
                         },
