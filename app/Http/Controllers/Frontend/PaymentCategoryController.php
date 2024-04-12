@@ -40,7 +40,7 @@ class PaymentCategoryController extends Controller
      */
     public function create()
     {
-        return view('frontend.payment-categories.form');
+        return view('frontend.public-fund.payment-categories.form');
     }
 
     /**

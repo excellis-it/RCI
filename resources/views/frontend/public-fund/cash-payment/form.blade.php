@@ -189,7 +189,7 @@ Cash Payment List
                                 <div class="row">
                                     <div class="col-xl-7">
                                         <div class="row">
-                                            @php 
+                                            {{-- @php 
                                                 $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
                                                 if(isset($cashPayment))
                                                 {
@@ -201,8 +201,8 @@ Cash Payment List
                                                 }
                                                     
                                                 // $counter = 1;
-                                            @endphp
-                                            <div class="col-lg-4">
+                                            @endphp --}}
+                                            {{-- <div class="col-lg-4">
                                                 <div class="form-group mb-2">
                                                     <div class="row align-items-center">
                                                         <div class="col-md-12">
@@ -215,7 +215,7 @@ Cash Payment List
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             
                                             <div class="col-lg-4">
                                                 <div class="form-group mb-2">

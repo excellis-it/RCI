@@ -269,7 +269,7 @@ Cheque Payment Create
                                 <form action="{{ route('cheque-payments.store') }}" method="POST" id="cheque-payment-create-form">
                                     @csrf
 
-                                    {{-- @php 
+                                    @php 
                                         $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
                                         
                                         if(isset($chequePayment))
@@ -282,8 +282,8 @@ Cheque Payment Create
                                         }
                                             
                                         // $counter = 1;  
-                                    @endphp --}}
-                                    {{-- <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
+                                    @endphp
+                                    <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
                                         <div class="col">
                                             <div class="form-group mb-2">
                                                 <div class="row align-items-center">
@@ -297,7 +297,7 @@ Cheque Payment Create
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                         <div class="col">
                                             <div class="form-group mb-2">
                                                 <div class="row align-items-center">

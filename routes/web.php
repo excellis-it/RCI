@@ -32,6 +32,8 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 // inventory
 use App\Http\Controllers\Inventory\ItemController;
+use App\Http\Controllers\Imprest\CdaReceiptDetailController;
+use App\Http\Controllers\Imprest\ImprestResetVoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -103,6 +105,8 @@ Route::middleware('permssions')->group(function () {
         'reset-voucher' => ResetVoucherController::class,
         'loans' => LoanController::class,
         
+        'cda-receipt-details' => CdaReceiptDetailController::class,
+        'imprest-reset-voucher' => ImprestResetVoucherController::class,
     ]);
 
     // category
@@ -286,13 +290,23 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('reset-voucher')->group(function () {
         Route::get('/reset-voucher-delete/{id}', [ResetVoucherController::class, 'delete'])->name('reset-voucher.delete');
     });
+
+    // cda receipt details
+    Route::prefix('cda-receipt-details')->group(function () {
+        Route::get('/cda-receipt-details-delete/{id}', [CdaReceiptDetailController::class, 'delete'])->name('cda-receipt-details.delete');
+    });
+    Route::get('/cda-receipt-details-fetch-data', [CdaReceiptDetailController::class, 'fetchData'])->name('cda-receipt-details.fetch-data');
+
+    // imprest reset voucher
+    Route::prefix('imprest-reset-voucher')->group(function () {
+        Route::get('/imprest-reset-voucher-delete/{id}', [ImprestResetVoucherController::class, 'delete'])->name('imprest-reset-voucher.delete');
+    });
+    Route::get('/imprest-reset-voucher-fetch-data', [ImprestResetVoucherController::class, 'fetchData'])->name('imprest-reset-voucher.fetch-data');
+
+
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
-    
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
-    
     Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
-
-
 
     // inventory routes
     Route::prefix('inventory')->group(function () {

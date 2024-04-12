@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
 use App\Models\ChequePayment;
 use App\Models\ResetVoucher;
+use Illuminate\Support\Str;
 
 class ChequePaymentController extends Controller
 {
@@ -27,8 +28,8 @@ class ChequePaymentController extends Controller
     public function create()
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $chequePayment = ChequePayment::latest()->first();
-        $voucherText = ResetVoucher::where('status', 1)->first();
+        
+        
         return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment','voucherText'));
     }
 
@@ -76,9 +77,21 @@ class ChequePaymentController extends Controller
         //     'name' => 'required',
         //     'category' => 'required',
         // ]);
+        $voucherText = ResetVoucher::where('status', 1)->first();
+        $chequePayment = ChequePayment::latest()->first();
+
+        $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
+        if(isset($cashPayment))
+        {
+            $serial_no = Str::substr($cashPayment->vr_no, -1);
+            $counter = $serial_no + 1;
+            // dd($serial_no);
+        } else {
+            $counter = 1;
+        }
 
         $chequePayment = new ChequePayment();
-        $chequePayment->vr_no = $request->vr_no;
+        $chequePayment->vr_no = $constantString . $counter++;
         $chequePayment->vr_date = $request->vr_date;
         $chequePayment->sr_no = $request->sr_no;
         $chequePayment->amount = $request->amount;
@@ -111,7 +124,8 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::findOrFail($id);
-        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
+        $edit = true;
+        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment', 'edit'));
     }
 
     /**
