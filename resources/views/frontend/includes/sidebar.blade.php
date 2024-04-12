@@ -11,80 +11,7 @@
         </div>
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-            @if (Route::currentRouteNamed('cash-payments*') || Route::currentRouteNamed('cheque-payments*') || Route::currentRouteNamed('payment-categories*'))
-                <ul id="sidebarnav">
-                    <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow {{Request::is('cash-payments*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
-                          <span>
-                            <i class="ti ti-brand-cashapp"></i>
-                          </span>
-                          <span class="hide-menu">Cash</span>
-                        </a>
-                        <ul class="collapse" id="collapseExample">
-                            <li class="sidebar-item">
-                                <a class="sidebar-link {{Request::is('cash-payments*') ? 'active' : ''}}" href="{{route('cash-payments.index')}}"  aria-expanded="false">
-                                  <span>
-                                    <i class="ti ti-cash-banknote"></i>
-                                  </span>
-                                  <span class="hide-menu">List</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link {{Request::is('cash-payments*') ? 'active' : ''}}" href="{{route('cash-payments.create')}}" href="" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-cash-off"></i>
-                                </span>
-                                <span class="hide-menu">Add </span>
-                                </a>
-                          </li>
-                        </ul>
-                    </li>
-                    {{-- <li class="sidebar-item">
-                        <a class="sidebar-link " aria-expanded="false">
-                            <span>
-                                <i class="ti ti-brand-cashapp"></i>
-                            </span>
-                            <span class="hide-menu">Add Cash Payment</span>
-                        </a>
-                    </li>
-    
-                    <li class="sidebar-item">
-                        <a class="sidebar-link {{Request::is('cheque-payments*') ? 'active' : ''}}" href="{{route('cheque-payments.index')}}" aria-expanded="false">
-                            <span>
-                                <i class="ti fa-money-bill-alt"></i> 
-                            </span>
-                            <span class="hide-menu">Add Cheque Payment</span>
-                        </a>
-                    </li> --}}
-                    <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow {{Request::is('cheque-payments*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
-                          <span>
-                            <i class="ti fa-money-bill-alt"></i>
-                          </span>
-                          <span class="hide-menu">Cheque</span>
-                        </a>
-                        <ul class="collapse" id="collapseExample">
-                            <li class="sidebar-item">
-                                <a class="sidebar-link {{Request::is('cheque-payments.index') ? 'active' : ''}}" href="{{route('cheque-payments.index')}}"  aria-expanded="false">
-                                  <span>
-                                    <i class="ti fa-money-bill-alt"></i>
-                                  </span>
-                                  <span class="hide-menu">List</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link {{Request::is('cheque-payments.create') ? 'active' : ''}}" href="{{route('cheque-payments.create')}}" href="" aria-expanded="false">
-                                <span>
-                                    <i class="ti fa-money-bill-alt"></i>
-                                </span>
-                                <span class="hide-menu">Add </span>
-                                </a>
-                          </li>
-                        </ul>
-                    </li>
-    
-                </ul>
-            @else   
+               
                 <ul id="sidebarnav">
                 <!-- =================== -->
                 <!-- Dashboard -->
@@ -105,14 +32,14 @@
                         <span class="hide-menu">Add Person</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('public-funds*') ? 'active' : ''}}" href="{{route('public-funds.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
                         <span class="hide-menu">Public fund</span>
                     </a>
-                </li>
+                </li> --}}
                 
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
@@ -197,7 +124,7 @@
                     </a>
                 </li>
                 </ul>
-            @endif
+            
         </nav>
 
         <!-- End Sidebar navigation -->

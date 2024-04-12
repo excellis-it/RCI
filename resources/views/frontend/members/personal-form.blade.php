@@ -115,8 +115,8 @@
                                 <select class="form-select" name="pm_level" id="pm_level">
                                     @foreach ($pmLevels as $pmLevel)
                                         <option value="{{ $pmLevel->id }}"
-                                            {{ isset($member_personal->payband) && $pmLevel->id == $member_personal->payband ? 'selected' : '' }}>
-                                            {{ $pmLevel->payband_type }}
+                                            {{ isset($member_personal->pm_level) && $pmLevel->id == $member_personal->pm_level ? 'selected' : '' }}>
+                                            {{ $pmLevel->value }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -284,7 +284,7 @@
                             @foreach ($designations as $designation)
                                 <option value="{{ $designation->id }}"
                                     {{ isset($member_personal->desig) && $designation->id == $member_personal->desig ? 'selected' : '' }}>
-                                    {{ $designation->value }}</option>
+                                    {{ $designation->designation_type }}</option>
                             @endforeach
                         </select>
                         <span class="text-danger"></span>
