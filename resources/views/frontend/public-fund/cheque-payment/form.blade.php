@@ -271,6 +271,7 @@ Cheque Payment Create
 
                                     @php 
                                         $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
+                                        
                                         if(isset($chequePayment))
                                         {
                                             $serial_no = Str::substr($chequePayment->vr_no, -1);
@@ -291,7 +292,7 @@ Cheque Payment Create
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="text" class="form-control" name="vr_no" id="vr_no"
-                                                            value="{{ $constantString . $counter++ }}" placeholder="">
+                                                            value="{{ $constantString . $counter++ }}" placeholder="" readonly>
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>

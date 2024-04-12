@@ -29,7 +29,7 @@ class ChequePaymentController extends Controller
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::latest()->first();
         $voucherText = ResetVoucher::where('status', 1)->first();
-        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment'));
+        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment','voucherText'));
     }
 
     public function fetchData(Request $request)
