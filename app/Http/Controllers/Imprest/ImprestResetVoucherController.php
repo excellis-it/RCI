@@ -13,8 +13,26 @@ class ImprestResetVoucherController extends Controller
      */
     public function index()
     {
-        $vouchers = ImprestResetVoucher::all();
-        return view('imprest.vouchers.list', compact('vouchers'));
+        $vouchers = ImprestResetVoucher::orderBy('id', 'desc')->paginate(10);
+        return view('imprest.reset-vouchers.list', compact('vouchers'));
+    }
+
+    public function fetchData(Request $request)
+    {
+        if ($request->ajax()) {
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $vouchers = ImprestResetVoucher::where(function($queryBuilder) use ($query) {
+                $queryBuilder->where('voucher_no_text', 'like', '%' . $query . '%')
+                    ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
+            })
+            ->orderBy($sort_by, $sort_type)
+            ->paginate(10);
+
+            return response()->json(['data' => view('imprest.reset-vouchers.table', compact('vouchers'))->render()]);
+        }
     }
 
     /**
@@ -22,7 +40,7 @@ class ImprestResetVoucherController extends Controller
      */
     public function create()
     {
-        return view('imprest.vouchers.form');
+        return view('imprest.reset-vouchers.form');
     }
 
     /**
@@ -40,9 +58,16 @@ class ImprestResetVoucherController extends Controller
         $voucher = new ImprestResetVoucher();
         $voucher->voucher_no_text = $request->voucher_no_text;
         $voucher->status = $request->status;
-        $voucher->save();
+        // $voucher->save();
 
-        return response()->json(['message' => 'Voucher created successfully.']);
+        if($voucher->save()) {
+            $lastSavedOrderId = ImprestResetVoucher::latest()->value('id');
+            
+            // update status to inactive except the last row
+            ImprestResetVoucher::where('id', '!=', $lastSavedOrderId)->update(['status' => 0]);
+        }
+
+        return redirect()->route('imprest-reset-voucher.index')->with('success', 'Voucher updated successfully.');
     }
 
     /**
@@ -58,7 +83,9 @@ class ImprestResetVoucherController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $voucher = ImprestResetVoucher::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('imprest.reset-vouchers.form', compact('edit','voucher'))->render()]);
     }
 
     /**
@@ -66,7 +93,16 @@ class ImprestResetVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // $request->validate([
+        //     'voucher_no_text' => 'required|string|max:255',
+        // ]);
+
+        $voucher = ImprestResetVoucher::findOrFail($id);
+        $voucher->voucher_no_text = $request->voucher_no_text;
+        $voucher->status = $request->status;
+        $voucher->save();
+
+        return redirect()->route('imprest-reset-voucher.index')->with('success', 'Voucher updated successfully.');
     }
 
     /**
@@ -75,5 +111,15 @@ class ImprestResetVoucherController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function delete(string $id)
+    {
+        $voucher = ImprestResetVoucher::findOrFail($id);
+        $voucher->delete();
+        return redirect()->route('imprest-reset-voucher.index')->with('success', 'Voucher deleted successfully.');
     }
 }

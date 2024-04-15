@@ -1,5 +1,5 @@
 @if (isset($edit))
-    <form action="{{ route('imprest-reset-voucher.update', $voucher->id) }}" method="POST" id="imprest-reset-voucher-edit-form">
+    <form action="{{ route('project.update', $project->id) }}" method="POST" id="project-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -8,10 +8,10 @@
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-4">
-                                <label>Voucher No.</label>
+                                <label>Project Name</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="voucher_no_text" id="voucher_no_text" value="{{ $voucher->voucher_no_text ?? '' }}"
+                                <input type="text" class="form-control" name="name" id="name" value="{{ $project->name ?? '' }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -25,8 +25,8 @@
                             </div>
                             <div class="col-md-9">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($voucher->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($voucher->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ ($project->status == 1) ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ ($project->status == 0) ? 'selected' : '' }}>Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -45,7 +45,7 @@
         </div>
     </form>
 @else
-    <form action="{{ route('imprest-reset-voucher.store') }}" method="POST" id="imprest-reset-voucher-create-form">
+    <form action="{{ route('project.store') }}" method="POST" id="project-create-form">
         @csrf
         <div class="row">
             <div class="col-md-8">
@@ -53,10 +53,10 @@
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-4">
-                                <label>Voucher No.</label>
+                                <label>Project Name</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="voucher_no_text" id="voucher_no_text" placeholder="RCI-CHESS-">
+                                <input type="text" class="form-control" name="name" id="name" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>

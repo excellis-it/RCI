@@ -14,15 +14,15 @@
             <!-- Sidebar Menu-->
                 <ul id="sidebarnav">
                     <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow {{Request::is('cash-payments*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
+                        <a class="sidebar-link has-arrow {{Request::is('cda-receipt*') ? 'active' : ''}}" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" aria-expanded="false">
                           <span>
                             <i class="ti ti-brand-cashapp"></i>
                           </span>
-                          <span class="hide-menu">Cash</span>
+                          <span class="hide-menu">CDA Receipt</span>
                         </a>
-                        <ul class="collapse {{Request::is('cash-payments*') ? 'show' : ''}}" id="collapseExample">
+                        <ul class="collapse {{Request::is('cda-receipt*') ? 'show' : ''}}" id="collapseExample">
                             <li class="sidebar-item">
-                                <a class="sidebar-link {{Request::is('cash-payments*') ? 'active' : ''}}" href="{{route('cash-payments.index')}}"  aria-expanded="false">
+                                <a class="sidebar-link {{Request::is('cda-receipt*') ? 'active' : ''}}" href="{{route('cda-receipt.index')}}"  aria-expanded="false">
                                   <span>
                                     <i class="ti ti-cash-banknote"></i>
                                   </span>
@@ -30,7 +30,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link {{Request::is('cash-payments*') ? 'active' : ''}}" href="{{route('cash-payments.create')}}" href="" aria-expanded="false">
+                                <a class="sidebar-link {{Request::is('cda-receipt*') ? 'active' : ''}}" href="{{route('cda-receipt.create')}}" href="" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cash-off"></i>
                                 </span>

@@ -1,6 +1,6 @@
 @extends('imprest.layouts.master')
 @section('title')
-CDA Receipt List
+   Project Listing
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@ CDA Receipt List
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>CDA Receipt Listing</h3>
+                    <h3>Project Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">CDA Receipt Listing</span></li>
+                        <li><span class="bread-blod">Project Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -26,16 +26,17 @@ CDA Receipt List
         <!--  Row 1 -->
 
         <div class="row">
-            <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('cda-receipt.create') }}">Add CDA Receipt</a>
-              </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
+                        <div id="form">
+                            @include('imprest.projects.form')
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -47,25 +48,16 @@ CDA Receipt List
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="SR_NO"
-                                                    style="cursor: pointer">SR.NO<span id="SR_NO_icon"><i
+                                                <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">Project Name<span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="VR_NO"
-                                                    style="cursor: pointer">VR.NO<span id="VR_NO_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="VR_DATE"
-                                                    style="cursor: pointer">VR.DATE<span id="VR_DATE_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="AMT"
-                                                style="cursor: pointer">DV DATE<span id="AMT_icon"><i
-                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th>AMT</th>
-                                                <th>DETAILS</th>
+                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('imprest.cda-receipts.table')
+                                            @include('imprest.projects.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -79,7 +71,7 @@ CDA Receipt List
                 </div>
             </div>
         </div>
-       
+        </form>
     </div>
 @endsection
 
@@ -88,7 +80,7 @@ CDA Receipt List
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Payment Category!",
+                    text: "To delete this Voucher No.!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -111,7 +103,7 @@ CDA Receipt List
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('cda-receipt.fetch-data') }}",
+                    url: "{{ route('project.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -176,7 +168,7 @@ CDA Receipt List
     </script>
     <script>
         $(document).ready(function() {
-            $('#cda-receipt-create-form').submit(function(e) {
+            $('#project-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -231,7 +223,7 @@ CDA Receipt List
             });
 
             // Handle the form submission
-            $(document).on('submit', '#cda-receipt-edit-form', function(e) {
+            $(document).on('submit', '#project-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

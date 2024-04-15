@@ -23,7 +23,7 @@ class CashPaymentController extends Controller
 
     public function fetchData(Request $request)
     {
-        dd($request->all());
+        
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');

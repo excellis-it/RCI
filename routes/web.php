@@ -31,6 +31,9 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
 use App\Http\Controllers\Imprest\ImprestResetVoucherController;
+use App\Http\Controllers\Imprest\VariableTypeController;
+use App\Http\Controllers\Imprest\ProjectController;
+use App\Http\Controllers\Imprest\CdaReceiptController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -100,8 +103,7 @@ Route::middleware('permssions')->group(function () {
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
         'reset-voucher' => ResetVoucherController::class,
-        'cda-receipt-details' => CdaReceiptDetailController::class,
-        'imprest-reset-voucher' => ImprestResetVoucherController::class,
+        
     ]);
 
     // category
@@ -280,23 +282,52 @@ Route::middleware('permssions')->group(function () {
         Route::get('/reset-voucher-delete/{id}', [ResetVoucherController::class, 'delete'])->name('reset-voucher.delete');
     });
 
-    // cda receipt details
-    Route::prefix('cda-receipt-details')->group(function () {
-        Route::get('/cda-receipt-details-delete/{id}', [CdaReceiptDetailController::class, 'delete'])->name('cda-receipt-details.delete');
-    });
-    Route::get('/cda-receipt-details-fetch-data', [CdaReceiptDetailController::class, 'fetchData'])->name('cda-receipt-details.fetch-data');
-
-    // imprest reset voucher
-    Route::prefix('imprest-reset-voucher')->group(function () {
-        Route::get('/imprest-reset-voucher-delete/{id}', [ImprestResetVoucherController::class, 'delete'])->name('imprest-reset-voucher.delete');
-    });
-    Route::get('/imprest-reset-voucher-fetch-data', [ImprestResetVoucherController::class, 'fetchData'])->name('imprest-reset-voucher.fetch-data');
-
-
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     
     Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
+
+
+    Route::prefix('imprest')->group(function () {
+        Route::resources([
+            'cda-receipt-details' => CdaReceiptDetailController::class,
+            'imprest-reset-voucher' => ImprestResetVoucherController::class,
+            'variable-type' => VariableTypeController::class,
+            'project' => ProjectController::class,
+            'cda-receipt' => CdaReceiptController::class,
+        ]);
+
+        // cda receipt details
+        Route::prefix('cda-receipt-details')->group(function () {
+            Route::get('/cda-receipt-details-delete/{id}', [CdaReceiptDetailController::class, 'delete'])->name('cda-receipt-details.delete');
+        });
+        Route::get('/cda-receipt-details-fetch-data', [CdaReceiptDetailController::class, 'fetchData'])->name('cda-receipt-details.fetch-data');
+
+        // imprest reset voucher
+        Route::prefix('imprest-reset-voucher')->group(function () {
+            Route::get('/imprest-reset-voucher-delete/{id}', [ImprestResetVoucherController::class, 'delete'])->name('imprest-reset-voucher.delete');
+        });
+        Route::get('/imprest-reset-voucher-fetch-data', [ImprestResetVoucherController::class, 'fetchData'])->name('imprest-reset-voucher.fetch-data');
+
+        // variable type
+        Route::prefix('variable-type')->group(function () {
+            Route::get('/variable-type-delete/{id}', [VariableTypeController::class, 'delete'])->name('variable-type.delete');
+        });
+        Route::get('/variable-type-fetch-data', [VariableTypeController::class, 'fetchData'])->name('variable-type.fetch-data');
+
+        // project
+        Route::prefix('project')->group(function () {
+            Route::get('/project-delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
+        });
+        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data');
+
+        // cda receipt
+        Route::prefix('cda-receipt')->group(function () {
+            Route::get('/cda-receipt-delete/{id}', [CdaReceiptController::class, 'delete'])->name('cda-receipt.delete');
+        });
+        Route::get('/cda-receipt-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipt.fetch-data');
+
+    });
    
 });

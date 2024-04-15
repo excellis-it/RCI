@@ -13,7 +13,7 @@ class CdaReceiptDetailController extends Controller
      */
     public function index()
     {
-        $cdaReceiptDetails = CdaReceiptDetail::all();
+        $cdaReceiptDetails = CdaReceiptDetail::orderBy('id', 'desc')->paginate(10);
         return view('imprest.cda-receipt-details.list', compact('cdaReceiptDetails'));
     }
 
@@ -38,7 +38,7 @@ class CdaReceiptDetailController extends Controller
         $cdaReceiptDetail->details = $request->details;
         $cdaReceiptDetail->save();
 
-        return response()->json(['message' => 'CDA Receipt Detail created successfully.']);
+        return redirect()->route('cda-receipt-details.index')->with('success', 'CDA Receipt updated successfully.');
     }
 
     /**
@@ -55,7 +55,8 @@ class CdaReceiptDetailController extends Controller
     public function edit(string $id)
     {
         $cdaReceiptDetail = CdaReceiptDetail::findOrFail($id);
-        return view('imprest.cda-receipt-details.form', compact('cdaReceiptDetail'));
+        $edit = true;
+        return response()->json(['view' => view('imprest.cda-receipt-details.form', compact('cdaReceiptDetail', 'edit'))->render()]);
     }
 
     /**
@@ -71,7 +72,7 @@ class CdaReceiptDetailController extends Controller
         $cdaReceiptDetail->details = $request->details;
         $cdaReceiptDetail->save();
 
-        return response()->json(['message' => 'CDA Receipt Detail updated successfully.']);
+        return redirect()->route('cda-receipt-details.index')->with('success', 'CDA Receipt updated successfully.');
     }
 
     /**
@@ -91,6 +92,6 @@ class CdaReceiptDetailController extends Controller
         $cdaReceiptDetail = CdaReceiptDetail::findOrFail($id);
         $cdaReceiptDetail->delete();
 
-        return response()->json(['message' => 'CDA Receipt Detail deleted successfully.']);
+        return redirect()->route('cda-receipt-details.index')->with('success', 'CDA Receipt deleted successfully.');
     }
 }

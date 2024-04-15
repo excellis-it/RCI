@@ -1,4 +1,4 @@
-@extends('frontend.public-fund.layouts.master')
+@extends('imprest.layouts.master')
 @section('title')
    Reset Voucher Listing
 @endsection
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.public-fund.reset-vouchers.form')
+                            @include('imprest.reset-vouchers.form')
                         </div>
 
                         <div class="row">
@@ -57,7 +57,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.public-fund.reset-vouchers.table')
+                                            @include('imprest.reset-vouchers.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -103,7 +103,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('reset-voucher.fetch-data') }}",
+                    url: "{{ route('imprest-reset-voucher.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -168,7 +168,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#reset-voucher-create-form').submit(function(e) {
+            $('#imprest-reset-voucher-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -223,7 +223,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#reset-voucher-edit-form', function(e) {
+            $(document).on('submit', '#imprest-reset-voucher-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

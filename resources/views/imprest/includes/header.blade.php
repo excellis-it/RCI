@@ -35,6 +35,12 @@
                 <a class="nav-link" href="{{ route('imprest-reset-voucher.index') }}">Reset Voucher</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="{{ route('variable-type.index') }}">Variable Type</a>
+            </li>
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="{{ route('project.index') }}">Projects</a>
+            </li>
+            <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="#">Report</a>
             </li>
 

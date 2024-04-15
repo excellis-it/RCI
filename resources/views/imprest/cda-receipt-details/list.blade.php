@@ -1,4 +1,4 @@
-@extends('frontend.public-fund.layouts.master')
+@extends('imprest.layouts.master')
 @section('title')
    CDA Receipt Details Listing
 @endsection
@@ -223,7 +223,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#cda-receipt-detail-edit-form', function(e) {
+            $(document).on('submit', '#cda-receipt-details-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

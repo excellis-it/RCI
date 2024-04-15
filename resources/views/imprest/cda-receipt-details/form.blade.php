@@ -1,5 +1,5 @@
 @if (isset($edit))
-    <form action="{{ route('cda-receipt-details.update', $receiptDetail->id) }}" method="POST" id="cda-receipt-details-edit-form">
+    <form action="{{ route('cda-receipt-details.update', $cdaReceiptDetail->id) }}" method="POST" id="cda-receipt-details-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -11,7 +11,7 @@
                                 <label>Receipt Details</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="details" id="details" value="{{ $receiptDetail->details ?? '' }}"
+                                <input type="text" class="form-control" name="details" id="details" value="{{ $cdaReceiptDetail->details ?? '' }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -25,8 +25,8 @@
                             </div>
                             <div class="col-md-9">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($receiptDetail->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($receiptDetail->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ ($cdaReceiptDetail->status == 1) ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ ($cdaReceiptDetail->status == 0) ? 'selected' : '' }}>Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

@@ -34,13 +34,13 @@
     <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
-        @include('frontend.public-fund.includes.sidebar')
+        @include('imprest.includes.sidebar')
 
         <!--  Sidebar End -->
         <!--  Main wrapper -->
         <div class="body-wrapper">
             <!--  Header Start -->
-            @include('frontend.public-fund.includes.header')
+            @include('imprest.includes.header')
 
             <!--  Header End -->
             @yield('content')
@@ -48,7 +48,7 @@
         </div>
         <div class="dark-transparent sidebartoggler"></div>
     </div>
-    @include('frontend.public-fund.includes.footer')
+    @include('imprest.includes.footer')
 
 
     <!--  Import Js Files -->
