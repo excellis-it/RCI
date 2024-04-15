@@ -314,7 +314,7 @@
                                         aria-labelledby="recovery-tab" tabindex="0">
                                         <div class="credit-frm">
                                             @include('frontend.members.recovery-original-form')
-                                            
+
                                         </div>
                                     </div>
 
@@ -548,7 +548,7 @@
 
         function deleteRecovery(id) {
             // load
-            var id= id;
+            var id = id;
             var route = "{{ route('members.recovery-delete', ['id' => ':id']) }}";
             route = route.replace(':id', id);
 
@@ -626,7 +626,7 @@
     {{-- personal script --}}
     <script>
         $(document).ready(function() {
-            $('#member-personal-form').validate({ 
+            $('#member-personal-form').validate({
                 //  rules: {
                 //      // Define rules for your form fields
                 //      'v_incr': {
@@ -838,8 +838,8 @@
 
         function deleteLoan(id) {
             // load
-            
-            var id= id;
+
+            var id = id;
             var route = "{{ route('members.loan.delete', ['id' => ':id']) }}";
             route = route.replace(':id', id);
 
@@ -862,9 +862,9 @@
                     $('#balance').val('');
                     // edit-route-policy tr remove
 
-                   
+
                     // remove value from form
-                    
+
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI
@@ -922,25 +922,31 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            
+
                             //extract from data
 
                             var data = response.data;
-                            var id= data.id;
+                            var id = data.id;
                             // var route = '/members-policy-info-edit/' + data.id;
-                            var route = "{{ route('members.policy-info.edit', ['id' => ':id']) }}";
+                            var route =
+                                "{{ route('members.policy-info.edit', ['id' => ':id']) }}";
                             route = route.replace(':id', id);
-                       
+
                             //construct table row html
-                            var newRow = '<tr class="edit-route-policy"  data-id="'+ data.id +'" data-route="' + route +
+                            var newRow = '<tr class="edit-route-policy"  data-id="' + data
+                                .id + '" data-route="' + route +
                                 '">';
-                            newRow += '<td>' + (data.policy_name ? data.policy_name : 'N/A') +
+                            newRow += '<td>' + (data.policy_name ? data.policy_name :
+                                'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                            newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') + '</td>';
-                            newRow += '<td>' + (data.amount ? data.amount : 'N/A') + '</td>';
-                            newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') + '</td>';
+                            newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') +
+                                '</td>';
+                            newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
+                            '</td>';
+                            newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') +
+                                '</td>';
                             newRow += '</tr>';
-                            
+
 
                             $('#no-policy').hide();
 
@@ -997,21 +1003,32 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                        // respobnse data replcae by id
-                        
+                        // response data replcae by id
+
                         $('#policy-delete').attr('data-id', response.data.id);
-                        // var data = response.data;
-                        // var row = $('#policy-table tbody').find('tr[data-id="' + data.id +
-                        //     '"]');
-                        // row.find('td:eq(0)').text(data.loan_name);
-                        // row.find('td:eq(1)').text(data.present_inst_no);
-                        // row.find('td:eq(2)').text(data.total_amount);
-                        // row.find('td:eq(4)').text(data.remark);
 
-                        // // Hide the offcanvas
-                        // $('#offcanvasEdit').offcanvas('hide');
+                            var data = response.data;
+                            var id = data.id;
+                            // var route = '/members-policy-info-edit/' + data.id;
+                            var route =
+                                "{{ route('members.policy-info.edit', ['id' => ':id']) }}";
+                            route = route.replace(':id', id);
 
-                        // Show success message if needed
+                            //construct table row html
+                            var newRow = '<tr class="edit-route-policy"  data-id="' + data
+                                .id + '" data-route="' + route +
+                                '">';
+                            newRow += '<td>' + (data.policy_name ? data.policy_name :
+                                'N/A') +
+                                '</td>'; // Use loanName directly if it's a string, adjust accordingly
+                            newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') +
+                                '</td>';
+                            newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
+                            '</td>';
+                            newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') +
+                                '</td>';
+                            newRow += '</tr>';
+                        
                         toastr.success(response.message);
 
                     },
@@ -1029,14 +1046,14 @@
     </script>
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             $(document).on('click', '#policy-delete', function(e) {
                 e.preventDefault();
 
                 var id = $(this).data('id');
-                
+
                 if (id !== '#') {
-                    
+
                     deletePolicy(id);
                 } else {
                     console.log('Invalid ID');
@@ -1047,8 +1064,8 @@
         function deletePolicy(id) {
             $('#loading').addClass('loading');
             $('#loading-content').addClass('loading-content');
-            
-            var id= id;
+
+            var id = id;
             var route = "{{ route('members.policy-info.delete', ['id' => ':id']) }}";
             route = route.replace(':id', id);
 
@@ -1069,9 +1086,6 @@
                     // edit-route-policy tr remove
                     $('.edit-route-policy[data-id="' + id + '"]').remove();
 
-                   
-
-
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI
@@ -1083,7 +1097,6 @@
             });
         }
     </script>
-
     {{-- policy script end --}}
 
     {{-- expectation script --}}
@@ -1136,11 +1149,13 @@
 
                             var data = response.data;
                             var id = data.id;
-                            var route = "{{ route('members.expectation.edit', ['id' => ':id']) }}";
+                            var route =
+                                "{{ route('members.expectation.edit', ['id' => ':id']) }}";
                             route = route.replace(':id', id);
-                        
+
                             //construct table row html
-                            var newRow = '<tr class="edit-route-expectation" data-id="'+id +'" data-route="' + route +
+                            var newRow = '<tr class="edit-route-expectation" data-id="' +
+                                id + '" data-route="' + route +
                                 '">';
                             newRow += '<td>' + (data.rule_name ? data.rule_name : 'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
@@ -1209,7 +1224,7 @@
                     success: function(response) {
                         // updated value replace with old value using tr class edit-route-expectation
                         // var data = response.data;
-                        
+
                         // var row = $('#fetch-exp-table tbody').find('tr[data-id="' + data.id +
                         //     '"]');
                         // var row = $('.edit-route-expectation[data-id="' + id + '"]');
@@ -1237,40 +1252,40 @@
 
     <script>
         $(document).ready(function() {
-        $(document).on('click', '#expectation-delete', function(e) {
-            e.preventDefault();
+            $(document).on('click', '#expectation-delete', function(e) {
+                e.preventDefault();
 
-            var id = $(this).data('id');
-            
-            if (id !== '#') {
-                
-                deleteExpectation(id);
-            } else {
-                console.log('Invalid ID');
-            }
+                var id = $(this).data('id');
+
+                if (id !== '#') {
+
+                    deleteExpectation(id);
+                } else {
+                    console.log('Invalid ID');
+                }
+            });
         });
-    });
 
-    function deleteExpectation(id) {
-        
-        $('#loading').addClass('loading');
-        $('#loading-content').addClass('loading-content');
-        
-        var id = id;
-        var route = "{{ route('members.expectation-delete', ['id' => ':id']) }}";
-        route = route.replace(':id', id);
-        
+        function deleteExpectation(id) {
 
-        $.ajax({
-            url: route,
-            type: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                    toastr.success(response.message);           
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+
+            var id = id;
+            var route = "{{ route('members.expectation-delete', ['id' => ':id']) }}";
+            route = route.replace(':id', id);
+
+
+            $.ajax({
+                url: route,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    toastr.success(response.message);
                     $('.edit-route-expectation[data-id="' + id + '"]').remove();
-                    
+
                     $('#exp_rule_name').val('');
                     $('#exp_percent').val('');
                     $('#exp_amount').val('');
@@ -1278,25 +1293,23 @@
                     $('#exp_month').val('');
                     $('#exp_remark').val('');
 
-                    
+
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
-                // Optionally, remove the deleted item from the UI
-            },
-            error: function(xhr) {
-                // Handle errors
-                console.log(xhr);
-            }
-        });
-    }
+                    // Optionally, remove the deleted item from the UI
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    console.log(xhr);
+                }
+            });
+        }
     </script>
     {{-- expectation script end --}}
 
-
-   {{-- original recovery script --}} 
-
-   <script>
-     $(document).ready(function() {
+    {{-- original recovery script --}}
+    <script>
+        $(document).ready(function() {
             $('#member-original-recovery-form').validate({ // Initialize form validation
                 //  rules: {
                 //      // Define rules for your form fields
@@ -1337,6 +1350,5 @@
             });
         });
     </script>
-   {{-- original recovery script end --}} 
-
+    {{-- original recovery script end --}}
 @endpush

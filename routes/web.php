@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\PgController;
 use App\Http\Controllers\Frontend\CgegisController;
 use App\Http\Controllers\Frontend\IncomeTaxController;
 use App\Http\Controllers\Frontend\BankController;
+use App\Http\Controllers\Frontend\LoanController;
 use App\Http\Controllers\Frontend\PolicyController;
 use App\Http\Controllers\Frontend\MemberController;
 use App\Http\Controllers\Frontend\PublicFundController;
@@ -29,6 +30,8 @@ use App\Http\Controllers\Frontend\ChequePaymentController;
 use App\Http\Controllers\Frontend\CashPaymentController;
 use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
+// inventory
+use App\Http\Controllers\Inventory\ItemController;
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
 use App\Http\Controllers\Imprest\ImprestResetVoucherController;
 use App\Http\Controllers\Imprest\VariableTypeController;
@@ -103,6 +106,7 @@ Route::middleware('permssions')->group(function () {
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
         'reset-voucher' => ResetVoucherController::class,
+        'loans' => LoanController::class,
         
     ]);
 
@@ -216,6 +220,12 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/banks-fetch-data', [BankController::class, 'fetchData'])->name('banks.fetch-data');
 
+    //loans route
+    Route::prefix('loans')->group(function () {
+        Route::get('/loans-delete/{id}', [LoanController::class, 'delete'])->name('loans.delete');
+    });
+    Route::get('/loans-fetch-data', [LoanController::class, 'fetchData'])->name('loans.fetch-data');
+
     // policy route
     Route::prefix('policy')->group(function () {
         Route::get('/policy-delete/{id}', [PolicyController::class, 'deletePolicy'])->name('policy.delete');
@@ -283,9 +293,7 @@ Route::middleware('permssions')->group(function () {
     });
 
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
-    
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
-    
     Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
 
 
@@ -329,5 +337,18 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cda-receipt-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipt.fetch-data');
 
     });
+    // inventory routes
+    Route::prefix('inventory')->group(function () {
+        Route::resources([
+            'items' => ItemController::class,
+        ]);
+    });
+
+    
+    
+
+
+
+
    
 });

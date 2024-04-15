@@ -147,9 +147,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-6">
                                                 <div class="row">
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Pers No</label>
@@ -162,12 +162,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    {{-- <div class="form-group col-md-4 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>EMP-ID</label>
                                                             </div>
-                                                            {{-- random id generate --}}
 
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="emp_id"
@@ -176,8 +175,8 @@
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    </div> --}}
+                                                    <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Gender</label>
@@ -195,7 +194,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-6">
                                                 <div class="row">
                                                     <div class="form-group col-md-12 mb-2">
                                                         <div class="row align-items-center">
@@ -834,7 +833,15 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var randomId = 'RCI-CHESS-' + Math.random().toString().substr(2, 8);
+            var lastId = localStorage.getItem('lastId');
+            if (lastId === null) {
+                lastId = 1;
+            } else {
+                lastId = parseInt(lastId) + 1;
+            }
+
+            var randomId = 'RCI_CHESS' + String(lastId).padStart(4, '0');
+            localStorage.setItem('lastId', lastId);
             document.getElementById('emp_id').value = randomId;
         });
     </script>
