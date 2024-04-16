@@ -50,7 +50,7 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-note"></i>
@@ -81,7 +81,7 @@
                         </span>
                         <span class="hide-menu">OldReports</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>

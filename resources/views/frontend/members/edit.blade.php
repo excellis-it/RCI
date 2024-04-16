@@ -542,6 +542,7 @@
                     deleteRecovery(id);
                 } else {
                     console.log('Invalid ID');
+                    
                 }
             });
         });
@@ -572,6 +573,8 @@
                 error: function(xhr) {
                     // Handle errors
                     console.log(xhr);
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
                 }
             });
         }
@@ -872,6 +875,8 @@
                 error: function(xhr) {
                     // Handle errors
                     console.log(xhr);
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
                 }
             });
         }
@@ -1093,6 +1098,8 @@
                 error: function(xhr) {
                     // Handle errors
                     console.log(xhr);
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
                 }
             });
         }
@@ -1301,6 +1308,10 @@
                 error: function(xhr) {
                     // Handle errors
                     console.log(xhr);
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    
+                    
                 }
             });
         }

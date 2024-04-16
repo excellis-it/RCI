@@ -9,7 +9,7 @@ use App\Models\CdaReceiptDetail;
 use App\Models\ImprestResetVoucher;
 use Illuminate\Support\Str;
 
-class CDAreceiptController extends Controller
+class CdaReceiptController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -54,11 +54,16 @@ class CDAreceiptController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'voucher_no' => 'required|string',
-        //     'voucher_date' => 'required|date',
-        //     'amount' => 'required|numeric',
-        // ]);
+        
+        $request->validate([
+            'voucher_date' => 'required',
+            'dv_date' => 'required',
+            'vr_amount' => 'required',
+            'details' => 'required',
+        ]);
+
+       
+        
 
         $voucherText = ImprestResetVoucher::where('status', 1)->first();
         $cdaReceipt = CDAReceipt::latest()->first();
@@ -77,11 +82,12 @@ class CDAreceiptController extends Controller
         $cdaReceipt->voucher_no = $constantString . $counter;
         $cdaReceipt->voucher_date = $request->voucher_date;
         $cdaReceipt->dv_date = $request->dv_date;
-        $cdaReceipt->amount = $request->amount;
+        $cdaReceipt->amount = $request->vr_amount;
         $cdaReceipt->details = $request->details;
         $cdaReceipt->save();
 
-        return redirect()->route('cda-receipt.index')->with('success', 'CDA Receipt added successfully.');
+        session()->flash('message', 'CDA receipt added successfully');
+        return response()->json(['success' => 'CDA receipt added successfully']);
     }
 
     /**

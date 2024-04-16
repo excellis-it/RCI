@@ -31,6 +31,8 @@ use App\Models\Policy;
 use App\Models\MemberPolicyInfo;
 use App\Models\MemberExpectation;
 use App\Models\MemberOriginalRecovery;
+use App\Models\ResetEmployeeId;
+use Illuminate\Support\Str;
 
 class MemberController extends Controller
 {
@@ -138,10 +140,24 @@ class MemberController extends Controller
             'sos_address' => 'required',
         ]);
 
+        //check employee id 
+        $employeeIdText = ResetEmployeeId::where('status', 1)->first();
+        $latest_member = Member::latest()->first();
+
+        $constantString = $employeeIdText->employee_id_text ?? 'RCI-CHESS-EMP-';
+        if(isset($latest_member))
+        {
+            $serial_no = Str::substr($latest_member->emp_id, -1);
+            $counter = $serial_no + 1;
+            // dd($serial_no);
+        } else {
+            $counter = 1;
+        }
+
         // store data
         $member = new Member();
         $member->pers_no = $request->pers_no;
-        $member->emp_id = $request->emp_id;
+        $member->emp_id = $constantString . $counter++;
         $member->gender = $request->gender;
         $member->name = $request->name;
         $member->pm_level = $request->pm_level;

@@ -49,8 +49,8 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Receipt Details<span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="details"
+                                                    style="cursor: pointer">Receipt Details<span id="details_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
@@ -80,7 +80,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Payment Category!",
+                    text: "To delete this Cda receipt!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -168,7 +168,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#cda-receipt-detail-create-form').submit(function(e) {
+            $('#cda-receipt-details-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             

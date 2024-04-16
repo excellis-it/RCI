@@ -325,7 +325,7 @@
                             <button type="submit" class="listing_add">Update</button>
                         </div>
                         <div class="form-group col-md-3 mb-2">
-                            <button type="#" class="listing_exit">Cancel</button>
+                            <button type="reset" class="listing_exit">Cancel</button>
                         </div>
                     </div>
                 </div>

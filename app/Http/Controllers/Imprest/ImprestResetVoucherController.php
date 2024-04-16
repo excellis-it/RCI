@@ -48,12 +48,10 @@ class ImprestResetVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'voucher_no' => 'required|string',
-        //     'amount' => 'required|numeric',
-        //     'date' => 'required|date',
-        //     'description' => 'required|string',
-        // ]);
+        $request->validate([
+            'voucher_no_text' => 'required',
+            'status' => 'required',
+        ]);
 
         $voucher = new ImprestResetVoucher();
         $voucher->voucher_no_text = $request->voucher_no_text;
@@ -118,6 +116,10 @@ class ImprestResetVoucherController extends Controller
      */
     public function delete(string $id)
     {
+        if(ImprestResetVoucher::where('id', $id)->where('status', 1)->exists()) {
+            return redirect()->back()->with(['error' => 'This Voucher is active, you can not delete this.']);
+        }
+
         $voucher = ImprestResetVoucher::findOrFail($id);
         $voucher->delete();
         return redirect()->route('imprest-reset-voucher.index')->with('success', 'Voucher deleted successfully.');

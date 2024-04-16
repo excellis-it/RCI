@@ -29,19 +29,50 @@
                 </div>
             </li> --}}
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="{{ route('cda-receipt-details.index') }}"> CDA Receipt Details</a>
+                <a class="nav-link {{ Route::is('cda-receipt-details.index') ? 'active' : '' }}" href="{{ route('cda-receipt-details.index') }}"> CDA Receipt Details</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="{{ route('imprest-reset-voucher.index') }}">Reset Voucher</a>
+                <a class="nav-link {{ Route::is('imprest-reset-voucher.index') ? 'active' : '' }}" href="{{ route('imprest-reset-voucher.index') }}">Reset Voucher</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="{{ route('variable-type.index') }}">Variable Type</a>
+                <a class="nav-link {{ Route::is('variable-type.index') ? 'active' : '' }}" href="{{ route('variable-type.index') }}">Variable Type</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="{{ route('project.index') }}">Projects</a>
+                <a class="nav-link {{ Route::is('project.index') ? 'active' : '' }}" href="{{ route('project.index') }}">Projects</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="#">Report</a>
+            </li>
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pay & Allowance<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('cash-payments.index')}}">Public Fund</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('cda-receipts.index')}}">Imprest</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="#">Material Management</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('income-tax') }}">Income Tax</a>                             
+                            </li>
+                            <li>
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pm-levels.index') }}">PM Level</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block">

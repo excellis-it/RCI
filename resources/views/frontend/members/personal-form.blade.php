@@ -12,7 +12,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="basic" id="basic"
-                                    value="{{ $member_personal->basic ?? (old('basic') ?? '') }}" placeholder="">
+                                    value="{{ $member_personal->basic ?? $member->basic ?? ''}}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="g_pay" id="g_pay"
-                                    value="{{ $member_personal->g_pay ?? (old('g_pay') ?? '') }}" placeholder="">
+                                    value="{{ $member_personal->g_pay ?? $member->g_pay ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                     <option value="">Select</option>
                                     @foreach ($cadres as $cadre)
                                         <option value="{{ $cadre->id }}"
-                                            {{ isset($member_core->cadre) && $cadre->id == $member_core->cadre ? 'selected' : '' }}>
+                                            {{ isset($member_personal->cadre) && $cadre->id == $member_personal->cadre ? 'selected' : '' }}>
                                             {{ $cadre->value }}</option>
                                     @endforeach
                                 </select>
@@ -133,7 +133,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="emp_id" id="emp_id"
-                                    value="{{ $member_personal->emp_id ?? (old('emp_id') ?? '') }}" placeholder="">
+                                    value="{{ $member_personal->emp_id ?? $member->emp_id ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="name" id="name"
-                            value="{{ $member_personal->name ?? (old('name') ?? '') }}" placeholder="">
+                            value="{{ $member_personal->name ?? $member->name ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -354,7 +354,7 @@
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Fund Typ</label>
+                                <label>Fund Type</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="fund_type" id="fund_type"

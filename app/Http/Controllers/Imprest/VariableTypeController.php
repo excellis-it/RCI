@@ -50,6 +50,7 @@ class VariableTypeController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
+            'status' => 'required',
         ]);
 
         $variableType = new VariableType();

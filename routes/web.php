@@ -23,6 +23,7 @@ use App\Http\Controllers\Frontend\CgegisController;
 use App\Http\Controllers\Frontend\IncomeTaxController;
 use App\Http\Controllers\Frontend\BankController;
 use App\Http\Controllers\Frontend\LoanController;
+use App\Http\Controllers\Frontend\ResetEmployeeIdController;
 use App\Http\Controllers\Frontend\PolicyController;
 use App\Http\Controllers\Frontend\MemberController;
 use App\Http\Controllers\Frontend\PublicFundController;
@@ -107,8 +108,15 @@ Route::middleware('permssions')->group(function () {
         'payment-categories' => PaymentCategoryController::class,
         'reset-voucher' => ResetVoucherController::class,
         'loans' => LoanController::class,
+        'reset-employee-ids' => ResetEmployeeIdController::class,
         
     ]);
+
+    // reset employee ids
+    Route::prefix('reset-employee-ids')->group(function () {
+        Route::get('/reset-employee-ids-delete/{id}', [ResetEmployeeIdController::class, 'delete'])->name('reset-employee-ids.delete');
+    });
+    Route::get('/reset-employee-ids-fetch-data', [ResetEmployeeIdController::class, 'fetchData'])->name('reset-employee-ids.fetch-data');
 
     // category
     Route::prefix('categories')->group(function () {
@@ -303,7 +311,7 @@ Route::middleware('permssions')->group(function () {
             'imprest-reset-voucher' => ImprestResetVoucherController::class,
             'variable-type' => VariableTypeController::class,
             'project' => ProjectController::class,
-            'cda-receipt' => CdaReceiptController::class,
+            'cda-receipts' => CdaReceiptController::class,
         ]);
 
         // cda receipt details

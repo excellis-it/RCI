@@ -17,6 +17,23 @@ class CdaReceiptDetailController extends Controller
         return view('imprest.cda-receipt-details.list', compact('cdaReceiptDetails'));
     }
 
+    public function fetchData(Request $request)
+    {
+        if ($request->ajax()) {
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $cdaReceiptDetails = CdaReceiptDetail::where(function($queryBuilder) use ($query) {
+                $queryBuilder->where('details', 'like', '%' . $query . '%');
+            })
+            ->orderBy($sort_by, $sort_type)
+            ->paginate(10);
+
+            return response()->json(['data' => view('imprest.cda-receipt-details.table', compact('cdaReceiptDetails'))->render()]);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -31,14 +48,17 @@ class CdaReceiptDetailController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'details' => 'required|string',
+            'details' => 'required',
+            'status' => 'required',
         ]);
 
         $cdaReceiptDetail = new CdaReceiptDetail();
         $cdaReceiptDetail->details = $request->details;
+        $cdaReceiptDetail->status = $request->status;
         $cdaReceiptDetail->save();
 
-        return redirect()->route('cda-receipt-details.index')->with('success', 'CDA Receipt updated successfully.');
+        session()->flash('message', 'CDA receipt details added successfully');
+        return response()->json(['success' => 'CDA receipt details added successfully']);
     }
 
     /**
@@ -72,7 +92,8 @@ class CdaReceiptDetailController extends Controller
         $cdaReceiptDetail->details = $request->details;
         $cdaReceiptDetail->save();
 
-        return redirect()->route('cda-receipt-details.index')->with('success', 'CDA Receipt updated successfully.');
+        session()->flash('message', 'Cda receipt updated successfully');
+        return response()->json(['success' => 'Cda receipt updated successfully']);
     }
 
     /**
@@ -92,6 +113,6 @@ class CdaReceiptDetailController extends Controller
         $cdaReceiptDetail = CdaReceiptDetail::findOrFail($id);
         $cdaReceiptDetail->delete();
 
-        return redirect()->route('cda-receipt-details.index')->with('success', 'CDA Receipt deleted successfully.');
+        return redirect()->route('cda-receipt-details.index')->with('message', 'CDA Receipt deleted successfully.');
     }
 }

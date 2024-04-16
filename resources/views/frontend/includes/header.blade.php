@@ -274,6 +274,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('loans.index') }}">Loans</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reset-employee-ids.index') }}">Reset Employee-Id</a>
+                            </li>
                             
                             
                         </ul>
@@ -293,11 +297,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('cda-receipt.index')}}">Imprest</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Pay & Allowance</a>
+                                    href="{{route('cda-receipts.index')}}">Imprest</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -305,14 +305,12 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('income-tax') }}">Income Tax</a>
-                                    
+                                    href="{{ route('income-tax') }}">Income Tax</a>                             
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pm-levels.index') }}">PM Level</a>
                             </li>
-                            
                             
                         </ul>
                     </div>

@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('cda_receipts', function (Blueprint $table) {
             $table->id();
+            $table->foreign('details')->references('id')->on('cda_receipt_details')->onDelete('cascade')->nullable();
             $table->string('voucher_no')->nullable();
             $table->string('voucher_date')->nullable();
             $table->string('dv_date')->nullable();
             $table->string('amount')->nullable();
             $table->unsignedBigInteger('details')->nullable();
-            $table->timestamps();
-
-            $table->foreign('details')->references('id')->on('cda_receipt_details')->onDelete('cascade')->nullable();
+            $table->timestamps(); 
         });
     }
 

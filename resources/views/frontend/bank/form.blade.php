@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Bank</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" name="bank_name" id="bank" value="{{ $bank->bank_name }}"
                                 placeholder="">
                             <span class="text-danger" id="bank-error"></span>
@@ -21,10 +21,10 @@
                 
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Status</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="status" id="status">
                                 <option value="">Select Status</option>
                                 <option value="1" {{ ($bank->status == 1) ? 'selected' : '' }}>Active</option>
@@ -54,10 +54,10 @@
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Bank</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" name="bank_name" id="bank_name" value=""
                                 placeholder="">
                             <span class="text-danger"></span>
@@ -68,10 +68,10 @@
                
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Status</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="status" id="status">
                                 <option value="">Select Status</option>
                                 <option value="1">Active</option>
