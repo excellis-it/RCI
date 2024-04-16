@@ -328,7 +328,7 @@ Route::middleware('permssions')->group(function () {
         Route::prefix('project')->group(function () {
             Route::get('/project-delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
         });
-        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data');
+        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data'); 
 
         // cda receipt
         Route::prefix('cda-receipt')->group(function () {
