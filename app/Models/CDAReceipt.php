@@ -10,4 +10,10 @@ class CDAReceipt extends Model
     use HasFactory;
 
     protected $table = 'cda_receipts';
+
+
+    public function cdaReceiptDetails()
+    {
+        return $this->belongsTo(CdaReceiptDetail::class, 'details');
+    }
 }

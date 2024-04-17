@@ -1,6 +1,6 @@
-@extends('frontend.layouts.master')
+@extends('imprest.layouts.master')
 @section('title')
-   Ex Service List
+Cash Withdrawal List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Ex Service Listing</h3>
+                    <h3>Cash Withdrawal From Bank</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Ex Service Listing</span></li>
+                        <li><span class="bread-blod">Cash Withdrawal Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.ex-service.form')
+                            @include('imprest.cash-withdrawals.form')
                         </div>
 
                         <div class="row">
@@ -48,16 +48,28 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Ex Service Value <span id="value_icon"><i
+                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
+                                                    style="cursor: pointer">VR NO.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Status </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
+                                                    style="cursor: pointer">VR DATE.<span id="vr_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="chq_no"
+                                                    style="cursor: pointer">CHQ NO.<span id="chq_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th> 
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="chq_date"
+                                                    style="cursor: pointer">CHQ DATE.<span id="chq_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th> 
+                                                            <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                    style="cursor: pointer">AMOUNT<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>        
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.ex-service.table')
+                                            @include('imprest.cash-withdrawals.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -70,17 +82,49 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
+        </div> 
     </div>
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#cash-withdrawals-create-form').submit(function(e) {
+            
+            e.preventDefault();
+            var formData = $(this).serialize();
+        
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                   
+                    //windows load with toastr message
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                   
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Ex Service!",
+                    text: "To delete this Cash Withdrawal!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -103,7 +147,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('ex-services.fetch-data') }}",
+                    url: "{{ route('cash-withdrawals.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -168,40 +212,9 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#ex-service-create-form').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-            
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                       
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-                       
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
+                
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
@@ -211,7 +224,7 @@
                         $('#form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        $('#offcanvasEdit').offcanvas('show');
+                        // $('#offcanvasEdit').offcanvas('show');
                     },
                     error: function(xhr) {
                         // Handle errors
@@ -223,7 +236,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#ex-service-edit-form', function(e) {
+            $(document).on('submit', '#cash-withdrawals-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

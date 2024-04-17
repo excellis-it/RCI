@@ -38,6 +38,9 @@ use App\Http\Controllers\Imprest\ImprestResetVoucherController;
 use App\Http\Controllers\Imprest\VariableTypeController;
 use App\Http\Controllers\Imprest\ProjectController;
 use App\Http\Controllers\Imprest\CdaReceiptController;
+use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
+use App\Http\Controllers\Imprest\CashWithdrawalController;
+use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -305,6 +308,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
 
 
+    // imprest routes
     Route::prefix('imprest')->group(function () {
         Route::resources([
             'cda-receipt-details' => CdaReceiptDetailController::class,
@@ -312,6 +316,9 @@ Route::middleware('permssions')->group(function () {
             'variable-type' => VariableTypeController::class,
             'project' => ProjectController::class,
             'cda-receipts' => CdaReceiptController::class,
+            'cda-bills' => CdaBillAuditTeamController::class,
+            'cash-withdrawals' => CashWithdrawalController::class,
+            'advance-settlement' => AdvanceSettlementController::class,
         ]);
 
         // cda receipt details
@@ -339,10 +346,23 @@ Route::middleware('permssions')->group(function () {
         Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data'); 
 
         // cda receipt
-        Route::prefix('cda-receipt')->group(function () {
-            Route::get('/cda-receipt-delete/{id}', [CdaReceiptController::class, 'delete'])->name('cda-receipt.delete');
+        Route::prefix('cda-receipts')->group(function () {
+            Route::get('/cda-receipts-delete/{id}', [CdaReceiptController::class, 'delete'])->name('cda-receipts.delete');
         });
-        Route::get('/cda-receipt-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipt.fetch-data');
+        Route::get('/cda-receipts-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipts.fetch-data');
+
+        //cda bills
+        Route::prefix('cda-bills')->group(function () {
+            Route::get('/cda-bills-delete/{id}', [CdaBillAuditTeamController::class, 'delete'])->name('cda-bills.delete');
+        });
+        Route::get('/cda-bills-fetch-data', [CdaBillAuditTeamController::class, 'fetchData'])->name('cda-bills.fetch-data');
+
+        //cash withdrawal
+        Route::prefix('cash-withdrawals')->group(function () {
+            Route::get('/cash-withdrawals-delete/{id}', [CashWithdrawalController::class, 'delete'])->name('cash-withdrawals.delete');
+        });
+
+        Route::get('/cash-withdrawals-fetch-data', [CashWithdrawalController::class, 'fetchData'])->name('cash-withdrawals.fetch-data');
 
     });
     // inventory routes

@@ -49,15 +49,17 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'project_name' => 'required|string',
+            'status' => 'required|in:0,1',
         ]);
 
         $project = new Project();
-        $project->name = $request->name;
+        $project->name = $request->project_name;
         $project->status = $request->status;
         $project->save();
 
-        return redirect()->route('project.index')->with('success', 'Project updated successfully.');
+        session()->flash('message', 'Project added successfully');
+        return response()->json(['success' => 'Project added successfully']);
     }
 
     /**

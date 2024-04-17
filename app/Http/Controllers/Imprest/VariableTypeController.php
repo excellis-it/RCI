@@ -49,16 +49,17 @@ class VariableTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'var_type' => 'required|string',
             'status' => 'required',
         ]);
 
         $variableType = new VariableType();
-        $variableType->name = $request->name;
+        $variableType->name = $request->var_type;
         $variableType->status = $request->status;
         $variableType->save();
 
-        return redirect()->route('variable-type.index')->with('success', 'Variable Type updated successfully.');
+        session()->flash('message', 'Variable types added successfully');
+        return response()->json(['success' => 'Variable types added successfully']);
     }
 
     /**
@@ -93,7 +94,8 @@ class VariableTypeController extends Controller
         $variableType->status = $request->status;
         $variableType->save();
 
-        return redirect()->route('variable-type.index')->with('success', 'Variable Type updated successfully.');
+        session()->flash('message', 'Variable types updated successfully');
+        return response()->json(['success' => 'Variable types updated successfully']);
     }
 
     /**

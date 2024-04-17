@@ -16,7 +16,8 @@ class CdaReceiptController extends Controller
      */
     public function index()
     {
-        $cdaReceipts = CDAReceipt::orderBy('id', 'desc')->paginate(10);
+        
+        $cdaReceipts = CDAReceipt::orderBy('id', 'desc')->with('cdaReceiptDetails')->paginate(10);
         $cdaReceiptDetails = CdaReceiptDetail::all();
         return view('imprest.cda-receipts.list', compact('cdaReceipts', 'cdaReceiptDetails'));
     }
@@ -62,9 +63,6 @@ class CdaReceiptController extends Controller
             'details' => 'required',
         ]);
 
-       
-        
-
         $voucherText = ImprestResetVoucher::where('status', 1)->first();
         $cdaReceipt = CDAReceipt::latest()->first();
 
@@ -102,11 +100,14 @@ class CdaReceiptController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
+    { 
+        
         $cdaReceipt = CDAReceipt::findOrFail($id);
         $cdaReceiptDetails = CdaReceiptDetail::all();
         $edit = true;
-        return response()->json(['view' => view('imprest.cda-receipts.form', compact('cdaReceipt', 'cdaReceiptDetails', 'edit'))->render()]);
+       
+        return response()->json(['view' => view('imprest.cda-receipts.form', compact('edit','cdaReceipt','cdaReceiptDetails'))->render()]);
+        
     }
 
     /**
@@ -114,21 +115,23 @@ class CdaReceiptController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
         $request->validate([
-            'voucher_no' => 'required|string',
-            'voucher_date' => 'required|date',
-            'amount' => 'required|numeric',
+            'voucher_date' => 'required',
+            'dv_date' => 'required',
+            'vr_amount' => 'required',
+            'details' => 'required',
         ]);
 
         $cdaReceipt = CDAReceipt::findOrFail($id);
-        $cdaReceipt->voucher_no = $request->voucher_no;
         $cdaReceipt->voucher_date = $request->voucher_date;
         $cdaReceipt->dv_date = $request->dv_date;
-        $cdaReceipt->amount = $request->amount;
+        $cdaReceipt->amount = $request->vr_amount;
         $cdaReceipt->details = $request->details;
-        $cdaReceipt->save();
+        $cdaReceipt->update();
 
-        return redirect()->route('cda-receipt.index')->with('success', 'CDA Receipt updated successfully.');
+        session()->flash('message', 'CDA receipt updated successfully');
+        return response()->json(['success' => 'CDA receipt updated successfully']);
     }
 
     /**
@@ -142,11 +145,12 @@ class CdaReceiptController extends Controller
     /**
      * Delete record
      */
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $cdaReceipt = CDAReceipt::findOrFail($request->id);
+       
+        $cdaReceipt = CDAReceipt::findOrFail($id);
         $cdaReceipt->delete();
 
-        return redirect()->route('cda-receipt.index')->with('success', 'CDA Receipt deleted successfully.');
+        return redirect()->back()->with('message', 'CDA Receipt deleted successfully.');
     }
 }

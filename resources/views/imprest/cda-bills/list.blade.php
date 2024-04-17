@@ -1,6 +1,6 @@
-@extends('frontend.public-fund.layouts.master')
+@extends('imprest.layouts.master')
 @section('title')
-   Payment Categories Listing
+CDA Bill List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Payment Categories Listing</h3>
+                    <h3>CDA Bill Send To Audit Team</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Payment Categories Listing</span></li>
+                        <li><span class="bread-blod">CDA Bill Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.public-fund.payment-categories.form')
+                            @include('imprest.cda-bills.form')
                         </div>
 
                         <div class="row">
@@ -48,16 +48,36 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Category Name<span id="value_icon"><i
+                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="adv_no"
+                                                    style="cursor: pointer">ADV NO.<span id="adv_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Status </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="adv_date"
+                                                    style="cursor: pointer">ADV DATE.<span id="adv_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="adv_amount"
+                                                    style="cursor: pointer">ADV AMT<span id="adv_amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>                                          
+                                                <th class="sorting" data-sorting_type="desc" data-column_name=""
+                                                    style="cursor: pointer">PROJECT </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="var_no"
+                                                    style="cursor: pointer">VR NO.<span id="var_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="var_date"
+                                                    style="cursor: pointer">VR DATE.<span id="var_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="var_amount"
+                                                    style="cursor: pointer">VR AMT<span id="var_amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th> 
+                                                            <th class="sorting" data-sorting_type="desc" data-column_name="crv_no"
+                                                    style="cursor: pointer">CRV<span id="crv_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>        
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.public-fund.payment-categories.table')
+                                            @include('imprest.cda-bills.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -70,17 +90,49 @@
                     </div>
                 </div>
             </div>
-        </div>
-        </form>
+        </div> 
     </div>
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#cda-bills-create-form').submit(function(e) {
+            
+            e.preventDefault();
+            var formData = $(this).serialize();
+        
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                   
+                    //windows load with toastr message
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                   
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Payment Category!",
+                    text: "To delete this Cda Bill!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -103,7 +155,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('payment-categories.fetch-data') }}",
+                    url: "{{ route('cda-bills.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -168,40 +220,9 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#payment-category-create-form').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-            
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                       
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-                       
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
+                
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
@@ -211,7 +232,7 @@
                         $('#form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        $('#offcanvasEdit').offcanvas('show');
+                        // $('#offcanvasEdit').offcanvas('show');
                     },
                     error: function(xhr) {
                         // Handle errors
@@ -223,7 +244,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#payment-category-edit-form', function(e) {
+            $(document).on('submit', '#cda-bills-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

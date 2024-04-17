@@ -11,7 +11,7 @@
                                 <label>Project Name</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="name" id="name" value="{{ $project->name ?? '' }}"
+                                <input type="text" class="form-control" name="project_name" id="project_name" value="{{ $project->name ?? '' }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -56,7 +56,7 @@
                                 <label>Project Name</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="name" id="name" >
+                                <input type="text" class="form-control" name="project_name" id="project_name" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>

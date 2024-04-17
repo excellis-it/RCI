@@ -56,7 +56,7 @@
                                 <label>Variable Type Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="name" id="name" >
+                                <input type="text" class="form-control" name="var_type" id="var_type" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>

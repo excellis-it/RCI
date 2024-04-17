@@ -26,7 +26,7 @@
         </div>
         <!--  Row 1 -->
 
-        
+
 
         <div class="row">
             <div class="col-lg-12">
@@ -36,114 +36,7 @@
 
                             <form action="{{ route('members.store') }}" method="POST" id="member-create-form">
                                 @csrf
-                                {{-- <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="form-group col-md-2 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>PC NO</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="form-group ">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>Pers No</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="pers_no_view"  placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>EMP-ID</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control"  id="emp_id_view" placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-4 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-2">
-                                                            <label>Name</label>
-                                                        </div>
-                                                        <div class="col-md-10">
-                                                            <input type="text" class="form-control" id="name_view"  placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-2 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>EMP-ID</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>Desig</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control"  id="desig_view"  placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>Basic</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control" id="basic_view" placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-2 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>Group</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control"  id="group_view"  placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-2 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>Devision</label>
-                                                        </div>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control"  id="devision_view" placeholder="" readonly>
-                                                            <span class="text-danger"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="form-group col-md-2 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="col-md-4">
-                                                            <label>NAME</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr /> --}}
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">

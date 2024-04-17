@@ -26,16 +26,17 @@ CDA Receipt List
         <!--  Row 1 -->
 
         <div class="row">
-            <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('cda-receipts.create') }}">Add CDA Receipt</a>
-              </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
+                        <div id="form">
+                            @include('imprest.cda-receipts.form')
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -47,20 +48,21 @@ CDA Receipt List
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="SR_NO"
-                                                    style="cursor: pointer">SR.NO<span id="SR_NO_icon"><i
+                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
+                                                    style="cursor: pointer">VR NO.<span id="voucher_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="VR_NO"
-                                                    style="cursor: pointer">VR.NO<span id="VR_NO_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
+                                                    style="cursor: pointer">VR DATE.<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="VR_DATE"
-                                                    style="cursor: pointer">VR.DATE<span id="VR_DATE_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="dv_date"
+                                                    style="cursor: pointer">DV DATE<span id="dv_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="AMT"
-                                                style="cursor: pointer">DV DATE<span id="AMT_icon"><i
-                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th>AMT</th>
-                                                <th>DETAILS</th>
+                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                    style="cursor: pointer">AMT<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th>DETAILS </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -78,12 +80,44 @@ CDA Receipt List
                     </div>
                 </div>
             </div>
-        </div>
-       
+        </div> 
     </div>
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#cda-receipt-create-form').submit(function(e) {
+            
+            e.preventDefault();
+            var formData = $(this).serialize();
+        
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                   
+                    //windows load with toastr message
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                   
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
@@ -111,7 +145,7 @@ CDA Receipt List
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('cda-receipt.fetch-data') }}",
+                    url: "{{ route('cda-receipts.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -176,41 +210,9 @@ CDA Receipt List
     </script>
     <script>
         $(document).ready(function() {
-            $('#cda-receipt-create-form').submit(function(e) {
-                
-                e.preventDefault();
-                var formData = $(this).serialize();
-                alert(formData);
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                       
-                        //windows load with toastr message
-                        // window.location.reload();
-                    },
-                    error: function(xhr) {
-                       
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
+                
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
@@ -220,7 +222,7 @@ CDA Receipt List
                         $('#form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        $('#offcanvasEdit').offcanvas('show');
+                        // $('#offcanvasEdit').offcanvas('show');
                     },
                     error: function(xhr) {
                         // Handle errors

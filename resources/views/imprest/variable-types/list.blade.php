@@ -80,7 +80,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Voucher No.!",
+                    text: "To delete this Variable type!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true

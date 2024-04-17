@@ -65,7 +65,8 @@ class ImprestResetVoucherController extends Controller
             ImprestResetVoucher::where('id', '!=', $lastSavedOrderId)->update(['status' => 0]);
         }
 
-        return redirect()->route('imprest-reset-voucher.index')->with('success', 'Voucher updated successfully.');
+        session()->flash('message', 'Voucher added successfully');
+        return response()->json(['success' => 'Voucher added successfully']);
     }
 
     /**
@@ -98,9 +99,10 @@ class ImprestResetVoucherController extends Controller
         $voucher = ImprestResetVoucher::findOrFail($id);
         $voucher->voucher_no_text = $request->voucher_no_text;
         $voucher->status = $request->status;
-        $voucher->save();
+        $voucher->update();
 
-        return redirect()->route('imprest-reset-voucher.index')->with('success', 'Voucher updated successfully.');
+        session()->flash('message', 'Voucher updated successfully');
+        return response()->json(['success' => 'Voucher updated successfully']);
     }
 
     /**

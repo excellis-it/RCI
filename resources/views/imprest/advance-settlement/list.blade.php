@@ -1,6 +1,6 @@
-@extends('frontend.layouts.master')
+@extends('imprest.layouts.master')
 @section('title')
-   Ex Service List
+Advance Settlement 
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Ex Service Listing</h3>
+                    <h3>Advance Settlement</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Ex Service Listing</span></li>
+                        <li><span class="bread-blod">Advance Settlement</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,57 +30,56 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.ex-service.form')
+                            @include('imprest.advance-settlement.form')
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Ex Service Value <span id="value_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Status </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('frontend.ex-service.table')
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
-                                        value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div>
-                            </div>
-                        </div>
+                     
                     </div>
                 </div>
             </div>
-        </div>
-        
+        </div> 
     </div>
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#cda-bills-create-form').submit(function(e) {
+            
+            e.preventDefault();
+            var formData = $(this).serialize();
+        
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                   
+                    //windows load with toastr message
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                   
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Ex Service!",
+                    text: "To delete this Cda Bill!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -103,7 +102,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('ex-services.fetch-data') }}",
+                    url: "{{ route('cda-bills.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -168,40 +167,9 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#ex-service-create-form').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-            
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                       
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-                       
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
+                
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
@@ -211,7 +179,7 @@
                         $('#form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        $('#offcanvasEdit').offcanvas('show');
+                        // $('#offcanvasEdit').offcanvas('show');
                     },
                     error: function(xhr) {
                         // Handle errors
@@ -223,7 +191,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#ex-service-edit-form', function(e) {
+            $(document).on('submit', '#cda-bills-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
