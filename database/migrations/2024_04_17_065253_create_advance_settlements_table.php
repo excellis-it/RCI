@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('adv_no')->nullable();
             $table->date('adv_date')->nullable();
             $table->string('adv_amount')->nullable();
-            $table->foreignId('project_id')->references('id')->on('projects')->nullable();  
+            $table->foreignId('project_id')->nullable();  
             $table->string('var_no')->nullable();
             $table->date('var_date')->nullable();
             $table->string('var_amount')->nullable();
-            $table->foreignId('var_type_id')->references('id')->on('variable_types')->nullable(); 
+            $table->foreignId('var_type_id')->nullable();
             $table->string('chq_no')->nullable();
             $table->date('chq_date')->nullable();
             $table->timestamps();

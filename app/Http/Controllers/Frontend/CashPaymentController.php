@@ -63,16 +63,11 @@ class CashPaymentController extends Controller
     public function store(Request $request)
     {
         
-        // $request->validate([
-        //     'vr_no' => 'required|unique:cash_payments,vr_no',
-        //     'vr_date' => 'required',
-        //     'amount' => 'required',
-        //     'rct_no' => 'required',
-        //     'form' => 'required',
-        //     'details' => 'required',
-        //     'name' => 'required',
-        //     'category' => 'required',
-        // ]);
+        $request->validate([
+            'vr_date' => 'required',
+            'amount' => 'required',
+            'rct_no' => 'required',
+        ]);
         $voucherText = ResetVoucher::where('status', 1)->first();
         $cashPayment = CashPayment::latest()->first();
 
@@ -99,7 +94,8 @@ class CashPaymentController extends Controller
 
       
 
-        return redirect()->route('cash-payments.index')->with('message', 'Cash Payment added successfully');
+        session()->flash('message', 'Cash Payment added successfully');
+        return response()->json(['success' => 'Cash Payment added successfully']);
     }
 
     /**

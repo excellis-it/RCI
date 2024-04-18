@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Imprest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdvanceSettlement;
+use App\Models\Project;
+use App\Models\VariableType;
+use App\Models\AdvanceSettlementBill;
 
 class AdvanceSettlementController extends Controller
 {
@@ -14,7 +17,8 @@ class AdvanceSettlementController extends Controller
     public function index()
     {
         $advance_settlements = AdvanceSettlement::orderBy('id', 'desc')->paginate(10);
-        return view('imprest.advance-settlement.list', compact('advance_settlements'));
+        $projects = Project::orderBy('id','desc')->get();
+        return view('imprest.advance-settlement.list', compact('advance_settlements','projects'));
     }
 
     /**
@@ -22,6 +26,7 @@ class AdvanceSettlementController extends Controller
      */
     public function fetchData(Request $request)
     {
+       
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
@@ -46,7 +51,10 @@ class AdvanceSettlementController extends Controller
 
     public function create()
     {
-       
+        $projects = Project::orderBy('id','desc')->get();
+        $variable_types = VariableType::orderBy('id','desc')->get();
+
+        return view('imprest.advance-settlement.form',compact('projects','variable_types'));
     }
 
     /**
@@ -54,36 +62,36 @@ class AdvanceSettlementController extends Controller
      */
     public function store(Request $request)
     {
+       
         $request->validate([
-            'vr_date' => 'required',
+            'adv_no' => 'required',
+            'adv_date' => 'required',
+            'adv_amount' => 'required',
+            'project_id' => 'required',
+            'var_no' => 'required',
+            'var_date' => 'required',
+            'var_amount' => 'required',
+            'var_type_id' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
-            'amount' => 'required',
         ]);
 
-        $voucherText = ImprestResetVoucher::where('status', 1)->first();
-        $cashwithdrawal = CashWithdrawal::latest()->first();
+       
+        $advance_settlement = new AdvanceSettlement();
+        $advance_settlement->adv_no = $request->adv_no;
+        $advance_settlement->adv_date = $request->adv_date;
+        $advance_settlement->adv_amount = $request->adv_amount;
+        $advance_settlement->project_id = $request->project_id;
+        $advance_settlement->var_no = $request->var_no;
+        $advance_settlement->var_date = $request->var_date;
+        $advance_settlement->var_amount = $request->var_amount;
+        $advance_settlement->var_type_id = $request->var_type_id;
+        $advance_settlement->chq_no = $request->chq_no;
+        $advance_settlement->chq_date = $request->chq_date;
+        $advance_settlement->save();
 
-        $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-IMPRESS-';
-        if(isset($cashwithdrawal))
-        {
-            $serial_no = Str::substr($cashwithdrawal->vr_no, -1);
-            $counter = $serial_no + 1;
-            // dd($serial_no);
-        } else {
-            $counter = 1;
-        }
-        
-        $cashwithdrawal = new CashWithdrawal();
-        $cashwithdrawal->vr_no = $constantString . $counter;
-        $cashwithdrawal->vr_date = $request->vr_date;
-        $cashwithdrawal->chq_no = $request->chq_no;
-        $cashwithdrawal->chq_date = $request->chq_date;
-        $cashwithdrawal->amount = $request->amount;
-        $cashwithdrawal->save();
-
-        session()->flash('message', 'Cash Withdrawal updated successfully');
-        return response()->json(['success' => 'Cash Withdrawal updated successfully']);
+        session()->flash('message', 'Advance Settlement added successfully');
+        return response()->json(['success' => 'Advance Settlement added successfully']);
     }
 
     /**
@@ -99,7 +107,30 @@ class AdvanceSettlementController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $advance_settlement = AdvanceSettlement::find($id);
+        $projects = Project::orderBy('id','desc')->get();
+        $variable_types = VariableType::orderBy('id','desc')->get();
+        $advance_settlement_bills = AdvanceSettlementBill::where('advance_settlement_id',$id)->paginate(10);
+        return view('imprest.advance-settlement.edit', compact('advance_settlement','projects','variable_types','advance_settlement_bills'));
+    }
+
+    public function storeAdvanceSettleBill(Request $request)
+    {
+        $request->validate([
+            'firm' => 'required',
+            'bill_amount' => 'required',
+            'balance' => 'required',
+        ]);
+
+        $advance_settlement_bill = new AdvanceSettlementBill();
+        $advance_settlement_bill->advance_settlement_id = $request->advance_settlement_id;
+        $advance_settlement_bill->firm = $request->firm;
+        $advance_settlement_bill->bill_amount = $request->bill_amount;
+        $advance_settlement_bill->balance = $request->balance;
+        $advance_settlement_bill->save();
+
+        session()->flash('message', 'Advance Settlement Bill added successfully');
+        return response()->json(['success' => 'Advance Settlement Bill added successfully']);
     }
 
     /**
@@ -116,5 +147,10 @@ class AdvanceSettlementController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function delete($id)
+    {
+
     }
 }

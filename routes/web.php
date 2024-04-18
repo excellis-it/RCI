@@ -41,6 +41,7 @@ use App\Http\Controllers\Imprest\CdaReceiptController;
 use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
+use App\Http\Controllers\Imprest\AdvanceFundController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -319,6 +320,7 @@ Route::middleware('permssions')->group(function () {
             'cda-bills' => CdaBillAuditTeamController::class,
             'cash-withdrawals' => CashWithdrawalController::class,
             'advance-settlement' => AdvanceSettlementController::class,
+            'advance-funds' => AdvanceFundController::class,
         ]);
 
         // cda receipt details
@@ -363,6 +365,22 @@ Route::middleware('permssions')->group(function () {
         });
 
         Route::get('/cash-withdrawals-fetch-data', [CashWithdrawalController::class, 'fetchData'])->name('cash-withdrawals.fetch-data');
+
+        //advance fund
+        Route::prefix('advance-funds')->group(function () {
+            Route::get('/advance-funds-delete/{id}', [AdvanceFundController::class, 'delete'])->name('advance-funds.delete');
+        });
+        Route::get('/advance-funds-fetch-data', [AdvanceFundController::class, 'fetchData'])->name('advance-funds.fetch-data');
+
+        //advance settlement
+        Route::prefix('advance-settlement')->group(function () {
+            Route::get('/advance-settlement-delete/{id}', [AdvanceSettlementController::class, 'delete'])->name('advance-settlement.delete');
+        });
+
+        Route::get('/advance-settlement-fetch-data', [AdvanceSettlementController::class, 'fetchData'])->name('advance-settlement.fetch-data');
+
+        Route::post('/advance-settlement-bill-store', [AdvanceSettlementController::class, 'storeAdvanceSettleBill'])->name('advance-settle-bills.store');
+        Route::get('/advance-settlement-bills.edit/{id}', [AdvanceSettlementController::class, 'edit'])->name('advance-settlement-bills.edit');
 
     });
     // inventory routes

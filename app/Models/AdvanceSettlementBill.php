@@ -5,13 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdvanceSettlement extends Model
+class AdvanceSettlementBill extends Model
 {
     use HasFactory;
-
-   
-    public function project()
-    {
-        return $this->belongsTo(Project::class , 'project_id');
-    }
 }

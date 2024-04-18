@@ -111,8 +111,9 @@ class VariableTypeController extends Controller
      */
     public function delete(string $id)
     {
-        $variableType = VariableType::findOrFail($id);
+        $variableType = VariableType::where('id', $id)->first();
         $variableType->delete();
-        return redirect()->route('variable-type.index')->with('success', 'Variable Type deleted successfully.');
+
+        return redirect()->route('variable-type.index')->with('message', 'Variable Type deleted successfully.');
     }
 }

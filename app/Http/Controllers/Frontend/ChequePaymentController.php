@@ -30,7 +30,7 @@ class ChequePaymentController extends Controller
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         
         
-        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment','voucherText'));
+        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories'));
     }
 
     public function fetchData(Request $request)
@@ -67,16 +67,12 @@ class ChequePaymentController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'vr_no' => 'required',
-        //     'vr_date' => 'required',
-        //     'amount' => 'required',
-        //     'rct_no' => 'required',
-        //     'form' => 'required',
-        //     'details' => 'required',
-        //     'name' => 'required',
-        //     'category' => 'required',
-        // ]);
+       
+        $request->validate([
+            'vr_date' => 'required',
+            'sr_no' => 'required',
+            'amount' => 'required',
+        ]);
         $voucherText = ResetVoucher::where('status', 1)->first();
         $chequePayment = ChequePayment::latest()->first();
 
@@ -106,7 +102,8 @@ class ChequePaymentController extends Controller
         $chequePayment->category = $request->category;
         $chequePayment->save();
 
-        return redirect()->route('cheque-payments.index')->with('success', 'Cheque Payment created successfully.');
+        session()->flash('message', 'Cheque Payment added successfully');
+        return response()->json(['success' => 'Cheque Payment added successfully']);
     }
 
     /**
@@ -175,6 +172,6 @@ class ChequePaymentController extends Controller
     {
         $chequePayment = ChequePayment::findOrFail($id);
         $chequePayment->delete();
-        return redirect()->route('cheque-payments.index')->with('success', 'Cheque Payment deleted successfully.');
+        return redirect()->route('cheque-payments.index')->with('message', 'Cheque Payment deleted successfully.');
     }
 }

@@ -72,13 +72,13 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow {{ Request::is('imprest/advance-settlement*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#collapseExample01" role="button" aria-expanded="false" aria-controls="collapseExample01">
+                        <a class="sidebar-link has-arrow {{ Request::is('imprest/advance-settlement*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#collapseExample011" role="button" aria-expanded="false" aria-controls="collapseExample011">
                             <span>
                                 <i class="ti ti-brand-cashapp"></i>
                             </span>
                             <span class="hide-menu">Advance Settlement</span>
                         </a>
-                        <ul class="collapse {{ Request::is('imprest/advance-settlement*') ? 'show' : '' }}" id="collapseExample01">
+                        <ul class="collapse {{ Request::is('imprest/advance-settlement*') ? 'show' : '' }}" id="collapseExample011">
                             <li class="sidebar-item">
                                 <a class="sidebar-link {{ Request::is('imprest/advance-settlement*') ? 'active' : '' }}" href="{{ route('advance-settlement.index') }}"  aria-expanded="false">
                                     <span>
@@ -91,15 +91,15 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow" data-bs-toggle="collapse" href="#collapseExample22" role="button" aria-expanded="false" aria-controls="collapseExample22">
+                        <a class="sidebar-link has-arrow {{ Request::is('imprest/advance-funds*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#collapseExample33" role="button" aria-expanded="false" aria-controls="collapseExample33">
                             <span>
                                 <i class="ti ti-brand-cashapp"></i>
                             </span>
-                            <span class="hide-menu">Advance Fund To Employee</span>
+                            <span class="hide-menu">Advance Fund</span>
                         </a>
-                        <ul class="collapse " id="collapseExample22">
+                        <ul class="collapse {{ Request::is('imprest/advance-funds*') ? 'show' : '' }}" id="collapseExample33">
                             <li class="sidebar-item">
-                                <a class="sidebar-link "  aria-expanded="false">
+                                <a class="sidebar-link {{ Request::is('imprest/advance-funds*') ? 'active' : '' }}" href="{{ route('advance-funds.index') }}"  aria-expanded="false">
                                     <span>
                                         <i class="ti ti-cash-banknote"></i>
                                     </span>
@@ -108,8 +108,6 @@
                             </li>
                         </ul>
                     </li>
-                    
-                    
                     
                     
                     {{-- <li class="sidebar-item">

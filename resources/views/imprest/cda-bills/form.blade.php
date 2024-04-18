@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select name="project_id" id="project_id" class="form-control">
-                                    <option value="">Select Project</option>
+                                    
                                     @foreach ($projects as $project)
                                         <option value="{{ $project->id }}" {{ isset($cdaBill->project_id) && $project->id == $cdaBill->project_id ? 'selected' : '' }}>{{ $project->name }}</option>
                                     @endforeach
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select name="var_type_id" id="var_type_id" class="form-control">
-                                    <option value="">Select</option>
+                                   
                                     @foreach ($variable_types as $variable_type)
                                         <option value="{{ $variable_type->id }}" {{ isset($cdaBill->var_type_id) && $variable_type->id == $cdaBill->var_type_id ? 'selected' : '' }}>{{ $variable_type->name }}</option>
                                     @endforeach
