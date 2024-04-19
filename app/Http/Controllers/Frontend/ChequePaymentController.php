@@ -102,8 +102,7 @@ class ChequePaymentController extends Controller
         $chequePayment->category = $request->category;
         $chequePayment->save();
 
-        session()->flash('message', 'Cheque Payment added successfully');
-        return response()->json(['success' => 'Cheque Payment added successfully']);
+        return redirect()->route('cheque-payments.index')->with('success', 'Cheque Payment created successfully.');
     }
 
     /**

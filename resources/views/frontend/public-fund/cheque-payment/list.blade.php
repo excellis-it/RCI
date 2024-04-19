@@ -67,7 +67,7 @@ Cheque Payment List
                                                 <th>BILL REF</th>
                                                 <th>CHQ.NO</th>
                                                 <th>DV.NO</th>
-                                                <th>CAT</th>
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>

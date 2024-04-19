@@ -188,5 +188,30 @@
     });
 </script>
 
-    
+<script>
+    $(document).on('click', '#advance-sttl-delete', function() {
+        //swal alert then call ajax
+        var route = $(this).data('route');
+        
+        swal({
+            title: "Are you sure?",
+            text: "To delete this Advance Settlement!",
+            type: "warning",
+            confirmButtonText: "Yes",
+            showCancelButton: true
+        })
+        .then((result) => {
+            if (result.value) {
+                window.location = $(this).data('route');
+            } else if (result.dismiss === 'cancel') {
+                swal(
+                    'Cancelled',
+                    'Your stay here :)',
+                    'error'
+                )
+            }
+        })
+    });
+</script>
+  
 @endpush

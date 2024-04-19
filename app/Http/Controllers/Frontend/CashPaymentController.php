@@ -111,10 +111,11 @@ class CashPaymentController extends Controller
      */
     public function edit(string $id)
     {
+        
         $cashPayment = CashPayment::findOrFail($id);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $edit = true;
-        return view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories'));
+        return response()->json(['view' => view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories'))->render()]);
     }
 
     /**
@@ -123,7 +124,7 @@ class CashPaymentController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'vr_no' => 'required',
+           
             'vr_date' => 'required',
             'amount' => 'required',
             'rct_no' => 'required',
@@ -134,7 +135,6 @@ class CashPaymentController extends Controller
         ]);
 
         $cashPayment = CashPayment::findOrFail($id);
-        $cashPayment->vr_no = $request->vr_no;
         $cashPayment->vr_date = $request->vr_date;
         $cashPayment->amount = $request->amount;
         $cashPayment->rct_no = $request->rct_no;

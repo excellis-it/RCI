@@ -129,16 +129,79 @@ class AdvanceSettlementController extends Controller
         $advance_settlement_bill->balance = $request->balance;
         $advance_settlement_bill->save();
 
-        session()->flash('message', 'Advance Settlement Bill added successfully');
-        return response()->json(['success' => 'Advance Settlement Bill added successfully']);
+        return response()->json(['message' => 'Advance settlement bill added successfully', 'data' => $advance_settlement_bill]);
     }
+
+    public function editAdvanceSettlementBill($id)
+    {
+        $advance_settlement_bill = AdvanceSettlementBill::find($id);
+        $edit = true;
+        return response()->json(['view' => view('imprest.advance-settlement.bill-form', compact('edit','advance_settlement_bill'))->render()]);
+    }
+
+    public function updateAdvanceSettleBill(Request $request)
+    {
+        
+        $request->validate([
+            'firm' => 'required',
+            'bill_amount' => 'required',
+            'balance' => 'required',
+        ]);
+
+        $advance_settlement_bill = AdvanceSettlementBill::find($request->advance_settlement_bill_id);
+        $advance_settlement_bill->firm = $request->firm;
+        $advance_settlement_bill->bill_amount = $request->bill_amount;
+        $advance_settlement_bill->balance = $request->balance;
+        $advance_settlement_bill->update();
+
+        return response()->json(['message' => 'Advance settlement bill updated successfully', 'data' => $advance_settlement_bill]);
+    }
+
+    public function deleteAdvanceSettleBill($id)
+    {
+       
+        $adv_stlmnt_bill_delete = AdvanceSettlementBill::find($id);
+        $adv_stlmnt_bill_delete->delete();
+
+        session()->flash('message', 'Advance settlement bill deleted successfully');
+        return response()->json(['message' => 'Advance settlement bill deleted successfully']);
+    }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'adv_no' => 'required',
+            'adv_date' => 'required',
+            'adv_amount' => 'required',
+            'project_id' => 'required',
+            'var_no' => 'required',
+            'var_date' => 'required',
+            'var_amount' => 'required',
+            'var_type_id' => 'required',
+            'chq_no' => 'required',
+            'chq_date' => 'required',
+        ]);
+
+       
+        $advance_settlement = AdvanceSettlement::find($id);
+        $advance_settlement->adv_no = $request->adv_no;
+        $advance_settlement->adv_date = $request->adv_date;
+        $advance_settlement->adv_amount = $request->adv_amount;
+        $advance_settlement->project_id = $request->project_id;
+        $advance_settlement->var_no = $request->var_no;
+        $advance_settlement->var_date = $request->var_date;
+        $advance_settlement->var_amount = $request->var_amount;
+        $advance_settlement->var_type_id = $request->var_type_id;
+        $advance_settlement->chq_no = $request->chq_no;
+        $advance_settlement->chq_date = $request->chq_date;
+        $advance_settlement->save();
+
+        session()->flash('message', 'Advance Settlement added successfully');
+        return response()->json(['success' => 'Advance Settlement added successfully']);
     }
 
     /**
@@ -151,6 +214,9 @@ class AdvanceSettlementController extends Controller
 
     public function delete($id)
     {
+        $advance_settlement = AdvanceSettlement::find($id);
+        $advance_settlement->delete();
 
+       return redirect()->route('advance-settlement.index')->with('message', 'Advance Settlement deleted successfully');
     }
 }

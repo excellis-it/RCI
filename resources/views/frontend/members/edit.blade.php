@@ -952,11 +952,11 @@
                                 '</td>';
                             newRow += '</tr>';
 
-
+                            $('#policy-table tbody').append(newRow);
                             $('#no-policy').hide();
 
                             // Append new row to table
-                            $('#policy-table tbody').append(newRow);
+                            
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');

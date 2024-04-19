@@ -767,10 +767,7 @@ class MemberController extends Controller
         $loan_info->balance = $request->balance;
         $loan_info->save();
 
-         
-
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
-
     }
 
     public function memberLoanEdit($id)
@@ -919,6 +916,6 @@ class MemberController extends Controller
 
     public function deleteMember($id)
     {
-        return $id;
+        
     }
 }

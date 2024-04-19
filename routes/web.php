@@ -380,7 +380,10 @@ Route::middleware('permssions')->group(function () {
         Route::get('/advance-settlement-fetch-data', [AdvanceSettlementController::class, 'fetchData'])->name('advance-settlement.fetch-data');
 
         Route::post('/advance-settlement-bill-store', [AdvanceSettlementController::class, 'storeAdvanceSettleBill'])->name('advance-settle-bills.store');
-        Route::get('/advance-settlement-bills.edit/{id}', [AdvanceSettlementController::class, 'edit'])->name('advance-settlement-bills.edit');
+        Route::get('/advance-settlement-bills-edit/{id}', [AdvanceSettlementController::class, 'editAdvanceSettlementBill'])->name('advance-settlement-bills.edit');
+        Route::post('/advance-settlement-bill-update', [AdvanceSettlementController::class, 'updateAdvanceSettleBill'])->name('advance-settle-bills.update');
+        //delete advance settylement
+        Route::get('/advance-settlement-bill-delete/{id}', [AdvanceSettlementController::class, 'deleteAdvanceSettleBill'])->name('advance-settle-bills.delete');
 
     });
     // inventory routes

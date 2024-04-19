@@ -6,6 +6,10 @@
 @push('styles')
 @endpush
 
+@php
+use App\Helpers\Helper;
+@endphp
+
 @section('content')
     <section id="loading">
         <div id="loading-content"></div>
@@ -26,6 +30,14 @@
         </div>
         <!--  Row 1 -->
 
+        <div class="row">
+            <div class="col-md-6 text-start mb-3">
+                <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
+            </div>
+            <div class="col-md-6 text-end mb-3">
+               <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
+            </div>
+        </div>
 
 
         <div class="row">
@@ -38,7 +50,6 @@
                                 @csrf
 
                                 <div class="row">
-                                   
                                     <div class="form-group col-md-3 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">

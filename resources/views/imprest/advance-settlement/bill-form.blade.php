@@ -1,62 +1,69 @@
 @if (isset($edit))
-    <form action="{{ route('cda-bills.update', $cdaBill->id) }}" method="POST" id="advance-settlement-bills-edit-form">
-        @method('PUT')
+    <form action="{{ route('advance-settle-bills.update') }}" method="POST" id="advance-settlement-bills-edit-form">
+       
         @csrf
         
+        <input type="hidden"  name="advance_settlement_bill_id" value="{{ $advance_settlement_bill->id }}" >
         <div class="row align-items-end">
             <div class="col-md-8">
                 <div class="row align-items-end">
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Chq No</label>
+                                <label>Firm</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="chq_no" id="chq_no"
-                                    placeholder="" value="{{ $cdaBill->chq_no ?? '' }}">
+                                <input type="text" class="form-control" name="firm" id="firm" value="{{ $advance_settlement_bill->firm }}"
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Chq Dt</label>
+                                <label>Bill Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="chq_date" id="chq_date"
-                                    placeholder="" value="{{ $cdaBill->chq_date ?? '' }}">
+                                <input type="text" class="form-control" name="bill_amount" id="bill_amount" value="{{ $advance_settlement_bill->bill_amount }}"
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Crv No</label>
+                                <label>Balance</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="crv_no" id="crv_no"
-                                    placeholder="" value="{{ $cdaBill->crv_no ?? '' }}">
+                                <input type="text" class="form-control" name="balance" id="balance" value="{{ $advance_settlement_bill->balance }}"
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <div class="d-flex align-items-end">
-                        <div class="me-2 mb-2">
-                            <button type="submit" class="listing_add">Update</button>
-                        </div>
-                        <div class="me-2 mb-2">
-                            <button type="reset" class="listing_exit">Back</button>
+                <div class="row">
+                    <div class="form-group col-md-8 mb-2">
+                        <div class="d-flex align-items-end">
+                            <div class="me-2 mb-2">
+                                <button type="submit" class="listing_add">Update</button>
+                            </div>
+                            <div class="me-2 mb-2">
+                                <a data-id="{{ $advance_settlement_bill->id }}" data-route="{{ route('advance-settle-bills.delete', $advance_settlement_bill->id) }}" id="delete-advance-settlement">
+                                    <button type="button" class="listing_exit">Delete</button>
+                                </a>
+                            </div>
+                            <div class="me-2 mb-2">
+                                <button type="reset" class="listing_exit">Cancel</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </form>
 @else
@@ -110,9 +117,7 @@
                             <div class="me-2 mb-2">
                                 <button type="submit" class="listing_add">Add</button>
                             </div>
-                            <div class="me-2 mb-2">
-                                <button type="reset" class="listing_exit">Delete</button>
-                            </div>\
+                            
                             <div class="me-2 mb-2">
                                 <button type="reset" class="listing_exit">Cancel</button>
                             </div>

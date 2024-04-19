@@ -12,13 +12,7 @@
             <td>{{ $chequePayment->bill_ref }}</td>
             <td>{{ $chequePayment->cheque_no }}</td>
             <td>{{ $chequePayment->dv_no }}</td>
-            @foreach($paymentCategories as $paymentCategory)
-                @if($paymentCategory->id == $chequePayment->category)
-                    <td>{{ $paymentCategory->name }}</td>
-                @else
-                    <td></td>
-                @endif
-            @endforeach
+            
             <td class="sepharate"><a data-route="" href="{{route('cheque-payments.edit', $chequePayment->id)}}" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('cheque-payments.delete', $chequePayment->id)}}"><i class="ti ti-trash"></i></a>
             </td>

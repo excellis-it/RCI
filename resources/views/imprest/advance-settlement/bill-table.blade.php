@@ -2,13 +2,13 @@
 
 @if (count($advance_settlement_bills) > 0)
     @foreach ($advance_settlement_bills as $key => $advance_settlement_bill)
-        <tr class="edit-route-advance-bill">
+        <tr class="edit-route-advance-bill" data-id="{{ $advance_settlement_bill->id }}" data-route="{{ route('advance-settlement-bills.edit', $advance_settlement_bill->id) }}">
             <td>{{ $advance_settlement_bill->firm }}</td>
             <td>{{ $advance_settlement_bill->bill_amount }}</td>
             <td>{{ $advance_settlement_bill->balance }}</td>
         </tr>
     @endforeach
-    <tr class="toxic">
+    <tr id="pagination-advance-bill">
         <td colspan="3" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
@@ -20,7 +20,7 @@
         </td>
     </tr>
 @else
-    <tr>
+    <tr id="no-advance-bill">
         <td colspan="3" class="text-center">No Advance Settlement Bill Found</td>
     </tr>
 @endif
