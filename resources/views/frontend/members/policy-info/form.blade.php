@@ -105,7 +105,7 @@
                                     <button type="submit" class="listing_add">Update</button>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="reset" class="listing_exit">Exit</button>
+                                    <button type="reset" class="listing_exit">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -217,10 +217,10 @@
                                     <button type="button" class="another-btn">Another</button></a>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="submit" class="listing_add">Update</button>
+                                    <button type="submit" class="listing_add">Save</button>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="reset" class="listing_exit">Exit</button>
+                                    <button type="reset" class="listing_exit">Cancel</button>
                                 </div>
                             </div>
                         </div>

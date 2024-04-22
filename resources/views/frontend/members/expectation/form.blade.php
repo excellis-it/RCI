@@ -3,8 +3,8 @@
         <form action="{{ route('members.expectation.update') }}" id="member-edit-expectation-form" method="post">
             @csrf
 
-            <input type="hidden" name="member_expectation_id" value="{{ $member_expectation->id }}">
-            <input type="hidden" name="member_id" id="exp_member_id">
+            <input type="hidden" name="member_expectation_id" id="member_edit_exp_id" value="{{ $member_expectation->id }}">
+            <input type="hidden" name="member_id" id="exp_member_id" value="{{  $member_expectation->member_id }}">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -52,6 +52,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="year" id="exp_year">
+                                    <option value="">Select</option>
                                     @for ($i = date('Y'); $i >= 1950; $i--)
                                         <option value="{{ $i }}"
                                             {{ $member_expectation->year == $i ? 'selected' : '' }}>{{ $i }}
@@ -69,6 +70,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="month" id="exp_month">
+                                    <option value="">Select</option>
                                     <option value="1" {{ $member_expectation->month == 1 ? 'selected' : '' }}>January</option>
                                     <option value="2" {{ $member_expectation->month == 2 ? 'selected' : '' }}>February</option>
                                     <option value="3" {{ $member_expectation->month == 3 ? 'selected' : '' }}>March</option>
@@ -105,12 +107,7 @@
                     <div class="row justify-content-end">
                         <div class="col-md-9">
                             <div class="row justify-content-end">
-                                <div class="form-group col-md-3 mb-2">
-                                    <button type="submit" class="listing_add">Update</button>
-                                </div>
-                                <div class="form-group col-md-3 mb-2">
-                                    <button type="button" id="expectation-delete" class="delete-btn-1" data-id="{{ isset($member_expectation->id) ? $member_expectation->id :'#' }}">Delete</button>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -123,13 +120,14 @@
                         <div class="col-md-9">
                             <div class="row justify-content-end">
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="submit" class="another-btn">Another</button>
+                                    <a href="{{ route('members.create') }}"><button type="button"
+                                        class="another-btn">Another</button></a>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="submit" class="listing_add">Update</button>
+                                    <button type="submit" class="listing_add" id="button-update">Update</button>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="submit" class="listing_exit">Exit</button>
+                                    <button type="button" id="expectation-delete" class="delete-btn-1" data-id="{{ isset($member_expectation->id) ? $member_expectation->id :'#' }}">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +239,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
+        {{-- <div class="row mt-3">
             <div class="col-md-12">
                 <div class="row justify-content-end">
                     <div class="col-md-9">
@@ -249,14 +247,11 @@
                             <div class="form-group col-md-3 mb-2">
                                 <button type="submit" class="listing_add">Save</button>
                             </div>
-                            {{-- <div class="form-group col-md-3 mb-2">
-                                <button type="button" id="expectation-delete" class="delete-btn-1" data-id="{{ isset($member_expectation->id) ? $member_expectation->id :'#' }}">Delete</button>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row mt-3">
             <div class="col-md-12">
@@ -264,13 +259,14 @@
                     <div class="col-md-9">
                         <div class="row justify-content-end">
                             <div class="form-group col-md-3 mb-2">
-                                <button type="{{ route('members.create') }}" class="another-btn">Another</button>
+                                <a href="{{ route('members.create') }}"><button type="button"
+                                    class="another-btn">Another</button></a>
                             </div>
                             <div class="form-group col-md-3 mb-2">
-                                <button type="submit" class="listing_add">Update</button>
+                                <button type="submit" class="listing_add">Save</button>
                             </div>
                             <div class="form-group col-md-3 mb-2">
-                                <button type="reset" class="listing_exit">Exit</button>
+                                <button type="reset" class="listing_exit">Cancel</button>
                             </div>
                         </div>
                     </div>

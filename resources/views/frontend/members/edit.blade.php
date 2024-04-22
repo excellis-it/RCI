@@ -795,25 +795,59 @@
                     success: function(response) {
                         // respobnse data replcae by id
                         var data = response.data;
-                        var row = $('#loan-table tbody').find('tr[data-id="' + data.id + '"]');
-                        row.find('td:eq(0)').text(data.loan_name);
-                        row.find('td:eq(1)').text(data.present_inst_no);
-                        row.find('td:eq(2)').text(data.total_amount);
-                        row.find('td:eq(4)').text(data.remark);
+                        var save = response.save;
+                        console.log(save);
+                        if (save == true) {
+                            console.log(save);
+                            var id = data.id;
+                            var route =
+                                "{{ route('members.loan.edit', ['id' => ':id']) }}";
+                            route = route.replace(':id', id);
 
-                        // Hide the offcanvas
-                        $('#offcanvasEdit').offcanvas('hide');
+                            //construct table row html
+                            var newRow = '<tr class="edit-route-loan" data-id="' +
+                                id + '" data-route="' + route +
+                                '">';
+                            newRow += '<td>' + (data.loan_name ? data.loan_name : 'N/A') +
+                                '</td>'; // Use loanName directly if it's a string, adjust accordingly
+                            newRow += '<td>' + (data.present_inst_no ? data.present_inst_no : 'N/A') +
+                                '</td>';
+                            newRow += '<td>' + (data.total_amount ? data.total_amount : 'N/A') +
+                                '</td>';
+                            newRow += '<td>' + new Date(data.created_at).toLocaleDateString(
+                                'en-GB', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'
+                                }).split('/').join('-'); + '</td>';
+                            newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
+                                '</td>';
+                            newRow += '</tr>';
 
-                        // Show success message if needed
+                            
+                            // Append new row to table
+                            $('#loan-table tbody').append(newRow);
+                        }else{
+                            
+                            var data = response.data;
+                            var row = $('#loan-table tbody').find('tr[data-id="' + data.id + '"]');
+                            row.find('td:eq(0)').text(data.loan_name);
+                            row.find('td:eq(1)').text(data.present_inst_no);
+                            row.find('td:eq(2)').text(data.total_amount);
+                            row.find('td:eq(3)').text(new Date(data.created_at).getDate() + '-' + (new Date(data.created_at).getMonth() + 1) + '-' + new Date(data.created_at).getFullYear().toString().substr(-2));
+                            row.find('td:eq(4)').text(data.remark);
+                        }
+
                         toastr.success(response.message);
 
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
+                        $('.text-danger').html('');
+                            var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            $('[name="' + key + '"]').next('.text-danger').html(
+                                value[0]);
                         });
                     }
                 });
@@ -863,7 +897,11 @@
                     $('#inst_amount').val('');
                     $('#total_amount').val('');
                     $('#balance').val('');
+                    $('#member_loan_id').val('');
                     // edit-route-policy tr remove
+
+                    $('#loan-delete').hide();
+                    $('#exp-btn-update').text('Save');
 
 
                     // remove value from form
@@ -1229,33 +1267,64 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                        // updated value replace with old value using tr class edit-route-expectation
-                        // var data = response.data;
 
-                        // var row = $('#fetch-exp-table tbody').find('tr[data-id="' + data.id +
-                        //     '"]');
-                        // var row = $('.edit-route-expectation[data-id="' + id + '"]');
-                        // row.find('td:eq(0)').text(data.rule_name);
-                        // row.find('td:eq(1)').text(data.percent);
-                        // row.find('td:eq(2)').text(data.amount);
-                        // row.find('td:eq(3)').text(data.remark);
+                    toastr.success(response.message);
+                   
+                    var data = response.data;
+                    var save = response.save;
+                     console.log(save);
+                    if (save == true) {
+                        console.log(save);
+                        var id = data.id;
+                        var route =
+                            "{{ route('members.expectation.edit', ['id' => ':id']) }}";
+                        route = route.replace(':id', id);
 
-                        // Show success message if needed
-                        toastr.success(response.message);
+                        //construct table row html
+                        var newRow = '<tr class="edit-route-expectation" data-id="' +
+                            id + '" data-route="' + route +
+                            '">';
+                        newRow += '<td>' + (data.rule_name ? data.rule_name : 'N/A') +
+                            '</td>'; // Use loanName directly if it's a string, adjust accordingly
+                        newRow += '<td>' + (data.percent ? data.percent : 'N/A') +
+                            '</td>';
+                        newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
+                            '</td>';
+                        newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
+                            '</td>';
+                        newRow += '</tr>';
 
+                        $('#no-expectation').remove();
+                        // Append new row to table
+                        $('#expectation-table tbody').append(newRow);
+                    }else{
+                        
+
+                        var id = data.id;
+                        var row = $('#expectation-table tbody').find('tr[data-id="' + id + '"]');
+                        row.find('td:eq(0)').text(data.rule_name);
+                        row.find('td:eq(1)').text(data.percent);
+                        row.find('td:eq(2)').text(data.amount);
+                        row.find('td:eq(3)').text(data.remark);
+
+                    }
+                    
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
-                        });
+                        $('.text-danger').html('');
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                $('[name="' + key + '"]').next('.text-danger').html(
+                                    value[0]);
+                            });
                     }
                 });
             });
         });
     </script>
+
+
 
     <script>
         $(document).ready(function() {
@@ -1290,6 +1359,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
+                    
                     toastr.success(response.message);
                     $('.edit-route-expectation[data-id="' + id + '"]').remove();
 
@@ -1299,6 +1369,11 @@
                     $('#exp_year').val('');
                     $('#exp_month').val('');
                     $('#exp_remark').val('');
+                    $('#member_edit_exp_id').val('');
+
+                    
+                    $('#expectation-delete').hide();
+                    $('#button-update').text('Save');
 
 
                     $('#loading').removeClass('loading');

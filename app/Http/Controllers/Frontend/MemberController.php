@@ -781,8 +781,31 @@ class MemberController extends Controller
 
     public function memberLoanUpdate(Request $request)
     {
-        $loan_detail = Loan::where('id',$request->loan_name)->first() ?? '';
+        $validated = $request->validate([
+            'loan_name' => 'required',
+            'present_inst_no' => 'required',
+            'total_amount' => 'required',
+        ]);
+       
+        if(!isset($request->member_loan_id))
+        {
+            $loan_detail = Loan::where('id',$request->loan_name)->first() ?? '';
+            $loan_info = new MemberLoanInfo;
+            $loan_info->member_id = $request->member_id;
+            $loan_info->loan_id = $request->loan_name;
+            $loan_info->loan_name = $loan_detail->loan_name;
+            $loan_info->present_inst_no = $request->present_inst_no;
+            $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
+            $loan_info->remark = $request->remark;
+            $loan_info->inst_amount = $request->inst_amount;
+            $loan_info->total_amount = $request->total_amount;
+            $loan_info->balance = $request->balance;
+            $loan_info->save();
 
+            return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info, 'save' => true]);
+        }
+     
+        $loan_detail = Loan::where('id',$request->loan_name)->first() ?? '';
         $loan_info = MemberLoanInfo::where('id',$request->member_loan_id)->first();
         $loan_info->loan_id = $request->loan_name;
         $loan_info->loan_name = $loan_detail->loan_name;
@@ -855,6 +878,12 @@ class MemberController extends Controller
 
     public function memberExpectationStore(Request $request)
     {
+        $validated = $request->validate([
+            'rule_name' => 'required',
+            'percent' => 'required',
+            'amount' => 'required',
+        ]);
+
         $expectation_store = new MemberExpectation;
         $expectation_store->member_id = $request->member_id;
         $expectation_store->rule_name = $request->rule_name;
@@ -878,6 +907,28 @@ class MemberController extends Controller
     public function memberExpectationUpdate(Request $request)
     {
         
+        $validated = $request->validate([
+            'rule_name' => 'required',
+            'percent' => 'required',
+            'amount' => 'required',
+        ]);
+       
+        if(!isset($request->member_expectation_id))
+        {
+            
+            $expectation_info = new MemberExpectation;
+            $expectation_info->member_id = $request->member_id;
+            $expectation_info->rule_name = $request->rule_name;
+            $expectation_info->percent = $request->percent;
+            $expectation_info->amount = $request->amount;
+            $expectation_info->year = $request->year;
+            $expectation_info->month = $request->month;
+            $expectation_info->remark = $request->remark;
+            $expectation_info->save();
+
+            return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info, 'save' => true]);
+        }
+      
         $expectation_info = MemberExpectation::where('id',$request->member_expectation_id)->first();
         $expectation_info->rule_name = $request->rule_name;
         $expectation_info->percent = $request->percent;
@@ -887,7 +938,8 @@ class MemberController extends Controller
         $expectation_info->remark = $request->remark;
         $expectation_info->update();
 
-        return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info]);
+        session()->flash('message', 'Member expectation updated successfully');
+        return response()->json(['message' => 'Member expectation updated successfully','data' => $expectation_info]);
     }
 
     public function memberExpectationDelete($id)
