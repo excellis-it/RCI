@@ -29,7 +29,25 @@
                         <span>
                             <i class="ti ti-user"></i>
                         </span>
-                        <span class="hide-menu">Items</span>
+                        <span class="hide-menu">Item Codes</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('inventory/credit-vouchers*') ? 'active' : ''}}" href="{{route('credit-vouchers.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Credit Vouchers</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('inventory/debit-vouchers*') ? 'active' : ''}}" href="{{route('debit-vouchers.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Debit Vouchers</span>
                     </a>
                 </li>
             </ul>
