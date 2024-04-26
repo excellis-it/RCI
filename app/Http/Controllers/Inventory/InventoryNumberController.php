@@ -4,18 +4,22 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\InventoryNumber;
 use App\Models\ItemType;
+use App\Models\Member;
 
-class ItemTypeController extends Controller
+class InventoryNumberController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-        $itemTypes = ItemType::orderBy('id', 'desc')->paginate(10);
-        return view('inventory.item-types.list', compact('itemTypes'));
+        $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->paginate(10);
+        $itemTypes = ItemType::orderBy('id','desc')->get();
+        $members = Member::orderBy('id','desc')->get();
+        
+        return view('inventory.inventory-numbers.list', compact('inventoryNumbers','itemTypes','members'));
     }
 
     public function fetchData(Request $request)
@@ -25,15 +29,15 @@ class ItemTypeController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $itemTypes = ItemType::where(function($queryBuilder) use ($query) {
+            $inventoryNumbers = InventoryNumber::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('number', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('inventory.item-types.table', compact('itemTypes'))->render()]);
+            return response()->json(['data' => view('inventory.inventory-numbers.table', compact('inventoryNumbers'))->render()]);
         }
     }
 
@@ -50,18 +54,7 @@ class ItemTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:item_types,name',
-            'status' => 'required',
-        ]);
-
-        $item_type = new ItemType();
-        $item_type->name = $request->name;
-        $item_type->status = $request->status;
-        $item_type->save();
-
-        session()->flash('message', 'Item Type added successfully');
-        return response()->json(['success' => 'Item Type added successfully']);
+        //
     }
 
     /**
@@ -77,9 +70,7 @@ class ItemTypeController extends Controller
      */
     public function edit(string $id)
     {
-        $item_type = ItemType::find($id);
-        $edit = true;
-        return response()->json(['view' => view('inventory.item-types.form', compact('edit','group'))->render()]);
+        //
     }
 
     /**

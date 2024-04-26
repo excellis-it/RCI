@@ -57,11 +57,15 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Inventory Type</a>
+                                    href="{{ route('inventory-types.index') }}">Inventory Type</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Inventory Numbers</a>
+                                    href="{{ route('inventory-projects.index') }}">Inventory Projects</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('inventory-numbers.index') }}">Inventory Numbers</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
