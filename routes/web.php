@@ -33,6 +33,9 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 // inventory
 use App\Http\Controllers\Inventory\ItemController;
+use App\Http\Controllers\Inventory\CreditVoucherController;
+use App\Http\Controllers\Inventory\DebitVoucherController;
+// imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
 use App\Http\Controllers\Imprest\ImprestResetVoucherController;
 use App\Http\Controllers\Imprest\VariableTypeController;
@@ -390,12 +393,20 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('inventory')->group(function () {
         Route::resources([
             'items' => ItemController::class,
-            'item-types' => ItemTypeController::class,
+            'credit-vouchers' => CreditVoucherController::class,
+            'debit-vouchers' => DebitVoucherController::class,
         ]);
 
-        
+        //item-codes
         Route::get('/item-fetch-data', [ItemController::class, 'fetchData'])->name('items.fetch-data');
-        Route::get('/item-types-fetch-data', [ItemTypeController::class, 'fetchData'])->name('item-types.fetch-data');
+
+        //credit-vouchers
+        Route::get('/credit-vouchers-fetch-data', [CreditVoucherController::class, 'fetchData'])->name('credit-vouchers.fetch-data');
+        Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
+
+        //debit-vouchers
+        Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
+        Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
     });
 
     
