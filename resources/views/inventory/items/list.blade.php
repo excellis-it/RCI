@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Item List
+   Item Code List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Item Listing</h3>
+                    <h3>Item Code Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Item Listing</span></li>
+                        <li><span class="bread-blod">Item Code Listing</span></li>
                     </ul>
                 </div>
             </div>

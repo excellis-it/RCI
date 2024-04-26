@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Item;
+use App\Models\ItemType;
 
-class ItemController extends Controller
+class ItemTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,27 +14,26 @@ class ItemController extends Controller
     public function index()
     {
         //
-        $items = Item::orderBy('id','desc')->paginate(10);
-        return view('inventory.items.list',compact('items'));
+        $itemTypes = ItemType::orderBy('id', 'desc')->paginate(10);
+        return view('inventory.item-types.list', compact('itemTypes'));
     }
 
     public function fetchData(Request $request)
     {
         if ($request->ajax()) {
-
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $items = Item::where(function($queryBuilder) use ($query) {
+            $itemTypes = ItemType::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('item_code', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('inventory.items.table', compact('items'))->render()]);
+            return response()->json(['data' => view('inventory.item-types.table', compact('itemTypes'))->render()]);
         }
     }
 
@@ -43,7 +42,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('inventory.items.form');
+        //
     }
 
     /**
@@ -52,17 +51,17 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'item_code' => 'required | unique:banks,bank_name',
+            'name' => 'required|unique:item_types,name',
             'status' => 'required',
         ]);
 
-        $bank_value = new Bank();
-        $bank_value->bank_name = $request->bank_name;
-        $bank_value->status = $request->status;
-        $bank_value->save();
+        $item_type = new ItemType();
+        $item_type->name = $request->name;
+        $item_type->status = $request->status;
+        $item_type->save();
 
-        session()->flash('message', 'Bank Information added successfully');
-        return response()->json(['success' => 'bank Information added successfully']);
+        session()->flash('message', 'Item Type added successfully');
+        return response()->json(['success' => 'Item Type added successfully']);
     }
 
     /**
@@ -78,7 +77,9 @@ class ItemController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $item_type = ItemType::find($id);
+        $edit = true;
+        return response()->json(['view' => view('inventory.item-types.form', compact('edit','group'))->render()]);
     }
 
     /**

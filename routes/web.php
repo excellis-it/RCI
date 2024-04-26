@@ -390,10 +390,12 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('inventory')->group(function () {
         Route::resources([
             'items' => ItemController::class,
+            'item-types' => ItemTypeController::class,
         ]);
 
         
         Route::get('/item-fetch-data', [ItemController::class, 'fetchData'])->name('items.fetch-data');
+        Route::get('/item-types-fetch-data', [ItemTypeController::class, 'fetchData'])->name('item-types.fetch-data');
     });
 
     
