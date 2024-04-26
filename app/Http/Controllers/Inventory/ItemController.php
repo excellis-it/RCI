@@ -18,6 +18,12 @@ class ItemController extends Controller
         return view('inventory.items.list',compact('items'));
     }
 
+    public function fetchData(Request $request)
+    {
+        $items = Item::orderBy('id','desc')->paginate(10);
+        return view('inventory.items.list',compact('items'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -31,7 +37,18 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'item_code' => 'required | unique:banks,bank_name',
+            'status' => 'required',
+        ]);
+
+        $bank_value = new Bank();
+        $bank_value->bank_name = $request->bank_name;
+        $bank_value->status = $request->status;
+        $bank_value->save();
+
+        session()->flash('message', 'Bank Information added successfully');
+        return response()->json(['success' => 'bank Information added successfully']);
     }
 
     /**

@@ -391,6 +391,9 @@ Route::middleware('permssions')->group(function () {
         Route::resources([
             'items' => ItemController::class,
         ]);
+
+        
+        Route::get('/item-fetch-data', [ItemController::class, 'fetchData'])->name('items.fetch-data');
     });
 
     

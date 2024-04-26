@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-    Item List
+   Item List
 @endsection
 
 @push('styles')
@@ -26,16 +26,17 @@
         <!--  Row 1 -->
 
         <div class="row">
-            <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('items.create') }}">Add Item</a>
-              </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
+                        <div id="form">
+                            @include('inventory.items.form')
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -47,16 +48,17 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_code"
-                                                    style="cursor: pointer"> <span id="item_code_icon"><i
-                                                            class="fa fa-arrow-down"></i></span>Item Code </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
-                                                    style="cursor: pointer">UOM(Unit of Measurement)<span id="emp_id_icon"><i
+                                                <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">Item Code <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="gender"
-                                                    style="cursor: pointer">Item Type <span id="gender_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">UOM<span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                                                          
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">Item type<span id="value_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -75,120 +77,180 @@
                 </div>
             </div>
         </div>
-       
+        </form>
     </div>
 @endsection
 
 @push('scripts')
-
-<script>
-   $(document).ready(function() {
-        var randomId = 'RCI-CHESE-' + Math.random().toString().substr(2, 8);
-        document.getElementById('emp_id').value = randomId;
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-
-        function fetch_data(page, sort_type, sort_by, query) {
-            $.ajax({
-                url: "{{ route('members.fetch-data') }}",
-                data: {
-                    page: page,
-                    sortby: sort_by,
-                    sorttype: sort_type,
-                    query: query
-                },
-                success: function(data) {
-                    $('tbody').html(data.data);
-                }
-            });
-        }
-
-        $(document).on('keyup', '#search', function() {
-            var query = $('#search').val();
-            var column_name = $('#hidden_column_name').val();
-            var sort_type = $('#hidden_sort_type').val();
-            var page = $('#hidden_page').val();
-            fetch_data(page, sort_type, column_name, query);
+    <script>
+        $(document).on('click', '#delete', function(e) {
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this Items!",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
+                    }
+                })
         });
+    </script>
+    <script>
+        $(document).ready(function() {
 
-        $(document).on('click', '.sorting', function() {
-            var column_name = $(this).data('column_name');
-            var order_type = $(this).data('sorting_type');
-            var reverse_order = '';
-            if (order_type == 'asc') {
-                $(this).data('sorting_type', 'desc');
-                reverse_order = 'desc';
-                // clear_icon();
-                $('#' + column_name + '_icon').html(
-                    '<i class="fa fa-arrow-down"></i>');
+            function fetch_data(page, sort_type, sort_by, query) {
+                $.ajax({
+                    url: "{{ route('items.fetch-data') }}",
+                    data: {
+                        page: page,
+                        sortby: sort_by,
+                        sorttype: sort_type,
+                        query: query
+                    },
+                    success: function(data) {
+                        $('tbody').html(data.data);
+                    }
+                });
             }
-            if (order_type == 'desc') {
-                // alert(order_type);
-                $(this).data('sorting_type', 'asc');
-                reverse_order = 'asc';
-                // clear_icon();
-                $('#' + column_name + '_icon').html(
-                    '<i class="fa fa-arrow-up"></i>');
-            }
-            $('#hidden_column_name').val(column_name);
-            $('#hidden_sort_type').val(reverse_order);
-            var page = $('#hidden_page').val();
-            var query = $('#search').val();
-            fetch_data(page, reverse_order, column_name, query);
-        });
 
-        $(document).on('click', '.pagination a', function(event) {
-            event.preventDefault();
-            var page = $(this).attr('href').split('page=')[1];
-            $('#hidden_page').val(page);
-            var column_name = $('#hidden_column_name').val();
-            var sort_type = $('#hidden_sort_type').val();
+            $(document).on('keyup', '#search', function() {
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, sort_type, column_name, query);
+            });
 
-            var query = $('#search').val();
-
-            $('li').removeClass('active');
-            $(this).parent().addClass('active');
-            fetch_data(page, sort_type, column_name, query);
-        });
-
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('#member-create-form').submit(function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-        
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                   
-                    //windows load with toastr message
-                    window.location.reload();
-                },
-                error: function(xhr) {
-                   
-                    // Handle errors (e.g., display validation errors)
-                    //clear any old errors
-                    $('.text-danger').html('');
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a div with class "text-danger" next to each input
-                        $('[name="' + key + '"]').next('.text-danger').html(value[
-                            0]);
-                    });
+            $(document).on('click', '.sorting', function() {
+                var column_name = $(this).data('column_name');
+                var order_type = $(this).data('sorting_type');
+                var reverse_order = '';
+                if (order_type == 'asc') {
+                    $(this).data('sorting_type', 'desc');
+                    reverse_order = 'desc';
+                    // clear_icon();
+                    $('#' + column_name + '_icon').html(
+                        '<i class="fa fa-arrow-down"></i>');
                 }
+                if (order_type == 'desc') {
+                    // alert(order_type);
+                    $(this).data('sorting_type', 'asc');
+                    reverse_order = 'asc';
+                    // clear_icon();
+                    $('#' + column_name + '_icon').html(
+                        '<i class="fa fa-arrow-up"></i>');
+                }
+                $('#hidden_column_name').val(column_name);
+                $('#hidden_sort_type').val(reverse_order);
+                var page = $('#hidden_page').val();
+                var query = $('#search').val();
+                fetch_data(page, reverse_order, column_name, query);
+            });
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                $('#hidden_page').val(page);
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+
+                var query = $('#search').val();
+
+                $('li').removeClass('active');
+                $(this).parent().addClass('active');
+                fetch_data(page, sort_type, column_name, query);
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#item-create-form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+            
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                       
+                        //windows load with toastr message
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                       
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#form').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
 
-    
+            // Handle the form submission
+            $(document).on('submit', '#item-edit-form', function(e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endpush
