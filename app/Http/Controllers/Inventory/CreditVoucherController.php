@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CreditVoucher;
-use App\Models\Item;
-use App\Models\ItemType;
+use App\Models\ItemCode;
+use App\Models\InventoryType;
 use App\Models\InventoryNumber;
 
 class CreditVoucherController extends Controller
@@ -16,8 +16,8 @@ class CreditVoucherController extends Controller
      */
     public function index()
     {
-        $itemCodes = Item::all();
-        $inventoryTypes = ItemType::all();
+        $itemCodes = ItemCode::all();
+        $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::paginate(10);
         return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
@@ -52,8 +52,8 @@ class CreditVoucherController extends Controller
      */
     public function create()
     {
-        $itemCodes = Item::all();
-        $inventoryTypes = ItemType::all();
+        $itemCodes = ItemCode::all();
+        $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
 
         return view('inventory.credit-vouchers.form', compact('itemCodes', 'inventoryTypes', 'inventoryNumbers'));
@@ -103,8 +103,8 @@ class CreditVoucherController extends Controller
     public function edit(string $id)
     {
         $creditVoucher = CreditVoucher::findOrFail($id);
-        $itemCodes = Item::all();
-        $inventoryTypes = ItemType::all();
+        $itemCodes = ItemCode::all();
+        $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $edit = true;
 
