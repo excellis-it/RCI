@@ -4,37 +4,40 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Item;
+use App\Models\InventoryNumber;
+use App\Models\ItemType;
+use App\Models\Member;
 
-class ItemController extends Controller
+class InventoryNumberController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-        $items = Item::orderBy('id','desc')->paginate(10);
-        return view('inventory.items.list',compact('items'));
+        $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->paginate(10);
+        $itemTypes = ItemType::orderBy('id','desc')->get();
+        $members = Member::orderBy('id','desc')->get();
+        
+        return view('inventory.inventory-numbers.list', compact('inventoryNumbers','itemTypes','members'));
     }
 
     public function fetchData(Request $request)
     {
         if ($request->ajax()) {
-
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $items = Item::where(function($queryBuilder) use ($query) {
+            $inventoryNumbers = InventoryNumber::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('item_code', 'like', '%' . $query . '%')
+                    ->orWhere('number', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('inventory.items.table', compact('items'))->render()]);
+            return response()->json(['data' => view('inventory.inventory-numbers.table', compact('inventoryNumbers'))->render()]);
         }
     }
 
@@ -43,7 +46,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('inventory.items.form');
+        //
     }
 
     /**
@@ -51,18 +54,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'item_code' => 'required | unique:banks,bank_name',
-            'status' => 'required',
-        ]);
-
-        $bank_value = new Bank();
-        $bank_value->bank_name = $request->bank_name;
-        $bank_value->status = $request->status;
-        $bank_value->save();
-
-        session()->flash('message', 'Bank Information added successfully');
-        return response()->json(['success' => 'bank Information added successfully']);
+        //
     }
 
     /**
