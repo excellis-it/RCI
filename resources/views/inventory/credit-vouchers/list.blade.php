@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Item List
+   Credit Vouchers
 @endsection
 
 @push('styles')
@@ -18,7 +18,7 @@
                     <h3>Credit Vouchers</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Item Listing</span></li>
+                        <li><span class="bread-blod">Credit Vouchers</span></li>
                     </ul>
                 </div>
             </div>
@@ -49,23 +49,46 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Item Code <span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
+                                                    style="cursor: pointer">Item Code <span id="code_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">UOM<span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="voucher_number" data-column_name="voucher_number"
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_number_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Item type<span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="vdate" data-column_name="voucher_date"
+                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                
+                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
+                                                    style="cursor: pointer">Inv. No.<span id="code_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="description"
+                                                    style="cursor: pointer">Description<span id="description_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="uom" data-column_name="uom"
+                                                    style="cursor: pointer">UOM<span id="uom_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="item_type" data-column_name="item_type"
+                                                    style="cursor: pointer">Item Type<span id="item_type_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="price" data-column_name="price"
+                                                    style="cursor: pointer">Price & Tax<span id="price_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
+                                                    style="cursor: pointer">Quantity<span id="quantity_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="sono" data-column_name="sono"
+                                                    style="cursor: pointer">Supply Order No. <span id="sono_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="rin" data-column_name="rin"
+                                                    style="cursor: pointer">Receipt & Inspection Note<span id="rin_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody class="tbody_height_scroll">
+                                        <tbody class="tbody_height_scroll">
                                             @include('inventory.credit-vouchers.table')
-                                        </tbody> --}}
-                                        <tbody></tbody>
+                                        </tbody>
+                                        {{-- <tbody></tbody> --}}
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
@@ -110,7 +133,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('items.fetch-data') }}",
+                    url: "{{ route('credit-vouchers.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -175,7 +198,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#item-create-form').submit(function(e) {
+            $('#credit-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -230,7 +253,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#item-edit-form', function(e) {
+            $(document).on('submit', '#credit-vouchers-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

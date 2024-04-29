@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ItemType extends Model
 {
     use HasFactory;
+
+    protected $table = 'inventory_types';
 }

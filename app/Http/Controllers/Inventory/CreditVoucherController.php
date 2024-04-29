@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CreditVoucher;
+use App\Models\Item;
+use App\Models\ItemType;
+use App\Models\InventoryNumber;
 
 class CreditVoucherController extends Controller
 {
@@ -13,8 +16,11 @@ class CreditVoucherController extends Controller
      */
     public function index()
     {
+        $itemCodes = Item::all();
+        $inventoryTypes = ItemType::all();
+        $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::paginate(10);
-        return view('inventory.credit-vouchers.list', compact('creditVouchers'));
+        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 
     public function fetchData(Request $request)
@@ -25,9 +31,14 @@ class CreditVoucherController extends Controller
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $creditVouchers = CreditVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('credit_voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('credit_voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('credit_voucher_amount', 'like', '%' . $query . '%');
+                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                    ->orWhere('item_type', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('price', 'like', '%' . $query . '%')
+                    ->orWhere('quantity', 'like', '%' . $query . '%')
+                    ->orWhere('supply_order_no', 'like', '%' . $query . '%')
+                    ->orWhere('rin', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -41,7 +52,11 @@ class CreditVoucherController extends Controller
      */
     public function create()
     {
-        return view('inventory.credit-vouchers.form');
+        $itemCodes = Item::all();
+        $inventoryTypes = ItemType::all();
+        $inventoryNumbers = InventoryNumber::all();
+
+        return view('inventory.credit-vouchers.form', compact('itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 
     /**
@@ -58,8 +73,8 @@ class CreditVoucherController extends Controller
 
         $creditVoucher = new CreditVoucher();
         $creditVoucher->item_code_id = $request->item_code_id;
-        $creditVoucher->credit_voucher_no = $request->credit_voucher_no;
-        $creditVoucher->credit_voucher_date = $request->credit_voucher_date;
+        $creditVoucher->voucher_no = $request->voucher_no;
+        $creditVoucher->voucher_date = $request->voucher_date;
         $creditVoucher->inv_no = $request->inv_no;
         $creditVoucher->description = $request->description;
         $creditVoucher->uom = $request->uom;
@@ -88,8 +103,13 @@ class CreditVoucherController extends Controller
     public function edit(string $id)
     {
         $creditVoucher = CreditVoucher::findOrFail($id);
+        $itemCodes = Item::all();
+        $inventoryTypes = ItemType::all();
+        $inventoryNumbers = InventoryNumber::all();
         $edit = true;
-        return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit'));
+
+        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'))->render()]);
+        // return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 
     /**
@@ -106,8 +126,8 @@ class CreditVoucherController extends Controller
 
         $creditVoucher = CreditVoucher::findOrFail($id);
         $creditVoucher->item_code_id = $request->item_code_id;
-        $creditVoucher->credit_voucher_no = $request->credit_voucher_no;
-        $creditVoucher->credit_voucher_date = $request->credit_voucher_date;
+        $creditVoucher->voucher_no = $request->voucher_no;
+        $creditVoucher->voucher_date = $request->voucher_date;
         $creditVoucher->inv_no = $request->inv_no;
         $creditVoucher->description = $request->description;
         $creditVoucher->uom = $request->uom;
@@ -135,7 +155,6 @@ class CreditVoucherController extends Controller
         $creditVoucher = CreditVoucher::findOrFail($request->id);
         $creditVoucher->delete();
 
-        session()->flash('message', 'Credit Voucher deleted successfully');
-        return response()->json(['success' => 'Credit Voucher deleted successfully']);
+        return redirect()->back()->with('message', 'Credit Voucher deleted successfully.');
     }
 }
