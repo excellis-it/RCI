@@ -63,7 +63,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('income-tax') }}">Income Tax</a>                             
+                                    href="#">Income Tax</a>                             
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

@@ -196,16 +196,12 @@
             </li>
            
 
-           <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pages<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
-                            {{-- <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('edit.member') }}">edit member</a>
-                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('income-tax') }}">Income Tax</a>
@@ -214,7 +210,7 @@
                         </ul>
                     </div>
                 </div>
-            </li> 
+            </li>  --}}
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Member Management<span
@@ -305,7 +301,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('income-tax') }}">Income Tax</a>                             
+                                    href="#">Income Tax</a>                             
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
