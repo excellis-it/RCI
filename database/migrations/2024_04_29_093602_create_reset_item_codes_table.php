@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventory_numbers', function (Blueprint $table) {
+        Schema::create('reset_item_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('inventory_type')->nullable();
-            $table->foreignId('holder_id')->nullable();
-            $table->foreignId('group_id')->nullable();
-            $table->foreignId('inventory_project_id')->nullable();
-            $table->string('number')->nullable();
+            $table->string('item_code_text')->nullable();
             $table->boolean('status')->default(1)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory_numbers');
+        Schema::dropIfExists('reset_item_codes');
     }
 };

@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Item;
+use App\Models\ResetItemCode;
 
-class ItemController extends Controller
+class ResetItemCodeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-        $items = Item::orderBy('id','desc')->paginate(10);
-        return view('inventory.items.list',compact('items'));
+        $reset_item_codes = ResetItemCode::orderBy('id','desc')->paginate(10);
+        return view('inventory.reset-item-codes.list',compact('reset_item_codes'));
     }
 
     public function fetchData(Request $request)
@@ -26,7 +25,7 @@ class ItemController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $items = Item::where(function($queryBuilder) use ($query) {
+            $reset_item_codes = ResetItemCode::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('item_code', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
@@ -34,7 +33,7 @@ class ItemController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('inventory.items.table', compact('items'))->render()]);
+            return response()->json(['data' => view('inventory.reset-item-codes.table', compact('reset_item_codes'))->render()]);
         }
     }
 
@@ -43,7 +42,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('inventory.items.form');
+        //
     }
 
     /**
@@ -51,18 +50,20 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        // validation
         $request->validate([
-            'item_code' => 'required | unique:banks,bank_name',
+            'item_code_text' => 'required',
             'status' => 'required',
         ]);
 
-        $bank_value = new Bank();
-        $bank_value->bank_name = $request->bank_name;
-        $bank_value->status = $request->status;
-        $bank_value->save();
+        $reset_item_code = new ResetItemCode();
+        $reset_item_code->item_code_text = $request->item_code_text;
+        $reset_item_code->status = $request->status;
+        $reset_item_code->save();
 
-        session()->flash('message', 'Bank Information added successfully');
-        return response()->json(['success' => 'bank Information added successfully']);
+        session()->flash('message', 'Reset Code Text added successfully');
+        return response()->json(['success' => 'Reset Code Text added successfully']);
+
     }
 
     /**

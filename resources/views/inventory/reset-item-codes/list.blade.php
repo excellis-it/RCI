@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Item Code List
+   Reset Code List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Item Code Listing</h3>
+                    <h3>Reset Code Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Item Code Listing</span></li>
+                        <li><span class="bread-blod">Reset Code Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -29,8 +29,8 @@
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div id="code-form">
-                            @include('inventory.items.form')
+                        <div id="form">
+                            @include('inventory.reset-item-codes.form')
                         </div>
 
                         <div class="row">
@@ -50,20 +50,17 @@
                                             <tr>
                                                 <th>SL No.</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Item Code <span id="value_icon"><i
+                                                    style="cursor: pointer">Item Code Text<span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">UOM<span id="value_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Item type<span id="value_icon"><i
+                                                    style="cursor: pointer">Status<span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.items.table')
+                                            @include('inventory.reset-item-codes.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -86,7 +83,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Items Codes!",
+                    text: "To delete this Items Code Text!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -109,7 +106,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('item-codes.fetch-data') }}",
+                    url: "{{ route('reset-codes.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -174,7 +171,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#item-create-form').submit(function(e) {
+            $('#reset-item-code-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -186,7 +183,7 @@
                     success: function(response) {
                        
                         //windows load with toastr message
-                        window.location.reload();
+                        // window.location.reload();
                     },
                     error: function(xhr) {
                        
@@ -208,15 +205,13 @@
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
-                
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                       
-                        $('#code-form').html(response.view);
+                        $('#form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         $('#offcanvasEdit').offcanvas('show');
@@ -231,7 +226,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#items-edit-form', function(e) {
+            $(document).on('submit', '#reset-item-code-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
