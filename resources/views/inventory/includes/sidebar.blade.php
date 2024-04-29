@@ -25,7 +25,7 @@
                     </a>
                 </li> -->
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{Request::is('inventory/items*') ? 'active' : ''}}" href="{{route('items.index')}}" aria-expanded="false">
+                    <a class="sidebar-link {{Request::is('inventory/item-codes*') ? 'active' : ''}}" href="{{route('item-codes.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-user"></i>
                         </span>

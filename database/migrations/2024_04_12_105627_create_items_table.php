@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('item_code')->nullable();
+            $table->string('code')->nullable();
             $table->longText('description')->nullable();
             $table->string('uom')->nullable();
             $table->string('item_type')->enum(['Consumable', 'Non-Consumable'])->default('Consumable');

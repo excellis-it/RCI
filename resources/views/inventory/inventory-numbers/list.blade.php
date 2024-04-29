@@ -51,9 +51,8 @@
                                                 <th>SL No.</th>
                                                 <th>Item Type </th>
                                                 <th>Holder Name </th>
-                                                <th>Project Name </th>
-                                                <th>Number </th>
-                                                <th>Status </th>                                          
+                                                <th>Number </th> 
+                                                <th>Status</th>                                  
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -245,4 +244,28 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.project-div').hide();
+            $('.holder-div').hide();
+            $('.group-div').hide();
+            $(document).on('change', '#inventory_type', function() {
+                // inventory_type_id value if project then show project name and holders name filed open
+                var inventory_type = $(this).val();
+                if (inventory_type == 'Project') {
+                    $('.holder-div').show();
+                    $('.project-div').show();
+                    $('.group-div').hide();
+                    $('#group_id').val('');
+                    
+                } else {
+                    $('.holder-div').show();
+                    $('.group-div').show();
+                    $('.project-div').hide(); 
+                    $('#inventory_project_id').val('');
+                }
+            });
+        });
+        </script>
 @endpush

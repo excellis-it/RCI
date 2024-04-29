@@ -1,11 +1,12 @@
 @if (count($items) > 0)
     @foreach ($items as $key => $item)
         <tr>
-            <td>{{$item->item_code ?? 'N/A'}}</td>
+            <td> {{ (($items->currentPage()-1) * $items->perPage() + $loop->index + 1) ?? 0 }}</td>
+            <td>{{$item->code ?? 'N/A'}}</td>
             <td>{{$item->uom ?? 'N/A'}}</td>
             <td>{{$item->item_type ?? 'N/A'}}</td>
-            <td class="sepharate"><a  href="{{ route('items.edit', $item->id)}}" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('items.delete', $item->id)}}"><i class="ti ti-trash"></i></a>
+            <td class="sepharate"><a  data-route="{{ route('item-codes.edit', $item->id)}}" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('item-codes.delete', $item->id)}}"><i class="ti ti-trash"></i></a>
             </td>
         </tr>
     @endforeach

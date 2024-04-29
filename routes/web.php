@@ -33,11 +33,12 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
-use App\Http\Controllers\Inventory\ItemController;
+use App\Http\Controllers\Inventory\ItemCodeController;
 use App\Http\Controllers\Inventory\CreditVoucherController;
 use App\Http\Controllers\Inventory\DebitVoucherController;
 use App\Http\Controllers\Inventory\InventoryProjectController;
 use App\Http\Controllers\Inventory\InventoryNumberController;
+use App\Http\Controllers\Inventory\ResetItemCodeController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -396,28 +397,41 @@ Route::middleware('permssions')->group(function () {
     // inventory routes
     Route::prefix('inventory')->group(function () {
         Route::resources([
-            'items' => ItemController::class,
+            'item-codes' => ItemCodeController::class,
             'inventory-types' => InventoryTypeController::class,
             'inventory-projects' => InventoryProjectController::class,
             'inventory-numbers' => InventoryNumberController::class,
             'credit-vouchers' => CreditVoucherController::class,
             'debit-vouchers' => DebitVoucherController::class,
+            'reset-codes' => ResetItemCodeController::class,
         ]);
 
+        //reset item codes
+        Route::prefix('reset-codes')->group(function () {
+            Route::get('/delete/{id}', [ResetItemCodeController::class, 'delete'])->name('reset-codes.delete');
+        });
+        Route::get('/reset-codes-fetch-data', [ResetItemCodeController::class, 'fetchData'])->name('reset-codes.fetch-data');
+
         //item-codes
-        Route::get('/item-fetch-data', [ItemController::class, 'fetchData'])->name('items.fetch-data');
+        Route::get('/item-codes-fetch-data', [ItemController::class, 'fetchData'])->name('item-codes.fetch-data');
+        Route::prefix('item-codes')->group(function () {
+            Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
+        });
 
         Route::get('/inventory-types-fetch-data',[InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
         Route::prefix('inventory-types')->group(function () {
-            Route::get('/inventory-types-delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
+            Route::get('/delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
         });
 
         Route::get('/inventory-projects-fetch-data', [InventoryProjectController::class, 'fetchData'])->name('inventory-projects.fetch-data');
         Route::prefix('inventory-projects')->group(function () {
-            Route::get('/inventory-projects-delete/{id}', [InventoryProjectController::class, 'delete'])->name('inventory-projects.delete');
+            Route::get('/delete/{id}', [InventoryProjectController::class, 'delete'])->name('inventory-projects.delete');
         });
 
         Route::get('/inventory-numbers-fetch-data', [InventoryNumberController::class, 'fetchData'])->name('inventory-numbers.fetch-data');
+        Route::prefix('inventory-numbers')->group(function () {
+            Route::get('/delete/{id}', [InventoryNumberController::class, 'delete'])->name('inventory-numbers.delete');
+        });
 
         //credit-vouchers
         Route::get('/credit-vouchers-fetch-data', [CreditVoucherController::class, 'fetchData'])->name('credit-vouchers.fetch-data');

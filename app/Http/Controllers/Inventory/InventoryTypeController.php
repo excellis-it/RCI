@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\ItemType;
+use App\Models\InventoryType;
 
 class InventoryTypeController extends Controller
 {
@@ -13,7 +13,7 @@ class InventoryTypeController extends Controller
      */
     public function index()
     {
-        $itemTypes = ItemType::orderBy('id', 'desc')->paginate(10);
+        $itemTypes = InventoryType::orderBy('id', 'desc')->paginate(10);
         return view('inventory.inventory-types.list', compact('itemTypes'));
     }
 
@@ -24,7 +24,7 @@ class InventoryTypeController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $itemTypes = ItemType::where(function($queryBuilder) use ($query) {
+            $itemTypes = InventoryType::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
@@ -50,11 +50,11 @@ class InventoryTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:item_types,name',
+            'name' => 'required|unique:inventory_types,name',
             'status' => 'required',
         ]);
 
-        $item_type = new ItemType();
+        $item_type = new InventoryType();
         $item_type->name = $request->name;
         $item_type->status = $request->status;
         $item_type->save();
@@ -76,7 +76,7 @@ class InventoryTypeController extends Controller
      */
     public function edit(string $id)
     {
-        $item_type = ItemType::find($id);
+        $item_type = InventoryType::find($id);
         $edit = true;
         return response()->json(['view' => view('inventory.inventory-types.form', compact('edit','item_type'))->render()]);
     }
@@ -91,7 +91,7 @@ class InventoryTypeController extends Controller
             'status' => 'required',
         ]);
 
-        $item_type = ItemType::find($id);
+        $item_type = InventoryType::find($id);
         $item_type->name = $request->name;
         $item_type->status = $request->status;
         $item_type->update();
@@ -110,7 +110,7 @@ class InventoryTypeController extends Controller
 
     public function delete($id)
     {
-        $item_type = ItemType::find($id);
+        $item_type = InventoryType::find($id);
         $item_type->delete();
 
         return redirect()->back()->with('message','Inventory Type deleted succsessfully');

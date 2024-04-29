@@ -55,10 +55,10 @@
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('inventory-types.index') }}">Inventory Type</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('inventory-projects.index') }}">Inventory Projects</a>
@@ -67,10 +67,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('inventory-numbers.index') }}">Inventory Numbers</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('items.index') }}">Item Code Generation</a>
-                            </li>
+                                    href="{{ route('reset-codes.index') }}">Reset Item Code</a>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Voucher</a>

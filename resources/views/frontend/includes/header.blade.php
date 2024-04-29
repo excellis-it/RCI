@@ -329,7 +329,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('items.index') }}">Item Code Generation</a>
+                                    href="{{ route('item-codes.index') }}">Item Code Generation</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
