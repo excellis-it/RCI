@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\DesignationType;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class DesignationTypeController extends Controller
@@ -102,8 +103,15 @@ class DesignationTypeController extends Controller
 
     public function delete($id)
     {
-        $designation_type = DesignationType::find($id);
-        $designation_type->delete();
-        return redirect()->back()->with('message', 'Designation Type deleted successfully');
+
+        $related_members = Member::where('desig', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Designation Type is related to members.Please remove the relation first.');
+        } else {
+            $designation_type = DesignationType::find($id);
+            $designation_type->delete();
+            return redirect()->back()->with('message', 'Designation Type deleted successfully');
+        }
     }
 }

@@ -59,7 +59,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Material Management</a>
+                                    href="{{ route('item-codes.index') }}">Material Management</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -67,16 +67,12 @@
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-levels.index') }}">PM Level</a>
+                                    href="{{ route('members.index') }}">Member Managemnet</a>
                             </li>
                             
                         </ul>
                     </div>
                 </div>
-            </li>
-
-            <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="{{ route('members.index') }}">Member</a>
             </li>
         </ul>
         

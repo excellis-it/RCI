@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\DesignationType;
 use Illuminate\Http\Request;
+use App\Models\Member;
 
 class CategoryController extends Controller
 {
@@ -129,8 +130,14 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        $category = Category::find($id);
-        $category->delete();
-        return redirect()->back()->with('message', 'Category deleted successfully');
+        $related_members = Member::where('category', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Category is related to members.Please remove the relation first.');
+        } else {
+            $category = Category::find($id);
+            $category->delete();
+            return redirect()->back()->with('message', 'Category deleted successfully');
+        }
     }
 }

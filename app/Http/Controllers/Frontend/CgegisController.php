@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cgegis;
+use App\Models\Member;
 
 class CgegisController extends Controller
 {
@@ -112,8 +113,14 @@ class CgegisController extends Controller
 
     public function delete($id) 
     {
-        $cgegis_delete = Cgegis::find($id);
-        $cgegis_delete->delete();
-        return redirect()->back()->with('message', 'Cgegis deleted successfully');
+        $related_members = Member::where('cgegis', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Cgegis is related to members.Please remove the relation first.');
+        } else {
+            $cgegis_delete = Cgegis::find($id);
+            $cgegis_delete->delete();
+            return redirect()->back()->with('message', 'Cgegis deleted successfully');
+        }
     }
 }

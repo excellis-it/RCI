@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\PaybandType;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class PaybandTypeController extends Controller
@@ -105,8 +106,14 @@ class PaybandTypeController extends Controller
 
     public function delete($id)
     {
-        $payband_type = PaybandType::find($id);
-        $payband_type->delete();
-        return redirect()->back()->with('message', 'Payband Type deleted successfully');
+        $related_members = Member::where('pay_band', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Pay band is related to members.Please remove the relation first.');
+        } else {
+            $payband_type = PaybandType::find($id);
+            $payband_type->delete();
+            return redirect()->back()->with('message', 'Payband Type deleted successfully');
+        }
     }
 }

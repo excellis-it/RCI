@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\Member;
 
 class GroupController extends Controller
 {
@@ -111,8 +112,14 @@ class GroupController extends Controller
 
     public function delete($id)
     {
-        $group = Group::find($id);
-        $group->delete();
-        return redirect()->back()->with('message', 'Group deleted successfully');
+        $related_members = Member::where('group', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Group is related to members.Please remove the relation first.');
+        } else {
+            $group = Group::find($id);
+            $group->delete();
+            return redirect()->back()->with('message', 'Group deleted successfully');
+        }
     }
 }

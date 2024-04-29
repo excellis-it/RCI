@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quater;
+use App\Models\Member;
 
 class QuaterController extends Controller
 {
@@ -111,8 +112,14 @@ class QuaterController extends Controller
 
     public function delete($id)
     {
-        $quarter = Quater::find($id);
-        $quarter->delete();
-        return redirect()->back()->with('message', 'Quarter deleted successfully');
+        $related_members = Member::where('quater', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Quater is related to members.Please remove the relation first.');
+        } else {
+            $quarter = Quater::find($id);
+            $quarter->delete();
+            return redirect()->back()->with('message', 'Quarter deleted successfully');
+        }
     }
 }

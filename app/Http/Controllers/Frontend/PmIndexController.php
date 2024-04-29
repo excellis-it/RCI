@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PmIndex;
+use App\Models\Member;
+
 
 class PmIndexController extends Controller
 {
@@ -112,8 +114,14 @@ class PmIndexController extends Controller
 
     public function delete($id)
     {
-        $pm_index = PmIndex::find($id);
-        $pm_index->delete();
-        return redirect()->back()->with('message', 'PM Index deleted successfully');
+        $related_members = Member::where('pm_index', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'PM Index is related to members.Please remove the relation first.');
+        } else {
+            $pm_index = PmIndex::find($id);
+            $pm_index->delete();
+            return redirect()->back()->with('message', 'PM Index deleted successfully');
+        }
     }
 }

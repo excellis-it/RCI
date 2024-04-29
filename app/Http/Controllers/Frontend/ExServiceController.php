@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ExService;
+use App\Models\Member;
 
 class ExServiceController extends Controller
 {
@@ -111,8 +112,14 @@ class ExServiceController extends Controller
 
     public function delete($id)
     {
-        $exService = ExService::find($id);
-        $exService->delete();
-        return redirect()->back()->with('message', 'Ex Service deleted successfully');
+        $related_members = Member::where('ex_service', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Ex Service is related to members.Please remove the relation first.');
+        } else {
+            $exService = ExService::find($id);
+            $exService->delete();
+            return redirect()->back()->with('message', 'Ex Service deleted successfully');
+        }
     }
 }

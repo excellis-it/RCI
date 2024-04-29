@@ -25,13 +25,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="#">Imprest</a>
                             </li>
+                            
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Pay & Allowance</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Material Management</a>
+                                    href="{{ route('item-codes.index') }}">Material Management</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -40,7 +37,7 @@
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-levels.index') }}">PM Level</a>
+                                    href="{{ route('members.index') }}">Member Managemnet</a>
                             </li>
                             
                             
