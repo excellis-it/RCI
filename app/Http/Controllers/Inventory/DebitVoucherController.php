@@ -60,12 +60,11 @@ class DebitVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'debit_voucher_no' => 'required | unique:debit_vouchers,debit_voucher_no',
-        //     'debit_voucher_date' => 'required',
-        //     'debit_voucher_amount' => 'required',
-        //     'debit_voucher_description' => 'required',
-        // ]);
+        $request->validate([
+            'inv_no' => 'required',
+            'item_code_id' => 'required',
+            'voucher_no' => 'required',
+        ]);
 
         $debitVoucher = new DebitVoucher();
         $debitVoucher->inv_no = $request->inv_no;
@@ -107,10 +106,15 @@ class DebitVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $debitVoucher = DebitVoucher::find($id);
 
+        $request->validate([
+            'inv_no' => 'required',
+            'voucher_no' => 'required',
+        ]);
+
+        $debitVoucher = DebitVoucher::find($id);
         $debitVoucher->inv_no = $request->inv_no;
-        $debitVoucher->item_id = $request->item_code_id;
+        // $debitVoucher->item_id = $request->item_code_id;
         $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_no = $request->voucher_no;
         $debitVoucher->voucher_date = $request->voucher_date;

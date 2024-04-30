@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Debit Vouchers
+   Conversion Vouchers
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Debit Vouchers</h3>
+                    <h3>Conversion Vouchers</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Debit Vouchers</span></li>
+                        <li><span class="bread-blod">Conversion Vouchers</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('inventory.debit-vouchers.form')
+                            @include('inventory.conversion-vouchers.form')
                         </div>
 
                         <div class="row">
@@ -50,29 +50,29 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Inv. No.<span id="code_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
                                                     style="cursor: pointer">Item Code <span id="code_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="voucher_number" data-column_name="voucher_number"
-                                                    style="cursor: pointer">Quantity<span id="voucher_number_icon"><i
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_number_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="vdate" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_date_icon"><i
+                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
+                                                    style="cursor: pointer">Inv. No.<span id="code_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                               
+                                                <th class="sorting" data-sorting_type="price" data-column_name="price"
+                                                    style="cursor: pointer">Price & Tax<span id="price_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
-                                                    style="cursor: pointer">Voucher Date<span id="quantity_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="remarks" data-column_name="remarks"
-                                                    style="cursor: pointer">Remarks<span id="remarks_icon"><i
+                                                    style="cursor: pointer">Quantity<span id="quantity_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.debit-vouchers.table')
+                                            @include('inventory.conversion-vouchers.table')
                                         </tbody>
                                         {{-- <tbody></tbody> --}}
                                     </table>
@@ -119,7 +119,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('debit-vouchers.fetch-data') }}",
+                    url: "{{ route('conversion-vouchers.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -184,7 +184,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#debit-vouchers-create-form').submit(function(e) {
+            $('#conversion-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -239,7 +239,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#debit-vouchers-edit-form', function(e) {
+            $(document).on('submit', '#conversion-vouchers-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -263,22 +263,19 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function(){
             $('#item_code_id').change(function() {
                 var item_code_id = $(this).val();
                 $.ajax({ 
-                    url: "{{ route('debit-vouchers.get-item-quantity')}}",
+                    url: "{{ route('conversion-vouchers.get-item-type')}}",
                     type: 'POST',
                     data: {
                         item_code_id: item_code_id,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        // $('#quantity_no').val(parseInt(response.quantity));
-                        var quantity = parseInt(response.quantity);
-                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
-                        $('#quantity_no').text(text);
+                        $('#item_type').val(response.item_type);
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -286,5 +283,5 @@
                  });
             });
         });
-    </script>
+    </script> --}}
 @endpush
