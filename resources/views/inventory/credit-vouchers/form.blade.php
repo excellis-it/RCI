@@ -14,7 +14,7 @@
                                 <select class="form-control" name="item_code_id" id="item_code_id" >
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $creditVoucher->item_code_id ? 'selected' : '' }}>{{ $item->item_code }}</option>
+                                        <option value="{{ $item->id }}" {{ $item->id == $creditVoucher->item_code_id ? 'selected' : '' }}>{{ $item->code }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
