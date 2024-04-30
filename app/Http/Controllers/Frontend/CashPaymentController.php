@@ -65,9 +65,11 @@ class CashPaymentController extends Controller
         
         $request->validate([
             'vr_date' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'rct_no' => 'required',
         ]);
+
+        
         $voucherText = ResetVoucher::where('status', 1)->first();
         $cashPayment = CashPayment::latest()->first();
 
@@ -91,8 +93,6 @@ class CashPaymentController extends Controller
         $cashPayment->name = $request->name;
         $cashPayment->category = $request->category;
         $cashPayment->save();
-
-      
 
         session()->flash('message', 'Cash Payment added successfully');
         return response()->json(['success' => 'Cash Payment added successfully']);
@@ -124,14 +124,9 @@ class CashPaymentController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-           
             'vr_date' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
             'rct_no' => 'required',
-            'form' => 'required',
-            'details' => 'required',
-            'name' => 'required',
-            'category' => 'required',
         ]);
 
         $cashPayment = CashPayment::findOrFail($id);
@@ -144,7 +139,8 @@ class CashPaymentController extends Controller
         $cashPayment->category = $request->category;
         $cashPayment->save();
 
-        return redirect()->route('cash-payments.index')->with('message', 'Cash Payment updated successfully');
+        session()->flash('message', 'Cash Payment updated successfully');
+        return response()->json(['success' => 'Cash Payment updated successfully']);
     }
 
     /**

@@ -83,7 +83,7 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="item_code" id="item_code" placeholder="99.99.">
+                                <input type="text" class="form-control"  name="item_code" id="item_code" placeholder="99.99.">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

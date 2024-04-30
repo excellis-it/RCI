@@ -17,8 +17,7 @@
                 <div class="">
                     <h3>Payment Categories Listing</h3>
                     <ul class="breadcome-menu mb-0">
-                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Payment Categories Listing</span></li>
+                        <li><span class="bread-blod"> Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -49,8 +48,8 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Category Name<span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
+                                                    style="cursor: pointer">Category Name<span id="name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
@@ -184,12 +183,9 @@
                     },
                     error: function(xhr) {
                        
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
                         });
@@ -236,11 +232,12 @@
                         window.location.reload();
                     },
                     error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
+                       
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });

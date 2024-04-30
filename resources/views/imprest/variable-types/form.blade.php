@@ -70,7 +70,7 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
                                     <option value="">Select Status</option>
-                                    <option value="1" selected>Active</option>
+                                    <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>

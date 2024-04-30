@@ -7,22 +7,22 @@
                 <div class="row">
                     <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-2">
+                            <div class="col-md-12">
                                 <label>Desig</label>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <input type="text" class="form-control" name="designation" id="designation"
-                                    value="{{ $designation->designation  ?? ''}}" placeholder="">
+                                    value="{{ $designation->designation ?? '' }}" placeholder="">
                                 <span class="text-danger" id="designation-error"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Full Name</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <input type="text" class="form-control" name="full_name" id="full_name"
                                     value="{{ $designation->full_name ?? '' }}" placeholder="">
                                 <span class="text-danger" id="full_name-error"></span>
@@ -31,15 +31,15 @@
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Category</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <select class="form-select" name="category_id" id="category_id">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
-                                            {{ ($designation->category_id == $category->id) ? 'selected' : '' }}>
+                                            {{ $designation->category_id == $category->id ? 'selected' : '' }}>
                                             {{ $category->category }}</option>
                                     @endforeach
                                 </select>
@@ -49,27 +49,27 @@
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Order</label>
                             </div>
-                            <div class="col-md-8">
-                                <input type="number" class="form-control" name="order" id="order" value="{{ $designation->order ?? '' }}"
-                                    placeholder="">
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" name="order" id="order"
+                                    value="{{ $designation->order ?? '' }}" placeholder="">
                                 <span class="text-danger" id="order-error"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Type</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <select class="form-select" name="designation_type_id" id="designation_type_id">
-                                    <option value="">Select Designation</option>
+                                   
                                     @foreach ($designation_types as $designationType)
                                         <option value="{{ $designationType->id }}"
-                                            {{ ($designation->designation_type_id == $designationType->id) ? 'selected' : '' }}>
+                                            {{ $designation->designation_type_id == $designationType->id ? 'selected' : '' }}>
                                             {{ $designationType->designation_type }}</option>
                                     @endforeach
                                 </select>
@@ -80,44 +80,46 @@
                     {{-- increment 1 --}}
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Payscale</label>
                             </div>
-                            <div class="col-md-8">
-                              <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <select class="form-select payscale_type_id" name="payscale_type_id" id="payscale_type_id">
-                                        <option value="">Select Payscale</option>
-                                        @foreach ($payscale_types as $scaleType)
-                                            <option value="{{ $scaleType->id }}"
-                                                {{ ($designation->payscale_type_id == $scaleType->id) ? 'selected' : '' }}>
-                                                {{ $scaleType->payscale_type }}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="col-md-12">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <select class="form-select payscale_type_id" name="payscale_type_id"
+                                            id="payscale_type_id">
+                                            
+                                            @foreach ($payscale_types as $scaleType)
+                                                <option value="{{ $scaleType->id }}"
+                                                    {{ $designation->payscale_type_id == $scaleType->id ? 'selected' : '' }}>
+                                                    {{ $scaleType->payscale_type }}</option>
+                                            @endforeach
+                                        </select>
 
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control payscale_number" name="payscale_number" id="payscale_number" value="{{ $designation->payscale_number ?? '' }}"
-                                    placeholder="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control payscale_number"
+                                            name="payscale_number" id="payscale_number"
+                                            value="{{ $designation->payscale_number ?? '' }}" placeholder="">
 
+                                    </div>
+                                    <span class="text-danger" id="payscale_type_id-error"></span>
                                 </div>
-                                <span class="text-danger" id="payscale_type_id-error"></span>
-                              </div>
                             </div>
                         </div>
                     </div>
                     {{-- increment 2 --}}
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Payband</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <select class="form-select" name="payband_type_id" id="payband_type_id">
-                                    <option value="">Select Payband</option>
+                                   
                                     @foreach ($payband_types as $paybandType)
                                         <option value="{{ $paybandType->id }}"
-                                            {{ old('payband_type_id') == $paybandType->id ? 'selected' : '' }}>
+                                            {{ $designation->payband_type_id == $paybandType->id ? 'selected' : '' }}>
                                             {{ $paybandType->payband_type }}</option>
                                     @endforeach
                                 </select>
@@ -145,10 +147,10 @@
                 <div class="row">
                     <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-2">
+                            <div class="col-md-12">
                                 <label>Desig</label>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <input type="text" class="form-control" name="designation" id="designation"
                                     value="{{ old('designation') ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
@@ -157,10 +159,10 @@
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Full Name</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <input type="text" class="form-control" name="full_name" id="full_name"
                                     value="{{ old('full_name') ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
@@ -169,10 +171,10 @@
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Category</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <select class="form-select" name="category_id" id="category_id">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
@@ -187,10 +189,10 @@
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Order</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <input type="number" class="form-control" name="order" id="order"
                                     placeholder="">
                                 <span class="text-danger"></span>
@@ -199,10 +201,10 @@
                     </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Type</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <select class="form-select" name="designation_type_id" id="designation_type_id">
                                     <option value="">Select Designation</option>
                                     @foreach ($designation_types as $designationType)
@@ -218,39 +220,40 @@
                     {{-- increment 1 --}}
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Payscale</label>
                             </div>
-                            <div class="col-md-8">
-                              <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <select class="form-select payscale_type_id" name="payscale_type_id" id="payscale_type_id">
-                                        <option value="">Select Payscale</option>
-                                        @foreach ($payscale_types as $scaleType)
-                                            <option value="{{ $scaleType->id }}"
-                                                {{ old('payscale_type_id') == $scaleType->id ? 'selected' : '' }}>
-                                                {{ $scaleType->payscale_type }}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="col-md-12">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <select class="form-select payscale_type_id" name="payscale_type_id"
+                                            id="payscale_type_id">
+                                            <option value="">Select Payscale</option>
+                                            @foreach ($payscale_types as $scaleType)
+                                                <option value="{{ $scaleType->id }}"
+                                                    {{ old('payscale_type_id') == $scaleType->id ? 'selected' : '' }}>
+                                                    {{ $scaleType->payscale_type }}</option>
+                                            @endforeach
+                                        </select>
 
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control payscale_number" name="payscale_number" id="payscale_number"
-                                    placeholder="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control payscale_number"
+                                            name="payscale_number" id="payscale_number" placeholder="">
 
+                                    </div>
+                                    <span class="text-danger" id="payscale_type_id_msg"></span>
                                 </div>
-                                <span class="text-danger" id="payscale_type_id_msg"></span>
-                              </div>
                             </div>
                         </div>
                     </div>
                     {{-- increment 2 --}}
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label>Payband</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <select class="form-select" name="payband_type_id" id="payband_type_id">
                                     <option value="">Select Payband</option>
                                     @foreach ($payband_types as $paybandType)

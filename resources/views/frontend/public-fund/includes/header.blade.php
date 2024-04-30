@@ -44,10 +44,7 @@
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('cash-payments.index')}}">Public Fund</a>
-                            </li>
+                            
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('cda-receipts.index')}}">Imprest</a>
@@ -76,12 +73,12 @@
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none d-none d-md-block"
                     href="javascript:void(0)">
                     <i class="ti ti-settings fs-4"></i> Settings
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="fw-semibold bg-hover-primary text-decoration-none text-deger ps-3 d-none d-md-block"
                     href="{{route('logout')}}">

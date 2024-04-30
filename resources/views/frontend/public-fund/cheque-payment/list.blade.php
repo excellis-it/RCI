@@ -7,87 +7,81 @@ Cheque Payment List
 @endpush
 
 @section('content')
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
-    <div class="container-fluid">
-        <div class="breadcome-list">
-            <div class="d-flex">
-                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
-                <div class="">
-                    <h3>Cheque Payment Listing</h3>
-                    <ul class="breadcome-menu mb-0">
-                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Cheque Payment Listing</span></li>
-                    </ul>
-                </div>
+<section id="loading">
+    <div id="loading-content"></div>
+</section>
+<div class="container-fluid">
+    <div class="breadcome-list">
+        <div class="d-flex">
+            <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+            <div class="">
+                <h3>Cheque Payment Listing</h3>
+                <ul class="breadcome-menu mb-0">
+                   
+                    <li><span class="bread-blod">Listing</span></li>
+                </ul>
             </div>
         </div>
-        <!--  Row 1 -->
+    </div>
+    <!--  Row 1 -->
 
-        <div class="row">
-            <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('cheque-payments.create') }}">Add Cheque Payments</a>
-              </div>
-            <div class="col-lg-12">
-                <div class="card w-100">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card w-100">
+                <div class="card-body">
+                    <div id="form">
+                        @include('frontend.public-fund.cheque-payment.form')
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-4 mt-4">
+                            <div class="row justify-content-end">
+                                <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control search_table" value=""
+                                            id="search" placeholder="Search">
+                                        <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                     </div>
                                 </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
-                                                <th class="sorting" data-sorting_type="asc" data-column_name="id"
-                                                    style="cursor: pointer">ID<span id="id_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
-                                                    style="cursor: pointer">SR.NO<span id="name_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
-                                                    style="cursor: pointer">VR.NO<span id="emp_id_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="gender"
-                                                    style="cursor: pointer">VR.DATE<span id="gender_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="pers_no"
-                                                style="cursor: pointer">AMT<span id="pers_no_icon"><i
-                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th>NAME</th>
-                                                <th>DESIG</th>
-                                                <th>BILL REF</th>
-                                                <th>CHQ.NO</th>
-                                                <th>DV.NO</th>
-                                                
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('frontend.public-fund.cheque-payment.table')
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
-                                        value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div>
+                            </div>
+                            <div class="table-responsive rounded-2">
+                                <table class="table customize-table mb-0 align-middle bg_tbody">
+                                    <thead class="text-white fs-4 bg_blue">
+                                        <tr>
+                                            
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="sr_no"
+                                                style="cursor: pointer">SR.NO<span id="sr_no_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
+                                                style="cursor: pointer">VR.NO<span id="vr_no_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
+                                                style="cursor: pointer">VR.DATE<span id="vr_date_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                            style="cursor: pointer">AMT<span id="amount_icon"><i
+                                                class="fa fa-arrow-down"></i></span> </th>
+                                            <th>NAME</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_height_scroll">
+                                        @include('frontend.public-fund.cheque-payment.table')
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                <input type="hidden" name="hidden_column_name" id="hidden_column_name"
+                                    value="id" />
+                                <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-       
     </div>
+    
+</div>
 @endsection
 
 @push('scripts')
@@ -209,9 +203,7 @@ Cheque Payment List
             // Handle the form submission
             $(document).on('submit', '#cheque-payment-edit-form', function(e) {
                 e.preventDefault();
-
                 var formData = $(this).serialize();
-
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
@@ -221,14 +213,49 @@ Cheque Payment List
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });
             });
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+        $('#cheque-payment-create-form').submit(function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+        
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                   
+                    //windows load with toastr message
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                   
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endpush

@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Category</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" name="category" id="category" value="{{ $category->category }}"
                                 placeholder="">
                             <span class="text-danger" id="category-error"></span>
@@ -19,10 +19,10 @@
                 </div>
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Gaz or Non</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="gazetted" id="gazetted">
                                 <option value="">Select Gazetted</option>
                                 <option value="1" {{ ($category->gazetted == 1) ? 'selected' : '' }}>Yes</option>
@@ -34,10 +34,10 @@
                 </div>
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Designation Type</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="designation_type_id" id="designation_type_id">
                                 <option value="">Select Designation Type</option>
                                 @foreach ($designation_types as $designationType)
@@ -50,10 +50,10 @@
                 </div>
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Status</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="status" id="status">
                                 <option value="">Select Status</option>
                                 <option value="1" {{ ($category->status == 1) ? 'selected' : '' }}>Active</option>
@@ -83,10 +83,10 @@
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Category</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" name="category" id="category" value=""
                                 placeholder="">
                             <span class="text-danger"></span>
@@ -95,10 +95,10 @@
                 </div>
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Gaz or Non</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="gazetted" id="gazetted">
                                 <option value="">Select Gazetted</option>
                                 <option value="1">Yes</option>
@@ -110,10 +110,10 @@
                 </div>
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Designation Type</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="designation_type_id" id="designation_type_id">
                                 <option value="">Select Designation Type</option>
                                 @foreach ($designation_types as $designationType)
@@ -126,10 +126,10 @@
                 </div>
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Status</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="status" id="status">
                                 <option value="">Select Status</option>
                                 <option value="1">Active</option>

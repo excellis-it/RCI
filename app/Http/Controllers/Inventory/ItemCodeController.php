@@ -53,7 +53,9 @@ class ItemCodeController extends Controller
     {
       
         $request->validate([
-            'item_code' => 'required',
+            'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.$/'],
+            'uom' => 'required',
+            'item_type' => 'required',
         ]);
 
         $itemCode = ItemCode::latest()->first();
@@ -105,8 +107,9 @@ class ItemCodeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'item_code' => 'required',
-            
+            'item_code' =>  'required', 
+            'uom' => 'required',
+            'item_type' => 'required', 
         ]);
 
         $item_code = ItemCode::find($id);

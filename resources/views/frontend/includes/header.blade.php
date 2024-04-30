@@ -303,11 +303,6 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="#">Income Tax</a>                             
                             </li>
-                            <li>
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('members.index') }}">Member Managemnet</a>
-                            </li>
-                            
                         </ul>
                     </div>
                 </div>

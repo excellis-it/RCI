@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('advance_settlement_bills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('advance_settlement_id')->nullable();  
+            $table->bigInteger('advance_settlement_id')->unsigned()->nullable();  
             $table->string('firm')->nullable();
             $table->string('bill_amount')->nullable();
             $table->string('balance')->nullable();

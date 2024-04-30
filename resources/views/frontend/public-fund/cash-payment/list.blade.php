@@ -17,8 +17,8 @@ Cash Payments List
             <div class="">
                 <h3>Cash Payment Listing</h3>
                 <ul class="breadcome-menu mb-0">
-                    <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                    <li><span class="bread-blod">Cash Payment Listing</span></li>
+                   
+                    <li><span class="bread-blod">Listing</span></li>
                 </ul>
             </div>
         </div>
@@ -48,20 +48,19 @@ Cash Payments List
                                 <table class="table customize-table mb-0 align-middle bg_tbody">
                                     <thead class="text-white fs-4 bg_blue">
                                         <tr>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="policy_name"
-                                                style="cursor: pointer">VR No. <span id="policy_name_icon"><i
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
+                                                style="cursor: pointer">VR No. <span id="vr_no_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="policy_no"
-                                                style="cursor: pointer">VR Date. <span id="policy_no_icon"><i
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
+                                                style="cursor: pointer">VR Date. <span id="vr_date_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
-                                                        <th class="sorting" data-sorting_type="desc" data-column_name="policy_no"
-                                                style="cursor: pointer">AMT<span id="policy_no_icon"><i
+                                                        <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                style="cursor: pointer">AMT<span id="amount_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th>RCT No</th>
                                             <th>Form</th>
                                             <th>Details</th>
                                             <th>name</th>
-                                            
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -217,10 +216,12 @@ Cash Payments List
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });

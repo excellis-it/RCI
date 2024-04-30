@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_original_recoveries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->references('id')->on('members')->nullable();      
+            $table->bigInteger('member_id')->unsigned()->nullable();      
             $table->string('ccs_sub')->nullable();
             $table->string('mess')->nullable();
             $table->string('security')->nullable();

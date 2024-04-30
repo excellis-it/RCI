@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_expectations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->references('id')->on('members')->nullable();
+            $table->bigInteger('member_id')->unsigned()->nullable();      
             $table->string('rule_name')->nullable();
             $table->string('percent')->nullable();
             $table->string('year')->nullable();

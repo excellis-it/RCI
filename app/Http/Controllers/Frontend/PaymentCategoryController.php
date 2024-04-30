@@ -86,7 +86,7 @@ class PaymentCategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|',
             'status' => 'required|boolean',
         ]);
 
