@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ItemCode extends Model
 {
     use HasFactory;
+
+    // protected $table = 'inventory_types';
+
+    public function creditVouchers()
+    {
+        return $this->hasMany(CreditVoucher::class, 'item_code_id');
+    }
 }
