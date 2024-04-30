@@ -66,7 +66,7 @@ class AdvanceSettlementController extends Controller
         $request->validate([
             'adv_no' => 'required',
             'adv_date' => 'required',
-            'adv_amount' => 'required',
+            'adv_amount' => 'required|numeric',
             'project_id' => 'required',
             'var_no' => 'required',
             'var_date' => 'required',
@@ -118,8 +118,8 @@ class AdvanceSettlementController extends Controller
     {
         $request->validate([
             'firm' => 'required',
-            'bill_amount' => 'required',
-            'balance' => 'required',
+            'bill_amount' => 'required|numeric',
+            'balance' => 'required|numeric',
         ]);
 
         $advance_settlement_bill = new AdvanceSettlementBill();
@@ -144,8 +144,8 @@ class AdvanceSettlementController extends Controller
         
         $request->validate([
             'firm' => 'required',
-            'bill_amount' => 'required',
-            'balance' => 'required',
+            'bill_amount' => 'required|numeric',
+            'balance' => 'required|numeric',
         ]);
 
         $advance_settlement_bill = AdvanceSettlementBill::find($request->advance_settlement_bill_id);
@@ -176,11 +176,11 @@ class AdvanceSettlementController extends Controller
         $request->validate([
             'adv_no' => 'required',
             'adv_date' => 'required',
-            'adv_amount' => 'required',
+            'adv_amount' => 'required|numeric',
             'project_id' => 'required',
             'var_no' => 'required',
             'var_date' => 'required',
-            'var_amount' => 'required',
+            'var_amount' => 'required|numeric',
             'var_type_id' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
