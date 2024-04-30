@@ -39,6 +39,7 @@ use App\Http\Controllers\Inventory\DebitVoucherController;
 use App\Http\Controllers\Inventory\InventoryProjectController;
 use App\Http\Controllers\Inventory\InventoryNumberController;
 use App\Http\Controllers\Inventory\ResetItemCodeController;
+use App\Http\Controllers\Inventory\GatePassController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -403,6 +404,7 @@ Route::middleware('permssions')->group(function () {
             'credit-vouchers' => CreditVoucherController::class,
             'debit-vouchers' => DebitVoucherController::class,
             'reset-codes' => ResetItemCodeController::class,
+            'gate-passes' => GatePassController::class,
         ]);
 
         //reset item codes
@@ -441,6 +443,10 @@ Route::middleware('permssions')->group(function () {
         Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
         Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
         Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
+
+        //gate-passes
+        Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');
+        Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
     });
    
 });
