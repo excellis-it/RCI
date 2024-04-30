@@ -264,6 +264,27 @@
         });
     </script>
     <script>
-        
+        $(document).ready(function(){
+            $('#item_code_id').change(function() {
+                var item_code_id = $(this).val();
+                $.ajax({ 
+                    url: "{{ route('debit-vouchers.get-item-quantity')}}",
+                    type: 'POST',
+                    data: {
+                        item_code_id: item_code_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // $('#quantity_no').val(parseInt(response.quantity));
+                        var quantity = parseInt(response.quantity);
+                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
+                        $('#quantity_no').text(text);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                 });
+            });
+        });
     </script>
 @endpush

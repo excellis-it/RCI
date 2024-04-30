@@ -9,6 +9,7 @@ use App\Models\DebitVoucher;
 use App\Models\ItemCode;
 use App\Models\InventoryType;
 use App\Models\InventoryNumber;
+use Illuminate\Support\Facades\DB;
 
 class DebitVoucherController extends Controller
 {
@@ -21,7 +22,7 @@ class DebitVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', \DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         
         return view('inventory.debit-vouchers.list', compact('debitVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
     }
@@ -68,7 +69,7 @@ class DebitVoucherController extends Controller
 
         $debitVoucher = new DebitVoucher();
         $debitVoucher->inv_no = $request->inv_no;
-        $debitVoucher->item_id = $request->item_id;
+        $debitVoucher->item_id = $request->item_code_id;
         $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_no = $request->voucher_no;
         $debitVoucher->voucher_date = $request->voucher_date;
@@ -93,7 +94,7 @@ class DebitVoucherController extends Controller
     public function edit(string $id)
     {
         $debitVoucher = DebitVoucher::findOrFail($id);
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->get();
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $edit = true;
@@ -109,7 +110,7 @@ class DebitVoucherController extends Controller
         $debitVoucher = DebitVoucher::find($id);
 
         $debitVoucher->inv_no = $request->inv_no;
-        $debitVoucher->item_id = $request->item_id;
+        $debitVoucher->item_id = $request->item_code_id;
         $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_no = $request->voucher_no;
         $debitVoucher->voucher_date = $request->voucher_date;
@@ -134,5 +135,13 @@ class DebitVoucherController extends Controller
         $debitVoucher->delete();
 
         return redirect()->back()->with('message', 'Debit Voucher deleted successfully.');
+    }
+
+    public function getItemQuantity(Request $request)
+    {
+        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
+        // $items = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get(); 
+        
+        return response()->json(['quantity' => $creditVoucher]);
     }
 }

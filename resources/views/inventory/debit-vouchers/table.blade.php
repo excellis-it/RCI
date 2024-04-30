@@ -14,7 +14,7 @@
             @if($debitVoucher->item_id != null)
                 @foreach($itemCodes as $item)
                     @if($item->id == $debitVoucher->item_id)
-                        <td>{{ $item->item_code ?? 'N/A'}}</td>
+                        <td>{{ $item->code ?? 'N/A'}}</td>
                     @endif
                 @endforeach
             @else
