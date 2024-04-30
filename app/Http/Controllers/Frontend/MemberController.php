@@ -134,10 +134,7 @@ class MemberController extends Controller
             'pg' => 'required',
             'cgegis' => 'required',
             'pay_stop' => 'required',
-            'pis' => 'required',
-            'pis_address' => 'required',
-            'sos' => 'required',
-            'sos_address' => 'required',
+            
         ]);
 
         //check employee id 
