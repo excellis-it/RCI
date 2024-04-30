@@ -413,7 +413,7 @@ Route::middleware('permssions')->group(function () {
         Route::get('/reset-codes-fetch-data', [ResetItemCodeController::class, 'fetchData'])->name('reset-codes.fetch-data');
 
         //item-codes
-        Route::get('/item-codes-fetch-data', [ItemController::class, 'fetchData'])->name('item-codes.fetch-data');
+        Route::get('/item-codes-fetch-data', [ItemCodeController::class, 'fetchData'])->name('item-codes.fetch-data');
         Route::prefix('item-codes')->group(function () {
             Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
         });
@@ -441,6 +441,7 @@ Route::middleware('permssions')->group(function () {
         //debit-vouchers
         Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
         Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
+        Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
     });
    
 });

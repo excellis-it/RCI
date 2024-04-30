@@ -24,13 +24,13 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code</label>
+                                <label>Item Code(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id">
+                                <select class="form-control" name="item_code_id" id="item_code_id" disabled>
                                     <option value="">Select</option>
-                                    @foreach($itemCodes as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $debitVoucher->item_code_id ? 'selected' : '' }}>{{ $item->item_code }}</option>
+                                    @foreach($creditVouchers as $item)
+                                        <option value="{{ $item->item_code_id }}" {{ $item->item_code_id == $debitVoucher->item_id ? 'selected' : '' }}>{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -74,6 +74,7 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $debitVoucher->quantity ?? '' }}"
                                     placeholder="">
+                                    <div class="text-danger" id="quantity_no"></div>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -128,13 +129,13 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item List</label>
+                                <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control" name="item_code_id" id="item_code_id">
                                     <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
-                                        <option value="{{ $item->id }}">{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
+                                        <option value="{{ $item->item_code_id }}">{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -178,6 +179,7 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="quantity" id="quantity" value=""
                                     placeholder="">
+                                    <div class="text-danger" id="quantity_no"></div>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
