@@ -277,4 +277,25 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function(){
+            $('#item_code_id').change(function() {
+                var item_code_id = $(this).val();
+                $.ajax({ 
+                    url: "{{ route('credit-vouchers.get-item-type')}}",
+                    type: 'POST',
+                    data: {
+                        item_code_id: item_code_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#item_type').val(response.item_type);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                 });
+            });
+        });
+    </script>
 @endpush

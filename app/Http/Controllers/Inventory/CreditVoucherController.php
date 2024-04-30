@@ -157,4 +157,11 @@ class CreditVoucherController extends Controller
 
         return redirect()->back()->with('message', 'Credit Voucher deleted successfully.');
     }
+
+    public function getItemType(Request $request)
+    {
+        $itemCode = ItemCode::findOrFail($request->item_code_id);
+        // $inventoryType = InventoryType::findOrFail($itemCode->inventory_type_id);
+        return response()->json(['item_type' => $itemCode->item_type]);
+    }
 }

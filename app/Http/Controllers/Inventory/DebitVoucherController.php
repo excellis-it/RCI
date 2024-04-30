@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Models\CreditVoucher;
 use Illuminate\Http\Request;
 use App\Models\DebitVoucher;
+use App\Models\ItemCode;
+use App\Models\InventoryType;
+use App\Models\InventoryNumber;
 
 class DebitVoucherController extends Controller
 {
@@ -14,7 +18,12 @@ class DebitVoucherController extends Controller
     public function index()
     {
         $debitVouchers = DebitVoucher::paginate(10);
-        return view('inventory.debit-vouchers.list', compact('debitVouchers'));
+        $itemCodes = ItemCode::all();
+        $inventoryTypes = InventoryType::all();
+        $inventoryNumbers = InventoryNumber::all();
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', \DB::raw('SUM(quantity) as total_quantity'))->get();
+        
+        return view('inventory.debit-vouchers.list', compact('debitVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
     }
 
     public function fetchData(Request $request)
@@ -25,9 +34,8 @@ class DebitVoucherController extends Controller
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $creditVouchers = DebitVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('credit_voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('credit_voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('credit_voucher_amount', 'like', '%' . $query . '%');
+                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -41,7 +49,9 @@ class DebitVoucherController extends Controller
      */
     public function create()
     {
-        return view('inventory.debit-vouchers.form');
+        $inventoryNumbers = InventoryNumber::all();
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->get();
+        return view('inventory.debit-vouchers.form', compact('inventoryNumbers', 'creditVouchers'));
     }
 
     /**
@@ -60,8 +70,8 @@ class DebitVoucherController extends Controller
         $debitVoucher->inv_no = $request->inv_no;
         $debitVoucher->item_id = $request->item_id;
         $debitVoucher->quantity = $request->quantity;
-        $debitVoucher->debit_voucher_no = $request->debit_voucher_no;
-        $debitVoucher->debit_voucher_date = $request->debit_voucher_date;
+        $debitVoucher->voucher_no = $request->voucher_no;
+        $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->remarks = $request->remarks;
         $debitVoucher->save();
 
@@ -83,8 +93,12 @@ class DebitVoucherController extends Controller
     public function edit(string $id)
     {
         $debitVoucher = DebitVoucher::findOrFail($id);
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->get();
+        $inventoryNumbers = InventoryNumber::all();
+        $itemCodes = ItemCode::all();
         $edit = true;
-        return view('inventory.debit-vouchers.form', compact('debitVoucher', 'edit'));
+
+        return response()->json(['view' => view('inventory.debit-vouchers.form', compact('creditVouchers', 'edit', 'debitVoucher', 'inventoryNumbers', 'itemCodes'))->render()]);
     }
 
     /**
@@ -97,8 +111,8 @@ class DebitVoucherController extends Controller
         $debitVoucher->inv_no = $request->inv_no;
         $debitVoucher->item_id = $request->item_id;
         $debitVoucher->quantity = $request->quantity;
-        $debitVoucher->debit_voucher_no = $request->debit_voucher_no;
-        $debitVoucher->debit_voucher_date = $request->debit_voucher_date;
+        $debitVoucher->voucher_no = $request->voucher_no;
+        $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->remarks = $request->remarks;
         $debitVoucher->save();
 
@@ -119,7 +133,6 @@ class DebitVoucherController extends Controller
         $debitVoucher = DebitVoucher::findOrFail($request->id);
         $debitVoucher->delete();
 
-        session()->flash('message', 'Debit Voucher deleted successfully');
-        return response()->json(['success' => 'Debit Voucher deleted successfully']);
+        return redirect()->back()->with('message', 'Debit Voucher deleted successfully.');
     }
 }

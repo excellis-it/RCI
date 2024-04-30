@@ -5,7 +5,7 @@
             @if($creditVoucher->item_code_id != null)
                 @foreach($itemCodes as $item)
                     @if($item->id == $creditVoucher->item_code_id)
-                        <td>{{ $item->item_code ?? 'N/A'}}</td>
+                        <td>{{ $item->code ?? 'N/A'}}</td>
                     @endif
                 @endforeach
             @else
@@ -35,7 +35,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="4" class="text-left">
+        <td colspan="13" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $creditVouchers->firstItem() }} – {{ $creditVouchers->lastItem() }} Credit Vouchers of

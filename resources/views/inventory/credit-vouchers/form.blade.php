@@ -11,7 +11,7 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id">
+                                <select class="form-control" name="item_code_id" id="item_code_id" >
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
                                         <option value="{{ $item->id }}" {{ $item->id == $creditVoucher->item_code_id ? 'selected' : '' }}>{{ $item->item_code }}</option>
@@ -97,11 +97,13 @@
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_type" id="item_type">
+                                {{-- <select class="form-control" name="item_type" id="item_type">
                                     <option value="">Select</option>
                                     <option value="consumable" {{ $creditVoucher->item_type == 'consumable' ? 'selected' : '' }}>Consumable</option>
                                     <option value="non-consumable" {{ $creditVoucher->item_type == 'non-consumable' ? 'selected' : '' }}>Non Consumable</option>
-                                </select>
+                                </select> --}}
+                                <input type="text" class="form-control" name="item_type" id="item_type" value="{{ $creditVoucher->item_type ?? '' }}"
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -184,7 +186,7 @@
                                 <select class="form-control" name="item_code_id" id="item_code_id">
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->item_code }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->code }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -267,11 +269,14 @@
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_type" id="item_type">
+                                {{-- <select class="form-control" name="item_type" id="item_type">
                                     <option value="">Select</option>
                                     <option value="consumable">Consumable</option>
                                     <option value="non-consumable">Non Consumable</option>
-                                </select>
+                                </select> --}}
+
+                                <input type="text" class="form-control" name="item_type" id="item_type" value=""
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
