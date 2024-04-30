@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('credit_vouchers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_code_id')->references('id')->on('items')->nullable();
+            $table->bigInteger('item_code_id')->unsigned()->nullable();  
             $table->string('voucher_no')->nullable();
             $table->date('voucher_date')->nullable();
-            $table->foreignId('inv_no')->references('id')->on('inventory_numbers')->nullable();
+            $table->bigInteger('inv_no')->unsigned()->nullable();  
             $table->string('description')->nullable();
             $table->string('uom')->nullable();
             $table->string('item_type')->nullable();

@@ -43,7 +43,11 @@ class CreditVoucherController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers'))->render()]);
+            $itemCodes = ItemCode::all();
+            $inventoryTypes = InventoryType::all();
+            $inventoryNumbers = InventoryNumber::all();
+
+            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
         }
     }
 
@@ -64,12 +68,11 @@ class CreditVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'credit_voucher_no' => 'required | unique:credit_vouchers,credit_voucher_no',
-        //     'credit_voucher_date' => 'required',
-        //     'credit_voucher_amount' => 'required',
-        //     'credit_voucher_description' => 'required',
-        // ]);
+        $request->validate([
+            'item_code_id' => 'required',
+            'inv_no' => 'required',
+            
+        ]);
 
         $creditVoucher = new CreditVoucher();
         $creditVoucher->item_code_id = $request->item_code_id;
@@ -117,12 +120,11 @@ class CreditVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $request->validate([
-        //     'credit_voucher_no' => 'required | unique:credit_vouchers,credit_voucher_no,' . $id,
-        //     'credit_voucher_date' => 'required',
-        //     'credit_voucher_amount' => 'required',
-        //     'credit_voucher_description' => 'required',
-        // ]);
+        $request->validate([
+            'item_code_id' => 'required',
+            'inv_no' => 'required',
+            
+        ]);
 
         $creditVoucher = CreditVoucher::findOrFail($id);
         $creditVoucher->item_code_id = $request->item_code_id;

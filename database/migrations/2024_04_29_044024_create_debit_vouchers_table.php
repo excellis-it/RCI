@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('debit_vouchers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('inv_no')->references('id')->on('inventory_numbers')->nullable();
-            $table->foreignId('item_id')->references('id')->on('items')->nullable();
+            $table->bigInteger('inv_no')->unsigned()->nullable(); 
+            $table->bigInteger('item_id')->unsigned()->nullable(); 
             $table->string('quantity')->nullable();
             $table->string('voucher_no')->nullable();
             $table->date('voucher_date')->nullable();

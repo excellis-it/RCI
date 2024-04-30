@@ -61,27 +61,27 @@
                                                 <th class="sorting" data-sorting_type="code" data-column_name="code"
                                                     style="cursor: pointer">Inv. No.<span id="code_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="description"
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="description"
                                                     style="cursor: pointer">Description<span id="description_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="uom" data-column_name="uom"
                                                     style="cursor: pointer">UOM<span id="uom_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="item_type" data-column_name="item_type"
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
+                                                {{-- <th class="sorting" data-sorting_type="item_type" data-column_name="item_type"
                                                     style="cursor: pointer">Item Type<span id="item_type_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th class="sorting" data-sorting_type="price" data-column_name="price"
                                                     style="cursor: pointer">Price & Tax<span id="price_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
                                                     style="cursor: pointer">Quantity<span id="quantity_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="sono" data-column_name="sono"
+                                                {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"
                                                     style="cursor: pointer">Supply Order No. <span id="sono_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="rin" data-column_name="rin"
                                                     style="cursor: pointer">Receipt & Inspection Note<span id="rin_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th></th>
                                             </tr>
                                         </thead>

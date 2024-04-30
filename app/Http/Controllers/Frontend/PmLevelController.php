@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PmLevel;
+use App\Models\Member;
 
 class PmLevelController extends Controller
 {
@@ -115,8 +116,15 @@ class PmLevelController extends Controller
 
     public function delete($id)
     {
-        $pm_level = PmLevel::find($id);
-        $pm_level->delete();
-        return redirect()->back()->with('message', 'PM Level deleted successfully');
+        $related_members = Member::where('pm_level', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'PM Level is related to members.Please remove the relation first.');
+        } else {
+
+            $pm_level = PmLevel::find($id);
+            $pm_level->delete();
+            return redirect()->back()->with('message', 'PM Level deleted successfully');
+        }
     }
 }

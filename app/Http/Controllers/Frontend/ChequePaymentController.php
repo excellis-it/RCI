@@ -71,7 +71,7 @@ class ChequePaymentController extends Controller
         $request->validate([
             'vr_date' => 'required',
             'sr_no' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
         ]);
         $voucherText = ResetVoucher::where('status', 1)->first();
         $chequePayment = ChequePayment::latest()->first();
@@ -102,7 +102,9 @@ class ChequePaymentController extends Controller
         $chequePayment->category = $request->category;
         $chequePayment->save();
 
-        return redirect()->route('cheque-payments.index')->with('success', 'Cheque Payment created successfully.');
+        session()->flash('message', 'Cheque Payment added successfully');
+        return response()->json(['success' => 'Cheque Payment added successfully']);
+        
     }
 
     /**
@@ -121,7 +123,8 @@ class ChequePaymentController extends Controller
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::findOrFail($id);
         $edit = true;
-        return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories', 'chequePayment', 'edit'));
+        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'chequePayment', 'paymentCategories'))->render()]);
+        
     }
 
     /**
@@ -129,16 +132,11 @@ class ChequePaymentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $request->validate([
-        //     'vr_no' => 'required',
-        //     'vr_date' => 'required',
-        //     'amount' => 'required',
-        //     'rct_no' => 'required',
-        //     'form' => 'required',
-        //     'details' => 'required',
-        //     'name' => 'required',
-        //     'category' => 'required',
-        // ]);
+        $request->validate([
+            'vr_date' => 'required',
+            'sr_no' => 'required',
+            'amount' => 'required|numeric',
+        ]);
 
         $chequePayment = ChequePayment::findOrFail($id);
         $chequePayment->vr_no = $request->vr_no;
@@ -156,7 +154,8 @@ class ChequePaymentController extends Controller
         $chequePayment->category = $request->category;
         $chequePayment->save();
 
-        return redirect()->route('cheque-payments.index')->with('success', 'Cheque Payment updated successfully.');
+        session()->flash('message', 'Cheque Payment updated successfully');
+        return response()->json(['success' => 'Cheque Payment updated successfully']);
     }
 
     /**

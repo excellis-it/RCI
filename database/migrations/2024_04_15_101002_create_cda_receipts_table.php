@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cda_receipts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('details')->references('id')->on('cda_receipt_details')->nullable();
+            $table->bigInteger('details')->unsigned()->nullable();
             $table->string('voucher_no')->nullable();
             $table->string('voucher_date')->nullable();
             $table->string('dv_date')->nullable();

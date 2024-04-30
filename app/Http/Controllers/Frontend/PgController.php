@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pg;
+use App\Models\Member;
 
 class PgController extends Controller
 {
@@ -112,8 +113,14 @@ class PgController extends Controller
 
     public function delete($id) 
     {
-        $pg = Pg::find($id);
-        $pg->delete();
-        return redirect()->back()->with('message', 'PG deleted successfully');
+        $related_members = Member::where('pg', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'PG is related to members.Please remove the relation first.');
+        } else {
+            $pg = Pg::find($id);
+            $pg->delete();
+            return redirect()->back()->with('message', 'PG deleted successfully');
+        }
     }
 }

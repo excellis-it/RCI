@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FundType;
+use App\Models\Member;
 
 class FundTypeController extends Controller
 {
@@ -112,8 +113,14 @@ class FundTypeController extends Controller
 
     public function delete($id)
     {
-        $fundType = FundType::find($id);
-        $fundType->delete();
-        return redirect()->back()->with('message', 'Fund Type deleted successfully');
+        $related_members = Member::where('fund_type', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Fund Type is related to members.Please remove the relation first.');
+        } else {
+            $fundType = FundType::find($id);
+            $fundType->delete();
+            return redirect()->back()->with('message', 'Fund Type deleted successfully');
+        }
     }
 }

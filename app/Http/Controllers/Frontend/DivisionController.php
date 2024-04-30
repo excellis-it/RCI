@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Division;
+use App\Models\Member;
 
 class DivisionController extends Controller
 {
@@ -112,8 +113,14 @@ class DivisionController extends Controller
 
     public function delete($id)
     {
-        $division = Division::find($id);
-        $division->delete();
-        return redirect()->back()->with('message', 'Division deleted successfully');
+        $related_members = Member::where('division', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Division is related to members.Please remove the relation first.');
+        } else {
+            $division = Division::find($id);
+            $division->delete();
+            return redirect()->back()->with('message', 'Division deleted successfully');
+        }
     }
 }

@@ -35,6 +35,20 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>Vr No</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="text" class="form-control" value="{{ $cashPayment->vr_no }}" 
+                                                                placeholder="" readonly>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -81,9 +95,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                         <div class="form-group ">
                                             <div class="row align-items-center">
                                                 <div class="col-md-12">
@@ -98,6 +110,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="row justify-content-between">
                                     <div class="col-xl-7 mb-lg-3">
                                         <div class="form-group">
@@ -214,9 +227,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-lg-12">
+                                
+                                
+                                    <div class="col-lg-6">
                                         <div class="form-group ">
                                             <div class="row align-items-center">
                                                 <div class="col-md-12">

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_recoveries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->references('id')->on('members')->nullable();
+            $table->bigInteger('member_id')->unsigned()->nullable();      
             $table->string('v_incr')->nullable();
             $table->string('noi')->nullable();
             $table->string('total')->nullable();

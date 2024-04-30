@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_core_infos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->references('id')->on('members')->nullable();      
+            $table->bigInteger('member_id')->unsigned()->nullable();      
             $table->string('bank_acc_no')->nullable();
             $table->string('ccs_mem_no')->nullable();
             $table->string('fpa')->nullable();

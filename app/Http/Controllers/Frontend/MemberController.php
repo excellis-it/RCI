@@ -134,10 +134,7 @@ class MemberController extends Controller
             'pg' => 'required',
             'cgegis' => 'required',
             'pay_stop' => 'required',
-            'pis' => 'required',
-            'pis_address' => 'required',
-            'sos' => 'required',
-            'sos_address' => 'required',
+            
         ]);
 
         //check employee id 
@@ -968,6 +965,12 @@ class MemberController extends Controller
 
     public function deleteMember($id)
     {
+        $delete_member = Member::where('id',$id)->first();
+        $delete_member->delete();
         
+        return redirect()
+            ->route('members.index')
+            ->with('message', 'Member deleted successfully');
+
     }
 }

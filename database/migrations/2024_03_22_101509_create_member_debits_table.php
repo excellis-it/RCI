@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_debits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->references('id')->on('members')->nullable();      
+            $table->bigInteger('member_id')->unsigned()->nullable();        
             $table->string('gpa_sub')->nullable();
             $table->string('eol')->nullable();
             $table->string('rent')->nullable();

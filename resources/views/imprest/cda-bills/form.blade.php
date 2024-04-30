@@ -150,15 +150,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div>
-                    <div class="d-flex align-items-end">
-                        <div class="me-2 mb-2">
-                            <button type="submit" class="listing_add">Update</button>
-                        </div>
-                        <div class="me-2 mb-2">
-                            <button type="reset" class="listing_exit">Back</button>
-                        </div>
-                    </div>
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Update</button>
+                </div>
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -314,15 +310,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div>
-                    <div class="d-flex align-items-end">
-                        <div class="me-2 mb-2">
-                            <button type="submit" class="listing_add">Save</button>
-                        </div>
-                        <div class="me-2 mb-2">
-                            <button type="reset" class="listing_exit">Back</button>
-                        </div>
-                    </div>
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Add</button>
+                </div>
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

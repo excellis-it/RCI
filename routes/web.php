@@ -121,7 +121,6 @@ Route::middleware('permssions')->group(function () {
         'reset-voucher' => ResetVoucherController::class,
         'loans' => LoanController::class,
         'reset-employee-ids' => ResetEmployeeIdController::class,
-        
     ]);
 
     // reset employee ids

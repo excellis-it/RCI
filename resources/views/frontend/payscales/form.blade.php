@@ -7,10 +7,10 @@
             <div class="row">
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Scale Type</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="payscale_type_id" id="payscale_type_id">
                                 <option value="">Select Scale Type</option>
                                 @foreach ($payscale_types as $scaleType)
@@ -23,10 +23,10 @@
                 </div>
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Scale Number</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control payscale_number" name="payscale_number" id="payscale_number" value="{{ $payscale->payscale_number }}"
                                 placeholder="xxxxx-xxx-xxxxx">
                             <span class="text-danger"></span>
@@ -35,10 +35,10 @@
                 </div>
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Basic 1</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" value="{{ $payscale->basic1 }}" name="basic1"
                                 id="basic1" placeholder="">
                             <span class="text-danger" id="basic1-error"></span>
@@ -47,10 +47,10 @@
                 </div>
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Basic 2</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" value="{{ $payscale->basic2 }}" name="basic2"
                                 id="basic2" placeholder="">
                             <span class="text-danger" id="basic2-error"></span>
@@ -59,10 +59,10 @@
                 </div>
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Basic 3</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" value="{{ $payscale->basic3 }}" name="basic3"
                                 id="basic3" placeholder="">
                             <span class="text-danger" id="basic3-error"></span>
@@ -72,10 +72,10 @@
                 {{-- increment 1 --}}
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Increment 1</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" value="{{ $payscale->increment1 }}" name="increment1"
                                 id="increment1" placeholder="">
                             <span class="text-danger" id="increment1-error"></span>
@@ -85,10 +85,10 @@
                 {{-- increment 2 --}}
                 <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Increment 2</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control" value="{{ $payscale->increment2 }}" name="increment2"
                                 id="increment2" placeholder="">
                             <span class="text-danger" id="increment2-error"></span>
@@ -115,10 +115,10 @@
             <div class="row">
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Scale Type</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <select class="form-select" name="payscale_type_id" id="payscale_type_id">
                                 <option value="">Select Scale Type</option>
                                 @foreach ($payscale_types as $scaleType)
@@ -131,10 +131,10 @@
                 </div>
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Scale Number</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control payscale_number" name="payscale_number" id="payscale_number"
                                 placeholder="xxxxx-xxx-xxxxx">
                             <span class="text-danger"></span>
@@ -143,10 +143,10 @@
                 </div>
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Basic 1</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control"  name="basic1"
                                 id="basic1" placeholder="">
                             <span class="text-danger"></span>
@@ -155,10 +155,10 @@
                 </div>
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Basic 2</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control"  name="basic2"
                                 id="basic2" placeholder="">
                             <span class="text-danger"></span>
@@ -167,10 +167,10 @@
                 </div>
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Basic 3</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control"  name="basic3"
                                 id="basic3" placeholder="">
                             <span class="text-danger"></span>
@@ -180,10 +180,10 @@
                 {{-- increment 1 --}}
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Increment 1</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control"  name="increment1"
                                 id="increment1" placeholder="">
                             <span class="text-danger"></span>
@@ -193,10 +193,10 @@
                 {{-- increment 2 --}}
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <label>Increment 2</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="text" class="form-control"  name="increment2"
                                 id="increment2" placeholder="">
                             <span class="text-danger"></span>

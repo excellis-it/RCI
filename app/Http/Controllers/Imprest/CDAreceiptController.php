@@ -16,7 +16,6 @@ class CdaReceiptController extends Controller
      */
     public function index()
     {
-        
         $cdaReceipts = CDAReceipt::orderBy('id', 'desc')->with('cdaReceiptDetails')->paginate(10);
         $cdaReceiptDetails = CdaReceiptDetail::all();
         return view('imprest.cda-receipts.list', compact('cdaReceipts', 'cdaReceiptDetails'));

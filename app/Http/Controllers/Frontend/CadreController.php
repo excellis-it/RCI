@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cadre;
+use App\Models\Member;
 
 class CadreController extends Controller
 {
@@ -111,8 +112,17 @@ class CadreController extends Controller
 
     public function delete($id)
     {
-        $cadre = Cadre::find($id);
-        $cadre->delete();
-        return redirect()->back()->with('message', 'Cadre deleted successfully');
+
+        $related_members = Member::where('cadre', $id)->exists();
+
+        if ($related_members) {
+            return redirect()->back()->with('error', 'Cadre is related to members.Please remove the relation first.');
+        } else {
+
+            $cadre = Cadre::find($id);
+            $cadre->delete();
+            return redirect()->back()->with('message', 'Cadre deleted successfully');
+        }
+        
     }
 }

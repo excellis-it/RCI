@@ -23,24 +23,21 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Imprest</a>
+                                    href="{{route('cda-receipts.index')}}">Imprest</a>
+                            </li>
+                            
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('item-codes.index') }}">Material Management</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Pay & Allowance</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Material Management</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('income-tax') }}">Income Tax</a>
+                                    href="#">Income Tax</a>
                                     
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pm-levels.index') }}">PM Level</a>
+                                    href="{{ route('members.index') }}">Member Managemnet</a>
                             </li>
                             
                             
@@ -140,12 +137,12 @@
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none d-none d-md-block"
                     href="javascript:void(0)">
                     <i class="ti ti-settings fs-4"></i> Settings
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="fw-semibold bg-hover-primary text-decoration-none text-deger ps-3 d-none d-md-block"
                     href="{{route('logout')}}">
