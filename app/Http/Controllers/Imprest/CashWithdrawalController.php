@@ -57,7 +57,7 @@ class CashWithdrawalController extends Controller
             'vr_date' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
         ]);
 
         $voucherText = ImprestResetVoucher::where('status', 1)->first();
@@ -113,7 +113,7 @@ class CashWithdrawalController extends Controller
             'vr_date' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|numeric',
         ]);
 
         $cashwithdrawal = CashWithdrawal::findOrFail($id);

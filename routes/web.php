@@ -40,6 +40,7 @@ use App\Http\Controllers\Inventory\InventoryProjectController;
 use App\Http\Controllers\Inventory\InventoryNumberController;
 use App\Http\Controllers\Inventory\ResetItemCodeController;
 use App\Http\Controllers\Inventory\GatePassController;
+use App\Http\Controllers\Inventory\ConversionVoucherController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -405,6 +406,7 @@ Route::middleware('permssions')->group(function () {
             'debit-vouchers' => DebitVoucherController::class,
             'reset-codes' => ResetItemCodeController::class,
             'gate-passes' => GatePassController::class,
+            'conversion-vouchers' => ConversionVoucherController::class,
         ]);
 
         //reset item codes
@@ -447,6 +449,9 @@ Route::middleware('permssions')->group(function () {
         //gate-passes
         Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');
         Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
+
+        //conversion-vouchers
+        Route::get('/conversion-vouchers-fetch-data', [ConversionVoucherController::class, 'fetchData'])->name('conversion-vouchers.fetch-data');
     });
    
 });

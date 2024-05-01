@@ -473,17 +473,25 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div>
-                    <div class="d-flex align-items-end">
-                        <div class="me-2 mb-2">
-                            <button type="submit" class="listing_add">Save</button>
-                        </div>
-                        <div class="me-2 mb-2">
-                            <button type="reset" class="listing_exit">Back</button>
-                        </div>
-                    </div>
+            <div class="col-md-2">
+                <div class="mb-2">
+                    <button type="submit" class="listing_add">Save</button>
                 </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-2">
+                    <button type="submit" class="listing_exit">Back</button>
+                </div>
+            </div>
+                {{-- <div class="d-flex align-items-end">
+                    <div class="me-2 mb-2">
+                        <button type="submit" class="listing_add">Save</button>
+                    </div>
+                    <div class="me-2 mb-2">
+                        <button type="reset" class="listing_exit">Back</button>
+                    </div>
+                </div> --}}
+                
             </div>
         </div>
     </form>

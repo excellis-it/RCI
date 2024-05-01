@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
                 </div>
@@ -309,7 +309,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
                 </div>

@@ -133,7 +133,6 @@ class MemberController extends Controller
             'ex_service' => 'required',
             'pg' => 'required',
             'cgegis' => 'required',
-            'pay_stop' => 'required',
             
         ]);
 

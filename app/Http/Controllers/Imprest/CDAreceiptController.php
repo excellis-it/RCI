@@ -58,7 +58,7 @@ class CdaReceiptController extends Controller
         $request->validate([
             'voucher_date' => 'required',
             'dv_date' => 'required',
-            'vr_amount' => 'required',
+            'vr_amount' => 'required|numeric',
             'details' => 'required',
         ]);
 
@@ -118,7 +118,7 @@ class CdaReceiptController extends Controller
         $request->validate([
             'voucher_date' => 'required',
             'dv_date' => 'required',
-            'vr_amount' => 'required',
+            'vr_amount' => 'required|numeric',
             'details' => 'required',
         ]);
 

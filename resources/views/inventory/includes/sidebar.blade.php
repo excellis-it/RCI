@@ -51,6 +51,15 @@
                         <span class="hide-menu">Debit Vouchers</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('inventory/conversion-vouchers*') ? 'active' : ''}}" href="{{route('conversion-vouchers.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-box"></i>
+                        </span>
+                        <span class="hide-menu">Conversion Vouchers</span>
+                    </a>
+                </li>
             </ul>
 
             
