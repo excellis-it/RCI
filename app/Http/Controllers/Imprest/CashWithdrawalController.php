@@ -22,6 +22,7 @@ class CashWithdrawalController extends Controller
 
     public function fetchData(Request $request)
     {
+
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
@@ -37,7 +38,8 @@ class CashWithdrawalController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return view('imprest.cash-withdrawals.list', compact('cashWithdrawals'));
+            return response()->json(['data' => view('imprest.cash-withdrawals.table', compact('cashWithdrawals'))->render()]);
+           
         }
     }
 

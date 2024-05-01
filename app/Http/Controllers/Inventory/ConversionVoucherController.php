@@ -8,6 +8,7 @@ use App\Models\ItemCode;
 use App\Models\InventoryNumber;
 use App\Models\ConversionVoucher;
 use App\Models\CreditVoucher;
+use App\Models\InventoryType;
 use Illuminate\Support\Facades\Validator;
 
 class ConversionVoucherController extends Controller
@@ -34,12 +35,8 @@ class ConversionVoucherController extends Controller
             $conversionVouchers = ConversionVoucher::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
                     ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('item_type', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%')
-                    ->orWhere('price', 'like', '%' . $query . '%')
-                    ->orWhere('quantity', 'like', '%' . $query . '%')
-                    ->orWhere('supply_order_no', 'like', '%' . $query . '%')
-                    ->orWhere('rin', 'like', '%' . $query . '%');
+                    ->orWhere('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('quantity', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -48,7 +45,7 @@ class ConversionVoucherController extends Controller
             $inventoryTypes = InventoryType::all();
             $inventoryNumbers = InventoryNumber::all();
 
-            return response()->json(['data' => view('inventory.conversion-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
+            return response()->json(['data' => view('inventory.conversion-vouchers.table', compact('conversionVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
         }
     }
 

@@ -45,7 +45,8 @@ class AdvanceSettlementController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return view('imprest.advance-settlement.list', compact('advance_settlements'));
+            return response()->json(['data' => view('imprest.advance-settlement.table', compact('advance_settlements'))->render()]);
+            
         }
     }
 

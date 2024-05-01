@@ -55,7 +55,7 @@ class AdvanceFundController extends Controller
             $divisions = Division::orderBy('id', 'desc')->get();
             $employees = Member::orderBy('id', 'desc')->get();
 
-            return view('imprest.advance-fund.list', compact('advance_funds','employees','variable_types','projects','designations','groups','divisions'));
+            return response()->json(['data' => view('imprest.advance-fund.table', compact('advance_funds','employees','variable_types','projects','designations','groups','divisions'))->render()]);
         }
     }
 
