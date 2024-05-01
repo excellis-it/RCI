@@ -188,7 +188,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            {{-- <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="row justify-content-end">
                         <div class="col-md-6">
@@ -196,14 +196,14 @@
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="submit" class="listing_add">Save</button>
                                 </div>
-                                {{-- <div class="form-group col-md-3 mb-2">
+                                <div class="form-group col-md-3 mb-2">
                                     <button type="button" id="policy-delete" class="delete-btn-1" data-id="{{ isset($member_policy->id) ? $member_policy->id :'#' }}">Delete</button>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             
 
@@ -212,10 +212,10 @@
                     <div class="row justify-content-end">
                         <div class="col-md-6">
                             <div class="row justify-content-end">
-                                <div class="form-group col-md-3 mb-2">
+                                {{-- <div class="form-group col-md-3 mb-2">
                                     <a href="{{ route('members.create') }}" >
                                     <button type="button" class="another-btn">Another</button></a>
-                                </div>
+                                </div> --}}
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="submit" class="listing_add">Save</button>
                                 </div>

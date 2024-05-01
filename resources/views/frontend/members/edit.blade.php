@@ -992,7 +992,10 @@
 
                             $('#policy-table tbody').append(newRow);
                             $('#no-policy').hide();
-
+                            $('#policy_name').val('');
+                            $('#policy_no').val('');
+                            $('#amount').val('');
+                            $('#rec_stop').val('');
                             // Append new row to table
                             
                         },
