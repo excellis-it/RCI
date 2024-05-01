@@ -27412,8 +27412,6 @@ fieldset:disabled .btn {
 
 .dropdown-menu[data-bs-popper] {
     top: 100%;
-    left: 0;
-    margin-top: var(--bs-dropdown-spacer)
 }
 
 .dropdown-menu-start {
@@ -47623,7 +47621,7 @@ html[dir=rtl] .welcome-bg-img {
 
 #main-wrapper[data-layout=vertical][data-header-position=fixed] .app-header {
     position: fixed;
-    z-index: 99
+    z-index: 99999;
 }
 
 #main-wrapper[data-layout=vertical][data-header-position=fixed] .body-wrapper>.container-fluid,
@@ -55244,7 +55242,7 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
     left: 0 !important;
     top: 0px !important;
     font-size: 14px;
-    color: rgb(237 129 100) !important;
+    color: red !important;
     padding: 10px 0px 0px 5px !important;
 }
 
@@ -56580,7 +56578,7 @@ ul {
     position: absolute;
     right: 0;
     bottom: 0;
-    background: #074465;
+    background: rgb(7 68 101 / 28%);
     width: 300px;
     height: 300px;
     border-radius: 50%;
