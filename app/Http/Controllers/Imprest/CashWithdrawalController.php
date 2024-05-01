@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CashWithdrawal;
 use App\Models\ImprestResetVoucher;
+use App\Models\ChequePayment;
 use Illuminate\Support\Str;
 
 class CashWithdrawalController extends Controller
@@ -80,6 +81,29 @@ class CashWithdrawalController extends Controller
         $cashwithdrawal->chq_date = $request->chq_date;
         $cashwithdrawal->amount = $request->amount;
         $cashwithdrawal->save();
+
+        // deduction of cash from cheque total
+        // $chequeTotal = ChequePayment::get()->sum('amount');
+        $cheques = ChequePayment::all();
+
+        foreach ($cheques as $cheque) {
+            // $cheque->amount = $cheque->amount - $request->amount;
+            // $cheque->update();
+
+            if ($cheque->amount >= $request->amount) {
+                $cheque->amount -= $request->amount;
+                $cheque->save();
+                $request->amount = 0; // Optionally set to 0, if you want to stop further reductions
+                break; // Exit the loop once a single cheque voucher's amount is reduced
+            } else {
+                
+                $request->amount -= $cheque->amount;
+                $cheque->amount = 0;
+                $cheque->save();
+            }
+        }
+
+        
 
         session()->flash('message', 'Cash Withdrawal updated successfully');
         return response()->json(['success' => 'Cash Withdrawal updated successfully']);
