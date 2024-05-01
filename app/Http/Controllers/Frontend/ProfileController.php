@@ -72,4 +72,6 @@ class ProfileController extends Controller
         $data->update();
         return redirect()->back()->with('message', 'Password updated successfully.');
     }
+
+   
 }

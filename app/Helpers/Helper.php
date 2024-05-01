@@ -3,6 +3,7 @@
 namespace App\Helpers;
 use App\Models\CashPayment;
 use App\Models\ChequePayment;
+use App\Models\SiteLogo;
 
 class Helper {
 
@@ -23,5 +24,11 @@ class Helper {
             return $bank_payments = 00.00;
         }
         return $bank_payments;
+    }
+
+    public static function logo()
+    {
+        $logo = SiteLogo::first();
+        return $logo;
     }
 }

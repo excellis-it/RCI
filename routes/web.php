@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\PaybandTypeController;
 use App\Http\Controllers\Frontend\PayscaleController;
 use App\Http\Controllers\Frontend\PayscaleTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\LogoController;
 use App\Http\Controllers\Frontend\PmLevelController;
 use App\Http\Controllers\Frontend\PmIndexController;
 use App\Http\Controllers\Frontend\DesigController;
@@ -94,6 +95,11 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('password')->group(function () {
         Route::get('/', [ProfileController::class, 'password'])->name('password'); // password change
         Route::post('/update', [ProfileController::class, 'passwordUpdate'])->name('password.update'); // password update
+    });
+
+    Route::prefix('logo')->group(function () {
+        Route::get('/', [LogoController::class, 'dashboardLogo'])->name('logo.dashboard');
+        Route::post('/update',  [LogoController::class, 'logoUpdate'])->name('logo.update');
     });
 
     Route::resources([
