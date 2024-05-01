@@ -90,6 +90,7 @@ class CdaReceiptDetailController extends Controller
 
         $cdaReceiptDetail = CdaReceiptDetail::findOrFail($id);
         $cdaReceiptDetail->details = $request->details;
+        $cdaReceiptDetail->status = $request->status;
         $cdaReceiptDetail->save();
 
         session()->flash('message', 'Cda receipt updated successfully');

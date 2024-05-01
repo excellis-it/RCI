@@ -62,7 +62,7 @@ CDA Receipt List
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">AMT<span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th>DETAILS </th>
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>

@@ -86,11 +86,11 @@ class ProjectController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string',
+            'project_name' => 'required|string',
         ]);
 
         $project = Project::findOrFail($id);
-        $project->name = $request->name;
+        $project->name = $request->project_name;
         $project->status = $request->status;
         $project->save();
 
@@ -112,6 +112,6 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->delete();
-        return redirect()->route('project.index')->with('success', 'Project deleted successfully.');
+        return redirect()->route('project.index')->with('error', 'Project deleted successfully.');
     }
 }

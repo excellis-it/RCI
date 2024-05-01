@@ -18,8 +18,8 @@ class CdaBillAuditTeamController extends Controller
     public function index()
     {
         $cdaBills = CdaBillAuditTeam::orderBy('id', 'desc')->with('project','variableType')->paginate(10);
-        $projects = Project::orderBy('id', 'desc')->get();
-        $variable_types = VariableType::orderBy('id','desc')->get();
+        $projects = Project::orderBy('id', 'desc')->where('status',1)->get();
+        $variable_types = VariableType::orderBy('id','desc')->where('status',1)->get();
         return view('imprest.cda-bills.list', compact('cdaBills','projects','variable_types'));
     }
 

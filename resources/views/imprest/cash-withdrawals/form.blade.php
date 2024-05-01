@@ -57,14 +57,14 @@
 
         </div>
         
-            <div class="d-flex justify-content-end">
-                <div class="me-2 mb-2">
-                    <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="me-2 mb-2">
-                    <button type="reset" class="listing_exit">Back</button>
-                </div>
+        <div class="row d-flex justify-content-end">
+            <div class="col-md-2">
+                <button type="submit" class="listing_add">Update</button>
             </div>
+            <div class="col-md-2">
+               <button type="reset" class="listing_exit">Back</button>
+            </div>
+        </div>
     </form>
 @else
     <form action="{{ route('cash-withdrawals.store') }}" method="POST" id="cash-withdrawals-create-form">
@@ -125,14 +125,13 @@
 
         </div>
         
-            <div class="d-flex justify-content-end">
-                <div class="me-2 mb-2">
+            <div class="row d-flex justify-content-end">
+                <div class="col-md-2">
                     <button type="submit" class="listing_add">Save</button>
                 </div>
-                <div class="me-2 mb-2">
-                    <button type="reset" class="listing_exit">Back</button>
+                <div class="col-md-2">
+                   <button type="reset" class="listing_exit">Back</button>
                 </div>
             </div>
-     
     </form>
 @endif
