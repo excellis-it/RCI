@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Debit Vouchers
+    Gate Pass List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Debit Vouchers</h3>
+                    <h3>Gate Pass Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Debit Vouchers</span></li>
+                        <li><span class="bread-blod">Gate Pass Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('inventory.debit-vouchers.form')
+                            @include('inventory.gate-passes.form')
                         </div>
 
                         <div class="row">
@@ -48,31 +48,22 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting"  data-column_name="code"
-                                                    style="cursor: pointer">Inv. No.<span id="code_icon"></span> </th>
-                                                <th class="sorting"  data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                    style="cursor: pointer">Quantity<span id="voucher_number_icon"><i
+                                                <th>SL No.</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_no"
+                                                    style="cursor: pointer">Gate Pass No. <span id="gate_pass_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_date_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_date"
+                                                    style="cursor: pointer">Gate Pass Date <span id="gate_pass_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
-                                                    style="cursor: pointer">Voucher Date<span id="quantity_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="remarks" data-column_name="remarks"
-                                                    style="cursor: pointer">Remarks<span id="remarks_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
+                                                {{-- <th>Code</th> --}}
+                                                <th>Status </th>
                                                 
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.debit-vouchers.table')
+                                            @include('inventory.gate-passes.table')
                                         </tbody>
-                                        {{-- <tbody></tbody> --}}
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
@@ -94,7 +85,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Items!",
+                    text: "To delete this Inventory Project!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -117,7 +108,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('debit-vouchers.fetch-data') }}",
+                    url: "{{ route('gate-passes.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -182,22 +173,20 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#debit-vouchers-create-form').submit(function(e) {
+            $('#gate-pass-create-form').submit(function(e) {
                 e.preventDefault();
+
                 var formData = $(this).serialize();
-            
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -237,9 +226,8 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#debit-vouchers-edit-form', function(e) {
+            $(document).on('submit', '#gate-pass-edit-form', function(e) {
                 e.preventDefault();
-
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -254,36 +242,10 @@
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input
-                            // $('#' + key + '-error').html(value[0]);
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            $('#' + key + '-error').html(value[0]);
                         });
                     }
                 });
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-            $('#item_code_id').change(function() {
-                var item_code_id = $(this).val();
-                $.ajax({ 
-                    url: "{{ route('debit-vouchers.get-item-quantity')}}",
-                    type: 'POST',
-                    data: {
-                        item_code_id: item_code_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        // $('#quantity_no').val(parseInt(response.quantity));
-                        var quantity = parseInt(response.quantity);
-                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
-                        $('#quantity_no').text(text);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                 });
             });
         });
     </script>

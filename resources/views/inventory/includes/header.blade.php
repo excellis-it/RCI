@@ -64,6 +64,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('inventory-numbers.index') }}">Inventory Numbers</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('gate-passes.index') }}">Gate Passes</a>
+                            </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reset-codes.index') }}">Reset Item Code</a>

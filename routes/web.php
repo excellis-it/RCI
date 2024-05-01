@@ -39,7 +39,9 @@ use App\Http\Controllers\Inventory\DebitVoucherController;
 use App\Http\Controllers\Inventory\InventoryProjectController;
 use App\Http\Controllers\Inventory\InventoryNumberController;
 use App\Http\Controllers\Inventory\ResetItemCodeController;
+use App\Http\Controllers\Inventory\GatePassController;
 use App\Http\Controllers\Inventory\ConversionVoucherController;
+use App\Http\Controllers\Inventory\ExternalIssueVoucherController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -404,7 +406,9 @@ Route::middleware('permssions')->group(function () {
             'credit-vouchers' => CreditVoucherController::class,
             'debit-vouchers' => DebitVoucherController::class,
             'reset-codes' => ResetItemCodeController::class,
+            'gate-passes' => GatePassController::class,
             'conversion-vouchers' => ConversionVoucherController::class,
+            'external-issue-vouchers' => ExternalIssueVoucherController::class,
         ]);
 
         //reset item codes
@@ -444,6 +448,9 @@ Route::middleware('permssions')->group(function () {
         Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
         Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
 
+        //gate-passes
+        Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');
+        Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
 
         //conversion-vouchers
 
@@ -451,6 +458,10 @@ Route::middleware('permssions')->group(function () {
         Route::post('/conversion-vouchers-item-quant', [ConversionVoucherController::class, 'getItemQuantity'])->name('conversion-vouchers.get-item-quantity');
         Route::post('/conversion-vouchers-quantity-validation', [ConversionVoucherController::class, 'getItemQuantityValidation'])->name('conversion-vouchers.quantity-validation');
         Route::get('/conversion-vouchers-delete/{id}', [ConversionVoucherController::class, 'deleteConversionVoucher'])->name('conversion-vouchers.delete');
+
+        //external-issue-vouchers
+        Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
+        Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
     });
    
 });

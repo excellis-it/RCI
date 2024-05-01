@@ -11,7 +11,7 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id" >
+                                <select class="form-control" name="item_code_id" id="item_code_id" disabled>
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
                                         <option value="{{ $item->id }}" {{ $item->id == $creditVoucher->item_code_id ? 'selected' : '' }}>{{ $item->code }}</option>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="voucher_no" id="voucher_no" value="{{ $creditVoucher->voucher_no ?? '' }}"
-                                    placeholder="">
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                 <label>Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="inv_no" id="inv_no">
+                                <select class="form-control" name="inv_no" id="inv_no" disabled>
                                     <option value="">Select</option>
                                     @foreach($inventoryNumbers as $inventoryNumber)
                                         <option value="{{ $inventoryNumber->id }}" {{ $inventoryNumber->id == $creditVoucher->inv_no ? 'selected' : '' }}>{{ $inventoryNumber->number }}</option>

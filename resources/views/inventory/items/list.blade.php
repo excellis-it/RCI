@@ -49,15 +49,13 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Item Code <span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
+                                                    style="cursor: pointer">Item Code <span id="code_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">UOM<span id="value_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Item type<span id="value_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="uom"
+                                                    style="cursor: pointer">UOM<span id="uom_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_type"
+                                                    style="cursor: pointer">Item type<span id="item_type_icon"></span> </th>
                                                 
                                                 <th></th>
                                             </tr>

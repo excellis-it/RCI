@@ -71,7 +71,7 @@ class CreditVoucherController extends Controller
         $request->validate([
             'item_code_id' => 'required',
             'inv_no' => 'required',
-            
+            'voucher_no' => 'required|unique:credit_vouchers,voucher_no',
         ]);
 
         $creditVoucher = new CreditVoucher();
@@ -121,19 +121,19 @@ class CreditVoucherController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'item_code_id' => 'required',
-            'inv_no' => 'required',
+            // 'item_code_id' => 'required',
+            // 'inv_no' => 'required',
             
         ]);
 
         $creditVoucher = CreditVoucher::findOrFail($id);
-        $creditVoucher->item_code_id = $request->item_code_id;
-        $creditVoucher->voucher_no = $request->voucher_no;
+        // $creditVoucher->item_code_id = $request->item_code_id;
+        // $creditVoucher->voucher_no = $request->voucher_no;
         $creditVoucher->voucher_date = $request->voucher_date;
-        $creditVoucher->inv_no = $request->inv_no;
+        // $creditVoucher->inv_no = $request->inv_no;
         $creditVoucher->description = $request->description;
         $creditVoucher->uom = $request->uom;
-        $creditVoucher->item_type = $request->item_type;
+        // $creditVoucher->item_type = $request->item_type;
         $creditVoucher->price = $request->price;
         $creditVoucher->quantity = $request->quantity;
         $creditVoucher->supply_order_no = $request->supply_order_no;

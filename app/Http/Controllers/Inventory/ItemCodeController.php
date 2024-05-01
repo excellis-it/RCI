@@ -28,8 +28,10 @@ class ItemCodeController extends Controller
             $query = str_replace(" ", "%", $query);
             $items = ItemCode::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('item_code', 'like', '%' . $query . '%')
-                    ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
+                    ->orWhere('code', 'like', '%' . $query . '%')
+                    ->orWhere('item_type', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('uom', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -53,9 +55,11 @@ class ItemCodeController extends Controller
     {
       
         $request->validate([
-            'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.$/'],
+            'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
             'uom' => 'required',
             'item_type' => 'required',
+        ], [
+            'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
         ]);
 
         $itemCode = ItemCode::latest()->first();
