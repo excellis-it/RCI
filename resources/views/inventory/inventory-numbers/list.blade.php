@@ -51,7 +51,9 @@
                                                 <th>SL No.</th>
                                                 <th>Item Type </th>
                                                 <th>Holder Name </th>
-                                                <th>Number </th> 
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="number"
+                                                style="cursor: pointer">Number <span id="number_icon"><i
+                                                    class="fa fa-arrow-down"></i></span></th> 
                                                 <th>Status</th>                                  
                                                 <th></th>
                                             </tr>

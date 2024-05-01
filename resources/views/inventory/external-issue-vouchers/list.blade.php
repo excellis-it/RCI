@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Debit Vouchers
+   External Issue Vouchers
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Debit Vouchers</h3>
+                    <h3>External Issue Vouchers</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Debit Vouchers</span></li>
+                        <li><span class="bread-blod">External Issue Vouchers</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('inventory.debit-vouchers.form')
+                            @include('inventory.external-issue-vouchers.form')
                         </div>
 
                         <div class="row">
@@ -49,28 +49,26 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting"  data-column_name="code"
-                                                    style="cursor: pointer">Inv. No.<span id="code_icon"></span> </th>
-                                                <th class="sorting"  data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                    style="cursor: pointer">Quantity<span id="voucher_number_icon"><i
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
-                                                    style="cursor: pointer">Voucher Date<span id="quantity_icon"><i
+                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="remarks" data-column_name="remarks"
-                                                    style="cursor: pointer">Remarks<span id="remarks_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
+                                                    >Inv. No.<span id="code_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
+                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_no"
+                                                    style="cursor: pointer">Gate Pass No.<span id="gate_pass_no_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_date"
+                                                    style="cursor: pointer">Gate Pass Date<span id="gate_pass_date_icon"></span> </th>
                                                 
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.debit-vouchers.table')
+                                            @include('inventory.external-issue-vouchers.table')
                                         </tbody>
                                         {{-- <tbody></tbody> --}}
                                     </table>
@@ -117,7 +115,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('debit-vouchers.fetch-data') }}",
+                    url: "{{ route('external-issue-vouchers.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -182,7 +180,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#debit-vouchers-create-form').submit(function(e) {
+            $('#externel-issue-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -237,7 +235,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#debit-vouchers-edit-form', function(e) {
+            $(document).on('submit', '#externel-issue-vouchers-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -254,16 +252,14 @@
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input
-                            // $('#' + key + '-error').html(value[0]);
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            $('#' + key + '-error').html(value[0]);
                         });
                     }
                 });
             });
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function(){
             $('#item_code_id').change(function() {
                 var item_code_id = $(this).val();
@@ -286,5 +282,5 @@
                  });
             });
         });
-    </script>
+    </script> --}}
 @endpush

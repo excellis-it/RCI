@@ -49,7 +49,7 @@ class GatePassController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pass_no' => 'required',
+            'pass_no' => 'required|unique:gate_passes,gate_pass_no',
             'pass_date' => 'required',
         ]);
 
@@ -88,7 +88,7 @@ class GatePassController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'pass_no' => 'required',
+            'pass_no' => 'required|unique:gate_passes,gate_pass_no,' . $id . ',id',
             'pass_date' => 'required',
         ]);
 

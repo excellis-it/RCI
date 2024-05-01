@@ -34,14 +34,19 @@ class DebitVoucherController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $creditVouchers = DebitVoucher::where(function($queryBuilder) use ($query) {
+            $inventoryNumbers = InventoryNumber::all();
+            $itemCodes = ItemCode::all();
+            $inventoryTypes = InventoryType::all();
+            $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $debitVouchers = DebitVoucher::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%');
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                    ->orWhere('quantity', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('inventory.debit-vouchers.table', compact('debitVouchers'))->render()]);
+            return response()->json(['data' => view('inventory.debit-vouchers.table', compact('debitVouchers', 'inventoryNumbers', 'itemCodes', 'inventoryTypes', 'creditVouchers'))->render()]);
         }
     }
 
@@ -60,10 +65,14 @@ class DebitVoucherController extends Controller
      */
     public function store(Request $request)
     {
+        $itemQuantity = CreditVoucher::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         $request->validate([
             'inv_no' => 'required',
             'item_code_id' => 'required',
-            'voucher_no' => 'required',
+            'voucher_no' => 'required|unique:debit_vouchers,voucher_no',
+            'quantity' => 'required|numeric|min:1|max:'.$itemQuantity,
+        ], [
+            'quantity.max' => 'The quantity must not be greater than the available quantity ('.$itemQuantity.')',
         ]);
 
         $debitVoucher = new DebitVoucher();
@@ -74,6 +83,24 @@ class DebitVoucherController extends Controller
         $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->remarks = $request->remarks;
         $debitVoucher->save();
+
+        //credit voucher quantity reduce
+        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get();
+
+        foreach ($creditVoucher as $credit) {
+            
+            if ($credit->quantity >= $request->quantity) {
+                $credit->quantity -= $request->quantity;
+                $credit->save();
+                $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
+                break; // Exit the loop once a single credit voucher's quantity is reduced
+            } else {
+                
+                $request->quantity -= $credit->quantity;
+                $credit->quantity = 0;
+                $credit->save();
+            }
+        }
 
         session()->flash('message', 'Debit Voucher added successfully');
         return response()->json(['success' => 'Debit Voucher added successfully']);
@@ -106,20 +133,51 @@ class DebitVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
+        // $itemQuantity = CreditVoucher::where('item_code_id', $debitVoucher->item_id)->get()->sum('quantity');
+        // $totalQuantity = $itemQuantity + $request->quantity;
 
         $request->validate([
             'inv_no' => 'required',
-            'voucher_no' => 'required',
+            // 'quantity' => 'required|numeric|min:1|max:'.$totalQuantity,
+        ],[
+            // 'quantity.max' => 'The quantity must not be greater than the available quantity ('.$totalQuantity.')',
+        
         ]);
 
         $debitVoucher = DebitVoucher::find($id);
         $debitVoucher->inv_no = $request->inv_no;
         // $debitVoucher->item_id = $request->item_code_id;
-        $debitVoucher->quantity = $request->quantity;
-        $debitVoucher->voucher_no = $request->voucher_no;
+        // $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->remarks = $request->remarks;
-        $debitVoucher->save();
+        $debitVoucher->update();
+
+        // //credit voucher quantity reduce and increase
+        // $creditVoucher = CreditVoucher::where('item_code_id', $debitVoucher->item_id)->get();
+
+        // //add or reduce quantity as per the request
+        // foreach ($creditVoucher as $credit) {
+        //     if ($credit->quantity >= $request->quantity) {
+        //         $credit->quantity -= $request->quantity;
+        //         $credit->save();
+        //         $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
+        //         break; // Exit the loop once a single credit voucher's quantity is reduced
+        //     } else if ($credit->quantity < $request->quantity) {
+        //         $difference = $request->quantity - $credit->quantity;
+        //         $credit->quantity += $difference;
+        //         $credit->save();
+        //         $request->quantity -= $difference;
+        //     } else {
+        //         $request->quantity -= $credit->quantity;
+        //         $credit->quantity = 0;
+        //         $credit->save();
+        //     }
+        // }
+
+
+
+
 
         session()->flash('message', 'Debit Voucher updated successfully');
         return response()->json(['success' => 'Debit Voucher updated successfully']);

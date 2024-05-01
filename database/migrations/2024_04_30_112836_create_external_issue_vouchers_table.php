@@ -18,7 +18,6 @@ return new class extends Migration
             $table->bigInteger('inv_no')->unsigned()->nullable();
             $table->bigInteger('item_id')->unsigned()->nullable();
             $table->bigInteger('gate_pass_id')->unsigned()->nullable();
-            $table->date('gate_pass_date')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

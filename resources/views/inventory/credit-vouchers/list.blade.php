@@ -49,18 +49,16 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
+                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="voucher_number" data-column_name="voucher_number"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_number_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="vdate" data-column_name="voucher_date"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
                                                     style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Inv. No.<span id="code_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
+                                                    style="cursor: pointer">Inv. No.<span id="inv_no_icon"></span> </th>
                                                 {{-- <th class="sorting" data-sorting_type="desc" data-column_name="description"
                                                     style="cursor: pointer">Description<span id="description_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -70,10 +68,10 @@
                                                 {{-- <th class="sorting" data-sorting_type="item_type" data-column_name="item_type"
                                                     style="cursor: pointer">Item Type<span id="item_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th> --}}
-                                                <th class="sorting" data-sorting_type="price" data-column_name="price"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="price"
                                                     style="cursor: pointer">Price & Tax<span id="price_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
                                                     style="cursor: pointer">Quantity<span id="quantity_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"

@@ -41,6 +41,7 @@ use App\Http\Controllers\Inventory\InventoryNumberController;
 use App\Http\Controllers\Inventory\ResetItemCodeController;
 use App\Http\Controllers\Inventory\GatePassController;
 use App\Http\Controllers\Inventory\ConversionVoucherController;
+use App\Http\Controllers\Inventory\ExternalIssueVoucherController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -407,6 +408,7 @@ Route::middleware('permssions')->group(function () {
             'reset-codes' => ResetItemCodeController::class,
             'gate-passes' => GatePassController::class,
             'conversion-vouchers' => ConversionVoucherController::class,
+            'external-issue-vouchers' => ExternalIssueVoucherController::class,
         ]);
 
         //reset item codes
@@ -452,6 +454,10 @@ Route::middleware('permssions')->group(function () {
 
         //conversion-vouchers
         Route::get('/conversion-vouchers-fetch-data', [ConversionVoucherController::class, 'fetchData'])->name('conversion-vouchers.fetch-data');
+
+        //external-issue-vouchers
+        Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
+        Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
     });
    
 });
