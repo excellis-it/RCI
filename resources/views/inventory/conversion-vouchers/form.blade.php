@@ -1,5 +1,5 @@
 @if (isset($edit))
-    <form action="{{ route('conversion-vouchers.update', $creditVoucher->id) }}" method="POST" id="conversion-vouchers-edit-form">
+    <form action="{{ route('conversion-vouchers.update', $conversionVoucher->id) }}" method="POST" id="conversion-vouchers-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -11,10 +11,10 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id" >
+                                <select class="form-select" name="item_code_id" id="edit_item_code" disabled>
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $creditVoucher->item_code_id ? 'selected' : '' }}>{{ $item->code }}</option>
+                                        <option value="{{ $item->id }}" {{ $item->id == $conversionVoucher->item_id ? 'selected' : '' }}>{{ $item->code }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -28,8 +28,8 @@
                                 <label>Voucher Number</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value="{{ $creditVoucher->voucher_no ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value="{{ $conversionVoucher->voucher_no ?? '' }}"
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -41,8 +41,8 @@
                                 <label>Voucher Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="voucher_date" id="voucher_date" value="{{ $creditVoucher->voucher_date ?? '' }}"
-                                    placeholder="">
+                                <input type="date" class="form-control" name="voucher_date" id="voucher_date" value="{{ $conversionVoucher->voucher_date ?? '' }}"
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -55,67 +55,12 @@
                                 <label>Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="inv_no" id="inv_no">
+                                <select class="form-select" name="inv_no" id="inv_no" disabled>
                                     <option value="">Select</option>
                                     @foreach($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}" {{ $inventoryNumber->id == $creditVoucher->inv_no ? 'selected' : '' }}>{{ $inventoryNumber->number }}</option>
+                                        <option value="{{ $inventoryNumber->id }}" {{ $inventoryNumber->id == $conversionVoucher->inv_no ? 'selected' : '' }}>{{ $inventoryNumber->number }}</option>
                                     @endforeach
                                 </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Description</label>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="description" id="description" 
-                                    placeholder="" >{{ $creditVoucher->description }}</textarea>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>UOM</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="uom" id="uom" value="{{ $creditVoucher->uom ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                {{-- <select class="form-control" name="item_type" id="item_type">
-                                    <option value="">Select</option>
-                                    <option value="consumable" {{ $creditVoucher->item_type == 'consumable' ? 'selected' : '' }}>Consumable</option>
-                                    <option value="non-consumable" {{ $creditVoucher->item_type == 'non-consumable' ? 'selected' : '' }}>Non Consumable</option>
-                                </select> --}}
-                                <input type="text" class="form-control" name="item_type" id="item_type" value="{{ $creditVoucher->item_type ?? '' }}"
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Price & Tax</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="price" id="price" value="{{ $creditVoucher->price ?? '' }}"
-                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -126,40 +71,33 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $creditVoucher->quantity ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $conversionVoucher->quantity ?? '' }}"
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
+                               
                             </div>
                         </div>
                     </div>
+                    
+                    
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supply Order Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="supply_order_no" id="supply_order_no" value="{{ $creditVoucher->supply_order_no ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Receipt & Inspection Note (RIN)</label>
+                                <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                {{-- <input type="text" class="form-control" name="rin" id="rin" value=""
-                                    placeholder=""> --}}
-                                    <textarea class="form-control" name="rin" id="rin" >{{ $creditVoucher->rin }}</textarea>
+                                <textarea class="form-control" name="remark" id="remark" 
+                                    placeholder="">{{ $conversionVoucher->remarks ?? '' }}</textarea>
                                 <span class="text-danger"></span>
+                                <div class="text-danger" id="quantity_no"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
@@ -183,7 +121,7 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id">
+                                <select class="form-select" name="item_code_id" id="item_code_id">
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
                                         <option value="{{ $item->id }}">{{ $item->code }}</option>
@@ -227,7 +165,7 @@
                                 <label>Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="inv_no" id="inv_no">
+                                <select class="form-select" name="inv_no" id="inv_no">
                                     <option value="">Select</option>
                                     @foreach($inventoryNumbers as $inventoryNumber)
                                         <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
@@ -237,62 +175,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Description</label>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="description" id="description" 
-                                    placeholder=""></textarea>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>UOM</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="uom" id="uom" value=""
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                {{-- <select class="form-control" name="item_type" id="item_type">
-                                    <option value="">Select</option>
-                                    <option value="consumable">Consumable</option>
-                                    <option value="non-consumable">Non Consumable</option>
-                                </select> --}}
 
-                                <input type="text" class="form-control" name="item_type" id="item_type" value=""
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Price & Tax</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="price" id="price" value=""
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -302,33 +185,21 @@
                                 <input type="text" class="form-control" name="quantity" id="quantity" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
+                                <div class="text-danger" id="quantity_no"></div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supply Order Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="supply_order_no" id="supply_order_no" value=""
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Receipt & Inspection Note (RIN)</label>
+                                <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                {{-- <input type="text" class="form-control" name="rin" id="rin" value=""
-                                    placeholder=""> --}}
-                                    <textarea class="form-control" name="rin" id="rin"></textarea>
+                                <textarea class="form-control" name="remark" id="remark" value=""
+                                    placeholder=""></textarea>
                                 <span class="text-danger"></span>
+                                <div class="text-danger" id="quantity_no"></div>
                             </div>
                         </div>
                     </div>
