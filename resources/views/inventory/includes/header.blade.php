@@ -300,6 +300,18 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="message-body">
+                            <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
+                                <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
+                                    <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
+                                    width="24" height="24">
+                                </span>
+                                <div class="w-75 d-inline-block v-middle ps-3">
+                                    <h6 class="mb-1 bg-hover-primary fw-semibold"> Change Logo </h6>
+                                    {{-- <span class="d-block text-dark">Account Settings</span> --}}
+                                </div>
+                            </a>
+                        </div>
                         <div class="d-grid py-4 px-7 pt-8">
                             <a href="{{ route('logout') }}" class="btn btn-outline-primary">Log Out</a>
                         </div>
