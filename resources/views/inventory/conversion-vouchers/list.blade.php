@@ -50,8 +50,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                    style="cursor: pointer">Item Code  </th>
                                                 <th class="sorting" data-sorting_type="voucher_number" data-column_name="voucher_number"
                                                     style="cursor: pointer">Voucher Number<span id="voucher_number_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -59,12 +58,7 @@
                                                     style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Inv. No.<span id="code_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                               
-                                                <th class="sorting" data-sorting_type="price" data-column_name="price"
-                                                    style="cursor: pointer">Price & Tax<span id="price_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                    style="cursor: pointer">Inv. No. </th>
                                                 <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
                                                     style="cursor: pointer">Quantity<span id="quantity_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -96,7 +90,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Items!",
+                    text: "To delete this Conversion Voucher!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -199,16 +193,19 @@
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
                         $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
+
+                        // Check if the response contains errors
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            // If there is an error message in the response, display it
+                            $('.text-danger').html(xhr.responseJSON.error);
+                        } else {
+                            // If there are field-specific errors, display them next to the respective fields
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                $('[name="' + key + '"]').next('.text-danger').html(value[0]);
+                            });
+                        }
                     }
                 });
             });
@@ -263,19 +260,21 @@
             });
         });
     </script>
-    {{-- <script>
+    <script>
         $(document).ready(function(){
             $('#item_code_id').change(function() {
                 var item_code_id = $(this).val();
                 $.ajax({ 
-                    url: "{{ route('conversion-vouchers.get-item-type')}}",
+                    url: "{{ route('conversion-vouchers.get-item-quantity')}}",
                     type: 'POST',
                     data: {
                         item_code_id: item_code_id,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        $('#item_type').val(response.item_type);
+                        var quantity = parseInt(response.quantity);
+                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
+                        $('#quantity_no').text(text);
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -283,5 +282,8 @@
                  });
             });
         });
-    </script> --}}
+    </script>
+
+
+    
 @endpush
