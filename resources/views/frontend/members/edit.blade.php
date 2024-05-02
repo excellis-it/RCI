@@ -1132,6 +1132,9 @@
                     // edit-route-policy tr remove
                     $('.edit-route-policy[data-id="' + id + '"]').remove();
 
+                    $('#policy-delete').hide();
+                    $('#policy-update').text('Save');
+
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI
