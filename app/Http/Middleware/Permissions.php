@@ -19,7 +19,7 @@ class Permissions
         if (Auth::check()) {
             return $next($request);
         } else {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'You must be logged in to access this page');
         }
     }
 }
