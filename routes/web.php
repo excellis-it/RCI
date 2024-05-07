@@ -73,6 +73,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/config-clear', function() {
     $exitCode = Artisan::call('config:clear');
     return 'Config clear cleared';
