@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ItemCode;
+use App\Models\Member;
 use Illuminate\Support\Str;
 
 class ItemCodeController extends Controller
@@ -15,7 +16,8 @@ class ItemCodeController extends Controller
     public function index()
     {
         $items = ItemCode::orderBy('id','desc')->paginate(10);
-        return view('inventory.items.list',compact('items'));
+        $members = Member::all();
+        return view('inventory.items.list',compact('items', 'members'));
     }
 
     public function fetchData(Request $request)
@@ -79,6 +81,10 @@ class ItemCodeController extends Controller
         $item_code_gen->description = $request->description;
         $item_code_gen->uom = $request->uom;
         $item_code_gen->item_type = $request->item_type;
+        $item_code_gen->item_name = $request->item_name;
+        $item_code_gen->item_code_type_id = $request->item_code_type_id;
+        $item_code_gen->member_id = $request->member_id;
+        $item_code_gen->entry_date = date('Y-m-d');
         $item_code_gen->save();
 
         session()->flash('message', 'Item Code added successfully');
@@ -100,8 +106,9 @@ class ItemCodeController extends Controller
     {
         
         $edit_item_code = ItemCode::find($id);
+        $members = Member::all();
         $edit = true;
-        return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code'))->render()]);
+        return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members'))->render()]);
 
     }
 
@@ -120,6 +127,10 @@ class ItemCodeController extends Controller
         $item_code->description = $request->description;
         $item_code->uom = $request->uom;
         $item_code->item_type = $request->item_type;
+        $item_code->item_name = $request->item_name;
+        $item_code->item_code_type_id = $request->item_code_type_id;
+        $item_code->member_id = $request->member_id;
+        $item_code->entry_date = date('Y-m-d');
         $item_code->update();
 
         session()->flash('message', 'Item Code updated successfully');

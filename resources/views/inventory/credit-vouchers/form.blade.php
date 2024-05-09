@@ -146,7 +146,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-8 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Receipt & Inspection Note (RIN)</label>
@@ -155,6 +155,22 @@
                                 {{-- <input type="text" class="form-control" name="rin" id="rin" value=""
                                     placeholder=""> --}}
                                     <textarea class="form-control" name="rin" id="rin" >{{ $creditVoucher->rin }}</textarea>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Order Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="order_type" id="order_type">
+                                    <option value="">Select</option>
+                                    <option value="rs" {{ $creditVoucher->order_type == 'rs' ? 'selected' : '' }}>RS</option>
+                                    <option value="rv" {{ $creditVoucher->order_type == 'rv' ? 'selected' : '' }}>RV</option>
+                                    <option value="crv" {{ $creditVoucher->order_type == 'crv' ? 'selected' : '' }}>CRV</option>
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -284,7 +300,19 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Price & Tax</label>
+                                <label>Tax </label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="tax" id="tax" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Price </label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="price" id="price" value=""
@@ -293,6 +321,9 @@
                             </div>
                         </div>
                     </div>
+                    
+                </div>
+                <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -305,8 +336,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -319,7 +348,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-8 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Receipt & Inspection Note (RIN)</label>
@@ -328,6 +357,22 @@
                                 {{-- <input type="text" class="form-control" name="rin" id="rin" value=""
                                     placeholder=""> --}}
                                     <textarea class="form-control" name="rin" id="rin"></textarea>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Order Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="order_type" id="order_type">
+                                    <option value="">Select</option>
+                                    <option value="rs" >RS</option>
+                                    <option value="rv" >RV</option>
+                                    <option value="crv">CRV</option>
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Credit Vouchers
+    RIN List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Credit Vouchers</h3>
+                    <h3>RIN Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Credit Vouchers</span></li>
+                        <li><span class="bread-blod">RIN Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('inventory.credit-vouchers.form')
+                            @include('inventory.rins.form')
                         </div>
 
                         <div class="row">
@@ -48,45 +48,23 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
-                                                    style="cursor: pointer">Inv. No.<span id="inv_no_icon"></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="description"
-                                                    style="cursor: pointer">Description<span id="description_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="uom" data-column_name="uom"
-                                                    style="cursor: pointer">UOM<span id="uom_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
-                                                {{-- <th class="sorting" data-sorting_type="item_type" data-column_name="item_type"
-                                                    style="cursor: pointer">Item Type<span id="item_type_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="price"
-                                                    style="cursor: pointer">Price & Tax<span id="price_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
-                                                    style="cursor: pointer">Quantity<span id="quantity_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"
-                                                    style="cursor: pointer">Supply Order No. <span id="sono_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="rin" data-column_name="rin"
-                                                    style="cursor: pointer">Receipt & Inspection Note<span id="rin_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
+                                                <th>SL No.</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_id"
+                                                    style="cursor: pointer"> Item Code <span id="item_id_icon"></span> </th>
+                                                {{-- <th>Code</th> --}}
+                                                <th>Received Quantity</th>
+                                                <th>Accepted Quantity</th>
+                                                <th>Rejected Quantity</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="nc_status"
+                                                    style="cursor: pointer">C/NC/NCF <span id="nc_status_icon"></span> </th>
+                                                <th>A/U</th>
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.credit-vouchers.table')
+                                            @include('inventory.rins.table')
                                         </tbody>
-                                        {{-- <tbody></tbody> --}}
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
@@ -108,7 +86,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Items!",
+                    text: "To delete this Inventory Type",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -131,7 +109,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('credit-vouchers.fetch-data') }}",
+                    url: "{{ route('rins.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -196,22 +174,20 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#credit-vouchers-create-form').submit(function(e) {
+            $('#rins-create-form').submit(function(e) {
                 e.preventDefault();
+
                 var formData = $(this).serialize();
-            
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -251,9 +227,8 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#credit-vouchers-edit-form', function(e) {
+            $(document).on('submit', '#rins-edit-form', function(e) {
                 e.preventDefault();
-
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -277,23 +252,61 @@
     </script>
     <script>
         $(document).ready(function(){
-            $('#item_code_id').change(function() {
+            $('#item_id').change(function() {
                 var item_code_id = $(this).val();
                 $.ajax({ 
-                    url: "{{ route('credit-vouchers.get-item-type')}}",
+                    url: "{{ route('rins.get-item-description')}}",
                     type: 'POST',
                     data: {
-                        item_code_id: item_code_id,
+                        id: item_code_id,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        $('#item_type').val(response.item_type);
                         $('#description').val(response.description);
                     },
                     error: function(xhr) {
                         console.log(xhr);
                     }
                  });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            // Function to update difference
+            function updateDifference() {
+                var received = parseInt($('#received_quantity').val());
+                var accepted = parseInt($('#accepted_quantity').val());
+                var difference = received - accepted;
+                $('#rejected_quantity').val(difference);
+            }
+        
+            // Bind change event to input fields
+            $('#received_quantity, #accepted_quantity').keyup(updateDifference);
+
+        });
+    </script>
+    <script>
+        // $(document).ready(function(){
+
+        //     function updateEditDifference() {
+        //         alert('test');
+        //         var received = parseInt($('#edit_received_quantity').val());
+        //         var accepted = parseInt($('#edit_accepted_quantity').val());
+        //         var difference = received - accepted;
+        //         $('#edit_rejected_quantity').val(difference);
+        //     }
+
+        //     // $('#edit_received_quantity, #edit_accepted_quantity').on('keyup', updateEditDifference);
+        // });
+        $(document).ready(function(){
+            $(document).on('keyup','#edit_received_quantity, #edit_accepted_quantity', function(){
+                console.log('Keyup event fired');
+                // Your updateEditDifference() function logic here
+                var received = parseInt($('#edit_received_quantity').val());
+                var accepted = parseInt($('#edit_accepted_quantity').val());
+                var difference = received - accepted;
+                $('#edit_rejected_quantity').val(difference);
             });
         });
     </script>

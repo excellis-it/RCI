@@ -18,7 +18,20 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Name</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_name" id="item_name" value="{{ $edit_item_code->item_name ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>UOM(Unit Of Measurement)</label>
@@ -30,8 +43,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-3 mb-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Item Type</label>
@@ -46,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-7 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Description</label>
@@ -58,8 +72,24 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Created By(Person)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="created_by" id="created_by">
+                                    <option value="">Select</option>
+                                        @foreach ($members as $member)
+                                            <option value="{{ $member->id }}" {{ ($edit_item_code->member_id == $member->id) ? 'selected' : '' }}>{{ $member->name }}</option>   
+                                        @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
@@ -88,8 +118,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Name</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_name" id="item_name" value="{{ $edit_item_code->item_name ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>UOM(Unit Of Measurement)</label>
@@ -101,8 +143,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-3 mb-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Item Type</label>
@@ -117,7 +160,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-7 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Description</label>
@@ -129,8 +172,24 @@
                             </div>
                         </div>
                     </div>
-                   
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Created By(Person)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="created_by" id="created_by">
+                                    <option value="">Select</option>
+                                        @foreach ($members as $member)
+                                            <option value="{{ $member->id }}">{{ $member->name }}</option>   
+                                        @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
             <div class="col-md-2">
                 <div class="mb-1">

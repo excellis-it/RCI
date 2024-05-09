@@ -41,10 +41,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('designation-types.index')}}">Designation Type</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('designations.index')}}">Desig Update</a>
-                            </li>
+                            
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('categories.index')}}">Category Update</a>
@@ -64,6 +61,10 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('paybands.index')}}">PayBand Update</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('designations.index')}}">Desig Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

@@ -5,13 +5,24 @@
             <td>{{$item->code ?? 'N/A'}}</td>
             <td>{{$item->uom ?? 'N/A'}}</td>
             <td>{{$item->item_type ?? 'N/A'}}</td>
+            <td>{{$item->entry_date ?? 'N/A'}}</td>
+            @if ($item->member_id != null)
+                @foreach ($members as $member)
+                    @if ($item->member_id == $member->id)
+                        <td>{{$member->name}}</td>
+                    @endif
+                    
+                @endforeach
+            @else
+                <td>N/A</td>
+            @endif
             <td class="sepharate"><a  data-route="{{ route('item-codes.edit', $item->id)}}" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('item-codes.delete', $item->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('item-codes.delete', $item->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="6" class="text-left">
+        <td colspan="7" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $items->firstItem() }} – {{ $items->lastItem() }} Items of
@@ -24,6 +35,6 @@
 
 @else
     <tr>
-        <td colspan="6" class="text-center">No Items Found</td>
+        <td colspan="7" class="text-center">No Items Found</td>
     </tr>
 @endif
