@@ -237,10 +237,12 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });

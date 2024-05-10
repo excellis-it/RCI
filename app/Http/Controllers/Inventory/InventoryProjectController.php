@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InventoryProject;
+use App\Models\Member;
 
 
 class InventoryProjectController extends Controller
@@ -16,8 +17,9 @@ class InventoryProjectController extends Controller
     public function index()
     {
         $inventoryProjects = InventoryProject::orderBy('id', 'desc')->paginate(10);
-        $sanction_authorities = Member::where('status', 1)->get();
-        return view('inventory.inventory-projects.list', compact('inventoryProjects','sanction_authorities',''));
+        $sanction_authorities = Member::all();
+        $project_directors = Member::all();
+        return view('inventory.inventory-projects.list', compact('inventoryProjects','sanction_authorities','project_directors'));
     }
 
     public function fetchData(Request $request)
@@ -54,11 +56,23 @@ class InventoryProjectController extends Controller
     {
         $request->validate([
             'project_name' => 'required|unique:inventory_projects,project_name',
+            'sanction_amount' => 'required|numeric',
+            'sanction_authority' => 'required',
+            'pdc' => 'required',
+            'project_director' => 'required',
+            'entry_date' => 'required|date',
+            'end_date' => 'required|date',
             'status' => 'required',
         ]);
 
         $inventory_project = new InventoryProject();
         $inventory_project->project_name = $request->project_name;
+        $inventory_project->sanction_amount = $request->sanction_amount;
+        $inventory_project->sanction_authority = $request->sanction_authority;
+        $inventory_project->pdc = $request->pdc;
+        $inventory_project->project_director = $request->project_director;
+        $inventory_project->entry_date = $request->entry_date;
+        $inventory_project->end_date = $request->end_date;
         $inventory_project->status = $request->status;
         $inventory_project->save();
 
@@ -80,8 +94,10 @@ class InventoryProjectController extends Controller
     public function edit(string $id)
     {
         $inventory_project = InventoryProject::find($id);
+        $sanction_authorities = Member::all();
+        $project_directors = Member::all();
         $edit = true;
-        return response()->json(['view' => view('inventory.inventory-projects.form', compact('edit','inventory_project'))->render()]);
+        return response()->json(['view' => view('inventory.inventory-projects.form', compact('edit','inventory_project','project_directors','sanction_authorities'))->render()]);
     }
 
     /**
@@ -92,11 +108,23 @@ class InventoryProjectController extends Controller
         // validate
         $request->validate([
             'project_name' => 'required|unique:inventory_projects,project_name,'.$id,
+            'sanction_amount' => 'required|numeric',
+            'sanction_authority' => 'required',
+            'pdc' => 'required',
+            'project_director' => 'required',
+            'entry_date' => 'required|date',
+            'end_date' => 'required|date',
             'status' => 'required',
         ]);
 
         $inventory_project = InventoryProject::find($id);
         $inventory_project->project_name = $request->project_name;
+        $inventory_project->sanction_amount = $request->sanction_amount;
+        $inventory_project->sanction_authority = $request->sanction_authority;
+        $inventory_project->pdc = $request->pdc;
+        $inventory_project->project_director = $request->project_director;
+        $inventory_project->entry_date = $request->entry_date;
+        $inventory_project->end_date = $request->end_date;
         $inventory_project->status = $request->status;
         $inventory_project->update();
 

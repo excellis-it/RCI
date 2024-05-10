@@ -73,8 +73,8 @@ class DesignationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'full_name' => 'required',
-            'designation' => 'required|unique:designations',
+            'full_name' => 'required|max:255',
+            'designation' => 'required|max:255',
             'designation_type_id' => 'required',
             'category_id' => 'required',
             'payband_type_id' => 'required',
@@ -125,8 +125,8 @@ class DesignationController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'full_name' => 'required',
-            'designation' => 'required|unique:designations,designation,' . $id,
+            'full_name' => 'required|max:255',
+            'designation' => 'required|max:255',
             'designation_type_id' => 'required',
             'category_id' => 'required',
             'payband_type_id' => 'required',

@@ -46,7 +46,7 @@ class PayscaleTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'payscale_type' => 'required|unique:payscale_types,payscale_type',
+            'payscale_type' => 'required|max:255',
         ]);
 
         $payscale_type = new PayscaleType();
@@ -81,7 +81,7 @@ class PayscaleTypeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'payscale_type' => 'required|unique:payscale_types,payscale_type,' . $id,
+            'payscale_type' => 'required|max:255',
         ]);
 
         $payscale_type = PayscaleType::find($id);

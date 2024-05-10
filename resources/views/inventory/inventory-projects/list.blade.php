@@ -4,6 +4,7 @@
 @endsection
 
 @push('styles')
+
 @endpush
 
 @section('content')
@@ -246,4 +247,15 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#pdc').on('change', function() {
+                var pdc = $('#pdc').val();
+               $('#end_date').val(pdc);
+            });
+        });
+    </script>
+    
+   
 @endpush

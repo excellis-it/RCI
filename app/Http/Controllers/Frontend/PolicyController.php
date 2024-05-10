@@ -53,7 +53,7 @@ class PolicyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'policy_name' => 'required|unique:pm_levels,value',
+            'policy_name' => 'required|max:255',
             'policy_no' => 'required',
             'status' => 'required',
         ]);
@@ -93,7 +93,7 @@ class PolicyController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'policy_name' => 'required',
+            'policy_name' => 'required|max:255',
             'policy_no' => 'required|unique:policies,policy_no,'.$id,
             'status' => 'required',
         ]);

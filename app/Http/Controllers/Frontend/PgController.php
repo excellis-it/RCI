@@ -53,7 +53,7 @@ class PgController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'value' => 'required|unique:pgs,value',
+            'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
@@ -90,7 +90,7 @@ class PgController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'value' => 'required',
+            'value' => 'required|max:255',
             'status' => 'required',
         ]);
 

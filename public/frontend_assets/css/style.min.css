@@ -56692,6 +56692,10 @@ ul {
     text-align: center;
     border: 1px solid #ff0303;
 }
+/*  */
+.card-wrap{
+    padding: 20px;
+}
 @media (max-width:1440px) {
     .app-header .navbar .navbar-nav .nav-item .nav-link {
         padding: 8px 8px;

@@ -105,9 +105,9 @@ class MemberController extends Controller
     {
 
         $validated = $request->validate([
-            'pers_no' => 'required',
+            'pers_no' => 'required|max:255',
             'gender' => 'required',
-            'name' => 'required',
+            'name' => 'required|max:255',
             'pm_level' => 'required',
             'pm_index' => 'required',
             'basic' => 'required',
@@ -121,8 +121,8 @@ class MemberController extends Controller
             'g_pay' => 'required',
             'pay_band' => 'required',
             'fund_type' => 'required',
-            'dob' => 'required',
-            'doj_lab' => 'required',
+            'dob' => 'required|date',
+            'doj_lab' => 'required|date',
             'doj_service1' => 'required',
             'dop' => 'required',
             'next_inr' => 'required',
@@ -132,8 +132,7 @@ class MemberController extends Controller
             'cgeis' => 'required',
             'ex_service' => 'required',
             'pg' => 'required',
-            'cgegis' => 'required',
-            
+            'cgegis' => 'required',    
         ]);
 
         //check employee id 

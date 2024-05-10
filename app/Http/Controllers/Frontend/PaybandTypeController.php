@@ -50,7 +50,7 @@ class PaybandTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'payband_type' => 'required|unique:payband_types,payband_type',
+            'payband_type' => 'required|max:255',
         ]);
 
         $payband_type = new PaybandType();
@@ -85,7 +85,7 @@ class PaybandTypeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'payband_type' => 'required|unique:payband_types,payband_type,' . $id,
+            'payband_type' => 'required|max:255',
         ]);
 
         $payband_type = PaybandType::find($id);

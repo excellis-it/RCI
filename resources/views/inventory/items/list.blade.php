@@ -32,10 +32,23 @@
                         <div id="code-form">
                             @include('inventory.items.form')
                         </div>
-
+                        <hr/>
                         <div class="row">
-                            <div class="col-md-12 mb-4 mt-4">
+                            <div class="col-md-12 mb-4">
                                 <div class="row justify-content-end">
+                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <select class="form-control search_table ps-3" name="" id="">                                    
+                                                <option value="Consumable">Consumable</option>
+                                                <option value="Non-Consumable">Non-Consumable</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="date" class="form-control search_table ps-3" value="">
+                                        </div>
+                                    </div>
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""

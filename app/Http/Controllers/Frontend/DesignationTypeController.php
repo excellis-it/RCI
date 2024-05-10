@@ -47,7 +47,7 @@ class DesignationTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'designation_type' => 'required|unique:designation_types,designation_type',
+            'designation_type' => 'required|max:255',
         ]);
 
         $designation_type = new DesignationType();
@@ -82,7 +82,7 @@ class DesignationTypeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'designation_type' => 'required|unique:designation_types,designation_type,' . $id,
+            'designation_type' => 'required|max:255',
         ]);
 
         $designation_type = DesignationType::find($id);

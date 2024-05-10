@@ -61,7 +61,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required|unique:categories',
+            'category' => 'required|unique:categories|max:255',
             'designation_type_id' => 'required',
             'gazetted' => 'required',
             'status' => 'required',
@@ -103,7 +103,7 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'category' => 'required|unique:categories,category,' . $id,
+            'category' => 'required|max:255|unique:categories,category,' . $id,
             'designation_type_id' => 'required',
             'gazetted' => 'required',
             'status' => 'required',

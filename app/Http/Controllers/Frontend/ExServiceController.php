@@ -52,7 +52,7 @@ class ExServiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'value' => 'required|unique:ex_services,value',
+            'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
@@ -89,7 +89,7 @@ class ExServiceController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'value' => 'required',
+            'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
