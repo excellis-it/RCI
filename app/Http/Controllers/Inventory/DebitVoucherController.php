@@ -81,6 +81,7 @@ class DebitVoucherController extends Controller
         $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_no = $request->voucher_no;
         $debitVoucher->voucher_date = $request->voucher_date;
+        $debitVoucher->voucher_type = $request->voucher_type;
         $debitVoucher->remarks = $request->remarks;
         $debitVoucher->save();
 
@@ -150,6 +151,7 @@ class DebitVoucherController extends Controller
         // $debitVoucher->item_id = $request->item_code_id;
         // $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_date = $request->voucher_date;
+        $debitVoucher->voucher_type = $request->voucher_type;
         $debitVoucher->remarks = $request->remarks;
         $debitVoucher->update();
 

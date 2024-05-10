@@ -46,6 +46,7 @@ use App\Http\Controllers\Inventory\ExternalIssueVoucherController;
 use App\Http\Controllers\Inventory\ItemCodeTypeController;
 use App\Http\Controllers\Inventory\SupplyOrderController;
 use App\Http\Controllers\Inventory\CreditVoucherNumberController;
+use App\Http\Controllers\Inventory\CertificateIssueVoucherController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -424,6 +425,7 @@ Route::middleware('permssions')->group(function () {
             'rins' => RinController::class,
             'supply-orders' => SupplyOrderController::class,
             'credit-voucher-numbers' => CreditVoucherNumberController::class,
+            'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
         ]);
 
         //reset item codes
@@ -501,6 +503,12 @@ Route::middleware('permssions')->group(function () {
         Route::get('/credit-voucher-numbers-fetch-data', [CreditVoucherNumberController::class, 'fetchData'])->name('credit-voucher-numbers.fetch-data');
         Route::prefix('credit-voucher-numbers')->group(function () {
             Route::get('/delete/{id}', [CreditVoucherNumberController::class, 'delete'])->name('credit-voucher-numbers.delete');
+        });
+
+        //certificate-issue-vouchers
+        Route::get('/certificate-issue-vouchers-fetch-data', [CertificateIssueVoucherController::class, 'fetchData'])->name('certificate-issue-vouchers.fetch-data');
+        Route::prefix('certificate-issue-vouchers')->group(function () {
+            Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
         });
     });
    

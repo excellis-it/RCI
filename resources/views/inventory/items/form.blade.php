@@ -78,7 +78,7 @@
                                 <label>Created By(Person)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="created_by" id="created_by">
+                                <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select</option>
                                         @foreach ($members as $member)
                                             <option value="{{ $member->id }}" {{ ($edit_item_code->member_id == $member->id) ? 'selected' : '' }}>{{ $member->name }}</option>   

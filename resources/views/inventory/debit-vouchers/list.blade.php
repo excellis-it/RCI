@@ -263,7 +263,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function(){
             $('#item_code_id').change(function() {
                 var item_code_id = $(this).val();
@@ -284,6 +284,26 @@
                         console.log(xhr);
                     }
                  });
+            });
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function () {
+            $('#item_code_id').change(function(){
+                var selectedValue = $(this).find(':selected');
+                var quantity = selectedValue.data('hidden-value');
+                // var quantityDiv = $('#quantity');
+                
+                var quantityDivSelectBox = [];
+
+                for (var i = 1; i <= quantity; i++) {
+                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+                }
+
+                $('#quantity').empty();
+                $('#quantity').append(quantityDivSelectBox.join(''));
+                
             });
         });
     </script>

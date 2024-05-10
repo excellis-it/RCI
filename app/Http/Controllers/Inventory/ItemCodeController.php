@@ -122,7 +122,7 @@ class ItemCodeController extends Controller
             'uom' => 'required',
             'item_type' => 'required', 
         ]);
-
+        
         $item_code = ItemCode::find($id);
         $item_code->description = $request->description;
         $item_code->uom = $request->uom;
