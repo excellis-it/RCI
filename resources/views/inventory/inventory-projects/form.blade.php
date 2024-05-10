@@ -18,6 +18,50 @@
                         </div>
                     </div>
 
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Sanction Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="sanction_amount" id="sanction_amount" value="{{ $inventory_project->sanction_amount ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Sanction Authority</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="sanction_authority" id="sanction_authority">
+                                    <option value="">Select Authority</option>
+                                    @foreach($sanction_authorities as $sanction_authority)
+                                        <option value="{{ $sanction_authority->id }}" {{ ($inventory_project->sanction_authority == $sanction_authority->id) ? 'selected' : '' }}>{{ $sanction_authority->authority_name }}</option>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>PDC(Prabable date of completion)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control" name="pdc" id="pdc" value="{{ $inventory_project->pdc ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

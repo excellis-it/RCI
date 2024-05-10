@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\DesignationController;
 use App\Http\Controllers\Frontend\DesignationTypeController;
@@ -96,6 +97,8 @@ Route::middleware('permssions')->group(function () {
         Route::get('/', [ProfileController::class, 'password'])->name('password'); // password change
         Route::post('/update', [ProfileController::class, 'passwordUpdate'])->name('password.update'); // password update
     });
+
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('logo')->group(function () {
         Route::get('/', [LogoController::class, 'dashboardLogo'])->name('logo.dashboard');

@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InventoryProject;
 
+
 class InventoryProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $inventoryProjects = InventoryProject::orderBy('id', 'desc')->paginate(10);
-        return view('inventory.inventory-projects.list', compact('inventoryProjects'));
+        $sanction_authorities = Member::where('status', 1)->get();
+        return view('inventory.inventory-projects.list', compact('inventoryProjects','sanction_authorities',''));
     }
 
     public function fetchData(Request $request)

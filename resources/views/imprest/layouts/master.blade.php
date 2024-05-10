@@ -23,7 +23,7 @@
     <link id="themeColors" rel="stylesheet" href="{{ asset('frontend_assets/css/style.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend_assets/css/toastr.min.css')}}">
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/sweetalert2.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend_assets/css/font-awesome.min.css')}}">
+    
     @stack('styles')
 </head>
 
