@@ -80,6 +80,14 @@ use App\Helpers\Helper;
                         <span class="hide-menu">External Issue Vouchers</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('inventory/transfer-vouchers*') ? 'active' : ''}}" href="{{route('transfer-vouchers.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-box"></i>
+                        </span>
+                        <span class="hide-menu">Transfer Vouchers</span>
+                    </a>
+                </li>
             </ul>
 
             

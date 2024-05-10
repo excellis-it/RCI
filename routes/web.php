@@ -418,6 +418,7 @@ Route::middleware('permssions')->group(function () {
             'gate-passes' => GatePassController::class,
             'conversion-vouchers' => ConversionVoucherController::class,
             'external-issue-vouchers' => ExternalIssueVoucherController::class,
+            'transfer-vouchers' => TransferVoucherController::class,
         ]);
 
         //reset item codes
