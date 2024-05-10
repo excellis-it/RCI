@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Frontend\AuthController;
-use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\DesignationController;
 use App\Http\Controllers\Frontend\DesignationTypeController;
@@ -44,6 +43,10 @@ use App\Http\Controllers\Inventory\ResetItemCodeController;
 use App\Http\Controllers\Inventory\GatePassController;
 use App\Http\Controllers\Inventory\ConversionVoucherController;
 use App\Http\Controllers\Inventory\ExternalIssueVoucherController;
+use App\Http\Controllers\Inventory\ItemCodeTypeController;
+use App\Http\Controllers\Inventory\SupplyOrderController;
+use App\Http\Controllers\Inventory\CreditVoucherNumberController;
+use App\Http\Controllers\Inventory\CertificateIssueVoucherController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -55,6 +58,7 @@ use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
+use App\Http\Controllers\Inventory\RinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +77,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 Route::get('/config-clear', function() {
     $exitCode = Artisan::call('config:clear');
@@ -97,8 +102,6 @@ Route::middleware('permssions')->group(function () {
         Route::get('/', [ProfileController::class, 'password'])->name('password'); // password change
         Route::post('/update', [ProfileController::class, 'passwordUpdate'])->name('password.update'); // password update
     });
-
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::prefix('logo')->group(function () {
         Route::get('/', [LogoController::class, 'dashboardLogo'])->name('logo.dashboard');
@@ -419,6 +422,11 @@ Route::middleware('permssions')->group(function () {
             'conversion-vouchers' => ConversionVoucherController::class,
             'external-issue-vouchers' => ExternalIssueVoucherController::class,
             'transfer-vouchers' => TransferVoucherController::class,
+            'item-code-types' => ItemCodeTypeController::class,
+            'rins' => RinController::class,
+            'supply-orders' => SupplyOrderController::class,
+            'credit-voucher-numbers' => CreditVoucherNumberController::class,
+            'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
         ]);
 
         //reset item codes
@@ -472,6 +480,37 @@ Route::middleware('permssions')->group(function () {
         //external-issue-vouchers
         Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
         Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
+
+        //item-code-types
+        Route::get('/item-code-types-fetch-data', [ItemCodeTypeController::class, 'fetchData'])->name('item-code-types.fetch-data');
+        Route::prefix('item-code-types')->group(function () {
+            Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
+        });
+
+        //rins
+        Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
+        Route::prefix('rins')->group(function () {
+            Route::get('/delete/{id}', [RinController::class, 'delete'])->name('rins.delete');
+        });
+        Route::post('/get-item-description', [RinController::class, 'getItemDescription'])->name('rins.get-item-description');
+
+        //supply-orders
+        Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');
+        Route::prefix('supply-orders')->group(function () {
+            Route::get('/delete/{id}', [SupplyOrderController::class, 'delete'])->name('supply-orders.delete');
+        });
+
+        //credit-voucher-numbers
+        Route::get('/credit-voucher-numbers-fetch-data', [CreditVoucherNumberController::class, 'fetchData'])->name('credit-voucher-numbers.fetch-data');
+        Route::prefix('credit-voucher-numbers')->group(function () {
+            Route::get('/delete/{id}', [CreditVoucherNumberController::class, 'delete'])->name('credit-voucher-numbers.delete');
+        });
+
+        //certificate-issue-vouchers
+        Route::get('/certificate-issue-vouchers-fetch-data', [CertificateIssueVoucherController::class, 'fetchData'])->name('certificate-issue-vouchers.fetch-data');
+        Route::prefix('certificate-issue-vouchers')->group(function () {
+            Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
+        });
     });
    
 });

@@ -28,11 +28,22 @@ use App\Helpers\Helper;
                     <a class="sidebar-link {{ Request::is('cash-payments*') ? 'active' : '' }}"
                         href="{{ route('cash-payments.index') }}" >
                         <span>
-                            <i class="ti ti-currency-rupee"></i>
+                            <i class="fa fa-money"></i>
                         </span>
                         <span class="hide-menu">Cash Payment</span>
                     </a>
-                  
+                    {{-- <ul class="collapse" id="collapseExample">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ Request::is('cash-payments*') ? 'active' : '' }}"
+                                href="{{ route('cash-payments.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cash-banknote"></i>
+                                </span>
+                                <span class="hide-menu">List</span>
+                            </a>
+                        </li>
+                        
+                    </ul> --}}
                 </li>
                 
                 <li class="sidebar-item">

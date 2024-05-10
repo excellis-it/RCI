@@ -69,6 +69,10 @@
                                                     style="cursor: pointer">UOM<span id="uom_icon"></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="item_type"
                                                     style="cursor: pointer">Item type<span id="item_type_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="entry_date" 
+                                                    style="cursor: pointer">Entry Date<span id="entry_date_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="member_id" 
+                                                    style="cursor: pointer">Created By<span id="member_id_icon"></span> </th>
                                                 
                                                 <th></th>
                                             </tr>
@@ -266,6 +270,12 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+          var today = new Date().toISOString().slice(0, 10);
+          $('#entry_date').val(today);
+        });
+      </script>
 
 
 @endpush

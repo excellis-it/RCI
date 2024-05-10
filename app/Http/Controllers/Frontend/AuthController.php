@@ -24,7 +24,7 @@ class AuthController extends Controller
         $request->merge([$fieldType => $request->user_name]);
         if (auth()->attempt($request->only($fieldType, 'password'))) {
             if (auth()->user()->status == 1) {
-                return redirect()->route('dashboard');
+                return redirect()->route('profile');
             } else {
                 auth()->logout();
                 return redirect()->back()->with('error', 'Your account is not active!');

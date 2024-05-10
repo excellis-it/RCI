@@ -69,7 +69,7 @@
                                                     style="cursor: pointer">Item Type<span id="item_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="price"
-                                                    style="cursor: pointer">Price & Tax<span id="price_icon"><i
+                                                    style="cursor: pointer">Price <span id="price_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
                                                     style="cursor: pointer">Quantity<span id="quantity_icon"><i
@@ -288,11 +288,57 @@
                     },
                     success: function(response) {
                         $('#item_type').val(response.item_type);
+                        $('#description').val(response.description);
                     },
                     error: function(xhr) {
                         console.log(xhr);
                     }
                  });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#inv_no').change(function(){
+                var selectedValue = $(this).find(':selected');
+                var inv_type = selectedValue.data('hidden-value');
+                var hiddenDiv = $('#member_div');
+                
+                if (inv_type === 'Individual') {
+                    hiddenDiv.prop('hidden', false); // Show the div
+                } else {
+                    hiddenDiv.prop('hidden', true); // Hide the div
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            // Function to update difference
+            function updateTotalPrice() {
+                var price = parseInt($('#price').val());
+                var tax = parseInt($('#tax').val());
+                var total_price = price + (price * tax / 100);
+                $('#total_price').val(total_price);
+            }
+        
+            // Bind change event to input fields
+            $('#price, #tax').keyup(updateTotalPrice);
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $(document).on('keyup','#edit_tax, #edit_price', function(){
+                console.log('Keyup event fired');
+                // Your updateEditDifference() function logic here
+                var price = parseInt($('#edit_price').val());
+                var tax = parseInt($('#edit_tax').val());
+                var total_price = price + (price * tax / 100);
+                $('#edit_total_price').val(total_price);
             });
         });
     </script>

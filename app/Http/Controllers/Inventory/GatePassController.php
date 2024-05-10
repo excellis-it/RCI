@@ -51,11 +51,13 @@ class GatePassController extends Controller
         $request->validate([
             'pass_no' => 'required|unique:gate_passes,gate_pass_no',
             'pass_date' => 'required',
+            'pass_type' => 'required',
         ]);
 
         $gatepass = new GatePass();
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
+        $gatepass->gate_pass_type = $request->pass_type;
         $gatepass->save();
 
         return redirect()->route('gate-passes.index')->with('success', 'Gate Pass created successfully.');
@@ -90,12 +92,14 @@ class GatePassController extends Controller
         $request->validate([
             'pass_no' => 'required|unique:gate_passes,gate_pass_no,' . $id . ',id',
             'pass_date' => 'required',
+            'pass_type' => 'required',
         ]);
 
         $gatepass = GatePass::findOrFail($id);
 
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
+        $gatepass->gate_pass_type = $request->pass_type;
         $gatepass->save();
 
         return redirect()->route('gate-passes.index')->with('success', 'Gate Pass updated successfully.');

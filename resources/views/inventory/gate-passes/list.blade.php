@@ -56,7 +56,7 @@
                                                     style="cursor: pointer">Gate Pass Date <span id="gate_pass_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th>Code</th> --}}
-                                                <th>Status </th>
+                                                <th>Gate Pass Type </th>
                                                 
                                                 <th></th>
                                             </tr>

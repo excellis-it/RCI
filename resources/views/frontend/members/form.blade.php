@@ -396,7 +396,7 @@
                                                                 <label>DOJ Lab</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" name="doj_lab"
+                                                                <input type="date" class="form-control" name="doj_lab"
                                                                     id="doj_lab" value="{{ old('doj_lab') ?? '' }}"
                                                                     placeholder="">
                                                                 <span class="text-danger"></span>
@@ -409,7 +409,7 @@
                                                                 <label>DOJ Service1</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control"
+                                                                <input type="date" class="form-control"
                                                                     name="doj_service1" id="doj_service1"
                                                                     value="{{ old('doj_service1') ?? '' }}"
                                                                     placeholder="">
@@ -427,7 +427,7 @@
                                                                 <label>DOP</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" name="dop"
+                                                                <input type="date" class="form-control" name="dop"
                                                                     id="dop" value="{{ old('dop') ?? '' }}"
                                                                     placeholder="">
                                                                 <span class="text-danger"></span>
@@ -440,7 +440,7 @@
                                                                 <label>Next Incr</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control"
+                                                                <input type="date" class="form-control"
                                                                     name="next_inr" id="next_inr"
                                                                     value="{{ old('next_inr') ?? '' }}" placeholder="">
                                                                 <span class="text-danger"></span>
@@ -479,7 +479,7 @@
                                                     <div class="form-group col-md-4 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
-                                                                <label>Quater No</label>
+                                                                <label>Quarter No</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control"
@@ -495,7 +495,7 @@
                                                                 <label>DOJ Service2</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control"
+                                                                <input type="date" class="form-control"
                                                                     name="doj_service2" id="doj_service2"
                                                                     value="{{ old('doj_service2') ?? '' }}"
                                                                     placeholder="">

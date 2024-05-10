@@ -7,13 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\InventoryProject;
 use App\Models\Member;
 
-
 class InventoryProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-
     public function index()
     {
         $inventoryProjects = InventoryProject::orderBy('id', 'desc')->paginate(10);
