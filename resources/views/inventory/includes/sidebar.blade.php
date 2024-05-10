@@ -48,7 +48,7 @@ use App\Helpers\Helper;
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('inventory/credit-vouchers*') ? 'active' : ''}}" href="{{route('credit-vouchers.index')}}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-arrow-down-left-circle"></i>
+                            <i class="ti ti-box"></i>
                         </span>
                         <span class="hide-menu">Credit Vouchers</span>
                     </a>

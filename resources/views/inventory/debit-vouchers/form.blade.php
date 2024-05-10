@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="voucher_date" id="voucher_date" value="{{ $debitVoucher->voucher_date ?? '' }}"
-                                    placeholder="">
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -75,6 +75,21 @@
                                 <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $debitVoucher->quantity ?? '' }}"
                                     placeholder="" readonly>
                                     {{-- <div class="text-danger" id="quantity_no"></div> --}}
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="voucher_type" id="voucher_type">
+                                    <option value="">Select</option>
+                                    <option value="transfer" {{ $debitVoucher->voucher_type == 'transfer' ? 'selected' : '' }}>Transfer</option>
+                                    <option value="voucher" {{ $debitVoucher->voucher_type == 'voucher' ? 'selected' : '' }}>Voucher</option>
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -135,7 +150,7 @@
                                 <select class="form-control" name="item_code_id" id="item_code_id">
                                     <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
-                                        <option value="{{ $item->item_code_id }}">{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
+                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -165,8 +180,8 @@
                                 <label>Voucher Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="voucher_date" id="voucher_date" value=""
-                                    placeholder="">
+                                <input type="date" class="form-control" name="voucher_date" id="voucher_date" value="{{ now()->format('Y-m-d') }}"
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -177,13 +192,31 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="quantity" id="quantity" value=""
-                                    placeholder="">
+                                    <select class="form-control" name="quantity" id="quantity">
+                                        <option value="">Select</option>
+                                    </select>
                                     <div class="text-danger" id="quantity_no"></div>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="voucher_type" id="voucher_type">
+                                    <option value="">Select</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="voucher">Voucher</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
