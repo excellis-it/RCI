@@ -47,6 +47,8 @@ use App\Http\Controllers\Inventory\ItemCodeTypeController;
 use App\Http\Controllers\Inventory\SupplyOrderController;
 use App\Http\Controllers\Inventory\CreditVoucherNumberController;
 use App\Http\Controllers\Inventory\CertificateIssueVoucherController;
+use App\Http\Controllers\Inventory\TransferVoucherController;
+use App\Http\Controllers\Inventory\RinController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -58,7 +60,6 @@ use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
-use App\Http\Controllers\Inventory\RinController;
 use Illuminate\Support\Facades\Route;
 
 /*
