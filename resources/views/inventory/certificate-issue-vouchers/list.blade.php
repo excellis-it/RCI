@@ -52,12 +52,11 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="name"
                                                     style="cursor: pointer"> Name <span id="name_icon"></span> </th>
                                                 {{-- <th>Code</th> --}}
-                                                <th class="sorting" data-sorting_type="desc">Received Quantity</th>
-                                                <th>Accepted Quantity</th>
-                                                <th>Rejected Quantity</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="nc_status"
-                                                    style="cursor: pointer">C/NC/NCF <span id="nc_status_icon"></span> </th>
-                                                <th>A/U</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_code" 
+                                                    style="cursor: pointer">Item Code <span id="item_code_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="price" 
+                                                    style="cursor: pointer">Price <span id="price_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_type">Item Type</th>
                                                 
                                                 <th></th>
                                             </tr>
