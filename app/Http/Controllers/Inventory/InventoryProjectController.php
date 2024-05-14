@@ -58,7 +58,6 @@ class InventoryProjectController extends Controller
             'sanction_authority' => 'required',
             'pdc' => 'required',
             'project_director' => 'required',
-            'entry_date' => 'required|date',
             'end_date' => 'required|date',
             'status' => 'required',
         ]);
@@ -69,7 +68,7 @@ class InventoryProjectController extends Controller
         $inventory_project->sanction_authority = $request->sanction_authority;
         $inventory_project->pdc = $request->pdc;
         $inventory_project->project_director = $request->project_director;
-        $inventory_project->entry_date = $request->entry_date;
+        $inventory_project->entry_date = date('Y-m-d');
         $inventory_project->end_date = $request->end_date;
         $inventory_project->status = $request->status;
         $inventory_project->save();
@@ -110,8 +109,6 @@ class InventoryProjectController extends Controller
             'sanction_authority' => 'required',
             'pdc' => 'required',
             'project_director' => 'required',
-            'entry_date' => 'required|date',
-            'end_date' => 'required|date',
             'status' => 'required',
         ]);
 
@@ -122,7 +119,6 @@ class InventoryProjectController extends Controller
         $inventory_project->pdc = $request->pdc;
         $inventory_project->project_director = $request->project_director;
         $inventory_project->entry_date = $request->entry_date;
-        $inventory_project->end_date = $request->end_date;
         $inventory_project->status = $request->status;
         $inventory_project->update();
 

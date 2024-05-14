@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="pdc" id="pdc_edit"  min="{{ date('Y-m-d')}}"  value="{{ $inventory_project->pdc ?? '' }}"
-                                    placeholder="">
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="entry_date" id="entry_date" value="{{ $inventory_project->entry_date ?? '' }}"
-                                    placeholder="">
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="end_date" id="end_date_edit" value="{{ $inventory_project->end_date ?? '' }}"
-                                    placeholder="">
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -209,19 +209,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Entry Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="entry_date" id="entry_date"  value="{{ date('Y-m-d')}}"
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
+                   
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

@@ -52,7 +52,6 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control" name="item_type" id="item_type">
-                                    
                                     <option value="Consumable" {{ $edit_item_code->item_type == 'Consumable' ? 'selected':'' }}>Consumable</option>
                                     <option value="Non-Consumable" {{ $edit_item_code->item_type == 'Non-Consumable' ? 'selected':'' }}>Non-Consumable</option>
                                 </select>
