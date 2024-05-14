@@ -10,6 +10,7 @@ use App\Models\ConversionVoucher;
 use App\Models\CreditVoucher;
 use App\Models\InventoryType;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ConversionVoucherController extends Controller
 {
@@ -18,8 +19,7 @@ class ConversionVoucherController extends Controller
      */
     public function index()
     {
-        //
-        $itemCodes = ItemCode::all();
+        $itemCodes = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $inventoryNumbers = InventoryNumber::all();
         $conversionVouchers = ConversionVoucher::paginate(10);
         return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers'));
@@ -41,7 +41,7 @@ class ConversionVoucherController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            $itemCodes = ItemCode::all();
+            $itemCodes = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
             $inventoryTypes = InventoryType::all();
             $inventoryNumbers = InventoryNumber::all();
 

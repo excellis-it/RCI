@@ -261,25 +261,21 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
-            $('#item_code_id').change(function() {
-                var item_code_id = $(this).val();
-                $.ajax({ 
-                    url: "{{ route('conversion-vouchers.get-item-quantity')}}",
-                    type: 'POST',
-                    data: {
-                        item_code_id: item_code_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        var quantity = parseInt(response.quantity);
-                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
-                        $('#quantity_no').text(text);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                 });
+        $(document).ready(function () {
+            $('#item_code_id').change(function(){
+                var selectedValue = $(this).find(':selected');
+                var quantity = selectedValue.data('hidden-value');
+                // var quantityDiv = $('#quantity');
+                
+                var quantityDivSelectBox = [];
+
+                for (var i = 1; i <= quantity; i++) {
+                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+                }
+
+                $('#quantity').empty();
+                $('#quantity').append(quantityDivSelectBox.join(''));
+                
             });
         });
     </script>
