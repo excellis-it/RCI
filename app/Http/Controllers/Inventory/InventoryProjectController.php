@@ -30,6 +30,7 @@ class InventoryProjectController extends Controller
             $inventoryProjects = InventoryProject::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('project_name', 'like', '%' . $query . '%')
+                    ->orWhere('sanction_amount', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
@@ -139,6 +140,6 @@ class InventoryProjectController extends Controller
         $inventory_project_delete = InventoryProject::find($request->id);
         $inventory_project_delete->delete();
 
-        return redirect()->back()->with('message', 'Inventory Project deleted successfully');
+        return redirect()->back()->with('error', 'Inventory Project deleted successfully');
     }
 }

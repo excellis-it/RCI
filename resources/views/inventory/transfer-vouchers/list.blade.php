@@ -50,18 +50,17 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_no_id"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="uom"
-                                                    style="cursor: pointer">UOM<span id="uom_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_type"
-                                                    style="cursor: pointer">Item type<span id="item_type_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="entry_date" 
-                                                    style="cursor: pointer">Entry Date<span id="entry_date_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="member_id" 
-                                                    style="cursor: pointer">Created By<span id="member_id_icon"></span> </th>
-                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
+                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="from_inv_number"
+                                                    style="cursor: pointer">From Inv. No.<span id="from_inv_number_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="to_inv_number" 
+                                                    style="cursor: pointer">To Inv. No.<span id="to_inv_number_icon"></span> </th>
+                                               
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -89,7 +88,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Items Codes!",
+                    text: "To delete this Transfer Vouchers!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -177,18 +176,15 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#item-create-form').submit(function(e) {
+            $('#transfer-voucher-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
-                        //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
@@ -302,6 +298,8 @@
         });
 
     </script>
+
+
 
 
 @endpush

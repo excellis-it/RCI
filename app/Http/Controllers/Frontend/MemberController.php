@@ -851,6 +851,24 @@ class MemberController extends Controller
 
     public function memberPolicyInfoUpdate(Request $request)
     {
+        $validated = $request->validate([
+            'policy_name' => 'required',
+            'policy_no' => 'required',
+            'amount' => 'required',
+        ]);
+
+        if(!isset($request->member_policy_id))
+        {
+            $policy_info = new MemberPolicyInfo;
+            $policy_info->member_id = $request->member_id;
+            $policy_info->policy_name = $request->policy_name;
+            $policy_info->policy_no = $request->policy_no;
+            $policy_info->amount = $request->amount;
+            $policy_info->rec_stop = $request->rec_stop;
+            $policy_info->save();
+
+            return response()->json(['message' => 'Member policy info added successfully', 'data' => $policy_info, 'save' => true]);
+        }
         
         $policy_info = MemberPolicyInfo::where('id',$request->member_policy_id)->first();
         $policy_info->policy_name = $request->policy_name;

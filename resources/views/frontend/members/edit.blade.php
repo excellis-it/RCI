@@ -257,7 +257,7 @@
                                                                     <td>1234567890</td>
                                                                     <td>1500000</td>
                                                                     <td>Stop Rec</td>
-                                                                </tr>                                                             --}}
+                                                                </tr> --}}
                                                                 @include('frontend.members.policy-info.table')
                                                             </tbody>
                                                         </table>
@@ -294,7 +294,6 @@
                                                             </thead>
                                                             <tbody class="tbody_height_scroll">
                                                                 @include('frontend.members.loan.table')
-
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -314,7 +313,6 @@
                                         aria-labelledby="recovery-tab" tabindex="0">
                                         <div class="credit-frm">
                                             @include('frontend.members.recovery-original-form')
-
                                         </div>
                                     </div>
 
@@ -323,7 +321,6 @@
                                         aria-labelledby="pers-tab" tabindex="0">
                                         <div class="credit-frm">
                                             @include('frontend.members.personal-form')
-
                                         </div>
                                     </div>
                                     {{-- personal info end --}}
@@ -967,7 +964,7 @@
                         success: function(response) {
 
                             //extract from data
-
+                            toastr.success(response.message);
                             var data = response.data;
                             var id = data.id;
                             // var route = '/members-policy-info-edit/' + data.id;
@@ -1050,10 +1047,15 @@
                     data: formData,
                     success: function(response) {
                         // response data replcae by id
-
+                        toastr.success(response.message);
                         $('#policy-delete').attr('data-id', response.data.id);
 
-                            var data = response.data;
+                        var data = response.data;
+                        var save = response.save;
+                        console.log(save);
+                        if (save == true) 
+                        {
+                            console.log(save);
                             var id = data.id;
                             // var route = '/members-policy-info-edit/' + data.id;
                             var route =
@@ -1074,17 +1076,28 @@
                             newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') +
                                 '</td>';
                             newRow += '</tr>';
-                        
-                        toastr.success(response.message);
 
+                            $('#policy-table tbody').append(newRow);
+                            $('#no-policy').hide();
+
+                        }else{
+                            var id = data.id;
+                            var row = $('#policy-table tbody').find('tr[data-id="' + id + '"]');
+                            row.find('td:eq(0)').text(data.policy_name);
+                            row.find('td:eq(1)').text(data.policy_no);
+                            row.find('td:eq(2)').text(data.amount);
+                            row.find('td:eq(3)').text(data.rec_stop);
+                        }
+                        
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
-                        });
+                        $('.text-danger').html('');
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                $('[name="' + key + '"]').next('.text-danger').html(
+                                    value[0]);
+                            });
                     }
                 });
             });
@@ -1123,15 +1136,14 @@
                 },
                 success: function(response) {
                     toastr.success(response.message);
-
-                    // remove value from form
+                    
                     $('#policy_name').val('');
                     $('#policy_no').val('');
                     $('#amount').val('');
                     $('#rec_stop').val('');
+                    $('#member_policy_id').val('');
                     // edit-route-policy tr remove
                     $('.edit-route-policy[data-id="' + id + '"]').remove();
-
                     $('#policy-delete').hide();
                     $('#policy-update').text('Save');
 
@@ -1197,7 +1209,7 @@
                         },
                         success: function(response) {
                             //extract from data
-
+                            toastr.success(response.message);
                             var data = response.data;
                             var id = data.id;
                             var route =
@@ -1278,6 +1290,7 @@
                    
                     var data = response.data;
                     var save = response.save;
+                    
                      console.log(save);
                     if (save == true) {
                         console.log(save);
@@ -1329,8 +1342,6 @@
             });
         });
     </script>
-
-
 
     <script>
         $(document).ready(function() {

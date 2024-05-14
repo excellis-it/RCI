@@ -4,6 +4,7 @@
         @csrf
 
         <input type="hidden" name="member_policy_id" id="member_policy_id" value="{{ $member_policy->id }}">
+        <input type="hidden" name="member_id" id="policy_member_id" value="{{  $member_policy->member_id }}">
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group mb-2">
@@ -13,6 +14,7 @@
                         </div>
                         <div class="col-md-12">
                             <select class="form-select" name="policy_name" id="policy_name">
+                                <option value="">Select</option>
                                 @foreach ($policies as $policy)
                                     <option value="{{ $policy->policy_name }}"
                                         {{ isset($member_policy->policy_name) && $policy->policy_name == $member_policy->policy_name ? 'selected' : '' }}>
@@ -32,6 +34,7 @@
                         </div>
                         <div class="col-md-12">
                             <select class="form-select" name="policy_no" id="policy_no">
+                                <option value="">Select</option>
                                 @foreach ($policies as $policy)
                                     <option value="{{ $policy->policy_no }}"
                                         {{ isset($member_policy->policy_no) && $policy->policy_no == $member_policy->policy_no ? 'selected' : '' }}>
@@ -83,6 +86,10 @@
                             <div class="row justify-content-end">
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="submit" class="listing_add" id="policy-update">update</button>
+                                </div>
+                                
+                                <div class="form-group col-md-3 mb-2">
+                                    <button type="reset" class="listing_exit">Cancel</button>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="button" id="policy-delete" class="delete-btn-1" data-id="{{ isset($member_policy->id) ? $member_policy->id :'#' }}">Delete</button>

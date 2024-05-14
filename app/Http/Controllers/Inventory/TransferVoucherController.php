@@ -6,15 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransferVoucher;
 use App\Models\InventoryNumber;
+use App\Models\CreditVoucher;
+use App\Models\ItemCode;
+use Illuminate\Support\Facades\DB;
 
 
 class TransferVoucherController extends Controller
 {  
     public function index()
     {
-        $transferVouchers = TransferVoucher::all();
+        $transferVouchers = TransferVoucher::paginate(10);
         $inventoryNumbers = InventoryNumber::all();
-        return view('inventory.transfer-vouchers.list',compact('transferVouchers','inventoryNumbers'));
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        return view('inventory.transfer-vouchers.list',compact('transferVouchers','inventoryNumbers','creditVouchers'));
     }
 
     public function fetchData(Request $request)
@@ -26,7 +30,8 @@ class TransferVoucherController extends Controller
             $query = str_replace(" ", "%", $query);
             $transferVouchers = TransferVoucher::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('project_name', 'like', '%' . $query . '%')
+                    ->orWhere('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
@@ -47,28 +52,44 @@ class TransferVoucherController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
-            'project_name' => 'required|unique:inventory_projects,project_name',
-            'sanction_amount' => 'required|numeric',
-            'sanction_authority' => 'required',
-            'pdc' => 'required',
-            'project_director' => 'required',
-            'end_date' => 'required|date',
-            'status' => 'required',
+            'voucher_no' => 'required|unique:transfer_vouchers|max:255',
+            'voucher_date' => 'required|date',
+            'from_inv_number' => 'required',
+            'to_inv_number' => 'required',
+            'item_code_id' => 'required',
+            'quantity' => 'required',
         ]);
 
         $transfer_voucher = new TransferVoucher();
-        $transfer_voucher->project_name = $request->project_name;
-        $transfer_voucher->sanction_amount = $request->sanction_amount;
-        $transfer_voucher->sanction_authority = $request->sanction_authority;
-        $transfer_voucher->pdc = $request->pdc;
-        $transfer_voucher->project_director = $request->project_director;
-        $transfer_voucher->entry_date = date('Y-m-d');
-        $transfer_voucher->end_date = $request->end_date;
-        $inventory_project->save();
+        $transfer_voucher->voucher_no = $request->voucher_no;
+        $transfer_voucher->voucher_date = $request->voucher_date;
+        $transfer_voucher->from_inv_number = $request->from_inv_number;
+        $transfer_voucher->to_inv_number = $request->to_inv_number;
+        $transfer_voucher->item_id = $request->item_code_id;
+        $transfer_voucher->quantity = $request->quantity;
+        $transfer_voucher->remarks = $request->remarks;
+        $transfer_voucher->save();
 
-        session()->flash('message', 'Inventory Project added successfully');
-        return response()->json(['success' => 'Inventory Project added successfully']);
+        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get();
+        foreach ($creditVoucher as $credit) {
+            
+            if ($credit->quantity >= $request->quantity) {
+                $credit->quantity -= $request->quantity;
+                $credit->save();
+                $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
+                break; // Exit the loop once a single credit voucher's quantity is reduced
+            } else {
+                
+                $request->quantity -= $credit->quantity;
+                $credit->quantity = 0;
+                $credit->save();
+            }
+        }
+
+        session()->flash('message', 'Transfer Voucher added successfully');
+        return response()->json(['success' => 'Transfer Voucher added successfully']);
     }
 
     /**
@@ -84,7 +105,12 @@ class TransferVoucherController extends Controller
      */
     public function edit(string $id)
     {
-        $itemCodes = ItemCode::all();
+        $transfer_voucher = TransferVoucher::find($id);
+        $inventoryNumbers = InventoryNumber::all();
+        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $edit = true;
+        return response()->json(['view' => view('inventory.transfer-vouchers.form', compact('edit','transfer_voucher','creditVouchers','inventoryNumbers'))->render()]);
+        
     }
 
     /**
@@ -92,7 +118,23 @@ class TransferVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'voucher_no' => 'required|unique:transfer_vouchers,voucher_no,'.$id.'|max:255',
+            'voucher_date' => 'required|date',
+        ]);
+
+        $transfer_voucher = TransferVoucher::find($id);
+        $transfer_voucher->voucher_no = $request->voucher_no;
+        $transfer_voucher->voucher_date = $request->voucher_date;
+        // $transfer_voucher->from_inv_number = $request->from_inv_number;
+        // $transfer_voucher->to_inv_number = $request->to_inv_number;
+        // $transfer_voucher->item_id = $request->item_code_id;
+        // $transfer_voucher->quantity = $request->quantity;
+        $transfer_voucher->remarks = $request->remarks;
+        $transfer_voucher->update();
+
+        session()->flash('message', 'Transfer Voucher updated successfully');
+        return response()->json(['success' => 'Transfer Voucher updated successfully']); 
     }
 
     /**
@@ -101,5 +143,13 @@ class TransferVoucherController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function delete($id)
+    {
+        $transferVoucher = TransferVoucher::find($id);
+        $transferVoucher->delete();
+       
+        return back()->with('message', 'Transfer Voucher deleted successfully');
     }
 }

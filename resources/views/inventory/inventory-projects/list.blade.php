@@ -53,6 +53,13 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="project_name"
                                                     style="cursor: pointer">Project Name <span id="project_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="sanction_amount"
+                                                    style="cursor: pointer">Sanction Amount<span id="sanction_amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Sanction Authority </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="pdc"
+                                                    style="cursor: pointer">PDC<span id="pdc_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th>Code</th> --}}
                                                 <th>Status </th>
                                                 
