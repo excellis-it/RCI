@@ -28,14 +28,14 @@ use App\Helpers\Helper;
                 <!-- =================== -->
                 <!-- Dashboard -->
                 <!-- =================== -->
-                <!-- <li class="sidebar-item">
-                    <a class="sidebar-link" href="index.html" aria-expanded="false">
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('dashboard*') ? 'active' : ''}}" href="{{route('dashboard')}}" aria-expanded="false">
                     <span>
                         <i class="ti ti-aperture"></i>
                     </span>
                     <span class="hide-menu">Dashboard</span>
                     </a>
-                </li> -->
+                </li> 
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('members*') ? 'active' : ''}}" href="{{route('members.index')}}" aria-expanded="false">
                         <span>

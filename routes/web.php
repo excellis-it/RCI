@@ -32,6 +32,8 @@ use App\Http\Controllers\Frontend\ChequePaymentController;
 use App\Http\Controllers\Frontend\CashPaymentController;
 use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
+use App\Http\Controllers\Frontend\DashboardController;
+use App\Http\Controllers\Frontend\UserController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -95,6 +97,7 @@ Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login-check', [AuthController::class, 'loginCheck'])->name('login-check');
 
 Route::middleware('permssions')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
@@ -137,7 +140,12 @@ Route::middleware('permssions')->group(function () {
         'reset-voucher' => ResetVoucherController::class,
         'loans' => LoanController::class,
         'reset-employee-ids' => ResetEmployeeIdController::class,
+        'users' => UserController::class,
     ]);
+
+    //user routes
+    Route::get('/users-delete/{id}', [UserController::class, 'delete'])->name('users.delete');
+    Route::get('/users-fetch-data', [UserController::class, 'fetchData'])->name('users.fetch-data');
 
     // reset employee ids
     Route::prefix('reset-employee-ids')->group(function () {
@@ -515,6 +523,7 @@ Route::middleware('permssions')->group(function () {
         Route::prefix('certificate-issue-vouchers')->group(function () {
             Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
         });
+        Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
     });
    
 });

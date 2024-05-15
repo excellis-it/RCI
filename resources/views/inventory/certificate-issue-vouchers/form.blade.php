@@ -8,7 +8,7 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Person Name </label>
+                                <label>Person Name</label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="member_id" id="member_id">
@@ -113,7 +113,7 @@
                                 <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select Name </option>
                                     @foreach ($members as $member)
-                                        <option value="{{ $member->id }}">{{ $member->code }}</option>
+                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
                                         
                                     @endforeach
                                 </select>
@@ -145,7 +145,7 @@
                                 <label>Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="price" id="price" value=""
+                                <input type="text" class="form-control" name="price" id="price"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -159,13 +159,7 @@
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_type" id="item_type">
-                                    <option value="">Select Item Type</option>
-                                    @foreach ($items as $itemType)
-                                        <option value="{{ $itemType->item_type }}">{{ $itemType->item_type }}</option>
-                                        
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="item_type" id="item_type" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -176,8 +170,8 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="description" id="description" value=""
-                                    placeholder="">
+                                <textarea class="form-control" name="description" id="description" value=""
+                                    placeholder="" readonly></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

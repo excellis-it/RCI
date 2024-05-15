@@ -25,6 +25,15 @@ use App\Helpers\Helper;
             <!-- Sidebar Menu-->
                 <ul id="sidebarnav">
                     <li class="sidebar-item">
+                        <a class="sidebar-link {{Request::is('dashboard*') ? 'active' : ''}}" href="{{route('dashboard')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-aperture"></i>
+                        </span>
+                        <span class="hide-menu">Dashboard</span>
+                        </a>
+                    </li> 
+                    
+                    <li class="sidebar-item">
                         <a class="sidebar-link {{ Request::is('imprest/cda-receipts*') ? 'active' : '' }}"  href="{{ route('cda-receipts.index') }}" >
                             <span>
                                 <i class="ti ti-brand-cashapp"></i>

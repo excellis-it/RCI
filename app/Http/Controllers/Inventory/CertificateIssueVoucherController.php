@@ -17,14 +17,16 @@ class CertificateIssueVoucherController extends Controller
     {
         $members = Member::all();
         $items = ItemCode::all();
-        $certificateIssueVouchers = CertificateIssueVoucher::all();
+        $certificateIssueVouchers = CertificateIssueVoucher::paginate(10);
 
-        return view('inventory.certificate-issue-vouchers.index', compact('members', 'items', 'certificateIssueVouchers'));
+        return view('inventory.certificate-issue-vouchers.list', compact('members', 'items', 'certificateIssueVouchers'));
 
     }
 
     public function fetchData(Request $request)
     {
+
+        
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
@@ -124,6 +126,12 @@ class CertificateIssueVoucherController extends Controller
 
         session()->flash('message', 'Certificate Issue Voucher updated successfully');
         return response()->json(['success' => 'Certificate Issue Voucher updated successfully']);
+    }
+
+    public function getItemType(Request $request)
+    {
+        $item = ItemCode::findOrFail($request->item_id);
+        return response()->json(['item_type' => $item->item_type, 'item_description' => $item->description]);
     }
 
     /**

@@ -36,6 +36,15 @@ use App\Helpers\Helper;
                     </a>
                 </li> -->
                 <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('dashboard*') ? 'active' : ''}}" href="{{route('dashboard')}}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-aperture"></i>
+                    </span>
+                    <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li> 
+                
+                <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('inventory/item-codes*') ? 'active' : ''}}" href="{{route('item-codes.index')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-code"></i>
@@ -86,6 +95,15 @@ use App\Helpers\Helper;
                             <i class="ti ti-box"></i>
                         </span>
                         <span class="hide-menu">Transfer Vouchers</span>
+                    </a>
+                </li>
+                
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('inventory/certificate-issue-vouchers*') ? 'active' : ''}}" href="{{route('certificate-issue-vouchers.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-box"></i>
+                        </span>
+                        <span class="hide-menu">Certificate Issue Vouchers</span>
                     </a>
                 </li>
             </ul>

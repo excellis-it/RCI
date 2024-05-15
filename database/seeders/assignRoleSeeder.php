@@ -17,10 +17,14 @@ class assignRoleSeeder extends Seeder
         $roles = [
             [
                 'name' => 'ADMIN',
-                'guard_name' => 'web',
+                'guard_name' => 'web', 
             ],
             [
-                'name' => 'SUBADMIN',
+                'name' => 'MATERIAL-MANAGER',
+                'guard_name' => 'web', 
+            ],
+            [
+                'name' => 'SUBADMIN',  
                 'guard_name' => 'web',
             ]
         ];

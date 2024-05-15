@@ -32,32 +32,36 @@
             <div class="card-wrap">
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Public Fund</h5> 
+                        <a href="{{route('cash-payments.index')}}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Public Fund</h5> 
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{route('cda-receipts.index')}}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Imprest</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {{-- <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('item-codes.index') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Material Management</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div> --}}
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Imprest</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Card Title</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Card Title</h5>
-                                
-                                
+                                <h5 class="card-title">Income tax</h5> 
                             </div>
                         </div>
                     </div>

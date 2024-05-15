@@ -24,6 +24,16 @@ use App\Helpers\Helper;
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
             <!-- Sidebar Menu-->
             <ul id="sidebarnav">
+                
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{Request::is('dashboard*') ? 'active' : ''}}" href="{{route('dashboard')}}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-aperture"></i>
+                    </span>
+                    <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li> 
+
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('cash-payments*') ? 'active' : '' }}"
                         href="{{ route('cash-payments.index') }}" >
