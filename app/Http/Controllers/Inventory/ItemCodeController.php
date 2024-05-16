@@ -22,24 +22,8 @@ class ItemCodeController extends Controller
 
     public function fetchData(Request $request)
     {
-        if ($request->ajax()) {
-
-            $sort_by = $request->get('sortby');
-            $sort_type = $request->get('sorttype');
-            $query = $request->get('query');
-            $query = str_replace(" ", "%", $query);
-            $items = ItemCode::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('code', 'like', '%' . $query . '%')
-                    ->orWhere('item_type', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%')
-                    ->orWhere('uom', 'like', '%' . $query . '%');
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
-
-            return response()->json(['data' => view('inventory.items.table', compact('items'))->render()]);
-        }
+        
+       
     }
 
     /**

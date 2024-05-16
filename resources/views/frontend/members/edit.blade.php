@@ -1454,4 +1454,5 @@
         });
     </script>
     {{-- original recovery script end --}}
+
 @endpush

@@ -26,6 +26,11 @@
 
 <body>
 
+    
+@php
+use App\Helpers\Helper;
+@endphp
+
     <!--  Body Wrapper -->
     <div class="login_bg">
 
@@ -36,9 +41,16 @@
                 <div class="col-lg-6">
                     <div class="card w-100">
                         <div class="card-body">
-                            <a href="javascript:void(0);" class="text-nowrap d-block text-center mx-auto logo-img mb-4">
-                                <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo"
-                                    alt="">
+                            <a href="javascript:void(0);" class="text-nowrap d-block text-center mx-auto logo-img mb-4"> 
+                                @if (!isset(Helper::logo()->logo))
+                                <a href="#" class="text-nowrap logo-img">
+                                    <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" alt="">
+                                </a>
+                                @else
+                                    <a href="#" class="text-nowrap logo-img">
+                                        <img src="{{ Storage::url(Helper::logo()->logo) }}" class="dark-logo" alt="">
+                                    </a>
+                                @endif
                             </a>
                             <form action="{{ route('login-check') }}" method="POST">
                                 @csrf

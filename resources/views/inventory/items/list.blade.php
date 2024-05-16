@@ -38,7 +38,8 @@
                                 <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-2 mb-2 mt-4">
                                         <div class="position-relative">
-                                            <select class="form-control search_table ps-3" name="" id="">                                    
+                                            <select class="form-control search_table ps-3" name="" id="item-type">    
+                                                <option value="">Select type</option>                                
                                                 <option value="Consumable">Consumable</option>
                                                 <option value="Non-Consumable">Non-Consumable</option>
                                             </select>
@@ -46,7 +47,7 @@
                                     </div>
                                     <div class="col-md-5 col-lg-2 mb-2 mt-4">
                                         <div class="position-relative">
-                                            <input type="date" class="form-control search_table ps-3" value="">
+                                            <input type="date" class="form-control search_table ps-3 date-entry" id="">
                                         </div>
                                     </div>
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
@@ -122,14 +123,16 @@
     <script>
         $(document).ready(function() {
 
-            function fetch_data(page, sort_type, sort_by, query) {
+            function fetch_data(page, sort_type, sort_by, query, type, date_entry) {
                 $.ajax({
                     url: "{{ route('item-codes.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
                         sorttype: sort_type,
-                        query: query
+                        query: query,
+                        type: type,
+                        date_entry: date_entry
                     },
                     success: function(data) {
                         $('tbody').html(data.data);
@@ -142,7 +145,30 @@
                 var column_name = $('#hidden_column_name').val();
                 var sort_type = $('#hidden_sort_type').val();
                 var page = $('#hidden_page').val();
-                fetch_data(page, sort_type, column_name, query);
+                var type = $('#item-type').val();
+                var date_entry = $('#date-entry').val();
+                fetch_data(page, sort_type, column_name, query, type, date_entry);
+            });
+
+            $(document).on('change', '#item-type', function() {
+                var type = $('#item-type').val();
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                var date_entry = $('#date-entry').val();
+                fetch_data(page, sort_type, column_name, query, type, date_entry);
+            });
+
+            
+            $(document).on('change', '#date-entry', function() {
+                var date_entry = $('#date-entry').val();
+                var type = $('#item-type').val();
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, sort_type, column_name, query, type, date_entry);
             });
 
             $(document).on('click', '.sorting', function() {
@@ -168,7 +194,9 @@
                 $('#hidden_sort_type').val(reverse_order);
                 var page = $('#hidden_page').val();
                 var query = $('#search').val();
-                fetch_data(page, reverse_order, column_name, query);
+                var type = $('#item-type').val();
+                var date_entry = $('#date-entry').val();
+                fetch_data(page, reverse_order, column_name, query, type, date_entry);
             });
 
             $(document).on('click', '.pagination a', function(event) {
@@ -179,10 +207,12 @@
                 var sort_type = $('#hidden_sort_type').val();
 
                 var query = $('#search').val();
+                var type = $('#item-type').val();
+                var date_entry = $('#date-entry').val();
 
                 $('li').removeClass('active');
                 $(this).parent().addClass('active');
-                fetch_data(page, sort_type, column_name, query);
+                fetch_data(page, sort_type, column_name, query, type, date_entry);
             });
 
         });
@@ -270,12 +300,18 @@
             });
         });
     </script>
+
+    {{-- date picker format --}}
     <script>
         $(document).ready(function() {
-          var today = new Date().toISOString().slice(0, 10);
-          $('#entry_date').val(today);
+          
+
+            $( ".date-entry" ).datepicker({
+                format: 'yyyy-mm-dd'
+            });
         });
-      </script>
+    </script>
+    
 
 
 @endpush
