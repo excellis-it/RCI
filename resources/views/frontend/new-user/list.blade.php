@@ -49,14 +49,15 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Name <span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="first_name"
+                                                    style="cursor: pointer">Name <span id="first_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Email <span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="
+                                            email"
+                                                    style="cursor: pointer">Email <span id="email_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Phone <span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="phone"
+                                                    style="cursor: pointer">Phone <span id="phone_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Role</th>            
                                                 <th>Status </th>
@@ -175,11 +176,10 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#group-create-form').submit(function(e) {
+            $('#new-users-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
-
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
@@ -230,7 +230,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#groups-edit-form', function(e) {
+            $(document).on('submit', '#new-users-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -244,10 +244,12 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });

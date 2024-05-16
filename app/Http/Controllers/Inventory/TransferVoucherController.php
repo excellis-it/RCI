@@ -17,7 +17,7 @@ class TransferVoucherController extends Controller
     {
         $transferVouchers = TransferVoucher::paginate(10);
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         return view('inventory.transfer-vouchers.list',compact('transferVouchers','inventoryNumbers','creditVouchers'));
     }
 
@@ -107,7 +107,7 @@ class TransferVoucherController extends Controller
     {
         $transfer_voucher = TransferVoucher::find($id);
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $edit = true;
         return response()->json(['view' => view('inventory.transfer-vouchers.form', compact('edit','transfer_voucher','creditVouchers','inventoryNumbers'))->render()]);
         
