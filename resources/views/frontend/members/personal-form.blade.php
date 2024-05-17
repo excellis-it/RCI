@@ -432,74 +432,74 @@
         </div>
     </div>
     {{-- <div class="gross-div mt-3">
-                                                    <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Gross Pay</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Top Debits</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Net Pay</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Tot Rec</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-md-4">
-                                                                        <label>Take Home</label>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
-                                                                        <span class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
+        <div class="row row-cols-xxl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
+            <div class="col">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <label>Gross Pay</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <label>Top Debits</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <label>Net Pay</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <label>Tot Rec</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <label>Take Home</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="basic" id="basic" value="{{ old('basic') ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="row justify-content-end">

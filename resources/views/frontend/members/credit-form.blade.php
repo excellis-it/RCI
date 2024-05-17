@@ -7,7 +7,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Pay</label>
+                        <label>Basic Pay</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="pay"
@@ -137,7 +137,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>S.Pay</label>
+                        <label>Spl Pay</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="s_pay" id="s_pay"
@@ -267,7 +267,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Dis Alw</label>
+                        <label>Dress Alw</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="dis_alw" id="dis_alw"

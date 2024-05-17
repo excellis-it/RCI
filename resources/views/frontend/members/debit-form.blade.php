@@ -7,7 +7,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>GPA Sub</label>
+                        <label>GPF Sub</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="gpa_sub" id="gpa_sub"
@@ -221,7 +221,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Ecess</label>
+                        <label>Edu cess</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="ecess" id="ecess"
@@ -279,7 +279,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Fadv</label>
+                        <label>Fest adv</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="fadv" id="fadv"
@@ -451,7 +451,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>PLI</label>
+                        <label>PL INSUR</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="pli" id="pli"
