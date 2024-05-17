@@ -56,6 +56,8 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="price" 
                                                     style="cursor: pointer">Price <span id="price_icon"></span></th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="item_type">Item Type</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity" 
+                                                    style="cursor: pointer">Quantity <span id="quantity_icon"></span></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -263,6 +265,26 @@
                 error: function(xhr) {
                     console.log(xhr);
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#item_id').change(function(){
+                var selectedValue = $(this).find(':selected');
+                var quantity = selectedValue.data('hidden-value');
+                // var quantityDiv = $('#quantity');
+                
+                var quantityDivSelectBox = [];
+
+                for (var i = 1; i <= quantity; i++) {
+                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+                }
+
+                $('#quantity').empty();
+                $('#quantity').append(quantityDivSelectBox.join(''));
+                
             });
         });
     </script>

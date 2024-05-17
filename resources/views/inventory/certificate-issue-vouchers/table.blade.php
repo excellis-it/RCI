@@ -8,7 +8,8 @@
             <td>{{ $certificateIssueVoucher->item->code ?? 'N/A' }}</td>
             <td>{{ $certificateIssueVoucher->price ?? 'N/A' }}</td>
             <td>{{ $certificateIssueVoucher->item_type ?? 'N/A' }}</td>
-            <td class="sepharate"><a data-route="{{ route('rins.edit', $certificateIssueVoucher->id) }}"
+            <td>{{ $certificateIssueVoucher->quantity ?? 'N/A' }}</td>
+            <td class="sepharate"><a data-route="{{ route('certificate-issue-vouchers.edit', $certificateIssueVoucher->id) }}"
                     href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
             </td>
         </tr>

@@ -14,7 +14,7 @@
                                 <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select Name </option>
                                     @foreach ($members as $member)
-                                        <option value="{{ $member->id }}" {{ $member->id == $certificateIssueVoucher->member_id ? 'selected' : '' }}>{{ $member->code }}</option>
+                                        <option value="{{ $member->id }}" {{ $member->id == $certificateIssueVoucher->member_id ? 'selected' : '' }}>{{ $member->name }}</option>
                                         
                                     @endforeach
                                 </select>
@@ -28,10 +28,10 @@
                                 <label>Item Code  </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_id" id="item_id">
+                                <select class="form-select" name="item_id" id="item_id" disabled>
                                     <option value="">Select Item Code </option>
                                     @foreach ($items as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $certificateIssueVoucher->item_id ? 'selected' : '' }}>{{ $item->code }}</option>
+                                        <option value="{{ $item->item_code_id }}" {{ $item->item_code_id == $certificateIssueVoucher->item_id ? 'selected' : '' }} >{{ $item->itemCode->code }}</option>
                                         
                                     @endforeach
                                 </select>
@@ -60,13 +60,8 @@
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_type" id="item_type">
-                                    <option value="">Select Item Type</option>
-                                    @foreach ($items as $itemType)
-                                        <option value="{{ $itemType->item_type }}" {{ $itemType->itemType == $certificateIssueVoucher->item_type ? 'selected' : '' }}>{{ $itemType->item_type }}</option>
-                                        
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="item_type" id="item_type" value="{{ $certificateIssueVoucher->item_type }}"
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -84,7 +79,19 @@
                         </div>
                         
                     </div>
-                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $certificateIssueVoucher->quantity }}"
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
                 
             </div>
@@ -130,7 +137,7 @@
                                 <select class="form-select" name="item_id" id="item_id">
                                     <option value="">Select Item Code </option>
                                     @foreach ($items as $item)
-                                        <option value="{{ $item->id }}">{{ $item->code }}</option>
+                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCode->code }}</option>
                                         
                                     @endforeach
                                 </select>
@@ -172,6 +179,21 @@
                             <div class="col-md-12">
                                 <textarea class="form-control" name="description" id="description" value=""
                                     placeholder="" readonly></textarea>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="quantity" id="quantity">
+                                    <option value="">Select Quantity</option>
+                                    
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

@@ -446,6 +446,7 @@ Route::middleware('permssions')->group(function () {
 
         //item-codes
         Route::get('/item-codes-fetch-data', [ItemCodeController::class, 'fetchData'])->name('item-codes.fetch-data');
+        Route::get('/item-codes-member-fetch-data', [ItemCodeController::class, 'fetchMemberData'])->name('item-codes.member-fetch-data');
         Route::prefix('item-codes')->group(function () {
             Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
         });

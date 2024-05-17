@@ -38,9 +38,12 @@
                                 <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-2 mb-2 mt-4">
                                         <div class="position-relative">
-                                            <select class="form-control search_table ps-3" name="" id="">                                    
-                                                <option value="Consumable">Consumable</option>
-                                                <option value="Non-Consumable">Non-Consumable</option>
+                                            <select class="form-control search_table ps-3" name="" id="member-search"> 
+                                                @foreach ($members as $member)
+                                                    <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                                    
+                                                @endforeach
+                                                
                                             </select>
                                         </div>
                                     </div>
