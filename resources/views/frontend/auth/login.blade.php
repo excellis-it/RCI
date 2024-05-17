@@ -66,6 +66,7 @@ use App\Helpers\Helper;
                                     <div class="form-group col-md-12 mb-3">
                                         <label>Password</label>
                                         <input type="password" class="form-control" name="password" placeholder="">
+                                        <i class="toggle-password fa fa-fw fa-eye-slash"></i>
                                         @if ($errors->has('password'))
                                             <span class="text-danger">{{ $errors->first('password') }}</span>
                                         @endif
@@ -133,6 +134,18 @@ use App\Helpers\Helper;
             toastr.warning("{{ session('warning') }}");
         @endif
     </script>
+
+    <script>
+        $(".toggle-password").click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            input = $(this).parent().find("input");
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+        </script>
 </body>
 
 </html>
