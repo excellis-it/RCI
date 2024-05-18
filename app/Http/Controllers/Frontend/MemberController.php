@@ -103,7 +103,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',

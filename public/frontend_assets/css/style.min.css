@@ -56346,7 +56346,6 @@ ul {
 }
 
 
-
 /* 05-10-2023 */
 .act-logo {
     padding: 20px 0px;
@@ -56703,6 +56702,19 @@ ul {
 /*  */
 .card-wrap{
     padding: 20px;
+}
+.refresh-btn{
+    width: 30px;
+    height: 30px;
+    background: #074465;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+.refresh-btn a span{
+    font-size: 12px;
+    color: #fff;
 }
 @media (max-width:1440px) {
     .app-header .navbar .navbar-nav .nav-item .nav-link {

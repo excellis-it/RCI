@@ -21,10 +21,48 @@ class ItemCodeController extends Controller
     }
 
     public function fetchData(Request $request)
-    {
-        
-       
+{
+    if ($request->ajax()) {
+        $sort_by = $request->get('sortby', 'id'); // Default to 'id' if not provided
+        $sort_type = $request->get('sorttype', 'asc'); // Default to 'asc' if not provided
+        $query = $request->get('query', '');
+        $type = $request->get('type');
+        $date = $request->get('date_entry');
+
+        // Create a query builder instance
+        $itemsQuery = ItemCode::query();
+
+        if ($query) {
+            $query = str_replace(" ", "%", $query);
+            $itemsQuery->where(function($queryBuilder) use ($query) {
+                $queryBuilder->where('id', 'like', '%' . $query . '%')
+                    ->orWhere('code', 'like', '%' . $query . '%')
+                    ->orWhere('uom', 'like', '%' . $query . '%')
+                    ->orWhere('item_type', $query)
+                    ->orWhere('entry_date', 'like', '%' . $query . '%');
+            });
+        }
+
+        if ($type) {
+            $itemsQuery->where('item_type', $type);
+        }
+
+        if ($date) {
+            $itemsQuery->where('entry_date', 'like', '%' . $date . '%');
+        }
+
+        // Apply sorting and pagination
+        $items = $itemsQuery->orderBy($sort_by, $sort_type)->paginate(10);
+
+        // Fetch members
+        $members = Member::all();
+
+        return response()->json([
+            'data' => view('inventory.items.table', compact('items', 'members'))->render()
+        ]);
     }
+}
+
 
     /**
      * Show the form for creating a new resource.

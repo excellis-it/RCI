@@ -145,7 +145,7 @@ use App\Helpers\Helper;
                 input.attr("type", "password");
             }
         });
-        </script>
+    </script>
 </body>
 
 </html>
