@@ -538,16 +538,19 @@ Route::middleware('permssions')->group(function () {
             Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
         });
 
+        //inventory-types
         Route::get('/inventory-types-fetch-data',[InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
         Route::prefix('inventory-types')->group(function () {
             Route::get('/delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
         });
 
+        //inventory-projects
         Route::get('/inventory-projects-fetch-data', [InventoryProjectController::class, 'fetchData'])->name('inventory-projects.fetch-data');
         Route::prefix('inventory-projects')->group(function () {
             Route::get('/delete/{id}', [InventoryProjectController::class, 'delete'])->name('inventory-projects.delete');
         });
 
+        //inventory-numbers
         Route::get('/inventory-numbers-fetch-data', [InventoryNumberController::class, 'fetchData'])->name('inventory-numbers.fetch-data');
         Route::prefix('inventory-numbers')->group(function () {
             Route::get('/delete/{id}', [InventoryNumberController::class, 'delete'])->name('inventory-numbers.delete');
