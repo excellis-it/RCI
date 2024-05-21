@@ -34,6 +34,7 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\Frontend\ReportController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -143,6 +144,11 @@ Route::middleware('permssions')->group(function () {
         'reset-employee-ids' => ResetEmployeeIdController::class,
         'users' => UserController::class,
     ]);
+
+    //reports route
+    Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
+    Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
+    Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
     //user routes
     Route::get('/users-delete/{id}', [UserController::class, 'delete'])->name('users.delete');

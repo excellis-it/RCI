@@ -51,9 +51,7 @@ class DesignationController extends Controller
                     ->orwhereHas('category', function ($queryBuilder) use ($query) {
                         $queryBuilder->where('category', 'like', '%' . $query . '%');
                     });
-            })
-                ->orderBy($sort_by, $sort_type)
-                ->paginate(10);
+            })->orderBy($sort_by, $sort_type)->paginate(10);
 
             return response()->json(['data' => view('frontend.designations.table', compact('designations'))->render()]);
         }

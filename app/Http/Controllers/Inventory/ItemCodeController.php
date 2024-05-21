@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\ItemCode;
 use App\Models\Member;
 use Illuminate\Support\Str;
+use App\Models\User;
+
 
 class ItemCodeController extends Controller
 {
@@ -16,7 +18,8 @@ class ItemCodeController extends Controller
     public function index()
     {
         $items = ItemCode::orderBy('id','desc')->paginate(10);
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
+
         return view('inventory.items.list',compact('items', 'members'));
     }
 
@@ -55,7 +58,7 @@ class ItemCodeController extends Controller
         $items = $itemsQuery->orderBy($sort_by, $sort_type)->paginate(10);
 
         // Fetch members
-        $members = Member::all();
+         $members = User::role('MATERIAL-MANAGER')->get();
 
         return response()->json([
             'data' => view('inventory.items.table', compact('items', 'members'))->render()
@@ -128,7 +131,7 @@ class ItemCodeController extends Controller
     {
         
         $edit_item_code = ItemCode::find($id);
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $edit = true;
         return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members'))->render()]);
 

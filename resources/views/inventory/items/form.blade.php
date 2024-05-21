@@ -180,7 +180,7 @@
                                 <select class="form-select" name="created_by" id="created_by">
                                     <option value="">Select</option>
                                         @foreach ($members as $member)
-                                            <option value="{{ $member->id }}">{{ $member->name }}</option>   
+                                            <option value="{{ $member->id }}">{{ $member->user_name }}</option>   
                                         @endforeach
                                 </select>
                                 <span class="text-danger"></span>
