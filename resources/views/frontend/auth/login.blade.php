@@ -41,17 +41,18 @@ use App\Helpers\Helper;
                 <div class="col-lg-6">
                     <div class="card w-100">
                         <div class="card-body">
-                            <a href="javascript:void(0);" class="text-nowrap d-block text-center mx-auto logo-img mb-4"> 
-                                @if (!isset(Helper::logo()->logo))
-                                <a href="#" class="text-nowrap logo-img">
-                                    <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" alt="">
-                                </a>
-                                @else
-                                    <a href="#" class="text-nowrap logo-img">
-                                        <img src="{{ Storage::url(Helper::logo()->logo) }}" class="dark-logo" alt="">
-                                    </a>
-                                @endif
+                            <div class="text-center">
+                            @if (!isset(Helper::logo()->logo))
+                            <a href="#" class="text-nowrap logo-img">
+                                <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" alt="">
                             </a>
+                            @else
+                                <a href="#" class="text-nowrap logo-img">
+                                    <img src="{{ Storage::url(Helper::logo()->logo) }}" class="dark-logo" alt="">
+                                </a>
+                            @endif
+                            </div>
+                            
                             <form action="{{ route('login-check') }}" method="POST">
                                 @csrf
                                 <div class="row">
