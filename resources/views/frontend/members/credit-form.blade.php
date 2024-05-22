@@ -10,7 +10,7 @@
                         <label>Basic Pay</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="pay"
+                        <input type="text" class="form-control" name="pay" id="basic-pay"
                             value="{{ $member_credit->pay ?? (old('pay') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>

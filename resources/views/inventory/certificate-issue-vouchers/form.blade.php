@@ -60,8 +60,7 @@
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="item_type" id="item_type" value="{{ $certificateIssueVoucher->item_type }}"
-                                    placeholder="" readonly>
+                                    <input type="text" class="form-control" name="item_type" id="item_type" value="{{ $certificateIssueVoucher->item_type }}" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -72,8 +71,8 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="description" id="description" value="{{ $certificateIssueVoucher->description }}"
-                                    placeholder="">
+                                <textarea class="form-control" name="description" id="description" value=""
+                                    placeholder="" readonly>{{ $certificateIssueVoucher->description }}</textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

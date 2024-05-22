@@ -28,8 +28,6 @@ class CertificateIssueVoucherController extends Controller
 
     public function fetchData(Request $request)
     {
-
-        
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
@@ -141,6 +139,7 @@ class CertificateIssueVoucherController extends Controller
         // $certificateIssueVoucher->item_type = $request->item_type;
         // $certificateIssueVoucher->description = $request->description;
         // $certificateIssueVoucher->quantity = $request->quantity;
+        // $certificateIssueVoucher->price = $request->price;
         $certificateIssueVoucher->update();
 
         session()->flash('message', 'Certificate Issue Voucher updated successfully');

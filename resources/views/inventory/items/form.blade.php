@@ -80,7 +80,7 @@
                                 <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select</option>
                                         @foreach ($members as $member)
-                                            <option value="{{ $member->id }}" {{ ($edit_item_code->member_id == $member->id) ? 'selected' : '' }}>{{ $member->name }}</option>   
+                                            <option value="{{ $member->id }}" {{ ($edit_item_code->member_id == $member->id) ? 'selected' : '' }}>{{ $member->user_name }}</option>   
                                         @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -180,7 +180,7 @@
                                 <select class="form-select" name="created_by" id="created_by">
                                     <option value="">Select</option>
                                         @foreach ($members as $member)
-                                            <option value="{{ $member->id }}">{{ $member->name }}</option>   
+                                            <option value="{{ $member->id }}">{{ $member->user_name }}</option>   
                                         @endforeach
                                 </select>
                                 <span class="text-danger"></span>

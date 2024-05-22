@@ -37,6 +37,7 @@ use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\PayCommissionController;
 use App\Http\Controllers\Frontend\DearnessAllowancePercentageController;
 use App\Http\Controllers\Frontend\HraController;
+use App\Http\Controllers\Frontend\ReportController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -149,6 +150,11 @@ Route::middleware('permssions')->group(function () {
         'dearness-allowance-percentages' => DearnessAllowancePercentageController::class,
         'hras' => HraController::class,
     ]);
+
+    //reports route
+    Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
+    Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
+    Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
     //user routes
     Route::get('/users-delete/{id}', [UserController::class, 'delete'])->name('users.delete');

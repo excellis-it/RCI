@@ -34,17 +34,32 @@ class DebitVoucherController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
+            $date = $request->get('date_entry');
+            $debitVoucherQuery = DebitVoucher::query();
+
+            
+            if($query){
+                $query = str_replace(" ", "%", $query);
+                $debitVoucherQuery->where(function($queryBuilder) use ($query) {
+                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                    ->orWhereHas('itemCode', function ($q) use ($query) {
+                        $q->where('code', 'like', '%' . $query . '%');
+                    })
+                    ->orWhere('quantity', 'like', '%' . $query . '%');
+                });
+            }
+
+            if ($date) {
+                $debitVoucherQuery->whereDate('voucher_date', $date);
+            }
+
+            $debitVouchers = $debitVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
+                
             $inventoryNumbers = InventoryNumber::all();
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
             $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-            $debitVouchers = DebitVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('quantity', 'like', '%' . $query . '%');
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
 
             return response()->json(['data' => view('inventory.debit-vouchers.table', compact('debitVouchers', 'inventoryNumbers', 'itemCodes', 'inventoryTypes', 'creditVouchers'))->render()]);
         }

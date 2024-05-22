@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\ItemCode;
 use App\Models\Member;
 use Illuminate\Support\Str;
+use App\Models\User;
+
 
 class ItemCodeController extends Controller
 {
@@ -16,31 +18,61 @@ class ItemCodeController extends Controller
     public function index()
     {
         $items = ItemCode::orderBy('id','desc')->paginate(10);
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
+
         return view('inventory.items.list',compact('items', 'members'));
     }
 
     public function fetchData(Request $request)
-    {
-        if ($request->ajax()) {
+{
+    if ($request->ajax()) {
+        $sort_by = $request->get('sortby', 'id'); // Default to 'id' if not provided
+        $sort_type = $request->get('sorttype', 'asc'); // Default to 'asc' if not provided
+        $query = $request->get('query', '');
+        $created_by = $request->get('created_by');
+        $date = $request->get('date_entry');
 
-            $sort_by = $request->get('sortby');
-            $sort_type = $request->get('sorttype');
-            $query = $request->get('query');
+        // Create a query builder instance
+        $itemsQuery = ItemCode::query();
+
+        if ($query) {
             $query = str_replace(" ", "%", $query);
-            $items = ItemCode::where(function($queryBuilder) use ($query) {
+            $itemsQuery->where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('code', 'like', '%' . $query . '%')
-                    ->orWhere('item_type', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%')
-                    ->orWhere('uom', 'like', '%' . $query . '%');
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
-
-            return response()->json(['data' => view('inventory.items.table', compact('items'))->render()]);
+                    ->orWhere('uom', 'like', '%' . $query . '%')
+                    ->orWhereHas('createdBy', function ($q) use ($query) {
+                        $q->where('user_name', 'like', '%' . $query . '%');
+                    })
+                    ->orWhere('entry_date', 'like', '%' . $query . '%')
+                    ->orWhere('item_type', 'like', '%' . $query . '%');
+            });
+            
         }
+
+    
+        if ($created_by) {
+            $itemsQuery->whereHas('createdBy', function ($q) use ($created_by) {
+                $q->where('user_name',  $created_by );
+            });
+        }
+
+        if ($date) {
+            $itemsQuery->where('entry_date', 'like', '%' . $date . '%');
+        }
+
+        // Apply sorting and pagination
+        $items = $itemsQuery->orderBy($sort_by, $sort_type)->paginate(10);
+
+        // Fetch members
+         $members = User::role('MATERIAL-MANAGER')->get();
+
+        return response()->json([
+            'data' => view('inventory.items.table', compact('items', 'members'))->render()
+        ]);
     }
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -106,7 +138,7 @@ class ItemCodeController extends Controller
     {
         
         $edit_item_code = ItemCode::find($id);
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $edit = true;
         return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members'))->render()]);
 

@@ -26,6 +26,11 @@
 
 <body>
 
+    
+@php
+use App\Helpers\Helper;
+@endphp
+
     <!--  Body Wrapper -->
     <div class="login_bg">
 
@@ -36,10 +41,18 @@
                 <div class="col-lg-6">
                     <div class="card w-100">
                         <div class="card-body">
-                            <a href="javascript:void(0);" class="text-nowrap d-block text-center mx-auto logo-img mb-4">
-                                <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo"
-                                    alt="">
+                            <div class="text-center">
+                            @if (!isset(Helper::logo()->logo))
+                            <a href="#" class="text-nowrap logo-img">
+                                <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" alt="">
                             </a>
+                            @else
+                                <a href="#" class="text-nowrap logo-img">
+                                    <img src="{{ Storage::url(Helper::logo()->logo) }}" class="dark-logo" alt="">
+                                </a>
+                            @endif
+                            </div>
+                            
                             <form action="{{ route('login-check') }}" method="POST">
                                 @csrf
                                 <div class="row">
@@ -54,6 +67,7 @@
                                     <div class="form-group col-md-12 mb-3">
                                         <label>Password</label>
                                         <input type="password" class="form-control" name="password" placeholder="">
+                                        <i class="toggle-password fa fa-fw fa-eye-slash"></i>
                                         @if ($errors->has('password'))
                                             <span class="text-danger">{{ $errors->first('password') }}</span>
                                         @endif
@@ -120,6 +134,18 @@
             }
             toastr.warning("{{ session('warning') }}");
         @endif
+    </script>
+
+    <script>
+        $(".toggle-password").click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            input = $(this).parent().find("input");
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
     </script>
 </body>
 

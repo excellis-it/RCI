@@ -30,51 +30,46 @@ class CreditVoucherController extends Controller
 
     public function fetchData(Request $request)
     {
+      
         if ($request->ajax()) {
-
-            $sort_by = $request->get('sortby');
-            $sort_type = $request->get('sorttype');
+            $sort_by = $request->get('sortby', 'id'); // Default sort by 'id' if not provided
+            $sort_type = $request->get('sorttype', 'asc'); // Default sort type 'asc' if not provided
             $query = $request->get('query');
-            $query = str_replace(" ", "%", $query);
-            $creditVouchers = CreditVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('item_type', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%')
-                    ->orWhere('price', 'like', '%' . $query . '%')
-                    ->orWhere('quantity', 'like', '%' . $query . '%')
-                    ->orWhere('supply_order_no', 'like', '%' . $query . '%')
-                    ->orWhere('rin', 'like', '%' . $query . '%');
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+            $date = $request->get('date_entry');
+            $creditVoucherQuery = CreditVoucher::query();
+
+            if($query){
+                $query = str_replace(" ", "%", $query);
+                $creditVoucherQuery->where(function($queryBuilder) use ($query) {
+                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                        ->orWhere('item_type', 'like', '%' . $query . '%')
+                        ->orWhere('description', 'like', '%' . $query . '%')
+                        ->orWhere('total_price', 'like', '%' . $query . '%')
+                        ->orWhere('quantity', 'like', '%' . $query . '%')
+                        ->orWhere('supply_order_no', 'like', '%' . $query . '%')
+                        ->orWhereHas('itemCode', function ($q) use ($query) {
+                            $q->where('code', 'like', '%' . $query . '%');
+                        })
+                        ->orWhere('rin', 'like', '%' . $query . '%');
+                });
+            }
+
+            if ($date) {
+                $creditVoucherQuery->whereDate('voucher_date', $date);
+            }
+
+            $creditVouchers = $creditVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
 
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
             $inventoryNumbers = InventoryNumber::all();
 
-            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
+            return response()->json([
+                'data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()
+            ]);
         }
 
-        // search by date
-        if ($request->date) {
-            $creditVouchers = CreditVoucher::where('voucher_date', $request->date)->paginate(10);
-            $itemCodes = ItemCode::all();
-            $inventoryTypes = InventoryType::all();
-            $inventoryNumbers = InventoryNumber::all();
-
-            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
-        }
-
-        //search by member
-        if ($request->member) {
-            $creditVouchers = CreditVoucher::where('member_id', $request->member)->paginate(10);
-            $itemCodes = ItemCode::all();
-            $inventoryTypes = InventoryType::all();
-            $inventoryNumbers = InventoryNumber::all();
-
-            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
-        }
     }
 
     /**

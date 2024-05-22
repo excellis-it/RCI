@@ -56337,6 +56337,13 @@ ul {
     padding: 12px 40px;
 }
 
+/* 16-05-2024 */
+.toggle-password {
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: -25px;
+}
 
 
 /* 05-10-2023 */
@@ -56425,7 +56432,7 @@ ul {
 }
 
 .dark-logo {
-    width: 80px;
+    width: 68px;
 }
 
 
@@ -56695,6 +56702,19 @@ ul {
 /*  */
 .card-wrap{
     padding: 20px;
+}
+.refresh-btn{
+    width: 30px;
+    height: 30px;
+    background: #074465;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+.refresh-btn a span{
+    font-size: 12px;
+    color: #fff;
 }
 @media (max-width:1440px) {
     .app-header .navbar .navbar-nav .nav-item .nav-link {

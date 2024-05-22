@@ -32,14 +32,27 @@ class ConversionVoucherController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $conversionVouchers = ConversionVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+
+            $date = $request->get('date_entry');
+            $conversionVoucherQuery = ConversionVoucher::query();
+
+            if($query){
+                $query = str_replace(" ", "%", $query);
+                $conversionVoucherQuery->where(function($queryBuilder) use ($query) {
+                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
                     ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhereHas('itemCode', function ($q) use ($query) {
+                        $q->where('code', 'like', '%' . $query . '%');
+                    })
                     ->orWhere('quantity', 'like', '%' . $query . '%');
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                });
+            }
+
+            if ($date) {
+                $conversionVoucherQuery->whereDate('voucher_date', $date);
+            }
+
+            $conversionVouchers = $conversionVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
 
             $itemCodes = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
             $inventoryTypes = InventoryType::all();

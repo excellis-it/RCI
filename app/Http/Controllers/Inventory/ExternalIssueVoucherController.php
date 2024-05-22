@@ -33,19 +33,36 @@ class ExternalIssueVoucherController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
+            $date = $request->get('date_entry');
+
+            $externalIssueVoucherQuery = ExternalIssueVoucher::query();
+            if($query){
+                $query = str_replace(" ", "%", $query);
+                $externalIssueVoucherQuery->where(function($queryBuilder) use ($query) {
+                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                    ->orWhere('inv_no', 'like', '%' . $query . '%')
+                    ->orWhere('item_id', 'like', '%' . $query . '%')
+                    ->orWhereHas('itemCode', function ($q) use ($query) {
+                        $q->where('code', 'like', '%' . $query . '%');
+                    })
+                    
+                    ->orWhereHas('gatePass', function ($q) use ($query) {
+                        $q->where('gate_pass_no', 'like', '%' . $query . '%');
+                    })
+                    ->orWhere('gate_pass_id', 'like', '%' . $query . '%');
+                });
+            }
+
+            if ($date) {
+                $externalIssueVoucherQuery->whereDate('voucher_date', $date);
+            }
+
+            $externalIssueVouchers = $externalIssueVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
             $inventoryNumbers = InventoryNumber::all();
             $itemCodes = ItemCode::all();
             $gatePasses = GatePass::all();
             $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-            $externalIssueVouchers = ExternalIssueVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('inv_no', 'like', '%' . $query . '%')
-                    ->orWhere('item_id', 'like', '%' . $query . '%')
-                    ->orWhere('gate_pass_id', 'like', '%' . $query . '%');
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
 
             return response()->json(['data' => view('inventory.external-issue-vouchers.table', compact('externalIssueVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses', 'creditVouchers'))->render()]);
         }

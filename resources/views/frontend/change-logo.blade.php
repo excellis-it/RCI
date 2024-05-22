@@ -30,15 +30,17 @@
                                 @csrf
 
                                 <div class="row">
-                                    <div class="form-group col-md-6 mb-3">
-                                        <label>Logo</label>
-                                        <input type="file" class="form-control" value="{{old('logo')}}" name="logo" id="logo">
-                                        @if ($errors->has('logo'))
-                                            <span class="text-danger">{{ $errors->first('logo') }}</span>
-                                        @endif
+                                    <div class="form-group col-md-5 mb-3">
+                                        <div class="row align-items-center">
+                                            <label>Logo</label>
+                                            <input type="file" class="form-control" value="{{old('logo')}}" name="logo" id="logo">
+                                            @if ($errors->has('logo'))
+                                                <span class="text-danger">{{ $errors->first('logo') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
 
-                                    <div class="form-group col-md-6 mb-3">
+                                    <div class="form-group col-md-7 mb-3">
                                         <label>Preview</label>
                                         @if (!isset($logo->logo))
                                                 <a href="{{ asset('frontend_assets/images/logo.png') }}" target="_blank">

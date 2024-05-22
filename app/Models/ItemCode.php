@@ -15,4 +15,11 @@ class ItemCode extends Model
     {
         return $this->hasMany(CreditVoucher::class, 'item_code_id');
     }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'member_id');
+    }
+
+    
 }
