@@ -108,19 +108,13 @@ class CertificateIssueVoucherController extends Controller
     {
         $request->validate([
             'member_id' => 'required',
-            'item_id' => 'required',
             'price' => 'required',
-            'item_type' => 'required',
-            'description' => 'required',
         ]);
 
         $certificateIssueVoucher = CertificateIssueVoucher::findOrFail($id);
         $certificateIssueVoucher->member_id = $request->member_id;
-        $certificateIssueVoucher->item_id = $request->item_id;
         $certificateIssueVoucher->price = $request->price;
-        $certificateIssueVoucher->item_type = $request->item_type;
-        $certificateIssueVoucher->description = $request->description;
-        $certificateIssueVoucher->save();
+        $certificateIssueVoucher->update();
 
         session()->flash('message', 'Certificate Issue Voucher updated successfully');
         return response()->json(['success' => 'Certificate Issue Voucher updated successfully']);

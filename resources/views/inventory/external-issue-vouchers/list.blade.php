@@ -76,8 +76,7 @@
                                                     style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_no"
                                                     style="cursor: pointer">Gate Pass No.<span id="gate_pass_no_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_date"
-                                                    style="cursor: pointer">Gate Pass Date<span id="gate_pass_date_icon"></span> </th>
+                                                
                                                 
                                                 <th></th>
                                             </tr>
