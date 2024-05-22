@@ -34,6 +34,9 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\Frontend\PayCommissionController;
+use App\Http\Controllers\Frontend\DearnessAllowancePercentageController;
+use App\Http\Controllers\Frontend\HraController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -142,6 +145,9 @@ Route::middleware('permssions')->group(function () {
         'loans' => LoanController::class,
         'reset-employee-ids' => ResetEmployeeIdController::class,
         'users' => UserController::class,
+        'pay-commissions' => PayCommissionController::class,
+        'dearness-allowance-percentages' => DearnessAllowancePercentageController::class,
+        'hras' => HraController::class,
     ]);
 
     //user routes
@@ -312,6 +318,24 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
     Route::delete('/members-loan-delete/{id}',[MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
+
+    // pay commission
+    Route::prefix('pay-commissions')->group(function () {
+        Route::get('/pay-commissions-delete/{id}', [PayCommissionController::class, 'delete'])->name('pay-commissions.delete');
+    });
+    Route::get('/pay-commissions-fetch-data', [PayCommissionController::class, 'fetchData'])->name('pay-commissions.fetch-data');
+
+    //dearness allowance percentage
+    Route::prefix('dearness-allowance-percentages')->group(function () {
+        Route::get('/dearness-allowance-percentages-delete/{id}', [DearnessAllowancePercentageController::class, 'delete'])->name('dearness-allowance-percentages.delete');
+    });
+    Route::get('/dearness-allowance-percentages-fetch-data', [DearnessAllowancePercentageController::class, 'fetchData'])->name('dearness-allowance-percentages.fetch-data');
+
+    //hra
+    Route::prefix('hras')->group(function () {
+        Route::get('/hras-delete/{id}', [HraController::class, 'delete'])->name('hras.delete');
+    });
+    Route::get('/hras-fetch-data', [HraController::class, 'fetchData'])->name('hras.fetch-data');
 
     //payment category
     Route::prefix('payment-categories')->group(function () {
@@ -529,92 +553,7 @@ Route::middleware('permssions')->group(function () {
             });
             Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
         });
-        Route::get('/reset-codes-fetch-data', [ResetItemCodeController::class, 'fetchData'])->name('reset-codes.fetch-data');
-
-        //item-codes
-        Route::get('/item-codes-fetch-data', [ItemCodeController::class, 'fetchData'])->name('item-codes.fetch-data');
-        Route::get('/item-codes-member-fetch-data', [ItemCodeController::class, 'fetchMemberData'])->name('item-codes.member-fetch-data');
-        Route::prefix('item-codes')->group(function () {
-            Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
-        });
-
-        //inventory-types
-        Route::get('/inventory-types-fetch-data',[InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
-        Route::prefix('inventory-types')->group(function () {
-            Route::get('/delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
-        });
-
-        //inventory-projects
-        Route::get('/inventory-projects-fetch-data', [InventoryProjectController::class, 'fetchData'])->name('inventory-projects.fetch-data');
-        Route::prefix('inventory-projects')->group(function () {
-            Route::get('/delete/{id}', [InventoryProjectController::class, 'delete'])->name('inventory-projects.delete');
-        });
-
-        //inventory-numbers
-        Route::get('/inventory-numbers-fetch-data', [InventoryNumberController::class, 'fetchData'])->name('inventory-numbers.fetch-data');
-        Route::prefix('inventory-numbers')->group(function () {
-            Route::get('/delete/{id}', [InventoryNumberController::class, 'delete'])->name('inventory-numbers.delete');
-        });
-
-        //credit-vouchers
-        Route::get('/credit-vouchers-fetch-data', [CreditVoucherController::class, 'fetchData'])->name('credit-vouchers.fetch-data');
-        Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
-        Route::post('/get-item-type', [CreditVoucherController::class, 'getItemType'])->name('credit-vouchers.get-item-type');
-
-        //debit-vouchers
-        Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
-        Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
-        Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
-
-        //gate-passes
-        Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');
-        Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
-
-        //conversion-vouchers
-        Route::get('/conversion-vouchers-fetch-data', [ConversionVoucherController::class, 'fetchData'])->name('conversion-vouchers.fetch-data');
-        Route::post('/conversion-vouchers-item-quant', [ConversionVoucherController::class, 'getItemQuantity'])->name('conversion-vouchers.get-item-quantity');
-        Route::post('/conversion-vouchers-quantity-validation', [ConversionVoucherController::class, 'getItemQuantityValidation'])->name('conversion-vouchers.quantity-validation');
-        Route::get('/conversion-vouchers-delete/{id}', [ConversionVoucherController::class, 'deleteConversionVoucher'])->name('conversion-vouchers.delete');
-
-        //transfer voucher
-        Route::get('/transfer-vouchers-fetch-data', [TransferVoucherController::class, 'fetchData'])->name('transfer-vouchers.fetch-data');
-        Route::get('/transfer-vouchers-delete/{id}', [TransferVoucherController::class, 'delete'])->name('transfer-vouchers.delete');
-
-        //external-issue-vouchers
-        Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
-        Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
-
-        //item-code-types
-        Route::get('/item-code-types-fetch-data', [ItemCodeTypeController::class, 'fetchData'])->name('item-code-types.fetch-data');
-        Route::prefix('item-code-types')->group(function () {
-            Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
-        });
-
-        //rins
-        Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
-        Route::prefix('rins')->group(function () {
-            Route::get('/delete/{id}', [RinController::class, 'delete'])->name('rins.delete');
-        });
-        Route::post('/get-item-description', [RinController::class, 'getItemDescription'])->name('rins.get-item-description');
-
-        //supply-orders
-        Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');
-        Route::prefix('supply-orders')->group(function () {
-            Route::get('/delete/{id}', [SupplyOrderController::class, 'delete'])->name('supply-orders.delete');
-        });
-
-        //credit-voucher-numbers
-        Route::get('/credit-voucher-numbers-fetch-data', [CreditVoucherNumberController::class, 'fetchData'])->name('credit-voucher-numbers.fetch-data');
-        Route::prefix('credit-voucher-numbers')->group(function () {
-            Route::get('/delete/{id}', [CreditVoucherNumberController::class, 'delete'])->name('credit-voucher-numbers.delete');
-        });
-
-        //certificate-issue-vouchers
-        Route::get('/certificate-issue-vouchers-fetch-data', [CertificateIssueVoucherController::class, 'fetchData'])->name('certificate-issue-vouchers.fetch-data');
-        Route::prefix('certificate-issue-vouchers')->group(function () {
-            Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
-        });
-        Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
+        
     });
    
 });

@@ -31,6 +31,7 @@ class CreditVoucherController extends Controller
     public function fetchData(Request $request)
     {
         if ($request->ajax()) {
+
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
@@ -48,6 +49,26 @@ class CreditVoucherController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
+            $itemCodes = ItemCode::all();
+            $inventoryTypes = InventoryType::all();
+            $inventoryNumbers = InventoryNumber::all();
+
+            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
+        }
+
+        // search by date
+        if ($request->date) {
+            $creditVouchers = CreditVoucher::where('voucher_date', $request->date)->paginate(10);
+            $itemCodes = ItemCode::all();
+            $inventoryTypes = InventoryType::all();
+            $inventoryNumbers = InventoryNumber::all();
+
+            return response()->json(['data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
+        }
+
+        //search by member
+        if ($request->member) {
+            $creditVouchers = CreditVoucher::where('member_id', $request->member)->paginate(10);
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
             $inventoryNumbers = InventoryNumber::all();
