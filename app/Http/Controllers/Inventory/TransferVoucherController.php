@@ -28,14 +28,23 @@ class TransferVoucherController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $transferVouchers = TransferVoucher::where(function($queryBuilder) use ($query) {
-                $queryBuilder->where('id', 'like', '%' . $query . '%')
+            $date = $request->get('date_entry');
+
+            $transferVoucherQuery = TransferVoucher::query();
+            if($query){
+                $query = str_replace(" ", "%", $query);
+                $transferVoucherQuery->where(function($queryBuilder) use ($query) {
+                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
                     ->orWhere('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
-            })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                    ->orWhere('voucher_date', 'like', '%' . $query . '%');
+                });
+            }
+
+            if ($date) {
+                $transferVoucherQuery->whereDate('voucher_date', $date);
+            }
+
+            $transferVouchers = $transferVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
 
             return response()->json(['data' => view('inventory.transfer-vouchers.table', compact('transferVouchers'))->render()]);
         }

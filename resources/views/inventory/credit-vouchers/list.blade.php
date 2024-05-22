@@ -36,14 +36,30 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
                                         <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                            <input type="date" class="form-control search_table ps-3 date-entry"
+                                                id="">
                                         </div>
                                     </div>
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control search_table" value=""
+                                                        id="search" placeholder="Search">
+                                                    <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="refresh-btn">
+                                                    <a href=""><span><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
                                 </div>
+                                
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
@@ -59,15 +75,7 @@
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
                                                     style="cursor: pointer">Inv. No.<span id="inv_no_icon"></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="description"
-                                                    style="cursor: pointer">Description<span id="description_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="uom" data-column_name="uom"
-                                                    style="cursor: pointer">UOM<span id="uom_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
-                                                {{-- <th class="sorting" data-sorting_type="item_type" data-column_name="item_type"
-                                                    style="cursor: pointer">Item Type<span id="item_type_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
+                                                
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="price"
                                                     style="cursor: pointer">Price <span id="price_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -129,14 +137,15 @@
     <script>
         $(document).ready(function() {
 
-            function fetch_data(page, sort_type, sort_by, query) {
+            function fetch_data(page, sort_type, sort_by, query, date_entry) {
                 $.ajax({
                     url: "{{ route('credit-vouchers.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
                         sorttype: sort_type,
-                        query: query
+                        query: query,
+                        date_entry: date_entry
                     },
                     success: function(data) {
                         $('tbody').html(data.data);
@@ -144,12 +153,30 @@
                 });
             }
 
-            $(document).on('keyup', '#search', function() {
-                var query = $('#search').val();
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
-                var page = $('#hidden_page').val();
-                fetch_data(page, sort_type, column_name, query);
+            function getFilters() {
+                return {
+                    query: $('#search').val(),
+                    column_name: $('#hidden_column_name').val(),
+                    sort_type: $('#hidden_sort_type').val(),
+                    page: $('#hidden_page').val(),
+                    date_entry: $('.date-entry').val()
+                };
+            }
+
+            function applyFilters() {
+                var filters = getFilters();
+                fetch_data(filters.page, filters.sort_type, filters.column_name, filters.query,
+                    filters.date_entry);
+            }
+
+            $('#search').on('keyup', function() {
+                $('#hidden_page').val(1); // Reset to first page
+                applyFilters();
+            });
+
+            $('.date-entry').on('change', function() {
+                $('#hidden_page').val(1); // Reset to first page
+                applyFilters();
             });
 
             $(document).on('click', '.sorting', function() {
@@ -175,7 +202,8 @@
                 $('#hidden_sort_type').val(reverse_order);
                 var page = $('#hidden_page').val();
                 var query = $('#search').val();
-                fetch_data(page, reverse_order, column_name, query);
+                var date_entry = $('.date-entry').val();
+                fetch_data(page, reverse_order, column_name, query, date_entry);
             });
 
             $(document).on('click', '.pagination a', function(event) {
@@ -184,12 +212,11 @@
                 $('#hidden_page').val(page);
                 var column_name = $('#hidden_column_name').val();
                 var sort_type = $('#hidden_sort_type').val();
-
                 var query = $('#search').val();
-
+                var date_entry = $('.date-entry').val();
                 $('li').removeClass('active');
                 $(this).parent().addClass('active');
-                fetch_data(page, sort_type, column_name, query);
+                fetch_data(page, sort_type, column_name, query, date_entry);
             });
 
         });

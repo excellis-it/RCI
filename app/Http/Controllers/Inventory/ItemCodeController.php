@@ -29,7 +29,7 @@ class ItemCodeController extends Controller
         $sort_by = $request->get('sortby', 'id'); // Default to 'id' if not provided
         $sort_type = $request->get('sorttype', 'asc'); // Default to 'asc' if not provided
         $query = $request->get('query', '');
-        $type = $request->get('type');
+        $created_by = $request->get('created_by');
         $date = $request->get('date_entry');
 
         // Create a query builder instance
@@ -41,13 +41,20 @@ class ItemCodeController extends Controller
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('code', 'like', '%' . $query . '%')
                     ->orWhere('uom', 'like', '%' . $query . '%')
-                    ->orWhere('item_type', $query)
-                    ->orWhere('entry_date', 'like', '%' . $query . '%');
+                    ->orWhereHas('createdBy', function ($q) use ($query) {
+                        $q->where('user_name', 'like', '%' . $query . '%');
+                    })
+                    ->orWhere('entry_date', 'like', '%' . $query . '%')
+                    ->orWhere('item_type', 'like', '%' . $query . '%');
             });
+            
         }
 
-        if ($type) {
-            $itemsQuery->where('item_type', $type);
+    
+        if ($created_by) {
+            $itemsQuery->whereHas('createdBy', function ($q) use ($created_by) {
+                $q->where('user_name',  $created_by );
+            });
         }
 
         if ($date) {

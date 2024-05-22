@@ -36,46 +36,48 @@
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <div class="row justify-content-end">
-                                            <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <select class="form-control search_table ps-3" name="" id="created-by">
+                                                <option value="">Select Person</option>
+                                                @foreach ($members as $member)
+                                                    <option value="{{ $member->user_name }}">{{ $member->user_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="date" class="form-control search_table ps-3 date-entry"
+                                                id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
                                                 <div class="position-relative">
-                                                    <select class="form-control search_table ps-3" name=""
-                                                        id="item-type">
-                                                        <option value="">Select </option>
-                                                        <option value="Consumable">Consumable</option>
-                                                        <option value="Non-Consumable">Non-Consumable</option>
-                                                    </select>
+                                                    <input type="text" class="form-control search_table" value=""
+                                                        id="search" placeholder="Search">
+                                                    <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5 col-lg-2 mb-2 mt-4">
-                                                <div class="position-relative">
-                                                    <input type="date" class="form-control search_table ps-3 date-entry"
-                                                        id="">
+                                            <div>
+                                                <div class="refresh-btn">
+                                                    <a href=""><span><i class="fa fa-refresh"
+                                                                aria-hidden="true"></i></span></a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                                <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <div class="position-relative">
-                                                        <input type="text" class="form-control search_table" value=""
-                                                            id="search" placeholder="Search">
-                                                        <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                                      </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="refresh-btn">
-                                                            <a href=""><span><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-md-1 mb-2 mt-4 text-end">
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-1 mb-2 mt-4 text-end">
                                              <div class="text-end">
                                                 <div class="refresh-btn position-relative">
                                                     <span><i class="fa fa-refresh" aria-hidden="true"></i></span>
                                                 </div>
                                              </div>
                                             </div> --}}
-                                       
+
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
@@ -144,7 +146,7 @@
     <script>
         $(document).ready(function() {
 
-            function fetch_data(page, sort_type, sort_by, query, type, date_entry) {
+            function fetch_data(page, sort_type, sort_by, query, created_by, date_entry) {
                 $.ajax({
                     url: "{{ route('item-codes.fetch-data') }}",
                     data: {
@@ -152,7 +154,7 @@
                         sortby: sort_by,
                         sorttype: sort_type,
                         query: query,
-                        type: type,
+                        created_by: created_by,
                         date_entry: date_entry
                     },
                     success: function(data) {
@@ -167,14 +169,14 @@
                     column_name: $('#hidden_column_name').val(),
                     sort_type: $('#hidden_sort_type').val(),
                     page: $('#hidden_page').val(),
-                    type: $('#item-type').val(),
+                    created_by: $('#created-by').val(),
                     date_entry: $('.date-entry').val()
                 };
             }
 
             function applyFilters() {
                 var filters = getFilters();
-                fetch_data(filters.page, filters.sort_type, filters.column_name, filters.query, filters.type,
+                fetch_data(filters.page, filters.sort_type, filters.column_name, filters.query, filters.created_by,
                     filters.date_entry);
             }
 
@@ -183,7 +185,7 @@
                 applyFilters();
             });
 
-            $('#item-type').on('change', function() {
+            $('#created-by').on('change', function() {
                 $('#hidden_page').val(1); // Reset to first page
                 applyFilters();
             });

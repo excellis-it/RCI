@@ -25,8 +25,6 @@ class CertificateIssueVoucherController extends Controller
 
     public function fetchData(Request $request)
     {
-
-        
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
