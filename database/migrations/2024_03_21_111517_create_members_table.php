@@ -47,6 +47,19 @@ return new class extends Migration
             $table->string('pis_address')->nullable();
             $table->string('sos')->nullable();
             $table->string('sos_address')->nullable();
+            $table->string('resident_address1')->nullable();
+            $table->string('resident_address2')->nullable();
+            $table->string('resident_city')->nullable();
+            $table->string('resident_district')->nullable();
+            $table->string('resident_state')->nullable();
+            $table->string('resident_pin')->nullable();
+            $table->string('is_permanent_add')->enum('Y', 'N')->default('N');
+            $table->string('permanent_add1')->nullable();
+            $table->string('permanent_add2')->nullable();
+            $table->string('permanent_city')->nullable();
+            $table->string('permanent_dist')->nullable();
+            $table->string('permanent_state')->nullable();
+            $table->string('permanent_pin')->nullable();
             $table->timestamps();
         });
     }

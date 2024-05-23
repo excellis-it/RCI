@@ -56716,6 +56716,11 @@ ul {
     font-size: 12px;
     color: #fff;
 }
+.add-head h4{
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 700 !important;  
+}
 @media (max-width:1440px) {
     .app-header .navbar .navbar-nav .nav-item .nav-link {
         padding: 8px 8px;

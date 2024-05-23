@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\CertificateIssueVoucher;
 use App\Models\ItemCode;
+use App\Models\CreditVoucher;
+use Illuminate\Support\Facades\DB;
 
 class CertificateIssueVoucherController extends Controller
 {
@@ -16,10 +18,10 @@ class CertificateIssueVoucherController extends Controller
     public function index()
     {
         $members = Member::all();
-        $items = ItemCode::all();
+        $itemCodes = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $certificateIssueVouchers = CertificateIssueVoucher::paginate(10);
 
-        return view('inventory.certificate-issue-vouchers.list', compact('members', 'items', 'certificateIssueVouchers'));
+        return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers'));
 
     }
 
