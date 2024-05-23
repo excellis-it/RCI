@@ -39,6 +39,7 @@ use App\Http\Controllers\Frontend\DearnessAllowancePercentageController;
 use App\Http\Controllers\Frontend\HraController;
 use App\Http\Controllers\Frontend\ReportController;
 use App\Http\Controllers\Frontend\CityController;
+use App\Http\Controllers\Frontend\TptaController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -151,6 +152,7 @@ Route::middleware('permssions')->group(function () {
         'dearness-allowance-percentages' => DearnessAllowancePercentageController::class,
         'hras' => HraController::class,
         'cities' => CityController::class,
+        'tptas' => TptaController::class,
     ]);
 
     //reports route
@@ -350,6 +352,13 @@ Route::middleware('permssions')->group(function () {
         Route::get('/hras-delete/{id}', [HraController::class, 'delete'])->name('hras.delete');
     });
     Route::get('/hras-fetch-data', [HraController::class, 'fetchData'])->name('hras.fetch-data');
+
+    //tpta
+    Route::prefix('tptas')->group(function () {
+        Route::get('/tptas-delete/{id}', [TptaController::class, 'delete'])->name('tptas.delete');
+    });
+    Route::get('/tptas-fetch-data', [TptaController::class, 'fetchData'])->name('tptas.fetch-data');
+    Route::post('/tptas-da-percentage', [TptaController::class, 'daPercentageCalculation'])->name('tptas.da-percentage');
 
     //payment category
     Route::prefix('payment-categories')->group(function () {
