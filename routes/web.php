@@ -38,6 +38,7 @@ use App\Http\Controllers\Frontend\PayCommissionController;
 use App\Http\Controllers\Frontend\DearnessAllowancePercentageController;
 use App\Http\Controllers\Frontend\HraController;
 use App\Http\Controllers\Frontend\ReportController;
+use App\Http\Controllers\Frontend\CityController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -149,6 +150,7 @@ Route::middleware('permssions')->group(function () {
         'pay-commissions' => PayCommissionController::class,
         'dearness-allowance-percentages' => DearnessAllowancePercentageController::class,
         'hras' => HraController::class,
+        'cities' => CityController::class,
     ]);
 
     //reports route
@@ -287,6 +289,12 @@ Route::middleware('permssions')->group(function () {
         Route::get('/policy-delete/{id}', [PolicyController::class, 'deletePolicy'])->name('policy.delete');
     });
     Route::get('/policy-fetch-data',[PolicyController::class, 'fetchData'])->name('policy.fetch-data');
+
+    //city routes
+    Route::prefix('cities')->group(function () {
+        Route::get('/cities-delete/{id}', [CityController::class, 'delete'])->name('cities.delete');
+    });
+    Route::get('/cities-fetch-data', [CityController::class, 'fetchData'])->name('cities.fetch-data');
 
     // memeber route
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');

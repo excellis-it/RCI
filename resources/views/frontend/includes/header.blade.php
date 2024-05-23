@@ -311,7 +311,14 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reset-employee-ids.index') }}">Reset Employee-Id</a>
                             </li>
-                            
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('cities.index') }}">City</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('cities.index') }}">TPT</a>
+                            </li>
                             
                         </ul>
                     </div>
