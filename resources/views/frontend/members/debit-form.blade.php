@@ -21,6 +21,20 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
+                        <label>GPF Adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="gpa_adv" id="gpa_adv"
+                            value="{{ $member_debit->gpa_adv ?? (old('gpa_adv') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
                         <label>Eol/Hpl</label>
                     </div>
                     <div class="col-md-12">
@@ -73,15 +87,87 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>HBA</label>
+                        <label>HBA Adv</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba" id="hba"
                             value="{{ $member_debit->hba ?? (old('hba') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>HBA Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hba_interest" id="hba_interest"
+                            value="{{ $member_debit->hba_interest ?? (old('hba_interest') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp Adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_adv" id="comp_adv"
+                            value="{{ $member_debit->comp_adv ?? (old('comp_adv') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp Int</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_int" id="comp_int"
+                            value="{{ $member_debit->comp_int ?? (old('comp_int') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Leave Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="leave_rec" id="leave_rec"
+                            value="{{ $member_debit->leave_rec ?? (old('leave_rec') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Pension Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="pension_rec" id="pension_rec"
+                            value="{{ $member_debit->pension_rec ?? (old('pension_rec') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -365,11 +451,25 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>CAR</label>
+                        <label>CAR Adv</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="car" id="car"
                             value="{{ $member_debit->car ?? (old('car') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CAR Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="car_interest" id="car_interest"
+                            value="{{ $member_debit->car_interest ?? (old('car_interest') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -417,6 +517,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -431,8 +533,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -479,6 +579,20 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
+                        <label>Scooter Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="scooter_interest" id="scooter_interest"
+                            value="{{ $member_debit->scooter_interest ?? (old('scooter_interest') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
                         <label>TPT Rec</label>
                     </div>
                     <div class="col-md-12">
@@ -489,6 +603,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -512,6 +628,62 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="basics" id="basics"
                             value="{{ $member_debit->basic ?? (old('basic') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Quarter Charge</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="quarter_charge" id="quarter_charge"
+                            value="{{ $member_debit->quarter_charges ?? (old('quarter_charges') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CGEIS Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cgeis_arr" id="cgeis_arr"
+                            value="{{ $member_debit->cgeis_arr ?? (old('cgeis_arr') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Penal Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="penal_interest" id="penal_interest"
+                            value="{{ $member_debit->penal_interest ?? (old('penal_interest') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Society</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="society" id="society"
+                            value="{{ $member_debit->society ?? (old('society') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

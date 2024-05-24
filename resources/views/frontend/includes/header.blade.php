@@ -325,7 +325,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('grade-pays.index') }}">Income Tax</a>
+                                    href="{{ route('income-taxes.index') }}">Income Tax</a>
                             </li>
                             
                         </ul>

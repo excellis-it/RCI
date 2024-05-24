@@ -292,7 +292,40 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-end">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>SPL Incentive</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="spl_incentive" id="spl_incentive"
+                                    value="{{ $member_credit->spl_incentive ?? (old('spl_incentive') ?? '') }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Incentive</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="incentive" id="incentive"
+                                    value="{{ $member_credit->incentive ?? (old('incentive') ?? '') }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6">
@@ -318,6 +351,41 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="tot_credits" id="tot_credits"
                                     value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? '') }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Variable Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="var_amount" id="var_amount"
+                                    value="{{ $member_credit->var_amount ?? (old('var_amount') ?? '') }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Arrs of Pay & Allowance</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="arrs_pay_allowance" id="arrs_pay_allowance"
+                                    value="{{ $member_credit->arrs_pay_allowance ?? (old('arrs_pay_allowance') ?? '') }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
