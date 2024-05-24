@@ -628,6 +628,41 @@
                                     </div>
                                 </div>
 
+                                <div class="row mt-3">
+                                    <div class="form-group col-md-3 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label for="PIS">City</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="member_city"  class="form-select" id="member_city">
+                                                    <option value="">Select</option>
+                                                    @foreach ($cities as $city)
+                                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label for="PIS">Rent Payable</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="rent_or_not"  class="form-select" id="rent_or_not">
+                                                    <option value="">Select</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
@@ -692,215 +727,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3 justify-content-between">
-                                    <div class="col-lg-5">
-                                        <div class="add-head">
-                                            <h4>Residential Address</h4>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-12 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Address line 1</label>
-                                                    <input type="text" class="form-control" name="resident_address1"
-                                                        id="resident_address1" value="" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Address line 2 (optional)</label>
-                                                    <input type="text" class="form-control" name="resident_address2"
-                                                        id="resident_address2" value="" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">City / Town</label>
-                                                    <select class="form-select" name="resident_city" id="resident_city">
-                                                        <option value="">Select</option>
-                                                        @foreach ($cities as $city)
-                                                            <option value="{{ $city->id }}">{{ $city->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Dist.</label>
-                                                    <input type="text" class="form-control" name="resident_district"
-                                                        id="resident_district" value="" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">State</label>
-                                                    <select class="form-select" name="resident_state"
-                                                        id="resident_state">
-                                                        <option value="">Select</option>
-                                                        <option value="Assam">Assam</option>
-                                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                                        <option value="Meghalaya">Meghalaya</option>
-                                                        <option value="Nagaland">Nagaland</option>
-                                                        <option value="Manipur">Manipur</option>
-                                                        <option value="Mizoram">Mizoram</option>
-                                                        <option value="Tripura">Tripura</option>
-                                                        <option value="Karnataka">Karnataka</option>
-                                                        <option value="Tamil Nadu">Tamil Nadu</option>
-                                                        <option value="Telangana">Telangana</option>
-                                                        <option value="Kerala">Kerala</option>
-                                                        <option value="Goa">Goa</option>
-                                                        <option value="Maharashtra">Maharashtra</option>
-                                                        <option value="Gujarat">Gujarat</option>
-                                                        <option value="Rajasthan">Rajasthan</option>
-                                                        <option value="Haryana">Haryana</option>
-                                                        <option value="Punjab">Punjab</option>
-                                                        <option value="Uttarakhand">Uttarakhand</option>
-                                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                                        <option value="Chhattisgarh">Chhattisgarh</option>
-                                                        <option value="Jharkhand">Jharkhand</option>
-                                                        <option value="Bihar">Bihar</option>
-                                                        <option value="Odisha">Odisha</option>
-                                                        <option value="Sikkim">Sikkim</option>
-                                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                                        <option value="West Bengal">West Bengal</option>
-                                                    </select>
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Pin</label>
-                                                    <input type="text" class="form-control" name="resident_pin"
-                                                        id="resident_pin" value="" placeholder="">
-                                                    <span class="text-danger"></span>    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="is_permanent_add" name="is_permanent_add">
-                                                    <label class="form-check-label" for="defaultCheck1">
-                                                        Is the residential address the same as the permanent address?
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <div class="add-head">
-                                            <h4>Permanent Address</h4>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-12 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Address line 1</label>
-                                                    <input type="text" class="form-control" name="permanent_add1"
-                                                        id="permanent_add1" value="" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Address line 2</label>
-                                                    <input type="text" class="form-control" name="permanent_add2"
-                                                        id="permanent_add2" value="" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">City / Town</label>
-                                                    <select class="form-select" name="permanent_city"
-                                                        id="permanent_city">
-                                                        <option value="">Select</option>
-                                                        @foreach ($cities as $city)
-                                                            <option value="{{ $city->id }}">{{ $city->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Dist.</label>
-                                                    <input type="text" class="form-control" name="permanent_dist"
-                                                        id="permanent_dist" value="" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">State</label>
-                                                    <select class="form-select" name="permanent_state"
-                                                        id="permanent_state">
-                                                        <option value="">Select</option>
-                                                        <option value="Assam">Assam</option>
-                                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                                        <option value="Meghalaya">Meghalaya</option>
-                                                        <option value="Nagaland">Nagaland</option>
-                                                        <option value="Manipur">Manipur</option>
-                                                        <option value="Mizoram">Mizoram</option>
-                                                        <option value="Tripura">Tripura</option>
-                                                        <option value="Karnataka">Karnataka</option>
-                                                        <option value="Tamil Nadu">Tamil Nadu</option>
-                                                        <option value="Telangana">Telangana</option>
-                                                        <option value="Kerala">Kerala</option>
-                                                        <option value="Goa">Goa</option>
-                                                        <option value="Maharashtra">Maharashtra</option>
-                                                        <option value="Gujarat">Gujarat</option>
-                                                        <option value="Rajasthan">Rajasthan</option>
-                                                        <option value="Haryana">Haryana</option>
-                                                        <option value="Punjab">Punjab</option>
-                                                        <option value="Uttarakhand">Uttarakhand</option>
-                                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                                        <option value="Chhattisgarh">Chhattisgarh</option>
-                                                        <option value="Jharkhand">Jharkhand</option>
-                                                        <option value="Bihar">Bihar</option>
-                                                        <option value="Odisha">Odisha</option>
-                                                        <option value="Sikkim">Sikkim</option>
-                                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                                        <option value="West Bengal">West Bengal</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label for="">Pin</label>
-                                                    <input type="text" class="form-control" name="permanent_pin"
-                                                        id="permanent_pin" value="" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="defaultCheck1">
-                                                    <label class="form-check-label" for="defaultCheck1">
-                                                        Is this the permanent address same as above or different?
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                    </div>
-                                </div>
+                                
 
                                 {{-- save cancel button design in right corner --}}
                                 <div class="row">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cgegis;
+use App\Models\Group;
 use App\Models\Member;
 
 class CgegisController extends Controller
@@ -15,7 +16,8 @@ class CgegisController extends Controller
     public function index()
     {
         $cgeGis = Cgegis::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.cgegis.list',compact('cgeGis'));
+        $groups = Group::where('status', 1)->get();
+        return view('frontend.cgegis.list',compact('cgeGis','groups'));
     }
 
     public function fetchData(Request $request)
@@ -52,11 +54,13 @@ class CgegisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'group_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_value = new Cgegis();
+        $cgegis_value->group_id = $request->group_id;
         $cgegis_value->value = $request->value;
         $cgegis_value->status = $request->status;
         $cgegis_value->save();
@@ -80,8 +84,9 @@ class CgegisController extends Controller
     public function edit(string $id)
     {
         $cgegis = Cgegis::find($id);
+        $groups = Group::where('status', 1)->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis'))->render()]);
+        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis','groups'))->render()]);
     }
 
     /**
@@ -90,11 +95,13 @@ class CgegisController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'group_id' => 'required', 
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_update = Cgegis::find($id);
+        $cgegis_update->group_id = $request->group_id;
         $cgegis_update->value = $request->value;
         $cgegis_update->status = $request->status;
         $cgegis_update->save();

@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('grade_pays', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('city_type')->enum(['X', 'Y', 'Z'])->nullable();
+            $table->bigInteger('pay_level')->unsigned()->nullable();
+            $table->string('amount')->nullable();
             $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
-            $table->string('tpt_type')->enum('higher','other')->nullable();
-            $table->string('is_cghs')->enum('active','other')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('grade_pays');
     }
 };

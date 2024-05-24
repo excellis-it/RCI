@@ -134,11 +134,8 @@ class MemberController extends Controller
             'ex_service' => 'required',
             'pg' => 'required',
             'cgegis' => 'required',
-            'resident_address1' => 'required',
-            'resident_city' => 'required',
-            'resident_district' => 'required',
-            'resident_state' => 'required',
-            'resident_pin' => 'required',
+            'member_city' => 'required',
+            'rent_or_not' => 'required',
         ]);
 
         //check employee id 
@@ -190,19 +187,8 @@ class MemberController extends Controller
         $member->pis_address = $request->pis_address;
         $member->sos = $request->sos;
         $member->sos_address = $request->sos_address;
-        $member->resident_address1 = $request->resident_address1;
-        $member->resident_address2 = $request->resident_address2;
-        $member->resident_city = $request->resident_city;
-        $member->resident_district = $request->resident_district;
-        $member->resident_state = $request->resident_state;
-        $member->resident_pin = $request->resident_pin;
-        $member->is_permanent_add = $request->is_permanent_add;
-        $member->permanent_add1 = $request->permanent_add1;
-        $member->permanent_add2 = $request->permanent_add2;
-        $member->permanent_city = $request->permanent_city;
-        $member->permanent_dist = $request->permanent_dist;
-        $member->permanent_state = $request->permanent_state;
-        $member->permanent_pin = $request->permanent_pin;
+        $member->member_city = $request->member_city;
+        $member->rent_or_not = $request->rent_or_not;
         $member->save();
 
         session()->flash('message', 'Member added successfully');

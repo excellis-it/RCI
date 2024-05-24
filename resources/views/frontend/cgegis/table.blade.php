@@ -2,6 +2,7 @@
     @foreach ($cgeGis as $key => $cge)
         <tr>
             <td> {{ ($cgeGis->currentPage()-1) * $cgeGis->perPage() + $loop->index + 1 }}</td>
+            <td>{{ $cge->group->value ?? 'N/A'}}</td>
             <td>{{ $cge->value ?? 'N/A'}}</td>
             <td><span class="{{ ($cge->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($cge->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('cgegis.edit', $cge->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>

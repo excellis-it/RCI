@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cgegis', function (Blueprint $table) {
+        Schema::create('income_taxes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('group_id')->unsigned()->nullable();
-            $table->string('value')->nullable();
-            $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
+            $table->string('slab_amount')->nullable();
+            $table->string('tax_rate')->nullable();
+            $table->string('commission')->nullable();
+            $table->string('edu_cess_rate')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cgegis');
+        Schema::dropIfExists('income_taxes');
     }
 };

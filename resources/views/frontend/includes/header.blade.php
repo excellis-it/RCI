@@ -307,6 +307,14 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('cities.index') }}">TPT</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('grade-pays.index') }}">Grade Pay</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('grade-pays.index') }}">Income Tax</a>
+                            </li>
                             
                         </ul>
                     </div>

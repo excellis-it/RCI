@@ -36,6 +36,7 @@ use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\ReportController;
 use App\Http\Controllers\Frontend\CityController;
+use App\Http\Controllers\Frontend\GradePayController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -67,6 +68,7 @@ use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,15 +87,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/config-clear', function() {
-    $exitCode = Artisan::call('config:clear');
-    return 'Config clear cleared';
-  })->name('config-clear');
-
-  Route::get('/cache-clear', function() {
-    $exitCode = Artisan::call('cache:clear');
-    return 'Application cache cleared';
-  })->name('cache-clear');
 
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -145,6 +138,7 @@ Route::middleware('permssions')->group(function () {
         'reset-employee-ids' => ResetEmployeeIdController::class,
         'users' => UserController::class,
         'cities' => CityController::class,
+        'grade-pays' => GradePayController::class,
     ]);
 
     //reports route
@@ -354,7 +348,6 @@ Route::middleware('permssions')->group(function () {
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
 
-
     // imprest routes
     Route::prefix('imprest')->group(function () {
         Route::resources([
@@ -432,6 +425,9 @@ Route::middleware('permssions')->group(function () {
         Route::get('/advance-settlement-bill-delete/{id}', [AdvanceSettlementController::class, 'deleteAdvanceSettleBill'])->name('advance-settle-bills.delete');
 
     });
+
+    //grade pay routes
+    Route::get('/grade-pays-fetch-data', [GradePayController::class, 'fetchData'])->name('grade-pays.fetch-data');
 
     
     // inventory routes
