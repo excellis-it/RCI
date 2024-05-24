@@ -81,6 +81,19 @@
                         </div>
 
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $certificateIssueVoucher->quantity }}"
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
 
                 </div>
 
@@ -176,6 +189,22 @@
                         </div>
 
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="quantity" id="quantity">
+                                    <option value="">Select Quantity</option>
+                                    
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
 
                 </div>
 

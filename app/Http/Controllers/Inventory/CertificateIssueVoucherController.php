@@ -43,7 +43,7 @@ class CertificateIssueVoucherController extends Controller
             ->paginate(10);
 
             $members = Member::all();
-            $items = ItemCode::all();
+            $items = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
             return response()->json(['data' => view('inventory.certificate-issue-vouchers.table', compact('certificateIssueVouchers', 'members', 'items'))->render()]);
         }
@@ -76,7 +76,25 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher->price = $request->price;
         $certificateIssueVoucher->item_type = $request->item_type;
         $certificateIssueVoucher->description = $request->description;
+        $certificateIssueVoucher->quantity = $request->quantity;
         $certificateIssueVoucher->save();
+
+        // credit voucher quantity reduce
+        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_id)->get();
+
+        foreach ($creditVoucher as $credit) {
+            if ($credit->quantity >= $request->quantity) {
+                $credit->quantity -= $request->quantity;
+                $credit->save();
+                $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
+                break; // Exit the loop once a single credit voucher's quantity is reduced
+            } else {
+                
+                $request->quantity -= $credit->quantity;
+                $credit->quantity = 0;
+                $credit->save();
+            }
+        }
 
         session()->flash('message', 'Certificate Issue Voucher created successfully');
         return response()->json(['success' => 'Certificate Issue Voucher created successfully']);
@@ -98,7 +116,7 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher = CertificateIssueVoucher::findOrFail($id);
         $edit = true;
         $members = Member::all();
-        $items = ItemCode::all();
+        $items = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
         return response()->json(['view' => view('inventory.certificate-issue-vouchers.form', compact('certificateIssueVoucher', 'edit', 'members', 'items'))->render()]);
     }
@@ -115,7 +133,12 @@ class CertificateIssueVoucherController extends Controller
 
         $certificateIssueVoucher = CertificateIssueVoucher::findOrFail($id);
         $certificateIssueVoucher->member_id = $request->member_id;
+        // $certificateIssueVoucher->item_id = $request->item_id;
         $certificateIssueVoucher->price = $request->price;
+        // $certificateIssueVoucher->item_type = $request->item_type;
+        // $certificateIssueVoucher->description = $request->description;
+        // $certificateIssueVoucher->quantity = $request->quantity;
+        // $certificateIssueVoucher->price = $request->price;
         $certificateIssueVoucher->update();
 
         session()->flash('message', 'Certificate Issue Voucher updated successfully');

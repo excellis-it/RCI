@@ -34,9 +34,13 @@ use App\Http\Controllers\Frontend\PaymentCategoryController;
 use App\Http\Controllers\Frontend\ResetVoucherController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\Frontend\PayCommissionController;
+use App\Http\Controllers\Frontend\DearnessAllowancePercentageController;
+use App\Http\Controllers\Frontend\HraController;
 use App\Http\Controllers\Frontend\ReportController;
 use App\Http\Controllers\Frontend\CityController;
 use App\Http\Controllers\Frontend\GradePayController;
+use App\Http\Controllers\Frontend\TptaController;
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -137,8 +141,12 @@ Route::middleware('permssions')->group(function () {
         'loans' => LoanController::class,
         'reset-employee-ids' => ResetEmployeeIdController::class,
         'users' => UserController::class,
+        'pay-commissions' => PayCommissionController::class,
+        'dearness-allowance-percentages' => DearnessAllowancePercentageController::class,
+        'hras' => HraController::class,
         'cities' => CityController::class,
         'grade-pays' => GradePayController::class,
+        'tptas' => TptaController::class,
     ]);
 
     //reports route
@@ -320,6 +328,31 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
     Route::delete('/members-loan-delete/{id}',[MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
+
+    // pay commission
+    Route::prefix('pay-commissions')->group(function () {
+        Route::get('/pay-commissions-delete/{id}', [PayCommissionController::class, 'delete'])->name('pay-commissions.delete');
+    });
+    Route::get('/pay-commissions-fetch-data', [PayCommissionController::class, 'fetchData'])->name('pay-commissions.fetch-data');
+
+    //dearness allowance percentage
+    Route::prefix('dearness-allowance-percentages')->group(function () {
+        Route::get('/dearness-allowance-percentages-delete/{id}', [DearnessAllowancePercentageController::class, 'delete'])->name('dearness-allowance-percentages.delete');
+    });
+    Route::get('/dearness-allowance-percentages-fetch-data', [DearnessAllowancePercentageController::class, 'fetchData'])->name('dearness-allowance-percentages.fetch-data');
+
+    //hra
+    Route::prefix('hras')->group(function () {
+        Route::get('/hras-delete/{id}', [HraController::class, 'delete'])->name('hras.delete');
+    });
+    Route::get('/hras-fetch-data', [HraController::class, 'fetchData'])->name('hras.fetch-data');
+
+    //tpta
+    Route::prefix('tptas')->group(function () {
+        Route::get('/tptas-delete/{id}', [TptaController::class, 'delete'])->name('tptas.delete');
+    });
+    Route::get('/tptas-fetch-data', [TptaController::class, 'fetchData'])->name('tptas.fetch-data');
+    Route::post('/tptas-da-percentage', [TptaController::class, 'daPercentageCalculation'])->name('tptas.da-percentage');
 
     //payment category
     Route::prefix('payment-categories')->group(function () {
@@ -539,6 +572,7 @@ Route::middleware('permssions')->group(function () {
             });
             Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
         });
+        
     });
    
 });
