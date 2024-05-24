@@ -269,7 +269,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('quarters.index') }}">Quarters</a>
+                                    href="{{ route('quarters.index') }}">Quarters charge</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -327,6 +327,11 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('income-taxes.index') }}">Income Tax</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('gpfs.index') }}">GPF</a>
+                            </li>
+                            
                             
                         </ul>
                     </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quater;
 use App\Models\Member;
+use App\Models\GradePay;
 
 class QuaterController extends Controller
 {
@@ -15,7 +16,8 @@ class QuaterController extends Controller
     public function index()
     {
         $quarters = Quater::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.quarter.list',compact('quarters'));
+        $grade_pays = GradePay::where('status', 1)->get();
+        return view('frontend.quarter.list',compact('quarters','grade_pays'));
     }
 
     public function fetchData(Request $request)
@@ -52,12 +54,18 @@ class QuaterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'value' => 'required|max:255',
             'status' => 'required',
+            'grade_pay_id' => 'required',
+            'license_fee' => 'required',
+            'qrt_type' => 'required',
+            'qrt_charge' => 'required',
         ]);
 
         $quarter_value = new Quater();
-        $quarter_value->value = $request->value;
+        $quarter_value->grade_pay_id = $request->grade_pay_id;
+        $quarter_value->license_fee = $request->license_fee;
+        $quarter_value->qrt_type = $request->qrt_type;
+        $quarter_value->qrt_charge = $request->qrt_charge;
         $quarter_value->status = $request->status;
         $quarter_value->save();
 
@@ -89,14 +97,20 @@ class QuaterController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'value' => 'required|max:255',
             'status' => 'required',
+            'grade_pay_id' => 'required',
+            'license_p' => 'required',
+            'qrt_type' => 'required',
+            'qrt_charge' => 'required',
         ]);
 
-        $quarter = Quater::find($id);
-        $quarter->value = $request->value;
-        $quarter->status = $request->status;
-        $quarter->save();
+        $quarter_value = Quater::find($id);
+        $quarter_value->grade_pay_id = $request->grade_pay_id;
+        $quarter_value->license_p = $request->license_p;
+        $quarter_value->qrt_type = $request->qrt_type;
+        $quarter_value->qrt_charge = $request->qrt_charge;
+        $quarter_value->status = $request->status;
+        $quarter_value->update();
 
         session()->flash('message', 'Quarter updated successfully');
         return response()->json(['success' => 'Quarter updated successfully']);

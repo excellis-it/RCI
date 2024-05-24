@@ -39,8 +39,10 @@ use App\Http\Controllers\Frontend\DearnessAllowancePercentageController;
 use App\Http\Controllers\Frontend\HraController;
 use App\Http\Controllers\Frontend\ReportController;
 use App\Http\Controllers\Frontend\CityController;
+use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
+
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -89,8 +91,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -148,6 +148,8 @@ Route::middleware('permssions')->group(function () {
         'grade-pays' => GradePayController::class,
         'tptas' => TptaController::class,
         'income-taxes' => IncomeTaxController::class,
+        'gpfs'=> GpfController::class,
+        
     ]);
 
     //reports route
@@ -292,6 +294,8 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cities-delete/{id}', [CityController::class, 'delete'])->name('cities.delete');
     });
     Route::get('/cities-fetch-data', [CityController::class, 'fetchData'])->name('cities.fetch-data');
+
+    Route::get('/gpfs-fetch-data', [GpfController::class, 'fetchData'])->name('gpfs.fetch-data');
 
     // memeber route
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');

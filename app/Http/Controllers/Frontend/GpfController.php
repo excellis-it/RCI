@@ -4,18 +4,17 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\ExService;
-use App\Models\Member;
+use App\Models\Gpf;
 
-class ExServiceController extends Controller
+class GpfController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $exServices = ExService::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.ex-service.list',compact('exServices'));
+        $gpfs = Gpf::orderBy('id', 'desc')->paginate(10);
+        return view('frontend.gpfs.list',compact('gpfs'));
     }
 
     public function fetchData(Request $request)
@@ -26,15 +25,15 @@ class ExServiceController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $exServices = ExService::where(function($queryBuilder) use ($query) {
+            $gpfs = Gpf::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('value', 'like', '%' . $query . '%')
+                    ->orWhere('current_rate', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.ex-service.table', compact('exServices'))->render()]);
+            return response()->json(['data' => view('frontend.gpfs.table', compact('gpfs'))->render()]);
         }
     }
 
@@ -52,17 +51,17 @@ class ExServiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'value' => 'required|max:255',
+            'current_rate' => 'required|max:255',
             'status' => 'required',
         ]);
 
-        $ex_service_value = new ExService();
-        $ex_service_value->value = $request->value;
-        $ex_service_value->status = $request->status;
-        $ex_service_value->save();
+        $gpf_value = new Gpf();
+        $gpf_value->current_rate = $request->current_rate;
+        $gpf_value->status = $request->status;
+        $gpf_value->save();
 
-        session()->flash('message', 'Ex Service added successfully');
-        return response()->json(['success' => 'Ex Service added successfully']);
+        session()->flash('message', 'GPF added successfully');
+        return response()->json(['success' => 'GPF added successfully']);
     }
 
     /**
@@ -78,9 +77,9 @@ class ExServiceController extends Controller
      */
     public function edit(string $id)
     {
-        $exService = ExService::find($id);
+        $gpf = Gpf::find($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.ex-service.form', compact('edit','exService'))->render()]);
+        return response()->json(['view' => view('frontend.gpfs.form', compact('edit','gpf'))->render()]);
     }
 
     /**
@@ -89,17 +88,17 @@ class ExServiceController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'value' => 'required|max:255',
+            'current_rate' => 'required|max:255',
             'status' => 'required',
         ]);
 
-        $exService = ExService::find($id);
-        $exService->value = $request->value;
-        $exService->status = $request->status;
-        $exService->save();
+        $gpf_value = Gpf::find($id);
+        $gpf_value->current_rate = $request->current_rate;
+        $gpf_value->status = $request->status;
+        $gpf_value->save();
 
-        session()->flash('message', 'Ex Service updated successfully');
-        return response()->json(['success' => 'Ex Service updated successfully']);
+        session()->flash('message', 'GPF updated successfully');
+        return response()->json(['success' => 'GPF updated successfully']);
     }
 
     /**
@@ -109,6 +108,4 @@ class ExServiceController extends Controller
     {
         //
     }
-
-    
 }

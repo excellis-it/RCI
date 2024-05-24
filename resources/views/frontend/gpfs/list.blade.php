@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Quarter List
+   GPF List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Quarter Listing</h3>
+                    <h3>GPF Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Quarter Listing</span></li>
+                        <li><span class="bread-blod">GPF Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.quarter.form')
+                            @include('frontend.gpfs.form')
                         </div>
 
                         <div class="row">
@@ -49,18 +49,15 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Geade Pay<span id="value_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Grade Pay<span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="current_rate"
+                                                    style="cursor: pointer">Current Rate<span id="current_rate_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.quarter.table')
+                                            @include('frontend.gpfs.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -83,7 +80,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Quarter!",
+                    text: "To delete this GPF!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -106,7 +103,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('quarters.fetch-data') }}",
+                    url: "{{ route('gpfs.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -171,7 +168,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#quarter-create-form').submit(function(e) {
+            $('#gpf-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -226,7 +223,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#quarter-edit-form', function(e) {
+            $(document).on('submit', '#gpf-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

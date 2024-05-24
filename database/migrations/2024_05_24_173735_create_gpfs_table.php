@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('quarter_charges', function (Blueprint $table) {
+        Schema::create('gpfs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('grade_pay')->unsigned()->nullable();
-            $table->string('license_pay')->nullable();
-            $table->string('quarter_type')->nullable();
-            $table->string('quarter_charge')->nullable();
+            $table->string('current_rate')->nullable();
             $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('quarter_charges');
+        Schema::dropIfExists('gpfs');
     }
 };
