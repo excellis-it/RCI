@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('quaters', function (Blueprint $table) {
             $table->id();
-            $table->string('value')->nullable();
+            $table->bigInteger('grade_pay_id')->unsigned()->nullable();
+            $table->string('license_fee')->nullable();
+            $table->string('qrt_type')->nullable();    
+            $table->string('qrt_charge')->nullable();      
             $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });
@@ -21,7 +24,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     */
+     */ 
     public function down(): void
     {
         Schema::dropIfExists('quaters');

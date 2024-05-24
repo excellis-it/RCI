@@ -33,7 +33,11 @@ return new class extends Migration
             $table->string('var_incr')->nullable();  
             $table->string('wash_alw')->nullable();
             $table->string('dis_alw')->nullable(); 
-            $table->string('misc2')->nullable();   
+            $table->string('misc2')->nullable(); 
+            $table->string('spl_incentive')->nullable();  
+            $table->string('incentive')->nullable(); 
+            $table->string('variable_amount')->nullable();  
+            $table->string('arrs_pay_alw')->nullable(); 
             $table->string('risk_alw')->nullable();  
             $table->string('tot_credits')->nullable(); 
             $table->longText('remarks')->nullable();   
