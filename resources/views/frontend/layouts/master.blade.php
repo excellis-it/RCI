@@ -14,6 +14,7 @@
     <meta name="author" content="Swarnadwip Nath">
     <meta name="keywords" content="RCI">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <!--  Favicon -->
     <!-- <link rel="shortcut icon" type="image/png" href="favicon.ico"> -->
     <!-- Owl Carousel  -->

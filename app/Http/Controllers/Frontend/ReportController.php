@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Member;
 
 class ReportController extends Controller
 {
@@ -11,7 +12,8 @@ class ReportController extends Controller
 
     public function payslip()
     {
-        return view('frontend.reports.payslip');
+        $members = Member::orderBy('id', 'desc')->get();
+        return view('frontend.reports.payslip', compact('members'));
     }
 
     public function crv()

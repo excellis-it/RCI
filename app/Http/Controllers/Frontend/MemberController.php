@@ -33,6 +33,7 @@ use App\Models\MemberExpectation;
 use App\Models\MemberOriginalRecovery;
 use App\Models\ResetEmployeeId;
 use App\Models\City;
+use App\Models\GradePay;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -973,5 +974,11 @@ class MemberController extends Controller
         return redirect()
             ->route('members.index')
             ->with('message', 'Member deleted successfully');
+    }
+
+    public function getMemberGradePay(Request $request)
+    {
+        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status',1)->first();
+        return response()->json(['grade_pay' => $grade_pay->amount]);
     }
 }

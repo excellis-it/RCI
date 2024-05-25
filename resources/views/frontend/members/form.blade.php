@@ -382,10 +382,13 @@
                                                             <div class="col-md-12">
                                                                 <label>DOB</label>
                                                             </div>
+                                                            @php
+                                                                $maxDate = date('Y-m-d', strtotime('-18 years'));
+                                                            @endphp
                                                             <div class="col-md-12">
                                                                 <input type="date" class="form-control" name="dob"
                                                                     id="dob" value="{{ old('dob') ?? '' }}"
-                                                                    placeholder="">
+                                                                    placeholder="" max="{{ $maxDate }}">
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -469,7 +472,7 @@
                                                                     <option value="">Select</option>
                                                                     @foreach ($quaters as $quater)
                                                                         <option value="{{ $quater->id }}">
-                                                                            {{ $quater->value }}</option>
+                                                                            {{ $quater->qrt_type }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <span class="text-danger"></span>
@@ -807,4 +810,26 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#pm_level').change(function() {
+                var pm_level = $(this).val();
+                
+                $.ajax({
+                    url: "{{ route('members.grade-pay') }}",
+                    type: 'POST',
+                    data: {
+                        pm_level: pm_level
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#g_pay').val(response.grade_pay);
+                    }
+                });
+            });
+        });
+        </script>
 @endpush
