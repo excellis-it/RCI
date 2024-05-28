@@ -11,9 +11,9 @@
                                 <label>Grade Pay</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="grade_pay" id="grade_pay">
+                                <select class="form-select" name="grade_pay_id" id="grade_pay_id">
                                     @foreach($grade_pays as $grade_pay)
-                                    <option value="{{ $grade_pay->id }}" {{ ($quarter->grade_pay_id == $grade_pay->id) ? 'selected' : '' }}>{{ $grade_pay->value }}</option>
+                                    <option value="{{ $grade_pay->id }}" {{ ($quarter->grade_pay_id == $grade_pay->id) ? 'selected' : '' }}>{{ $grade_pay->amount }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -27,7 +27,7 @@
                                 <label>License Fee</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text"  name="license_fee" id="license_fee" value="{{ $quarter->license_fee }}"
+                                <input type="text" class="form-control" name="license_fee" id="license_fee" value="{{ $quarter->license_fee }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -40,7 +40,7 @@
                                 <label>Quarter Type</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text"  name="qrt_type" id="qrt_type" value="{{ $quarter->qrt_type }}"
+                                <input type="text" class="form-control"  name="qrt_type" id="qrt_type" value="{{ $quarter->qrt_type }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -53,7 +53,7 @@
                                 <label>Quarter Charge</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text"  name="qrt_charge" id="qrt_charge" value="{{ $quarter->qrt_charge }}"
+                                <input type="text" class="form-control"  name="qrt_charge" id="qrt_charge" value="{{ $quarter->qrt_charge }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>

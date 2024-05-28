@@ -30,7 +30,9 @@ class QuaterController extends Controller
             $query = str_replace(" ", "%", $query);
             $quarters = Quater::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('value', 'like', '%' . $query . '%')
+                    ->orWhere('license_fee', 'like', '%' . $query . '%')
+                    ->orWhere('qrt_type', 'like', '%' . $query . '%')
+                    ->orWhere('qrt_charge', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
@@ -87,8 +89,9 @@ class QuaterController extends Controller
     public function edit(string $id)
     {
         $quarter = Quater::find($id);
+        $grade_pays = GradePay::where('status', 1)->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.quarter.form', compact('edit','quarter'))->render()]);
+        return response()->json(['view' => view('frontend.quarter.form', compact('edit','quarter','grade_pays'))->render()]);
     }
 
     /**
@@ -99,14 +102,14 @@ class QuaterController extends Controller
         $request->validate([
             'status' => 'required',
             'grade_pay_id' => 'required',
-            'license_p' => 'required',
+            'license_fee' => 'required',
             'qrt_type' => 'required',
             'qrt_charge' => 'required',
         ]);
 
         $quarter_value = Quater::find($id);
         $quarter_value->grade_pay_id = $request->grade_pay_id;
-        $quarter_value->license_p = $request->license_p;
+        $quarter_value->license_fee = $request->license_fee;
         $quarter_value->qrt_type = $request->qrt_type;
         $quarter_value->qrt_charge = $request->qrt_charge;
         $quarter_value->status = $request->status;

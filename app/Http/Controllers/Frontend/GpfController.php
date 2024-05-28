@@ -55,6 +55,8 @@ class GpfController extends Controller
             'status' => 'required',
         ]);
 
+        Gpf::where('status', 1)->update(['status' => 0]);
+
         $gpf_value = new Gpf();
         $gpf_value->current_rate = $request->current_rate;
         $gpf_value->status = $request->status;

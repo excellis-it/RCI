@@ -49,11 +49,15 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Geade Pay<span id="value_icon"><i
+                                                <th >Grade Pay</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="license_fee"
+                                                    style="cursor: pointer">License Fee<span id="license_fee_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">Grade Pay<span id="value_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="qrt_type"
+                                                    style="cursor: pointer">Quarter Type<span id="qrt_type_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="qrt_charge"
+                                                    style="cursor: pointer">Quarter Charge<span id="qrt_charge_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
