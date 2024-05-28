@@ -420,6 +420,40 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            function updateDAPercentage(basicPay, memberID) {
+                $.ajax({
+                    url: "{{ route('members.credit.da-percentage') }}",
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        basicPay: basicPay,
+                        memberID: memberID
+                    },
+                    success: function(response) {
+                        $('#da_percentage').val(response.daAmount);
+                        $('#hra').val(response.hraAmount);
+                        $('#tpt').val(response.tptAmount);
+                        $('#da_on_tpt').val(response.tptDa);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            }
+
+            // Trigger the AJAX request when the page loads
+            var basicPay = $('#basic-pay').val();
+            updateDAPercentage(basicPay, "{{ $member->id }}");
+
+            // Event listener for changes in the basic pay field
+            $(document).on('change', '#basic-pay', function() {
+                var basicPay = $(this).val();
+                updateDAPercentage(basicPay, "{{ $member->id }}");
+            });
+        });
+    </script>
     {{-- credit script end --}}
 
     {{-- debit script --}}

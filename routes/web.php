@@ -154,6 +154,7 @@ Route::middleware('permssions')->group(function () {
 
     //reports route
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
+    Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -302,6 +303,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
     Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
+    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     //member recovery update

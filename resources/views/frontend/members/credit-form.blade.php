@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="pay" id="basic-pay"
-                            value="{{ $member_credit->pay ?? (old('pay') ?? '') }}" placeholder="">
+                            value="{{ $member->basic  ?? (old('basic') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="da"
-                            value="{{ $member_credit->da ?? (old('da') ?? '') }}" placeholder="">
+                            value="{{ $member_credit->da ?? (old('da') ?? '') }}" placeholder="" id="da_percentage">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <label>TPT</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="tpt"
+                        <input type="text" class="form-control" name="tpt" id="tpt"
                             value="{{ $member_credit->tpt ?? (old('tpt') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>

@@ -33,7 +33,10 @@ use App\Models\MemberExpectation;
 use App\Models\MemberOriginalRecovery;
 use App\Models\ResetEmployeeId;
 use App\Models\City;
+use App\Models\DearnessAllowancePercentage;
 use App\Models\GradePay;
+use App\Models\Hra;
+use App\Models\Tpta;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -233,6 +236,7 @@ class MemberController extends Controller
         $banks = Bank::orderBy('id', 'desc')->get() ?? '';
         $loans = Loan::orderBy('id', 'desc')->get() ?? '';
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
+        $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -1012,5 +1016,20 @@ class MemberController extends Controller
     {
         $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status',1)->first();
         return response()->json(['grade_pay' => $grade_pay->amount]);
+    }
+
+    public function memberCreditDaPercentage(Request $request)
+    {
+        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $member = Member::where('id', $request->memberID)->first();
+        $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
+        $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('status', 1)->first();
+        $basicPay = $request->basicPay;
+
+        $daAmount = ($basicPay * $da_percentage->percentage) / 100;
+        $hraAmount = ($basicPay * $hra_percentage->percentage) / 100;
+
+
+        return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
     }
 }

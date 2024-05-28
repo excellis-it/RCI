@@ -63,6 +63,11 @@ class Member extends Model
         return $this->belongsTo(Group::class, 'group');
     }
 
+    public function cities()
+    {
+        return $this->belongsTo(City::class, 'member_city');
+    }
+
     
 
 
