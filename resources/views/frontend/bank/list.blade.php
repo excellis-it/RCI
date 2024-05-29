@@ -52,6 +52,9 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="bank_name"
                                                     style="cursor: pointer">Bank  <span id="bank_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="ifsc"
+                                                    style="cursor: pointer">IFSC  <span id="ifsc_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>

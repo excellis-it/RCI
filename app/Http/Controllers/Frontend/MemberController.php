@@ -302,7 +302,7 @@ class MemberController extends Controller
             $update_credit_member->spl_incentive = $request->spl_incentive;
             $update_credit_member->incentive = $request->incentive;
             $update_credit_member->variable_amount = $request->var_amount;
-            $update_credit_member->arrs_pay_allowance = $request->arrs_pay_allowance;
+            $update_credit_member->arrs_pay_alw = $request->arrs_pay_allowance;
             $update_credit_member->tot_credits = $request->tot_credits;
             $update_credit_member->remarks = $request->remarks;
             $update_credit_member->update();
@@ -335,8 +335,8 @@ class MemberController extends Controller
             $member_credit->risk_alw = $request->risk_alw;
             $member_credit->spl_incentive = $request->spl_incentive;
             $member_credit->incentive = $request->incentive;
-            $member_credit->var_amount = $request->var_amount;
-            $member_credit->arrs_pay_allowance = $request->arrs_pay_allowance;
+            $member_credit->variable_amount = $request->var_amount;
+            $member_credit->arrs_pay_alw = $request->arrs_pay_allowance;
             $member_credit->tot_credits = $request->tot_credits;
             $member_credit->remarks = $request->remarks;
             $member_credit->save();

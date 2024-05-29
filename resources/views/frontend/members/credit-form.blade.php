@@ -223,7 +223,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc 1</label>
+                        <label>Misc Credit(IT)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc_1" id="misc_1"
@@ -281,7 +281,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc 2</label>
+                        <label>Misc Credit</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc_2" id="misc_2"

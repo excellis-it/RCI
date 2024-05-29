@@ -52,11 +52,13 @@ class BankController extends Controller
     {
         $request->validate([
             'bank_name' => 'required | max:255',
+            'ifsc' => 'required | max:255',
             'status' => 'required',
         ]);
 
         $bank_value = new Bank();
         $bank_value->bank_name = $request->bank_name;
+        $bank_value->ifsc = $request->ifsc;
         $bank_value->status = $request->status;
         $bank_value->save();
 
@@ -94,8 +96,9 @@ class BankController extends Controller
 
         $bank = Bank::find($id);
         $bank->bank_name = $request->bank_name;
+        $bank->ifsc = $request->ifsc;
         $bank->status = $request->status;
-        $bank->save();
+        $bank->update();
 
         session()->flash('message', 'Bank updated successfully');
         return response()->json(['success' => 'Bank updated successfully']);
