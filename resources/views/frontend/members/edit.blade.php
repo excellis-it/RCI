@@ -1489,4 +1489,30 @@
     </script>
     {{-- original recovery script end --}}
 
+
+    <script>
+        // get edu cess from income tax
+        
+        $(document).ready(function() {
+            $('#i_tax').change(function() {
+                var i_tax = $(this).val();
+                
+                $.ajax({
+                    url: "{{ route('members.debit.get-edu-cess') }}",
+                    type: 'POST',
+                    data: {
+                        i_tax: i_tax
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        
+                        $('#ecess').val(response.edu_cal);
+                    }
+                });
+            });
+        });
+    </script>
+
 @endpush

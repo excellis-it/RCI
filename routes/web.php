@@ -306,6 +306,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
+    Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');

@@ -38,6 +38,7 @@ use App\Models\GradePay;
 use App\Models\Designation;
 use App\Models\Hra;
 use App\Models\Tpta;
+use App\Models\IncomeTax;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -1048,5 +1049,21 @@ class MemberController extends Controller
 
 
         return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
+    }
+
+    public function memberDebitEducationCess(Request $request)
+    {
+        
+        // check under range of tax
+        $tax_rate = IncomeTax::where('lower_slab_amount', '<=', $request->i_tax)
+        ->where('higher_slab_amount', '>=', $request->i_tax)
+        ->first();
+
+        $edu_cess_rate = $tax_rate->edu_cess_rate;
+        $edu_cal = (($request->i_tax * $edu_cess_rate) / 100);
+
+        return response()->json(['edu_cal' => $edu_cal]);
+
+        
     }
 }
