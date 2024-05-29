@@ -17,7 +17,7 @@
                                     margin: 0px 0px !important;">
                                     GOVT. OF INDIA , MINISTRY OF DEFENCE<br>
                                     CENTER FOR HIGH ENERGY SYSTEMS AND SCIENCE CHESS, HYDERABAD-500069 <br>
-                                    PAY SLIP FOR THE MONTH OF : NOVEMBER-2023
+                                    PAY SLIP FOR THE MONTH OF : {{ $monthName }}-{{ $year }}
                                 </td>
                             </tr>
                         </tbody>
@@ -39,9 +39,9 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member->emp_id }}<br>
-                                    {{ $member->name }} <br>
-                                    {{ $member->designation->designation }}({{ $member->payLevels->value }})<br>
+                                    {{ $member_data->emp_id }}<br>
+                                    {{ $member_data->name }} <br>
+                                    {{ $member_data->designation->designation }}({{ $member_data->payLevels->value }})<br>
                                     {{ $member_core_info->pan_no }}<br>
                                 </td>
                                 <td><img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;
@@ -57,9 +57,9 @@
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
                                     {{ $member_core_info->gpf_acc_no }}<br>
-                                    {{ $member_core_info->bank }} <br>
+                                    {{ $member_core_info->banks->bank_name }} <br>
                                     {{ $member_core_info->bank_acc_no }}<br>
-                                    {{ $member_core_info->bank->ifsc }}
+                                    {{ $member_core_info->banks->ifsc }}
                                 </td>
                             </tr>
                         </tbody>
@@ -73,13 +73,13 @@
                             <tr>
                                 <th colspan="2" style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CREDITS</th>
+                                    जमा / CREDITS</th>
                                 <th colspan="2" style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    DEDUCTION - I </th>
+                                    कटौती - १ / DEDUCTION - I </th>
                                 <th colspan="2" style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    DEDUCTION - II</th>
+                                    कटौती - २ / DEDUCTION - II</th>
                             </tr>
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -92,11 +92,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    GPF SUB
+                                    सामान्य भबिष्य  निधि अभिदान / GPF SUB
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    5000
+                                    {{ $member_debit_data->gpa_sub ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -104,7 +104,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    2500
+                                    {{  $member_debit_data->society ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -118,11 +118,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    GPF ADV
+                                    सामान्य भबिष्य  निधि अग्रिम / GPF ADV
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->gpf_adv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -130,7 +130,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_recoveries_data->mess ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -144,11 +144,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    GPF ARRS
+                                    सा भ नि बकाया / GPF ARRS
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->gpf_arr ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -156,7 +156,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    20
+                                    {{  $member_recoveries_data->wel_sub ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -170,11 +170,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CGEGIS
+                                    के स क सा बी यो / CGEGIS
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    60
+                                    {{ $member_debit_data->cgegis ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -182,7 +182,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    200
+                                    {{ $member_debit_data->ptax ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -196,11 +196,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CGHS
+                                   केंद्रीय सरकारी स्वास्थ योजना / CGHS
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    650
+                                    {{ $member_debit_data->cghs ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -208,7 +208,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_recoveries_data->asso_fee ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -222,11 +222,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    HBA ADV
+                                    आबास भवन अग्रिम / HBA ADV
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->hba_adv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -248,11 +248,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    HBA INT
+                                    आबास भवन अग्रिम / HBA INT
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->hba_int ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -274,11 +274,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CAR ADV
+                                    बाहन अग्रिम / CAR ADV
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->car_adv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -300,11 +300,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CAR INT
+                                    बाहन अग्रिम / CAR INT
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->car_int ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -326,11 +326,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    SCO ADV
+                                    स्कूटर अग्रिम / SCO ADV
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->sco_adv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -352,11 +352,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    SCO INT
+                                    स्कूटर अग्रिम ब्याज / SCO INT
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->sco_int ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -378,11 +378,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    COMP ADV
+                                    संगणक अग्रिम / COMP ADV
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{  $member_debit_data->comp_adv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -404,11 +404,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    COMP INT
+                                    संगणक अग्रिम ब्याज / COMP INT
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->comp_int ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -430,11 +430,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    FEST ADV
+                                    त्योहार अग्रिम / FEST ADV
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->fadv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -455,11 +455,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    LTC
+                                    छुट्टी रियायत / LTC
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{  $member_debit_data->ltc ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -484,7 +484,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{  $member_debit_data->medi ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -505,11 +505,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    TADA
+                                    बै. भ / या. भ  / TADA
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->tada ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -534,7 +534,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->leave_rec ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -559,7 +559,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{  $member_debit_data->pension_rec ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -580,11 +580,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    INCOME TAX
+                                    आयकर / INCOME TAX
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    15000
+                                    {{  $member_debit_data->i_tax ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -609,7 +609,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    600
+                                    {{  $member_debit_data->ecess ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -634,7 +634,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->pli ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -655,11 +655,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    MISC DEBIT
+                                    बिबिध बकाया वसूली / MISC DEBIT
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->misc1 ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -684,7 +684,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->misc2 ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -705,11 +705,11 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    QUARTER CHARGES
+                                    मकान वकाया / QUARTER CHARGES
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{  $member_debit_data->quarter_charges ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -759,7 +759,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{ $member_debit_data->cgeis_arr ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -784,7 +784,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    0
+                                    {{  $member_debit_data->penal_intr ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -798,27 +798,27 @@
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    TOTAL
+                                    कुल / TOTAL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    137601
+                                    {{ $member_credit_data->tot_credits }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    TOTAL
+                                    कुल / TOTAL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    21310
+                                    {{  $member_debit_data->tot_debits }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    TOTAL
+                                    कुल / TOTAL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    2720
+                                    {{ ($member_debit_data->society ?? 0)  +  ($member_recoveries_data->mess ?? 0) + ($member_recoveries_data->wel_sub ?? 0) + ($member_debit_data->ptax ?? 0) + ($member_recoveries_data->asso_fee ?? 0)}}
                                 </td>
                             </tr>
                             <tr>

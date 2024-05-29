@@ -9,7 +9,7 @@ class MemberCoreInfo extends Model
 {
     use HasFactory;
 
-    public function bank()
+    public function banks()
     {
         return $this->belongsTo(Bank::class, 'bank');
     }

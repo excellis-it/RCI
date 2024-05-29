@@ -64,6 +64,7 @@ return new class extends Migration
             $table->string('quarter_charges')->nullable();
             $table->string('cgeis_arr')->nullable();
             $table->string('penal_intr')->nullable();
+            $table->string('society')->nullable();
             $table->longText('remarks')->nullable();
             $table->timestamps();
         });

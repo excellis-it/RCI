@@ -73,6 +73,11 @@ class Member extends Model
         return $this->belongsTo(PmLevel::class, 'pm_level');
     }
 
+    public function desigs()
+    {
+        return $this->belongsTo(Designation::class, 'desig');
+    }
+
     
 
 
