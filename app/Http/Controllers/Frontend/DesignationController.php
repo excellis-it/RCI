@@ -77,7 +77,7 @@ class DesignationController extends Controller
             'category_id' => 'required',
             'payband_type_id' => 'required',
             'payscale_type_id' => 'required',
-            'order' => 'required|numeric|gt:0|unique:designations',
+            'order' => 'required|numeric',
         ]);
 
         $designation = new Designation();
@@ -129,7 +129,7 @@ class DesignationController extends Controller
             'category_id' => 'required',
             'payband_type_id' => 'required',
             'payscale_type_id' => 'required',
-            'order' => 'required|numeric|gt:0|unique:designations,order,' . $id,
+            'order' => 'required|numeric',
         ]);
 
         $designation = Designation::find($id);

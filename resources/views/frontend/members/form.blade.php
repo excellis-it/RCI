@@ -258,7 +258,7 @@
                                                                 <label>Category</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select class="form-select" name="category"
+                                                                {{-- <select class="form-select" name="category"
                                                                     id="category">
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
@@ -266,7 +266,10 @@
                                                                             {{ $category->category }}</option>
                                                                     @endforeach
 
-                                                                </select>
+                                                                </select> --}}
+                                                                <input type="text" class="form-control" 
+                                                                    id="category_value" readonly>
+                                                                <input type="hidden" class="form-control" name="category" id="category">
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -318,9 +321,12 @@
                                                                 <label>G.Pay</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" name="g_pay"
+                                                                <input type="text" class="form-control" 
+                                                                    id="g_pay_val" value="{{ old('g_pay_val') ?? '' }}"
+                                                                    placeholder="" readonly>
+                                                                <input type="hidden" class="form-control" name="g_pay"
                                                                     id="g_pay" value="{{ old('g_pay') ?? '' }}"
-                                                                    placeholder="">
+                                                                    placeholder="">    
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -335,15 +341,11 @@
                                                                 <label>PayBand</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select class="form-select" name="pay_band"
-                                                                    id="pay_band">
-                                                                    <option value="">Select Payband</option>
-                                                                    @foreach ($paybands as $payband)
-                                                                        <option value="{{ $payband->id }}">
-                                                                            {{ $payband->payband_type }}</option>
-                                                                    @endforeach
+                                                                <input class="form-control" 
+                                                                    id="pay_band_value" readonly>
 
-                                                                </select>
+                                                                <input type="hidden" class="form-control" name="pay_band"
+                                                                    id="pay_band">    
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -467,15 +469,11 @@
                                                                 <label>Quater</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select class="form-select" name="quater"
-                                                                    id="quater">
-                                                                    <option value="">Select</option>
-                                                                    @foreach ($quaters as $quater)
-                                                                        <option value="{{ $quater->id }}">
-                                                                            {{ $quater->qrt_type }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input class="form-control" name="quater_type"
+                                                                    id="quater_type" readonly>
+                                                                    
                                                                 <span class="text-danger"></span>
+                                                                <input type="hidden" name="quater" id="quater">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -576,14 +574,10 @@
                                                                 <label>CGEGIS</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select class="form-select" name="cgegis"
-                                                                    id="cgegis">
-                                                                    <option value="">Select</option>
-                                                                    @foreach ($cgegises as $cgegis)
-                                                                        <option value="{{ $cgegis->id }}">
-                                                                            {{ $cgegis->value }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="text" class="form-control"
+                                                                    id="cgegis_value" readonly>
+                                                                <input type="hidden" class="form-control" name="cgegis"
+                                                                    id="cgegis" >
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -792,7 +786,7 @@
                     success: function(response) {
 
                         //windows load with toastr message
-                        window.location.reload();
+                        // window.location.reload();
                     },
                     error: function(xhr) {
 
@@ -811,7 +805,9 @@
         });
     </script>
 
+    
     <script>
+        //grade pay found
         $(document).ready(function() {
             $('#pm_level').change(function() {
                 var pm_level = $(this).val();
@@ -826,10 +822,66 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        $('#g_pay').val(response.grade_pay);
+                        $('#g_pay').val(response.grade_pay.id);
+                        $('#g_pay_val').val(response.grade_pay.amount);
+                        
+                        $('#quater').val(response.quarter.id);
+                        $('#quater_type').val(response.quarter.qrt_type);
+                        
                     }
                 });
             });
         });
-        </script>
+    </script>
+
+    <script>
+        //cgegis found
+        $(document).ready(function() {
+            $('#group').change(function() {
+                var group = $(this).val();
+                
+                $.ajax({
+                    url: "{{ route('members.get-cgegis-value') }}",
+                    type: 'POST',
+                    data: {
+                        group: group
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#cgegis_value').val(response.cgegis_value.value);
+                        $('#cgegis').val(response.cgegis_value.id);
+                        
+                    }
+                });
+            });
+
+            $('#desig').change(function() {
+                var desig = $(this).val();
+                
+                $.ajax({
+                    url: "{{ route('members.get-category-value') }}",
+                    type: 'POST',
+                    data: {
+                        desig: desig
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#category_value').val(response.category_value.category);
+                        $('#category').val(response.category_value.id);
+                        
+
+                        $('#pay_band_value').val(response.payband_type.payband_type);
+                        $('#pay_band').val(response.payband_type.id)
+
+                    }
+                });
+            });
+        
+        });
+
+    </script>
 @endpush

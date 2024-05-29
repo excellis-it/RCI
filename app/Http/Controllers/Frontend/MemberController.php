@@ -34,6 +34,7 @@ use App\Models\MemberOriginalRecovery;
 use App\Models\ResetEmployeeId;
 use App\Models\City;
 use App\Models\GradePay;
+use App\Models\Designation;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -105,7 +106,8 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-
+        
+       
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -131,7 +133,6 @@ class MemberController extends Controller
             'quater' => 'required',
             'quater_no' => 'required',
             'doj_service2' => 'required',
-            'cgeis' => 'required',
             'ex_service' => 'required',
             'pg' => 'required',
             'cgegis' => 'required',
@@ -979,6 +980,22 @@ class MemberController extends Controller
     public function getMemberGradePay(Request $request)
     {
         $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status',1)->first();
-        return response()->json(['grade_pay' => $grade_pay->amount]);
+        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first();
+        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter]);
+    }
+
+    public function getmemberCgegisvalue(Request $request)
+    {
+        $cgegis_value = Cgegis::where('group_id', $request->group)->where('status',1)->first();
+        return response()->json(['cgegis_value' => $cgegis_value]);
+    }
+
+    public function getmemberCategoryValue(Request $request)
+    {
+        $get_designation = Designation::where('designation_type_id', $request->desig)->first();
+        $category_value = Category::where('id',$get_designation->category_id)->where('status',1)->first();
+        $payband_type = PaybandType::where('id',$get_designation->payband_type_id)->first();
+        
+        return response()->json(['category_value' => $category_value , 'payband_type' => $payband_type]);
     }
 }
