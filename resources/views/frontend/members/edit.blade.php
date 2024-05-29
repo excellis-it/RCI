@@ -1490,9 +1490,7 @@
     {{-- original recovery script end --}}
 
 
-    <script>
-        // get edu cess from income tax
-        
+    {{-- <script>
         $(document).ready(function() {
             $('#i_tax').change(function() {
                 var i_tax = $(this).val();
@@ -1510,6 +1508,33 @@
                         
                         $('#ecess').val(response.edu_cal);
                     }
+                });
+            });
+        });
+    </script> --}}
+
+
+    <script>
+        $(document).ready(function() {
+            const fields = ["#gpa_sub", "#gpa_adv", "#eol", "#rent", "#lf_arr", "#tada",
+                "#hba",
+                "#hba_interest", "#comp_adv", "#comp_int", "#leave_rec", "#pension_rec", "#misc1",
+                "#gpf_rec","#i_tax","#elec","#elec_arr","#medi","#pc","#misc2","#gpf_arr","#ecess","#water","#water_arr","#ltc","#fadv","#misc3","#cgegis","#cda","#furn",
+                "#furn_arr","#car","#car_interest","#hra_rec","#tot_debits","#cghs","#ptax","#cmg","#pli","#scooter","#scooter_interest","#tpt_rec","#quarter_charge",
+                "#cgeis_arr","#penal_interest","#society"
+            ];
+    
+            const originalNetPay = parseFloat($('#net_pay').val()) || 0; // Replace '#net_pay' with the id of your net pay field
+    
+            fields.forEach(function(field) {
+                $(field).on('input', function() {
+                    let totalDeductions = fields.reduce(function(total, field) {
+                        return total + (parseFloat($(field).val()) || 0);
+                    }, 0);
+                    
+                    let netPay = originalNetPay - totalDeductions;
+                    netPay = netPay < 0 ? 0 : netPay; // Ensure netPay is not negative
+                    $('#net_pay').val(netPay); // Replace '#net_pay' with the id of your net pay field
                 });
             });
         });

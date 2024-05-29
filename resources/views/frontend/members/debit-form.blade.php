@@ -396,8 +396,9 @@
                         <label>CGEGIS</label>
                     </div>
                     <div class="col-md-12">
+                       
                         <input type="text" class="form-control" name="cgegis" id="cgegis"
-                            value="{{ $member_debit->cgegis ?? (old('cgegis') ?? '') }}" placeholder="">
+                            value="{{ $member_debit->cgegis ?? (old('cgegis') ?? '' )}}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -613,7 +614,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="net_pay" id="net_pay"
-                            value="{{ $member_debit->net_pay ?? (old('net_pay') ?? '') }}" placeholder="">
+                            value="{{ $member_debit->net_pay ?? $member_credit->tot_credits ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -627,7 +628,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="basics" id="basics"
-                            value="{{ $member_debit->basic ?? (old('basic') ?? '') }}" placeholder="">
+                            value="{{ $member_debit->basic ?? $member->basic ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

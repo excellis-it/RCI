@@ -371,7 +371,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="var_amount" id="var_amount"
-                                    value="{{ $member_credit->var_amount ?? (old('var_amount') ?? '') }}" placeholder="">
+                                    value="{{ $member_credit->variable_amount ?? (old('var_amount') ?? '') }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

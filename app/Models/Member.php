@@ -68,6 +68,11 @@ class Member extends Model
         return $this->belongsTo(City::class, 'member_city');
     }
 
+    public function cgegisVal()
+    {
+        return $this->belongsTo(Cgegis::class, 'cgegis');
+    }
+
     
 
 
