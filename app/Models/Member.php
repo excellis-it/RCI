@@ -68,6 +68,11 @@ class Member extends Model
         return $this->belongsTo(City::class, 'member_city');
     }
 
+    public function payLevels()
+    {
+        return $this->belongsTo(PmLevel::class, 'pm_level');
+    }
+
     
 
 

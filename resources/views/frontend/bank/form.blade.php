@@ -5,7 +5,7 @@
         <div class="row">
         <div class="col-md-8">
             <div class="row">
-                <div class="form-group col-md-7 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Bank</label>
@@ -17,9 +17,22 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>IFSC </label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="ifsc" id="ifsc" value="{{ $bank->ifsc }}"
+                                placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                
                 
-                <div class="form-group col-md-5 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Status</label>
@@ -52,7 +65,7 @@
         <div class="row">
         <div class="col-md-8">
             <div class="row">
-                <div class="form-group col-md-7 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Bank</label>
@@ -64,9 +77,22 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>IFSC </label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="ifsc" id="ifsc" value=""
+                                placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
               
                
-                <div class="form-group col-md-5 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Status</label>
