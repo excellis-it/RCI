@@ -33,8 +33,11 @@ use App\Models\MemberExpectation;
 use App\Models\MemberOriginalRecovery;
 use App\Models\ResetEmployeeId;
 use App\Models\City;
+use App\Models\DearnessAllowancePercentage;
 use App\Models\GradePay;
 use App\Models\Designation;
+use App\Models\Hra;
+use App\Models\Tpta;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -234,6 +237,7 @@ class MemberController extends Controller
         $banks = Bank::orderBy('id', 'desc')->get() ?? '';
         $loans = Loan::orderBy('id', 'desc')->get() ?? '';
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
+        $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -294,6 +298,10 @@ class MemberController extends Controller
             $update_credit_member->dis_alw = $request->dis_alw;
             $update_credit_member->misc2 = $request->misc_2;
             $update_credit_member->risk_alw = $request->risk_alw;
+            $update_credit_member->spl_incentive = $request->spl_incentive;
+            $update_credit_member->incentive = $request->incentive;
+            $update_credit_member->var_amount = $request->var_amount;
+            $update_credit_member->arrs_pay_allowance = $request->arrs_pay_allowance;
             $update_credit_member->tot_credits = $request->tot_credits;
             $update_credit_member->remarks = $request->remarks;
             $update_credit_member->update();
@@ -324,6 +332,10 @@ class MemberController extends Controller
             $member_credit->dis_alw = $request->dis_alw;
             $member_credit->misc2 = $request->misc_2;
             $member_credit->risk_alw = $request->risk_alw;
+            $member_credit->spl_incentive = $request->spl_incentive;
+            $member_credit->incentive = $request->incentive;
+            $member_credit->var_amount = $request->var_amount;
+            $member_credit->arrs_pay_allowance = $request->arrs_pay_allowance;
             $member_credit->tot_credits = $request->tot_credits;
             $member_credit->remarks = $request->remarks;
             $member_credit->save();
@@ -417,6 +429,18 @@ class MemberController extends Controller
             $update_debit_member->tpt_rec = $request->tpt_rec;
             $update_debit_member->net_pay = $request->net_pay;
             $update_debit_member->basic = $request->basics;
+            $update_debit_member->gpa_adv = $request->gpa_adv;
+            $update_debit_member->hba_interest = $request->hba_interest;
+            $update_debit_member->comp_adv = $request->comp_adv;
+            $update_debit_member->comp_int = $request->comp_int;
+            $update_debit_member->leave_rec = $request->leave_rec;
+            $update_debit_member->pension_rec = $request->pension_rec;
+            $update_debit_member->car_interest = $request->car_interest;
+            $update_debit_member->scooter_interest = $request->scooter_interest;
+            $update_debit_member->quarter_charge = $request->quarter_charge;
+            $update_debit_member->cgeis_arr = $request->cgeis_arr;
+            $update_debit_member->penal_interest = $request->penal_interest;
+            $update_debit_member->society = $request->society;
             $update_debit_member->remarks = $request->remarks;
             $update_debit_member->update();
 
@@ -462,6 +486,18 @@ class MemberController extends Controller
             $debit_member->tpt_rec = $request->tpt_rec;
             $debit_member->net_pay = $request->net_pay;
             $debit_member->basic = $request->basic;
+            $debit_member->gpa_adv = $request->gpa_adv;
+            $debit_member->hba_interest = $request->hba_interest;
+            $debit_member->comp_adv = $request->comp_adv;
+            $debit_member->comp_int = $request->comp_int;
+            $debit_member->leave_rec = $request->leave_rec;
+            $debit_member->pension_rec = $request->pension_rec;
+            $debit_member->car_interest = $request->car_interest;
+            $debit_member->scooter_interest = $request->scooter_interest;
+            $debit_member->quarter_charge = $request->quarter_charge;
+            $debit_member->cgeis_arr = $request->cgeis_arr;
+            $debit_member->penal_interest = $request->penal_interest;
+            $debit_member->society = $request->society;
             $debit_member->remarks = $request->remarks;
             $debit_member->save();
 
@@ -997,5 +1033,20 @@ class MemberController extends Controller
         $payband_type = PaybandType::where('id',$get_designation->payband_type_id)->first();
         
         return response()->json(['category_value' => $category_value , 'payband_type' => $payband_type]);
+    }
+
+    public function memberCreditDaPercentage(Request $request)
+    {
+        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $member = Member::where('id', $request->memberID)->first();
+        $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
+        $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('status', 1)->first();
+        $basicPay = $request->basicPay;
+
+        $daAmount = ($basicPay * $da_percentage->percentage) / 100;
+        $hraAmount = ($basicPay * $hra_percentage->percentage) / 100;
+
+
+        return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
     }
 }

@@ -147,12 +147,14 @@ Route::middleware('permssions')->group(function () {
         'cities' => CityController::class,
         'grade-pays' => GradePayController::class,
         'tptas' => TptaController::class,
+        'income-taxes' => IncomeTaxController::class,
         'gpfs'=> GpfController::class,
         
     ]);
 
     //reports route
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
+    Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -301,6 +303,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
     Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
+    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     //member recovery update
@@ -362,6 +365,12 @@ Route::middleware('permssions')->group(function () {
     Route::get('/tptas-fetch-data', [TptaController::class, 'fetchData'])->name('tptas.fetch-data');
     Route::post('/tptas-da-percentage', [TptaController::class, 'daPercentageCalculation'])->name('tptas.da-percentage');
 
+    //income tax
+    Route::prefix('income-taxes')->group(function () {
+        Route::get('/income-taxes-delete/{id}', [IncomeTaxController::class, 'delete'])->name('income-taxes.delete');
+    });
+    Route::get('/income-taxes-fetch-data', [IncomeTaxController::class, 'fetchData'])->name('income-taxes.fetch-data');
+
     //payment category
     Route::prefix('payment-categories')->group(function () {
         Route::get('/payment-categories-delete/{id}', [PaymentCategoryController::class, 'delete'])->name('payment-categories.delete');
@@ -387,7 +396,7 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
-    Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
+    // Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
 
     // imprest routes
     Route::prefix('imprest')->group(function () {

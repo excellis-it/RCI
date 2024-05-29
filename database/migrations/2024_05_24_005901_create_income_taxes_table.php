@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('income_taxes', function (Blueprint $table) {
             $table->id();
-            $table->string('slab_amount')->nullable();
+            $table->string('higher_slab_amount')->nullable();
+            $table->string('lower_slab_amount')->nullable();
             $table->string('tax_rate')->nullable();
-            $table->string('commission')->nullable();
+            $table->unsignedBigInteger('commission')->nullable();
             $table->string('edu_cess_rate')->nullable();
+            $table->string('financial_year')->nullable();
+            $table->date('record_add_date')->nullable();
             $table->timestamps();
         });
     }
