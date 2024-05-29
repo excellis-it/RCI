@@ -39,9 +39,9 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    2006GC1009<br>
-                                    Mr. D. MADHU SUDAN REDDY <br>
-                                    ACCOUNTS OFFICER(7)<br>
+                                    {{ $member->emp_id }}<br>
+                                    {{ $member->name }} <br>
+                                    {{ $member->designation->designation }}(7)<br>
                                     ADYPD6079M<br>
                                 </td>
                                 <td><img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;

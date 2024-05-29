@@ -422,6 +422,9 @@
     </script>
     <script>
         $(document).ready(function() {
+            const fields = ["#basic-pay", "#da_percentage", "#hra", "#tpt", "#da_on_tpt", "#s_pay", "#spl_incentive",
+            "#incentive", "#dis_alw", "#var_amount", "#arrs_pay_allowance", "#risk_alw", "#misc_1", "#misc_2"];
+
             function updateDAPercentage(basicPay, memberID) {
                 $.ajax({
                     url: "{{ route('members.credit.da-percentage') }}",
@@ -436,6 +439,15 @@
                         $('#hra').val(response.hraAmount);
                         $('#tpt').val(response.tptAmount);
                         $('#da_on_tpt').val(response.tptDa);
+
+                        // total amount calculation
+                        let total = 0;
+                        fields.forEach(field => {
+                            const value = $(field).val();
+                            total += Number(value) || 0;
+                        });
+
+                        $('#tot_credits').val(total);
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -447,10 +459,12 @@
             var basicPay = $('#basic-pay').val();
             updateDAPercentage(basicPay, "{{ $member->id }}");
 
-            // Event listener for changes in the basic pay field
-            $(document).on('change', '#basic-pay', function() {
-                var basicPay = $(this).val();
-                updateDAPercentage(basicPay, "{{ $member->id }}");
+            // Event listener for changes in the fields
+            fields.forEach(field => {
+                $(field).on("change", function() {
+                    var basicPay = $('#basic-pay').val();
+                    updateDAPercentage(basicPay, "{{ $member->id }}");
+                });
             });
         });
     </script>
