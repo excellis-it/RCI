@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.payslip-generate') }}" method="POST" id="payslip-generate-form">
+                            <form action="{{ route('reports.payslip-generate') }}" method="POST" >
                                 @csrf
 
                                 <div class="row">
@@ -54,7 +54,11 @@
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-                                                                <span class="text-danger"></span>
+                                                                @if ($errors->has('member_id'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('member_id') }}</div>
+                                                                @endif
+                                                                
                                                             </div>
                                                         </div>
 
@@ -71,7 +75,11 @@
                                                                                 {{ $i }}</option>
                                                                         @endfor
                                                                     </select>
-                                                                    <span class="text-danger"></span>
+                                                                    @if ($errors->has('year'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('year') }}</div>
+                                                                    @endif
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -84,25 +92,15 @@
                                                                 <div class="col-md-12">
                                                                     <select name="month" class="form-select" id="report_month">
                                                                         <option value="">Select Month</option>
-                                                                        {{-- <option value="1">January</option>
-                                                                        <option value="2">February</option>
-                                                                        <option value="3">March</option>
-                                                                        <option value="4">April</option>
-                                                                        <option value="5">May</option>
-                                                                        <option value="6">June</option>
-                                                                        <option value="7">July</option>
-                                                                        <option value="8">August</option>
-                                                                        <option value="9">September</option>
-                                                                        <option value="10">October</option>
-                                                                        <option value="11">November</option>
-                                                                        <option value="12">December</option> --}}
                                                                     </select>
-                                                                    <span class="text-danger"></span>
+                                                                    @if ($errors->has('month'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('month') }}</div>
+                                                                    @endif
+                                                                    
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        
+                                                        </div> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,7 +136,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#payslip-generate-form').submit(function(e) {
                 e.preventDefault();
@@ -169,7 +167,7 @@
                 });
             });
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {

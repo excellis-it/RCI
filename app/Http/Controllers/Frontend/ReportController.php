@@ -9,7 +9,6 @@ use App\Models\MemberCoreInfo;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
-// use Barryvdh\DomPDF\PDF;
 use PDF;
 
 class ReportController extends Controller
@@ -40,14 +39,9 @@ class ReportController extends Controller
         $monthName = $dateObj->format('F');
         $year = $request->year;
         
-        // dd($member_data, $member_credit_data, $member_debit_data);
-
         $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
-        // dd($pdf);
-
-        return $pdf->download('payslip.pdf');
-
-        // return view('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
+        return $pdf->download('document.pdf');
+    
     }
 
     public function crv()
