@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.payslip-generate') }}" method="POST" id="payslip-generate-form">
+                            <form action="{{ route('reports.payslip-generate') }}" method="POST" >
                                 @csrf
 
                                 <div class="row">
@@ -54,7 +54,11 @@
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-                                                                <span class="text-danger"></span>
+                                                                @if ($errors->has('member_id'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('member_id') }}</div>
+                                                                @endif
+                                                                
                                                             </div>
                                                         </div>
 
@@ -71,7 +75,11 @@
                                                                                 {{ $i }}</option>
                                                                         @endfor
                                                                     </select>
-                                                                    <span class="text-danger"></span>
+                                                                    @if ($errors->has('year'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('year') }}</div>
+                                                                    @endif
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -85,7 +93,11 @@
                                                                     <select name="month" class="form-select" id="report_month">
                                                                         <option value="">Select Month</option>
                                                                     </select>
-                                                                    <span class="text-danger"></span>
+                                                                    @if ($errors->has('month'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('month') }}</div>
+                                                                    @endif
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div> 
@@ -123,9 +135,9 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
-            $('#member-create-form').submit(function(e) {
+            $('#payslip-generate-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -154,7 +166,7 @@
                 });
             });
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
