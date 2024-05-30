@@ -119,6 +119,7 @@
                                                     <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
+                                                    
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_exit">Cancel</button>
                                                     </div> --}}
@@ -139,7 +140,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#member-create-form').submit(function(e) {
+            $('#payslip-generate-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 

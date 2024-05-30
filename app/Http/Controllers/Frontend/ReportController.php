@@ -9,6 +9,8 @@ use App\Models\MemberCoreInfo;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
+// use Barryvdh\DomPDF\PDF;
+use PDF;
 
 class ReportController extends Controller
 {
@@ -22,6 +24,12 @@ class ReportController extends Controller
 
     public function payslipGenerate(Request $request)
     {
+        $request->validate([
+            'member_id' => 'required',
+            'month' => 'required',
+            'year' => 'required',
+        ]);
+
         $member_data = Member::where('id', $request->member_id)->first();
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
@@ -34,7 +42,12 @@ class ReportController extends Controller
         
         // dd($member_data, $member_credit_data, $member_debit_data);
 
-        return view('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
+        $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
+        // dd($pdf);
+
+        return $pdf->download('payslip.pdf');
+
+        // return view('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
     }
 
     public function crv()
@@ -47,7 +60,5 @@ class ReportController extends Controller
         return view('frontend.reports.pl-withdrawl');
     }
 
-    public function downloadPayslip() {
-        
-    }
+    
 }
