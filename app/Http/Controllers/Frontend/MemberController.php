@@ -429,7 +429,7 @@ class MemberController extends Controller
             $update_debit_member->pli = $request->pli;
             $update_debit_member->scooter = $request->scooter;
             $update_debit_member->tpt_rec = $request->tpt_rec;
-            $update_debit_member->net_pay = $update_debit_member->net_pay - $request->tot_debits;
+            $update_debit_member->net_pay = $request->net_pay;
             $update_debit_member->basic = $request->basics;
             $update_debit_member->gpf_adv = $request->gpa_adv;
             $update_debit_member->hba_int = $request->hba_interest;
@@ -488,7 +488,7 @@ class MemberController extends Controller
             $debit_member->pli = $request->pli;
             $debit_member->scooter = $request->scooter;
             $debit_member->tpt_rec = $request->tpt_rec;
-            $debit_member->net_pay = $found_credit->tot_credits - $request->tot_debits;
+            $debit_member->net_pay = $request->net_pay;
             $debit_member->basic = $request->basic;
             $debit_member->gpf_adv = $request->gpa_adv;
             $debit_member->hba_int = $request->hba_interest;

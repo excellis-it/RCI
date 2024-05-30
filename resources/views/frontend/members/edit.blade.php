@@ -1535,7 +1535,8 @@
                 "#car", "#car_interest", "#scooter", "#scooter_interest", "#comp_adv", "#comp_int",
                 "#fadv","#ltc","#medi","#tada","#leave_rec","#pension_rec","#i_tax","#ecess","#pli","#misc1","#misc2","#quarter_charges","#cghs","#cgeis_arr","#penal_interest"
             ];
-            
+    
+            var tot_credits = parseInt($('#tot_credits').val()) || 0;
             
             function updateTotalDebit() {
                 let total = 0;
@@ -1543,9 +1544,9 @@
                     const value = $(field).val();
                     total += Number(value) || 0;
                 });
-    
+
                 $('#tot_debits').val(total);
-                // $('#net_pay').val(total_credit - total);
+                $('#net_pay').val(tot_credits - total);
             }
             // Trigger the AJAX request when the page loads
             updateTotalDebit();

@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="gpa_adv" id="gpa_adv"
-                            value="{{ $member_debit->gpa_adv ?? '' }}" placeholder="">
+                            value="{{ $member_debit->gpf_adv ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba_interest" id="hba_interest"
-                            value="{{ $member_debit->hba_interest  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->hba_int  ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -470,7 +470,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="car_interest" id="car_interest"
-                            value="{{ $member_debit->car_interest  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->car_int  ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -586,7 +586,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="scooter_interest" id="scooter_interest"
-                            value="{{ $member_debit->scooter_interest  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->sco_int  ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -672,7 +672,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="penal_interest" id="penal_interest"
-                            value="{{ $member_debit->penal_interest ??  '' }}" placeholder="">
+                            value="{{ $member_debit->penal_intr ??  '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -730,6 +730,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="tot_credits" value="{{ $member_credit->tot_credits ?? '' }}">
 
 
 </form>
