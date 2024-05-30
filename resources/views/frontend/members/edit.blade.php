@@ -1504,9 +1504,7 @@
     {{-- original recovery script end --}}
 
 
-    <script>
-        // get edu cess from income tax
-        
+    {{-- <script>
         $(document).ready(function() {
             $('#i_tax').change(function() {
                 var i_tax = $(this).val();
@@ -1527,6 +1525,42 @@
                 });
             });
         });
+    </script> --}}
+
+
+    <script>
+        $(document).ready(function() {
+            const fields = ["#gpa_sub", "#gpa_adv", "#gpf_arr", "#cgegis", "#cghs", "#hba",
+                "#hba_interest",
+                "#car", "#car_interest", "#scooter", "#scooter_interest", "#comp_adv", "#comp_int",
+                "#fadv","#ltc","#medi","#tada","#leave_rec","#pension_rec","#i_tax","#ecess","#pli","#misc1","#misc2","#quarter_charges","#cghs","#cgeis_arr","#penal_interest"
+            ];
+    
+            var tot_credits = parseInt($('#tot_credits').val()) || 0;
+            
+            function updateTotalDebit() {
+                let total = 0;
+                fields.forEach(field => {
+                    const value = $(field).val();
+                    total += Number(value) || 0;
+                });
+
+                $('#tot_debits').val(total);
+                $('#net_pay').val(tot_credits - total);
+            }
+            // Trigger the AJAX request when the page loads
+            updateTotalDebit();
+    
+            // Event listener for changes in the fields
+            fields.forEach(field => {
+                $(field).on("change", function() {
+                    updateTotalDebit();
+                });
+            });
+        });
     </script>
+
+
+
 
 @endpush

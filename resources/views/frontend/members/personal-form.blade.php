@@ -284,7 +284,7 @@
                             @foreach ($designations as $designation)
                                 <option value="{{ $designation->id }}"
                                     {{ isset($member_personal->desig) && $designation->id == $member_personal->desig ? 'selected' : '' }}>
-                                    {{ $designation->designation_type }}</option>
+                                    {{ $designation->designation }}</option>
                             @endforeach
                         </select>
                         <span class="text-danger"></span>

@@ -94,7 +94,8 @@ class MemberController extends Controller
         $divisions = Division::orderBy('id', 'desc')->where('status', 1)->get();
         $groups = Group::orderBy('id', 'desc')->where('status', 1)->get();
         $cadres = Cadre::orderBy('id', 'desc')->where('status', 1)->get();
-        $designations = DesignationType::orderBy('id', 'desc')->get();
+        // $designations = DesignationType::orderBy('id', 'desc')->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $fundTypes = FundType::orderBy('id', 'desc')->where('status', 1)->get();
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get();
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get();
@@ -214,7 +215,7 @@ class MemberController extends Controller
      */
     public function edit(string $id)
     {
-        $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->first();
+        $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal')->first();
         $member_credit = MemberCredit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_debit = MemberDebit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_recovery = MemberRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -229,7 +230,7 @@ class MemberController extends Controller
         $divisions = Division::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $groups = Group::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $cadres = Cadre::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
-        $designations = DesignationType::orderBy('id', 'desc')->get() ?? '';
+        $designations = Designation::orderBy('id', 'desc')->get() ?? '';
         $fundTypes = FundType::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
@@ -448,6 +449,8 @@ class MemberController extends Controller
             // session()->flash('message', 'Member debit updated successfully');
             return response()->json(['message' => 'Member debit updated successfully']);
         } else {
+
+            $found_credit = MemberCredit::where('member_id', $request->member_id)->first();
 
             $debit_member = new MemberDebit();
             $debit_member->member_id = $request->member_id;
