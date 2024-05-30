@@ -94,7 +94,8 @@ class MemberController extends Controller
         $divisions = Division::orderBy('id', 'desc')->where('status', 1)->get();
         $groups = Group::orderBy('id', 'desc')->where('status', 1)->get();
         $cadres = Cadre::orderBy('id', 'desc')->where('status', 1)->get();
-        $designations = DesignationType::orderBy('id', 'desc')->get();
+        // $designations = DesignationType::orderBy('id', 'desc')->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $fundTypes = FundType::orderBy('id', 'desc')->where('status', 1)->get();
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get();
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get();
@@ -229,7 +230,7 @@ class MemberController extends Controller
         $divisions = Division::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $groups = Group::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $cadres = Cadre::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
-        $designations = DesignationType::orderBy('id', 'desc')->get() ?? '';
+        $designations = Designation::orderBy('id', 'desc')->get() ?? '';
         $fundTypes = FundType::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
@@ -428,7 +429,7 @@ class MemberController extends Controller
             $update_debit_member->pli = $request->pli;
             $update_debit_member->scooter = $request->scooter;
             $update_debit_member->tpt_rec = $request->tpt_rec;
-            $update_debit_member->net_pay = $request->net_pay;
+            $update_debit_member->net_pay = $update_debit_member->net_pay - $request->tot_debits;
             $update_debit_member->basic = $request->basics;
             $update_debit_member->gpf_adv = $request->gpa_adv;
             $update_debit_member->hba_int = $request->hba_interest;
@@ -448,6 +449,8 @@ class MemberController extends Controller
             // session()->flash('message', 'Member debit updated successfully');
             return response()->json(['message' => 'Member debit updated successfully']);
         } else {
+
+            $found_credit = MemberCredit::where('member_id', $request->member_id)->first();
 
             $debit_member = new MemberDebit();
             $debit_member->member_id = $request->member_id;
@@ -485,7 +488,7 @@ class MemberController extends Controller
             $debit_member->pli = $request->pli;
             $debit_member->scooter = $request->scooter;
             $debit_member->tpt_rec = $request->tpt_rec;
-            $debit_member->net_pay = $request->net_pay;
+            $debit_member->net_pay = $found_credit->tot_credits - $request->tot_debits;
             $debit_member->basic = $request->basic;
             $debit_member->gpf_adv = $request->gpa_adv;
             $debit_member->hba_int = $request->hba_interest;
