@@ -15,9 +15,11 @@
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
+                                    भारत सरकार , रक्षा मंत्रालय 
                                     GOVT. OF INDIA , MINISTRY OF DEFENCE<br>
+                                    उच्च ऊर्जा प्रणाली एबं विज्ञान केंद्र विग्रयान कांचा (डाकघर ), हैदराबाद - 500069<br>
                                     CENTER FOR HIGH ENERGY SYSTEMS AND SCIENCE CHESS, HYDERABAD-500069 <br>
-                                    PAY SLIP FOR THE MONTH OF : {{ $monthName }}-{{ $year }}
+                                    बेतन पर्ची PAY SLIP FOR THE MONTH OF : {{ $monthName }}-{{ $year }}
                                 </td>
                             </tr>
                         </tbody>
@@ -31,25 +33,25 @@
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    Ecode:<br>
-                                    Name:<br>
-                                    Rank(level)<br>
-                                    Pan<br>
+                                    कर्मचारी संकेत Ecode:<br>
+                                    नाम Name:<br>
+                                    पदनाम Rank(level)<br>
+                                    Pan No<br>
                                     Soc.MNO:
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_data->emp_id }}<br>
-                                    {{ $member_data->name }} <br>
-                                    {{ $member_data->designation->designation }}({{ $member_data->payLevels->value }})<br>
-                                    {{ $member_core_info->pan_no }}<br>
+                                    {{ $member_data->emp_id ?? '' }}<br>
+                                    {{ $member_data->name ?? '' }} <br>
+                                    {{ $member_data->designation->designation ?? '' }}({{ $member_data->payLevels->value ?? '' }})<br>
+                                    {{ $member_core_info->pan_no ?? '' }}<br>
                                 </td>
                                 <td><img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;
-                                    " src="https://excellis.co.in/rci/frontend_assets/images/drdo-logo.png" alt=""
+                                    " src="{{ asset('frontend_assets/images/drdo-logo.png') }}" alt=""
                                         height=100% width=100%></img></td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    Gpfno:<br>
+                                    भ. नि. नि. संख्या Gpfno:<br>
                                     bank name: <br>
                                     Account no:<br>
                                     ifsc no:
@@ -818,7 +820,10 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ ($member_debit_data->society ?? 0)  +  ($member_recoveries_data->mess ?? 0) + ($member_recoveries_data->wel_sub ?? 0) + ($member_debit_data->ptax ?? 0) + ($member_recoveries_data->asso_fee ?? 0)}}
+                                    @php
+                                        $secondDeduction = ($member_debit_data->society ?? 0)  +  ($member_recoveries_data->mess ?? 0) + ($member_recoveries_data->wel_sub ?? 0) + ($member_debit_data->ptax ?? 0) + ($member_recoveries_data->asso_fee ?? 0);
+                                    @endphp
+                                    {{ $secondDeduction }}
                                 </td>
                             </tr>
                             <tr>
@@ -832,19 +837,22 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    NET PAY BILL
+                                    कुल बेतन बिल / NET PAY BILL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    116291
+                                    @php
+                                        $netPayBill = ($member_credit_data->tot_credits) - ($member_debit_data->tot_debits);
+                                    @endphp
+                                    {{ $netPayBill }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    PAYSLIPNET
+                                    कुल बेतन पर्ची / PAYSLIP NET
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    113571
+                                    {{ $netPayBill - $secondDeduction }}
                                 </td>
                             </tr>
                         </tbody>
@@ -882,19 +890,19 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    tot adv
+                                    कुल अग्रिम / tot adv
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    BAL adv
+                                    शेष अग्रिम / BAL adv
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CI/TI
+                                    चालू / कुल हफ्ता / CI/TI
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    L.F
+                                    अनुज्ञप्ति / L.F
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -902,14 +910,14 @@
                                 </td>
                                 <td colspan="2" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    GPF DETAILS
+                                    भ. नि. नि. / GPF DETAILS
                                 </td>
 
                             </tr>
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    GPF
+                                    भबिष्य निर्बाह / GPF
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -925,7 +933,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    ELECTRICITY
+                                    बिजली / ELECTRICITY
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -933,18 +941,18 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    OBAL
+                                    आदि शेष / OBAL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    160613
+                                    0
                                 </td>
 
                             </tr>
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    VEHICLE
+                                    बाहन / VEHICLE
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -960,7 +968,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    WATER
+                                    पानी / WATER
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -968,18 +976,18 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    CBAL
+                                    अंत शेष / CBAL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    65613
+                                    0
                                 </td>
 
                             </tr>
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    HBA
+                                    गृह निर्माण भत्ता / HBA
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -995,7 +1003,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    FURNITURE
+                                    फर्नीचर / FURNITURE
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1006,41 +1014,6 @@
 
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-                                    COMP ADV/INT
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-                                    MISC RENT
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
-                                </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
 
                                 </td>
@@ -1049,7 +1022,42 @@
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    FEST ADWINT
+                                    संगणक / COMP ADV/INT
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    बिबिध मकान बकाया / MISC RENT
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                </td>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    त्यौहार अग्रिम / FEST ADV/INT
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1065,7 +1073,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    LWFL BAL
+                                    बिबिध बकाया वसूली शेष / LWFL BAL
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">

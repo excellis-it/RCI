@@ -46,4 +46,8 @@ class ReportController extends Controller
     {
         return view('frontend.reports.pl-withdrawl');
     }
+
+    public function downloadPayslip() {
+        
+    }
 }
