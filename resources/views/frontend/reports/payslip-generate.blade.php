@@ -46,7 +46,9 @@
                                     {{ $member_data->desigs->designation ?? '' }}({{ $member_data->payLevels->value ?? '' }})<br>
                                     {{ $member_core_info->pan_no ?? '' }}<br>
                                 </td>
-                                <td></td>
+                                <td>
+                                    <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;" src="{{ public_path('frontend_assets/images/drdo-logo.png') }}" />
+                                </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
                                     भ. नि. नि. संख्या Gpfno:<br>
