@@ -36,6 +36,9 @@ class PayCommissionController extends Controller
             'year' => 'required',
         ]);
 
+        $old_pay_commission = PayCommission::where('name', $request->name)->where('year', $request->year)->first();
+
+
         $payCommission = new PayCommission();
         $payCommission->name = $request->name;
         $payCommission->year = $request->year;

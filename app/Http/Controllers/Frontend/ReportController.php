@@ -35,9 +35,10 @@ class ReportController extends Controller
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
         $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
         $month = $request->month;
-        $dateObj   = \DateTime::createFromFormat('!m', $month);
+        $dateObj = \DateTime::createFromFormat('!m', $month);
         $monthName = $dateObj->format('F');
         $year = $request->year;
+        
         
         $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
         return $pdf->download('document.pdf');
