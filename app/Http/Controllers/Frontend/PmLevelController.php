@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PmLevel;
 use App\Models\Member;
+use App\Models\PayCommission;
 
 class PmLevelController extends Controller
 {
@@ -15,7 +16,8 @@ class PmLevelController extends Controller
     public function index()
     {
         $pm_levels = PmLevel::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.pm-levels.list', compact('pm_levels'));
+        $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
+        return view('frontend.pm-levels.list', compact('pm_levels','pay_commissions'));
     }
 
 
@@ -57,10 +59,12 @@ class PmLevelController extends Controller
     {
         $request->validate([
             'value' => 'required|max:255',
+            'pay_commission' => 'required',
             'status' => 'required',
         ]);
 
         $pm_level_value = new PmLevel();
+        $pm_level_value->pay_commission = $request->pay_commission;
         $pm_level_value->value = $request->value;
         $pm_level_value->status = $request->status;
         $pm_level_value->save();
@@ -98,6 +102,7 @@ class PmLevelController extends Controller
         ]);
 
         $pm_level = PmLevel::find($id);
+        $pm_level->pay_commission = $request->pay_commission;
         $pm_level->value = $request->value;
         $pm_level->status = $request->status;
         $pm_level->save();

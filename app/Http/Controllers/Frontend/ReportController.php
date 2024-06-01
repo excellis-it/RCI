@@ -9,6 +9,8 @@ use App\Models\MemberCoreInfo;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
+use App\Models\Group;
+
 use PDF;
 
 class ReportController extends Controller
@@ -47,7 +49,13 @@ class ReportController extends Controller
 
     public function crv()
     {
-        return view('frontend.reports.crv');
+        $groups = Group::where('status', 1)->get()->chunk(2); // Fetch and chunk groups
+
+        $pdf = PDF::loadView('frontend.reports.test-crv', compact('groups'));
+        return $pdf->download('document.pdf');
+       
+        
+        // return view('frontend.reports.crv');
     }
 
     public function plWithdrawl()

@@ -49,6 +49,9 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="pay_commission"
+                                                    style="cursor: pointer">Pay Commission <span id="pay_commission_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
                                                     style="cursor: pointer">PM Level Value <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
