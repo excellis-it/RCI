@@ -42,6 +42,7 @@ use App\Http\Controllers\Frontend\CityController;
 use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
+use App\Http\Controllers\Frontend\MemberIncomeTaxController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -149,6 +150,7 @@ Route::middleware('permssions')->group(function () {
         'tptas' => TptaController::class,
         'income-taxes' => IncomeTaxController::class,
         'gpfs'=> GpfController::class,
+        'member-income-taxes' => MemberIncomeTaxController::class,
         
     ]);
 
@@ -341,6 +343,12 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
     Route::delete('/members-loan-delete/{id}',[MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
+
+    //member income tax
+    Route::prefix('member-income-taxes')->group(function () {
+        Route::get('/member-income-taxes-delete/{id}', [MemberIncomeTaxController::class, 'delete'])->name('member-income-taxes.delete');
+    });
+    Route::get('/member-income-taxes-fetch-data', [MemberIncomeTaxController::class, 'fetchData'])->name('member-income-taxes.fetch-data');
 
     // pay commission
     Route::prefix('pay-commissions')->group(function () {
