@@ -14,6 +14,7 @@
             <td>{{ $memberIncomeTax->section ?? 'N/A'}}</td>
             <td>{{ $memberIncomeTax->description ?? 'N/A'}}</td>
             <td>{{ $memberIncomeTax->max_deduction ?? 'N/A'}}</td>
+            <td>{{ $memberIncomeTax->member_deduction ?? 'N/A'}}</td>
             <td>{{ $memberIncomeTax->financial_year ?? 'N/A'}}</td>
             <td class="sepharate"><a data-route="{{route('member-income-taxes.edit', $memberIncomeTax->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('income-taxes.delete', $incomeTax->id)}}"><i class="ti ti-trash"></i></a> --}}
@@ -21,7 +22,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="5" class="text-left">
+        <td colspan="8" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $memberIncomeTaxes->firstItem() }} – {{ $memberIncomeTaxes->lastItem() }} income Tax  exemption of
@@ -33,6 +34,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="5" class="text-center">No income Tax exemption Found</td>
+        <td colspan="8" class="text-center">No income Tax exemption Found</td>
     </tr>
 @endif

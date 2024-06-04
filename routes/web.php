@@ -42,7 +42,10 @@ use App\Http\Controllers\Frontend\CityController;
 use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
-use App\Http\Controllers\Frontend\MemberIncomeTaxController;
+
+// member info
+use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
+use App\Http\Controllers\Frontend\MemberInfo\LeaveTypeController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -407,6 +410,19 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     // Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
+
+    // member info routes
+    Route::prefix('member-info')->group(function () {
+        Route::resources([
+            'leave-type' => LeaveTypeController::class,
+        ]);
+
+        // leave type
+        Route::prefix('leave-type')->group(function () {
+            Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');
+        });
+        Route::get('/leave-type-fetch-data', [LeaveTypeController::class, 'fetchData'])->name('leave-type.fetch-data');
+    });
 
     // imprest routes
     Route::prefix('imprest')->group(function () {

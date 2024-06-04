@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('section')->nullable();
             $table->string('description')->nullable();
             $table->string('max_deduction')->nullable();
-            $table->date('year')->nullable();
+            $table->string('member_deduction')->nullable();
+            $table->string('year')->nullable();
             $table->string('financial_year')->nullable();
             $table->timestamps();
         });
