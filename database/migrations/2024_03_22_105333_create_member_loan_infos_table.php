@@ -19,8 +19,12 @@ return new class extends Migration
             $table->string('present_inst_no')->nullable();
             $table->string('tot_no_of_inst')->nullable();
             $table->string('inst_amount')->nullable();
+            $table->string('inst_rate')->nullable();
             $table->string('total_amount')->nullable();
             $table->string('balance')->nullable();
+            $table->string('penal_inst_rate')->nullable(); 
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->longText('remark')->nullable();
             $table->timestamps();
         });

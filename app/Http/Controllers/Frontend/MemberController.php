@@ -39,6 +39,7 @@ use App\Models\Designation;
 use App\Models\Hra;
 use App\Models\Tpta;
 use App\Models\IncomeTax;
+use App\Models\MemberLoan;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -103,7 +104,7 @@ class MemberController extends Controller
         $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get();
         $cities = City::orderBy('id', 'desc')->get();
 
-        return view('frontend.members.form', compact('paybands','cities','categories', 'pmLevels', 'pmIndexes', 'divisions', 'groups', 'cadres', 'designations', 'fundTypes', 'quaters', 'exServices', 'pgs', 'cgegises'));
+        return view('frontend.members.form', compact('paybands', 'cities', 'categories', 'pmLevels', 'pmIndexes', 'divisions', 'groups', 'cadres', 'designations', 'fundTypes', 'quaters', 'exServices', 'pgs', 'cgegises'));
     }
 
     /**
@@ -111,8 +112,8 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        
-       
+
+
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -790,11 +791,40 @@ class MemberController extends Controller
         $loan_info->loan_name = $loan_detail->loan_name;
         $loan_info->present_inst_no = $request->present_inst_no;
         $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
-        $loan_info->remark = $request->remark;
         $loan_info->inst_amount = $request->inst_amount;
+        $loan_info->inst_rate = $request->inst_rate;
         $loan_info->total_amount = $request->total_amount;
         $loan_info->balance = $request->balance;
+        $loan_info->penal_inst_rate = $request->penal_inst_rate;
+        $loan_info->start_date = $request->start_date;
+        $loan_info->end_date = $request->end_date;
+        $loan_info->remark = $request->remark;
         $loan_info->save();
+
+        $startDate = new \DateTime($request->start_date);
+        $endDate = new \DateTime($request->end_date);
+        $interval = $startDate->diff($endDate);
+        $totalMonths = ($interval->y * 12) + $interval->m;
+        $monthInterval = new \DateInterval('P1M');
+        $period = new \DatePeriod($startDate, $monthInterval, $endDate->modify('+1 day'));
+        $totalAmount = $request->total_amount; // P
+        $annualRate = $request->inst_rate; // Annual interest rate
+        $monthlyRate = $annualRate / ($totalMonths * 100); 
+        $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
+        $monthlyInterest = $totalAmount * $monthlyRate;
+
+        // Save data for each month
+        foreach ($period as $date) {
+            $loanInstallment = new MemberLoan;
+            $loanInstallment->member_id = $request->member_id;
+            $loanInstallment->loan_id = $request->loan_name;
+            $loanInstallment->interest_rate = $annualRate;
+            $loanInstallment->emi_amount = $emiAmount;
+            $loanInstallment->interest_amount = $monthlyInterest;
+            $loanInstallment->penal_interest = ''; // Save the month
+            $loanInstallment->save();
+        }
+
 
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
     }
@@ -824,10 +854,14 @@ class MemberController extends Controller
             $loan_info->loan_name = $loan_detail->loan_name;
             $loan_info->present_inst_no = $request->present_inst_no;
             $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
-            $loan_info->remark = $request->remark;
             $loan_info->inst_amount = $request->inst_amount;
+            $loan_info->inst_rate = $request->inst_rate;
             $loan_info->total_amount = $request->total_amount;
             $loan_info->balance = $request->balance;
+            $loan_info->penal_inst_rate = $request->penal_inst_rate;
+            $loan_info->start_date = $request->start_date;
+            $loan_info->end_date = $request->end_date;
+            $loan_info->remark = $request->remark;
             $loan_info->save();
 
             return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info, 'save' => true]);
@@ -839,10 +873,14 @@ class MemberController extends Controller
         $loan_info->loan_name = $loan_detail->loan_name;
         $loan_info->present_inst_no = $request->present_inst_no;
         $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
-        $loan_info->remark = $request->remark;
         $loan_info->inst_amount = $request->inst_amount;
+        $loan_info->inst_rate = $request->inst_rate;
         $loan_info->total_amount = $request->total_amount;
         $loan_info->balance = $request->balance;
+        $loan_info->penal_inst_rate = $request->penal_inst_rate;
+        $loan_info->start_date = $request->start_date;
+        $loan_info->end_date = $request->end_date;
+        $loan_info->remark = $request->remark;
         $loan_info->update();
 
         return response()->json(['message' => 'Member loan info updated successfully', 'data' => $loan_info]);
@@ -1019,24 +1057,24 @@ class MemberController extends Controller
 
     public function getMemberGradePay(Request $request)
     {
-        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status',1)->first();
+        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first();
         $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first();
         return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter]);
     }
 
     public function getmemberCgegisvalue(Request $request)
     {
-        $cgegis_value = Cgegis::where('group_id', $request->group)->where('status',1)->first();
+        $cgegis_value = Cgegis::where('group_id', $request->group)->where('status', 1)->first();
         return response()->json(['cgegis_value' => $cgegis_value]);
     }
 
     public function getmemberCategoryValue(Request $request)
     {
         $get_designation = Designation::where('designation_type_id', $request->desig)->first();
-        $category_value = Category::where('id',$get_designation->category_id)->where('status',1)->first();
-        $payband_type = PaybandType::where('id',$get_designation->payband_type_id)->first();
-        
-        return response()->json(['category_value' => $category_value , 'payband_type' => $payband_type]);
+        $category_value = Category::where('id', $get_designation->category_id)->where('status', 1)->first();
+        $payband_type = PaybandType::where('id', $get_designation->payband_type_id)->first();
+
+        return response()->json(['category_value' => $category_value, 'payband_type' => $payband_type]);
     }
 
     public function memberCreditDaPercentage(Request $request)
@@ -1056,17 +1094,15 @@ class MemberController extends Controller
 
     public function memberDebitEducationCess(Request $request)
     {
-        
+
         // check under range of tax
         $tax_rate = IncomeTax::where('lower_slab_amount', '<=', $request->i_tax)
-        ->where('higher_slab_amount', '>=', $request->i_tax)
-        ->first();
+            ->where('higher_slab_amount', '>=', $request->i_tax)
+            ->first();
 
         $edu_cess_rate = $tax_rate->edu_cess_rate;
         $edu_cal = (($request->i_tax * $edu_cess_rate) / 100);
 
         return response()->json(['edu_cal' => $edu_cal]);
-
-        
     }
 }

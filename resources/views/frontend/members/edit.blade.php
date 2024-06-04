@@ -286,9 +286,9 @@
                                                             <thead class="text-white fs-4 bg_blue">
                                                                 <tr>
                                                                     <th>Loan Name</th>
-                                                                    <th>Percent</th>
+                                                                    <th>Inst Rate</th>
                                                                     <th>Amount</th>
-                                                                    <th>Date</th>
+                                                                    <th>Start Date</th>
                                                                     <th>Remarks</th>
                                                                 </tr>
                                                             </thead>
@@ -726,6 +726,18 @@
                     'present_inst_no': {
                         required: true
                     },
+                    'inst_amount': {
+                        required: true,
+                        number: true
+                    },
+                    'inst_rate' :{
+                        required: true,
+                        number: true
+                    },
+                    'penal_inst_rate' :{
+                        required: true,
+                        number: true
+                    },
                     'total_amount': {
                         required: true,
                         number: true
@@ -739,6 +751,15 @@
                     },
                     'present_inst_no': {
                         required: "Please enter present installment no",
+                    },
+                    'inst_amount': {
+                        required: "Please enter installment amount",
+                    },
+                    'inst_rate' :{
+                        required: "Please enter installment rate",
+                    },
+                    'penal_inst_rate' :{
+                        required: "Please enter penal installment rate",    
                     },
                     'total_amount': {
                         required: "Please enter total amount",
@@ -940,17 +961,18 @@
                     $('#tot_no_of_inst').val('');
                     $('#remark').val('');
                     $('#inst_amount').val('');
+                    $('#inst_rate').val('');
                     $('#total_amount').val('');
                     $('#balance').val('');
                     $('#member_loan_id').val('');
+                    $('#penal_inst_rate').val('');
+                    $('#start_date').val('');
+                    $('#end_date').val('');
                     // edit-route-policy tr remove
 
                     $('#loan-delete').hide();
                     $('#exp-btn-update').text('Save');
-
-
                     // remove value from form
-
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI

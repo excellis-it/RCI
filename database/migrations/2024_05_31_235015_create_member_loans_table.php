@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('member_loans', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('member_id')->unsigned()->nullable();
-            $table->string('loan_name')->nullable();
+            $table->bigInteger('loan_id')->unsigned()->nullable();
             $table->string('interest_rate')->nullable();
             $table->string('emi_amount')->nullable();
             $table->string('interest_amount')->nullable();
