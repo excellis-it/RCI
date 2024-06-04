@@ -331,10 +331,6 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gpfs.index') }}">GPF</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-income-taxes.index') }}">Member IT Exemption</a>
-                            </li>
                             
                             
                         </ul>
