@@ -5,7 +5,19 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-7 mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Pay Commission</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="pay_commission" id="pay_commission" value="{{ $pm_level->pay_commission ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>PM Level Value</label>
@@ -18,7 +30,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -50,20 +62,36 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-7 mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Pay Commission</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="pay_commission" id="pay_commission">
+                                    <option value="">Select Commission</option>
+                                    @foreach($pay_commissions as $pay_commission)
+                                        <option value="{{ $pay_commission->id }}">{{ $pay_commission->name }}</option>
+                                    @endforeach
+                                </select>    
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>PM Level Value</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="value" id="value" value=""
+                                <input type="text" class="form-control" name="value" id="value" value="{{ $pm_level->value ?? '' }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

@@ -60,6 +60,7 @@
                                                     style="cursor: pointer">Pers No <span id="pers_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Designation </th>
+                                                <th>Loan Info </th>
                                                 <th></th>
                                             </tr>
                                         </thead>

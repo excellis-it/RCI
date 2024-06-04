@@ -1,7 +1,10 @@
 
 <!doctype html>
 <html lang="en">
-<title>RCI</title>
+
+<title>{{ env('APP_NAME') }} | @yield('title')</title>
+
+
 <meta charset="utf-8" />
 
 <body style="background: #fff; font-family: 'Noto Sans Devanagari', sans-serif;">
