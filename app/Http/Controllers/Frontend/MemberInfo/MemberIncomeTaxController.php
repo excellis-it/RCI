@@ -17,7 +17,7 @@ class MemberIncomeTaxController extends Controller
         $memberIncomeTaxes = MemberIncomeTax::paginate(10);
         $members = Member::all();
 
-        $startYear = 1950; 
+        $startYear = 1958; 
         $currentYear = date('Y');
         
         $years = range($startYear, $currentYear);
@@ -45,7 +45,7 @@ class MemberIncomeTaxController extends Controller
 
             $members = Member::all();
 
-            $startYear = 1950; 
+            $startYear = 1958; 
             $currentYear = date('Y');
             
             $years = range($startYear, $currentYear);
@@ -117,7 +117,7 @@ class MemberIncomeTaxController extends Controller
         $members = Member::all();
         $edit = true;
 
-        $startYear = 1950; // Change this to your desired start year
+        $startYear = 1958; // Change this to your desired start year
         $currentYear = date('Y');
         
         $years = range($startYear, $currentYear);

@@ -46,6 +46,7 @@ use App\Http\Controllers\Frontend\TptaController;
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
 use App\Http\Controllers\Frontend\MemberInfo\LeaveTypeController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -415,6 +416,7 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('member-info')->group(function () {
         Route::resources([
             'leave-type' => LeaveTypeController::class,
+            'member-alloted-leave' => MemberAllotedLeaveController::class,
         ]);
 
         // leave type
@@ -422,6 +424,12 @@ Route::middleware('permssions')->group(function () {
             Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');
         });
         Route::get('/leave-type-fetch-data', [LeaveTypeController::class, 'fetchData'])->name('leave-type.fetch-data');
+
+        // member alloted leave
+        Route::prefix('member-alloted-leave')->group(function () {
+            Route::get('/member-alloted-leave-delete/{id}', [MemberAllotedLeaveController::class, 'delete'])->name('member-alloted-leave.delete');
+        });
+        Route::get('/member-alloted-leave-fetch-data', [MemberAllotedLeaveController::class, 'fetchData'])->name('member-alloted-leave.fetch-data');
     });
 
     // imprest routes

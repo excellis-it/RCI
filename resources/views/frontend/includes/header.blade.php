@@ -352,6 +352,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('leave-type.index') }}">Leave Type</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-alloted-leave.index') }}">Member Alloted Leave</a>
+                            </li>
                             
                             
                         </ul>

@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="leave_type_abbr" id="leave_type_abbr" value="{{ $leaveType->leave_type_abbr ?? '' }}"
-                                    placeholder="">
+                                    placeholder="" style="text-transform:uppercase">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                                 <label>Leave Type Abbreviations</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="leave_type_abbr" id="leave_type_abbr" placeholder="">
+                                <input type="text" class="form-control" name="leave_type_abbr" id="leave_type_abbr" placeholder="" style="text-transform:uppercase">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
