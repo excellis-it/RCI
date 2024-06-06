@@ -56653,6 +56653,13 @@ ul {
     cursor: pointer;
 }
 
+.margin_hr hr{
+    margin: 5px 0;
+}
+.margin_hr tbody tr td{
+    vertical-align: middle;
+}
+
 
 /*--- Profile ---- */
 

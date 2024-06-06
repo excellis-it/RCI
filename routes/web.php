@@ -47,6 +47,8 @@ use App\Http\Controllers\Frontend\TptaController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
 use App\Http\Controllers\Frontend\MemberInfo\LeaveTypeController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
+use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -417,6 +419,8 @@ Route::middleware('permssions')->group(function () {
         Route::resources([
             'leave-type' => LeaveTypeController::class,
             'member-alloted-leave' => MemberAllotedLeaveController::class,
+            'member-leaves' => MemberLeaveController::class,
+            'attendances' => AttendanceController::class,
         ]);
 
         // leave type
@@ -430,6 +434,22 @@ Route::middleware('permssions')->group(function () {
             Route::get('/member-alloted-leave-delete/{id}', [MemberAllotedLeaveController::class, 'delete'])->name('member-alloted-leave.delete');
         });
         Route::get('/member-alloted-leave-fetch-data', [MemberAllotedLeaveController::class, 'fetchData'])->name('member-alloted-leave.fetch-data');
+
+        // member leaves
+        Route::prefix('member-leaves')->group(function () {
+            Route::get('/member-leaves-delete/{id}', [MemberLeaveController::class, 'delete'])->name('member-leaves.delete');
+        });
+        Route::get('/member-leaves-fetch-data', [MemberLeaveController::class, 'fetchData'])->name('member-leaves.fetch-data');
+        Route::get('/member-leaves-year-search', [MemberLeaveController::class, 'yearSearch'])->name('member-leaves.year-search');
+        Route::get('/get-alloted-leaves', [MemberLeaveController::class, 'getAllotedLeaves'])->name('member-leaves.get-alloted-leaves');
+        Route::get('/leave-fetch-data', [MemberLeaveController::class, 'leaveFetchData'])->name('member-leaves.leave-fetch-data');
+        Route::get('/leave-list', [MemberLeaveController::class, 'memberLeaves'])->name('member-leaves.leave-list');
+
+        // attendance
+        Route::prefix('attendances')->group(function () {
+            Route::get('/attendances-delete/{id}', [AttendanceController::class, 'delete'])->name('attendances.delete');
+        });
+        Route::get('/attendances-fetch-data', [AttendanceController::class, 'fetchData'])->name('attendances.fetch-data');
     });
 
     // imprest routes
