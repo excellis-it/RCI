@@ -117,6 +117,7 @@
                                                     <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
+                                                    
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_exit">Cancel</button>
                                                     </div> --}}

@@ -43,6 +43,13 @@ use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
 
+// member info
+use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
+use App\Http\Controllers\Frontend\MemberInfo\LeaveTypeController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
+use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
+
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
 use App\Http\Controllers\Inventory\ItemCodeController;
@@ -149,12 +156,14 @@ Route::middleware('permssions')->group(function () {
         'tptas' => TptaController::class,
         'income-taxes' => IncomeTaxController::class,
         'gpfs'=> GpfController::class,
+        'member-income-taxes' => MemberIncomeTaxController::class,
         
     ]);
 
     //reports route
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
+    Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -347,6 +356,12 @@ Route::middleware('permssions')->group(function () {
     Route::delete('/members-loan-delete/{id}',[MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
     Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
 
+    //member income tax
+    Route::prefix('member-income-taxes')->group(function () {
+        Route::get('/member-income-taxes-delete/{id}', [MemberIncomeTaxController::class, 'delete'])->name('member-income-taxes.delete');
+    });
+    Route::get('/member-income-taxes-fetch-data', [MemberIncomeTaxController::class, 'fetchData'])->name('member-income-taxes.fetch-data');
+
     // pay commission
     Route::prefix('pay-commissions')->group(function () {
         Route::get('/pay-commissions-delete/{id}', [PayCommissionController::class, 'delete'])->name('pay-commissions.delete');
@@ -404,6 +419,44 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     // Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
+
+    // member info routes
+    Route::prefix('member-info')->group(function () {
+        Route::resources([
+            'leave-type' => LeaveTypeController::class,
+            'member-alloted-leave' => MemberAllotedLeaveController::class,
+            'member-leaves' => MemberLeaveController::class,
+            'attendances' => AttendanceController::class,
+        ]);
+
+        // leave type
+        Route::prefix('leave-type')->group(function () {
+            Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');
+        });
+        Route::get('/leave-type-fetch-data', [LeaveTypeController::class, 'fetchData'])->name('leave-type.fetch-data');
+
+        // member alloted leave
+        Route::prefix('member-alloted-leave')->group(function () {
+            Route::get('/member-alloted-leave-delete/{id}', [MemberAllotedLeaveController::class, 'delete'])->name('member-alloted-leave.delete');
+        });
+        Route::get('/member-alloted-leave-fetch-data', [MemberAllotedLeaveController::class, 'fetchData'])->name('member-alloted-leave.fetch-data');
+
+        // member leaves
+        Route::prefix('member-leaves')->group(function () {
+            Route::get('/member-leaves-delete/{id}', [MemberLeaveController::class, 'delete'])->name('member-leaves.delete');
+        });
+        Route::get('/member-leaves-fetch-data', [MemberLeaveController::class, 'fetchData'])->name('member-leaves.fetch-data');
+        Route::get('/member-leaves-year-search', [MemberLeaveController::class, 'yearSearch'])->name('member-leaves.year-search');
+        Route::get('/get-alloted-leaves', [MemberLeaveController::class, 'getAllotedLeaves'])->name('member-leaves.get-alloted-leaves');
+        Route::get('/leave-fetch-data', [MemberLeaveController::class, 'leaveFetchData'])->name('member-leaves.leave-fetch-data');
+        Route::get('/leave-list', [MemberLeaveController::class, 'memberLeaves'])->name('member-leaves.leave-list');
+
+        // attendance
+        Route::prefix('attendances')->group(function () {
+            Route::get('/attendances-delete/{id}', [AttendanceController::class, 'delete'])->name('attendances.delete');
+        });
+        Route::get('/attendances-fetch-data', [AttendanceController::class, 'fetchData'])->name('attendances.fetch-data');
+    });
 
     // imprest routes
     Route::prefix('imprest')->group(function () {

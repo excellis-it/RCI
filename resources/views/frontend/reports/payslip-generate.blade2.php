@@ -1,13 +1,10 @@
 
 <!doctype html>
 <html lang="en">
-
-<title>{{ env('APP_NAME') }} | @yield('title')</title>
-
-
+<title>RCI</title>
 <meta charset="utf-8" />
 
-<body style="background: #fff; font-family: 'Noto Sans Devanagari', sans-serif;">
+<body style="background: #fff; font-family: 'Noto Sans Devanagari', sans-serif; ">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center;">
         <tbody>
@@ -49,9 +46,9 @@
                                     {{ $member_data->desigs->designation ?? '' }}({{ $member_data->payLevels->value ?? '' }})<br>
                                     {{ $member_core_info->pan_no ?? '' }}<br>
                                 </td>
-                                <td>
-                                    <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;" src="{{ public_path('frontend_assets/images/drdo-logo.png') }}" />
-                                </td>
+                                <td><img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;
+                                    " src="{{ asset('frontend_assets/images/drdo-logo.png') }}" alt=""
+                                        height=100% width=100%></img></td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
                                     भ. नि. नि. संख्या Gpfno:<br>
@@ -61,10 +58,10 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_core_info->gpf_acc_no ?? '' }}<br>
-                                    {{ $member_core_info->banks->bank_name ?? '' }} <br>
-                                    {{ $member_core_info->bank_acc_no ?? '' }}<br>
-                                    {{ $member_core_info->banks->ifsc ?? '' }}
+                                    {{ $member_core_info->gpf_acc_no }}<br>
+                                    {{ $member_core_info->banks->bank_name }} <br>
+                                    {{ $member_core_info->bank_acc_no }}<br>
+                                    {{ $member_core_info->banks->ifsc }}
                                 </td>
                             </tr>
                         </tbody>
@@ -93,7 +90,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_credit_data->pay ?? 0 }}
+                                    {{ $member_credit_data->pay }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -119,7 +116,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_credit_data->da  ?? 0 }}
+                                    {{ $member_credit_data->da }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -145,7 +142,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_credit_data->hra ?? 0}}
+                                    {{ $member_credit_data->hra }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -171,7 +168,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_credit_data->tpt ?? 0 }}
+                                    {{ $member_credit_data->tpt }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">

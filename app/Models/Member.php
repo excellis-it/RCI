@@ -78,6 +78,27 @@ class Member extends Model
         return $this->belongsTo(PmLevel::class, 'pm_level');
     }
 
+    public function desigs()
+    {
+        return $this->belongsTo(Designation::class, 'desig');
+    }
+
+    public function leaveAlloted()
+    {
+        return $this->hasMany(MemberAllotedLeave::class, 'member_id');
+    }
+
+    public function memberLeave()
+    {
+        return $this->hasMany(MemberLeave::class, 'member_id');
+    }
+
+    public function memberAttendances()
+    {
+        return $this->hasMany(Attendance::class, 'member_id');
+    }
+    
+
     
 
 
