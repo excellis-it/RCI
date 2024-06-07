@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('member_id')->nullable();
+            $table->string('attendance_status')->nullable();
+            $table->date('attendance_date')->nullable();
+            $table->string('year')->nullable();
+            $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });
     }
