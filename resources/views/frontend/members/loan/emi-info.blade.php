@@ -1,0 +1,160 @@
+@extends('frontend.layouts.master')
+@section('title')
+    Member Emi Info
+@endsection
+
+@push('styles')
+@endpush
+
+@section('content')
+    <section id="loading">
+        <div id="loading-content"></div>
+    </section>
+    <div class="container-fluid">
+        <div class="breadcome-list">
+            <div class="d-flex">
+                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+                <div class="">
+                    <h3> Member Emi Info Listing</h3>
+                    <ul class="breadcome-menu mb-0">
+                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                        <li><span class="bread-blod"> Member Emi Info Listing</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--  Row 1 -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div id="form">
+                            <form action="" method="post">
+                                @csrf
+
+
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Member Name</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select" name="member_id" id="member_id">
+                                                    <option value="">Select Member</option>
+                                                    @foreach ($members as $member)
+                                                        <option value="{{ $member->id }}">
+                                                            {{ $member->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Loan Name</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select" name="loan_id" id="loan_id">
+
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row justify-content-end">
+                                    <div class="col-md-6">
+                                        <div class="row justify-content-end">
+                                            <div class="form-group col-md-4 mb-2">
+                                                <button type="submit" class="listing_add">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-4 mt-4">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control search_table" value=""
+                                                id="search" placeholder="Search">
+                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive rounded-2">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                        <thead class="text-white fs-4 bg_blue">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="commission"
+                                                    style="cursor: pointer">Member Name </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="lower_slab_amount" style="cursor: pointer"> Loan Name
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="higher_slab_amount" style="cursor: pointer"> Interest
+                                                    rate </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="tax_rate"
+                                                    style="cursor: pointer">Emi Amount </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="edu_cess_rate" style="cursor: pointer">Interest Amount
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="financial_year" style="cursor: pointer">Penal Interest
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_height_scroll">
+                                            @include('frontend.members.loan.emi-info-table')
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
+                                        value="id" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        //get all loan name from member id using ajax
+
+        $(document).on('change', '#member_id', function() {
+            var member_id = $('#member_id').val();
+            $.ajax({
+                url: "{{ route('members.get-loan-from-member') }}",
+                type: 'POST',
+                data: {
+                    member_id: member_id
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    $('#loan_id').html(data);
+                }
+            });
+        });
+    </script>
+@endpush

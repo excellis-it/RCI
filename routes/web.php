@@ -311,8 +311,14 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
 
+    Route::get('/members-loan-emi-info',[MemberController::class,'memberLoanEmiInfo'])->name('members.loan-emi-info');
+    Route::post('/members-loan-list',[MemberController::class,'memberLoanList'])->name('members.get-loan-from-member');
+
     //member recovery original route
     Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
+
+    // members.loan.get-loan
+
 
     //member expectation route
     Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');

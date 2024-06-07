@@ -742,6 +742,32 @@ class MemberController extends Controller
             $update_personal_member->pay_stop = $request->pay_stop;
             $update_personal_member->update();
 
+            //memebers details update
+            $member_details = Member::where('id', $request->member_id)->first();
+            $member_details->emp_id = $request->emp_id;
+            $member_details->gender = $request->gender;
+            $member_details->name = $request->name;
+            $member_details->pm_level = $request->pm_level;
+            $member_details->pm_index = $request->pm_index;
+            $member_details->basic = $request->basic;
+            $member_details->desig = $request->desig;
+            $member_details->group = $request->group;
+            $member_details->cadre = $request->cadre;
+            $member_details->category = $request->category;
+            $member_details->status = $request->status;
+            $member_details->g_pay = $request->g_pay;
+            $member_details->fund_type = $request->fund_type;
+            $member_details->dob = $request->dob;
+            $member_details->doj_lab = $request->doj_lab;
+            $member_details->dop = $request->dop;
+            $member_details->next_inr = $request->next_inr;
+            $member_details->quater = $request->quater;
+            $member_details->quater_no = $request->quater_no;
+            $member_details->ex_service = $request->ex_service;
+            $member_details->cgegis = $request->cgegis;
+            $member_details->pay_stop = $request->pay_stop;
+            $member_details->update();
+
             // session()->flash('message', 'Member personal info updated successfully');
             return response()->json(['message' => 'Member personal info updated successfully']);
         } else {
@@ -775,6 +801,7 @@ class MemberController extends Controller
             $personal_member->cgegis_text = $request->cgegis_text;
             $personal_member->pay_stop = $request->pay_stop;
             $personal_member->save();
+
 
             // session()->flash('message', 'Member personal info added successfully');  
             return response()->json(['message' => 'Member personal info added successfully']);
@@ -1029,6 +1056,23 @@ class MemberController extends Controller
         return response()->json(['message' => 'Member expectation deleted successfully']);
     }
 
+    public function memberLoanEmiInfo()
+    {
+       
+        $members = Member::orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        return view('frontend.members.loan.emi-info',compact('loans','members'));
+
+    }
+
+    public function memberLoanList(Request $request)
+    {
+
+        $members = MemberLoan::where('id')->orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        return view('frontend.members.loan.list',compact('loans','members'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -1092,6 +1136,8 @@ class MemberController extends Controller
         return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
     }
 
+    
+
     public function memberDebitEducationCess(Request $request)
     {
 
@@ -1105,4 +1151,6 @@ class MemberController extends Controller
 
         return response()->json(['edu_cal' => $edu_cal]);
     }
+
+  
 }
