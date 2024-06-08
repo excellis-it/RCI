@@ -30,10 +30,8 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="" method="post">
+                            <form action="{{ route('members.loans-emi-submit')}}" method="post" id="member-loan-emi-form">
                                 @csrf
-
-
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -54,7 +52,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" id="loan-drodown" style="display:none;">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label>Loan Name</label>
@@ -67,24 +65,28 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-
-                                <div class="row justify-content-end">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="row justify-content-end">
+                                            <div class="col-md-12">
+                                                <label></label>
+                                            </div>
                                             <div class="form-group col-md-4 mb-2">
                                                 <button type="submit" class="listing_add">Submit</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
+                                {{-- <div class="row justify-content-end">
+                                    
+                                </div> --}}
                             </form>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
+                                {{-- <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
@@ -92,7 +94,17 @@
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
+
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="position-relative">
+                                            <div class="col-md-12">
+                                                <h3>Emi List</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
@@ -105,7 +117,7 @@
                                                 </th>
                                                 <th class="sorting" data-sorting_type="desc"
                                                     data-column_name="higher_slab_amount" style="cursor: pointer"> Interest
-                                                    rate </th>
+                                                    rate(%) </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="tax_rate"
                                                     style="cursor: pointer">Emi Amount </th>
                                                 <th class="sorting" data-sorting_type="desc"
@@ -114,10 +126,11 @@
                                                 <th class="sorting" data-sorting_type="desc"
                                                     data-column_name="financial_year" style="cursor: pointer">Penal Interest
                                                 </th>
-                                                <th></th>
+                                                <th>Emi Date</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="tbody_height_scroll">
+                                        <tbody class="tbody_height_scroll" id="emi-table">
                                             @include('frontend.members.loan.emi-info-table')
                                         </tbody>
                                     </table>
@@ -151,10 +164,100 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function(data) {
-                    $('#loan_id').html(data);
+                success: function(response) {
+                    $('#loan-drodown').show();
+                    var loans = response.data;
+                    var html = '<option value="">Select Loan</option>';
+                    $.each(loans, function(index, value) {
+                        html += '<option value="' + value.loan_id + '">' + value.loan_name + '</option>';
+                    });
+                    $('#loan_id').html(html);
                 }
             });
         });
+    </script>
+
+<script>
+    $(document).ready(function() {
+        $('#member-loan-emi-form').validate({
+            rules: {
+                // Define rules for your form fields
+                'member_id': {
+                    required: true
+                },
+                'loan_id': {
+                    required: true
+                }
+            },
+            messages: {
+                // Define messages for your form fields
+                'member_id': {
+                    required: "Please select member",
+                },
+                'loan_id': {
+                    required: "Please select loan",
+                }
+            },
+            submitHandler: function(form) {
+                var formData = $(form).serialize();
+
+
+                $.ajax({
+                    url: $(form).attr('action'),
+                    type: $(form).attr('method'),
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#emi-table').html(response.view);
+                       
+                    },
+                    error: function(xhr) {
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            $('[name="' + key + '"]').next('.text-danger').html(
+                                value[0]);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).on('click', '.pagination a', function(e) {
+    e.preventDefault();
+    let page = $(this).attr('href').split('page=')[1];
+    fetchLoanEmiData(page);
+});
+
+function fetchLoanEmiData(page) {
+    var member_id = $('#member_id').val();
+    var loan_id = $('#loan_id').val();
+    $.ajax({
+        url: '/loan-emi-list',
+        type: "POST",
+        
+        data: {
+            member_id: member_id,
+            loan_id: loan_id,
+            page: page
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+           
+            $('#emi-table').html(response.data); 
+            // $('.loan-emi-list-container').html(data);
+        },
+        error: function(response) {
+            // console.log('Error:', data);
+        }
+    });
+}
     </script>
 @endpush

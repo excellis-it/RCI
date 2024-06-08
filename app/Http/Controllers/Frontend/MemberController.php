@@ -40,6 +40,7 @@ use App\Models\Hra;
 use App\Models\Tpta;
 use App\Models\IncomeTax;
 use App\Models\MemberLoan;
+use View;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -832,27 +833,34 @@ class MemberController extends Controller
         $endDate = new \DateTime($request->end_date);
         $interval = $startDate->diff($endDate);
         $totalMonths = ($interval->y * 12) + $interval->m;
+        
+        // Creating a monthly interval
         $monthInterval = new \DateInterval('P1M');
-        $period = new \DatePeriod($startDate, $monthInterval, $endDate->modify('+1 day'));
-        $totalAmount = $request->total_amount; // P
+        $endDate->modify('+1 day'); // To include the end date in the period
+        $period = new \DatePeriod($startDate, $monthInterval, $endDate);
+        
+        $totalAmount = $request->total_amount; // Principal amount
         $annualRate = $request->inst_rate; // Annual interest rate
-        $monthlyRate = $annualRate / ($totalMonths * 100); 
+        $monthlyRate = $annualRate / 12 / 100; // Monthly interest rate
+        
+        // EMI Calculation using the corrected monthly interest rate
         $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
+        
+        // Monthly interest for the first month
         $monthlyInterest = $totalAmount * $monthlyRate;
-
-        // Save data for each month
         foreach ($period as $date) {
-            $loanInstallment = new MemberLoan;
+            $loanInstallment = new MemberLoan();
             $loanInstallment->member_id = $request->member_id;
             $loanInstallment->loan_id = $request->loan_name;
             $loanInstallment->interest_rate = $annualRate;
             $loanInstallment->emi_amount = $emiAmount;
-            $loanInstallment->interest_amount = $monthlyInterest;
-            $loanInstallment->penal_interest = ''; // Save the month
+            $loanInstallment->interest_amount = $monthlyInterest; // Update this logic if interest changes monthly
+            $loanInstallment->emi_month = $date->format('F Y');
+            $loanInstallment->emi_date = $date->format('Y-m-d');
+            $loanInstallment->penal_interest = ''; // Handle penal interest logic if needed
             $loanInstallment->save();
         }
-
-
+        
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
     }
 
@@ -1058,19 +1066,59 @@ class MemberController extends Controller
 
     public function memberLoanEmiInfo()
     {
-       
         $members = Member::orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
         return view('frontend.members.loan.emi-info',compact('loans','members'));
-
     }
 
     public function memberLoanList(Request $request)
     {
-
-        $members = MemberLoan::where('id')->orderBy('id', 'desc')->get();
+        
+        $members_loans_info = MemberLoanInfo::where('member_id',$request->member_id)->orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
-        return view('frontend.members.loan.list',compact('loans','members'));
+
+        
+        return response()->json(['message' => 'Member loan found successfully', 'data' => $members_loans_info]);
+    }
+
+    public function memberLoanEmiSubmit(Request $request)
+    {
+        $validated = $request->validate([
+            'member_id' => 'required',
+            'loan_id' => 'required',
+        ]);
+        $members = Member::orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        $loan_emi_list = MemberLoan::where('member_id', $request->member_id)->where('loan_id', $request->loan_id)->paginate(10);
+
+        return response()->json(['view' => view('frontend.members.loan.emi-info-table', compact('members', 'loans', 'loan_emi_list'))->render()]);
+
+        
+    }
+
+    public function fetchEmiList(Request $request)
+    {
+       
+        $loanEmiQuery = MemberLoan::query();
+
+        if ($request->member_id) {
+            $loanEmiQuery->where('member_id', $request->member_id);
+        }
+
+        if ($request->loan_id) {
+            $loanEmiQuery->where('loan_id', $request->loan_id);
+        }
+
+        $loan_emi_list = $loanEmiQuery->paginate(10, ['*'], 'page', $request->page);
+        $members = Member::orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        // Return the partial view with the data
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => view('frontend.members.loan.emi-info-table', compact('loan_emi_list','members','loans'))->render()
+            ]);
+        }
+        
     }
 
     /**

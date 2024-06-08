@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('emi_amount')->nullable();
             $table->string('interest_amount')->nullable();
             $table->string('penal_interest')->nullable();
-            $table->enum('status',['paid','due'])->nullable();
+            $table->string('emi_month')->nullable();
+            $table->string('emi_date')->nullable();
+            $table->boolean('status')->default(0)->comment('1=paid, 0=due');
             $table->timestamps();
         });
     }

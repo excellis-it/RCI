@@ -50,7 +50,7 @@ class LeaveTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'leave_type' => 'required',
+            'leave_type' => 'required|unique:leave_types,leave_type',
         ]);
 
         $leaveType = new LeaveType();

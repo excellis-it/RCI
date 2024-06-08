@@ -320,8 +320,10 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
 
-    Route::get('/members-loan-emi-info',[MemberController::class,'memberLoanEmiInfo'])->name('members.loan-emi-info');
+    Route::get('/member-loans-emi-info',[MemberController::class,'memberLoanEmiInfo'])->name('members-loan.emi-info');
     Route::post('/members-loan-list',[MemberController::class,'memberLoanList'])->name('members.get-loan-from-member');
+    Route::post('/members-loan-emi-submit',[MemberController::class,'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
+    Route::post('/loan-emi-list', [MemberController::class, 'fetchEmiList'])->name('members.loan-emi-list');
 
     //member recovery original route
     Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');

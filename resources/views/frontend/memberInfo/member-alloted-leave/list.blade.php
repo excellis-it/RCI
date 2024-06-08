@@ -183,11 +183,11 @@
                        
                         //windows load with toastr message
                         window.location.reload();
+                        toastr.success(response.message);
                     },
                     error: function(xhr) {
                        
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
+                        // Handle errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {

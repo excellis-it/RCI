@@ -876,7 +876,7 @@
                                 '">';
                             newRow += '<td>' + (data.loan_name ? data.loan_name : 'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                            newRow += '<td>' + (data.present_inst_no ? data.present_inst_no : 'N/A') +
+                            newRow += '<td>' + (data.inst_rate ? data.inst_rate : 'N/A') +
                                 '</td>';
                             newRow += '<td>' + (data.total_amount ? data.total_amount : 'N/A') +
                                 '</td>';
@@ -898,7 +898,7 @@
                             var data = response.data;
                             var row = $('#loan-table tbody').find('tr[data-id="' + data.id + '"]');
                             row.find('td:eq(0)').text(data.loan_name);
-                            row.find('td:eq(1)').text(data.present_inst_no);
+                            row.find('td:eq(1)').text(data.inst_rate);
                             row.find('td:eq(2)').text(data.total_amount);
                             row.find('td:eq(3)').text(new Date(data.created_at).getDate() + '-' + (new Date(data.created_at).getMonth() + 1) + '-' + new Date(data.created_at).getFullYear().toString().substr(-2));
                             row.find('td:eq(4)').text(data.remark);
