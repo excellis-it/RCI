@@ -24,6 +24,7 @@
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('income-taxes.delete', $incomeTax->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
+    
         
     @endforeach
     <tr class="toxic">

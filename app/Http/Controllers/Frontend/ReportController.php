@@ -10,7 +10,7 @@ use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
 use App\Models\Group;
-
+use App\Models\SiteLogo;
 use PDF;
 
 class ReportController extends Controller
@@ -46,6 +46,29 @@ class ReportController extends Controller
         return $pdf->download('document.pdf');
     
     }
+
+    public function paybill()
+    {
+        return view('frontend.reports.paybill');
+    }
+
+    public function paybillGenerate(Request $request)
+    {
+        $request->validate([
+            'month' => 'required',
+            'year' => 'required',
+        ]);
+
+        $pay_bill_no = $request->year.'-'.'RCI-CHESS'.$request->month.$request->year.rand(1000,9999);
+        $member_datas = Member::where('member_status',1)->orderBy('id','desc')->with('memberCredit','memberDebit','memberRecovery','memberPersonalInfo','memberCoreInfo')->get();
+        $month =  date('F', mktime(0, 0, 0, $request->month, 10));
+        $year = $request->year;
+        $logo = SiteLogo::first() ?? null;
+        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('member_datas','pay_bill_no','month','year','logo'));
+        return $pdf->download('pay-bill.pdf');
+    }
+
+
 
     public function crv()
     {

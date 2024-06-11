@@ -234,30 +234,31 @@
     fetchLoanEmiData(page);
 });
 
-function fetchLoanEmiData(page) {
-    var member_id = $('#member_id').val();
-    var loan_id = $('#loan_id').val();
-    $.ajax({
-        url: '/loan-emi-list',
-        type: "POST",
-        
-        data: {
-            member_id: member_id,
-            loan_id: loan_id,
-            page: page
-        },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-           
-            $('#emi-table').html(response.data); 
-            // $('.loan-emi-list-container').html(data);
-        },
-        error: function(response) {
-            // console.log('Error:', data);
-        }
-    });
-}
-    </script>
+    function fetchLoanEmiData(page) {
+        var member_id = $('#member_id').val();
+        var loan_id = $('#loan_id').val();
+        $.ajax({
+            url: "{{ route('members.loan-emi-list') }}",
+            type: "POST",
+            data: {
+                member_id: member_id,
+                loan_id: loan_id,
+                page: page
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+            
+                $('#emi-table').html(response.data); 
+                // $('.loan-emi-list-container').html(data);
+            },
+            error: function(response) {
+                // console.log('Error:', data);
+            }
+        });
+    }
+    
+
+</script>
 @endpush

@@ -164,6 +164,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
+    Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
+    Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -448,7 +450,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/member-leaves-delete/{id}', [MemberLeaveController::class, 'delete'])->name('member-leaves.delete');
         });
         Route::get('/member-leaves-fetch-data', [MemberLeaveController::class, 'fetchData'])->name('member-leaves.fetch-data');
-        Route::get('/member-leaves-year-search', [MemberLeaveController::class, 'yearSearch'])->name('member-leaves.year-search');
+        Route::post('/member-leaves-year-search', [MemberLeaveController::class, 'yearSearch'])->name('member-leaves.year-search');
         Route::get('/get-alloted-leaves', [MemberLeaveController::class, 'getAllotedLeaves'])->name('member-leaves.get-alloted-leaves');
         Route::get('/leave-fetch-data', [MemberLeaveController::class, 'leaveFetchData'])->name('member-leaves.leave-fetch-data');
         Route::get('/leave-list', [MemberLeaveController::class, 'memberLeaves'])->name('member-leaves.leave-list');

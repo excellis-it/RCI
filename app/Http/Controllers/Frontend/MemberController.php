@@ -145,6 +145,7 @@ class MemberController extends Controller
             'cgegis' => 'required',
             'member_city' => 'required',
             'rent_or_not' => 'required',
+            'rank_name' => 'required',
         ]);
 
         //check employee id 
@@ -198,6 +199,7 @@ class MemberController extends Controller
         $member->sos_address = $request->sos_address;
         $member->member_city = $request->member_city;
         $member->rent_or_not = $request->rent_or_not;
+        $member->rank_name = $request->rank_name;
         $member->save();
 
         session()->flash('message', 'Member added successfully');
@@ -278,9 +280,13 @@ class MemberController extends Controller
             // 'remarks' => 'required',
         ]);
 
-        $check_credit_member = MemberCredit::where('member_id', $request->member_id)->get();
+        $check_credit_member = MemberCredit::where('member_id', $request->member_id)
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->get();
+
         if (count($check_credit_member) > 0) {
-            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->first();
+            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_credit_member->pay = $request->pay;
             $update_credit_member->da = $request->da;
             $update_credit_member->tpt = $request->tpt;
@@ -394,9 +400,10 @@ class MemberController extends Controller
         // ]);
 
 
-        $check_debit_member = MemberDebit::where('member_id', $request->member_id)->get();
+
+        $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_debit_member) > 0) {
-            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->first();
+            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_debit_member->gpa_sub = $request->gpa_sub;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->rent = $request->rent;
@@ -514,10 +521,10 @@ class MemberController extends Controller
 
     public function memberRecoveryOriginalUpdate(Request $request)
     {
-
-        $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->get();
+        
+        $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_original_recovery_member) > 0) {
-            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->first();
+            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_recovery_org_member->ccs_sub = $request->ccs_sub;
             $update_recovery_org_member->mess = $request->mess;
             $update_recovery_org_member->security = $request->security;

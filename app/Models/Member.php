@@ -97,6 +97,32 @@ class Member extends Model
     {
         return $this->hasMany(Attendance::class, 'member_id');
     }
+
+    
+    public function memberCredit()
+    {
+        return $this->hasMany(MemberCredit::class, 'member_id')->latest();
+    }
+
+    public function memberDebit()
+    {
+        return $this->hasMany(MemberDebit::class, 'member_id')->latest();
+    }
+
+    public function memberRecovery()
+    {
+        return $this->hasMany(MemberRecovery::class, 'member_id')->latest();
+    }
+
+    public function memberPersonalInfo()
+    {
+        return $this->hasOne(MemberPersonalInfo::class, 'member_id');
+    }
+
+    public function memberCoreInfo()
+    {
+        return $this->hasOne(MemberCoreInfo::class, 'member_id');
+    }
     
 
     

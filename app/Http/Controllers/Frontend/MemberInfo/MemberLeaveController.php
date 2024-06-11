@@ -21,6 +21,7 @@ class MemberLeaveController extends Controller
         $members = Member::all();
         $subQuery = DB::table('member_leaves')
             ->select('member_id', 'leave_type_id', DB::raw('SUM(no_of_days) as total_days'))
+            ->where('year', date('Y'))
             ->groupBy('member_id', 'leave_type_id');
 
         $leaves = DB::table('member_leaves')
@@ -30,6 +31,7 @@ class MemberLeaveController extends Controller
             })
             ->join('members', 'member_leaves.member_id', '=', 'members.id')
             ->join('leave_types', 'member_leaves.leave_type_id', '=', 'leave_types.id')
+            ->where('member_leaves.year', date('Y'))
             ->select('member_leaves.*', 'members.name', 'leave_types.leave_type_abbr as leave_type', 'sub.total_days')
             ->paginate(10);
 
@@ -115,22 +117,38 @@ class MemberLeaveController extends Controller
 
     public function yearSearch(Request $request)
     {
+
+       
         if ($request->ajax()) {
             $year = $request->get('year');
-            $leaves = MemberLeave::where('year', $year)->paginate(10);
+            $subQuery = DB::table('member_leaves')
+            ->select('member_id', 'leave_type_id', DB::raw('SUM(no_of_days) as total_days'))
+            ->where('year', $year)
+            ->groupBy('member_id', 'leave_type_id');
 
-            $members = Member::all();
+            
+            $leaves = DB::table('member_leaves')
+            ->joinSub($subQuery, 'sub', function ($join) {
+                $join->on('member_leaves.member_id', '=', 'sub.member_id')
+                    ->on('member_leaves.leave_type_id', '=', 'sub.leave_type_id');
+            })
+            ->join('members', 'member_leaves.member_id', '=', 'members.id')
+            ->join('leave_types', 'member_leaves.leave_type_id', '=', 'leave_types.id')
+            ->where('member_leaves.year', $year)
+            ->select('member_leaves.*', 'members.name', 'leave_types.leave_type_abbr as leave_type', 'sub.total_days')
+            ->paginate(10);
+
             $leaveTypes = LeaveType::all();
-
+            $allotedLeaves = MemberAllotedLeave::all();
+            $members = Member::all();
             $startYear = 1958;
             $endYear = date('Y');
 
             $years = range($startYear, $endYear);
 
-            return response()->json(['data' => view('frontend.memberInfo.member-leave.table', compact('leaves', 'members', 'leaveTypes', 'years'))->render()]);
+            return response()->json(['data' => view('frontend.memberInfo.member-leave.table', compact('leaves', 'members', 'leaveTypes', 'years','allotedLeaves'))->render()]);
         }
     }
-
     /**
      * Store a newly created resource in storage.
      */
