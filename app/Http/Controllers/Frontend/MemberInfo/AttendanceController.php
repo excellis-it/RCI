@@ -17,7 +17,12 @@ class AttendanceController extends Controller
         $attendances = Attendance::paginate(10);
         $members = Member::all();
 
-        return view('frontend.memberInfo.attendance.list', compact('attendances', 'members'));
+        $startYear = 1958;
+        $endYear = date('Y');
+
+        $years = range($endYear, $startYear);
+
+        return view('frontend.memberInfo.attendance.list', compact('attendances', 'members', 'years'));
     }
 
     public function fetchData(Request $request)
@@ -44,7 +49,28 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        $members = Member::all();
+        $startYear = 1958;
+        $endYear = date('Y');
+
+        $years = range($endYear, $startYear);
+        $months = range(1, 12);
+
+        return view('frontend.memberInfo.attendance.form', compact('members', 'years', 'months'));
+    }
+
+    public function memberAttendances(Request $request)
+    {
+        $member_id = $request->member_id;
+        $year = $request->year;
+        $month = $request->month;
+
+        $attendances = Attendance::where('member_id', $member_id)
+            ->whereYear('attendance_date', $year)
+            ->whereMonth('attendance_date', $month)
+            ->get();
+
+        return response()->json(['attendances' => $attendances]);
     }
 
     /**
@@ -52,21 +78,27 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'member_id' => 'required',
-            'attendance_status' => 'required',
-            'attendance_date' => 'required',
-        ]);
+        // $request->validate([
+        //     'member_id' => 'required',
+        //     'attendance_status' => 'required',
+        //     'attendance_date' => 'required',
+        // ]);
 
-        $attendance = new Attendance();
-        $attendance->member_id = $request->member_id;
-        $attendance->attendance_status = $request->attendance_status;
-        $attendance->attendance_date = $request->attendance_date;
-        $attendance->status = $request->status;
-        $attendance->save();
+        // $attendance = new Attendance();
+        // $attendance->member_id = $request->member_id;
+        // $attendance->attendance_status = $request->attendance_status;
+        // $attendance->attendance_date = $request->attendance_date;
+        // $attendance->status = $request->status;
+        // $attendance->save();
+        $event = [
+            'member_id' => $request->member_id,
+            'year' => $request->year,
+            'month' => $request->month,
+        ];
+        return response()->json(['events' => [$event]]);
 
-        session()->flash('success', 'Attendance created successfully!');
-        return redirect()->route('frontend.member_info.attendance.index')->with('success', 'Attendance created successfully!');
+        // session()->flash('success', 'Attendance created successfully!');
+        // return redirect()->route('frontend.member_info.attendance.index')->with('success', 'Attendance created successfully!');
     }
 
     /**

@@ -1,27 +1,20 @@
 @if (count($attendances) > 0)
     @foreach ($members as $key => $member)
         <tr>
-            <td> {{ ($attendances->currentPage()-1) * $attendances->perPage() + $loop->index + 1 }}</td>
-                @foreach($members as $member)
-                    @if ($member->id == $attendance->member_id)
-                        <td>{{ $member->name ?? 'N/A'}}</td>
-                        <td>{{ $member->desigs->designation ?? 'N/A'}}</td>
-                        <td>{{ $member->emp_id ?? 'N/A'}}</td>
-                    @endif
-                @endforeach    
-            @endif
-            <td>{{ ($attendances->where('')) ?? 'N/A'}}</td>
-            
-            
-            <td>{{ $attendances->where('attendance_id', $attendance->id)->where('status', 1)->sum('no_of_days') ?? 0 }}</td>
-            {{-- <td class="sepharate"><a data-route="{{route('attendance-attendances.edit', $leave->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
+            <td>{{ ($attendances->currentPage()-1) * $attendances->perPage() + $loop->index + 1 }}</td>
+            <td>{{ $member->name ?? 'N/A'}}</td>
+            <td>{{ $member->desigs->designation ?? 'N/A'}}</td>
+            <td>{{ $member->emp_id ?? 'N/A'}}</td>
+            <td>{{ ($attendances->where('member_id', $member->id)->where('attendance_status', 'present')->count()) ?? 0}}</td>
+            <td>{{ ($attendances->where('member_id', $member->id)->where('attendance_status', 'absent')->count()) ?? 0}}</td>
+            <td class="sepharate"><a data-route="{{route('attendance-attendances.edit', $leave->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('income-taxes.delete', $incomeTax->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
         
     @endforeach
     <tr class="toxic">
-        <td colspan="8" class="text-left">
+        <td colspan="7" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $attendances->firstItem() }} – {{ $attendances->lastItem() }} attendances of
@@ -33,6 +26,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="8" class="text-center">No attendances Found</td>
+        <td colspan="7" class="text-center">No attendances Found</td>
     </tr>
 @endif

@@ -10,6 +10,7 @@ use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
 use App\Models\Group;
+use Carbon\Carbon;
 
 use PDF;
 
@@ -47,20 +48,47 @@ class ReportController extends Controller
     
     }
 
-    public function crv()
-    {
-        $groups = Group::where('status', 1)->get()->chunk(2); // Fetch and chunk groups
+    // public function crv()
+    // {
+    //     $groups = Group::where('status', 1)->get()->chunk(2); // Fetch and chunk groups
 
-        $pdf = PDF::loadView('frontend.reports.test-crv', compact('groups'));
-        return $pdf->download('document.pdf');
+    //     $pdf = PDF::loadView('frontend.reports.test-crv', compact('groups'));
+    //     return $pdf->download('document.pdf');
        
         
-        // return view('frontend.reports.crv');
+    //     // return view('frontend.reports.crv');
+    // }
+
+    // public function plWithdrawl()
+    // {
+    //     return view('frontend.reports.pl-withdrawl');
+    // }
+
+    public function annualIncomeTaxReport()
+    {
+        $members = Member::orderBy('id', 'desc')->get();
+        return view('frontend.reports.income-tax-report', compact('members'));
     }
 
-    public function plWithdrawl()
+    public function annualIncomeTaxReportGenerate(Request $request)
     {
-        return view('frontend.reports.pl-withdrawl');
+        $request->validate([
+            'member_id' => 'required',
+        ]);
+
+        $memberId = $request->member_id;
+        $startOfYear = Carbon::now()->startOfYear();
+        $endOfYear = Carbon::now()->endOfYear();
+        
+        $member_data = Member::where('id', $memberId)->first();
+        $member_credit_data = MemberCredit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_debit_data = MemberDebit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_core_info = MemberCoreInfo::where('member_id', $memberId)->first();
+        $member_recoveries_data = MemberRecovery::where('member_id', $memberId)->first();
+        
+        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info'));
+        return $pdf->download('income-tax.pdf');
+    
     }
 
     

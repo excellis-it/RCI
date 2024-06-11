@@ -164,6 +164,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
+    Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
+    Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -450,6 +452,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/attendances-delete/{id}', [AttendanceController::class, 'delete'])->name('attendances.delete');
         });
         Route::get('/attendances-fetch-data', [AttendanceController::class, 'fetchData'])->name('attendances.fetch-data');
+        Route::post('/member-attendances', [AttendanceController::class, 'memberAttendances'])->name('attendances.member-attendances');
     });
 
     // imprest routes

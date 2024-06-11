@@ -26,9 +26,9 @@
         <!--  Row 1 -->
         
         <div class="row">
-            {{-- <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('member-leaves.leave-list') }}">Add/Edit member leave</a>
-            </div> --}}
+            <div class="col-md-12 text-end mb-3">
+                <a class="print_btn" href="{{ route('attendances.create') }}">Add/Edit Attendance</a>
+            </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">

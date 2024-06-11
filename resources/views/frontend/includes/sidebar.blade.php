@@ -54,7 +54,7 @@ use App\Helpers\Helper;
                 </li> --}}
                 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="" aria-expanded="false">
+                    <a class="sidebar-link {{Request::is('attendances*') ? 'active' : ''}}" href="{{ route('attendances.index') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-notebook"></i>
                         </span>
