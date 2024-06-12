@@ -658,15 +658,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group col-md-3 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
-                                                <label for="Rank-name">Rank Name</label>
+                                                <label for="PIS">PRAN No.</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="text" class="form-control" name="rank_name"
-                                                    id="rank_name" value="{{ old('rank_name') ?? '' }}"
+                                                <input type="text" class="form-control" name="pran_number"
+                                                    id="pran_number" value="{{ old('pran_number') ?? '' }}"
                                                     placeholder="">
                                                 <span class="text-danger"></span>
                                             </div>

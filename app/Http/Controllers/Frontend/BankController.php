@@ -91,6 +91,7 @@ class BankController extends Controller
     {
         $request->validate([
             'bank_name' => 'required|max:255',
+            'ifsc' => 'required|max:255',
             'status' => 'required',
         ]);
 

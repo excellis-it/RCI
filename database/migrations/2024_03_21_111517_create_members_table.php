@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('sos_address')->nullable();
             $table->string('member_city')->nullable();
             $table->string('rent_or_not')->nullable();
-            $table->string('rank_name')->nullable();
+            $table->string('pran_number')->nullable();
             $table->boolean('member_status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });

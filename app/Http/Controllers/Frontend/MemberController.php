@@ -145,7 +145,7 @@ class MemberController extends Controller
             'cgegis' => 'required',
             'member_city' => 'required',
             'rent_or_not' => 'required',
-            'rank_name' => 'required',
+            'pran_number' => 'required',
         ]);
 
         //check employee id 
@@ -199,7 +199,7 @@ class MemberController extends Controller
         $member->sos_address = $request->sos_address;
         $member->member_city = $request->member_city;
         $member->rent_or_not = $request->rent_or_not;
-        $member->rank_name = $request->rank_name;
+        $member->pran_number = $request->pran_number;
         $member->save();
 
         session()->flash('message', 'Member added successfully');

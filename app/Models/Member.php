@@ -98,10 +98,10 @@ class Member extends Model
         return $this->hasMany(Attendance::class, 'member_id');
     }
 
-    
+
     public function memberCredit()
     {
-        return $this->hasMany(MemberCredit::class, 'member_id')->latest();
+        return $this->hasOne(MemberCredit::class, 'member_id')->orderBy('id', 'desc');
     }
 
     public function memberDebit()
