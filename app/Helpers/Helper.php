@@ -31,4 +31,18 @@ class Helper {
         $logo = SiteLogo::first();
         return $logo;
     }
+
+    public static function getFinancialYears($startYear  = null, $endYear  = null)
+    {
+        $currentYear = date('Y') - 1;
+        $startYear = $startYear ?: $currentYear - 10; // default start year
+        $endYear = $endYear ?: $currentYear; // default end year
+        $financialYears = [];
+
+        for ($year = $startYear; $year <= $endYear; $year++) {
+            $financialYears[] = "$year-" . ($year + 1);
+        }
+
+        return $financialYears;
+    }
 }

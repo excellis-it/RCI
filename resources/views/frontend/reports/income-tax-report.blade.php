@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Payslip Report Generate
+    Incomr Tax Report Generate
 @endsection
 
 @push('styles')
@@ -19,7 +19,7 @@
                     <h3>Report Generate</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Payslip</span></li>
+                        <li><span class="bread-blod">Income Tax</span></li>
                     </ul>
                 </div>
             </div>
@@ -59,6 +59,27 @@
                                                                         {{ $errors->first('member_id') }}</div>
                                                                 @endif
                                                                 
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-6 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Year</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="report_year" id="report_year" class="form-select">
+                                                                    <option value="">Select Year</option>
+                                                                    @foreach ($financialYears as $financialYear)
+                                                                        <option value="{{ $financialYear }}">
+                                                                            {{ $financialYear }}
+                                                                        </option>
+                                                                        
+                                                                    @endforeach
+                                                                </select>
+                                                                @if ($errors->has('report_year'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('report_year') }}</div>
+                                                                @endif
                                                             </div>
                                                         </div>
 
