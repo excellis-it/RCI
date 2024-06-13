@@ -50,7 +50,7 @@
                           </div> 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
+                                {{-- <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
@@ -58,9 +58,9 @@
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody margin_hr">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody margin_hr" id="member_leave_table">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
@@ -76,7 +76,7 @@
                                                 {{-- <th></th> --}}
                                             </tr>
                                         </thead>
-                                        <tbody class="tbody_height_scroll">
+                                        <tbody class="tbody_height_scroll" >
                                             @include('frontend.memberinfo.member-leave.table')
                                         </tbody>
                                     </table>
@@ -272,7 +272,8 @@
     </script>
 
     <script>
-        function year_search(year) {
+        $(document).on('change', '#year_search', function() {
+            var year = $('#year_search').val();
             $.ajax({
                 url: "{{ route('member-leaves.year-search') }}",
                 type: 'POST',
@@ -280,14 +281,18 @@
                     _token: "{{ csrf_token() }}",
                     year: year
                 },
+                header:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    
+                },
                 success: function(response) {
+                   
                     $('tbody').html(response.data);
                 },
                 error: function(xhr) {
                     console.log(xhr);
                 }
             });
-        }
+        });
     </script>
 
     {{-- <script>

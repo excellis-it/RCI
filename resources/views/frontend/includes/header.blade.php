@@ -212,6 +212,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.paybill')}}" target="_blank">Paybill</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.crv')}}" target="_blank">CRV</a>
                             </li>
                             <li class="mb-2">

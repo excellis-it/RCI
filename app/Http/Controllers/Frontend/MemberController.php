@@ -40,6 +40,7 @@ use App\Models\Hra;
 use App\Models\Tpta;
 use App\Models\IncomeTax;
 use App\Models\MemberLoan;
+use View;
 use Illuminate\Support\Str;
 
 class MemberController extends Controller
@@ -144,6 +145,7 @@ class MemberController extends Controller
             'cgegis' => 'required',
             'member_city' => 'required',
             'rent_or_not' => 'required',
+            'pran_number' => 'required',
         ]);
 
         //check employee id 
@@ -197,6 +199,7 @@ class MemberController extends Controller
         $member->sos_address = $request->sos_address;
         $member->member_city = $request->member_city;
         $member->rent_or_not = $request->rent_or_not;
+        $member->pran_number = $request->pran_number;
         $member->save();
 
         session()->flash('message', 'Member added successfully');
@@ -277,9 +280,13 @@ class MemberController extends Controller
             // 'remarks' => 'required',
         ]);
 
-        $check_credit_member = MemberCredit::where('member_id', $request->member_id)->get();
+        $check_credit_member = MemberCredit::where('member_id', $request->member_id)
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->get();
+
         if (count($check_credit_member) > 0) {
-            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->first();
+            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_credit_member->pay = $request->pay;
             $update_credit_member->da = $request->da;
             $update_credit_member->tpt = $request->tpt;
@@ -393,9 +400,10 @@ class MemberController extends Controller
         // ]);
 
 
-        $check_debit_member = MemberDebit::where('member_id', $request->member_id)->get();
+
+        $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_debit_member) > 0) {
-            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->first();
+            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_debit_member->gpa_sub = $request->gpa_sub;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->rent = $request->rent;
@@ -513,10 +521,10 @@ class MemberController extends Controller
 
     public function memberRecoveryOriginalUpdate(Request $request)
     {
-
-        $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->get();
+        
+        $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_original_recovery_member) > 0) {
-            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->first();
+            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_recovery_org_member->ccs_sub = $request->ccs_sub;
             $update_recovery_org_member->mess = $request->mess;
             $update_recovery_org_member->security = $request->security;
@@ -742,6 +750,32 @@ class MemberController extends Controller
             $update_personal_member->pay_stop = $request->pay_stop;
             $update_personal_member->update();
 
+            //memebers details update
+            $member_details = Member::where('id', $request->member_id)->first();
+            $member_details->emp_id = $request->emp_id;
+            $member_details->gender = $request->gender;
+            $member_details->name = $request->name;
+            $member_details->pm_level = $request->pm_level;
+            $member_details->pm_index = $request->pm_index;
+            $member_details->basic = $request->basic;
+            $member_details->desig = $request->desig;
+            $member_details->group = $request->group;
+            $member_details->cadre = $request->cadre;
+            $member_details->category = $request->category;
+            $member_details->status = $request->status;
+            $member_details->g_pay = $request->g_pay;
+            $member_details->fund_type = $request->fund_type;
+            $member_details->dob = $request->dob;
+            $member_details->doj_lab = $request->doj_lab;
+            $member_details->dop = $request->dop;
+            $member_details->next_inr = $request->next_inr;
+            $member_details->quater = $request->quater;
+            $member_details->quater_no = $request->quater_no;
+            $member_details->ex_service = $request->ex_service;
+            $member_details->cgegis = $request->cgegis;
+            $member_details->pay_stop = $request->pay_stop;
+            $member_details->update();
+
             // session()->flash('message', 'Member personal info updated successfully');
             return response()->json(['message' => 'Member personal info updated successfully']);
         } else {
@@ -776,6 +810,7 @@ class MemberController extends Controller
             $personal_member->pay_stop = $request->pay_stop;
             $personal_member->save();
 
+
             // session()->flash('message', 'Member personal info added successfully');  
             return response()->json(['message' => 'Member personal info added successfully']);
         }
@@ -805,27 +840,34 @@ class MemberController extends Controller
         $endDate = new \DateTime($request->end_date);
         $interval = $startDate->diff($endDate);
         $totalMonths = ($interval->y * 12) + $interval->m;
+        
+        // Creating a monthly interval
         $monthInterval = new \DateInterval('P1M');
-        $period = new \DatePeriod($startDate, $monthInterval, $endDate->modify('+1 day'));
-        $totalAmount = $request->total_amount; // P
+        $endDate->modify('+1 day'); // To include the end date in the period
+        $period = new \DatePeriod($startDate, $monthInterval, $endDate);
+        
+        $totalAmount = $request->total_amount; // Principal amount
         $annualRate = $request->inst_rate; // Annual interest rate
-        $monthlyRate = $annualRate / ($totalMonths * 100); 
+        $monthlyRate = $annualRate / 12 / 100; // Monthly interest rate
+        
+        // EMI Calculation using the corrected monthly interest rate
         $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
+        
+        // Monthly interest for the first month
         $monthlyInterest = $totalAmount * $monthlyRate;
-
-        // Save data for each month
         foreach ($period as $date) {
-            $loanInstallment = new MemberLoan;
+            $loanInstallment = new MemberLoan();
             $loanInstallment->member_id = $request->member_id;
             $loanInstallment->loan_id = $request->loan_name;
             $loanInstallment->interest_rate = $annualRate;
             $loanInstallment->emi_amount = $emiAmount;
-            $loanInstallment->interest_amount = $monthlyInterest;
-            $loanInstallment->penal_interest = ''; // Save the month
+            $loanInstallment->interest_amount = $monthlyInterest; // Update this logic if interest changes monthly
+            $loanInstallment->emi_month = $date->format('F Y');
+            $loanInstallment->emi_date = $date->format('Y-m-d');
+            $loanInstallment->penal_interest = ''; // Handle penal interest logic if needed
             $loanInstallment->save();
         }
-
-
+        
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
     }
 
@@ -1029,6 +1071,63 @@ class MemberController extends Controller
         return response()->json(['message' => 'Member expectation deleted successfully']);
     }
 
+    public function memberLoanEmiInfo()
+    {
+        $members = Member::orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        return view('frontend.members.loan.emi-info',compact('loans','members'));
+    }
+
+    public function memberLoanList(Request $request)
+    {
+        
+        $members_loans_info = MemberLoanInfo::where('member_id',$request->member_id)->orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+
+        
+        return response()->json(['message' => 'Member loan found successfully', 'data' => $members_loans_info]);
+    }
+
+    public function memberLoanEmiSubmit(Request $request)
+    {
+        $validated = $request->validate([
+            'member_id' => 'required',
+            'loan_id' => 'required',
+        ]);
+        $members = Member::orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        $loan_emi_list = MemberLoan::where('member_id', $request->member_id)->where('loan_id', $request->loan_id)->paginate(10);
+
+        return response()->json(['view' => view('frontend.members.loan.emi-info-table', compact('members', 'loans', 'loan_emi_list'))->render()]);
+
+        
+    }
+
+    public function fetchEmiList(Request $request)
+    {
+       
+        $loanEmiQuery = MemberLoan::query();
+
+        if ($request->member_id) {
+            $loanEmiQuery->where('member_id', $request->member_id);
+        }
+
+        if ($request->loan_id) {
+            $loanEmiQuery->where('loan_id', $request->loan_id);
+        }
+
+        $loan_emi_list = $loanEmiQuery->paginate(10, ['*'], 'page', $request->page);
+        $members = Member::orderBy('id', 'desc')->get();
+        $loans = Loan::where('status', 1)->get();
+        // Return the partial view with the data
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => view('frontend.members.loan.emi-info-table', compact('loan_emi_list','members','loans'))->render()
+            ]);
+        }
+        
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -1092,6 +1191,8 @@ class MemberController extends Controller
         return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
     }
 
+    
+
     public function memberDebitEducationCess(Request $request)
     {
 
@@ -1105,4 +1206,6 @@ class MemberController extends Controller
 
         return response()->json(['edu_cal' => $edu_cal]);
     }
+
+  
 }

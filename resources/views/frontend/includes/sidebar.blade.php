@@ -62,6 +62,15 @@ use App\Helpers\Helper;
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ Route::currentRouteNamed('members-loan.emi-info') ? 'active' : '' }}" href="{{ route('members-loan.emi-info') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-notebook"></i>
+                        </span>
+                        <span class="hide-menu">Member Loan Emi</span>
+                    </a>
+                </li>
+
                 {{-- <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>

@@ -14,6 +14,9 @@ use App\Models\MemberLoan;
 use App\Models\Group;
 use Carbon\Carbon;
 
+use App\Models\SiteLogo;
+use App\Models\DearnessAllowancePercentage;
+use Illuminate\Pagination\Paginator;
 use PDF;
 use App\Helpers\Helper;
 
@@ -47,9 +50,52 @@ class ReportController extends Controller
         
         
         $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
-        return $pdf->download('document.pdf');
+        return $pdf->download('payslip.pdf');
     
     }
+
+    // public function crv()
+    // {
+    //     $groups = Group::where('status', 1)->get()->chunk(2); // Fetch and chunk groups
+    public function paybill()
+    {
+        return view('frontend.reports.paybill');
+    }
+
+    public function paybillGenerate(Request $request)
+    {
+        $request->validate([
+            'month' => 'required',
+            'year' => 'required',
+        ]);
+
+        $pay_bill_no = $request->year.'-'.'RCI-CHESS'.$request->month.$request->year.rand(1000,9999);
+        $all_members_info = [];
+        $member_datas = Member::where('member_status',1)->orderBy('id','desc')->with('desigs')->get();
+        foreach($member_datas as $member_data){
+            $member_details['member_credit'] = MemberCredit::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
+            $member_details['member_debit'] = MemberDebit::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
+            $member_details['member_core_info'] = MemberCoreInfo::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->with('banks')->first();
+            $member_details['member_recovery'] = MemberRecovery::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
+            $combined_member_info = [
+                'member_data' => $member_data,
+                'details' => $member_details
+            ];
+
+            $all_members_info[] = $combined_member_info;
+        }
+        // dd($all_members_info);
+        $month =  date('F', mktime(0, 0, 0, $request->month, 10));
+        $year = $request->year;
+        $logo = SiteLogo::first() ?? null;
+        $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
+        // dd($member_datas);
+        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no','month','year','logo','da_percent','all_members_info'));
+        
+        return $pdf->download('paybill.pdf');
+    }
+
+
 
     // public function crv()
     // {

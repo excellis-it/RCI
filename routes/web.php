@@ -166,6 +166,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
+    Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
+    Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -322,8 +324,16 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
 
+    Route::get('/member-loans-emi-info',[MemberController::class,'memberLoanEmiInfo'])->name('members-loan.emi-info');
+    Route::post('/members-loan-list',[MemberController::class,'memberLoanList'])->name('members.get-loan-from-member');
+    Route::post('/members-loan-emi-submit',[MemberController::class,'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
+    Route::post('/loan-emi-list', [MemberController::class, 'fetchEmiList'])->name('members.loan-emi-list');
+
     //member recovery original route
     Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
+
+    // members.loan.get-loan
+
 
     //member expectation route
     Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');
@@ -442,7 +452,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/member-leaves-delete/{id}', [MemberLeaveController::class, 'delete'])->name('member-leaves.delete');
         });
         Route::get('/member-leaves-fetch-data', [MemberLeaveController::class, 'fetchData'])->name('member-leaves.fetch-data');
-        Route::get('/member-leaves-year-search', [MemberLeaveController::class, 'yearSearch'])->name('member-leaves.year-search');
+        Route::post('/member-leaves-year-search', [MemberLeaveController::class, 'yearSearch'])->name('member-leaves.year-search');
         Route::get('/get-alloted-leaves', [MemberLeaveController::class, 'getAllotedLeaves'])->name('member-leaves.get-alloted-leaves');
         Route::get('/leave-fetch-data', [MemberLeaveController::class, 'leaveFetchData'])->name('member-leaves.leave-fetch-data');
         Route::get('/leave-list', [MemberLeaveController::class, 'memberLeaves'])->name('member-leaves.leave-list');

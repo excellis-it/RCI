@@ -9,13 +9,14 @@ class MemberLoan extends Model
 {
     use HasFactory;
 
-    public function member()
-    {
-        return $this->belongsTo(Member::class);
+    //member loan belongs loan name
+
+    public function loan(){
+        return $this->belongsTo(Loan::class, 'loan_id', 'id');
     }
 
-    public function loanNames()
-    {
-        return $this->belongsTo(Loan::class);
+    public function member(){
+        return $this->belongsTo(Member::class, 'member_id', 'id');
     }
+   
 }

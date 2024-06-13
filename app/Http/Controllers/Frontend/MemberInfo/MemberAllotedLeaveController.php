@@ -83,7 +83,7 @@ class MemberAllotedLeaveController extends Controller
         $allotedLeave->save();
 
         session()->flash('success', 'Member alloted leave created successfully');
-        return redirect()->route('member-alloted-leave.index')->with('success', 'Member alloted leave created successfully');
+        return response()->json(['success' => 'Member alloted leave created successfully']);
     }
 
     /**
@@ -131,7 +131,7 @@ class MemberAllotedLeaveController extends Controller
         $allotedLeave->update();
 
         session()->flash('success', 'Member alloted leave updated successfully');
-        return redirect()->route('member-alloted-leave.index')->with('success', 'Member alloted leave updated successfully');
+        return response()->json(['success' => 'Member alloted leave updated successfully']);
     }
 
     /**
