@@ -161,13 +161,20 @@ Route::middleware('permssions')->group(function () {
     ]);
 
     //reports route
+        //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
+       // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
+       // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
+       // salary certificate
+    Route::get('/reports-salary-certificate', [ReportController::class, 'salaryCertificate'])->name('reports.salary-certificate');
+    Route::post('/reports-salary-certificate-generate', [ReportController::class, 'salaryCertificateGenerate'])->name('reports.salary-certificate-generate');
+       
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 

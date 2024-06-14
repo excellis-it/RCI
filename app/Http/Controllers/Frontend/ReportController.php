@@ -11,6 +11,7 @@ use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
 use App\Models\MemberPolicyInfo;
 use App\Models\MemberLoan;
+use App\Models\MemberIncomeTax;
 use App\Models\Group;
 use Carbon\Carbon;
 
@@ -19,6 +20,7 @@ use App\Models\DearnessAllowancePercentage;
 use Illuminate\Pagination\Paginator;
 use PDF;
 use App\Helpers\Helper;
+use App\Models\IncomeTax;
 
 class ReportController extends Controller
 {
@@ -148,7 +150,9 @@ class ReportController extends Controller
         $member_core_info = MemberCoreInfo::where('member_id', $memberId)->first();
         $member_recoveries_data = MemberRecovery::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_policy_info = MemberPolicyInfo::where('member_id', $memberId)->sum('amount');
-        $member_loan_info = MemberLoan::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->with('loanNames')->get();
+        $member_loan_info = MemberLoan::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->with('loan')->get();
+        $member_it_exemption_info = MemberIncomeTax::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
         $year = $request->report_year;
         $months = $yearMonths;
 
@@ -187,6 +191,9 @@ class ReportController extends Controller
         $total_policy = 0;
         $standard_deduction = 50000;
         $professional_update_allowance = 0;
+        $ceaus = 0; $fixed_deposit = 0; $nsc = 0; $letOutProperty = 0; $pensionIncome = 0; $savingsInterest = 0;
+        $ppf = 0; $otherBonds = 0; $nsc_ctd = 0; $hbaRefund = 0; $tutionFee = 0; $jeevanSuraksha = 0; $ulip = 0; $otherSavings = 0;
+        $relief87A = 0; $relief89 = 0;
 
         foreach ($yearMonths as $month) {
             $result[$month]['credit'] = [
@@ -271,10 +278,65 @@ class ReportController extends Controller
 
 
         }
+        $hbaInterest = 0;
+        if($member_loan_info) {
+
+            $member_loan_info->filter(function($memberLoan) {
+                return $memberLoan->loan->loan_name === 'hba';
+            })->sum(function($memberLoan) {
+                return $memberLoan->interest_amount;
+            });
+        }
         
-        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'year', 'months', 'result', 'total_credit', 'total_debit', 'total_policy', 'standard_deduction', 'professional_update_allowance'));
+        // create an array to store exemption data for each exemption section
+        $exemption_result = [];
+        foreach ($member_it_exemption_info as $exemption) {
+            $exemption_result[$exemption->section]['section'] = $exemption->section;
+            $exemption_result[$exemption->section]['member_deduction'] = $exemption->member_deduction;
+            $exemption_result[$exemption->section]['max_deduction'] = $exemption->max_deduction;
+        }
+
+        // total for member exemption
+        $total_exemption = 0;
+        foreach ($exemption_result as $exemption) {
+            if(preg_match('/\b80\s*d\b/i', $exemption['section']) || preg_match('/\b80\s*d{2}\b/i', $exemption['section']) || preg_match('/\b80\s*ddb\b/i', $exemption['section']) || preg_match('/\b80\s*u\b/i', $exemption['section']) || preg_match('/\b80\s*e\b/i', $exemption['section']) || preg_match('/\b80\s*g\b/i', $exemption['section']) || preg_match('/\b80\s*tta\b/i', $exemption['section']) || preg_match('/\b80\s*cc\s*g\b/i', $exemption['section']) || preg_match('/\b80\s*ee\b/i', $exemption['section'])) 
+            {
+                $total_exemption += $exemption['member_deduction'];
+            }
+        }
+        
+        
+        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'year', 'months', 'result', 'total_credit', 'total_debit', 'total_policy', 'standard_deduction', 'professional_update_allowance', 'member_loan_info', 'hbaInterest', 'member_it_exemption_info', 'exemption_result', 'total_exemption', 'ceaus', 'fixed_deposit', 'nsc', 'letOutProperty', 'pensionIncome', 'savingsInterest', 'ppf', 'otherBonds', 'nsc_ctd', 'hbaRefund', 'tutionFee', 'jeevanSuraksha', 'ulip', 'otherSavings', 'incometaxRate', 'relief87A', 'relief89'));
         return $pdf->download('income-tax.pdf');
     
+    }
+
+    public function salaryCertificate()
+    {
+        $members = Member::orderBy('id', 'desc')->get();
+
+        $startYear = 1958;
+        $endYear = date('Y');
+
+        $years = range($startYear, $endYear);
+
+        return view('frontend.reports.salary-certificate', compact('members', 'years'));
+    }
+
+    public function salaryCertificateGenerate(Request $request) 
+    {
+        $request->validate([
+            'member_id' => 'required',
+            'year' => 'required',
+            'month' => 'required'
+        ]);
+
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
+
+        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data'));
+        return $pdf->download('salary-certificate.pdf');
+        
     }
 
     
