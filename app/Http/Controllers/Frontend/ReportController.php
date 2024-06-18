@@ -86,13 +86,17 @@ class ReportController extends Controller
 
             $all_members_info[] = $combined_member_info;
         }
+         // Split the data into chunks for pagination
+        $perPage = 1; // Set this according to how many records fit on a page
+        $groupedData = array_chunk($all_members_info, $perPage);
+
         // dd($all_members_info);
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
         $year = $request->year;
         $logo = SiteLogo::first() ?? null;
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
         // dd($member_datas);
-        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no','month','year','logo','da_percent','all_members_info'));
+        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no','month','year','logo','da_percent','all_members_info','groupedData'));
         
         return $pdf->download('paybill.pdf');
     }
@@ -331,12 +335,131 @@ class ReportController extends Controller
             'month' => 'required'
         ]);
 
+        $member_data = Member::where('id', $request->member_id)->with('desigs')->first();
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
+        $year = $request->year;
+        $requestMonth = $request->month;
+        $dateStr = sprintf('2024-%02d-01', $requestMonth);
+        $month = date('M', strtotime($dateStr));
 
-        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data'));
+        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'year', 'month'));
         return $pdf->download('salary-certificate.pdf');
         
+    }
+
+    public function bonusSchedule()
+    {
+        $financialYears = Helper::getFinancialYears();
+        return view('frontend.reports.bonus-schedule', compact('financialYears'));
+    }
+
+    public function bonusScheduleGenerate(Request $request)
+    {
+        $request->validate([
+            'report_year' => 'required',
+        ]);
+
+        [$startYear, $endYear] = explode('-', $request->report_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
+
+        $yearMonths = [];
+        $current = $startOfYear->copy();
+
+        while ($current->lessThanOrEqualTo($endOfYear)) {
+            $yearMonths[] = $current->format('M-y');
+            $current->addMonth();
+        }
+        
+        $member_data = Member::with('desigs')->get();
+        $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $year = $request->report_year;
+        $months = $yearMonths;
+        $unitCode = 'RCI-CHESS-' . rand(1000, 9999);
+
+        // create an array to store the result member wise
+        $result = [];
+        $total_credit = [
+            'dress_alw' => 0,
+            'bonus' => 0,
+        ];
+        $total_debit = [
+            'eol' => 0,
+        ];
+
+        foreach($member_data as $member) {
+            $result[$member->id] = [
+                'name' => $member->name,
+                'emp_id' => $member->emp_id,
+                'designation' => $member->desigs->designation ?? 'N/A',
+                'doj' => $member->doj_lab,
+                'credit' => [
+                    'basic_pay' => 0,
+                    'dress_alw' => 0,
+                    'bonus' => 0,
+                ],
+                'debit' => [
+                    'eol' => 0,
+                ],
+                'total' => 0
+            ];
+        }
+
+        foreach ($member_credit_data as $credit) {
+            $memberId = $credit->member_id;
+            if (isset($result[$memberId])) {
+                $result[$memberId]['credit']['basic_pay'] += $credit->pay;
+                $result[$memberId]['credit']['dress_alw'] += $credit->dis_alw;
+                $result[$memberId]['credit']['bonus'] += $credit->incentive;
+
+                $total_credit['dress_alw'] += $credit->dis_alw;
+                $total_credit['bonus'] += $credit->incentive;
+            }
+        }
+
+        foreach ($member_debit_data as $debit) {
+            $memberId = $debit->member_id;
+            if (isset($result[$memberId])) {
+                $result[$memberId]['debit']['eol'] += $debit->eol;
+
+                $total_debit['eol'] += $debit->eol;
+            }
+        }
+
+        foreach ($result as $memberId => $data) {
+            $creditTotal = array_sum($data['credit']);
+            $debitTotal = array_sum($data['debit']);
+            $result[$memberId]['total'] = $creditTotal - $debitTotal;
+        }
+
+        $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit'));
+        return $pdf->download('bonus-schedule.pdf');
+    }
+
+    public function lastPayCertificate()
+    {
+        $members = Member::orderBy('id', 'desc')->get();
+        return view('frontend.reports.last-pay-certificate', compact('members'));
+    }
+
+    public function lastPayCertificateGenerate(Request $request)
+    {
+        $request->validate([
+            'member_id' => 'required',
+        ]);
+
+        $member_data = Member::where('id', $request->member_id)->with('desigs', 'payLevels')->first();
+        $dojYear = Carbon::parse($member_data->doj_lab)->format('Y');
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
+        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $drdoPin = $dojYear.'AD'.str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
+
+        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
+        return $pdf->download('last-pay-certificate.pdf');
     }
 
     

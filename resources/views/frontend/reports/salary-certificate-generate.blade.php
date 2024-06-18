@@ -106,9 +106,9 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    This is to certify that Sri/Smt G.Nageswara Rao, SC E
-                    (CH0014) is in receipt of the following Pay & Allowances for
-                    the Month of Jan 2024
+                    This is to certify that Sri/Smt {{ ucwords($member_data->name) }}, {{ $member_data->desigs->designation }}
+                    ({{ $member_data->emp_id }}) is in receipt of the following Pay & Allowances for
+                    the Month of {{ $month }} {{ $year }}
                   </td>
                 </tr>
               </tbody>
@@ -139,7 +139,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    Pa , & Allowances
+                    Pay  & Allowances
                   </th>
                   <th
                     style="
@@ -219,7 +219,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    134500
+                    {{ $member_credit_data->pay ?? 0 }}
                   </td>
                   <td
                     style="
@@ -249,7 +249,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    19637
+                    {{ $member_debit_data->pension_rec ?? 0 }}
                   </td>
                 </tr>
                 <tr>
@@ -281,7 +281,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    7600
+                    {{ $member_credit_data->g_pay ?? 0 }}
                   </td>
                   <td
                     style="
@@ -311,7 +311,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    1000
+                    {{  $member_debit_data->cghs ?? 0 }}
                   </td>
                 </tr>
                 <tr>
@@ -343,7 +343,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    18500
+                    {{ $member_credit_data->var_incr ?? 0 }}
                   </td>
                   <td
                     style="
@@ -373,7 +373,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    120
+                    {{ $member_debit_data->cgegis ?? 0 }}
                   </td>
                 </tr>
                 <tr>
@@ -405,7 +405,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    61870
+                    {{ $member_credit_data->da ?? 0 }}
                   </td>
                   <td
                     style="
@@ -435,7 +435,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    200
+                    {{ $member_debit_data->ptax ?? 0 }}
                   </td>
                 </tr>
                 <tr>
@@ -466,7 +466,7 @@
                       border: 1px solid #000;
                     "
                   >
-                    36315
+                    {{ $member_credit_data->hra ?? 0 }}
                   </td>
                   <td
                     style="
@@ -481,7 +481,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    L.Tax
+                    I.Tax
                   </td>
                   <td
                     style="
@@ -496,7 +496,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    45878
+                    {{ $member_debit_data->i_tax ?? 0 }}
                   </td>
                 </tr>
                 <tr>
@@ -528,7 +528,7 @@
                       padding: 0px 5px;
                     "
                   >
-                    10512
+                    {{ $member_credit_data->tpt ?? 0 }}
                   </td>
                   <td
                     style="
@@ -590,23 +590,10 @@
                       padding: 0px 5px;
                     "
                   >
-                    261697
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: right;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                      height: 10px;
-                      padding: 0px 5px;
-                    "
-                  >
-                    Total
+                  @php
+                    $gross = ($member_credit_data->pay ?? 0) + ($member_credit_data->g_pay ?? 0) + ($member_credit_data->var_incr ?? 0) + ($member_credit_data->da ?? 0) + ($member_credit_data->hra ?? 0) + ($member_credit_data->tpt ?? 0);
+                  @endphp
+                    {{ $gross }}
                   </td>
                   <td
                     style="
@@ -622,7 +609,26 @@
                       padding: 0px 5px;
                     "
                   >
-                    66635
+                    Total
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: right;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    "
+                  >
+                  @php
+                    $total_recoveries = ($member_debit_data->pension_rec ?? 0) + ($member_debit_data->cghs ?? 0) + ($member_debit_data->cgegis ?? 0) + ($member_debit_data->ptax ?? 0) + ($member_debit_data->i_tax ?? 0);
+                  @endphp
+                    {{ $total_recoveries }}
                   </td>
                 </tr>
               </tfoot>
@@ -639,9 +645,9 @@
               align="center"
             >
               <tbody>
-                <tr></tr>
-                  <td style="height: 20px; border-left: 1px solid #000;"></td>
-                  <td style="height: 20px; border-right: 1px solid #000;"></td>
+                <tr>
+                  <td style="height: 10px; border-left: 1px solid #000;"></td>
+                  <td style="height: 10px; border-right: 1px solid #000;"></td>
                 </tr>
                 <tr>
                   <td
@@ -670,7 +676,7 @@
                       border-right: 1px solid #000;
                     "
                   >
-                    261697
+                    {{ $gross }}
                   </td>
                 </tr>
                 <tr>
@@ -700,7 +706,7 @@
                       border-right: 1px solid #000;
                     "
                   >
-                    66635
+                    {{  $total_recoveries }}
                   </td>
                 </tr>
                 <tr>
@@ -731,7 +737,10 @@
                       border-right: 1px solid #000;
                     "
                   >
-                    195062
+                  @php
+                    $net_pay = $gross - $total_recoveries;
+                  @endphp
+                    {{ $net_pay }}
                   </td>
                 </tr>
               </tbody>
@@ -763,7 +772,12 @@
                       border-bottom: 1px solid #000;
                     "
                   >
-                    (Rupees One Lak Ninety Five Thousand Sixty Two Only)
+                  @php
+                  use App\Helpers\Helper;
+
+                    $words = Helper::convert($net_pay);
+                  @endphp
+                    ({{ $words }})
                   </td>
                 </tr>
               </tbody>

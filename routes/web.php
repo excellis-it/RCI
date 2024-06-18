@@ -174,6 +174,12 @@ Route::middleware('permssions')->group(function () {
        // salary certificate
     Route::get('/reports-salary-certificate', [ReportController::class, 'salaryCertificate'])->name('reports.salary-certificate');
     Route::post('/reports-salary-certificate-generate', [ReportController::class, 'salaryCertificateGenerate'])->name('reports.salary-certificate-generate');
+        // bonus schedule
+    Route::get('/reports-bonus-schedule', [ReportController::class, 'bonusSchedule'])->name('reports.bonus-schedule');
+    Route::post('/reports-bonus-schedule-generate', [ReportController::class, 'bonusScheduleGenerate'])->name('reports.bonus-schedule-generate');
+        // last pay certificate
+    Route::get('/reports-last-pay-certificate', [ReportController::class, 'lastPayCertificate'])->name('reports.last-pay-certificate');
+    Route::post('/reports-last-pay-certificate-generate', [ReportController::class, 'lastPayCertificateGenerate'])->name('reports.last-pay-certificate-generate');
        
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');

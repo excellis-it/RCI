@@ -163,10 +163,10 @@
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
                                 margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
                                         {{ $member_info['member_data']->pm_level ?? 'N/A' }}<br>
-                                        {{ $member_info['member_data']->dob ?? 'MM-DD-YYYY' }} <br>
+                                        {{ $member_info['member_data']->dob ?? '' }} <br>
                                         {{ $member_info['details']['member_core_info']->gpf_acc_no ?? 'N/A' }}/{{ $member_info['member_data']->pran_number ?? 'N/A' }}
                                         <br>
-                                        {{ $member_info['member_data']->doj_lab ?? 'MM-DD-YYYY' }}<br>
+                                        {{ $member_info['member_data']->doj_lab ?? '' }}<br>
                                         {{ $member_info['details']['member_credit']->var_incr ?? 'N/A' }}<br>
                                         {{ $member_info['member_data']->next_inr ?? 'N/A' }}<br>
                                         {{ $member_info['details']['member_core_info']->pan_no ?? 'N/A' }}
@@ -286,18 +286,20 @@
                                 </tr>
 
                         <tfoot>
-
+                            @php
+                                $totalBasicPay += $member_info['details']['member_credit']->pay ?? 0; // total basic pay
+                                $totalDa += $member_info['details']['member_credit']->da ?? 0; // total da
+                                $totalHra += $member_info['details']['member_credit']->hra ?? 0; // total hra
+                                $totalTpt += $member_info['details']['member_credit']->tpt ?? 0; // total tpt
+                                $totalDaOnTpt += $member_info['details']['member_credit']->da_on_tpt ?? 0; // total da on tpt
+                                $totalSpay += $member_info['details']['member_credit']->s_pay ?? 0; // total special pay
+                            @endphp
 
                             @if (($key + 1) % $itemsPerPage == 0 || $loop->last)
-                                @php
-                                    $currentPage = intval($key / $itemsPerPage) + 1;
-                                    $totalBasicPay += $member_info['details']['member_credit']->pay ?? 0; // total basic pay
-                                    $totalDa += $member_info['details']['member_credit']->da ?? 0; // total da
-                                    $totalHra += $member_info['details']['member_credit']->hra ?? 0; // total hra
-                                    $totalTpt += $member_info['details']['member_credit']->tpt ?? 0; // total tpt
-                                    $totalDaOnTpt += $member_info['details']['member_credit']->da_on_tpt ?? 0; // total da on tpt
-                                    $totalSpay += $member_info['details']['member_credit']->s_pay ?? 0; // total special pay
-                                @endphp
+                            @php
+                                $currentPage = intval($key / $itemsPerPage) + 1;
+                            @endphp
+                                
                                 <tr>
                                     <td colspan="2" valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
@@ -392,6 +394,15 @@
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                     </td>
                                 </tr>
+                                @php
+                                    // Reset totals for the next page
+                                    $totalBasicPay = 0;
+                                    $totalDa = 0;
+                                    $totalHra = 0;
+                                    $totalTpt = 0;
+                                    $totalDaOnTpt = 0;
+                                    $totalSpay = 0;
+                                @endphp
                             @endif
                         </tfoot>
 
