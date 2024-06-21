@@ -146,6 +146,7 @@ class MemberController extends Controller
             'member_city' => 'required',
             'rent_or_not' => 'required',
             'pran_number' => 'required',
+            'e_status' => 'required',
         ]);
 
         //check employee id 
@@ -200,6 +201,7 @@ class MemberController extends Controller
         $member->member_city = $request->member_city;
         $member->rent_or_not = $request->rent_or_not;
         $member->pran_number = $request->pran_number;
+        $member->e_status = $request->e_status;
         $member->save();
 
         session()->flash('message', 'Member added successfully');
@@ -219,7 +221,7 @@ class MemberController extends Controller
      */
     public function edit(string $id)
     {
-        $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal')->first();
+        $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal', 'gPay')->first();
         $member_credit = MemberCredit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_debit = MemberDebit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_recovery = MemberRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -748,6 +750,7 @@ class MemberController extends Controller
             $update_personal_member->cgegis = $request->cgegis;
             $update_personal_member->cgegis_text = $request->cgegis_text;
             $update_personal_member->pay_stop = $request->pay_stop;
+            $update_personal_member->e_status = $request->e_status;
             $update_personal_member->update();
 
             //memebers details update
@@ -774,6 +777,7 @@ class MemberController extends Controller
             $member_details->ex_service = $request->ex_service;
             $member_details->cgegis = $request->cgegis;
             $member_details->pay_stop = $request->pay_stop;
+            $member_details->e_status = $request->e_status;
             $member_details->update();
 
             // session()->flash('message', 'Member personal info updated successfully');
@@ -808,6 +812,7 @@ class MemberController extends Controller
             $personal_member->cgegis = $request->cgegis;
             $personal_member->cgegis_text = $request->cgegis_text;
             $personal_member->pay_stop = $request->pay_stop;
+            $personal_member->e_status = $request->e_status;
             $personal_member->save();
 
 

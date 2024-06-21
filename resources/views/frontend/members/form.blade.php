@@ -643,7 +643,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-4 mb-2">
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label for="PIS">Rent Payable</label>
@@ -668,6 +668,23 @@
                                                 <input type="text" class="form-control" name="pran_number"
                                                     id="pran_number" value="{{ old('pran_number') ?? '' }}"
                                                     placeholder="">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label for="PIS">Employment Status</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select" name="e_status" id="e_status">
+                                                    <option value="">Select</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="retired">Retired</option>
+                                                    <option value="suspended">Suspended</option>
+                                                    <option value="transferred">Transferred</option> 
+                                                </select>
                                                 <span class="text-danger"></span>
                                             </div>
                                         </div>

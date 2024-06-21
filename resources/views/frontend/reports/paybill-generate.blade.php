@@ -29,7 +29,7 @@
         width: 100%;
     }
     th, td {
-        border: 1px solid #000;
+         border: 1px solid #000; 
         padding: 5px;
         text-align: left;
     }
@@ -41,9 +41,9 @@
         display: table-footer-group;
     }
     /* Fixes the issue with borders not appearing across page breaks */
-    tr {
+    /* tr {
         page-break-inside: avoid;
-    }
+    } */
 </style>
 
 
@@ -54,14 +54,14 @@
 
             <tr>
                 <td style="padding:0 0px">
-                    <table width="100%" border="1" cellpadding="0" cellspacing="0" align="center">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                         <thead>
                             <tr>
-                                <td colspan="5" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;">
+                                <td colspan="5" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;  border-right: none !important;">
                                     PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF {{ $month ?? 'N/A' }} - {{ $year ?? 'N/A' }} GPF OFFICER
                                 </td>
-                                <td  colspan="3" style="text-align: center;"><img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;" src="{{ public_path('frontend_assets/images/drdo-logo.png') }}" alt=""></td>
-                                <td colspan="6" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;">
+                                <td  colspan="3" style="text-align: center;"><img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;" border="0" src="{{ public_path('frontend_assets/images/drdo-logo.png') }}" alt=""></td>
+                                <td colspan="6" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border-right: none !important;">
                                     Center For High Energy Systems and Science<br>
                                     Unit Code : ######### &nbsp; &nbsp; &nbsp; <span style="text-transform: uppercase; border-bottom: 1px solid #000;">Page NO.</span>
                                 </td>
@@ -87,46 +87,46 @@
                                 </th>
                             </tr>
                             <tr>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     Sr.No.<br>NAME<br>CODE<br>RANK NAME<br>BANK A/C<br>IFSC
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     LEVEL<br>DATE OF BIRTH<br>GPF NO./PRAN NO<br>APPT DATE<br>VAR.INCR.NO, DNI<br>PAN NO
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     BASIC PAY<br>DA ({{ $da_percent->percentage ?? 'N/A' }}%)<br>HRA<br>TPT ALLOW<br>TPTDA<br>SPL PAY
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     SPL INCENT<br>INCENTIVE<br>DRESS ALLWN<br>VARIABLE AMT<br>ARRS OF PAY & ALLOW<br>RISK ALLWN
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     NPSC 14%<br>NPSG ARRS 14%<br>NPS ADJ14%<br>MISC CREDIT (IT)<br>MISC CREDIT
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     GPF SUB<br>GPF ADV<br>GPF ARRS<br>CCEGIS<br>CGHS<br>HBA ADV
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     HBA INT<br>CAR ADV<br>CAR INT<br>SCO ADV<br>SCO INT<br>COMP ADV
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     COMP INT<br>FEST ADV<br>LTC<br>MED DEBIT<br>TADA<br>LEAVE REC
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     PENSION REC<br>INCOME TAX<br>EDU CESS<br>PL INSUR<br>MISC DEBIT<br>MISC DEBIT (IT)
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     NPS 10% REC.<br>NPSG 14%<br>NPS ARR 10%<br>NPSG ARR 14%<br>NPS ADJ 10%<br>NPS ADJ 14%
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     CGHS ARR<br>CGEIS ARR<br>PENAL INTR
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     LICENCE FEE<br>ELECT<br>WATER<br>FURN<br>MISC RENT
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                     CREDITS<br>DEBITS<br>NET PAY<br>TABLE REC<br>PAYSLIP PAY
                                 </td>
-                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border: 1px solid #000;"></td>
+                                <td valign="top" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000;"></td>
                             </tr>
                         </thead>
                         
@@ -144,10 +144,11 @@
                             $totalSpay = 0;
 
                         @endphp
+                        
+
                         <tbody>
-
-
                             @foreach ($all_members_info as $key => $member_info)
+                            
                                 <tr>
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
@@ -284,7 +285,7 @@
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                     </td>
                                 </tr>
-
+                        
                         <tfoot>
                             @php
                                 $totalBasicPay += $member_info['details']['member_credit']->pay ?? 0; // total basic pay
@@ -407,16 +408,13 @@
                         </tfoot>
 
                         @if (($key + 1) % 1 == 0 && !$loop->last)
-                            <div class="page-break"></div>
+                    <tfoot><tr class="page-break"></tr></tfoot>
                         @endif
                         @endforeach
             </tr>
         </tbody>
     </table>
-    </td>
-    </tr>
-    </tbody>
-    </table>
+
 </body>
 
 </html>

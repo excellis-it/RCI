@@ -316,6 +316,7 @@
                     success: function(response) {
                         $('#item_type').val(response.item_type);
                         $('#description').val(response.description);
+                        $('#uom').val(response.uom);
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -366,6 +367,21 @@
                 var tax = parseInt($('#edit_tax').val());
                 var total_price = price + (price * tax / 100);
                 $('#edit_total_price').val(total_price);
+            });
+        });
+    </script>
+    <script>
+        // add new row
+        $(document).ready(function() {
+            $(document).on('click', '#add-row', function() {
+                var tr = $('#credit_new_html').html();
+                $('#credit_form_add_new_row').append(tr);
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
             });
         });
     </script>

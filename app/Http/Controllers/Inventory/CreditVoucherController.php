@@ -220,6 +220,6 @@ class CreditVoucherController extends Controller
     {
         $itemCode = ItemCode::findOrFail($request->item_code_id);
         // $inventoryType = InventoryType::findOrFail($itemCode->inventory_type_id);
-        return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description]);
+        return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description, 'uom' => $itemCode->uom]);
     }
 }

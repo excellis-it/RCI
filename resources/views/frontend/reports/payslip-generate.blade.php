@@ -2,10 +2,11 @@
 <!doctype html>
 <html lang="en">
 
-<title>{{ env('APP_NAME') }} | @yield('title')</title>
+<title>RCI</title>
 
 
 <meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Hind:400,700&amp;subset=devanagari,latin-ext" rel="stylesheet">
 
 <body style="background: #fff; font-family: 'Noto Sans Devanagari', sans-serif;">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"

@@ -28,7 +28,7 @@ class ReportController extends Controller
 
     public function payslip()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
         return view('frontend.reports.payslip', compact('members'));
     }
 
@@ -52,7 +52,7 @@ class ReportController extends Controller
         
         
         $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
-        return $pdf->download('payslip.pdf');
+        return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
     
     }
 
@@ -73,7 +73,7 @@ class ReportController extends Controller
 
         $pay_bill_no = $request->year.'-'.'RCI-CHESS'.$request->month.$request->year.rand(1000,9999);
         $all_members_info = [];
-        $member_datas = Member::where('member_status',1)->orderBy('id','desc')->with('desigs')->get();
+        $member_datas = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->where('member_status',1)->orderBy('id','desc')->with('desigs')->get();
         foreach($member_datas as $member_data){
             $member_details['member_credit'] = MemberCredit::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
             $member_details['member_debit'] = MemberDebit::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
@@ -98,7 +98,7 @@ class ReportController extends Controller
         // dd($member_datas);
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no','month','year','logo','da_percent','all_members_info','groupedData'));
         
-        return $pdf->download('paybill.pdf');
+        return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
     }
 
 
@@ -121,7 +121,7 @@ class ReportController extends Controller
 
     public function annualIncomeTaxReport()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
         $financialYears = Helper::getFinancialYears();
         return view('frontend.reports.income-tax-report', compact('members', 'financialYears'));
     }
@@ -311,13 +311,13 @@ class ReportController extends Controller
         
         
         $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'year', 'months', 'result', 'total_credit', 'total_debit', 'total_policy', 'standard_deduction', 'professional_update_allowance', 'member_loan_info', 'hbaInterest', 'member_it_exemption_info', 'exemption_result', 'total_exemption', 'ceaus', 'fixed_deposit', 'nsc', 'letOutProperty', 'pensionIncome', 'savingsInterest', 'ppf', 'otherBonds', 'nsc_ctd', 'hbaRefund', 'tutionFee', 'jeevanSuraksha', 'ulip', 'otherSavings', 'incometaxRate', 'relief87A', 'relief89'));
-        return $pdf->download('income-tax.pdf');
+        return $pdf->download('income-tax-' . $member_data->name . '-' . $request->report_year . '.pdf');
     
     }
 
     public function salaryCertificate()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
 
         $startYear = 1958;
         $endYear = date('Y');
@@ -344,7 +344,7 @@ class ReportController extends Controller
         $month = date('M', strtotime($dateStr));
 
         $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'year', 'month'));
-        return $pdf->download('salary-certificate.pdf');
+        return $pdf->download('salary-certificate-' . $member_data->name . '.pdf');
         
     }
 
@@ -372,7 +372,7 @@ class ReportController extends Controller
             $current->addMonth();
         }
         
-        $member_data = Member::with('desigs')->get();
+        $member_data = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->with('desigs')->get();
         $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $year = $request->report_year;
@@ -435,12 +435,12 @@ class ReportController extends Controller
         }
 
         $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit'));
-        return $pdf->download('bonus-schedule.pdf');
+        return $pdf->download('bonus-schedule-' . $request->report_year . '.pdf');
     }
 
     public function lastPayCertificate()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'desc')->where('e_status', 'retired')->orWhere('e_status', 'transferred')->get();
         return view('frontend.reports.last-pay-certificate', compact('members'));
     }
 
@@ -459,7 +459,7 @@ class ReportController extends Controller
         $drdoPin = $dojYear.'AD'.str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
 
         $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
-        return $pdf->download('last-pay-certificate.pdf');
+        return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
 
     

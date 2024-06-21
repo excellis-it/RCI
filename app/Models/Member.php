@@ -123,6 +123,11 @@ class Member extends Model
     {
         return $this->hasOne(MemberCoreInfo::class, 'member_id');
     }
+
+    public function gPay()
+    {
+        return $this->belongsTo(GradePay::class, 'g_pay');
+    }
     
 
     
