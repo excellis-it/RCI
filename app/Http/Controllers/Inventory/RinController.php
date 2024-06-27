@@ -68,8 +68,17 @@ class RinController extends Controller
             'au_status' => 'required',
         ]);
 
+        // auto generate rin id
+        $lastRin = Rin::orderBy('id', 'desc')->first();
+        if ($lastRin) {
+            $rin_id = 'RIN' . str_pad((int)($lastRin->rin_no) + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $rin_id = 'RIN' . str_pad(1, 4, '0', STR_PAD_LEFT);
+        }
+
         $rin = new Rin();
         $rin->item_id = $request->item_id;
+        $rin->rin_no = $rin_id;
         $rin->description = $request->description;
         $rin->received_quantity = $request->received_quantity;
         $rin->accepted_quantity = $request->accepted_quantity;

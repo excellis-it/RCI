@@ -111,32 +111,32 @@ class Helper {
 
     private static function convertToWords($number)
     {
-        if ($number == 0) {
-            return '';
-        }
-
         $number = ltrim($number, '0');
         $length = strlen($number);
         $words = [];
 
-        if ($length > 3) {
-            $number = str_pad($number, ceil($length / 2) * 2, '0', STR_PAD_LEFT);
-            $groups = str_split($number, 2);
-        } else {
-            $groups = [$number];
+        if ($length > 7) {
+            $crores = substr($number, 0, -7);
+            $number = substr($number, -7);
+            $words[] = self::convertToWords($crores) . ' crore';
         }
-
-        $groupCount = count($groups);
-        foreach ($groups as $index => $group) {
-            $groupWords = self::convertGroup($group);
-            if ($groupWords) {
-                $place = $groupCount - $index - 1;
-                if ($place > 0) {
-                    $words[] = $groupWords . ' ' . self::$places[$place];
-                } else {
-                    $words[] = $groupWords;
-                }
-            }
+        if ($length > 5) {
+            $lakhs = substr($number, 0, -5);
+            $number = substr($number, -5);
+            $words[] = self::convertToWords($lakhs) . ' lakh';
+        }
+        if ($length > 3) {
+            $thousands = substr($number, 0, -3);
+            $number = substr($number, -3);
+            $words[] = self::convertToWords($thousands) . ' thousand';
+        }
+        if ($length > 2) {
+            $hundreds = substr($number, 0, -2);
+            $number = substr($number, -2);
+            $words[] = self::convertGroup($hundreds) . ' hundred';
+        }
+        if ($number > 0) {
+            $words[] = self::convertGroup($number);
         }
 
         return implode(' ', $words);

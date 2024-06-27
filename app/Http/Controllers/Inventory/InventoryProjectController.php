@@ -63,7 +63,11 @@ class InventoryProjectController extends Controller
             'status' => 'required',
         ]);
 
+        // auto generate project code
+        $project_code = 'PRJ'.date('YmdHis');
+
         $inventory_project = new InventoryProject();
+        $inventory_project->project_code = $project_code;
         $inventory_project->project_name = $request->project_name;
         $inventory_project->sanction_amount = $request->sanction_amount;
         $inventory_project->sanction_authority = $request->sanction_authority;

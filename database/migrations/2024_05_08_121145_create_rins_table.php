@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('rins', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('item_id')->nullable();
+            $table->string('rin_no')->nullable();
             $table->string('description')->nullable();
             $table->string('received_quantity')->nullable();
             $table->string('accepted_quantity')->nullable();

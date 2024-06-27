@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use Illuminate\Http\Request;
 use App\Models\DebitVoucher;
 use App\Models\ItemCode;
@@ -22,7 +23,7 @@ class DebitVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         
         return view('inventory.debit-vouchers.list', compact('debitVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
     }

@@ -20,6 +20,8 @@ use App\Models\DearnessAllowancePercentage;
 use Illuminate\Pagination\Paginator;
 use PDF;
 use App\Helpers\Helper;
+use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use App\Models\IncomeTax;
 
 class ReportController extends Controller
@@ -460,6 +462,69 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
+    }
+
+    public function creditVoucherGenerate(Request $request) 
+    {
+        // dd($request->all());
+        $creditVoucher = CreditVoucher::where('id', $request->id)->first();
+        $creditVoucherDetails = CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('rins', 'inventoryProjects', 'members', 'itemCodes')->get();
+
+        // result array to store the credit voucher details
+        $result = [];
+        $singleData = [];
+        $totalItemCost = 0;
+        $total = 0;
+        $itemCount = 0;
+
+        $result['voucher_no'] = $creditVoucher->voucher_no;
+        $result['voucher_date'] = $creditVoucher->voucher_date;
+
+
+        foreach ($creditVoucherDetails as $detail) {
+            $price = $detail->price ?? 0;
+            $totalCost = $detail->total_price ?? 0;
+
+            $result[$creditVoucher->voucher_no][$detail->itemCodes->code] = [
+                'rin_no' => $detail->rins->rin_no ?? 'N/A',
+                'rin_date' => $detail->rins->created_at ?? 'N/A',
+                'consigner' => $detail->consigner ?? 'N/A',
+                'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                'member_name' => $detail->members->name ?? 'N/A',
+                'item_code' => $detail->itemCodes->code ?? 'N/A',
+                'description' => $detail->description ?? 'N/A',
+                'quantity' => $detail->quantity ?? 'N/A',
+                'remarks' => $detail->rins->remarks ?? 'N/A',
+                'nc_status' => $detail->rins->nc_status ?? 'N/A',
+                'au_status' => $detail->rins->au_status ?? 'N/A',
+                'rate' => $price ?? 'N/A',
+                'tax' => $detail->tax ?? 'N/A',
+                'total_cost' => $totalCost ?? 'N/A',
+            ];
+
+            $totalItemCost += (float)$price;;
+            $total += (float)$totalCost;
+
+            $singleData[$creditVoucher->voucher_no] = [
+                'rin_no' => $detail->rins->rin_no ?? 'N/A',
+                'rin_date' => $detail->rins->created_at ?? 'N/A',
+                'consignor' => $detail->consigner ?? 'N/A',
+                'member_name' => $detail->members->name ?? 'N/A',
+                'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+            ];
+
+            $itemCount++;
+
+        }
+        // dd($itemCount);
+
+
+        $pdf = PDF::loadView('frontend.reports.credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount'));
+        return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
     }
 
     

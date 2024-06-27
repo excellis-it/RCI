@@ -303,57 +303,112 @@
         });
     </script>
     <script>
-        $(document).ready(function(){
-            $('#item_code_id').change(function() {
-                var item_code_id = $(this).val();
-                $.ajax({ 
-                    url: "{{ route('credit-vouchers.get-item-type')}}",
-                    type: 'POST',
-                    data: {
-                        item_code_id: item_code_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        $('#item_type').val(response.item_type);
-                        $('#description').val(response.description);
-                        $('#uom').val(response.uom);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                 });
+        function getItemDetails(getval) {
+            var item_code_id = $(getval).val();
+            // alert(item_code_id);
+
+            $.ajax({ 
+                url: "{{ route('credit-vouchers.get-item-type')}}",
+                type: 'POST',
+                data: {
+                    item_code_id: item_code_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                    // $('#item_type').val(response.item_type);
+                    // $('#description').val(response.description);
+                    // $('#uom').val(response.uom);
+
+                    var $row = $(getval).closest('.count-class');
+                    $row.find('#item_type').val(response.item_type);
+                    $row.find('#description').val(response.description);
+                    $row.find('#uom').val(response.uom);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
             });
-        });
+        }
+        // $(document).ready(function(){
+        //     $('.item-code').change(function() {
+        //         var item_code_id = $(this).val();
+        //         alert(item_code_id);
+        //         $.ajax({ 
+        //             url: "{{ route('credit-vouchers.get-item-type')}}",
+        //             type: 'POST',
+        //             data: {
+        //                 item_code_id: item_code_id,
+        //                 _token: '{{ csrf_token() }}'
+        //             },
+        //             success: function(response) {
+        //                 $('#item_type').val(response.item_type);
+        //                 $('#description').val(response.description);
+        //                 $('#uom').val(response.uom);
+        //             },
+        //             error: function(xhr) {
+        //                 console.log(xhr);
+        //             }
+        //         });
+        //     });
+            
+        // });
     </script>
 
     <script>
-        $(document).ready(function () {
-            $('#inv_no').change(function(){
-                var selectedValue = $(this).find(':selected');
-                var inv_type = selectedValue.data('hidden-value');
-                var hiddenDiv = $('#member_div');
+        function getInvDetail(getval) {
+            var selectedValue = $(getval).find(':selected');
+            var inv_type = selectedValue.data('hidden-value');
+            
+            // Find the closest .count-class and the #member_div within it
+            var $row = $(getval).closest('.count-class');
+            var memberDiv = $row.find('#member_div');
+            var projectDiv = $row.find('#project_div');
+            // var hiddenDiv = $row.find('#member_div');
+
+            if (inv_type === 'Individual') {
+                memberDiv.prop('hidden', false); // Show the div
+                projectDiv.prop('hidden', true); // Hide the div
+            } else {
+                memberDiv.prop('hidden', true); // Hide the div
+                projectDiv.prop('hidden', false); // Show the div
+            }
+        }
+
+        // $(document).ready(function () {
+        //     $('#inv_no').change(function(){
+        //         var selectedValue = $(this).find(':selected');
+        //         var inv_type = selectedValue.data('hidden-value');
+        //         var hiddenDiv = $('#member_div');
                 
-                if (inv_type === 'Individual') {
-                    hiddenDiv.prop('hidden', false); // Show the div
-                } else {
-                    hiddenDiv.prop('hidden', true); // Hide the div
-                }
-            });
-        });
+        //         if (inv_type === 'Individual') {
+        //             hiddenDiv.prop('hidden', false); // Show the div
+        //         } else {
+        //             hiddenDiv.prop('hidden', true); // Hide the div
+        //         }
+        //     });
+        // });
     </script>
 
     <script>
         $(document).ready(function(){
             // Function to update difference
-            function updateTotalPrice() {
-                var price = parseInt($('#price').val());
-                var tax = parseInt($('#tax').val());
+            function updateTotalPrice(inputElement) {
+                var $row = $(inputElement).closest('.count-class');
+                // var price = parseInt($('#price').val());
+                // var tax = parseInt($('#tax').val());
+                // var total_price = price + (price * tax / 100);
+                // $('#total_price').val(total_price);
+                var price = parseInt($row.find('.price').val()) || 0;
+                var tax = parseInt($row.find('.tax').val()) || 0;
                 var total_price = price + (price * tax / 100);
-                $('#total_price').val(total_price);
+                $row.find('.total_price').val(total_price);
             }
         
             // Bind change event to input fields
-            $('#price, #tax').keyup(updateTotalPrice);
+            $(document).on('keyup', '.price, .tax', function() {
+                updateTotalPrice(this);
+            });
 
         });
     </script>
@@ -376,12 +431,74 @@
             $(document).on('click', '#add-row', function() {
                 var tr = $('#credit_new_html').html();
                 $('#credit_form_add_new_row').append(tr);
+
+                if($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
                 return false;   
             });
 
             $(document).on('click', '.trash', function() {
                 $(this).closest('.new_html').remove();
                 return false;
+            });
+        });
+    </script>
+    <script>
+        $(document).on('change', '#voucher_date_1', function() {
+            var voucher_date = $(this).val();
+            // alert(voucher_date);
+            $('.voucher-date').each(function() {
+                $(this).val(voucher_date);
+            });
+        })    
+    </script>
+    <script>
+        $(document).on('change', '#rin1', function() {
+            var rin = $(this).val();
+            // alert(voucher_date);
+            $('.rin').each(function() {
+                $(this).val(rin);
+            });
+        })    
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.print-route').on('click', function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('reports.credit-voucher')}}",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id
+                    },
+                    xhrFields: {
+                        responseType: 'blob' // Important for handling binary data
+                    },
+                    success: function(blob) {
+                        alert('Success');
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'credit-voucher-' + id + '.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('There was an error with your request:', error);
+                    }
+                });
             });
         });
     </script>
