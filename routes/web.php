@@ -182,6 +182,8 @@ Route::middleware('permssions')->group(function () {
     Route::post('/reports-last-pay-certificate-generate', [ReportController::class, 'lastPayCertificateGenerate'])->name('reports.last-pay-certificate-generate');
         // credit voucher
     Route::post('/reports-credit-voucher', [ReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
+        // debit voucher
+    Route::post('/reports-debit-voucher', [ReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
        
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
@@ -620,6 +622,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
             Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
             Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
+            Route::post('/get-items-by-inv-no', [DebitVoucherController::class, 'getItemsByInvNo'])->name('debit-vouchers.get-items-by-inv-no');
 
             //gate-passes
             Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');

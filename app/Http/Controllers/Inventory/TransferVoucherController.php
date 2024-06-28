@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TransferVoucher;
 use App\Models\InventoryNumber;
 use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use App\Models\ItemCode;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,7 @@ class TransferVoucherController extends Controller
     {
         $transferVouchers = TransferVoucher::paginate(10);
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         return view('inventory.transfer-vouchers.list',compact('transferVouchers','inventoryNumbers','creditVouchers'));
     }
 
@@ -81,7 +82,7 @@ class TransferVoucherController extends Controller
         $transfer_voucher->remarks = $request->remarks;
         $transfer_voucher->save();
 
-        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get();
+        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get();
         foreach ($creditVoucher as $credit) {
             
             if ($credit->quantity >= $request->quantity) {
@@ -116,7 +117,7 @@ class TransferVoucherController extends Controller
     {
         $transfer_voucher = TransferVoucher::find($id);
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $edit = true;
         return response()->json(['view' => view('inventory.transfer-vouchers.form', compact('edit','transfer_voucher','creditVouchers','inventoryNumbers'))->render()]);
         

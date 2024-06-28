@@ -25,6 +25,7 @@
             <td>{{ $debitVoucher->voucher_date ?? 'N/A'}}</td>
             {{-- <td>{{ $debitVoucher->remarks ?? 'N/A'}}</td> --}}
             <td class="sepharate"><a data-route="{{route('debit-vouchers.edit', $debitVoucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $debitVoucher->id }}"><i class="fa fa-print"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('debit-vouchers.delete', $debitVoucher->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>

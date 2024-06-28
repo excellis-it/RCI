@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\CertificateIssueVoucher;
 use App\Models\ItemCode;
 use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use Illuminate\Support\Facades\DB;
 
 class CertificateIssueVoucherController extends Controller
@@ -18,7 +19,7 @@ class CertificateIssueVoucherController extends Controller
     public function index()
     {
         $members = Member::all();
-        $itemCodes = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $itemCodes = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $certificateIssueVouchers = CertificateIssueVoucher::paginate(10);
 
         return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers'));
@@ -43,7 +44,7 @@ class CertificateIssueVoucherController extends Controller
             ->paginate(10);
 
             $members = Member::all();
-            $items = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $items = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
             return response()->json(['data' => view('inventory.certificate-issue-vouchers.table', compact('certificateIssueVouchers', 'members', 'items'))->render()]);
         }
@@ -80,7 +81,7 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher->save();
 
         // credit voucher quantity reduce
-        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_id)->get();
+        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_id)->get();
 
         foreach ($creditVoucher as $credit) {
             if ($credit->quantity >= $request->quantity) {
@@ -116,7 +117,7 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher = CertificateIssueVoucher::findOrFail($id);
         $edit = true;
         $members = Member::all();
-        $items = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $items = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
         return response()->json(['view' => view('inventory.certificate-issue-vouchers.form', compact('certificateIssueVoucher', 'edit', 'members', 'items'))->render()]);
     }

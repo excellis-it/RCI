@@ -523,8 +523,14 @@ class ReportController extends Controller
         // dd($itemCount);
 
 
-        $pdf = PDF::loadView('frontend.reports.credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount'));
+        $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount'));
         return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
+    }
+
+    public function debitVoucherGenerate(Request $request)
+    {
+        $pdf = PDF::loadView('frontend.reports.single-debit-voucher-generate');
+        return $pdf->download('debit-voucher.pdf');
     }
 
     

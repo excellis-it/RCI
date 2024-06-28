@@ -60,7 +60,7 @@ class DebitVoucherController extends Controller
             $inventoryNumbers = InventoryNumber::all();
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
-            $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
             return response()->json(['data' => view('inventory.debit-vouchers.table', compact('debitVouchers', 'inventoryNumbers', 'itemCodes', 'inventoryTypes', 'creditVouchers'))->render()]);
         }
@@ -72,7 +72,7 @@ class DebitVoucherController extends Controller
     public function create()
     {
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->get();
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->get();
         return view('inventory.debit-vouchers.form', compact('inventoryNumbers', 'creditVouchers'));
     }
 
@@ -81,7 +81,7 @@ class DebitVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        $itemQuantity = CreditVoucher::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
+        $itemQuantity = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         $request->validate([
             'inv_no' => 'required',
             'item_code_id' => 'required',
@@ -102,7 +102,7 @@ class DebitVoucherController extends Controller
         $debitVoucher->save();
 
         //credit voucher quantity reduce
-        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get();
+        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get();
 
         foreach ($creditVoucher as $credit) {
             
@@ -137,7 +137,7 @@ class DebitVoucherController extends Controller
     public function edit(string $id)
     {
         $debitVoucher = DebitVoucher::findOrFail($id);
-        $creditVouchers = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $edit = true;
@@ -219,9 +219,16 @@ class DebitVoucherController extends Controller
 
     public function getItemQuantity(Request $request)
     {
-        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
+        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         // $items = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get(); 
         
         return response()->json(['quantity' => $creditVoucher]);
+    }
+
+    public function getItemsByInvNo(Request $request)
+    {
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->where('inv_no', $request->inv_no)->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->with('itemCodes')->get();
+        // dd($creditVouchers);
+        return response()->json(['creditVouchers' => $creditVouchers]);
     }
 }

@@ -57,7 +57,7 @@
                                 <select class="form-control" name="item_code_id" id="item_code_id" disabled>
                                     <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
-                                        <option value="{{ $item->item_code_id }}" {{ $item->item_code_id == $externalIssueVoucher->item_id ? 'selected' : '' }}>{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
+                                        <option value="{{ $item->item_code_id }}" {{ $item->item_code_id == $externalIssueVoucher->item_id ? 'selected' : '' }}>{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -166,7 +166,7 @@
                                 <select class="form-control" name="item_code_id" id="item_code_id">
                                     <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
-                                        <option value="{{ $item->item_code_id }}">{{ $item->itemCode->code }}({{ $item->total_quantity }})</option>
+                                        <option value="{{ $item->item_code_id }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

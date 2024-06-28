@@ -352,4 +352,128 @@
             });
         });
     </script>
+    <script>
+        // add new row
+        $(document).ready(function() {
+            $(document).on('click', '#add-row', function() {
+                var tr = $('#debit_new_html').html();
+                $('#debit_form_add_new_row').append(tr);
+
+                if($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+                if($('#inv_no_1').val() != '') {
+                    $('.inv_no').each(function() {
+                        $(this).val($('#inv_no_1').val());
+                    });
+                }
+                if($('#voucher_no_1').val() != '') {
+                    $('.voucher-no').each(function() {
+                        $(this).val($('#voucher_no_1').val());
+                    });
+                }
+                if($('#voucher_type_1').val() != '') {
+                    $('.voucher-type').each(function() {
+                        $(this).val($('#voucher_type_1').val());
+                    });
+                }
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+        });
+    </script>
+    <script>
+        $(document).on('change', '#inv_no_1', function() {
+            var inv_no = $(this).val();
+            $('#item_code_id').prop('disabled', false);
+            $('.inv_no').each(function() {
+                $(this).val(inv_no);
+            });
+
+            $.ajax({
+                url: "{{ route('debit-vouchers.get-items-by-inv-no')}}",
+                type: 'POST',
+                data: {
+                    inv_no: inv_no,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // console.log(response.creditVouchers[0]);
+                    // add options to select box
+                    var options = '<option value="">Select Item</option>';
+                    $.each(response.creditVouchers, function(index, creditVoucher) {
+                        console.log(creditVoucher);
+                        var itemCode = creditVoucher.item_codes.code;
+                        var itemCodeId = creditVoucher.item_code_id;
+                        var totalQuantity = creditVoucher.total_quantity;
+                        
+                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
+                    });
+                    $('#item_code_id').html(options);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+        $(document).on('change', '#voucher_no_1', function() {
+            var voucher_no = $(this).val();
+            $('.voucher-no').each(function() {
+                $(this).val(voucher_no);
+            });
+        });
+
+        $(document).on('change', '#voucher_date_1', function() {
+            var voucher_date = $(this).val();
+            $('.voucher-date').each(function() {
+                $(this).val(voucher_date);
+            });
+        });
+
+        $(document).on('change', '#voucher_type_1', function() {
+            var voucher_type = $(this).val();
+            $('.voucher-type').each(function() {
+                $(this).val(voucher_type);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.print-route').on('click', function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('reports.debit-voucher')}}",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id
+                    },
+                    xhrFields: {
+                        responseType: 'blob' // Important for handling binary data
+                    },
+                    success: function(blob) {
+                        alert('Success');
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'debit-voucher-' + id + '.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('There was an error with your request:', error);
+                    }
+                });
+            });
+        });
+    </script>
 @endpush
