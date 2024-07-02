@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('cghs', function (Blueprint $table) {
             $table->id();
-            $table->string('current_rate')->nullable();
+            $table->unsignedBigInteger('pay_level_id')->nullable();
             $table->string('contribution')->nullable();
-            $table->string('card_type')->nullable();
             $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });

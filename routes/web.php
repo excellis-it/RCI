@@ -42,6 +42,7 @@ use App\Http\Controllers\Frontend\CityController;
 use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
+use App\Http\Controllers\Frontend\CghsController; 
 
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
@@ -158,6 +159,7 @@ Route::middleware('permssions')->group(function () {
         'income-taxes' => IncomeTaxController::class,
         'gpfs'=> GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
+        'cghs' => CghsController::class,
         
     ]);
 
@@ -299,6 +301,12 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cgegis-delete/{id}', [CgegisController::class, 'delete'])->name('cgegis.delete');
     });
     Route::get('/cgegis-fetch-data', [CgegisController::class, 'fetchData'])->name('cgegis.fetch-data');
+
+    // cghs
+    Route::prefix('cghs')->group(function () {
+        Route::get('/cghs-delete/{id}', [CghsController::class, 'delete'])->name('cghs.delete');
+    });
+    Route::get('/cghs-fetch-data', [CghsController::class, 'fetchData'])->name('cghs.fetch-data');
 
     //bank route
     Route::prefix('banks')->group(function () {

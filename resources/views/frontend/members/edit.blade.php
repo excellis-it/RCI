@@ -446,6 +446,7 @@
                             const value = $(field).val();
                             total += Number(value) || 0;
                         });
+                        total = total.toFixed(2);
 
                         $('#tot_credits').val(total);
                     },
@@ -461,7 +462,7 @@
 
             // Event listener for changes in the fields
             fields.forEach(field => {
-                $(field).on("change", function() {
+                $(field).on("keyup", function() {
                     var basicPay = $('#basic-pay').val();
                     updateDAPercentage(basicPay, "{{ $member->id }}");
                 });

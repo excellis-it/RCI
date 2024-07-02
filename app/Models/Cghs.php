@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Cghs extends Model
 {
     use HasFactory;
+
+    public function payLevel()
+    {
+        return $this->belongsTo(PmLevel::class, 'pay_level_id');
+    }
 }
