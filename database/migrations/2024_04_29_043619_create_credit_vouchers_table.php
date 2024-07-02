@@ -12,18 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('credit_vouchers', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('item_code_id')->unsigned()->nullable();  
+            $table->id();  
             $table->string('voucher_no')->nullable();
             $table->date('voucher_date')->nullable();
-            $table->bigInteger('inv_no')->unsigned()->nullable();  
-            $table->string('description')->nullable();
-            $table->string('uom')->nullable();
-            $table->string('item_type')->nullable();
-            $table->string('price')->nullable();
-            $table->string('quantity')->nullable();
-            $table->string('supply_order_no')->nullable();
-            $table->string('rin')->nullable();
             $table->timestamps();
         });
     }

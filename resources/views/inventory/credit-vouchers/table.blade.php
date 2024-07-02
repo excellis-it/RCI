@@ -30,6 +30,7 @@
             {{-- <td>{{ $creditVoucher->supply_order_no ?? 'N/A'}}</td>
             <td>{{ $creditVoucher->rin ?? 'N/A'}}</td> --}}
             <td class="sepharate"><a data-route="{{route('credit-vouchers.edit', $creditVoucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $creditVoucher->id }}"><i class="fa fa-print"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('credit-vouchers.delete', $creditVoucher->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>

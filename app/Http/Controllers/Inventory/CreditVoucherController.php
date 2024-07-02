@@ -10,6 +10,10 @@ use App\Models\InventoryType;
 use App\Models\InventoryNumber;
 use App\Models\Member;
 use App\Models\SupplyOrder;
+use App\Models\CreditVoucherDetail;
+use App\Models\Rin;
+use App\Models\InventoryProject;
+use Carbon\Carbon;
 
 class CreditVoucherController extends Controller
 {
@@ -25,7 +29,9 @@ class CreditVoucherController extends Controller
         $members = Member::all();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();
-        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders'));
+        $rins = Rin::all();
+        $projects = InventoryProject::all();
+        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects'));
     }
 
     public function fetchData(Request $request)
@@ -89,6 +95,7 @@ class CreditVoucherController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'item_code_id' => 'required',
             'inv_no' => 'required',
@@ -102,16 +109,24 @@ class CreditVoucherController extends Controller
 
         // Get the date for 1st April of the current year
         $resetDate = date('Y') . '-04-01';
+        $resetDateTimestamp = Carbon::createFromFormat('Y-m-d', $resetDate)->subDay()->endOfDay();
 
         // If the current date is before the reset date, get the reset date for the previous year
         if ($currentDate < $resetDate) {
             $resetDate = (date('Y') - 1) . '-04-01';
+            $resetDateTimestamp = Carbon::createFromFormat('Y-m-d', $resetDate)->subDay()->endOfDay();
         }
 
         // Get the last voucher number that was created before the reset date
-        $lastVoucher = CreditVoucher::where('created_at', '<', $resetDate)
+        $lastVoucher1 = CreditVoucher::where('created_at', '<', $resetDateTimestamp)
             ->orderBy('voucher_no', 'desc')
             ->first();
+
+        if($lastVoucher1) {
+            $lastVoucher = $lastVoucher1;
+        } else {
+            $lastVoucher = CreditVoucher::latest()->first();
+        }
 
         // If there are no vouchers yet, or if the last voucher was created before the reset date, start with 0001, otherwise increment the last voucher number
         $voucherNo = $lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1;
@@ -121,22 +136,34 @@ class CreditVoucherController extends Controller
 
 
         $creditVoucher = new CreditVoucher();
-        $creditVoucher->item_code_id = $request->item_code_id;
         $creditVoucher->voucher_no = $voucherNo;
         $creditVoucher->voucher_date = $request->voucher_date;
-        $creditVoucher->inv_no = $request->inv_no;
-        $creditVoucher->description = $request->description;
-        $creditVoucher->uom = $request->uom;
-        $creditVoucher->item_type = $request->item_type;
-        $creditVoucher->tax = intval($request->tax);
-        $creditVoucher->price = $request->price;
-        $creditVoucher->total_price = $request->total_price;
-        $creditVoucher->quantity = $request->quantity;
-        $creditVoucher->supply_order_no = $request->supply_order_no;
-        $creditVoucher->rin = $request->rin;
-        $creditVoucher->member_id = $request->member_id;
-        $creditVoucher->order_type = $request->order_type;
-        $creditVoucher->save();
+        if($creditVoucher->save()) {
+            $lastCreditVoucher = CreditVoucher::latest()->first();
+
+            if(count($request->item_code_id) > 0) {
+                foreach ($request->item_code_id as $key => $value) {
+                    $creditVoucherDetail = new CreditVoucherDetail();
+                    $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id;
+                    $creditVoucherDetail->item_code_id = $request->item_code_id[$key];
+                    $creditVoucherDetail->inv_no = $request->inv_no[$key];
+                    $creditVoucherDetail->description = $request->description[$key];
+                    $creditVoucherDetail->uom = $request->uom[$key];
+                    $creditVoucherDetail->item_type = $request->item_type[$key];
+                    $creditVoucherDetail->price = $request->price[$key];
+                    $creditVoucherDetail->quantity = $request->quantity[$key];
+                    $creditVoucherDetail->supply_order_no = $request->supply_order_no[$key];
+                    $creditVoucherDetail->rin = $request->rin[$key];
+                    $creditVoucherDetail->member_id = $request->member_id[$key];
+                    $creditVoucherDetail->order_type = $request->order_type[$key];
+                    $creditVoucherDetail->tax = $request->tax[$key];
+                    $creditVoucherDetail->total_price = $request->total_price[$key];
+                    $creditVoucherDetail->consigner = $request->consigner[$key];
+                    $creditVoucherDetail->save();
+                }
+            }
+            
+        }
 
         session()->flash('message', 'Credit Voucher added successfully');
         return response()->json(['success' => 'Credit Voucher added successfully']);
@@ -218,6 +245,7 @@ class CreditVoucherController extends Controller
 
     public function getItemType(Request $request)
     {
+        // dd($request->all());
         $itemCode = ItemCode::findOrFail($request->item_code_id);
         // $inventoryType = InventoryType::findOrFail($itemCode->inventory_type_id);
         return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description, 'uom' => $itemCode->uom]);

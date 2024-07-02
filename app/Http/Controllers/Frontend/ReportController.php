@@ -20,7 +20,11 @@ use App\Models\DearnessAllowancePercentage;
 use Illuminate\Pagination\Paginator;
 use PDF;
 use App\Helpers\Helper;
+use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use App\Models\IncomeTax;
+use App\Models\DebitVoucher;
+use App\Models\DebitVoucherDetail;
 
 class ReportController extends Controller
 {
@@ -461,6 +465,8 @@ class ReportController extends Controller
         $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
+
+    
 
     
 }

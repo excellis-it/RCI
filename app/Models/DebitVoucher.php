@@ -13,4 +13,9 @@ class DebitVoucher extends Model
     {
         return $this->belongsTo(ItemCode::class, 'item_id');
     }
+
+    public function inventoryNumbers()
+    {
+        return $this->hasOne(InventoryNumber::class, 'id', 'inv_no');
+    }
 }

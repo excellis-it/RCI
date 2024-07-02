@@ -8,6 +8,7 @@ use App\Models\ItemCode;
 use App\Models\InventoryNumber;
 use App\Models\ConversionVoucher;
 use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use App\Models\InventoryType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class ConversionVoucherController extends Controller
      */
     public function index()
     {
-        $itemCodes = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $itemCodes = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $inventoryNumbers = InventoryNumber::all();
         $conversionVouchers = ConversionVoucher::paginate(10);
         return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers'));
@@ -54,7 +55,7 @@ class ConversionVoucherController extends Controller
 
             $conversionVouchers = $conversionVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
 
-            $itemCodes = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $itemCodes = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
             $inventoryTypes = InventoryType::all();
             $inventoryNumbers = InventoryNumber::all();
 
@@ -64,13 +65,13 @@ class ConversionVoucherController extends Controller
 
     public function getItemQuantity(Request $request)
     {
-        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
+        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         return response()->json(['quantity' => $creditVoucher]);
     }
 
     public function getItemQuantityValidation(Request $request)
     {
-        $creditVoucher = CreditVoucher::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
+        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         if ($creditVoucher < $request->quantity) {
             return response()->json(['error' => 'Quantity is greater than available quantity']);
         }
@@ -92,11 +93,11 @@ class ConversionVoucherController extends Controller
     {
         
         Validator::extend('available_quantity', function ($attribute, $value, $parameters, $validator) {
-            $creditVoucherQuant = CreditVoucher::where('item_code_id', $validator->getData()['item_code_id'])->sum('quantity');
+            $creditVoucherQuant = CreditVoucherDetail::where('item_code_id', $validator->getData()['item_code_id'])->sum('quantity');
             return $value <= $creditVoucherQuant;
         });
 
-        $sumQuant = CreditVoucher::where('item_code_id', $request->item_code_id)->sum('quantity');
+        $sumQuant = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->sum('quantity');
         
         $request->validate([
             'item_code_id' => 'required',
@@ -118,7 +119,7 @@ class ConversionVoucherController extends Controller
 
         // credit voucher quantity reduce
 
-        $creditVouchers = CreditVoucher::where('item_code_id', $request->item_code_id)->where('quantity', '!=', 0)->get();
+        $creditVouchers = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->where('quantity', '!=', 0)->get();
         $quantity = $request->quantity;
         foreach ($creditVouchers as $creditVoucher) {
             $deductedQuantity = min($creditVoucher->quantity, $quantity);

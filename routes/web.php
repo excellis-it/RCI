@@ -68,6 +68,7 @@ use App\Http\Controllers\Inventory\CertificateIssueVoucherController;
 use App\Http\Controllers\Inventory\TransferVoucherController;
 use App\Http\Controllers\Inventory\RinController;
 use App\Http\Controllers\Inventory\DashbaordController as InventoryDashbaordController;
+use App\Http\Controllers\Inventory\ReportController as InventoryReportController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -180,6 +181,7 @@ Route::middleware('permssions')->group(function () {
         // last pay certificate
     Route::get('/reports-last-pay-certificate', [ReportController::class, 'lastPayCertificate'])->name('reports.last-pay-certificate');
     Route::post('/reports-last-pay-certificate-generate', [ReportController::class, 'lastPayCertificateGenerate'])->name('reports.last-pay-certificate-generate');
+        
        
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
@@ -582,6 +584,12 @@ Route::middleware('permssions')->group(function () {
                 'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
             ]);
 
+            // report routes
+                // credit voucher
+            Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
+                // debit voucher
+            Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
+
             //reset item codes
             Route::prefix('reset-codes')->group(function () {
                 Route::get('/delete/{id}', [ResetItemCodeController::class, 'delete'])->name('reset-codes.delete');
@@ -618,6 +626,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
             Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
             Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
+            Route::post('/get-items-by-inv-no', [DebitVoucherController::class, 'getItemsByInvNo'])->name('debit-vouchers.get-items-by-inv-no');
 
             //gate-passes
             Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');

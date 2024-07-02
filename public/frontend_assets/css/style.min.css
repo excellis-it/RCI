@@ -56181,7 +56181,10 @@ ul {
     justify-content: center;
     border-radius: 50%;
 }
-
+.print-btn{
+    margin-left: 8px;
+    color: #1c6d99;
+}
 .delete {
     background: #fff;
     color: red;
@@ -56473,7 +56476,9 @@ ul {
     text-align: center;
     border: none;
 }
-
+.listing_add:hover{
+   color: #fff; 
+}
 .listing_exit {
     padding: 7px 17px;
     border-radius: 6px;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ExternalIssueVoucher;
 use App\Models\CreditVoucher;
+use App\Models\CreditVoucherDetail;
 use App\Models\InventoryNumber;
 use App\Models\ItemCode;
 use App\Models\GatePass;
@@ -22,7 +23,7 @@ class ExternalIssueVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::all();
-        $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         return view('inventory.external-issue-vouchers.list', compact('externalIssueVouchers', 'creditVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses'));
     }
 
@@ -62,7 +63,7 @@ class ExternalIssueVoucherController extends Controller
             $inventoryNumbers = InventoryNumber::all();
             $itemCodes = ItemCode::all();
             $gatePasses = GatePass::all();
-            $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
             return response()->json(['data' => view('inventory.external-issue-vouchers.table', compact('externalIssueVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses', 'creditVouchers'))->render()]);
         }
@@ -119,7 +120,7 @@ class ExternalIssueVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::all();
-        $creditVouchers = CreditVoucher::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $edit = true;
         return response()->json(['view' => view('inventory.external-issue-vouchers.form', compact('externalIssueVoucher', 'edit', 'itemCodes', 'gatePasses', 'creditVouchers', 'inventoryNumbers'))->render()]);
     }
