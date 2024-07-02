@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('debit_vouchers', function (Blueprint $table) {
+        Schema::create('debit_voucher_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('inv_no')->unsigned()->nullable(); 
-            $table->string('voucher_no')->nullable();
-            $table->date('voucher_date')->nullable();
+            $table->bigInteger('debit_voucher_id')->unsigned()->nullable();
+            $table->bigInteger('item_id')->unsigned()->nullable(); 
+            $table->string('quantity')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debit_vouchers');
+        Schema::dropIfExists('debit_voucher_details');
     }
 };

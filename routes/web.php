@@ -68,6 +68,7 @@ use App\Http\Controllers\Inventory\CertificateIssueVoucherController;
 use App\Http\Controllers\Inventory\TransferVoucherController;
 use App\Http\Controllers\Inventory\RinController;
 use App\Http\Controllers\Inventory\DashbaordController as InventoryDashbaordController;
+use App\Http\Controllers\Inventory\ReportController as InventoryReportController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -180,10 +181,7 @@ Route::middleware('permssions')->group(function () {
         // last pay certificate
     Route::get('/reports-last-pay-certificate', [ReportController::class, 'lastPayCertificate'])->name('reports.last-pay-certificate');
     Route::post('/reports-last-pay-certificate-generate', [ReportController::class, 'lastPayCertificateGenerate'])->name('reports.last-pay-certificate-generate');
-        // credit voucher
-    Route::post('/reports-credit-voucher', [ReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
-        // debit voucher
-    Route::post('/reports-debit-voucher', [ReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
+        
        
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
@@ -585,6 +583,12 @@ Route::middleware('permssions')->group(function () {
                 'credit-voucher-numbers' => CreditVoucherNumberController::class,
                 'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
             ]);
+
+            // report routes
+                // credit voucher
+            Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
+                // debit voucher
+            Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
 
             //reset item codes
             Route::prefix('reset-codes')->group(function () {

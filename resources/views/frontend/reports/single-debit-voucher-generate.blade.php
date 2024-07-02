@@ -36,18 +36,18 @@
                                 <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     Voucher Type<span
-                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">EXP</span>
+                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['voucher_type'] ?? 'N/A' }}</span>
                                 </td>
                                 <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     Holder / Inventory No<span
-                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">1234
+                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['inv_no'] ?? 'N/A' }}</span>
                                     </span>
                                 </td>
                                 <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; ">
                                     No of Items in Voucher<span
-                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">14</span>
+                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ count($itemCodeCounts) }}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -59,18 +59,18 @@
                                 <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     Voucher No<span
-                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">EX-0001</span>
+                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['voucher_no'] }}</span>
                                 </td>
                                 <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     Voucher Date<span
-                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">01-02-003
+                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['voucher_date'] }}
                                     </span>
                                 </td>
                                 <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; ">
                                     Cost Center Division<span
-                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">ABC</span>
+                                        style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">HYDERABAD </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -127,316 +127,51 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    1
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    01.02.003
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    Papers
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    310
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    No.
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    01
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    310
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                    ABCD
-                                </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
-                            <tr>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-                                </td>
-                                <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                                </td>
-                                <td
-                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000; height: 10px;">
-
-                            </td>
-                            </tr>
+                            @php $serialNumber = 1; @endphp
+                            @foreach ($result as $voucherNo => $items)
+                                @if(is_array($items))
+                                    @foreach ($items as $item)
+                                        <tr>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $serialNumber++ }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $item['item_code'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ ' ' }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{  $item['description'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{  $item['rate'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{  $item['uom'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{  $item['quantity'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{  $item['total_cost'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{  $item['remarks'] }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            @endforeach
                             
                         </tbody>
                     </table>

@@ -10,6 +10,7 @@ use App\Models\DebitVoucher;
 use App\Models\ItemCode;
 use App\Models\InventoryType;
 use App\Models\InventoryNumber;
+use App\Models\DebitVoucherDetail;
 use Illuminate\Support\Facades\DB;
 
 class DebitVoucherController extends Controller
@@ -86,39 +87,63 @@ class DebitVoucherController extends Controller
             'inv_no' => 'required',
             'item_code_id' => 'required',
             'voucher_no' => 'required|unique:debit_vouchers,voucher_no',
-            'quantity' => 'required|numeric|min:1|max:'.$itemQuantity,
-        ], [
-            'quantity.max' => 'The quantity must not be greater than the available quantity ('.$itemQuantity.')',
         ]);
+        // $creditVoucher = CreditVoucherDetail::whereIn('item_code_id', $request->item_code_id)->where('inv_no', $request->inv_no)->get();
 
         $debitVoucher = new DebitVoucher();
         $debitVoucher->inv_no = $request->inv_no;
-        $debitVoucher->item_id = $request->item_code_id;
-        $debitVoucher->quantity = $request->quantity;
         $debitVoucher->voucher_no = $request->voucher_no;
         $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->voucher_type = $request->voucher_type;
-        $debitVoucher->remarks = $request->remarks;
-        $debitVoucher->save();
 
-        //credit voucher quantity reduce
-        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get();
+        if ($debitVoucher->save()) {
+            $latestVoucher = DebitVoucher::latest()->first();
 
-        foreach ($creditVoucher as $credit) {
-            
-            if ($credit->quantity >= $request->quantity) {
-                $credit->quantity -= $request->quantity;
-                $credit->save();
-                $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
-                break; // Exit the loop once a single credit voucher's quantity is reduced
-            } else {
-                
-                $request->quantity -= $credit->quantity;
-                $credit->quantity = 0;
-                $credit->save();
+            // Group items by item code for easier processing
+            $itemsByCode = [];
+            foreach ($request->item_code_id as $key => $itemCode) {
+                $itemsByCode[$itemCode][] = [
+                    'quantity' => $request->quantity[$key],
+                    'remarks' => $request->remarks[$key]
+                ];
+            }
+
+            // Process each group of items by item code
+            foreach ($itemsByCode as $itemCode => $items) {
+                $creditVouchers = CreditVoucherDetail::where('item_code_id', $itemCode)
+                    ->where('inv_no', $request->inv_no)
+                    ->orderBy('id', 'asc') // Assuming you want to reduce from the oldest records first
+                    ->get();
+
+                // Group credit vouchers by item code
+                $creditVouchersByCode = $creditVouchers->groupBy('item_code_id');
+
+                foreach ($items as $item) {
+                    // Create DebitVoucherDetail for each item
+                    $debitVoucherDetail = new DebitVoucherDetail();
+                    $debitVoucherDetail->debit_voucher_id = $latestVoucher->id;
+                    $debitVoucherDetail->item_id = $itemCode; // Assuming item_id corresponds to item code
+                    $debitVoucherDetail->quantity = $item['quantity'];
+                    $debitVoucherDetail->remarks = $item['remarks'];
+                    $debitVoucherDetail->save();
+
+                    // Reduce quantity from credit vouchers
+                    $remainingQuantity = $item['quantity'];
+                    foreach ($creditVouchersByCode[$itemCode] as $credit) {
+                        if ($credit->quantity >= $remainingQuantity) {
+                            $credit->quantity -= $remainingQuantity;
+                            $credit->save();
+                            break; // Exit the loop once quantity is reduced
+                        } else {
+                            $remainingQuantity -= $credit->quantity;
+                            $credit->quantity = 0;
+                            $credit->save();
+                        }
+                    }
+                }
             }
         }
-
+        
         session()->flash('message', 'Debit Voucher added successfully');
         return response()->json(['success' => 'Debit Voucher added successfully']);
     }

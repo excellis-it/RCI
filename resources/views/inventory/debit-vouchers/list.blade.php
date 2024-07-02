@@ -335,7 +335,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#item_code_id').change(function(){
+            $('#item_code_id_1').change(function(){
                 var selectedValue = $(this).find(':selected');
                 var quantity = selectedValue.data('hidden-value');
                 // var quantityDiv = $('#quantity');
@@ -353,6 +353,26 @@
         });
     </script>
     <script>
+        function getQuantity(getval) {
+            // var itemCodeId = $(getval).val();
+            var selectedValue = $(getval).find(':selected');
+            var quantity = selectedValue.data('hidden-value');
+            
+            var quantityDivSelectBox = [];
+
+            for (var i = 1; i <= quantity; i++) {
+                quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+            }
+
+            var $row = $(getval).closest('.count-class');
+            $row.find('#quantity').empty();
+            $row.find('#quantity').append(quantityDivSelectBox.join(''));
+
+            // $('#quantity').empty();
+            // $('#quantity').append(quantityDivSelectBox.join(''));
+        }
+    </script>
+    <script>
         // add new row
         $(document).ready(function() {
             $(document).on('click', '#add-row', function() {
@@ -364,9 +384,41 @@
                         $(this).val($('#voucher_date_1').val());
                     });
                 }
-                if($('#inv_no_1').val() != '') {
+                if ($('#inv_no_1').val() != '') {
+                    var inv_no = $('#inv_no_1').val();
+                    
+                    // Set the value for each .inv_no element
                     $('.inv_no').each(function() {
-                        $(this).val($('#inv_no_1').val());
+                        $(this).val(inv_no);
+                    });
+                    
+                    // Enable the item code input
+                    $('#item_code_id').prop('disabled', false);
+
+                    // Make the AJAX call
+                    $.ajax({
+                        url: "{{ route('debit-vouchers.get-items-by-inv-no') }}",
+                        type: 'POST',
+                        data: {
+                            inv_no: inv_no,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            var options = '<option value="">Select Item</option>';
+                            $.each(response.creditVouchers, function(index, creditVoucher) {
+                                var itemCode = creditVoucher.item_codes.code;
+                                var itemCodeId = creditVoucher.item_code_id;
+                                var totalQuantity = creditVoucher.total_quantity;
+                                
+                                options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
+                            });
+                            var $row = $(this).closest('.count-class');
+                            $row.find('#item_code_id').html(options);
+                            // $('.item_code_id').html(options);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
                     });
                 }
                 if($('#voucher_no_1').val() != '') {
@@ -391,7 +443,7 @@
     <script>
         $(document).on('change', '#inv_no_1', function() {
             var inv_no = $(this).val();
-            $('#item_code_id').prop('disabled', false);
+            $('#item_code_id_1').prop('disabled', false);
             $('.inv_no').each(function() {
                 $(this).val(inv_no);
             });
@@ -415,7 +467,8 @@
                         
                         options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
                     });
-                    $('#item_code_id').html(options);
+                    $('#item_code_id_1').html(options);
+                    $('.item_code_id').html(options);
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -423,7 +476,7 @@
             });
         });
 
-        $(document).on('change', '#voucher_no_1', function() {
+        $(document).on('keyup', '#voucher_no_1', function() {
             var voucher_no = $(this).val();
             $('.voucher-no').each(function() {
                 $(this).val(voucher_no);
@@ -437,12 +490,19 @@
             });
         });
 
-        $(document).on('change', '#voucher_type_1', function() {
-            var voucher_type = $(this).val();
+        // $(document).on('change', '#voucher_type_1', function() {
+        //     var voucher_type = $(this).val();
+        //     $('.voucher-type').each(function() {
+        //         $(this).val(voucher_type);
+        //     });
+        // });
+        function getVoucherType(getval) {
+            var selectedValue = $(getval).find(':selected');
+            var voucherType = selectedValue.val();
             $('.voucher-type').each(function() {
-                $(this).val(voucher_type);
+                $(this).val(voucherType);
             });
-        });
+        }
     </script>
     <script>
         $(document).ready(function() {

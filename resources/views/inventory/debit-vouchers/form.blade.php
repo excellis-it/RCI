@@ -147,7 +147,7 @@
                                 <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id" disabled>
+                                <select class="form-control" name="item_code_id[]" id="item_code_id_1" disabled>
                                     {{-- <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
                                         <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
@@ -192,7 +192,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                    <select class="form-control" name="quantity" id="quantity">
+                                    <select class="form-control" name="quantity[]" id="quantity">
                                         <option value="">Select</option>
                                     </select>
                                     <div class="text-danger" id="quantity_no"></div>
@@ -206,7 +206,7 @@
                                 <label>Voucher Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="voucher_type" id="voucher_type_1">
+                                <select class="form-control" name="voucher_type" id="voucher_type_1" onchange="getVoucherType(this)">
                                     <option value="">Select</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="voucher">Voucher</option>
@@ -223,7 +223,7 @@
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="remarks" id="remarks" 
+                                <textarea class="form-control" name="remarks[]" id="remarks" 
                                     placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
@@ -253,7 +253,7 @@
     <div id="debit_new_html" hidden>
         <div class="row new_html">
             <hr />
-            <div class="col-md-12">
+            <div class="col-md-12 count-class">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -261,7 +261,7 @@
                                 <label>Inv. No.</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control inv_no" name="inv_no" id="inv_no">
+                                <select class="form-control inv_no" name="inv_no" id="inv_no" disabled>
                                     <option value="">Select</option>
                                     @foreach($inventoryNumbers as $inventoryNumber)
                                         <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
@@ -277,8 +277,8 @@
                                 <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id">
-                                    <option value="">Select</option>
+                                <select class="form-control item_code_id" name="item_code_id[]" id="item_code_id" onchange="getQuantity(this)">
+                                    {{-- <option value="">Select</option> --}}
                                     {{-- @foreach($creditVouchers as $item)
                                         <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
                                     @endforeach --}}
@@ -295,7 +295,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control voucher-no" name="voucher_no" id="voucher_no" value=""
-                                    placeholder="">
+                                    placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -322,7 +322,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                    <select class="form-control" name="quantity" id="quantity">
+                                    <select class="form-control" name="quantity[]" id="quantity">
                                         <option value="">Select</option>
                                     </select>
                                     <div class="text-danger" id="quantity_no"></div>
@@ -336,7 +336,7 @@
                                 <label>Voucher Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control voucher-type" name="voucher_type" id="voucher_type">
+                                <select class="form-control voucher-type" name="voucher_type" id="voucher_type" disabled>
                                     <option value="">Select</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="voucher">Voucher</option>
@@ -353,7 +353,7 @@
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="remarks" id="remarks" 
+                                <textarea class="form-control" name="remarks[]" id="remarks" 
                                     placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
