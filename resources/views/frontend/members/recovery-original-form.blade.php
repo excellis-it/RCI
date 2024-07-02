@@ -322,7 +322,7 @@
                                 class="another-btn">Another</button></a>
                         </div>
                         <div class="form-group col-md-3 mb-2">
-                            <button type="submit" class="listing_add">Update</button>
+                            <button type="submit" class="listing_add" id="recovry-update">Update</button>
                         </div>
                         <div class="form-group col-md-3 mb-2">
                             <button type="reset" class="listing_exit">Cancel</button>

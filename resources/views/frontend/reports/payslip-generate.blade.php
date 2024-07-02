@@ -198,7 +198,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_credit_data->da_on_tpt }}
+                                    {{ $member_credit_data->da_on_tpt ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -808,7 +808,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_credit_data->tot_credits }}
+                                    {{ $member_credit_data->tot_credits  ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -816,7 +816,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{  $member_debit_data->tot_debits }}
+                                    {{  $member_debit_data->tot_debits ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -827,7 +827,7 @@
                                     @php
                                         $secondDeduction = ($member_debit_data->society ?? 0)  +  ($member_recoveries_data->mess ?? 0) + ($member_recoveries_data->wel_sub ?? 0) + ($member_debit_data->ptax ?? 0) + ($member_recoveries_data->asso_fee ?? 0);
                                     @endphp
-                                    {{ $secondDeduction }}
+                                    {{ $secondDeduction ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -846,9 +846,9 @@
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                     @php
-                                        $netPayBill = ($member_credit_data->tot_credits) - ($member_debit_data->tot_debits);
+                                        $netPayBill = ($member_credit_data->tot_credits ?? 0) - ($member_debit_data->tot_debits ?? 0);
                                     @endphp
-                                    {{ $netPayBill }}
+                                    {{ $netPayBill ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">

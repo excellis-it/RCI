@@ -616,7 +616,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="net_pay" id="net_pay"
-                            value="0" placeholder="" readonly>
+                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? 0) }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -644,7 +644,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="quarter_charge" id="quarter_charge"
-                            value="{{ $member_debit->quarter_charges ?? ''}}" placeholder="">
+                            value="{{ $member_debit->quarter_charges ?? $member->quarter->qrt_charge ?? ''}}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -720,7 +720,7 @@
                                     class="another-btn">Another</button></a>
                         </div>
                         <div class="form-group col-md-3 mb-2">
-                            <button type="submit" class="listing_add">Update</button>
+                            <button type="submit" class="listing_add" id="debit-update">Update</button>
                         </div>
                         <div class="form-group col-md-3 mb-2">
                             <button type="reset" class="listing_exit">Cancel</button>
