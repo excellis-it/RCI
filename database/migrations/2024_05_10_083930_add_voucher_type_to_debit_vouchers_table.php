@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('debit_vouchers', function (Blueprint $table) {
-            $table->string('voucher_type')->after('remarks');
+            $table->string('voucher_type');
         });
     }
 
