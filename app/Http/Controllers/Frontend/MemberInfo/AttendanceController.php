@@ -22,7 +22,7 @@ class AttendanceController extends Controller
 
         $years = range($endYear, $startYear);
 
-        return view('frontend.memberInfo.attendance.list', compact('attendances', 'members', 'years'));
+        return view('frontend.memberinfo.attendance.list', compact('attendances', 'members', 'years'));
     }
 
     public function fetchData(Request $request)
@@ -40,7 +40,7 @@ class AttendanceController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.memberInfo.attendance.table', compact('attendances'))->render()]);
+            return response()->json(['data' => view('frontend.memberinfo.attendance.table', compact('attendances'))->render()]);
         }
     }
 
@@ -56,7 +56,7 @@ class AttendanceController extends Controller
         $years = range($endYear, $startYear);
         $months = range(1, 12);
 
-        return view('frontend.memberInfo.attendance.form', compact('members', 'years', 'months'));
+        return view('frontend.memberinfo.attendance.form', compact('members', 'years', 'months'));
     }
 
     public function memberAttendances(Request $request)
@@ -117,7 +117,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::findOrFail($id);
         $edit = true;
 
-        return view('frontend.memberInfo.attendance.form', compact('attendance', 'edit'));
+        return view('frontend.memberinfo.attendance.form', compact('attendance', 'edit'));
     }
 
     /**
