@@ -344,6 +344,9 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-emi-submit',[MemberController::class,'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
     Route::post('/loan-emi-list', [MemberController::class, 'fetchEmiList'])->name('members.loan-emi-list');
 
+    //member check credit availability
+    Route::post('/members-check-credit-availability',[MemberController::class,'memberCheckCreditAvailability'])->name('members.check-credit-available');
+
     //member recovery original route
     Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
 

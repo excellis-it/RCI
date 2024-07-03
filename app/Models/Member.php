@@ -58,6 +58,11 @@ class Member extends Model
         return $this->belongsTo(Division::class, 'division');
     }
 
+    public function quarter()
+    {
+        return $this->belongsTo(Quater::class, 'quater');
+    }
+
     public function groups()
     {
         return $this->belongsTo(Group::class, 'group');

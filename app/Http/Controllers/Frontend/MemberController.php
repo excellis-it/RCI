@@ -114,7 +114,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
 
-
+       
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -129,7 +129,7 @@ class MemberController extends Controller
             'category' => 'required',
             'status' => 'required',
             'old_bp' => 'required',
-            'g_pay' => 'required',
+            'g_pay_val' => 'required',
             'pay_band' => 'required',
             'fund_type' => 'required',
             'dob' => 'required|date',
@@ -140,7 +140,6 @@ class MemberController extends Controller
             'quater' => 'required',
             'quater_no' => 'required',
             'doj_service2' => 'required',
-            'ex_service' => 'required',
             'pg' => 'required',
             'cgegis' => 'required',
             'member_city' => 'required',
@@ -178,7 +177,7 @@ class MemberController extends Controller
         $member->category = $request->category;
         $member->status = $request->status;
         $member->old_bp = $request->old_bp;
-        $member->g_pay = $request->g_pay;
+        $member->g_pay = $request->g_pay_val;
         $member->pay_band = $request->pay_band;
         $member->fund_type = $request->fund_type;
         $member->dob = $request->dob;
@@ -318,6 +317,8 @@ class MemberController extends Controller
             $update_credit_member->remarks = $request->remarks;
             $update_credit_member->update();
 
+
+           
             // session()->flash('message', 'Member credit updated successfully');
             return response()->json(['message' => 'Member credit updated successfully']);
         } else {
@@ -355,6 +356,16 @@ class MemberController extends Controller
 
             // session()->flash('message', 'Member credit added successfully');
             return response()->json(['message' => 'Member credit added successfully']);
+        }
+    }
+
+    public function memberCheckCreditAvailability(Request $request)
+    {
+        $check_credit_member = MemberCredit::where('member_id', $request->memberID)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
+        if (count($check_credit_member) > 0) {
+            return response()->json(['message' => 'Member credit already added', 'status' => 'success']);
+        } else {
+            return response()->json(['message' => 'Credit member addition is required.', 'status' => 'error']);
         }
     }
 

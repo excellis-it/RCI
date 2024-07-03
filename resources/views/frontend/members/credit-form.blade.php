@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="g_pay" id="g_pay"
-                            value="{{ $member_credit->g_pay ?? (old('g_pay') ?? '') }}" placeholder="">
+                            value="{{ $member_credit->g_pay  ?? $member->g_pay ?? '' }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

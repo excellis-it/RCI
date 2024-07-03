@@ -322,11 +322,12 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" 
-                                                                    id="g_pay_val" value="{{ old('g_pay_val') ?? '' }}"
+                                                                    id="g_pay_val" name="g_pay_val" value="{{ old('g_pay_val') ?? '' }}"
                                                                     placeholder="" readonly>
-                                                                <input type="hidden" class="form-control" name="g_pay"
-                                                                    id="g_pay" value="{{ old('g_pay') ?? '' }}"
+                                                                <input type="hidden" class="form-control" name="g_pay_id"
+                                                                    id="g_pay_id" 
                                                                     placeholder="">    
+                                                                
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -817,7 +818,7 @@
                     success: function(response) {
 
                         //windows load with toastr message
-                        window.location.reload();
+                        // window.location.reload();
                     },
                     error: function(xhr) {
 

@@ -148,12 +148,12 @@
                                             aria-controls="credits-tab-pane" aria-selected="true">Credits</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="debits-tab" data-bs-toggle="tab"
+                                        <button class="nav-link debit-recv" id="debits-tab" data-bs-toggle="tab"
                                             data-bs-target="#debits-tab-pane" type="button" role="tab"
                                             aria-controls="debits-tab-pane" aria-selected="false">Debits</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="recovery-tab" data-bs-toggle="tab"
+                                        <button class="nav-link debit-recv" id="recovery-tab" data-bs-toggle="tab"
                                             data-bs-target="#recovery-tab-pane" type="button" role="tab"
                                             aria-controls="recovery-tab-pane" aria-selected="false">Recoveries</button>
                                     </li>
@@ -422,8 +422,11 @@
     </script>
     <script>
         $(document).ready(function() {
-            const fields = ["#basic-pay", "#da_percentage", "#hra", "#tpt", "#da_on_tpt", "#s_pay", "#spl_incentive",
-            "#incentive", "#dis_alw", "#var_amount", "#arrs_pay_allowance", "#risk_alw", "#misc_1", "#misc_2"];
+            const fields = ["#basic-pay", "#da_percentage", "#hra", "#tpt", "#da_on_tpt", "#s_pay",
+                "#spl_incentive",
+                "#incentive", "#dis_alw", "#var_amount", "#arrs_pay_allowance", "#risk_alw", "#misc_1",
+                "#misc_2"
+            ];
 
             function updateDAPercentage(basicPay, memberID) {
                 $.ajax({
@@ -587,7 +590,7 @@
                     deleteRecovery(id);
                 } else {
                     console.log('Invalid ID');
-                    
+
                 }
             });
         });
@@ -730,11 +733,11 @@
                         required: true,
                         number: true
                     },
-                    'inst_rate' :{
+                    'inst_rate': {
                         required: true,
                         number: true
                     },
-                    'penal_inst_rate' :{
+                    'penal_inst_rate': {
                         required: true,
                         number: true
                     },
@@ -755,11 +758,11 @@
                     'inst_amount': {
                         required: "Please enter installment amount",
                     },
-                    'inst_rate' :{
+                    'inst_rate': {
                         required: "Please enter installment rate",
                     },
-                    'penal_inst_rate' :{
-                        required: "Please enter penal installment rate",    
+                    'penal_inst_rate': {
+                        required: "Please enter penal installment rate",
                     },
                     'total_amount': {
                         required: "Please enter total amount",
@@ -780,14 +783,16 @@
                         success: function(response) {
                             // Extract form data
                             var data = response.data;
-                            var id= data.id;
+                            var id = data.id;
                             // var route = '/members-policy-info-edit/' + data.id;
-                            var route = "{{ route('members.loan.edit', ['id' => ':id']) }}";
+                            var route =
+                            "{{ route('members.loan.edit', ['id' => ':id']) }}";
                             route = route.replace(':id', id);
-                           
+
                             // var route = '/members-loan-edit/' + data.id;
                             // Construct table row HTML
-                            var newRow = '<tr class="edit-route-loan"  data-id="'+ id +'" data-route="' + route +
+                            var newRow = '<tr class="edit-route-loan"  data-id="' + id +
+                                '" data-route="' + route +
                                 '">';
                             newRow += '<td>' + data.loan_name +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
@@ -890,17 +895,21 @@
                                 '</td>';
                             newRow += '</tr>';
 
-                            
+
                             // Append new row to table
                             $('#loan-table tbody').append(newRow);
-                        }else{
-                            
+                        } else {
+
                             var data = response.data;
-                            var row = $('#loan-table tbody').find('tr[data-id="' + data.id + '"]');
+                            var row = $('#loan-table tbody').find('tr[data-id="' + data.id +
+                                '"]');
                             row.find('td:eq(0)').text(data.loan_name);
                             row.find('td:eq(1)').text(data.inst_rate);
                             row.find('td:eq(2)').text(data.total_amount);
-                            row.find('td:eq(3)').text(new Date(data.created_at).getDate() + '-' + (new Date(data.created_at).getMonth() + 1) + '-' + new Date(data.created_at).getFullYear().toString().substr(-2));
+                            row.find('td:eq(3)').text(new Date(data.created_at).getDate() +
+                                '-' + (new Date(data.created_at).getMonth() + 1) + '-' +
+                                new Date(data.created_at).getFullYear().toString().substr(-
+                                    2));
                             row.find('td:eq(4)').text(data.remark);
                         }
 
@@ -910,7 +919,7 @@
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
                         $('.text-danger').html('');
-                            var errors = xhr.responseJSON.errors;
+                        var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             $('[name="' + key + '"]').next('.text-danger').html(
                                 value[0]);
@@ -1047,12 +1056,12 @@
                                 .id + '" data-route="' + route +
                                 '">';
                             newRow += '<td>' + (data.policy_name ? data.policy_name :
-                                'N/A') +
+                                    'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
                             newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') +
                                 '</td>';
                             newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
-                            '</td>';
+                                '</td>';
                             newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') +
                                 '</td>';
                             newRow += '</tr>';
@@ -1064,7 +1073,7 @@
                             $('#amount').val('');
                             $('#rec_stop').val('');
                             // Append new row to table
-                            
+
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1123,8 +1132,7 @@
                         var data = response.data;
                         var save = response.save;
                         console.log(save);
-                        if (save == true) 
-                        {
+                        if (save == true) {
                             console.log(save);
                             var id = data.id;
                             // var route = '/members-policy-info-edit/' + data.id;
@@ -1137,12 +1145,12 @@
                                 .id + '" data-route="' + route +
                                 '">';
                             newRow += '<td>' + (data.policy_name ? data.policy_name :
-                                'N/A') +
+                                    'N/A') +
                                 '</td>'; // Use loanName directly if it's a string, adjust accordingly
                             newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') +
                                 '</td>';
                             newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
-                            '</td>';
+                                '</td>';
                             newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') +
                                 '</td>';
                             newRow += '</tr>';
@@ -1150,7 +1158,7 @@
                             $('#policy-table tbody').append(newRow);
                             $('#no-policy').hide();
 
-                        }else{
+                        } else {
                             var id = data.id;
                             var row = $('#policy-table tbody').find('tr[data-id="' + id + '"]');
                             row.find('td:eq(0)').text(data.policy_name);
@@ -1158,16 +1166,16 @@
                             row.find('td:eq(2)').text(data.amount);
                             row.find('td:eq(3)').text(data.rec_stop);
                         }
-                        
+
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
                         $('.text-danger').html('');
-                            var errors = xhr.responseJSON.errors;
-                            $.each(errors, function(key, value) {
-                                $('[name="' + key + '"]').next('.text-danger').html(
-                                    value[0]);
-                            });
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            $('[name="' + key + '"]').next('.text-danger').html(
+                                value[0]);
+                        });
                     }
                 });
             });
@@ -1206,7 +1214,7 @@
                 },
                 success: function(response) {
                     toastr.success(response.message);
-                    
+
                     $('#policy_name').val('');
                     $('#policy_no').val('');
                     $('#amount').val('');
@@ -1356,57 +1364,58 @@
                     data: formData,
                     success: function(response) {
 
-                    toastr.success(response.message);
-                   
-                    var data = response.data;
-                    var save = response.save;
-                    
-                     console.log(save);
-                    if (save == true) {
+                        toastr.success(response.message);
+
+                        var data = response.data;
+                        var save = response.save;
+
                         console.log(save);
-                        var id = data.id;
-                        var route =
-                            "{{ route('members.expectation.edit', ['id' => ':id']) }}";
-                        route = route.replace(':id', id);
+                        if (save == true) {
+                            console.log(save);
+                            var id = data.id;
+                            var route =
+                                "{{ route('members.expectation.edit', ['id' => ':id']) }}";
+                            route = route.replace(':id', id);
 
-                        //construct table row html
-                        var newRow = '<tr class="edit-route-expectation" data-id="' +
-                            id + '" data-route="' + route +
-                            '">';
-                        newRow += '<td>' + (data.rule_name ? data.rule_name : 'N/A') +
-                            '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                        newRow += '<td>' + (data.percent ? data.percent : 'N/A') +
-                            '</td>';
-                        newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
-                            '</td>';
-                        newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
-                            '</td>';
-                        newRow += '</tr>';
+                            //construct table row html
+                            var newRow = '<tr class="edit-route-expectation" data-id="' +
+                                id + '" data-route="' + route +
+                                '">';
+                            newRow += '<td>' + (data.rule_name ? data.rule_name : 'N/A') +
+                                '</td>'; // Use loanName directly if it's a string, adjust accordingly
+                            newRow += '<td>' + (data.percent ? data.percent : 'N/A') +
+                                '</td>';
+                            newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
+                                '</td>';
+                            newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
+                                '</td>';
+                            newRow += '</tr>';
 
-                        $('#no-expectation').remove();
-                        // Append new row to table
-                        $('#expectation-table tbody').append(newRow);
-                    }else{
-                        
+                            $('#no-expectation').remove();
+                            // Append new row to table
+                            $('#expectation-table tbody').append(newRow);
+                        } else {
 
-                        var id = data.id;
-                        var row = $('#expectation-table tbody').find('tr[data-id="' + id + '"]');
-                        row.find('td:eq(0)').text(data.rule_name);
-                        row.find('td:eq(1)').text(data.percent);
-                        row.find('td:eq(2)').text(data.amount);
-                        row.find('td:eq(3)').text(data.remark);
 
-                    }
-                    
+                            var id = data.id;
+                            var row = $('#expectation-table tbody').find('tr[data-id="' + id +
+                                '"]');
+                            row.find('td:eq(0)').text(data.rule_name);
+                            row.find('td:eq(1)').text(data.percent);
+                            row.find('td:eq(2)').text(data.amount);
+                            row.find('td:eq(3)').text(data.remark);
+
+                        }
+
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
                         $('.text-danger').html('');
-                            var errors = xhr.responseJSON.errors;
-                            $.each(errors, function(key, value) {
-                                $('[name="' + key + '"]').next('.text-danger').html(
-                                    value[0]);
-                            });
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            $('[name="' + key + '"]').next('.text-danger').html(
+                                value[0]);
+                        });
                     }
                 });
             });
@@ -1446,7 +1455,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    
+
                     toastr.success(response.message);
                     $('.edit-route-expectation[data-id="' + id + '"]').remove();
 
@@ -1458,7 +1467,7 @@
                     $('#exp_remark').val('');
                     $('#member_edit_exp_id').val('');
 
-                    
+
                     $('#expectation-delete').hide();
                     $('#button-update').text('Save');
 
@@ -1472,8 +1481,8 @@
                     console.log(xhr);
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
-                    
-                    
+
+
                 }
             });
         }
@@ -1554,12 +1563,13 @@
         $(document).ready(function() {
             const fields = ["#gpa_sub", "#gpa_adv", "#gpf_arr", "#cgegis", "#cghs", "#hba",
                 "#hba_interest",
-                "#car", "#car_interest", "#scooter", "#scooter_interest", "#comp_adv", "#comp_int",
-                "#fadv","#ltc","#medi","#tada","#leave_rec","#pension_rec","#i_tax","#ecess","#pli","#misc1","#misc2","#quarter_charges","#cghs","#cgeis_arr","#penal_interest"
+                "#car", "#car_interest", "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#ptax",
+                "#fadv", "#ltc", "#medi", "#tada", "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli",
+                "#misc1", "#misc2", "#quarter_charges", "#cghs", "#cgeis_arr", "#penal_interest"
             ];
-    
+
             var tot_credits = parseInt($('#tot_credits').val()) || 0;
-            
+
             function updateTotalDebit() {
                 let total = 0;
                 fields.forEach(field => {
@@ -1567,15 +1577,15 @@
                     total += Number(value) || 0;
                 });
 
-                $('#tot_debits').val(total);
-                $('#net_pay').val(tot_credits - total);
+                $('#tot_debits').val((total).toFixed(2));
+                $('#net_pay').val((tot_credits - total).toFixed(2));
             }
             // Trigger the AJAX request when the page loads
             updateTotalDebit();
-    
+
             // Event listener for changes in the fields
             fields.forEach(field => {
-                $(field).on("change", function() {
+                $(field).on("keyup", function() {
                     updateTotalDebit();
                 });
             });
@@ -1583,6 +1593,39 @@
     </script>
 
 
+    {{-- call ajax  to check if credit is not add in current month debit tab will open with toaster message --}}
+    <script>
+        $(document).ready(function() {
+            $("#debit-update").prop('disabled', false);
+            $('#recovry-update').prop('disabled', false);
 
-
+            $('.debit-recv').click(function() {
+                var memberID = "{{ $member->id }}";
+                $.ajax({
+                    url: "{{ route('members.check-credit-available') }}",
+                    type: 'POST',
+                    data: {
+                        memberID: memberID
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.status == 'error') {
+                            toastr.error(response.message);
+                            
+                            //disable debit-button
+                            $("#debit-update").prop('disabled', true);
+                            $('#recovry-update').prop('disabled', true);
+                        }else{
+                            $("#debit-update").prop('disabled', false);
+                            $('#recovry-update').prop('disabled', false);
+                        }
+                    }
+                });
+            });
+            
+        });
+        
+    </script>
 @endpush
