@@ -682,6 +682,7 @@
                                                 <select class="form-select" name="e_status" id="e_status">
                                                     <option value="">Select</option>
                                                     <option value="active">Active</option>
+                                                    <option value="deputation">On Deputation</option>
                                                     <option value="retired">Retired</option>
                                                     <option value="suspended">Suspended</option>
                                                     <option value="transferred">Transferred</option> 

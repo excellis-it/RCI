@@ -14,4 +14,10 @@ class MemberLoanInfo extends Model
     {
         return $this->belongsTo(Loan::class, 'loan_id', 'id');
     }
+
+    //member relation
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id', 'id');
+    }
 }

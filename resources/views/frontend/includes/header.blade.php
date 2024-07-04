@@ -384,6 +384,11 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-leaves.index') }}">Member Leave</a>
                             </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('penal-interest.index') }}">Penal Interest</a>
+                            </li>
                             
                             
                         </ul>

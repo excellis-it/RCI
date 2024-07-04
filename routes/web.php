@@ -50,6 +50,7 @@ use App\Http\Controllers\Frontend\MemberInfo\LeaveTypeController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
+use App\Http\Controllers\Frontend\MemberInfo\PenalInterestController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -339,10 +340,11 @@ Route::middleware('permssions')->group(function () {
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
     Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
-    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
+    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');    
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
+    Route::post('/eol-hpl', [MemberController::class, 'checkEolHpl'])->name('members.eol-hpl');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
@@ -459,6 +461,7 @@ Route::middleware('permssions')->group(function () {
             'member-alloted-leave' => MemberAllotedLeaveController::class,
             'member-leaves' => MemberLeaveController::class,
             'attendances' => AttendanceController::class,
+            'penal-interest' => PenalInterestController::class,
         ]);
 
         // leave type
@@ -489,6 +492,11 @@ Route::middleware('permssions')->group(function () {
         });
         Route::get('/attendances-fetch-data', [AttendanceController::class, 'fetchData'])->name('attendances.fetch-data');
         Route::post('/member-attendances', [AttendanceController::class, 'memberAttendances'])->name('attendances.member-attendances');
+
+        // penal interest
+        Route::post('/get-member-loan-info', [PenalInterestController::class, 'getMemberLoanInfo'])->name('penal-interest.get-member-loan-info');
+        Route::post('/get-loan-info', [PenalInterestController::class, 'getLoanInfo'])->name('penal-interest.get-loan-info');
+
     });
 
     // imprest routes
