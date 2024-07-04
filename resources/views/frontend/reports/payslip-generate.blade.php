@@ -715,7 +715,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                    {{  $member_debit_data->quarter_charges ?? 0 }}
+                                    {{  $member_quarter_charge ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -925,7 +925,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                    {{ $member_debit_data->gpf_adv ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -941,7 +941,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                    {{ $member_debit_data->elec ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -960,7 +960,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                   
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -976,7 +976,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                    {{ $member_debit_data->water ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1011,7 +1011,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                {{ $member_debit_data->furn ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1046,7 +1046,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                 {{ $member_debit_data->misc1 ?? 0 }}
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">

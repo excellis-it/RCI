@@ -15,7 +15,7 @@ class LeaveTypeController extends Controller
     {
         $leaveTypes = LeaveType::paginate(10);
 
-        return view('frontend.memberInfo.leaveType.list', compact('leaveTypes'));
+        return view('frontend.member-info.leaveType.list', compact('leaveTypes'));
     }
 
     public function fetchData(Request $request)
@@ -32,7 +32,7 @@ class LeaveTypeController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
 
-            return response()->json(['data' => view('frontend.memberInfo.leaveType.table', compact('leaveTypes'))->render()]);
+            return response()->json(['data' => view('frontend.member-info.leaveType.table', compact('leaveTypes'))->render()]);
         }
     }
 
@@ -79,7 +79,7 @@ class LeaveTypeController extends Controller
         $leaveType = LeaveType::findOrFail($id);
         $edit = true;
 
-        return response()->json(['view' => view('frontend.memberInfo.leaveType.form', compact('leaveType', 'edit'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.leaveType.form', compact('leaveType', 'edit'))->render()]);
     }
 
     /**

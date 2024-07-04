@@ -510,11 +510,11 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>CGHS ARR</label>
+                        <label>CGHS </label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="cghs" id="cghs"
-                            value="{{ $member_debit->cghs  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->cghs  ?? $member_cghs->contribution ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

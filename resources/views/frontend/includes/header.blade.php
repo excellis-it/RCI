@@ -390,6 +390,10 @@
                                     href="{{ route('penal-interest.index') }}">Penal Interest</a>
                             </li>
                             
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-gpf.index') }}">GPF Management</a>
+                            </li>
                             
                         </ul>
                     </div>

@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.memberinfo.member-leave.form')
+                            @include('frontend.member-info.member-leave.form')
                         </div>
 
                         <div class="row">
@@ -67,7 +67,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.memberinfo.member-leave.leave-table')
+                                            @include('frontend.member-info.member-leave.leave-table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
