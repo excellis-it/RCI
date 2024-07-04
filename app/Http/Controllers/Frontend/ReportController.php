@@ -44,18 +44,19 @@ class ReportController extends Controller
             'year' => 'required',
         ]);
 
-        $member_data = Member::where('id', $request->member_id)->first();
-        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
-        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
-        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
-        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
+        $member_data = Member::where('id', $request->member_id)->first() ?? '' ;
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first() ?? '';
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first() ?? '';
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first() ?? '';
+        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first() ?? '';
         $month = $request->month;
         $dateObj = \DateTime::createFromFormat('!m', $month);
         $monthName = $dateObj->format('F');
         $year = $request->year;
+        $member_quarter_charge = ($member_debit_data->quarter_charges + $member_debit_data->elec + $member_debit_data->water + $member_debit_data->furn + $member_debit_data->misc2) ?? 0;
         
         
-        $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year'));
+        $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year','member_quarter_charge'));
         return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
     
     }

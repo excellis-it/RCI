@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Leave Type List
+   Member Alloted Leaves List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Leave Type Listing</h3>
+                    <h3>Member Alloted Leaves Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Leave Type Listing</span></li>
+                        <li><span class="bread-blod">Member Alloted Leaves Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.memberinfo.leaveType.form')
+                            @include('frontend.member-info.member-alloted-leave.form')
                         </div>
 
                         <div class="row">
@@ -49,18 +49,17 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="member_id"
+                                                    style="cursor: pointer">Member Name </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
-                                                    style="cursor: pointer">Leave Type <span id="leave_type_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Leave Type Abbreviations <span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Status </th>
+                                                    style="cursor: pointer"> Leave Type </th>
+                                                    <th class="sorting" data-sorting_type="desc" data-column_name="alloted_leaves"
+                                                    style="cursor: pointer"> Alloted Leave </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.memberinfo.leaveType.table')
+                                            @include('frontend.member-info.member-alloted-leave.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -83,7 +82,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Leave Type!",
+                    text: "To delete this Leaves!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -106,7 +105,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('leave-type.fetch-data') }}",
+                    url: "{{ route('member-alloted-leave.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -171,7 +170,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#leave-type-create-form').submit(function(e) {
+            $('#member-alloted-leave-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -184,11 +183,11 @@
                        
                         //windows load with toastr message
                         window.location.reload();
+                        toastr.success(response.message);
                     },
                     error: function(xhr) {
                        
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
+                        // Handle errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
@@ -226,7 +225,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#leave-type-edit-form', function(e) {
+            $(document).on('submit', '#member-alloted-leave-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -252,4 +251,26 @@
             });
         });
     </script>
+
+    {{-- <script>
+        $(document).ready(function() {
+            $(document).on('change', '#tpt_allowance', function() {
+                var allowance = $(this).val();
+                $.ajax({
+                    url: "{{ route('tptas.da-percentage') }}",
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        allowance: allowance
+                    },
+                    success: function(response) {
+                        $('#tpt_da').val(response.tpt_da);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
+    </script> --}}
 @endpush

@@ -40,6 +40,7 @@ use App\Models\Hra;
 use App\Models\Tpta;
 use App\Models\IncomeTax;
 use App\Models\MemberLoan;
+use App\Models\Cghs;
 use View;
 use Illuminate\Support\Str;
 
@@ -228,6 +229,7 @@ class MemberController extends Controller
         $member_personal = MemberPersonalInfo::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_policies = MemberPolicyInfo::where('member_id', $id)->orderBy('id', 'desc')->get() ?? '';
         $member_expectations = MemberExpectation::where('member_id', $id)->orderBy('id', 'desc')->get() ?? '';
+        $member_cghs = Cghs::where('pay_level_id', $member->pm_level)->orderBy('id', 'desc')->first() ?? '';
         $paybands = PaybandType::orderBy('id', 'desc')->get() ?? '';
         $categories = Category::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $pmLevels = PmLevel::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
@@ -249,7 +251,7 @@ class MemberController extends Controller
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs'));
     }
 
     public function memberCreditUpdate(Request $request)

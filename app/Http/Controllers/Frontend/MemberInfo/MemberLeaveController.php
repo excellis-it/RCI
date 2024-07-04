@@ -43,7 +43,7 @@ class MemberLeaveController extends Controller
 
         $years = range($startYear, $endYear);
         
-        return view('frontend.memberInfo.member-leave.list', compact('leaves', 'members', 'leaveTypes', 'years', 'allotedLeaves'));
+        return view('frontend.member-info.member-leave.list', compact('leaves', 'members', 'leaveTypes', 'years', 'allotedLeaves'));
     }
 
     /**
@@ -60,7 +60,7 @@ class MemberLeaveController extends Controller
 
         $years = range($startYear, $endYear);
 
-        return view('frontend.memberInfo.member-leave.leave-list', compact('members', 'leaveTypes', 'years', 'memberLeaves'));
+        return view('frontend.member-info.member-leave.leave-list', compact('members', 'leaveTypes', 'years', 'memberLeaves'));
     }
 
     /**
@@ -111,7 +111,7 @@ class MemberLeaveController extends Controller
 
             $years = range($startYear, $endYear);
 
-            return response()->json(['data' => view('frontend.memberInfo.member-leave.leave-table', compact('memberLeaves', 'members', 'leaveTypes', 'years'))->render()]);
+            return response()->json(['data' => view('frontend.member-info.member-leave.leave-table', compact('memberLeaves', 'members', 'leaveTypes', 'years'))->render()]);
         }
     }
 
@@ -146,7 +146,7 @@ class MemberLeaveController extends Controller
 
             $years = range($startYear, $endYear);
 
-            return response()->json(['data' => view('frontend.memberInfo.member-leave.table', compact('leaves', 'members', 'leaveTypes', 'years','allotedLeaves'))->render()]);
+            return response()->json(['data' => view('frontend.member-info.member-leave.table', compact('leaves', 'members', 'leaveTypes', 'years','allotedLeaves'))->render()]);
         }
     }
     /**
@@ -214,7 +214,7 @@ class MemberLeaveController extends Controller
         $years = range($startYear, $endYear);
         $edit = true;
 
-        return response()->json(['view' => view('frontend.memberInfo.member-leave.form', compact('memberLeave', 'members', 'leaveTypes', 'edit', 'years'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.member-leave.form', compact('memberLeave', 'members', 'leaveTypes', 'edit', 'years'))->render()]);
     }
 
     /**

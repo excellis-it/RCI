@@ -24,7 +24,7 @@ class MemberAllotedLeaveController extends Controller
         
         $years = range($startYear, $currentYear);
 
-        return view('frontend.memberInfo.member-alloted-leave.list', compact('allotedLeaves', 'members', 'leaveTypes', 'years'));
+        return view('frontend.member-info.member-alloted-leave.list', compact('allotedLeaves', 'members', 'leaveTypes', 'years'));
     }
 
     public function fetchData(Request $request)
@@ -51,7 +51,7 @@ class MemberAllotedLeaveController extends Controller
             
             $years = range($startYear, $currentYear);
 
-            return response()->json(['data' => view('frontend.memberInfo.member-alloted-leave.table', compact('allotedLeaves', 'members', 'leaveTypes', 'years'))->render()]);
+            return response()->json(['data' => view('frontend.member-info.member-alloted-leave.table', compact('allotedLeaves', 'members', 'leaveTypes', 'years'))->render()]);
         }
     }
 
@@ -108,7 +108,7 @@ class MemberAllotedLeaveController extends Controller
         $years = range($startYear, $currentYear);
         $edit = true;
 
-        return response()->json(['view' => view('frontend.memberInfo.member-alloted-leave.form', compact('allotedLeave', 'edit', 'members', 'leaveTypes', 'years'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.member-alloted-leave.form', compact('allotedLeave', 'edit', 'members', 'leaveTypes', 'years'))->render()]);
     }
 
     /**

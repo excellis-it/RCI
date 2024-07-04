@@ -22,7 +22,7 @@ class MemberIncomeTaxController extends Controller
         
         $years = range($startYear, $currentYear);
 
-        return view('frontend.memberInfo.member-income-taxes.list', compact('memberIncomeTaxes', 'members', 'years'));
+        return view('frontend.member-info.member-income-taxes.list', compact('memberIncomeTaxes', 'members', 'years'));
     }
 
     public function fetchData(Request $request)
@@ -50,7 +50,7 @@ class MemberIncomeTaxController extends Controller
             
             $years = range($startYear, $currentYear);
 
-            return response()->json(['data' => view('frontend.memberInfo.member-income-taxes.table', compact('memberIncomeTaxes', 'members', 'years'))->render()]);
+            return response()->json(['data' => view('frontend.member-info.member-income-taxes.table', compact('memberIncomeTaxes', 'members', 'years'))->render()]);
         }
     }
 
@@ -123,7 +123,7 @@ class MemberIncomeTaxController extends Controller
         $years = range($startYear, $currentYear);
 
         return response()->json([
-            'view' => view('frontend.memberInfo.member-income-taxes.form', compact('memberIncomeTax', 'edit', 'members', 'years'))->render()
+            'view' => view('frontend.member-info.member-income-taxes.form', compact('memberIncomeTax', 'edit', 'members', 'years'))->render()
         ]);
 
     }

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Member Income Tax List
+   Attendance List
 @endsection
 
 @push('styles')
@@ -15,24 +15,39 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Member Income Tax Listing</h3>
+                    <h3>Attendance Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Member Income Tax Listing</span></li>
+                        <li><span class="bread-blod">Attendance Listing</span></li>
                     </ul>
                 </div>
             </div>
         </div>
         <!--  Row 1 -->
-
+        
         <div class="row">
+            <div class="col-md-12 text-end mb-3">
+                <a class="print_btn" href="{{ route('attendances.create') }}">Add/Edit Attendance</a>
+            </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div id="form">
-                            @include('frontend.memberinfo.member-income-taxes.form')
-                        </div>
-
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-md-6">
+                              <h4>Emplyoee Attendance Chart</h4>
+                            </div>
+                            @php $currentYear = date('Y') @endphp
+                            <div class="col-md-3 col-lg-2">
+                              <select class="form-control" aria-label="Year" id="year_search">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}" @if ($year == $currentYear)
+                                        selected
+                                        
+                                    @endif>{{ $year }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div> 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
@@ -45,27 +60,26 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody margin_hr">
+                                        <thead class="text-white fs-4 bg_blue align-middle">
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="member_id"
                                                     style="cursor: pointer">Member Name </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="section"
-                                                    style="cursor: pointer"> Section </th>
-                                                    <th class="sorting" data-sorting_type="desc" data-column_name="description"
-                                                    style="cursor: pointer"> Description </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="max_deduction"
-                                                    style="cursor: pointer">Max Deduction  </th>
-                                                    <th class="sorting" data-sorting_type="desc" data-column_name="member_deduction"
-                                                    style="cursor: pointer">Member Deduction  </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="financial_year"
-                                                    style="cursor: pointer">Financial Year </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="desig"
+                                                style="cursor: pointer">Designation</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
+                                                    style="cursor: pointer">Emp ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="present" 
+                                                    style="cursor: pointer">Present</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="absent"
+                                                    style="cursor: pointer">Absent</th>
+                                                {{-- <th>Total Approved Leave</th> --}}
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.memberinfo.member-income-taxes.table')
+                                            @include('frontend.member-info.attendance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -78,6 +92,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
         </form>
     </div>
@@ -88,7 +103,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Tax Exemption!",
+                    text: "To delete this Leaves!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -111,7 +126,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-income-taxes.fetch-data') }}",
+                    url: "{{ route('member-leaves.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -176,7 +191,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-income-tax-create-form').submit(function(e) {
+            $('#member-leave-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -231,7 +246,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-income-tax-edit-form', function(e) {
+            $(document).on('submit', '#member-leave-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -256,6 +271,25 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function year_search(year) {
+            $.ajax({
+                url: "{{ route('member-leaves.year-search') }}",
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    year: year
+                },
+                success: function(response) {
+                    $('tbody').html(response.data);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
     </script>
 
     {{-- <script>

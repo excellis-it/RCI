@@ -24,18 +24,33 @@
             </div>
         </div>
         <!--  Row 1 -->
-
+        
         <div class="row">
+            <div class="col-md-12 text-end mb-3">
+                <a class="print_btn" href="{{ route('member-leaves.leave-list') }}">Add/Edit member leave</a>
+            </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div id="form">
-                            @include('frontend.memberinfo.member-alloted-leave.form')
-                        </div>
-
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-md-6">
+                              <h4>Emplyoee Leave Chart</h4>
+                            </div>
+                            @php $currentYear = date('Y') @endphp
+                            <div class="col-md-3 col-lg-2">
+                              <select class="form-control" aria-label="Year" id="year_search">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}" @if ($year == $currentYear)
+                                        selected
+                                        
+                                    @endif>{{ $year }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div> 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
+                                {{-- <div class="row justify-content-end">
                                     <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
@@ -43,23 +58,26 @@
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody margin_hr" id="member_leave_table">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="member_id"
                                                     style="cursor: pointer">Member Name </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
-                                                    style="cursor: pointer"> Leave Type </th>
-                                                    <th class="sorting" data-sorting_type="desc" data-column_name="alloted_leaves"
-                                                    style="cursor: pointer"> Alloted Leave </th>
                                                 <th></th>
+                                                @foreach ($leaveTypes as $leaveType)
+                                                    <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
+                                                        style="cursor: pointer">{{ Str::upper($leaveType->leave_type_abbr) }}</th>
+                                                    
+                                                @endforeach
+                                                <th>Total Approved Leave</th>
+                                                {{-- <th></th> --}}
                                             </tr>
                                         </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('frontend.memberinfo.member-alloted-leave.table')
+                                        <tbody class="tbody_height_scroll" >
+                                            @include('frontend.member-info.member-leave.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -72,6 +90,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
         </form>
     </div>
@@ -105,7 +124,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-alloted-leave.fetch-data') }}",
+                    url: "{{ route('member-leaves.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -170,7 +189,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-alloted-leave-create-form').submit(function(e) {
+            $('#member-leave-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -183,11 +202,11 @@
                        
                         //windows load with toastr message
                         window.location.reload();
-                        toastr.success(response.message);
                     },
                     error: function(xhr) {
                        
-                        // Handle errors
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
@@ -225,7 +244,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-alloted-leave-edit-form', function(e) {
+            $(document).on('submit', '#member-leave-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -248,6 +267,30 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).on('change', '#year_search', function() {
+            var year = $('#year_search').val();
+            $.ajax({
+                url: "{{ route('member-leaves.year-search') }}",
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    year: year
+                },
+                header:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    
+                },
+                success: function(response) {
+                   
+                    $('tbody').html(response.data);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
             });
         });
     </script>

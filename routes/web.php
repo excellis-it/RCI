@@ -50,6 +50,7 @@ use App\Http\Controllers\Frontend\MemberInfo\LeaveTypeController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
+use App\Http\Controllers\Frontend\Memberinfo\MemberGpfController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -160,6 +161,7 @@ Route::middleware('permssions')->group(function () {
         'gpfs'=> GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
+        
         
     ]);
 
@@ -352,6 +354,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-emi-submit',[MemberController::class,'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
     Route::post('/loan-emi-list', [MemberController::class, 'fetchEmiList'])->name('members.loan-emi-list');
 
+
     //member check credit availability
     Route::post('/members-check-credit-availability',[MemberController::class,'memberCheckCreditAvailability'])->name('members.check-credit-available');
 
@@ -459,6 +462,7 @@ Route::middleware('permssions')->group(function () {
             'member-alloted-leave' => MemberAllotedLeaveController::class,
             'member-leaves' => MemberLeaveController::class,
             'attendances' => AttendanceController::class,
+            'member-gpf' => MemberGpfController::class, 
         ]);
 
         // leave type

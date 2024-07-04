@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Attendance List
+   Leave Type List
 @endsection
 
 @push('styles')
@@ -15,39 +15,24 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Attendance Listing</h3>
+                    <h3>Leave Type Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Attendance Listing</span></li>
+                        <li><span class="bread-blod">Leave Type Listing</span></li>
                     </ul>
                 </div>
             </div>
         </div>
         <!--  Row 1 -->
-        
+
         <div class="row">
-            <div class="col-md-12 text-end mb-3">
-                <a class="print_btn" href="{{ route('attendances.create') }}">Add/Edit Attendance</a>
-            </div>
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div class="row align-items-center justify-content-between">
-                            <div class="col-md-6">
-                              <h4>Emplyoee Attendance Chart</h4>
-                            </div>
-                            @php $currentYear = date('Y') @endphp
-                            <div class="col-md-3 col-lg-2">
-                              <select class="form-control" aria-label="Year" id="year_search">
-                                @foreach ($years as $year)
-                                    <option value="{{ $year }}" @if ($year == $currentYear)
-                                        selected
-                                        
-                                    @endif>{{ $year }}</option>
-                                @endforeach
-                              </select>
-                            </div>
-                          </div> 
+                        <div id="form">
+                            @include('frontend.member-info.leaveType.form')
+                        </div>
+
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
@@ -60,26 +45,22 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody margin_hr">
-                                        <thead class="text-white fs-4 bg_blue align-middle">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                        <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="member_id"
-                                                    style="cursor: pointer">Member Name </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="desig"
-                                                style="cursor: pointer">Designation</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
-                                                    style="cursor: pointer">Emp ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="present" 
-                                                    style="cursor: pointer">Present</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="absent"
-                                                    style="cursor: pointer">Absent</th>
-                                                {{-- <th>Total Approved Leave</th> --}}
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
+                                                    style="cursor: pointer">Leave Type <span id="leave_type_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                    style="cursor: pointer">Leave Type Abbreviations <span id="leave_type_abbr_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.memberinfo.attendance.table')
+                                            @include('frontend.member-info.leaveType.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -92,7 +73,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
         </form>
     </div>
@@ -103,7 +83,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Leaves!",
+                    text: "To delete this Leave Type!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -126,7 +106,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-leaves.fetch-data') }}",
+                    url: "{{ route('leave-type.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -191,7 +171,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-leave-create-form').submit(function(e) {
+            $('#leave-type-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -246,7 +226,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-leave-edit-form', function(e) {
+            $(document).on('submit', '#leave-type-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -272,45 +252,4 @@
             });
         });
     </script>
-
-    <script>
-        function year_search(year) {
-            $.ajax({
-                url: "{{ route('member-leaves.year-search') }}",
-                type: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    year: year
-                },
-                success: function(response) {
-                    $('tbody').html(response.data);
-                },
-                error: function(xhr) {
-                    console.log(xhr);
-                }
-            });
-        }
-    </script>
-
-    {{-- <script>
-        $(document).ready(function() {
-            $(document).on('change', '#tpt_allowance', function() {
-                var allowance = $(this).val();
-                $.ajax({
-                    url: "{{ route('tptas.da-percentage') }}",
-                    type: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        allowance: allowance
-                    },
-                    success: function(response) {
-                        $('#tpt_da').val(response.tpt_da);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
-            });
-        });
-    </script> --}}
 @endpush
