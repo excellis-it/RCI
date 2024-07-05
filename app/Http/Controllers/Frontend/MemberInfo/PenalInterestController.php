@@ -22,7 +22,7 @@ class PenalInterestController extends Controller
         $memberloans = MemberLoanInfo::with('member')->get();
         $penalInterests = PenalInterest::paginate(10);
 
-        return view('frontend.memberInfo.penalInterest.list', compact('memberloans', 'penalInterests'));
+        return view('frontend.membe-info.penalInterest.list', compact('memberloans', 'penalInterests'));
     }
 
     /**

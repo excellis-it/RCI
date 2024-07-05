@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.memberInfo.penalInterest.form')
+                            @include('frontend.member-info.penalInterest.form')
                         </div>
 
                         <div class="row">
@@ -64,7 +64,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.memberinfo.penalInterest.table')
+                                            @include('frontend.member-info.penalInterest.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
