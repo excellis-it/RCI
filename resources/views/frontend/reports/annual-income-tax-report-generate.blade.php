@@ -1703,7 +1703,7 @@
                                                 @php
                                                     // Tax Calculation
                                                     $tax = 0;
-                                                    $educessRate = $incometaxRate[0]->edu_cess_rate;
+                                                    $educessRate = $incometaxRate[0]->edu_cess_rate ?? 0;
 
                                                     foreach($incometaxRate as $rate) {
                                                         $lowerSlabAmount = $rate->lower_slab_amount;
@@ -1760,12 +1760,12 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{  $relief87A }}
+                                                {{  $relief87A ?? 0 }}
                                             </td>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{ $added87aTax }}
+                                                {{ $added87aTax ?? 0}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -1792,7 +1792,7 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: left; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                                13. Add {{ $educessRate }}% Edu Cess to Income Tax
+                                                13. Add {{ $educessRate ?? 0 }}% Edu Cess to Income Tax
                                             </td>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
@@ -1802,12 +1802,12 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{ $educess }}
+                                                {{ $educess ?? 0}}
                                             </td>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{ $total_tax }}
+                                                {{ $total_tax ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -1849,7 +1849,7 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{ $relief89 }}
+                                                {{ $relief89 ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -1891,7 +1891,7 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{  $total_debit['i_tax']}}
+                                                {{  $total_debit['i_tax'] ?? 0}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -1913,7 +1913,7 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                {{ $total_tax - $total_debit['i_tax'] }}
+                                                {{ $total_tax - $total_debit['i_tax'] ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>

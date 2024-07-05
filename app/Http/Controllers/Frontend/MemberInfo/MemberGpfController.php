@@ -25,60 +25,26 @@ class MemberGpfController extends Controller
     {
         
         $subscription_amount = $request->monthly_subscription;
-        $member_ids = $request->members;
-    
+        $member_basic = MemberCredit::where('member_id',$request->member)->orderBy('id', 'desc')->first();
+
         $errors = [];
-        $success = [];
-        $members_with_issues = [];
-    
-        foreach ($member_ids as $member_id) {
-            // Fetch member data including name
-            $member = Member::where('id', $member_id)->first();
-            $member_name = $member ? $member->name : "Unknown Member";
-    
-            $member_basic = MemberCredit::where('member_id', $member_id)
-                                        ->orderBy('id', 'desc')
-                                        ->first();
-    
-            // Error handling if no member_basic found
-            if (!$member_basic) {
-                $errors[$member_name][] = 'Basic pay information not found.';
-                $members_with_issues[] = $member_name;
-                continue;
-            }
-    
-            // Validation checks
-            if ($member_basic->pay * 0.06 > $subscription_amount) {
-                $errors[$member_name][] = 'The Monthly Subscription must be at least 6% of the Basic Pay.';
-                $members_with_issues[] = $member_name;
-            }
-            if ($subscription_amount > $member_basic->pay) {
-                $errors[$member_name][] = 'The Monthly Subscription should not exceed the Basic Pay.';
-                $members_with_issues[] = $member_name;
-            }
-            if ($subscription_amount * 12 > 500000) {
-                $errors[$member_name][] = 'The total annual subscription (Monthly Subscription x 12) should not exceed 500,000.';
-                $members_with_issues[] = $member_name;
-            }
-    
-            // If no errors for this member, add to success
-            if (!isset($errors[$member_name])) {
-                $success[$member_name] = 'Monthly Subscription is valid';
-            }
+        if ($member_basic->pay * 0.06 > $subscription_amount) {
+            $errors[] = 'The Monthly Subscription must be at least 6% of the Basic Pay.';
         }
-    
-        // Prepare the response based on errors or success
+        if ($subscription_amount > $member_basic->pay) {
+            $errors[] = 'The Monthly Subscription should not exceed the Basic Pay.';
+        }
+        if ($subscription_amount * 12 > 500000) {
+            $errors[] = 'The total annual subscription (Monthly Subscription x 12) should not exceed 500,000.';
+        }
+
         if (!empty($errors)) {
             return response()->json([
                 'errors' => $errors,
-                'message' => 'Please review the following employees: ' . implode(', ', array_unique($members_with_issues)),
                 'status' => 'error'
             ]);
         } else {
-            return response()->json([
-                'success' => $success,
-                'status' => 'success'
-            ]);
+            return response()->json(['success' => 'Monthly Subscription is valid', 'status' => 'success']);
         }
 
     }
@@ -135,7 +101,12 @@ class MemberGpfController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $member_gpf = MemberGpf::findOrFail($id);
+        $members = Member::orderBy('id', 'desc')->get();
+        $edit = true;
+
+        return response()->json(['view' => view('frontend.member-info.gpf.form', compact('member_gpf', 'edit','members'))->render()]);
+        
     }
 
     /**

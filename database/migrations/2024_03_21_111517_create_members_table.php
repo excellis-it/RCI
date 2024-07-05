@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string('member_city')->nullable();
             $table->string('rent_or_not')->nullable();
             $table->string('pran_number')->nullable();
-            $table->boolean('member_status')->default(0)->comment('0=Inactive, 1=Active');
+            $table->boolean('member_status')->default(1)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });
     }

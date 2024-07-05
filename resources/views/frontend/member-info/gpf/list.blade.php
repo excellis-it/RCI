@@ -24,102 +24,57 @@
             </div>
         </div>
         <!--  Row 1 -->
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <h3>For Single Member GPF</h3>
                             @include('frontend.member-info.gpf.form')
                         </div>
 
-
-                        {{-- check box for multiple member --}}
-                        
-                        <div class="container-fluid">
-                            <!--  Row 1 -->
-                            <div class="row">
-                                <h3>For Multiple Member GPF</h3>
-                                <div class="col-lg-12">
-
-                                    <form action="" method="POST" enctype="multipart/form-data">
-                                        @csrf
-
-                                        <div class="row">
-                                            <div class="container-fluid page__container">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 p-0">
-                                                        <div class="table-responsive border-bottom" data-toggle="lists">
-
-
-                                                            <table class="table mb-0 table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="width: 50px; text-align: center;">
-                                                                            <div class="">
-                                                                                <input class="styled-checkbox" id="select-all" type="checkbox">
-                                                                                <label for="select-all"></label>
-                                                                            </div>
-                                                                        </th>
-                                                                        <th>Member</th>
-                                                                        <th>Date</th>
-                                                                        <th>Monthly Subscription</th>
-                                                                        <th>Openning Balance</th>
-                                                                        <th>Closing Balance</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody class="list">
-                                                                   
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="">
-                                                                                <input class="styled-checkbox row-checkbox" id="styled-checkbox-1" type="checkbox">
-                                                                                <label for="styled-checkbox-1"></label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>trtyrt</td>
-                                                                        <td>gdrfgd</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="">
-                                                                                <input class="styled-checkbox row-checkbox" id="styled-checkbox-2" type="checkbox">
-                                                                                <label for="styled-checkbox-2"></label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>example</td>
-                                                                        <td>content</td>
-                                                                    </tr>
-                                                                    <!-- Add more rows as needed -->
-                                                                </tbody>
-                                                            </table>
-                                                            
-
-                                                            <span class="text-danger" id="permissions_msg"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-4 mt-4">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control search_table" value=""
+                                                id="search" placeholder="Search">
+                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
-
-
-                                        <br>
-
-                                        <div class="w-100 text-end">
-                                            <button type="submit" class="print_btn">Update</button>
-                                        </div>
-                                    </form>
-
+                                    </div>
+                                </div>
+                                <div class="table-responsive rounded-2">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                        <thead class="text-white fs-4 bg_blue">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">Member<span id="value_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Date</th>
+                                                <th>Monthly Subscription</th>
+                                                <th>Openning Balance</th>
+                                                <th>Closing Balance</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_height_scroll">
+                                            @include('frontend.member-info.gpf.table')
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
+                                        value="id" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
                                 </div>
                             </div>
                         </div>
-                        {{-- member details --}}
                     </div>
                 </div>
             </div>
         </div>
-        </form>
+        
+       
     </div>
 @endsection
 
@@ -216,6 +171,56 @@
                 // Otherwise, uncheck the header checkbox
                 $('#select-all').prop('checked', false);
             }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.edit-route', function() {
+            var route = $(this).data('route');
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+            $.ajax({
+                url: route,
+                type: 'GET',
+                success: function(response) {
+                    $('#form').html(response.view);
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    $('#offcanvasEdit').offcanvas('show');
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    console.log(xhr);
+                }
+            });
+        });
+
+        // Handle the form submission
+        $(document).on('submit', '#gpfs-edit-form', function(e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function(response) {
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a span with class "text-danger" next to each input
+                        $('#' + key + '-error').html(value[0]);
+                    });
+                }
+            });
         });
     });
 </script>

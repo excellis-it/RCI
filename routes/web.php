@@ -51,7 +51,7 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
 use App\Http\Controllers\Frontend\MemberInfo\PenalInterestController;
-use App\Http\Controllers\Frontend\Memberinfo\MemberGpfController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;

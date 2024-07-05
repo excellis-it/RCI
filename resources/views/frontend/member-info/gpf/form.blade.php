@@ -1,5 +1,5 @@
 @if (isset($edit))
-    <form action="" method="POST" id="leave-type-edit-form">
+    <form action="{{ route('member-gpf.update', $member_gpf->id) }}" method="POST" id="gpfs-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -8,39 +8,103 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Leave Type Name</label>
+                                <label>Members</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="leave_type" id="leave_type" value="{{ $leaveType->leave_type ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Leave Type Abbreviations</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="leave_type_abbr" id="leave_type_abbr" value="{{ $leaveType->leave_type_abbr ?? '' }}"
-                                    placeholder="" style="text-transform:uppercase">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Status</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($leaveType->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($leaveType->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                <select class="form-select" name="" id="member_id" disabled>
+                                    <option value="">Select member</option>
+                                    @foreach($members as $member)
+                                        <option value="{{ $member->id }}"{{ $member_gpf->member_id == $member->id ? 'selected' : ''}}>{{ $member->name }}</option>
+                                    @endforeach
                                 </select>
+                                <input type="hidden"  value="{{$member_gpf->member_id}}" name="member_id">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Finantial Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="finantial_year" value="{{ $member_gpf->finantial_year }}" placeholder="yyyy - yyyy" style="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Year</label>
+                            </div>
+                            <select name="year" class="form-select" id="year">
+                                <option value="">Select Year</option>
+                                @for ($i = date('Y'); $i >= 1950; $i--)
+                                    <option value="{{ $i }}" {{ $member_gpf->year == $i ? 'selected' :''}}>
+                                        {{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Month</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select name="month" class="form-select" id="month">
+                                    <option value="Jan" {{ $member_gpf->month == "Jan" ? 'selected': "" }}>Jan</option>
+                                    <option value="Feb" {{ $member_gpf->month == "Feb" ? 'selected': "" }}>Feb</option>
+                                    <option value="March" {{ $member_gpf->month == "March" ? 'selected': "" }}>March</option>
+                                    <option value="April" {{ $member_gpf->month == "April" ? 'selected': "" }}>April</option>
+                                    <option value="May" {{ $member_gpf->month == "May" ? 'selected': "" }}>May</option>
+                                    <option value="June" {{ $member_gpf->month == "June" ? 'selected': "" }}>June</option>
+                                    <option value="July" {{ $member_gpf->month == "July" ? 'selected': "" }}>July</option>
+                                    <option value="Aug" {{ $member_gpf->month == "Aug" ? 'selected': "" }}>Aug</option>
+                                    <option value="Sept" {{ $member_gpf->month == "Sept" ? 'selected': "" }}>Sept</option>
+                                    <option value="Oct" {{ $member_gpf->month == "Oct" ? 'selected': "" }}>Oct</option>
+                                    <option value="Nov" {{ $member_gpf->month == "Nov" ? 'selected': "" }}>Nov</option>
+                                    <option value="Dec" {{ $member_gpf->month == "Dec" ? 'selected': "" }}>Dec</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-8 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Monthly Subscription</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="monthly_subscription" value="{{ $member_gpf->monthly_subscription }}" id="monthly_subscription" >
+                                <span class="text-danger" id="subscription_error_message"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Openning Balance</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" value="{{ $member_gpf->openning_balance }}" name="openning_balance" id="" placeholder="" style="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Closing Balance</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" value="{{ $member_gpf->closing_balance }}" name="closing_balance" id="" placeholder="" style="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -49,7 +113,7 @@
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
-                    <button type="submit" class="listing_add">Update</button>
+                    <button type="submit" class="listing_add gpf_sub_btn">Add</button>
                 </div>
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
