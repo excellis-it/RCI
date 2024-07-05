@@ -58,7 +58,7 @@
         </div>
     </form>
 @else
-    <form action="" method="POST" id="leave-type-create-form">
+    <form action="{{ route('member-gpf.store')}}" method="POST" id="member-gpf-create-form">
         @csrf
         <div class="row">
             <div class="col-md-8">
@@ -69,7 +69,7 @@
                                 <label>Members</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <select class="form-select" name="member_id" id="member_id" >
                                     <option value="">Select member</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}">{{ $member->name }}</option>
@@ -83,10 +83,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Year</label>
+                                <label>Finantial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="year" id="" placeholder="2000-2001" style="">
+                                <input type="text" class="form-control" name="finantial_year"  placeholder="yyyy - yyyy" style="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -95,11 +95,51 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Year</label>
+                            </div>
+                            <select name="year" class="form-select" id="year">
+                                <option value="">Select Year</option>
+                                @for ($i = date('Y'); $i >= 1950; $i--)
+                                    <option value="{{ $i }}">
+                                        {{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Month</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select name="month" class="form-select" id="month">
+                                    <option value="">Select Month</option>
+                                    <option value="Jan">Jan</option>
+                                    <option value="Feb">Feb</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="Aug">Aug</option>
+                                    <option value="Sept">Sept</option>
+                                    <option value="Oct">Oct</option>
+                                    <option value="Nov">Nov</option>
+                                    <option value="Dec">Dec</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-8 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Monthly Subscription</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="monthly_subscription" id="monthly_subscription" placeholder="" style="">
-                                <span class="text-danger"></span>
+                                <input type="text" class="form-control" name="monthly_subscription" id="monthly_subscription" readonly>
+                                <span class="text-danger" id="subscription_error_message"></span>
                             </div>
                         </div>
                     </div>
@@ -131,7 +171,7 @@
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
+                    <button type="submit" class="listing_add gpf_sub_btn">Add</button>
                 </div>
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>

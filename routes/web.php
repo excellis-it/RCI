@@ -477,6 +477,10 @@ Route::middleware('permssions')->group(function () {
         });
         Route::get('/member-alloted-leave-fetch-data', [MemberAllotedLeaveController::class, 'fetchData'])->name('member-alloted-leave.fetch-data');
 
+
+        //member gpf
+        Route::post('/member-gpf-check-subscription', [MemberGpfController::class, 'memberGpfCheckSubscription'])->name('member-info.gpf.check-amount');
+
         // member leaves
         Route::prefix('member-leaves')->group(function () {
             Route::get('/member-leaves-delete/{id}', [MemberLeaveController::class, 'delete'])->name('member-leaves.delete');
