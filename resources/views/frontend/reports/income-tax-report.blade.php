@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Incomr Tax Report Generate
+    Income Tax Report Generate
 @endsection
 
 @push('styles')

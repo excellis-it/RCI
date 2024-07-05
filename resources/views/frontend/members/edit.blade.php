@@ -1566,7 +1566,7 @@
                 "#hba_interest",
                 "#car", "#car_interest", "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#ptax",
                 "#fadv", "#ltc", "#medi", "#tada", "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli",
-                "#misc1", "#misc2", "#quarter_charges", "#cghs", "#cgeis_arr", "#penal_interest"
+                "#misc1", "#misc2", "#quarter_charge", "#cghs", "#cgeis_arr", "#penal_interest"
             ];
 
             var tot_credits = parseInt($('#tot_credits').val()) || 0;
@@ -1628,5 +1628,33 @@
             
         });
         
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function updateEolHpl() {
+                var memberID = "{{ $member->id }}";
+                $.ajax({
+                    url: "{{ route('members.eol-hpl') }}",
+                    type: 'POST',
+                    data: {
+                        memberID: memberID
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('#eol').val(response.total_deduction);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            }
+
+            // Trigger the AJAX request when the page loads
+            updateEolHpl();
+        });
     </script>
 @endpush

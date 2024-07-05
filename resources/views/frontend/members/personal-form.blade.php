@@ -340,6 +340,10 @@
                                         (($member_personal->e_status ?? null) == 'active' || ($member->e_status ?? null) == 'active')
                                        ? 'selected'
                                        : '' }}>Active</option>
+                                    <option value="deputation" {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'deputation' || ($member->e_status ?? null) == 'deputation')
+                                        ? 'selected'
+                                        : '' }}>On Deputation</option>
                                     <option value="retired" {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
                                         (($member_personal->e_status ?? null) == 'retired' || ($member->e_status ?? null) == 'retired')
                                        ? 'selected'
