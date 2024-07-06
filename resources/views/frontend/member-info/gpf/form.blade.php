@@ -113,7 +113,7 @@
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
-                    <button type="submit" class="listing_add gpf_sub_btn">Add</button>
+                    <button type="submit" class="listing_add gpf_sub_btn">Update</button>
                 </div>
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>

@@ -9,7 +9,7 @@
             <td>{{$payscale->increment1 ?? 'N/A'}}</td>
             <td>{{$payscale->increment2 ?? 'N/A'}}</td>
             <td class="sepharate"><a data-route="{{route('payscales.edit', $payscale->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('payscales.delete', $payscale->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('payscales.delete', $payscale->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach

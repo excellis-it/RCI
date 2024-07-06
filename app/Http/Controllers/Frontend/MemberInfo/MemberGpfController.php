@@ -49,6 +49,13 @@ class MemberGpfController extends Controller
 
     }
 
+    public function memberGpfFilter(Request $request)
+    {
+        $members = Member::orderBy('id', 'desc')->get();
+        $member_gpfs = MemberGpf::where('member_id', $request->member_id)->orderBy('id', 'desc')->paginate(12);
+        return view('frontend.member-info.gpf.list', compact('members','member_gpfs'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -114,7 +121,28 @@ class MemberGpfController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'member_id' => 'required',
+            'finantial_year' => 'required',
+            'monthly_subscription' => 'required',
+            'month' =>'required',
+            'openning_balance' => 'required',
+            'closing_balance' => 'required',
+            'year' => 'required',
+        ]);
+
+        $update_member_gpf = MemberGpf::findOrFail($id);
+        $update_member_gpf->member_id = $request->member_id;
+        $update_member_gpf->finantial_year = $request->finantial_year;
+        $update_member_gpf->monthly_subscription = $request->monthly_subscription;
+        $update_member_gpf->month = $request->month;
+        $update_member_gpf->closing_balance = $request->closing_balance;
+        $update_member_gpf->openning_balance = $request->openning_balance;
+        $update_member_gpf->year = $request->year;
+        $update_member_gpf->update();
+
+        session()->flash('message', 'Member Gpf updated successfully');
+        return response()->json(['success' => 'Member Gpf updated successfully']);
     }
 
     /**

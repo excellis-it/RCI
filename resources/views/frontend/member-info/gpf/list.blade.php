@@ -162,13 +162,10 @@
             $('.row-checkbox').prop('checked', this.checked);
         });
 
-        // Handle click event on any row checkbox
         $('.row-checkbox').on('click', function() {
-            // If all row checkboxes are checked, set header checkbox to checked
             if ($('.row-checkbox:checked').length == $('.row-checkbox').length) {
                 $('#select-all').prop('checked', true);
             } else {
-                // Otherwise, uncheck the header checkbox
                 $('#select-all').prop('checked', false);
             }
         });

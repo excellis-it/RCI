@@ -5,7 +5,7 @@
             <td>{{ $reset_employee_id->employee_id_text ?? 'N/A'}}</td>
             <td><span class="{{ ($reset_employee_id->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($reset_employee_id->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate">
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('reset-employee-ids.delete', $reset_employee_id->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('reset-employee-ids.delete', $reset_employee_id->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach

@@ -10,7 +10,7 @@
             <td>{{ $advance_fund->variableType->name ?? 'N/A'}}</td>
            
             <td class="sepharate"><a data-route="{{route('advance-funds.edit', $advance_fund->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('advance-funds.delete', $advance_fund->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('advance-funds.delete', $advance_fund->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach
