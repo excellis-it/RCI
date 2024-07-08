@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="gpa_sub" id="gpa_sub"
-                            value="{{ $member_debit->gpa_sub ?? ''}}" placeholder="">
+                            value="{{ $member_debit->gpa_sub ?? $memberGpf->monthly_subscription  ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

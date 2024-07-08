@@ -51,7 +51,7 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberAllotedLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
 use App\Http\Controllers\Frontend\MemberInfo\PenalInterestController;
-use App\Http\Controllers\Frontend\Memberinfo\MemberGpfController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -479,6 +479,10 @@ Route::middleware('permssions')->group(function () {
             Route::get('/member-alloted-leave-delete/{id}', [MemberAllotedLeaveController::class, 'delete'])->name('member-alloted-leave.delete');
         });
         Route::get('/member-alloted-leave-fetch-data', [MemberAllotedLeaveController::class, 'fetchData'])->name('member-alloted-leave.fetch-data');
+
+
+        //member gpf
+        Route::post('/member-gpf-check-subscription', [MemberGpfController::class, 'memberGpfCheckSubscription'])->name('member-info.gpf.check-amount');
 
         // member leaves
         Route::prefix('member-leaves')->group(function () {

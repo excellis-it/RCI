@@ -865,7 +865,7 @@
             </tr>
             <tr>
                 <td style="padding:0 0px">
-                    <table width="100%" border="1" cellpadding="3" cellspacing="0" align="center">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" align="center">
                         <tbody>
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 5px !important;
@@ -909,7 +909,7 @@
                                     अनुज्ञप्ति / L.F
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
+                                    margin: 0px 0px !important; width: 50px;">
                                     0
                                 </td>
                                 <td colspan="2" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;

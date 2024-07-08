@@ -92,7 +92,7 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
          // Split the data into chunks for pagination
-        $perPage = 1; // Set this according to how many records fit on a page
+        $perPage = 2; // Set this according to how many records fit on a page
         $groupedData = array_chunk($all_members_info, $perPage);
 
         // dd($all_members_info);
@@ -119,10 +119,10 @@ class ReportController extends Controller
     //     // return view('frontend.reports.crv');
     // }
 
-    // public function plWithdrawl()
-    // {
-    //     return view('frontend.reports.pl-withdrawl');
-    // }
+    public function plWithdrawl()
+    {
+        return view('frontend.reports.pl-withdrawl');
+    }
 
     public function annualIncomeTaxReport()
     {

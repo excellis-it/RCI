@@ -10,7 +10,7 @@
             <td>{{ $cdaBill->var_amount ?? 'N/A'}}</td>
             <td>{{ $cdaBill->crv_no ?? 'N/A'}}</td>
             <td class="sepharate"><a data-route="{{route('cda-bills.edit', $cdaBill->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('cda-bills.delete', $cdaBill->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('cda-bills.delete', $cdaBill->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach

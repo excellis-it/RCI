@@ -133,7 +133,7 @@
 
                         @php
                             $pageNumber = 1;
-                            $itemsPerPage = 1;
+                            $itemsPerPage = 2;
                             $totalItems = count($all_members_info);
                             $totalPages = ceil($totalItems / $itemsPerPage);
                             $totalBasicPay = 0;
@@ -298,7 +298,7 @@
 
                             @if (($key + 1) % $itemsPerPage == 0 || $loop->last)
                             @php
-                                $currentPage = intval($key / $itemsPerPage) + 1;
+                                $currentPage = intval($key / $itemsPerPage) + 2;
                             @endphp
                                 
                                 <tr>

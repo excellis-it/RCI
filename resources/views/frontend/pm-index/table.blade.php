@@ -5,7 +5,7 @@
             <td>{{ $pm_index->value ?? 'N/A'}}</td>
             <td><span class="{{ ($pm_index->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($pm_index->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('pm-index.edit', $pm_index->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('pm-index.delete', $pm_index->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('pm-index.delete', $pm_index->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach

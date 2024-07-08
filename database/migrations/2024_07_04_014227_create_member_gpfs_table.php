@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('member_id')->nullable();
             $table->string('finantial_year')->nullable();
             $table->string('monthly_subscription')->nullable();
+            $table->string('month')->nullable();
             $table->string('openning_balance')->nullable();
             $table->string('closing_balance')->nullable();
+            $table->string('year')->nullable();
             $table->timestamps();
         });
     }

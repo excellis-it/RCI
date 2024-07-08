@@ -6,7 +6,7 @@
             <td>{{ $pm_level->value ?? 'N/A'}}</td>
             <td><span class="{{ ($pm_level->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($pm_level->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('pm-levels.edit', $pm_level->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('pm-levels.delete', $pm_level->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('pm-levels.delete', $pm_level->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach
