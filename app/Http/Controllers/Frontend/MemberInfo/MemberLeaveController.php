@@ -40,8 +40,7 @@ class MemberLeaveController extends Controller
 
         $startYear = 1958;
         $endYear = date('Y');
-
-        $years = range($startYear, $endYear);
+        $years = range($endYear, $startYear, -1);
         
         return view('frontend.member-info.member-leave.list', compact('leaves', 'members', 'leaveTypes', 'years', 'allotedLeaves'));
     }
@@ -57,7 +56,6 @@ class MemberLeaveController extends Controller
 
         $startYear = 1958;
         $endYear = date('Y');
-
         $years = range($startYear, $endYear);
 
         return view('frontend.member-info.member-leave.leave-list', compact('members', 'leaveTypes', 'years', 'memberLeaves'));
@@ -118,7 +116,6 @@ class MemberLeaveController extends Controller
     public function yearSearch(Request $request)
     {
 
-       
         if ($request->ajax()) {
             $year = $request->get('year');
             $subQuery = DB::table('member_leaves')
@@ -154,6 +151,7 @@ class MemberLeaveController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'member_id' => 'required',
             'leave_type_id' => 'required',
@@ -164,6 +162,12 @@ class MemberLeaveController extends Controller
             'year' => 'required',
             'status' => 'required',
         ]);
+
+        //check if start date is between start date and end date of leave application is already in database which status is not rejected
+        $checkStartDate = MemberLeave::where('member_id', $request->member_id)
+            ->where('start_date', $request->start_date)
+            ->where('status', '!=', 2)
+            ->first();
 
         $memberLeave = new MemberLeave();
         $memberLeave->member_id = $request->member_id;
@@ -188,7 +192,7 @@ class MemberLeaveController extends Controller
         $memberLeave->save();
 
         session()->flash('success', 'Member Leave Created Successfully!');
-        return redirect()->route('member-leaves.index')->with('success', 'Member Leave Created Successfully!');
+        // return redirect()->route('member-leaves.index')->with('success', 'Member Leave Created Successfully!');
     }
 
     /**

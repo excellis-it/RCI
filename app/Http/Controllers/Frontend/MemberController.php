@@ -1194,8 +1194,9 @@ class MemberController extends Controller
         $get_designation = Designation::where('designation_type_id', $request->desig)->first();
         $category_value = Category::where('id', $get_designation->category_id)->where('status', 1)->first();
         $payband_type = PaybandType::where('id', $get_designation->payband_type_id)->first();
+        $section = DesignationType::where('id', $get_designation->designation_type_id)->with('section')->first();
 
-        return response()->json(['category_value' => $category_value, 'payband_type' => $payband_type]);
+        return response()->json(['category_value' => $category_value, 'payband_type' => $payband_type, 'section' => $section]);
     }
 
     public function memberCreditDaPercentage(Request $request)

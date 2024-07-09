@@ -43,6 +43,7 @@ use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
 use App\Http\Controllers\Frontend\CghsController; 
+use App\Http\Controllers\Frontend\SectionController;
 
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
@@ -131,6 +132,7 @@ Route::middleware('permssions')->group(function () {
         'payscale-types' => PayscaleTypeController::class,
         'payscales' => PayscaleController::class,
         'paybands' => PaybandController::class,
+        'sections' => SectionController::class,
         'designation-types' => DesignationTypeController::class,
         'designations' => DesignationController::class,
         'pm-levels' => PmLevelController::class,
@@ -196,6 +198,8 @@ Route::middleware('permssions')->group(function () {
     //user routes
     Route::get('/users-delete/{id}', [UserController::class, 'delete'])->name('users.delete');
     Route::get('/users-fetch-data', [UserController::class, 'fetchData'])->name('users.fetch-data');
+
+    Route::get('/section-fetch-data', [SectionController::class, 'fetchData'])->name('sections.fetch-data');
 
     // reset employee ids
     Route::prefix('reset-employee-ids')->group(function () {

@@ -3,9 +3,25 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-12 col-lg-6">
                 <div class="row">
-                    <div class="form-group col-md-12 mb-2">
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Section</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="section_id" id="section_id">
+                                    @foreach($sections as $section)
+                                        <option value="{{ $section->id }}" {{ ($section->id == $designation_type->section_id) ? 'selected' : '' }}>{{ $section->name }}</option>
+                                    @endforeach    
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation Type</label>
@@ -17,6 +33,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         
@@ -34,9 +51,26 @@
     <form action="{{ route('designation-types.store') }}" method="POST" id="designation-type-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-12 col-lg-6">
                 <div class="row">
-                    <div class="form-group col-md-12 mb-2">
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Section</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="section_id" id="section_id">
+                                    <option value="">Select Section</option>
+                                    @foreach($sections as $section)
+                                        <option value="{{ $section->id }}" >{{ $section->name }}</option>
+                                    @endforeach    
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation Type</label>

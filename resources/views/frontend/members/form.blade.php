@@ -163,7 +163,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-2">
                                                 <div class="row">
                                                     <div class="form-group col-md-12 mb-2">
                                                         <div class="row align-items-center">
@@ -176,9 +176,26 @@
                                                                     <option value="">Select</option>
                                                                     @foreach ($designations as $designation)
                                                                         <option value="{{ $designation->id }}">
-                                                                            {{ $designation->designation }}</option>
+                                                                            {{ $designation->full_name }}</option>
                                                                     @endforeach
                                                                 </select>
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="row">
+                                                    <div class="form-group col-md-12 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>Section</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control" name="section"
+                                                                    id="section" readonly>
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -905,16 +922,15 @@
                     success: function(response) {
                         $('#category_value').val(response.category_value.category);
                         $('#category').val(response.category_value.id);
-                        
+                        $('#section').val(response.section.section.name);
 
                         $('#pay_band_value').val(response.payband_type.payband_type);
                         $('#pay_band').val(response.payband_type.id)
-
                     }
                 });
             });
-        
         });
 
     </script>
+
 @endpush

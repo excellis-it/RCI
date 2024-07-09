@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\DesignationType;
 use App\Models\Member;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
 class DesignationTypeController extends Controller
@@ -12,7 +13,8 @@ class DesignationTypeController extends Controller
     public function index()
     {
         $designation_types = DesignationType::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.designation-types.list', compact('designation_types'));
+        $sections = Section::orderBy('id', 'desc')->paginate(10);
+        return view('frontend.designation-types.list', compact('designation_types','sections'));
     }
 
     public function fetchData(Request $request)
@@ -48,9 +50,11 @@ class DesignationTypeController extends Controller
     {
         $request->validate([
             'designation_type' => 'required|max:255',
+            'section_id' => 'required',
         ]);
 
         $designation_type = new DesignationType();
+        $designation_type->section_id = $request->section_id;
         $designation_type->designation_type = $request->designation_type;
         $designation_type->save();
 
@@ -73,7 +77,8 @@ class DesignationTypeController extends Controller
     {
         $designation_type = DesignationType::find($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.designation-types.form', compact('edit', 'designation_type'))->render()]);
+        $sections = Section::orderBy('id', 'desc')->paginate(10);
+        return response()->json(['view' => view('frontend.designation-types.form', compact('edit', 'designation_type','sections'))->render()]);
     }
 
     /**
@@ -83,9 +88,11 @@ class DesignationTypeController extends Controller
     {
         $request->validate([
             'designation_type' => 'required|max:255',
+            'section_id' => 'required',
         ]);
 
         $designation_type = DesignationType::find($id);
+        $designation_type->section_id = $request->section_id;
         $designation_type->designation_type = $request->designation_type;
         $designation_type->save();
 
@@ -101,17 +108,5 @@ class DesignationTypeController extends Controller
         //
     }
 
-    public function delete($id)
-    {
-
-        $related_members = Member::where('desig', $id)->exists();
-
-        if ($related_members) {
-            return redirect()->back()->with('error', 'Designation Type is related to members.Please remove the relation first.');
-        } else {
-            $designation_type = DesignationType::find($id);
-            $designation_type->delete();
-            return redirect()->back()->with('message', 'Designation Type deleted successfully');
-        }
-    }
+    
 }

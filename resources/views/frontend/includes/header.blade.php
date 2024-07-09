@@ -37,6 +37,12 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Installment Update</a>
                             </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{route('sections.index')}}">Section</a>
+                            </li>
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('designation-types.index')}}">Designation Type</a>
