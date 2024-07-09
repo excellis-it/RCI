@@ -926,11 +926,9 @@
 
                         $('#pay_band_value').val(response.payband_type.payband_type);
                         $('#pay_band').val(response.payband_type.id)
-
                     }
                 });
             });
-        
         });
 
     </script>
