@@ -4,9 +4,9 @@
             <td> {{ (($vouchers->currentPage()-1) * $vouchers->perPage() + $loop->index + 1) ?? 0 }}</td>
             <td>{{ $voucher->voucher_no_text ?? 'N/A'}}</td>
             <td><span class="{{ ($voucher->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($voucher->status == 1) ? 'Active' : 'Inactive' }}</span></td>
-            <td class="sepharate">
-                {{-- <a data-route="{{route('reset-voucher.edit', $voucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
-                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('imprest-reset-voucher.delete', $voucher->id)}}"><i class="ti ti-trash"></i></a> --}}
+            <td >
+                <a data-route="{{route('imprest-reset-voucher.edit', $voucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+              
             </td>
         </tr>
     @endforeach

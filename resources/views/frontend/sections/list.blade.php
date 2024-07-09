@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Member Leaves List
+   Section List
 @endsection
 
 @push('styles')
@@ -13,12 +13,12 @@
     <div class="container-fluid">
         <div class="breadcome-list">
             <div class="d-flex">
-                <div class="arrow_left"><a href="{{ route('member-leaves.index') }}" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Member Leaves Listing</h3>
+                    <h3>Section Listing</h3>
                     <ul class="breadcome-menu mb-0">
-                        <li><a href="{{ route('member-leaves.index') }}">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Member Leaves Listing</span></li>
+                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                        <li><span class="bread-blod">Section Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.member-info.member-leave.form')
+                            @include('frontend.sections.form')
                         </div>
 
                         <div class="row">
@@ -49,25 +49,15 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
-                                                    style="cursor: pointer">Member Name </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer"> Leave Type  </th>
-                                                    <th class="sorting" data-sorting_type="desc" data-column_name="start_date"
-                                                    style="cursor: pointer"> Start Date </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="end_date"
-                                                    style="cursor: pointer">End Date  </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="no_of_days"
-                                                    style="cursor: pointer">No. of days  </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="status"
-                                                    style="cursor: pointer">Status  </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                    style="cursor: pointer">Year </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="value"
+                                                    style="cursor: pointer">Section Name<span id="name_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.member-info.member-leave.leave-table')
+                                            @include('frontend.sections.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -90,7 +80,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Leave Application!",
+                    text: "To delete this section!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -113,7 +103,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-leaves.leave-fetch-data') }}",
+                    url: "{{ route('sections.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -178,7 +168,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-leave-create-form').submit(function(e) {
+            $('#sections-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -190,7 +180,7 @@
                     success: function(response) {
                        
                         //windows load with toastr message
-                        // window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                        
@@ -233,7 +223,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-leave-edit-form', function(e) {
+            $(document).on('submit', '#sections-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -247,127 +237,14 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
                         });
                     }
                 });
             });
         });
-    </script>
-
-    {{-- <script>
-        $(document).ready(function() {
-            $(document).on('change', '#tpt_allowance', function() {
-                var allowance = $(this).val();
-                $.ajax({
-                    url: "{{ route('tptas.da-percentage') }}",
-                    type: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        allowance: allowance
-                    },
-                    success: function(response) {
-                        $('#tpt_da').val(response.tpt_da);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
-            });
-        });
-    </script> --}}
-    <script>
-        $(document).ready(function() {
-            $('#no_of_days').val('');
-    
-            function calculateDifference() {
-                var startDate = $('#start_date').val();
-                var endDate = $('#end_date').val();
-                var allotedLeave = $('#alloted_leave').val();
-                
-                if(allotedLeave == 0) {
-                    alert('Leave balance is 0. You can not apply for leave.');
-                    $('#start_date').val('');
-                    $('#end_date').val('');
-                    return false;
-                } else {
-                    if(new Date(startDate) > new Date(endDate)) {
-                        alert('End date should be greater than start date.');
-                        $('#end_date').val('');
-                        return false;
-                    } else if((new Date(startDate)).getTime() === (new Date(endDate)).getTime()) {
-                        $('#no_of_days').val(1);
-                        return false;
-                    } else if(new Date(startDate) < new Date(endDate)) {
-                        var difference = Math.abs(new Date(endDate) - new Date(startDate));
-                        var days = (Math.ceil(difference / (1000 * 3600 * 24))) + 1;
-                        $('#no_of_days').val(days);
-                    } else {
-                        $('#no_of_days').val('');
-                    }
-                }
-                
-                
-                
-    
-                // var difference = Math.abs(new Date(endDate) - new Date(startDate));
-                // var days = difference / (1000 * 3600 * 24);
-    
-                // $('#no_of_days').val(days);
-            }
-    
-            $('#start_date, #end_date').on('change', calculateDifference);
-        });
-    </script>
-    <script>
-        $(document).ready( function () {
-            var memberId = $('#member_id').val();
-            
-            if(!memberId) {
-                $('#leave_type_id').prop('disabled', true);
-                $('#start_date').prop('disabled', true);
-                $('#end_date').prop('disabled', true);
-                $('#reason').prop('disabled', true);
-                $('#year').prop('disabled', true);
-                $('#status').prop('disabled', true);    
-            } 
-            $('#member_id').on('change', function() {
-                $('#leave_type_id').prop('disabled', false);
-                $('#start_date').prop('disabled', false);
-                $('#end_date').prop('disabled', false);
-                $('#reason').prop('disabled', false);
-                $('#year').prop('disabled', false);
-                $('#status').prop('disabled', false);
-            });
-    
-            $('#leave_type_id').on('change', function() {
-                var leaveTypeId = $(this).val();
-                var memberId = $('#member_id').val();
-                var year = $('#year').val();
-                
-                
-                $.ajax({
-                    url: "{{ route('member-leaves.get-alloted-leaves') }}",
-                    type: 'GET',
-                    data: {
-                        leaveTypeId: leaveTypeId,
-                        memberId: memberId,
-                        year: year
-                    },
-                    success: function(response) {
-                        if(response) {
-                            $('#remaining_leaves').val((response.data));
-                        } else {
-                            $('#remaining_leaves').val('');
-                        }
-                    }
-                });
-            });
-        })
     </script>
 @endpush
