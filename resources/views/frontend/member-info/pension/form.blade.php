@@ -18,7 +18,7 @@
                                         <option value="">Select Member</option>
                                         @foreach ($memberloans as $member)
                                             <option value="{{ $member->member_id }}">
-                                                {{ $member->member->name }}
+                                               {{ $member->member->name }}
                                             </option>
                                         @endforeach
                                     </select>
