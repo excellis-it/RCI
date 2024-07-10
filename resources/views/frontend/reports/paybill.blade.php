@@ -91,11 +91,11 @@
 
                                 {{-- save cancel button design in right corner --}}
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 mb-2">
+                                            <div class="col-md-12">
+                                                <div class="row justify-content-end">
+                                                    <div class="form-group col-md-4 mb-2">
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
                                                     

@@ -2,7 +2,7 @@
     <form action="{{ route('payscales.update', $payscale->id) }}" method="POST" id="payscale-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
                 <div class="form-group col-md-6 mb-2">
@@ -110,7 +110,7 @@
 @else
     <form action="{{ route('payscales.store') }}" method="POST" id="payscale-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
                 <div class="form-group col-md-6 mb-2">

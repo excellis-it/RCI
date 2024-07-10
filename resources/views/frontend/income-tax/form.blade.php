@@ -2,7 +2,7 @@
     <form action="{{ route('income-taxes.update', $incomeTax->id) }}" method="POST" id="income-tax-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -86,7 +86,7 @@
 @else
     <form action="{{ route('income-taxes.store') }}" method="POST" id="income-tax-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">

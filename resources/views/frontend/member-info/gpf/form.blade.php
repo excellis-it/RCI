@@ -2,7 +2,7 @@
     <form action="{{ route('member-gpf.update', $member_gpf->id) }}" method="POST" id="gpfs-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -40,6 +40,7 @@
                             <div class="col-md-12">
                                 <label>Year</label>
                             </div>
+                            <div class="col-md-12">
                             <select name="year" class="form-select" id="year">
                                 <option value="">Select Year</option>
                                 @for ($i = date('Y'); $i >= 1950; $i--)
@@ -47,6 +48,7 @@
                                         {{ $i }}</option>
                                 @endfor
                             </select>
+                            </div>
                         </div>
                     </div>
 
@@ -98,7 +100,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Closing Balance</label>
@@ -124,7 +126,7 @@
 @else
     <form action="{{ route('member-gpf.store')}}" method="POST" id="member-gpf-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -161,6 +163,7 @@
                             <div class="col-md-12">
                                 <label>Year</label>
                             </div>
+                            <div class="col-md-12">
                             <select name="year" class="form-select" id="year">
                                 <option value="">Select Year</option>
                                 @for ($i = date('Y'); $i >= 1950; $i--)
@@ -168,6 +171,7 @@
                                         {{ $i }}</option>
                                 @endfor
                             </select>
+                            </div>
                         </div>
                     </div>
 
@@ -220,7 +224,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Closing Balance</label>

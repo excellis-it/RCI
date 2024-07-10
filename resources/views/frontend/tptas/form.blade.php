@@ -2,7 +2,7 @@
     <form action="{{ route('tptas.update', $tpta->id) }}" method="POST" id="tpta-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -91,7 +91,7 @@
 @else
     <form action="{{ route('tptas.store') }}" method="POST" id="tpta-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -140,7 +140,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>DA</label>
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

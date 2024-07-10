@@ -2,7 +2,7 @@
     <form action="{{ route('paybands.update', $payband->id) }}" method="POST" id="payband-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
@@ -72,7 +72,7 @@
 @else
     <form action="{{ route('paybands.store') }}" method="POST" id="payband-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
