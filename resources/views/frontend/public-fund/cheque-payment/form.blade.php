@@ -67,8 +67,16 @@
                             <label>Name</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="name" id="name"
-                                value="{{ $chequePayment->name }}" placeholder="">
+                            {{-- <input type="text" class="form-control" name="member_id" id="member_id"
+                                value="{{ $chequePayment->name }}" placeholder=""> --}}
+                                <select class="form-select" name="member_id" id="member_id">
+                                    <option value="">Select Member</option>
+                                    @foreach ($members as $member)
+                                        <option value="{{ $member->id }}"
+                                            @if ($member->id == $chequePayment->member_id) selected @endif>
+                                            {{ $member->name }}</option>
+                                    @endforeach
+                                </select>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -82,7 +90,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="designation" id="designation"
-                                value="{{ $chequePayment->designation }}" placeholder="">
+                                value="{{ $chequePayment->designation }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -267,8 +275,13 @@
                             <label>Name</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="name" id="name" value=""
-                                placeholder="">
+                            <select class="form-select" name="member_id" id="member_id">
+                                <option value="">Select Member</option>
+                                @foreach ($members as $member)
+                                    <option value="{{ $member->id }}">
+                                        {{ $member->name }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -282,7 +295,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="designation" id="designation"
-                                value="" placeholder="">
+                                value="" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>

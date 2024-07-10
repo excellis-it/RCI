@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
 use App\Models\ResetVoucher;
 use Illuminate\Support\Str;
+use App\Models\Member;
 
 class CashPaymentController extends Controller
 {
@@ -18,7 +19,8 @@ class CashPaymentController extends Controller
     {
         $cashPayments = CashPayment::orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        return view('frontend.public-fund.cash-payment.list', compact('cashPayments', 'paymentCategories'));
+        $members = Member::orderBy('id', 'desc')->get();
+        return view('frontend.public-fund.cash-payment.list', compact('cashPayments', 'paymentCategories','members'));
     }
 
     public function fetchData(Request $request)
@@ -36,7 +38,9 @@ class CashPaymentController extends Controller
                     ->orWhere('rct_no', 'like', '%' . $query . '%')
                     ->orWhere('form', 'like', '%' . $query . '%')
                     ->orWhere('details', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhereHas('member', function($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    })
                     ->orWhere('category', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
@@ -67,6 +71,7 @@ class CashPaymentController extends Controller
             'vr_date' => 'required',
             'amount' => 'required|numeric',
             'rct_no' => 'required',
+            'member_id' => 'required',
         ]);
 
         
@@ -90,7 +95,7 @@ class CashPaymentController extends Controller
         $cashPayment->rct_no = $request->rct_no;
         $cashPayment->form = $request->form;
         $cashPayment->details = $request->details;
-        $cashPayment->name = $request->name;
+        $cashPayment->member_id = $request->member_id;
         $cashPayment->category = $request->category;
         $cashPayment->save();
 
@@ -114,8 +119,9 @@ class CashPaymentController extends Controller
         
         $cashPayment = CashPayment::findOrFail($id);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories'))->render()]);
+        return response()->json(['view' => view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories','members'))->render()]);
     }
 
     /**
@@ -127,6 +133,7 @@ class CashPaymentController extends Controller
             'vr_date' => 'required',
             'amount' => 'required|numeric',
             'rct_no' => 'required',
+            'member_id' => 'required',
         ]);
 
         $cashPayment = CashPayment::findOrFail($id);
@@ -135,7 +142,7 @@ class CashPaymentController extends Controller
         $cashPayment->rct_no = $request->rct_no;
         $cashPayment->form = $request->form;
         $cashPayment->details = $request->details;
-        $cashPayment->name = $request->name;
+        $cashPayment->member_id = $request->member_id;
         $cashPayment->category = $request->category;
         $cashPayment->save();
 
