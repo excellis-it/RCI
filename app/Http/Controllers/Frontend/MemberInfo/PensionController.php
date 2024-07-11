@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\MemberInfo;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class PensionController extends Controller
@@ -12,7 +13,8 @@ class PensionController extends Controller
      */
     public function index()
     {
-        //
+        $members = Member::all();
+        return view('frontend.member-info.pension.list', compact('members'));
     }
 
     /**

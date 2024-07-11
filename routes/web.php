@@ -54,6 +54,8 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberLeaveController;
 use App\Http\Controllers\Frontend\MemberInfo\AttendanceController;
 use App\Http\Controllers\Frontend\MemberInfo\PenalInterestController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
+use App\Http\Controllers\Frontend\MemberInfo\PensionController;
+use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -475,6 +477,8 @@ Route::middleware('permssions')->group(function () {
             'attendances' => AttendanceController::class,
             'penal-interest' => PenalInterestController::class,
             'member-gpf' => MemberGpfController::class, 
+            'pension-rate' => PensionRateController::class,
+            'member-pension' => PensionController::class,
         ]);
 
         // leave type
@@ -513,6 +517,9 @@ Route::middleware('permssions')->group(function () {
         // penal interest
         Route::post('/get-member-loan-info', [PenalInterestController::class, 'getMemberLoanInfo'])->name('penal-interest.get-member-loan-info');
         Route::post('/get-loan-info', [PenalInterestController::class, 'getLoanInfo'])->name('penal-interest.get-loan-info');
+
+        // pension rate
+
 
     });
 

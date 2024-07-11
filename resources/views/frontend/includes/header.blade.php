@@ -362,6 +362,11 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gpfs.index') }}">GPF</a>
                             </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pension-rate.index') }}">Pension Rates</a>
+                            </li>
                             
                             
                         </ul>
@@ -401,6 +406,11 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-gpf.index') }}">GPF Management</a>
                             </li>
+
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-pension.index') }}">Member Pensoin</a>
+                            </li> --}}
                             
                         </ul>
                     </div>
