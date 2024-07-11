@@ -68,8 +68,8 @@ class RuleController extends Controller
             't_gross' => 'required',
             'f_scale' => 'required',
             't_scale' => 'required',
-            'more_info' => 'required',
-        ]); 
+        ]);
+        
 
         $rule_add = new Rule();
         $rule_add->rule_name = $request->rule_name;
@@ -86,7 +86,7 @@ class RuleController extends Controller
         $rule_add->more_info = $request->more_info;
         $rule_add->save();
 
-        session()->flash('message', 'Rule  added successfully');
+        session()->flash('message', 'Rule added successfully');
         return response()->json(['success' => 'Rule added successfully']);
     }
 

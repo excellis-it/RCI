@@ -23,19 +23,18 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="month" id="month">
-                                    <option value="">Select month</option>
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
+                                    <option value="Jan"  {{ $rule->month == 'Jan' ? 'selected':''}}>January</option>
+                                    <option value="Feb" {{ $rule->month == 'jan' ? 'selected':''}}>February</option>
+                                    <option value="Mar" {{ $rule->month == 'jan' ? 'selected':''}}>March</option>
+                                    <option value="Apr" {{ $rule->month == 'jan' ? 'selected':''}}>April</option>
+                                    <option value="May" {{ $rule->month == 'jan' ? 'selected':''}}>May</option>
+                                    <option value="June" {{ $rule->month == 'jan' ? 'selected':''}}>June</option>
+                                    <option value="July" {{ $rule->month == 'jan' ? 'selected':''}}>July</option>
+                                    <option value="Aug" {{ $rule->month == 'jan' ? 'selected':''}}>August</option>
+                                    <option value="Sep" {{ $rule->month == 'jan' ? 'selected':''}}>September</option>
+                                    <option value="Oct" {{ $rule->month == 'jan' ? 'selected':''}}>October</option>
+                                    <option value="Nov" {{ $rule->month == 'jan' ? 'selected':''}}>November</option>
+                                    <option value="Dec" {{ $rule->month == 'jan' ? 'selected':''}}>December</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -51,7 +50,7 @@
                                 <select name="year" class="form-select" id="year">
                                     <option value="">Select Year</option>
                                     @for ($i = date('Y'); $i >= 1950; $i--)
-                                        <option value="{{ $i }}">
+                                        <option value="{{ $i }}" {{ $rule->year == }}>
                                             {{ $i }}</option>
                                     @endfor
                                 </select>
@@ -181,7 +180,7 @@
         </div>
     </form>
 @else
-    <form action="{{ route('rules.store') }}" method="POST" id="pm-levels-create-form">
+    <form action="{{ route('rules.store') }}" method="POST" id="rule-create-form">
         @csrf
         <div class="row">
             <div class="col-md-8">
@@ -205,18 +204,18 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="month" id="month">
                                     <option value="">Select month</option>
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
+                                    <option value="Jan">January</option>
+                                    <option value="Feb">February</option>
+                                    <option value="Mar">March</option>
+                                    <option value="Apr">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="Aug">August</option>
+                                    <option value="Sep">September</option>
+                                    <option value="Oct">October</option>
+                                    <option value="Nov">November</option>
+                                    <option value="Dec">December</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

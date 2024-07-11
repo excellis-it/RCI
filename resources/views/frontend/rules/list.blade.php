@@ -48,11 +48,12 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
+                                                <th>Sl No.</th>
                                                 <th>Rule Name</th>
                                                 <th>Date</th>
                                                 <th>From Basic</th>
                                                 <th>To Basic </th>
-                                                <th>percent(%)</th>
+                                                <th>Percent(%)</th>
                                                 <th>Amount</th>
                                                 <th>From Scale </th>
                                                 <th>To Scale</th>
