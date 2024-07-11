@@ -513,8 +513,8 @@ Route::middleware('permssions')->group(function () {
         Route::post('/get-member-loan-info', [PenalInterestController::class, 'getMemberLoanInfo'])->name('penal-interest.get-member-loan-info');
         Route::post('/get-loan-info', [PenalInterestController::class, 'getLoanInfo'])->name('penal-interest.get-loan-info');
 
-        // pension rate
-
+        // pension
+        Route::post('/get-member-salary-detail', [PensionController::class, 'getMemberSalaryDetail'])->name('member-pension.get-member-salary-detail');
 
     });
 

@@ -55,12 +55,30 @@
                                                     style="cursor: pointer">Member Name<span id="member_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
-                                                    style="cursor: pointer">Loan Name<span id="loan_id_icon"><i
+                                                    style="cursor: pointer">NPSC Sub. Amount<span id="loan_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
-                                                    style="cursor: pointer">Penal Interest<span id="loan_id_icon"><i
+                                                    style="cursor: pointer">NPSG Sub. Amount<span id="loan_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th></th> --}}
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
+                                                    style="cursor: pointer">NPSC EOL Amt<span id="loan_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
+                                                    style="cursor: pointer">NPSG EOL Amt<span id="loan_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
+                                                    style="cursor: pointer">NPSC HPL Amt<span id="loan_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
+                                                    style="cursor: pointer">NPSG HPL Amt<span id="loan_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
+                                                    style="cursor: pointer">Year<span id="loan_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="loan_id"
+                                                    style="cursor: pointer">Month<span id="loan_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
@@ -174,7 +192,7 @@
     </script> --}}
     <script>
         $(document).ready(function() {
-            $('#penal-interest-add-form').submit(function(e) {
+            $('#pension-create-form').submit(function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -229,7 +247,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#payband-edit-form', function(e) {
+            $(document).on('submit', '#pension-edit-form', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -321,18 +339,21 @@
             $('#member_id').on('change', function() {
                 var member_id = $(this).val();
                 $.ajax({
-                    url: "{{ route('penal-interest.get-member-loan-info') }}",
+                    url: "{{ route('member-pension.get-member-salary-detail') }}",
                     type: "POST",
                     data: {
                         member_id: member_id,
                         _token: "{{ csrf_token() }}",
                     },
                     success: function(response) {
-                        console.log(response[0].loan);
-                        var options = '<option value="">Select loan</option>';
-                        response.forEach(function(loan) {
-                            options += '<option value="' + loan.loan_id + '">' + loan.loan.loan_name + '</option>';
-                        });
+                        console.log(response);
+                        $.each(response, function(index, leave) {
+                            if(leave.leave_name === 'EOL') {
+                                $('#npsc_eol_amt').val(leave.amount);
+                            } else if(leave.leave_name === 'HPL') {
+                                $('#hpl_amount').val(leave.amount);
+                            }
+                        })
                         $('#loan_type').html(options);
                     }
                 });
