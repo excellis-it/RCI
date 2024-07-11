@@ -8,6 +8,8 @@ use App\Models\PaymentCategory;
 use App\Models\ChequePayment;
 use App\Models\ResetVoucher;
 use Illuminate\Support\Str;
+use App\Models\Member;
+use App\Models\Designation;
 
 class ChequePaymentController extends Controller
 {
@@ -18,7 +20,8 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayments = ChequePayment::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.public-fund.cheque-payment.list', compact('chequePayments', 'paymentCategories'));
+        $members = Member::orderBy('id', 'desc')->get();
+        return view('frontend.public-fund.cheque-payment.list', compact('chequePayments', 'paymentCategories','members'));
 
     }
 
@@ -28,8 +31,7 @@ class ChequePaymentController extends Controller
     public function create()
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        
-        
+    
         return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories'));
     }
 
@@ -45,7 +47,9 @@ class ChequePaymentController extends Controller
                     ->orWhere('vr_date', 'like', '%' . $query . '%')
                     ->orWhere('amount', 'like', '%' . $query . '%')
                     ->orWhere('sr_no', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhereHas('member', function($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query . '%');
+                    })
                     ->orWhere('designation', 'like', '%' . $query . '%')
                     ->orWhere('bill_ref', 'like', '%' . $query . '%')
                     ->orWhere('bank_account', 'like', '%' . $query . '%')
@@ -72,6 +76,7 @@ class ChequePaymentController extends Controller
             'vr_date' => 'required',
             'sr_no' => 'required',
             'amount' => 'required|numeric',
+            'member_id' => 'required',
         ]);
         $voucherText = ResetVoucher::where('status', 1)->first();
         $chequePayment = ChequePayment::latest()->first();
@@ -91,7 +96,7 @@ class ChequePaymentController extends Controller
         $chequePayment->vr_date = $request->vr_date;
         $chequePayment->sr_no = $request->sr_no;
         $chequePayment->amount = $request->amount;
-        $chequePayment->name = $request->name;
+        $chequePayment->member_id = $request->member_id;
         $chequePayment->designation = $request->designation;
         $chequePayment->bill_ref = $request->bill_ref;
         $chequePayment->bank_account = $request->bank_account;
@@ -105,6 +110,15 @@ class ChequePaymentController extends Controller
         session()->flash('message', 'Cheque Payment added successfully');
         return response()->json(['success' => 'Cheque Payment added successfully']);
         
+    }
+
+    public function fetchMemberDesig(Request $request)
+    {
+            $member_id = $request->member;
+            $member = Member::findOrFail($member_id);
+            $get_designation = Designation::where('designation_type_id', $member->desig)->first();
+            return response()->json(['designation' => $get_designation]);
+       
     }
 
     /**
@@ -122,8 +136,9 @@ class ChequePaymentController extends Controller
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayment = ChequePayment::findOrFail($id);
+        $members = Member::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'chequePayment', 'paymentCategories'))->render()]);
+        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'chequePayment', 'paymentCategories','members'))->render()]);
         
     }
 
@@ -136,6 +151,7 @@ class ChequePaymentController extends Controller
             'vr_date' => 'required',
             'sr_no' => 'required',
             'amount' => 'required|numeric',
+            'member_id' => 'required',
         ]);
 
         $chequePayment = ChequePayment::findOrFail($id);
@@ -143,7 +159,7 @@ class ChequePaymentController extends Controller
         $chequePayment->vr_date = $request->vr_date;
         $chequePayment->sr_no = $request->sr_no;
         $chequePayment->amount = $request->amount;
-        $chequePayment->name = $request->name;
+        $chequePayment->member_id = $request->member_id;
         $chequePayment->designation = $request->designation;
         $chequePayment->bill_ref = $request->bill_ref;
         $chequePayment->bank_account = $request->bank_account;

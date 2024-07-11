@@ -142,7 +142,7 @@
 @else
     <form action="{{ route('designations.store') }}" method="POST" id="designation-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-10">
                 <div class="row">
                     <div class="form-group col-md-6 mb-2">

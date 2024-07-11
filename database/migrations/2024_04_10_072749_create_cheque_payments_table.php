@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('vr_date')->nullable();
             $table->string('sr_no')->nullable();
             $table->string('amount')->nullable();
-            $table->string('name')->nullable();
+            $table->bigInteger('member_id')->unsigned()->nullable();      
             $table->string('designation')->nullable();
             $table->string('bill_ref')->nullable();
             $table->string('bank_account')->nullable();

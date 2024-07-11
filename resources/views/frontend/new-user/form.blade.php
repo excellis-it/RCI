@@ -2,10 +2,10 @@
     <form action="{{ route('users.update', $user_detail->id) }}" method="POST" id="new-users-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
-            <div class="col-md-8">
+        <div class="row align-items-center">
+            <div class="col-md-10">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>First Name</label>
@@ -17,7 +17,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Last Name</label>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Email</label>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Phone</label>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Password</label>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Confirm Password</label>
@@ -77,7 +77,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Role</label>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -123,10 +123,10 @@
 @else
     <form action="{{ route('users.store') }}" method="POST" id="new-users-create-form">
         @csrf
-        <div class="row">
-            <div class="col-md-8">
+        <div class="row align-items-center">
+            <div class="col-md-10">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>First Name</label>
@@ -138,7 +138,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Last Name</label>
@@ -150,7 +150,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Email</label>
@@ -162,7 +162,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Phone</label>
@@ -174,7 +174,7 @@
                         </div>
                     </div>
         
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Password</label>
@@ -186,7 +186,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Confirm Password</label>
@@ -198,7 +198,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Role</label>
@@ -215,7 +215,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

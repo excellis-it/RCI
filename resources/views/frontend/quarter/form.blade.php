@@ -2,7 +2,7 @@
     <form action="{{ route('quarters.update', $quarter->id) }}" method="POST" id="quarter-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-5 mb-2">
@@ -90,7 +90,7 @@
 @else
     <form action="{{ route('quarters.store') }}" method="POST" id="quarter-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-5 mb-2">

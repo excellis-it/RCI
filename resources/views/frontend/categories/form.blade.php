@@ -2,7 +2,7 @@
     <form action="{{ route('categories.update', $category->id) }}" method="POST" id="category-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
                 <div class="form-group col-md-7 mb-2">
@@ -78,7 +78,7 @@
 @else
     <form action="{{ route('categories.store') }}" method="POST" id="category-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
                 <div class="form-group col-md-7 mb-2">

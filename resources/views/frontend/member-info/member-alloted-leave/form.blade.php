@@ -2,7 +2,7 @@
     <form action="{{ route('member-alloted-leave.update', $allotedLeave->id) }}" method="POST" id="member-alloted-leave-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -102,7 +102,7 @@
 @else
     <form action="{{ route('member-alloted-leave.store') }}" method="POST" id="member-alloted-leave-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">

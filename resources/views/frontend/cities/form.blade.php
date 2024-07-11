@@ -2,7 +2,7 @@
     <form action="{{ route('cities.update', $city->id) }}" method="POST" id="city-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-7 mb-2">
@@ -79,7 +79,7 @@
 @else
     <form action="{{ route('cities.store') }}" method="POST" id="city-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-7 mb-2">

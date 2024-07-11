@@ -36,13 +36,17 @@
 
                 </div>
             </div>
-        
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add me-2">Update</button>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                   <label>&nbsp;</label>
                 </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
+                <div class="d-flex align-items-center">
+                    <div class="mb-1">
+                        <button type="submit" class="listing_add me-2">Update</button>
+                    </div>
+                    <div class="mb-1 ms-2">
+                        <a href="" class="listing_exit">Back</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,13 +88,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add me-2">Add</button>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                                <label>&nbsp;</label>
                 </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
+                <div class="d-flex align-items-center">
+                    <div class="mb-1">
+                        <button type="submit" class="listing_add me-2">Add</button>
+                    </div>
+                    <div class="mb-1 ms-2">
+                        <a href="" class="listing_exit">Back</a>
+                    </div>
                 </div>
+               
             </div>
             
         </div>

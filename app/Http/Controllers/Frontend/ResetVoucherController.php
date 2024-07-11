@@ -48,9 +48,9 @@ class ResetVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'voucher_no_text' => 'required|string|max:255',
-        // ]);
+        $request->validate([
+            'voucher_no_text' => 'required|string|max:255',
+        ]);
 
         $voucher = new ResetVoucher();
         $voucher->voucher_no_text = $request->voucher_no_text;
@@ -80,7 +80,8 @@ class ResetVoucherController extends Controller
     public function edit(string $id)
     {
         $voucher = ResetVoucher::findOrFail($id);
-        return view('frontend.public-fund.reset-vouchers.form', compact('voucher'));
+        $edit = true;
+        return response()->json(['view' => view('frontend.public-fund.reset-vouchers.form', compact('edit', 'voucher'))->render()]);
     }
 
     /**
@@ -88,16 +89,17 @@ class ResetVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $request->validate([
-        //     'voucher_no_text' => 'required|string|max:255',
-        // ]);
+        $request->validate([
+            'voucher_no_text' => 'required|string|max:255',
+        ]);
 
         $voucher = ResetVoucher::findOrFail($id);
         $voucher->voucher_no_text = $request->voucher_no_text;
         $voucher->status = $request->status;
         $voucher->save();
 
-        return redirect()->route('reset-voucher.index')->with('success', 'Voucher updated successfully.');
+        session()->flash('message', 'Voucher updated successfully');
+        return response()->json(['success' => 'Voucher updated successfully']);
     }
 
     /**

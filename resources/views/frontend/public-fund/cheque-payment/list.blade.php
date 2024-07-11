@@ -258,4 +258,28 @@ Cheque Payment List
         });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('change', '#member_id', function() {
+            var member = $(this).val();
+            $.ajax({
+                url: "{{ route('cheque-payments.get-member-desig') }}",
+                type: 'POST',
+                data: {
+                    member: member
+                },
+                headers: { // Corrected from 'header' to 'headers'
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $('#designation').val(response.designation.designation);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+    });
+    </script>
 @endpush

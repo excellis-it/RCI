@@ -44,6 +44,7 @@ use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
 use App\Http\Controllers\Frontend\CghsController; 
 use App\Http\Controllers\Frontend\SectionController;
+use App\Http\Controllers\Frontend\RuleController;
 
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
@@ -166,11 +167,10 @@ Route::middleware('permssions')->group(function () {
         'gpfs'=> GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
-        
-        
+        'rules' => RuleController::class,
+         
     ]);
 
-    //reports route
         //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
@@ -236,6 +236,10 @@ Route::middleware('permssions')->group(function () {
         Route::get('/paybands-delete/{id}', [PaybandController::class, 'delete'])->name('paybands.delete');
     });
     Route::get('/paybands-fetch-data', [PaybandController::class, 'fetchData'])->name('paybands.fetch-data');
+
+    //rule management
+    Route::get('/rules-fetch-data', [RuleController::class, 'fetchData'])->name('rules.fetch-data');
+
 
     // Designation Type
     Route::prefix('designation-types')->group(function () {
@@ -453,6 +457,7 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
     });
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
+    Route::post('/cheque-payments-member-desig', [ChequePaymentController::class, 'fetchMemberDesig'])->name('cheque-payments.get-member-desig');
 
     //reset voucher
     Route::prefix('reset-voucher')->group(function () {

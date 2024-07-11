@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('rct_no')->nullable();
             $table->string('form')->nullable();
             $table->string('details')->nullable();
-            $table->string('name')->nullable();
+            $table->bigInteger('member_id')->unsigned()->nullable();      
             $table->string('category')->nullable();
             $table->timestamps();
         });

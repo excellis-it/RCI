@@ -2,7 +2,7 @@
     <form action="{{ route('dearness-allowance-percentages.update', $dearnessAllowancePercentage->id) }}" method="POST" id="da-percentage-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -93,7 +93,7 @@
 @else
     <form action="{{ route('dearness-allowance-percentages.store') }}" method="POST" id="da-percentage-create-form">
         @csrf
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">

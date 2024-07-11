@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   HRA List
+    Rule List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>HRA Listing</h3>
+                    <h3>Rule Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">HRA Listing</span></li>
+                        <li><span class="bread-blod">Rule Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.hras.form')
+                            @include('frontend.rules.form')
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -48,21 +48,20 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
-                                                    style="cursor: pointer">Percentage <span id="percentage_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                    style="cursor: pointer">City Category <span id="year_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" 
-                                                    style="cursor: pointer">Pay Commision  </th>
-                                                <th>Status </th>
+                                                <th>Sl No.</th>
+                                                <th>Rule Name</th>
+                                                <th>Date</th>
+                                                <th>From Basic</th>
+                                                <th>To Basic </th>
+                                                <th>Percent(%)</th>
+                                                <th>Amount</th>
+                                                <th>From Scale </th>
+                                                <th>To Scale</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.hras.table')
+                                            @include('frontend.rules.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -85,7 +84,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this HRA!",
+                    text: "To delete this rule.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -108,7 +107,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('hras.fetch-data') }}",
+                    url: "{{ route('rules.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -173,22 +172,20 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#hra-create-form').submit(function(e) {
+            $('#rule-create-form').submit(function(e) {
                 e.preventDefault();
+
                 var formData = $(this).serialize();
-            
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -228,9 +225,8 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#hra-edit-form', function(e) {
+            $(document).on('submit', '#rule-edit-form', function(e) {
                 e.preventDefault();
-
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -242,16 +238,15 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
                         });
                     }
                 });
             });
         });
     </script>
+
 @endpush
