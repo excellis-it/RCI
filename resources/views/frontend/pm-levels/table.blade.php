@@ -2,7 +2,7 @@
     @foreach ($pm_levels as $key => $pm_level)
         <tr>
             <td> {{ ($pm_levels->currentPage()-1) * $pm_levels->perPage() + $loop->index + 1 }}</td>
-            <td>{{ $pm_level->pay_commission ?? 'N/A'}}</td>
+            <td>{{ $pm_level->payCommission->name ?? 'N/A'}}</td>
             <td>{{ $pm_level->value ?? 'N/A'}}</td>
             <td><span class="{{ ($pm_level->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($pm_level->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('pm-levels.edit', $pm_level->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
