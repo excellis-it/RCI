@@ -139,6 +139,31 @@ use App\Helpers\Helper;
         });
     });
 </script>
+
+<script>
+    
+    $(document).ready(function() {
+        $('#emp_id').change(function() {
+            var memb_id = $(this).val();
+            if (memb_id != '') {
+                $.ajax({
+                    url: "{{ route('advance-funds.fetch-employee') }}",
+                    type: "GET",
+                    data: {
+                        memb_id: memb_id
+                    },
+                    success: function(response) {
+                        $('#mem_name').val(response.data.name);
+                        $('#mem_desig').val(response.data.designation);
+                        $('#mem_group').val(response.data.group);
+                        $('#mem_division').val(response.data.division);
+                    }
+                });
+            }
+        });
+    });
+    </script>
+
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({

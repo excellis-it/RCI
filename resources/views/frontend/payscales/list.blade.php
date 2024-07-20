@@ -59,14 +59,7 @@
                                                     style="cursor: pointer">
                                                     Basic 1 <span id="basic1_icon"><i class="fa fa-arrow-down"></i></span>
                                                 </th>
-                                                <th data-sorting_type="desc" class="sorting" data-column_name="basic2"
-                                                    style="cursor: pointer">
-                                                    Basic 2 <span id="basic2_icon"><i class="fa fa-arrow-down"></i></span>
-                                                </th>
-                                                <th data-sorting_type="desc" class="sorting" data-column_name="basic3"
-                                                    style="cursor: pointer">
-                                                    Basic 3 <span id="basic3_icon"><i class="fa fa-arrow-down"></i></span>
-                                                </th>
+                                                
                                                 <th data-sorting_type="desc" class="sorting" data-column_name="increment1"
                                                     style="cursor: pointer">
                                                     Increment 1 <span id="increment1_icon"><i

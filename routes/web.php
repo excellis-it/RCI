@@ -585,6 +585,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/advance-funds-delete/{id}', [AdvanceFundController::class, 'delete'])->name('advance-funds.delete');
         });
         Route::get('/advance-funds-fetch-data', [AdvanceFundController::class, 'fetchData'])->name('advance-funds.fetch-data');
+        Route::get('/advance-funds-employee', [AdvanceFundController::class, 'fetchEmployeeData'])->name('advance-funds.fetch-employee');
 
         //advance settlement
         Route::prefix('advance-settlement')->group(function () {

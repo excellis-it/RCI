@@ -53,11 +53,12 @@ class IncomeTaxController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'commission' => 'required',
             'higher_slab_amount' => 'required',
             'lower_slab_amount' => 'required',
             'tax_rate' => 'required',
             'edu_cess_rate' => 'required',
+            'old_regime' => 'required',
+            'new_regime' => 'required',
         ]);
 
         $currentDate = now();
@@ -81,6 +82,8 @@ class IncomeTaxController extends Controller
         $incomeTax->edu_cess_rate = $request->edu_cess_rate;
         $incomeTax->financial_year = $financialYear;
         $incomeTax->record_add_date = $currentDate;
+        $incomeTax->old_regime = $request->old_regime;
+        $incomeTax->new_regime = $request->new_regime;
         $incomeTax->save();
 
         session()->flash('success', 'Income tax slab added successfully');
@@ -116,6 +119,8 @@ class IncomeTaxController extends Controller
             // 'commission' => 'required',
             'lower_slab_amount' => 'required',
             'higher_slab_amount' => 'required',
+            'old_regime' => 'required',
+            'new_regime' => 'required',
             // 'tax_rate' => 'required',
         ]);
 
@@ -125,6 +130,8 @@ class IncomeTaxController extends Controller
         $incomeTax->lower_slab_amount = $request->lower_slab_amount;
         $incomeTax->tax_rate = $request->tax_rate;
         $incomeTax->edu_cess_rate = $request->edu_cess_rate;
+        $incomeTax->old_regime = $request->old_regime;
+        $incomeTax->new_regime = $request->new_regime;
         $incomeTax->update();
 
         session()->flash('success', 'Income tax slab updated successfully');

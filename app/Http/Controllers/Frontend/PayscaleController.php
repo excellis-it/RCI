@@ -43,8 +43,6 @@ class PayscaleController extends Controller
                 ->paginate(10);
 
 
-
-
             return response()->json(['data' => view('frontend.payscales.table', compact('payscales'))->render()]);
         }
     }
@@ -66,8 +64,6 @@ class PayscaleController extends Controller
             // pattern example: 45555-555-55555
             'payscale_number' => 'required|regex:/^\d{5}-\d{3}-\d{5}$/|unique:payscales,payscale_number',
             'basic1' => 'required|numeric',
-            'basic2' => 'required|numeric',
-            'basic3' => 'required|numeric',
             'increment1' => 'required|numeric',
             'increment2' => 'required|numeric',
         ],[
@@ -78,8 +74,6 @@ class PayscaleController extends Controller
         $payscale->payscale_type_id = $request->payscale_type_id;
         $payscale->payscale_number = $request->payscale_number;
         $payscale->basic1 = $request->basic1;
-        $payscale->basic2 = $request->basic2;
-        $payscale->basic3 = $request->basic3;
         $payscale->increment1 = $request->increment1;
         $payscale->increment2 = $request->increment2;
         $payscale->save();
@@ -116,8 +110,6 @@ class PayscaleController extends Controller
             'payscale_type_id' => 'required',
             'payscale_number' => 'required|regex:/^\d{5}-\d{3}-\d{5}$/|unique:payscales,payscale_number,' . $id, // ignore the unique rule for this id
             'basic1' => 'required|numeric',
-            'basic2' => 'required|numeric',
-            'basic3' => 'required|numeric',
             'increment1' => 'required|numeric',
             'increment2' => 'required|numeric',
         ],[
@@ -128,8 +120,6 @@ class PayscaleController extends Controller
         $payscale->payscale_type_id = $request->payscale_type_id;
         $payscale->payscale_number = $request->payscale_number;
         $payscale->basic1 = $request->basic1;
-        $payscale->basic2 = $request->basic2;
-        $payscale->basic3 = $request->basic3;
         $payscale->increment1 = $request->increment1;
         $payscale->increment2 = $request->increment2;
         $payscale->save();

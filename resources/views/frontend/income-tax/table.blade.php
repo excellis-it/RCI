@@ -22,7 +22,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="6" class="text-left">
+        <td colspan="8" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $incomeTaxes->firstItem() }} – {{ $incomeTaxes->lastItem() }} income Tax  slab of
@@ -34,6 +34,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="6" class="text-center">No income Tax slab Found</td>
+        <td colspan="8" class="text-center">No income Tax slab Found</td>
     </tr>
 @endif

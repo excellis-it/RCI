@@ -4,8 +4,6 @@
             <td>{{$payscale->payscaleType->payscale_type ?? 'N/A'}}</td>
              <td>{{$payscale->payscale_number ?? 'N/A'}}</td>
             <td>{{$payscale->basic1 ?? 'N/A'}}</td>
-            <td>{{$payscale->basic2 ?? 'N/A'}}</td>
-            <td>{{$payscale->basic3 ?? 'N/A'}}</td>
             <td>{{$payscale->increment1 ?? 'N/A'}}</td>
             <td>{{$payscale->increment2 ?? 'N/A'}}</td>
             <td class="sepharate"><a data-route="{{route('payscales.edit', $payscale->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
@@ -14,7 +12,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="8" class="text-left">
+        <td colspan="6" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $payscales->firstItem() }} – {{ $payscales->lastItem() }} payscales of
@@ -26,6 +24,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="8" class="text-center">No payscale Found</td>
+        <td colspan="6" class="text-center">No payscale Found</td>
     </tr>
 @endif

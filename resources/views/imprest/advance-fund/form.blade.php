@@ -66,13 +66,8 @@
                                 <label>Desig</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="desig" id="desig">
-                                    <option value="">Select</option>
-                                    @foreach ($designations as $designation)
-                                        <option value="{{ $designation->id }}" {{ isset($advance_fund->desig) &&  $designation->id == $advance_fund->desig ? 'selected' : '' }}>
-                                            {{ $designation->designation_type }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="desig" value="{{ $advance_fund->desig }}" id="mem_desig"
+                                   placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -95,13 +90,8 @@
                                 <label>Group</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="group" id="group">
-                                    <option value="">Select</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}" {{ isset($advance_fund->group) &&  $group->id == $advance_fund->group ? 'selected' : '' }}>
-                                            {{ $group->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="group" id="mem_group" value="{{ $advance_fund->group }}"
+                                placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -112,13 +102,8 @@
                                 <label>Devision</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="division" id="division">
-                                    <option value="">Select</option>
-                                    @foreach ($divisions as $division)
-                                        <option value="{{ $division->id }}" {{ isset($advance_fund->division) &&  $division->id == $advance_fund->division ? 'selected' : '' }}>
-                                            {{ $division->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="division" id="mem_division" value="{{ $advance_fund->division }}"
+                                placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -187,30 +172,7 @@
             </div>
             <div class="col-md-8">
                 <div class="row align-items-end">
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq no</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" value="{{ $advance_fund->chq_no }}" name="chq_no" id="chq_no"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq dt</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control"  value="{{ $advance_fund->chq_date }}" name="chq_date" id="chq_date"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -289,7 +251,7 @@
                                 <label>Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="name" id="name"
+                                <input type="text" class="form-control" name="name" id="mem_name"
                                      placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -308,13 +270,8 @@
                                 <label>Desig</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="desig" id="desig">
-                                    <option value="">Select</option>
-                                    @foreach ($designations as $designation)
-                                        <option value="{{ $designation->id }}">
-                                            {{ $designation->designation_type }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="desig" id="mem_desig"
+                                   placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -325,7 +282,7 @@
                                 <label>Basic</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="basic" id="basic"
+                                <input type="text" class="form-control" name="basic" id="mem_basic"
                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -337,13 +294,9 @@
                                 <label>Group</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="group" id="group">
-                                    <option value="">Select</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">
-                                            {{ $group->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="group" id="mem_group"
+                                placeholder="">
+                               
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -354,13 +307,9 @@
                                 <label>Devision</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="division" id="division">
-                                    <option value="">Select</option>
-                                    @foreach ($divisions as $division)
-                                        <option value="{{ $division->id }}">
-                                            {{ $division->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="division" id="mem_division"
+                                placeholder="">
+                               
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -429,30 +378,7 @@
             </div>
             <div class="col-md-8">
                 <div class="row align-items-end">
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq no</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="chq_no" id="chq_no"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq dt</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="chq_date" id="chq_date"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

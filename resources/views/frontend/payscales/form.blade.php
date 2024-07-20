@@ -45,32 +45,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Basic 2</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" value="{{ $payscale->basic2 }}" name="basic2"
-                                id="basic2" placeholder="">
-                            <span class="text-danger" id="basic2-error"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Basic 3</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" value="{{ $payscale->basic3 }}" name="basic3"
-                                id="basic3" placeholder="">
-                            <span class="text-danger" id="basic3-error"></span>
-                        </div>
-                    </div>
-                </div>
+               
                 {{-- increment 1 --}}
-                <div class="form-group col-md-7 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Increment 1</label>
@@ -83,7 +60,7 @@
                     </div>
                 </div>
                 {{-- increment 2 --}}
-                <div class="form-group col-md-5 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Increment 2</label>
@@ -153,32 +130,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Basic 2</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control"  name="basic2"
-                                id="basic2" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Basic 3</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control"  name="basic3"
-                                id="basic3" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
+                
                 {{-- increment 1 --}}
-                <div class="form-group col-md-6 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Increment 1</label>
@@ -191,7 +145,7 @@
                     </div>
                 </div>
                 {{-- increment 2 --}}
-                <div class="form-group col-md-6 mb-2">
+                <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Increment 2</label>
