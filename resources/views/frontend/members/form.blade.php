@@ -155,7 +155,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="basic"
-                                                                    id="basic" value="{{ old('basic') ?? '' }}"
+                                                                    id="basic" 
                                                                     placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -877,6 +877,8 @@
                         
                         $('#quater').val(response.quarter.id);
                         $('#quater_type').val(response.quarter.qrt_type);
+
+                        $('#basic').val(response.basic_pay.basic);
                         
                     }
                 });

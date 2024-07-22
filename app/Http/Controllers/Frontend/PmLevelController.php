@@ -32,6 +32,8 @@ class PmLevelController extends Controller
             $pm_levels = PmLevel::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('value', 'like', '%' . $query . '%')
+                    ->orWhere('basic', 'like', '%' . $query . '%')
+                    ->orWhere('year', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
                 
             })
@@ -60,12 +62,17 @@ class PmLevelController extends Controller
         $request->validate([
             'value' => 'required|max:255',
             'pay_commission' => 'required',
+            'basic' => 'required|numeric',
+            'year' => 'required',
             'status' => 'required',
         ]);
 
+        
         $pm_level_value = new PmLevel();
         $pm_level_value->pay_commission = $request->pay_commission;
         $pm_level_value->value = $request->value;
+        $pm_level_value->basic = $request->basic;
+        $pm_level_value->year = $request->year;
         $pm_level_value->status = $request->status;
         $pm_level_value->save();
 
@@ -87,8 +94,9 @@ class PmLevelController extends Controller
     public function edit(string $id)
     {
         $pm_level = PmLevel::find($id);
+        $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.pm-levels.form', compact('edit', 'pm_level'))->render()]);
+        return response()->json(['view' => view('frontend.pm-levels.form', compact('edit', 'pm_level','pay_commissions'))->render()]);
     }
 
     /**
@@ -104,6 +112,8 @@ class PmLevelController extends Controller
         $pm_level = PmLevel::find($id);
         $pm_level->pay_commission = $request->pay_commission;
         $pm_level->value = $request->value;
+        $pm_level->basic = $request->basic;
+        $pm_level->year = $request->year;
         $pm_level->status = $request->status;
         $pm_level->save();
 
