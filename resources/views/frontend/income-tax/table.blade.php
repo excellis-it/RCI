@@ -2,12 +2,8 @@
     @foreach ($incomeTaxes as $key => $incomeTax)
         <tr>
             <td> {{ ($incomeTaxes->currentPage()-1) * $incomeTaxes->perPage() + $loop->index + 1 }}</td>
-            @if($incomeTax->commission != null)
-                @foreach($payCommissions as $payCommission)
-                    @if($payCommission->id == $incomeTax->commission)
-                        <td>{{ $payCommission->name ?? 'N/A'}}</td>
-                    @endif
-                @endforeach
+            @if($incomeTax->regime != null)
+                <td>{{ $incomeTax->regime }}</td>
             @else
                 <td>N/A</td>
             @endif

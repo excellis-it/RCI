@@ -468,6 +468,9 @@ class ReportController extends Controller
     }
 
     
-
+    public function getMemberInfo(Request $request)
+    {
+        dd($request->all());
+    }
     
 }

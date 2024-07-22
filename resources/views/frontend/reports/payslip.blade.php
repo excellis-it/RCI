@@ -41,7 +41,24 @@
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Employee Status</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="e_status" class="form-select" id="e_status">
+                                                                    <option value="">Select Employee Status</option>
+                                                                    <option value="active">Active</option>
+                                                                    <option value="deputation">On Deputation</option>
+                                                                </select>
+                                                                @if ($errors->has('e_status'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('e_status') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Members</label>
                                                             </div>
@@ -62,7 +79,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="row align-items-center">
                                                                 <div class="col-md-12">
                                                                     <label>Year</label>
@@ -84,7 +101,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="row align-items-center">
                                                                 <div class="col-md-12">
                                                                     <label>Month</label>
@@ -197,6 +214,37 @@
                     }
                 }
                 
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#e_status').change(function() {
+                var e_status = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('reports.get-all-members') }}",
+                    type: 'POST',
+                    data: {
+                        e_status: e_status,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        var members = response.members;
+                        var memberDropdown = $('[name="member_id"]');
+                        memberDropdown.empty();
+                        memberDropdown.append('<option value="">Select Member</option>');
+                        $.each(members, function(index, member) {
+                            var option = $('<option></option>');
+                            option.val(member.id);
+                            option.text(member.name + ' (' + member.emp_id + ')');
+                            memberDropdown.append(option);
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
             });
         });
     </script>

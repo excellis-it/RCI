@@ -15,9 +15,9 @@ class IncomeTaxController extends Controller
     public function index()
     {
         $incomeTaxes = IncomeTax::paginate(10);
-        $payCommissions = PayCommission::where('is_active', '1')->get();
+        // $payCommissions = PayCommission::where('is_active', '1')->get();
 
-        return view('frontend.income-tax.list', compact('incomeTaxes', 'payCommissions'));
+        return view('frontend.income-tax.list', compact('incomeTaxes'));
     }
 
     public function fetchdata(Request $request)
@@ -27,16 +27,16 @@ class IncomeTaxController extends Controller
         $query = $request->get('query');
         $query = str_replace(" ", "%", $query);
         $incomeTax = IncomeTax::where(function($queryBuilder) use ($query) {
-            $queryBuilder->where('commission', 'like', '%' . $query . '%')
+            $queryBuilder->where('regime', 'like', '%' . $query . '%')
                 ->orWhere('slab_amount', 'like', '%' . $query . '%')
                 ->orWhere('tax_rate', 'like', '%' . $query . '%')
                 ->orWhere('edu_cess_rate', 'like', '%' . $query . '%');
         })
         ->orderBy($sort_by, $sort_type)
         ->paginate(10);
-        $payCommissions = PayCommission::where('status', '1')->get();
+        // $payCommissions = PayCommission::where('status', '1')->get();
 
-        return response()->json(['view' => view('frontend.income-tax.table', compact('incomeTax', 'payCommissions'))->render()]);
+        return response()->json(['view' => view('frontend.income-tax.table', compact('incomeTax'))->render()]);
     }
 
     /**
@@ -53,7 +53,7 @@ class IncomeTaxController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'commission' => 'required',
+            'regime' => 'required',
             'higher_slab_amount' => 'required',
             'lower_slab_amount' => 'required',
             'tax_rate' => 'required',
@@ -74,7 +74,7 @@ class IncomeTaxController extends Controller
 
 
         $incomeTax = new IncomeTax();
-        $incomeTax->commission = $request->commission;
+        $incomeTax->regime = $request->regime;
         $incomeTax->higher_slab_amount = $request->higher_slab_amount;
         $incomeTax->lower_slab_amount = $request->lower_slab_amount;
         $incomeTax->tax_rate = $request->tax_rate;

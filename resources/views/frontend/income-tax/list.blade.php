@@ -49,8 +49,8 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="commission"
-                                                    style="cursor: pointer">Pay Commision </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="regime"
+                                                    style="cursor: pointer">Regime </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="lower_slab_amount"
                                                     style="cursor: pointer"> Lower Slab </th>
                                                     <th class="sorting" data-sorting_type="desc" data-column_name="higher_slab_amount"

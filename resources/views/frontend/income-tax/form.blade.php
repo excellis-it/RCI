@@ -8,14 +8,13 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Pay Commission</label>
+                                <label>Regime</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="commission" id="commission" disabled>
-                                    <option value="">Select Pay Commission</option>
-                                    @foreach ($payCommissions as $payCommission)
-                                        <option value="{{ $payCommission->id }}" {{ ($incomeTax->commission == $payCommission->id) ? 'selected' : '' }}>{{ $payCommission->name }}</option>
-                                    @endforeach
+                                <select class="form-select" name="regime" id="regime" disabled>
+                                    <option value="">Select Regime</option>
+                                    <option value="Old Regime" {{ ($incomeTax->regime == 'Old Regime') ? 'selected' : '' }}>Old Regime</option>
+                                    <option value="New Regime" {{ ($incomeTax->regime == 'New Regime') ? 'selected' : '' }}>New Regime</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -92,14 +91,13 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Pay Commission</label>
+                                <label>Regime</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="commission" id="commission">
-                                    <option value="">Select Pay Commission</option>
-                                    @foreach ($payCommissions as $payCommission)
-                                        <option value="{{ $payCommission->id }}">{{ $payCommission->name }}</option>
-                                    @endforeach
+                                <select class="form-select" name="regime" id="regime">
+                                    <option value="">Select Regime</option>
+                                    <option value="Old Regime" >Old Regime</option>
+                                    <option value="New Regime">New Regime</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

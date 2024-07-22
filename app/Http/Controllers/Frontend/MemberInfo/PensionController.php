@@ -149,12 +149,16 @@ class PensionController extends Controller
                         $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)((($basic + $da) * $result[$leave->leave_type_id]['no_of_days']) / $result[$leave->leave_type_id]['daysInMonth']), 2);
     
                         if($nps != null) {
-                            dd($result[$leave->leave_type_id]['eolHplDeduction']);
                             // calculate NPS deduction
-                            $npsDeductionown = ($result[$leave->leave_type_id]['eolHplDeduction'] * $pensionRates->npsc_debit_rate) / 100;
-                            $npsDeductionGovt = ($result[$leave->leave_type_id]['eolHplDeduction'] * $pensionRates->npsg_debit_rate) / 100;
+                            $eolHplAmount = (str_replace(',', '', $result[$leave->leave_type_id]['eolHplDeduction']));
+                            $npsDeductionown = (number_format($eolHplAmount, 2, '.', ',') * (number_format((float)$pensionRates->npsc_debit_rate)) / 100);
+                            $npsDeductionGovt = (number_format($eolHplAmount, 2, '.', ',')* number_format($pensionRates->npsg_debit_rate)) / 100;
+                            $npsCreditOwn = (number_format($eolHplAmount, 2, '.', ',') * number_format($pensionRates->npsc_credit_rate)) / 100;
+                            $npsCreditGovt = (number_format($eolHplAmount, 2, '.', ',') * number_format($pensionRates->npsg_credit_rate)) / 100;
                             $result[$leave->leave_type_id]['npsDeductionown'] = $npsDeductionown;
                             $result[$leave->leave_type_id]['npsDeductionGovt'] = $npsDeductionGovt;
+                            $result[$leave->leave_type_id]['npsCreditOwn'] = $npsCreditOwn;
+                            $result[$leave->leave_type_id]['npsCreditGovt'] = $npsCreditGovt;
                         }
                     } else {
                         // calculate the number of days in each month
@@ -176,6 +180,18 @@ class PensionController extends Controller
                         $endmonthDeduction = (($basic + $da) * $result[$leave->leave_type_id]['leaveDaysInEndMonth']) / $result[$leave->leave_type_id]['daysInEndMonth'];
     
                         $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)($startmonthDeduction + $endmonthDeduction), 2);
+
+                        if($nps != null) {
+                            // calculate NPS deduction
+                            $npsDeductionown = (number_format((float)($result[$leave->leave_type_id]['eolHplDeduction']) * $pensionRates->npsc_debit_rate) / 100);
+                            $npsDeductionGovt = (number_format((float)($result[$leave->leave_type_id]['eolHplDeduction']) * $pensionRates->npsg_debit_rate)) / 100;
+                            $npsCreditOwn = (number_format((float)($result[$leave->leave_type_id]['eolHplDeduction']) * $pensionRates->npsc_credit_rate)) / 100;
+                            $npsCreditGovt = (number_format((float)($result[$leave->leave_type_id]['eolHplDeduction']) * $pensionRates->npsg_credit_rate)) / 100;
+                            $result[$leave->leave_type_id]['npsDeductionown'] = $npsDeductionown;
+                            $result[$leave->leave_type_id]['npsDeductionGovt'] = $npsDeductionGovt;
+                            $result[$leave->leave_type_id]['npsCreditOwn'] = $npsCreditOwn;
+                            $result[$leave->leave_type_id]['npsCreditGovt'] = $npsCreditGovt;
+                        }
                         
                         
                     }

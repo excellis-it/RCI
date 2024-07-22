@@ -190,6 +190,9 @@ Route::middleware('permssions')->group(function () {
         // last pay certificate
     Route::get('/reports-last-pay-certificate', [ReportController::class, 'lastPayCertificate'])->name('reports.last-pay-certificate');
     Route::post('/reports-last-pay-certificate-generate', [ReportController::class, 'lastPayCertificateGenerate'])->name('reports.last-pay-certificate-generate');
+
+    // payslip get member info
+    Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
         
        
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');

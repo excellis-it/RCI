@@ -147,10 +147,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>NPSC EOL Amt</label>
+                                <label>NPSC EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_eol_amt" id="npsc_eol_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsc_eol_deduction_amt" id="npsc_eol_deduction_amt" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -159,10 +159,34 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>NPSG EOL Amt</label>
+                                <label>NPSG EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_eol_amt" id="npsg_eol_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsg_eol_deduction_amt" id="npsg_eol_deduction_amt" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSC EOL Credit Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsc_eol_credit_amt" id="npsc_eol_credit_amt" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSG EOL Credit Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsg_eol_credit_amt" id="npsg_eol_credit_amt" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

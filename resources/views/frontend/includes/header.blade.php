@@ -407,10 +407,10 @@
                                     href="{{ route('member-gpf.index') }}">GPF Management</a>
                             </li>
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-pension.index') }}">Member Pension</a>
-                            </li>
+                            </li> --}}
                             
                         </ul>
                     </div>
