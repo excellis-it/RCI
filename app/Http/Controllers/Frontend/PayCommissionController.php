@@ -18,6 +18,26 @@ class PayCommissionController extends Controller
         return view('frontend.pay-commissions.list', compact('payCommissions'));
     }
 
+    public function fetchData(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $payCommissions = PayCommission::where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('id', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('year', 'like', '%' . $query . '%');
+                })
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
+
+            return response()->json(['data' => view('frontend.pay-commissions.table', compact('payCommissions'))->render()]);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -36,9 +56,6 @@ class PayCommissionController extends Controller
             'year' => 'required',
         ]);
 
-       
-
-
         $payCommission = new PayCommission();
         $payCommission->name = $request->name;
         $payCommission->year = $request->year;
@@ -49,9 +66,6 @@ class PayCommissionController extends Controller
         return response()->json([
             'message' => 'Pay Commission created successfully!'
         ]);
-
-
-
 
     }
 

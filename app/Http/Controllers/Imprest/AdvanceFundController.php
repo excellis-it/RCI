@@ -189,6 +189,18 @@ class AdvanceFundController extends Controller
         //
     }
 
+    public function fetchEmployeeData(Request $request)
+    {
+        if ($request->ajax()) {
+            $member = Member::where('id', $request->memb_id)->first() ?? '';
+            $member['designation'] = $member->desigs->designation ?? '';
+            $member['group'] = $member->groups->value ?? '';
+            $member['division'] = $member->divisions->value ?? '';
+            
+            return response()->json(['data' => $member]);
+        }
+    }
+
     public function delete($id)
     {
         $advance_fund = AdvanceFundToEmployee::findOrFail($id);

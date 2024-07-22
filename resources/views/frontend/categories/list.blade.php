@@ -52,11 +52,10 @@
                                                     style="cursor: pointer">Category Name <span id="category_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th>Code</th> --}}
-                                                <th>Gazetted </th>
-                                                <th>
-                                                    Designation Type </th>
-                                                <th>Status </th>
-                                                <th></th>
+                                                <th> Gazetted </th>
+                                                <th> Designation Type </th>
+                                                <th> Status </th>
+                                                <th> </th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">

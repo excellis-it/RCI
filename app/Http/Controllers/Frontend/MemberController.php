@@ -118,7 +118,6 @@ class MemberController extends Controller
     public function store(Request $request)
     {
 
-       
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -1178,9 +1177,11 @@ class MemberController extends Controller
 
     public function getMemberGradePay(Request $request)
     {
-        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first();
-        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first();
-        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter]);
+        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first() ?? null;
+        $basic_pay = PmLevel::where('id', $request->pm_level)->where('year', date('Y'))->orderBy('id', 'desc')->first() ?? null;
+        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first() ?? null;
+
+        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter, 'basic_pay' => $basic_pay]);
     }
 
     public function getmemberCgegisvalue(Request $request)
