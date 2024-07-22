@@ -8,6 +8,23 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Pay Commission</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="commission" id="commission" disabled>
+                                    <option value="">Select Pay Commission</option>
+                                    @foreach ($payCommissions as $payCommission)
+                                        <option value="{{ $payCommission->id }}" {{ ($incomeTax->commission == $payCommission->id) ? 'selected' : '' }}>{{ $payCommission->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Lower Tax Slab</label>
                             </div>
                             <div class="col-md-12">
@@ -28,8 +45,9 @@
                             </div>
                         </div>
                     </div>
-                
-                    <div class="form-group col-md-4 mb-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Tax Rate</label>
@@ -40,9 +58,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Educational CESS Rate</label>
@@ -53,30 +70,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Old Regime</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="old_regime" id="old_regime" value="{{ $incomeTax->old_regime }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>New Regime</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="new_regime" id="new_regime" value="{{ $incomeTax->new_regime }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="col-md-2">
@@ -98,6 +92,23 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Pay Commission</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="commission" id="commission">
+                                    <option value="">Select Pay Commission</option>
+                                    @foreach ($payCommissions as $payCommission)
+                                        <option value="{{ $payCommission->id }}">{{ $payCommission->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Lower Tax Slab</label>
                             </div>
                             <div class="col-md-12">
@@ -106,6 +117,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -117,6 +129,9 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+                <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -128,9 +143,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Educational CESS Rate</label>
@@ -141,28 +154,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Old Regime</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="old_regime" id="old_regime">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>New Regime</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="new_regime" id="new_regime">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="col-md-2">
