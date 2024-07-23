@@ -54,7 +54,7 @@ class ReportController extends Controller
         $dateObj = \DateTime::createFromFormat('!m', $month);
         $monthName = $dateObj->format('F');
         $year = $request->year;
-        $member_quarter_charge = ($member_debit_data->quarter_charges + $member_debit_data->elec + $member_debit_data->water + $member_debit_data->furn + $member_debit_data->misc2) ?? 0;
+        $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
         
         
         $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year','member_quarter_charge'));
@@ -67,19 +67,22 @@ class ReportController extends Controller
     //     $groups = Group::where('status', 1)->get()->chunk(2); // Fetch and chunk groups
     public function paybill()
     {
-        return view('frontend.reports.paybill');
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.paybill', compact('categories'));
     }
 
     public function paybillGenerate(Request $request)
     {
         $request->validate([
+            'e_status' => 'required',
+            'category' => 'required',
             'month' => 'required',
             'year' => 'required',
         ]);
 
         $pay_bill_no = $request->year.'-'.'RCI-CHESS'.$request->month.$request->year.rand(1000,9999);
         $all_members_info = [];
-        $member_datas = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->where('member_status',1)->orderBy('id','desc')->with('desigs')->get();
+        $member_datas = Member::where('e_status', $request->e_status)->where('category', $request->category)->where('member_status',1)->orderBy('id','desc')->with('desigs')->get();
         foreach($member_datas as $member_data){
             $member_details['member_credit'] = MemberCredit::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
             $member_details['member_debit'] = MemberDebit::where('member_id', $member_data->id)->whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->first();
@@ -472,6 +475,7 @@ class ReportController extends Controller
     public function getMemberInfo(Request $request)
     {
         $members = Member::where('e_status', $request->e_status)->orderBy('id', 'desc')->get();
+        // dd($members);
         return response()->json(['members' => $members]);
 
     }
