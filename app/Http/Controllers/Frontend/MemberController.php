@@ -138,6 +138,9 @@ class MemberController extends Controller
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
             'doj_service1' => 'required',
+            'adhar_number' => 'required',
+            'gpf_number' => 'required',
+            'app_date' => 'required',
             'dop' => 'required',
             'next_inr' => 'required',
             'quater' => 'required',
@@ -186,6 +189,9 @@ class MemberController extends Controller
         $member->dob = $request->dob;
         $member->doj_lab = $request->doj_lab;
         $member->doj_service1 = $request->doj_service1;
+        $member->adhar_number = $request->adhar_number;
+        $member->gpf_number = $request->gpf_number;
+        $member->app_date = $request->app_date;
         $member->dop = $request->dop;
         $member->next_inr = $request->next_inr;
         $member->quater = $request->quater;
