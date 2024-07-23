@@ -24,6 +24,7 @@ use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\IncomeTax;
 use App\Models\DebitVoucher;
+use App\Models\Category;
 use App\Models\DebitVoucherDetail;
 
 class ReportController extends Controller
@@ -470,7 +471,35 @@ class ReportController extends Controller
     
     public function getMemberInfo(Request $request)
     {
-        dd($request->all());
+        $members = Member::where('e_status', $request->e_status)->orderBy('id', 'desc')->get();
+        return response()->json(['members' => $members]);
+
+    }
+
+    public function payroll(Request $request)
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.payroll',compact('categories'));
+    }
+
+    public function payrollGenerate(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+            'report_year' => 'required',
+            'report_month' => 'required',
+        ]);
+
+        $members = Member::where('category',$request->category)->where('e_status',$request->e_status)->whereMonth('created_at',$request->report_month)->whereYear('created_at',$request->report_year)->get();
+        foreach($members as $member)
+        {
+           // sum value of basicpay this month of this category member
+              $member_credit_data = MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->report_year)->whereMonth('created_at', $request->report_month)->sum('pay');
+                
+        }
+
+
+
     }
     
 }

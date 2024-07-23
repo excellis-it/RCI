@@ -222,6 +222,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.payroll')}}" target="_blank">Payroll</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.salary-certificate')}}" target="_blank">Salary Certificate</a>
                             </li>
                             <li class="mb-2">

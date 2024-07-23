@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Payslip Report Generate
+    PayrollReport Generate
 @endsection
 
 @push('styles')
@@ -19,7 +19,7 @@
                     <h3>Report Generate</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Payslip</span></li>
+                        <li><span class="bread-blod">Payroll</span></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.payslip-generate') }}" method="POST" >
+                            <form action="{{ route('reports.payroll-generate') }}" method="POST" >
                                 @csrf
 
                                 <div class="row">
@@ -47,7 +47,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">Select Employee Status</option>
+                                                                    <option value="">Select Status</option>
                                                                     <option value="active">Active</option>
                                                                     <option value="deputation">On Deputation</option>
                                                                 </select>
@@ -58,20 +58,26 @@
                                                                 
                                                             </div>
                                                         </div>
+
                                                         <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
-                                                                <label>Members</label>
+                                                                <label>Category</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="member_id" class="form-select">
+                                                                <select name="category" class="form-select" id="category">
+                                                                    <option value="">Select Category</option>
+                                                                    @foreach($categories as $category)
+                                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                                                    @endforeach
                                                                 </select>
-                                                                @if ($errors->has('member_id'))
+                                                                @if ($errors->has('category'))
                                                                     <div class="error" style="color:red;">
-                                                                        {{ $errors->first('member_id') }}</div>
+                                                                        {{ $errors->first('category') }}</div>
                                                                 @endif
                                                                 
                                                             </div>
                                                         </div>
+                                                        
 
                                                         <div class="form-group col-md-3 mb-2">
                                                             <div class="row align-items-center">
@@ -147,38 +153,7 @@
 @endsection
 
 @push('scripts')
-    {{-- <script>
-        $(document).ready(function() {
-            $('#payslip-generate-form').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
+   
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
@@ -211,24 +186,23 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#e_status').change(function() {
-                var e_status = $(this).val();
 
-                $.ajax({
-                    url: "{{ route('reports.get-all-members') }}",
-                    type: 'POST',
-                    data: { e_status, _token: '{{ csrf_token() }}' },
-                    success: ({members}) => {
-                        const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
-                        members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
-                    },
-                    error: (xhr) => console.log(xhr)
-                });
+<script>
+    $(document).ready(function() {
+        $('#e_status').change(function() {
+            var e_status = $(this).val();
+
+            $.ajax({
+                url: "{{ route('reports.get-all-members') }}",
+                type: 'POST',
+                data: { e_status, _token: '{{ csrf_token() }}' },
+                success: ({members}) => {
+                    const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
+                    members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
+                },
+                error: (xhr) => console.log(xhr)
             });
         });
-    </script>
-
-
+    });
+</script>
 @endpush

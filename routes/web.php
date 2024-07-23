@@ -181,6 +181,10 @@ Route::middleware('permssions')->group(function () {
        // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
+
+    //payroll
+    Route::get('/reports-payroll', [ReportController::class, 'payroll'])->name('reports.payroll');
+    Route::post('/reports-payroll-generate', [ReportController::class, 'payrollGenerate'])->name('reports.payroll-generate');
        // salary certificate
     Route::get('/reports-salary-certificate', [ReportController::class, 'salaryCertificate'])->name('reports.salary-certificate');
     Route::post('/reports-salary-certificate-generate', [ReportController::class, 'salaryCertificateGenerate'])->name('reports.salary-certificate-generate');
