@@ -121,6 +121,48 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
+                        <label>HBA Curr Instll</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hba_cur_instl" id="hba_cur_instl"
+                            value="{{ $member_debit->hba_cur_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>HBA int current instll</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hba_int_cur_instl" id="hba_int_cur_instl"
+                            value="{{ $member_debit->hba_int_cur_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>HBA int total install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hba_int_total_instl" id="hba_int_total_instl"
+                            value="{{ $member_debit->hba_int_total_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
                         <label>Comp Adv</label>
                     </div>
                     <div class="col-md-12">
@@ -131,6 +173,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -145,6 +189,78 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp prin curr install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_prin_curr_instl" id="comp_prin_curr_instl"
+                            value="{{ $member_debit->comp_prin_curr_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp prin total install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_prin_total_instl" id="comp_prin_total_instl"
+                            value="{{ $member_debit->comp_prin_total_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp adv interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_adv_int" id="comp_adv_int"
+                            value="{{ $member_debit->comp_adv_int  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp int curr install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_int_curr_instl" id="comp_int_curr_instl"
+                            value="{{ $member_debit->comp_int_curr_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp int total install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_int_total_instl" id="comp_int_total_instl"
+                            value="{{ $member_debit->comp_int_total_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -173,8 +289,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -231,6 +345,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -259,8 +376,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -317,6 +432,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -345,8 +462,207 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Arrear Pay</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="arrear_pay" id="arrear_pay"
+                            value="{{ $member_debit->arrear_pay  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPSG</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="npsg" id="npsg"
+                            value="{{ $member_debit->npsg  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPSG Arrear</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="npsg_arr" id="npsg_arr"
+                            value="{{ $member_debit->npsg_arr  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPSG Adj</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="npsg_adj" id="npsg_adj"
+                            value="{{ $member_debit->npsg_adj  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Car adv princ install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="car_adv_prin_instl" id="car_adv_prin_instl"
+                            value="{{ $member_debit->car_adv_prin_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Car adv total install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="car_adv_total_instl" id="car_adv_total_instl"
+                            value="{{ $member_debit->car_adv_total_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Scooter Adv princ instll</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="scot_adv_prin_instl" id="scot_adv_prin_instl"
+                            value="{{ $member_debit->scot_adv_prin_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Scooter Adv current instll</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="sco_adv_int_curr_instl" id="sco_adv_int_curr_instl"
+                            value="{{ $member_debit->sco_adv_int_curr_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Scooter adv total install</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="sco_adv_int_total_instl" id="sco_adv_int_total_instl"
+                            value="{{ $member_debit->sco_adv_int_total_instl  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Festival adv prin curr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="fest_adv_prin_cur" id="fest_adv_prin_cur"
+                            value="{{ $member_debit->fest_adv_prin_cur  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Festival adv total curr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="fest_adv_total_cur" id="fest_adv_total_cur"
+                            value="{{ $member_debit->fest_adv_total_cur  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Ltc Recovery</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="ltc_rec" id="ltc_rec"
+                            value="{{ $member_debit->ltc_rec  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Medical Recovery</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="medical_rec" id="medical_rec"
+                            value="{{ $member_debit->medical_rec  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Tada Recovery</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tada_rec" id="tada_rec"
+                            value="{{ $member_debit->tada_rec  ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div> 
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -375,6 +691,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -432,8 +751,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -462,6 +779,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -504,8 +824,6 @@
                 </div>
             </div>
         </div>
-
-        
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -520,8 +838,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -550,6 +866,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -606,8 +925,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -636,6 +953,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -692,8 +1012,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-12">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
