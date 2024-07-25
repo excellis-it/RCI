@@ -390,6 +390,7 @@ Route::middleware('permssions')->group(function () {
     Route::delete('/members-expectation-delete/{id}',[MemberController::class, 'memberExpectationDelete'])->name('members.expectation-delete');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
+    Route::post('/members-core-info-ifsc',[MemberController::class,'memberBankIfsc'])->name('members.core-info.get-ifsc');
 
     Route::post('/get-members-grade-pay',[MemberController::class,'getMemberGradePay'])->name('members.grade-pay');
     Route::post('/get-members-cgegis-value',[MemberController::class,'getmemberCgegisvalue'])->name('members.get-cgegis-value');

@@ -686,6 +686,7 @@ class MemberController extends Controller
             $update_core_member->ben_acc_no = $request->ben_acc_no;
             $update_core_member->dcmaf_no = $request->dcmaf_no;
             $update_core_member->s_pay = $request->s_pay;
+            $update_core_member->ifsc = $request->ifsc;
             $update_core_member->update();
         } else {
             $core_member = new MemberCoreInfo();
@@ -704,6 +705,7 @@ class MemberController extends Controller
             $core_member->ben_acc_no = $request->ben_acc_no;
             $core_member->dcmaf_no = $request->dcmaf_no;
             $core_member->s_pay = $request->s_pay;
+            $core_member->ifsc = $request->ifsc;
             $core_member->save();
         }
 
@@ -1322,6 +1324,12 @@ class MemberController extends Controller
         }
 
         return response()->json(['result' => $result, 'total_deduction' => $total_deduction]);
+    }
+
+    public function memberBankIfsc(Request $request)
+    {
+        $get_ifsc = Bank::where('id', $request->bank_id)->first();
+        return response()->json(['ifsc' => $get_ifsc]);
     }
 
   
