@@ -53,7 +53,7 @@
                                                     style="cursor: pointer">Member Name <span id="leave_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Wife/Husband<span id="leave_type_abbr_icon"><i
+                                                    style="cursor: pointer">Spouse Name<span id="leave_type_abbr_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
                                                     style="cursor: pointer">DOB<span id="leave_type_abbr_icon"><i

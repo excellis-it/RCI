@@ -614,5 +614,13 @@ class ReportController extends Controller
         $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
+
+    public function professionalUpdateAllowance() 
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', 'active')->orderBy('id', 'desc')->get();
+        $financialYears = Helper::getFinancialYears();
+        return view('frontend.reports.professional-update-allowance', compact('categories', 'members', 'financialYears'));
+    }
     
 }

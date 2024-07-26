@@ -57,6 +57,7 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
+use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -205,6 +206,10 @@ Route::middleware('permssions')->group(function () {
 
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
+
+        // professional Update allowance
+    Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
+    Route::post('reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
         
        
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');

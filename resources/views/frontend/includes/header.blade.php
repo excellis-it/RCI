@@ -240,6 +240,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.last-pay-certificate')}}" target="_blank">Last Pay Certificate</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.professional-update-allowance')}}" target="_blank">Professional Update Allowance</a>
+                            </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.crv')}}" target="_blank">CRV</a>
