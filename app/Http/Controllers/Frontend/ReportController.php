@@ -326,14 +326,14 @@ class ReportController extends Controller
 
     public function salaryCertificate()
     {
-        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
+        // $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
 
         $startYear = 1958;
         $endYear = date('Y');
 
         $years = range($startYear, $endYear);
 
-        return view('frontend.reports.salary-certificate', compact('members', 'years'));
+        return view('frontend.reports.salary-certificate', compact('years'));
     }
 
     public function salaryCertificateGenerate(Request $request) 
@@ -360,7 +360,8 @@ class ReportController extends Controller
     public function bonusSchedule()
     {
         $financialYears = Helper::getFinancialYears();
-        return view('frontend.reports.bonus-schedule', compact('financialYears'));
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.bonus-schedule', compact('financialYears', 'categories'));
     }
 
     public function bonusScheduleGenerate(Request $request)
@@ -381,12 +382,13 @@ class ReportController extends Controller
             $current->addMonth();
         }
         
-        $member_data = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->with('desigs')->get();
+        $member_data = Member::where('e_status', $request->e_status)->where('category', $request->category)->with('desigs')->get();
         $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $year = $request->report_year;
         $months = $yearMonths;
         $unitCode = 'RCI-CHESS-' . rand(1000, 9999);
+        $category = Category::where('id', $request->category)->first();
 
         // create an array to store the result member wise
         $result = [];
@@ -443,7 +445,7 @@ class ReportController extends Controller
             $result[$memberId]['total'] = $creditTotal - $debitTotal;
         }
 
-        $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit'));
+        $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit', 'category'));
         return $pdf->download('bonus-schedule-' . $request->report_year . '.pdf');
     }
 
