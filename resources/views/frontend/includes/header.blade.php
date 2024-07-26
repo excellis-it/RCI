@@ -226,6 +226,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.children-allowance')}}" target="_blank">Children Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.salary-certificate')}}" target="_blank">Salary Certificate</a>
                             </li>
                             <li class="mb-2">
@@ -399,6 +403,10 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-leaves.index') }}">Member Leave</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-family.index') }}">Member Family info</a>
                             </li>
 
                             <li class="mb-2">

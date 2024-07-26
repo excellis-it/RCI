@@ -476,6 +476,29 @@ class MemberController extends Controller
             $update_debit_member->cgeis_arr = $request->cgeis_arr;
             $update_debit_member->penal_intr = $request->penal_interest;
             $update_debit_member->society = $request->society;
+            $update_debit_member->arrear_pay = $request->arrear_pay;
+            $update_debit_member->npsg = $request->npsg;
+            $update_debit_member->npsg_arr = $request->npsg_arr;
+            $update_debit_member->npsg_adj = $request->npsg_adj;
+            $update_debit_member->hba_cur_instl = $request->hba_cur_instl;
+            $update_debit_member->hba_total_instl = $request->hba_total_instl;
+            $update_debit_member->hba_int_cur_instl = $request->hba_int_cur_instl;
+            $update_debit_member->hba_int_total_instl = $request->hba_int_total_instl;
+            $update_debit_member->car_adv_prin_instl = $request->car_adv_prin_instl;
+            $update_debit_member->car_adv_total_instl = $request->car_adv_total_instl;
+            $update_debit_member->scot_adv_prin_instl = $request->scot_adv_prin_instl;
+            $update_debit_member->sco_adv_int_curr_instl = $request->sco_adv_int_curr_instl;
+            $update_debit_member->sco_adv_int_total_instl = $request->sco_adv_int_total_instl;
+            $update_debit_member->comp_prin_curr_instl = $request->comp_prin_curr_instl;
+            $update_debit_member->comp_prin_total_instl = $request->comp_prin_total_instl;
+            $update_debit_member->comp_adv_int = $request->comp_adv_int;
+            $update_debit_member->comp_int_curr_instl = $request->comp_int_curr_instl;
+            $update_debit_member->comp_int_total_instl = $request->comp_int_total_instl;
+            $update_debit_member->fest_adv_prin_cur = $request->fest_adv_prin_cur;
+            $update_debit_member->fest_adv_total_cur = $request->fest_adv_total_cur;
+            $update_debit_member->ltc_rec = $request->ltc_rec;
+            $update_debit_member->medical_rec = $request->medical_rec;
+            $update_debit_member->tada_rec = $request->tada_rec;
             $update_debit_member->remarks = $request->remarks;
             $update_debit_member->update();
 
@@ -535,6 +558,29 @@ class MemberController extends Controller
             $debit_member->cgeis_arr = $request->cgeis_arr;
             $debit_member->penal_intr = $request->penal_interest;
             $debit_member->society = $request->society;
+            $debit_member->arrear_pay = $request->arrear_pay;
+            $debit_member->npsg = $request->npsg;
+            $debit_member->npsg_arr = $request->npsg_arr;
+            $debit_member->npsg_adj = $request->npsg_adj;
+            $debit_member->hba_cur_instl = $request->hba_cur_instl;
+            $debit_member->hba_total_instl = $request->hba_total_instl;
+            $debit_member->hba_int_cur_instl = $request->hba_int_cur_instl;
+            $debit_member->hba_int_total_instl = $request->hba_int_total_instl;
+            $debit_member->car_adv_prin_instl = $request->car_adv_prin_instl;
+            $debit_member->car_adv_total_instl = $request->car_adv_total_instl;
+            $debit_member->scot_adv_prin_instl = $request->scot_adv_prin_instl;
+            $debit_member->sco_adv_int_curr_instl = $request->sco_adv_int_curr_instl;
+            $debit_member->sco_adv_int_total_instl = $request->sco_adv_int_total_instl;
+            $debit_member->comp_prin_curr_instl = $request->comp_prin_curr_instl;
+            $debit_member->comp_prin_total_instl = $request->comp_prin_total_instl;
+            $debit_member->comp_adv_int = $request->comp_adv_int;
+            $debit_member->comp_int_curr_instl = $request->comp_int_curr_instl;
+            $debit_member->comp_int_total_instl = $request->comp_int_total_instl;
+            $debit_member->fest_adv_prin_cur = $request->fest_adv_prin_cur;
+            $debit_member->fest_adv_total_cur = $request->fest_adv_total_cur;
+            $debit_member->ltc_rec = $request->ltc_rec;
+            $debit_member->medical_rec = $request->medical_rec;
+            $debit_member->tada_rec = $request->tada_rec;
             $debit_member->remarks = $request->remarks;
             $debit_member->save();
 
@@ -686,6 +732,7 @@ class MemberController extends Controller
             $update_core_member->ben_acc_no = $request->ben_acc_no;
             $update_core_member->dcmaf_no = $request->dcmaf_no;
             $update_core_member->s_pay = $request->s_pay;
+            $update_core_member->ifsc = $request->ifsc;
             $update_core_member->update();
         } else {
             $core_member = new MemberCoreInfo();
@@ -704,6 +751,7 @@ class MemberController extends Controller
             $core_member->ben_acc_no = $request->ben_acc_no;
             $core_member->dcmaf_no = $request->dcmaf_no;
             $core_member->s_pay = $request->s_pay;
+            $core_member->ifsc = $request->ifsc;
             $core_member->save();
         }
 
@@ -1322,6 +1370,12 @@ class MemberController extends Controller
         }
 
         return response()->json(['result' => $result, 'total_deduction' => $total_deduction]);
+    }
+
+    public function memberBankIfsc(Request $request)
+    {
+        $get_ifsc = Bank::where('id', $request->bank_id)->first();
+        return response()->json(['ifsc' => $get_ifsc]);
     }
 
   

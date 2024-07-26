@@ -498,14 +498,30 @@ class ReportController extends Controller
             'month' => 'required',
         ]);
 
-       
+        $month = $request->month;
+        $get_month_name = date('F', mktime(0, 0, 0, $month, 10));
+        $year = $request->year;
+        $cat = $request->category;
+        $category = Category::where('id', $cat)->first()->category;
+        $today = Carbon::now()->format('d/m/Y g:i:s A');
+    
+
         // return $request->all();
-        $total = 0;
+        $total = [
+            'basic' => 0, 'special' => 0, '2incr' => 0, 'var_incr' => 0, 'da' => 0, 'house_rent' => 0, 'transport' => 0, 'family_alw' => 0, 'hindi' => 0,
+            'deptn_alw' => 0, 'disable_alw' => 0, 'wash_alwn' => 0, 'risk_alwn' => 0, 'non_pract_alwn' => 0, 'cr_rent' => 0, 'cr_elec' => 0, 'cr_water' => 0,
+            'misc1' => 0, 'misc2' => 0, 'gross' => 0, 'nps_subsc' => 0, 'nps_refunds' => 0, 'rent' => 0, 'elec' => 0,'water' => 0,'furn' => 0,'rent_arr' => 0,
+            'elec_arr' => 0,'water_arr' => 0,'furn_arr' => 0,'car_adv' => 0,'car_adv_intrst' => 0,'sctr_adv_intrst' => 0, 'cycle_adv' => 0, 'cycle_adv_intrst' => 0 ,
+            'hba_adv' => 0, 'hba_adv_int' => 0,'pli' => 0, 'cgegis' => 0, 'cghs' => 0,'it'=> 0, 'ecess' => 0, 'tada' => 0, 'ltc' => 0, 'medical' => 0,
+            'eol_hpl' => 0, 'pc_adv' => 0, 'festival_adv_rec' => 0,  'professional_tx' => 0, 'hra_rec' => 0, 'tpt_rec' => 0, 'misc1_debit' => 0,
+            'misc2_debit' => 0,'misc3_debit' => 0,'total_debit' => 0, 'net_pay' => 0
+        ];
+
         $members = Member::where('category',$request->category)->where('e_status',$request->e_status)->get();
         foreach($members as $member)
         {
             // sum value of basicpay this month of this category member
-            $total['basic'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pay');
+            $total['basic'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pay') ?? 0;
             $total['special'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('s_pay');
             $total['2incr'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('add_inc2'); 
             $total['var_incr'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('var_incr');  
@@ -528,7 +544,7 @@ class ReportController extends Controller
 
             //deductions
 
-            // $total['nps_subsc'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
+           // $total['nps_subsc'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
            // $total['nps_refunds'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
            $total['rent'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('rent');
            $total['elec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('elec');
@@ -556,15 +572,14 @@ class ReportController extends Controller
             $total['medical'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('medi');
             $total['eol_hpl'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('eol');
             $total['pc_adv'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
-           // $total['pc_adv_int'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
+           // $total[' '] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
             $total['festival_adv_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('fadv');
             $total['professional_tx'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('ptax');
             $total['hra_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hra_rec');
             $total['tpt_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tpt_rec');
-            $total['tpt_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tpt_rec');
-            $total['misc1'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc1');
-            $total['misc2'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
-            $total['misc3'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc3');
+            $total['misc1_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc1');
+            $total['misc2_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
+            $total['misc3_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc3');
             // $total['nps_arr'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc3');
             $total['total_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tot_debits');
             $total['net_pay'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('net_pay');
@@ -572,8 +587,32 @@ class ReportController extends Controller
 
         
 
+        $pdf = PDF::loadView('frontend.reports.payroll-generate', compact('total','get_month_name','year','category','today'));
+        return $pdf->download('payroll-'. $month . '-' . $year . '.pdf');
+    }
 
+    public function cildrenAllowance()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.children-allowance',compact('categories'));
+    }
 
+    public function cildrenAllowanceGenerate(Request $request)
+    {
+        $request->validate([
+            'member_id' => 'required',
+        ]);
+
+        $member_data = Member::where('id', $request->member_id)->with('desigs', 'payLevels')->first();
+        $dojYear = Carbon::parse($member_data->doj_lab)->format('Y');
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
+        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $drdoPin = $dojYear.'AD'.str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
+
+        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
+        return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
     
 }

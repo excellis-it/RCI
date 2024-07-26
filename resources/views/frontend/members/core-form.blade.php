@@ -63,12 +63,28 @@ id="member-core-form" method="post">
                 <div class="col-md-12">
                     <select class="form-select" name="bank"
                         id="bank">
+                        <option value="">Select Bank</option>
                         @foreach ($banks as $bank)
                             <option value="{{ $bank->id }}"
                                 {{ isset($member_core->bank) && $bank->id == $member_core->bank ? 'selected' : '' }}>
                                 {{ $bank->bank_name }}</option>
                         @endforeach
                     </select>
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group mb-2">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <label>IFSC</label>
+                </div>
+                <div class="col-md-12">
+                    <input type="text"  name="ifsc"  id="ifsc" class="form-control"
+                        value="{{ $member_core->ifsc ?? (old('ifsc') ?? '') }}"
+                        placeholder="">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -90,6 +106,8 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -106,8 +124,6 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
-</div>
-<div class="row">
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -140,6 +156,10 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
+</div>
+<div class="row">
+    
+    
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -156,8 +176,7 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
-</div>
-<div class="row">
+
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -190,6 +209,8 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -206,8 +227,7 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
-</div>
-<div class="row">
+
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
