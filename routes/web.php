@@ -56,6 +56,7 @@ use App\Http\Controllers\Frontend\MemberInfo\PenalInterestController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -168,8 +169,12 @@ Route::middleware('permssions')->group(function () {
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
         'rules' => RuleController::class,
+        'member-family' => MemberFamilyController::class,
          
     ]);
+
+    // family member
+    Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
 
         //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
@@ -181,6 +186,9 @@ Route::middleware('permssions')->group(function () {
        // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
+
+    Route::get('/generate-children-allowance', [ReportController::class, 'cildrenAllowance'])->name('reports.children-allowance');
+    Route::post('/reports-children-allowanc-generate', [ReportController::class, 'cildrenAllowanceGenerate'])->name('reports.children-allowance-generate');
 
     //payroll
     Route::get('/reports-payroll', [ReportController::class, 'payroll'])->name('reports.payroll');

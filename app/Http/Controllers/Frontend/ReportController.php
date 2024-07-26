@@ -566,12 +566,11 @@ class ReportController extends Controller
             $total['medical'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('medi');
             $total['eol_hpl'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('eol');
             $total['pc_adv'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
-           // $total['pc_adv_int'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
+           // $total[' '] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
             $total['festival_adv_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('fadv');
             $total['professional_tx'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('ptax');
             $total['hra_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hra_rec');
             $total['tpt_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tpt_rec');
-            // $total['tpt_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tpt_rec');
             $total['misc1_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc1');
             $total['misc2_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
             $total['misc3_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc3');
@@ -584,6 +583,30 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('frontend.reports.payroll-generate', compact('total','get_month_name','year','category','today'));
         return $pdf->download('payroll-'. $month . '-' . $year . '.pdf');
+    }
+
+    public function cildrenAllowance()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.children-allowance',compact('categories'));
+    }
+
+    public function cildrenAllowanceGenerate(Request $request)
+    {
+        $request->validate([
+            'member_id' => 'required',
+        ]);
+
+        $member_data = Member::where('id', $request->member_id)->with('desigs', 'payLevels')->first();
+        $dojYear = Carbon::parse($member_data->doj_lab)->format('Y');
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
+        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $drdoPin = $dojYear.'AD'.str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
+
+        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
+        return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
     
 }
