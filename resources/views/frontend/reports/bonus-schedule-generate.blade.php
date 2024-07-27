@@ -51,7 +51,7 @@
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;
               ">
-                  Category: NIE(NPS)
+                  Category: {{ $category->category }}
                 </td>
                 <td style="
                      font-size: 10px !important;
@@ -72,7 +72,7 @@
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;
               ">
-                  Unit Code - {{ $unitCode }}
+                  Unit Code - 330000110
                 </td>
               </tr>
             </tbody>
