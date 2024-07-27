@@ -599,15 +599,16 @@ class ReportController extends Controller
 
     public function cildrenAllowanceGenerate(Request $request)
     {
-        $request->validate([
-            'e_status' => 'required',
-            'member_id' => 'required',
-            'child1_name' => 'required',
-            'child1_scll_name' => 'required',
-            'child1_class' => 'required',
-            'child1_academic' => 'required',
-            'child1_amount' => 'required',
-        ]);
+        // $request->validate([
+        //     'e_status' => 'required',
+        //     'member_id' => 'required',
+        //     'child1_name' => 'required',
+        //     'child1_dob' => 'required',
+        //     'child1_scll_name' => 'required',
+        //     'child1_class' => 'required',
+        //     'child1_academic' => 'required',
+        //     'child1_amount' => 'required',
+        // ]);
 
         $data = $request;
 
