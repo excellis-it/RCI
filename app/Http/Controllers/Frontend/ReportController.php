@@ -25,7 +25,9 @@ use App\Models\CreditVoucherDetail;
 use App\Models\IncomeTax;
 use App\Models\DebitVoucher;
 use App\Models\Category;
+use App\Models\MemberFamily;
 use App\Models\DebitVoucherDetail;
+
 
 class ReportController extends Controller
 {
@@ -579,8 +581,6 @@ class ReportController extends Controller
             $total['net_pay'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('net_pay');
         }
 
-        
-
         $pdf = PDF::loadView('frontend.reports.payroll-generate', compact('total','get_month_name','year','category','today'));
         return $pdf->download('payroll-'. $month . '-' . $year . '.pdf');
     }
@@ -594,19 +594,33 @@ class ReportController extends Controller
     public function cildrenAllowanceGenerate(Request $request)
     {
         $request->validate([
+            'e_status' => 'required',
             'member_id' => 'required',
+            'child1_name' => 'required',
+            'child1_scll_name' => 'required',
+            'child1_class' => 'required',
+            'child1_academic' => 'required',
+            'child1_amount' => 'required',
         ]);
 
-        $member_data = Member::where('id', $request->member_id)->with('desigs', 'payLevels')->first();
-        $dojYear = Carbon::parse($member_data->doj_lab)->format('Y');
-        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
-        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
-        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
-        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
-        $drdoPin = $dojYear.'AD'.str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
+        $data = $request;
 
-        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
-        return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
+        $member_detail = Member::where('id', $request->member_id)->first();
+        $member_children = MemberFamily::where('member_id', $request->member_id)->first();
+        $total = $request->child1_amount + $request->child2_amount ?? 0;
+       
+        $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('member_detail','data','member_children','total'));
+        return $pdf->download('children-allowance-report-' . 'fgd' . '.pdf');
+
+    }
+
+    public function getMemberChildren(Request $request)
+    {
+       
+        $member_family = MemberFamily::where('member_id', $request->member_id)->first();
+        $edit = true;
+
+        return response()->json(['view' => view('frontend.reports.children-allowance-children-list', compact('edit','member_family'))->render(), 'status' => 'success']);
     }
     
 }

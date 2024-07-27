@@ -190,6 +190,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('/generate-children-allowance', [ReportController::class, 'cildrenAllowance'])->name('reports.children-allowance');
     Route::post('/reports-children-allowanc-generate', [ReportController::class, 'cildrenAllowanceGenerate'])->name('reports.children-allowance-generate');
 
+    Route::post('/get-member-children', [ReportController::class, 'getMemberChildren'])->name('reports.get-member-children');
+
     //payroll
     Route::get('/reports-payroll', [ReportController::class, 'payroll'])->name('reports.payroll');
     Route::post('/reports-payroll-generate', [ReportController::class, 'payrollGenerate'])->name('reports.payroll-generate');

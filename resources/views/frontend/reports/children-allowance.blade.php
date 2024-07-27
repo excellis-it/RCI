@@ -52,11 +52,7 @@
                                                                     <option value="active">Active</option>
                                                                     <option value="deputation">On Deputation</option>
                                                                 </select>
-                                                                @if ($errors->has('e_status'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('e_status') }}</div>
-                                                                @endif
-                                                                
+                                                                <span id="e_status-error" class="text-danger"></span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-3 mb-2">
@@ -64,21 +60,18 @@
                                                                 <label>Members</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="member_id" class="form-select">
+                                                                <select name="member_id" class="form-select" id="member_id">
                                                                 </select>
-                                                                @if ($errors->has('member_id'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('member_id') }}</div>
-                                                                @endif
+                                                                <span id="member_id-error" class="text-danger"></span>
                                                                 
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-3 mb-2">
+                                                        {{-- <div class="form-group col-md-3 mb-2 type-select" >
                                                             <div class="col-md-12">
                                                                 <label>Type</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="type" class="form-select">
+                                                                <select name="type" class="form-select" id="type">
                                                                     <option value="">Select Type</option>
                                                                     <option value="education">Education</option>
                                                                     <option value="hostel">Hostel</option>
@@ -89,6 +82,11 @@
                                                                 @endif
                                                                 
                                                             </div>
+                                                        </div> --}}
+                                                    </div>
+                                                    <div class="row align-items-center">
+                                                        <div id="children_list">
+                                                            @include('frontend.reports.children-allowance-children-list')
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,17 +179,22 @@
 <script>
     // if choose education then call ajax and show children name1 and name2 box
     $(document).ready(function() {
-        $('select[name="type"]').change(function() {
-            var type = $(this).val();
+        $('select[name="member_id"]').change(function() {
+            var member_id = $(this).val();
+           
             $.ajax({
-                url: "{{ route('reports.get-all-members') }}",
+                url: "{{ route('reports.get-member-children') }}",
                 type: 'POST',
-                data: { e_status, _token: '{{ csrf_token() }}' },
-                success: ({members}) => {
-                    const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
-                    members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
+                data: { member_id, _token: '{{ csrf_token() }}' },
+                success: function(response) {
+
+                    if(response.status == 'success'){
+                        $('#children_list').html(response.view);
+                        
+                    }else{
+                        $('#children_allowance').html('');
+                    }
                 },
-                error: (xhr) => console.log(xhr)
             });
             
         });
