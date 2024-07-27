@@ -27,7 +27,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Father/Mother :</label>
+                                <label>Parents :</label>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Wife/Husband :</label>
+                                <label>Spouse :</label>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>1st Child:</label>
+                                <label>Children (Elder):</label>
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>2nd Child:</label>
+                                <label>Children (Younger):</label>
                             </div>
                         </div>
                     </div>
@@ -225,7 +225,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Father/Mother :</label>
+                                <label>Parents :</label>
                             </div>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Wife/Husband :</label>
+                                <label>Spouse :</label>
                             </div>
                         </div>
                     </div>
@@ -298,7 +298,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>1st Child:</label>
+                                <label>Children (Elder):</label>
                             </div>
                         </div>
                     </div>
@@ -344,7 +344,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>2nd Child:</label>
+                                <label>Children (Younger):</label>
                             </div>
                         </div>
                     </div>

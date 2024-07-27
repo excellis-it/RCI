@@ -309,6 +309,7 @@ class MemberController extends Controller
             $update_credit_member->cr_elec = $request->cr_elec;
             $update_credit_member->fpa = $request->fpa;
             $update_credit_member->s_pay = $request->s_pay;
+            $update_credit_member->pua = $request->pua;
             $update_credit_member->hindi = $request->hindi;
             $update_credit_member->cr_water = $request->cr_water;
             $update_credit_member->add_inc2 = $request->add_inc2;
@@ -345,6 +346,7 @@ class MemberController extends Controller
             $member_credit->cr_elec = $request->cr_elec;
             $member_credit->fpa = $request->fpa;
             $member_credit->s_pay = $request->s_pay;
+            $member_credit->pua = $request->pua;
             $member_credit->hindi = $request->hindi;
             $member_credit->cr_water = $request->cr_water;
             $member_credit->add_inc2 = $request->add_inc2;
