@@ -84,6 +84,7 @@ class MemberGpfController extends Controller
         $member_gpf->member_id = $request->member_id;
         $member_gpf->finantial_year = $request->finantial_year;
         $member_gpf->monthly_subscription = $request->monthly_subscription;
+        $member_gpf->refund = $request->refund;
         $member_gpf->month = $request->month;
         $member_gpf->closing_balance = $request->closing_balance;
         $member_gpf->openning_balance = $request->openning_balance;
@@ -135,6 +136,7 @@ class MemberGpfController extends Controller
         $update_member_gpf->member_id = $request->member_id;
         $update_member_gpf->finantial_year = $request->finantial_year;
         $update_member_gpf->monthly_subscription = $request->monthly_subscription;
+        $member_gpf->refund = $request->refund;
         $update_member_gpf->month = $request->month;
         $update_member_gpf->closing_balance = $request->closing_balance;
         $update_member_gpf->openning_balance = $request->openning_balance;

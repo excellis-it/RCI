@@ -82,6 +82,24 @@
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="form-group col-md-3 mb-2">
+                                                                    <div class="col-md-12">
+                                                                        <label>Employee Status</label>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <select name="e_status" class="form-select" id="e_status">
+                                                                            <option value="">Select Employee Status</option>
+                                                                            <option value="active">Active</option>
+                                                                            <option value="deputation">On Deputation</option>
+                                                                        </select>
+                                                                        @if ($errors->has('e_status'))
+                                                                            <div class="error" style="color:red;">
+                                                                                {{ $errors->first('e_status') }}</div>
+                                                                        @endif
+                                                                        
+                                                                    </div>
+                                                                </div>
+
                                                                 <div class="form-group col-md-4 mb-2">
                                                                     <div class="col-md-12">
                                                                         <label>Year</label>
@@ -107,21 +125,22 @@
 
                                                         <div class="form-group col-md-9 mb-2" id="pua_ind_div" hidden>
                                                             <div class="row">
+                                                                
+
                                                                 <div class="form-group col-md-3 mb-2">
                                                                     <div class="col-md-12">
-                                                                        <label>Categories</label>
+                                                                        <label>Members</label>
                                                                     </div>
                                                                     <div class="col-md-12">
-                                                                        <select name="category" class="form-select" id="category">
-                                                                            <option value="">Select Category</option>
-                                                                            @foreach ($categories as $category)
-                                                                                <option value="{{ $category->id }}">{{ $category->category }}</option>
-                                                                                
+                                                                        <select name="member_id" class="form-select" id="member_id">
+                                                                            <option value="">Select Member</option>
+                                                                            @foreach($members as $member)
+                                                                                <option value="{{ $member->id }}">{{$member->name}} ({{$member->emp_id}})</option>
                                                                             @endforeach
                                                                         </select>
-                                                                        @if ($errors->has('category'))
+                                                                        @if ($errors->has('member_id'))
                                                                             <div class="error" style="color:red;">
-                                                                                {{ $errors->first('category') }}</div>
+                                                                                {{ $errors->first('member_id') }}</div>
                                                                         @endif
                                                                         
                                                                     </div>
@@ -248,7 +267,7 @@
             });
         });
     </script>
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('#e_status').change(function() {
                 var e_status = $(this).val();
@@ -265,7 +284,7 @@
                 });
             });
         });
-    </script>
+    </script> -->
     <script>
         $(document).ready(function() {
             $('#type').change(function() {

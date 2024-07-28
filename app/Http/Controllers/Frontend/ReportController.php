@@ -622,5 +622,77 @@ class ReportController extends Controller
         $financialYears = Helper::getFinancialYears();
         return view('frontend.reports.professional-update-allowance', compact('categories', 'members', 'financialYears'));
     }
+
+    public function professionalUpdateAllowanceGenerate(Request $request) 
+    {
+        // dd($request->all());
+        $type = $request->type;
+        $year = $request->report_year;
+
+        [$startYear, $endYear] = explode('-', $request->report_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
+
+        if($request->type == 'individual') {
+            $member = Member::where('id', $request->member_id)->with('desigs', 'payLevels')->first();
+            $category = Category::where('id', $member->category)->first();
+            $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+
+            $total_pua = 0;
+
+            foreach($member_credit_data as $member_credit) {
+                $total_pua += $member_credit->pua;
+            }
+
+            $member_data = [
+                'member' => $member,
+                'total_pua' => $total_pua
+            ];
+
+        } else {
+            $members = Member::where('category', $request->category)->where('e_status', $request->e_status)->with('desigs', 'payLevels')->get();
+            $category = Category::where('id', $request->category)->first();
+
+            $member_data = [];
+            
+            foreach($members as $member) {
+                $member_credit_data = MemberCredit::where('member_id', $member->id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+
+                $total_pua = 0;
+
+                if(count($member_credit_data) > 0)
+                {
+                    foreach($member_credit_data as $credit_data) {  
+                        $total_pua += $credit_data->pua;
+                    }
+                } else {
+                    $total_pua = 0;
+                }
+                
+
+                $all_members_data = [
+                    'member' => $member,
+                    'total_pua' => $total_pua
+                ];
+                $member_data[] = $all_members_data;
+            }
+            // dd($member_data);
+        }
+
+        $pdf = PDF::loadView('frontend.reports.professional-update-allowance-generate', compact('member_data', 'type', 'category', 'year'));
+
+        return $pdf->download('professional-update-allowance' . $year . '.pdf');
+    }
+
+    public function gpfWithdrawal() 
+    {
+        $members = Members::all();
+        return view('frontend.reports.gpf-withdrawal', compact('members'));
+    }
+
+    public function gpfWithdrawalGenerate(Request $request)
+    {
+        dd($request->all());
+    }
     
 }
