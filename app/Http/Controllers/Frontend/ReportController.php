@@ -611,12 +611,17 @@ class ReportController extends Controller
         // ]);
 
         $data = $request;
+        $timestamp = now()->format('YmdHis');
+        $bill_no = date('Y').'-PGB'.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT). $timestamp;
+        $today =  Carbon::now()->format('d-M-Y');
+
+    
 
         $member_detail = Member::where('id', $request->member_id)->first();
         $member_children = MemberFamily::where('member_id', $request->member_id)->first();
         $total = $request->child1_amount + $request->child2_amount ?? 0;
        
-        $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('member_detail','data','member_children','total'));
+        $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('member_detail','data','member_children','total','bill_no','today'));
         return $pdf->download('children-allowance-report-' . 'fgd' . '.pdf');
 
     }

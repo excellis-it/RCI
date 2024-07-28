@@ -516,7 +516,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                   {{ $member_detail->emp_id ?? 'N/A'}}
+                    {{ $member_detail->emp_id ?? 'N/A'}}
                   </td>
                 </tr>
               </tbody>
@@ -572,7 +572,6 @@
               <tbody>
                 <tr>
                   <td
-                    rowspan="3"
                     style="
                       width: 100px;
                       font-size: 14px;
@@ -588,7 +587,6 @@
                     Total Rupees
                   </td>
                   <td
-                    rowspan="3"
                     style="
                       width: 100px;
                       font-size: 14px;
@@ -601,26 +599,18 @@
                       border: 1px solid #000;
                     "
                   >
-                    Rs. {{ $total ?? 0}} / -
+                    Rs. {{ $total ?? 0 }} / -
                   </td>
-                  <td
-                    colspan="4"
-                    style="
-                      font-size: 14px;
-                      line-height: 18px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Claim on Account of Reimbursement of Children Education
-                    Allowance in Respect of
-                  </td>
-                </tr>
-                <tr>
+                  <td colspan="4">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                      <tbody>
+                        <tr>
+                          <td colspan="4" style="font-size: 14px; line-height: 18px; font-weight: 600; color: #000; text-align: left; padding: 0px 5px !important;      margin: 0px 0px !important; border: 1px solid #000;">
+                            Claim on Account of Reimbursement of Children Education
+                            Allowance in Respect of
+                          </td>
+                        </tr>
+                  <tr>
                   <td
                     style="
                       font-size: 14px;
@@ -690,7 +680,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     "
-                  >bnvnbnb</td>
+                  >{{ $member_detail->name ?? 'N/A' }}</td>
                   <td
                     style="
                       font-size: 14px;
@@ -702,7 +692,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     "
-                  >hhjhjh</td>
+                  >{{ $data['child1_name'] ?? 'N/A' }}</td>
                   <td
                     style="
                       font-size: 14px;
@@ -715,7 +705,7 @@
                       border: 1px solid #000;
                     "
                   >
-                    1604761
+                 {{ $member_detail->pran_number ?? 'N/A' }}
                   </td>
                   <td
                     style="
@@ -729,8 +719,71 @@
                       border: 1px solid #000;
                     "
                   >
-                    2023-2024
+                  {{ $data['child1_academic'] ?? 'N/A' }}
                   </td>
+                </tr>
+                @if($data['child2_class'] && $data['child2_academic'] && $data['child2_amount'])
+                <tr>
+                  <td
+                    style="
+                      font-size: 14px;
+                      line-height: 18px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >{{ $member_detail->name ?? 'N/A' }}</td>
+                  <td
+                    style="
+                      font-size: 14px;
+                      line-height: 18px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >{{ $data['child2_name'] ?? 'N/A' }}</td>
+                  <td
+                    style="
+                      font-size: 14px;
+                      line-height: 18px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                  {{ $member_detail->pran_number ?? 'N/A' }}
+                  </td>
+                  <td
+                    style="
+                      font-size: 14px;
+                      line-height: 18px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                  {{ $data['child2_academic'] ?? 'N/A'}}
+                  </td>
+                </tr>
+                @else
+                @endif
+                
+                      </tbody>
+                    </table>
+                  </td>
+                  
                 </tr>
                 
                 <tr>
@@ -762,7 +815,7 @@
                       border: 1px solid #000;
                     "
                   >
-                    Bill No : 23-PGB0252024000471 Date : 27-Jun-2024
+                    Bill No : {{ $bill_no ?? 0 }} Date : {{ $today ?? 'N/A' }}
                   </td>
                 </tr>
                 <tr>
@@ -1100,5 +1153,7 @@
     </table>
   </body>
 </html>
+
+
 
 
