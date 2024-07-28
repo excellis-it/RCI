@@ -3,6 +3,8 @@
 namespace App\Helpers;
 use App\Models\CashPayment;
 use App\Models\ChequePayment;
+use App\Models\MemberCredit;
+use App\Models\MemberDebit;
 use App\Models\SiteLogo;
 
 class Helper {
@@ -156,7 +158,26 @@ class Helper {
     }
 
 
- 
+    public static function getTdsDetails($member_id, $month, $year)
+    {
+        $tds = MemberCredit::where('member_id', $member_id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
 
+        return $tds;
+    }
+
+    public static function getDebitDetails($member_id, $month, $year)
+    {
+        $debit = MemberDebit::where('member_id', $member_id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return $debit;
+    }
 
 }

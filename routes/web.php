@@ -42,7 +42,7 @@ use App\Http\Controllers\Frontend\CityController;
 use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
-use App\Http\Controllers\Frontend\CghsController; 
+use App\Http\Controllers\Frontend\CghsController;
 use App\Http\Controllers\Frontend\SectionController;
 use App\Http\Controllers\Frontend\RuleController;
 
@@ -89,6 +89,8 @@ use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
+use App\Http\Controllers\IncomeTax\ArrearsController;
+use App\Http\Controllers\IncomeTax\RentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -144,7 +146,7 @@ Route::middleware('permssions')->group(function () {
         'groups' => GroupController::class,
         'cadres' => CadreController::class,
         'fund-types' => FundTypeController::class,
-        'quarters' => QuaterController::class, 
+        'quarters' => QuaterController::class,
         'ex-services' => ExServiceController::class,
         'pgs' => PgController::class,
         'cgegis' => CgegisController::class,
@@ -152,7 +154,7 @@ Route::middleware('permssions')->group(function () {
         'policy' => PolicyController::class,
         'members' => MemberController::class,
         'public-funds' => PublicFundController::class,
-        'cash-payments' => CashPaymentController::class, 
+        'cash-payments' => CashPaymentController::class,
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
         'reset-voucher' => ResetVoucherController::class,
@@ -171,7 +173,7 @@ Route::middleware('permssions')->group(function () {
         'cghs' => CghsController::class,
         'rules' => RuleController::class,
         'member-family' => MemberFamilyController::class,
-         
+
     ]);
 
     // family member
@@ -212,10 +214,15 @@ Route::middleware('permssions')->group(function () {
         // professional Update allowance
     Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
     Route::post('reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
-        
-       
+
+
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
+
+    // Quaterly TDS Report
+    Route::get('/reports-quaterly-tds', [ReportController::class, 'quaterlyTds'])->name('reports.quaterly-tds');
+    Route::post('/reports-quaterly-tds-generate', [ReportController::class, 'quaterlyTdsGenerate'])->name('reports.quaterly-tds-generate');
+
 
     //user routes
     Route::get('/users-delete/{id}', [UserController::class, 'delete'])->name('users.delete');
@@ -325,7 +332,7 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/ex-services-fetch-data', [ExServiceController::class, 'fetchData'])->name('ex-services.fetch-data');
 
-    //pg 
+    //pg
     Route::prefix('pgs')->group(function () {
         Route::get('/pgs-delete/{id}', [PgController::class, 'delete'])->name('pgs.delete');
     });
@@ -374,7 +381,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
     Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
-    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');    
+    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
@@ -499,7 +506,7 @@ Route::middleware('permssions')->group(function () {
             'member-leaves' => MemberLeaveController::class,
             'attendances' => AttendanceController::class,
             'penal-interest' => PenalInterestController::class,
-            'member-gpf' => MemberGpfController::class, 
+            'member-gpf' => MemberGpfController::class,
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
         ]);
@@ -546,6 +553,20 @@ Route::middleware('permssions')->group(function () {
 
     });
 
+    // Income Tax
+    Route::prefix('income-tax')->group(function () {
+        Route::resources([
+            'arrears' => ArrearsController::class,
+            'rents' => RentController::class
+        ]);
+
+        Route::post('/arrears-member-details', [ArrearsController::class, 'memberDetails'])->name('arrears.member-details');
+        Route::get('/arrears-fetch-data', [ArrearsController::class, 'fetchData'])->name('arrears.fetch-data');
+
+        Route::post('/rent-member-details', [RentController::class, 'memberDetails'])->name('rents.member-details');
+        Route::get('/rent-fetch-data', [RentController::class, 'fetchData'])->name('rents.fetch-data');
+    });
+
     // imprest routes
     Route::prefix('imprest')->group(function () {
         Route::resources([
@@ -582,7 +603,7 @@ Route::middleware('permssions')->group(function () {
         Route::prefix('project')->group(function () {
             Route::get('/project-delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
         });
-        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data'); 
+        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data');
 
         // cda receipt
         Route::prefix('cda-receipts')->group(function () {
@@ -628,7 +649,7 @@ Route::middleware('permssions')->group(function () {
     //grade pay routes
     Route::get('/grade-pays-fetch-data', [GradePayController::class, 'fetchData'])->name('grade-pays.fetch-data');
 
-    
+
     // inventory routes
     Route::prefix('inventory')->group(function () {
         Route::group(['middleware' => 'material'], function () {
@@ -745,7 +766,7 @@ Route::middleware('permssions')->group(function () {
             });
             Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
         });
-        
+
     });
-   
+
 });

@@ -8,7 +8,7 @@
                 </a>
             </li>
         </ul>
-        
+
         <ul class="navbar-nav quick-links d-none d-lg-flex">
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)"
@@ -47,7 +47,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('designation-types.index')}}">Designation Type</a>
                             </li>
-                            
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('categories.index')}}">Category Update</a>
@@ -252,12 +252,17 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.pl-withdrawl')}}" target="_blank">PL Withdrawl</a>
                             </li>
-                            
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.quaterly-tds')}}">Quaterly TDS Report</a>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
             </li>
-           
+
 
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pages<span
@@ -269,7 +274,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('income-tax') }}">Income Tax</a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -341,7 +346,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('loans.index') }}">Loans</a>
                             </li>
-                            
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('dearness-allowance-percentages.index') }}">DA Percentages</a>
@@ -379,8 +384,8 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pension-rate.index') }}">Pension Rates</a>
                             </li>
-                            
-                            
+
+
                         </ul>
                     </div>
                 </div>
@@ -417,7 +422,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('penal-interest.index') }}">Penal Interest</a>
                             </li>
-                            
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-gpf.index') }}">GPF Management</a>
@@ -427,7 +432,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-pension.index') }}">Member Pension</a>
                             </li> --}}
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -453,7 +458,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Income Tax</a>                             
+                                    href="#">Income Tax</a>
                             </li>
                         </ul>
                     </div>
@@ -482,14 +487,14 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Report Generation</a>
                             </li>
-                              
+
                         </ul>
                     </div>
                 </div>
             </li> --}}
 
         </ul>
-        
+
         <div class="d-block d-lg-none">
             <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
         </div>
