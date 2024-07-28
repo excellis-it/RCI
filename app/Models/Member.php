@@ -133,6 +133,16 @@ class Member extends Model
     {
         return $this->belongsTo(GradePay::class, 'g_pay');
     }
+
+    public function memberFamily()
+    {
+        return $this->hasOne(MemberFamily::class, 'member_id');
+    }
+
+    public function memberNewspaper()
+    {
+        return $this->hasOne(MemberNewspaperAllowance::class, 'member_id');
+    }
     
 
     
