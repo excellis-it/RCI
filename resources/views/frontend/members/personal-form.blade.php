@@ -272,10 +272,13 @@
                             </div>
                         </div>
                     </div>
+
+                    
                 </div>
             </div>
         </div>
         <div class="col-md-6">
+            
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -284,6 +287,34 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="name" id="name"
                             value="{{ $member_personal->name ?? ($member->name ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Landline Number</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="landline_no" id="landline_no"
+                            value="{{ $member_personal->landline_no ?? '' }}"
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Mobile Number</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="mobile_no" id="mobile_no"
+                            value="{{ $member_personal->mobile_no ?? '' }}"
+                            placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

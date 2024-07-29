@@ -139,6 +139,45 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-2 mb-2">
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Class</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child1_class" id="child1_class" value="{{ $member_fam_edit->child1_class}}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Academic Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child1_academic_yr" id="child1_academic_yr" value="{{ $member_fam_edit->child1_academic_yr}}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child1_amount" id="child1_amount" value="{{ $member_fam_edit->child1_amount}}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
 
@@ -181,6 +220,45 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="child2_scll_name" value="{{ $member_fam_edit->child2_scll_name}}" id="child2_scll_name" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2 mb-2">
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Class</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child2_class" id="child2_class" value="{{ $member_fam_edit->child2_class}}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Academic Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child2_academic_yr" id="child2_academic_yr" value="{{ $member_fam_edit->child2_academic_yr}}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child2_amount" id="child2_amount" value="{{ $member_fam_edit->child2_amount}}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -338,6 +416,45 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-2 mb-2">
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Class</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child1_class" id="child1_class" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Academic Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child1_academic_yr" id="child1_academic_yr" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child1_amount" id="child1_amount" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
 
@@ -380,6 +497,45 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="child2_scll_name" id="child2_scll_name" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2 mb-2">
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Class</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child2_class" id="child2_class" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Academic Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child2_academic_yr" id="child2_academic_yr" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="child2_amount" id="child2_amount" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

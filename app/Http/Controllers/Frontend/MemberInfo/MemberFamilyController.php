@@ -62,6 +62,11 @@ class MemberFamilyController extends Controller
         $request->validate([
             'member_id' => 'required',
         ]);
+        // if memeber has already data then show error message
+        $member_family = MemberFamily::where('member_id', $request->member_id)->count();
+        if($member_family > 0){
+            return response()->json(['message' => 'Member family details already exists']);
+        }
 
         $member_family = new MemberFamily();
         $member_family->member_id = $request->member_id;
@@ -71,14 +76,20 @@ class MemberFamilyController extends Controller
         $member_family->work_status = $request->work_status;
         $member_family->child1_name = $request->child1_name;
         $member_family->child1_dob = $request->child1_dob;
+        $member_family->child1_class = $request->child1_class;
+        $member_family->child1_academic_yr = $request->child1_academic_yr;
+        $member_family->child1_amount = $request->child1_amount;
         $member_family->child1_scll_name = $request->child1_scll_name;
         $member_family->child2_name = $request->child2_name;
+        $member_family->child2_class = $request->child2_class;
+        $member_family->child2_academic_yr = $request->child2_academic_yr;
+        $member_family->child2_amount = $request->child2_amount;
         $member_family->child2_dob = $request->child2_dob;
         $member_family->child2_scll_name = $request->child2_scll_name;
         $member_family->save();
 
-        session()->flash('success', 'Member family details added successfully');
-        return response()->json(['success' => 'Member family details added successfully']);
+        session()->flash('message', 'Member family details added successfully');
+        return response()->json(['message' => 'Member family details added successfully']);
 
     }
 
@@ -114,8 +125,14 @@ class MemberFamilyController extends Controller
         $update_member_family->work_status = $request->work_status;
         $update_member_family->child1_name = $request->child1_name;
         $update_member_family->child1_dob = $request->child1_dob;
+        $update_member_family->child1_class = $request->child1_class;
+        $update_member_family->child1_academic_yr = $request->child1_academic_yr;
+        $update_member_family->child1_amount = $request->child1_amount;
         $update_member_family->child1_scll_name = $request->child1_scll_name;
         $update_member_family->child2_name = $request->child2_name;
+        $update_member_family->child2_class = $request->child2_class;
+        $update_member_family->child2_academic_yr = $request->child2_academic_yr;
+        $update_member_family->child2_amount = $request->child2_amount;
         $update_member_family->child2_dob = $request->child2_dob;
         $update_member_family->child2_scll_name = $request->child2_scll_name;
         $update_member_family->update();

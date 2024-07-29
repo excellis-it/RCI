@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Children Allowance Generate
+   Group Newspaper Allowance 
 @endsection
 
 @push('styles')
@@ -16,10 +16,10 @@
                 <div class="arrow_left"><a href="{{ route('members.index') }}" class="text-white"><i
                             class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Children Allowance Generate</h3>
+                    <h3>Group Newspaper Allowance Generate</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Children Allowance</span></li>
+                        <li><span class="bread-blod">Newspaper Allowance</span></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.children-allowance-generate') }}" method="POST" >
+                            <form action="{{ route('reports.group-newspaper-allowance-generate') }}" method="POST" >
                                 @csrf
 
                                 <div class="row">
@@ -44,51 +44,22 @@
                                                         
                                                         <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
-                                                                <label>Employee Status</label>
+                                                                <label>Category</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">Select Employee Status</option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
+                                                                <select name="category" class="form-select" id="category_id">
+                                                                    <option value="">Select Category</option>
+                                                                    @foreach($categories as $category)
+                                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                                 <span id="e_status-error" class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Members</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="member_id" class="form-select" id="member_id">
-                                                                </select>
-                                                                <span id="member_id-error" class="text-danger"></span>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        {{-- <div class="form-group col-md-3 mb-2 type-select" >
-                                                            <div class="col-md-12">
-                                                                <label>Type</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="type" class="form-select" id="type">
-                                                                    <option value="">Select Type</option>
-                                                                    <option value="education">Education</option>
-                                                                    <option value="hostel">Hostel</option>
-                                                                </select>
-                                                                @if ($errors->has('type'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('type') }}</div>
-                                                                @endif
-                                                                
-                                                            </div>
-                                                        </div> --}}
+                                                        
+                                                        
                                                     </div>
-                                                    <div class="row align-items-center">
-                                                        <div id="children_list">
-                                                            @include('frontend.reports.children-allowance-children-list')
-                                                        </div>
-                                                    </div>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
