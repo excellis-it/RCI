@@ -228,6 +228,12 @@ Route::middleware('permssions')->group(function () {
         // gpf withdrawal report
     Route::get('reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
     Route::post('reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
+
+        // gpf subscription report
+    Route::get('reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
+    Route::post('reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
+
+        // gpf advance report
         
        
 

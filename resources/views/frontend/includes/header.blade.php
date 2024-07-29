@@ -261,14 +261,24 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.crv')}}" target="_blank">CRV</a>
                             </li> --}}
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.pl-withdrawl')}}" target="_blank">PL Withdrawl</a>
-                            </li>
+                            </li> --}}
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.quaterly-tds')}}">Quaterly TDS Report</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.gpf-withdrawal')}}">GPF Withdrawal</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.gpf-subscription')}}">GPF Subscription</a>
                             </li>
 
                         </ul>

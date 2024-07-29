@@ -30,6 +30,7 @@ use App\Models\DebitVoucher;
 use App\Models\Category;
 use App\Models\MemberFamily;
 use App\Models\DebitVoucherDetail;
+use App\Models\MemberGpf;
 
 
 class ReportController extends Controller
@@ -713,13 +714,83 @@ class ReportController extends Controller
 
     public function gpfWithdrawal() 
     {
-        $members = Member::all();
-        return view('frontend.reports.gpf-withdrawal', compact('members'));
+        // $members = Member::all();
+        return view('frontend.reports.gpf-withdrawal');
     }
 
     public function gpfWithdrawalGenerate(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+
+        $member = Member::where('id', $request->member_id)->with('desigs')->first();
+        $apply_date = $request->apply_date;
+        $required_date = $request->required_date;
+        $required_amount = $request->amount;
+        $received_amount = $request->received_amount;
+        $reason = $request->reason;
+        $month = Carbon::parse($request->apply_date)->subMonth();
+
+        $member_core_data = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $member_gpf_datas = MemberGpf::where('member_id', $request->member_id)->where('created_at', '<', $month)->where('created_at', '=', $month)->get();
+        $gpf_data = MemberGpf::where('member_id', $request->member_id)->where('created_at', '<', $month)->where('created_at', '=', $month)->latest()->first();
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->latest()->first();
+
+        $total_sub_amt = 0;
+        $total_refund = 0;
+
+        foreach($member_gpf_datas as $gpf_data) {
+            $total_sub_amt += $gpf_data->monthly_subscription;
+            $total_refund += $gpf_data->refund;
+        }
+
+        $pdf = PDF::loadView('frontend.reports.gpf-withdrawal-generate', compact('member', 'apply_date', 'required_date', 'required_amount', 'received_amount', 'reason', 'member_core_data', 'gpf_data', 'total_sub_amt', 'member_credit_data', 'month', 'total_refund'));
+        return $pdf->download('gpf-withdrawal-' . $member->name . '.pdf');
+    }
+
+    public function gpfSubscription() 
+    {
+        $startYear = 1958;
+        $endYear = date('Y');
+
+        $years = range($startYear, $endYear);
+        return view('frontend.reports.gpf-subscription', compact('years'));
+    }
+
+    public function gpfSubscriptionGenerate(Request $request)
+    {
+        // dd($request->all());
+        $e_status = $request->e_status;
+        $member_id = $request->member_id;
+        $from_year = $request->from_year;
+        $from_month = $request->from_month;
+        $to_year = $request->to_year;
+        $to_month = $request->to_month;
+
+        // Construct the start and end dates
+        $start_date = Carbon::create($from_year, $from_month, 1)->startOfMonth();
+        $end_date = Carbon::create($to_year, $to_month, 1)->endOfMonth();
+
+        // Fetch the GPF details
+        $totalGpfDetails = MemberGpf::where('member_id', $member_id)
+            ->whereBetween('created_at', [$start_date, $end_date])
+            ->get();
+
+        $total_refund = 0;
+        $total_sub_amt = 0;
+
+        foreach($totalGpfDetails as $gpf) {
+            $total_refund += $gpf->refund;
+            $total_sub_amt += $gpf->monthly_subscription;
+        }
+
+        $gpfData = MemberGpf::where('member_id', $member_id)->latest()->first();
+        
+        $member = Member::where('id', $member_id)->with('desigs')->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $member_id)->first();
+        
+
+        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt'));
+        return $pdf->download('gpf-subscription-' . $member->name . '.pdf');
     }
 
     public function quaterlyTds()
