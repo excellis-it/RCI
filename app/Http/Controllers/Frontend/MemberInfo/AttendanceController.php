@@ -154,6 +154,7 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::findOrFail($id);
         $attendance->delete();
+        
 
         session()->flash('success', 'Attendance deleted successfully!');
         return redirect()->route('frontend.member_info.attendance.index')->with('success', 'Attendance deleted successfully!');

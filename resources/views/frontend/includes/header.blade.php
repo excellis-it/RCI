@@ -228,6 +228,19 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.children-allowance')}}" target="_blank">Children Allowance</a>
                             </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.group-children-allowance')}}" target="_blank">Children Group Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.newspaper-allowance')}}" target="_blank">Newspaper Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.group-newspaper-allowance')}}" target="_blank">Group Newspaper Allowance</a>
+                            </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.salary-certificate')}}" target="_blank">Salary Certificate</a>

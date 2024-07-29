@@ -20,10 +20,12 @@ use App\Models\SiteLogo;
 use App\Models\DearnessAllowancePercentage;
 use Illuminate\Pagination\Paginator;
 use PDF;
+use App\Models\NewspaperAllowance;
 use App\Helpers\Helper;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\IncomeTax;
+use App\Models\MemberNewspaperAllowance;
 use App\Models\DebitVoucher;
 use App\Models\Category;
 use App\Models\MemberFamily;
@@ -605,17 +607,23 @@ class ReportController extends Controller
 
     public function cildrenAllowanceGenerate(Request $request)
     {
-        $request->validate([
-            'e_status' => 'required',
-            'member_id' => 'required',
-            'child1_name' => 'required',
-            'child1_scll_name' => 'required',
-            'child1_class' => 'required',
-            'child1_academic' => 'required',
-            'child1_amount' => 'required',
-        ]);
+        // $request->validate([
+        //     'e_status' => 'required',
+        //     'member_id' => 'required',
+        //     'child1_name' => 'required',
+        //     'child1_dob' => 'required',
+        //     'child1_scll_name' => 'required',
+        //     'child1_class' => 'required',
+        //     'child1_academic' => 'required',
+        //     'child1_amount' => 'required',
+        // ]);
 
         $data = $request;
+        $timestamp = now()->format('YmdHis');
+        $bill_no = date('Y').'-PGB'.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT). $timestamp;
+        $today =  Carbon::now()->format('d-M-Y');
+
+    
 
         $member_detail = Member::where('id', $request->member_id)->first();
         $member_children = MemberFamily::where('member_id', $request->member_id)->first();
@@ -707,4 +715,81 @@ class ReportController extends Controller
         $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months','months', 'year', 'report_quarter', 'report_year','number_months'));
         return $pdf->download('quaterly-tds-report-' . $report_quarter . '-' . $report_year . '.pdf');
     }
+    public function groupChildrenAllowance()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.group-children-allowance',compact('categories'));
+    }
+
+    public function groupChildrenAllowanceGenerate(Request $request)
+    {
+        // find out the member respect to category then member family table detail loop
+
+        $members = Member::where('category',$request->category)->get();
+        $data = $request;
+        $timestamp = now()->format('YmdHis');
+        $bill_no = date('Y').'-PGB'.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT). $timestamp;
+        $today =  Carbon::now()->format('d-M-Y');
+        $total = 0;
+
+        foreach($members as $member)
+        {
+            $member_detail = Member::where('id', $member->id)->first();
+            $member_children = MemberFamily::where('member_id', $member->id)->first();
+            $total += $request->child1_amount + $request->child2_amount ?? 0;
+        }
+
+        $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members','data','total','bill_no','today'));
+        return $pdf->download('group-children-allowance-report-' . 'fgd' . '.pdf');
+       
+
+    }
+
+    public function newspaperAllowance(Request $request)
+    {
+        return view('frontend.reports.newspaper-allowance');
+    }
+
+    public function getMemberNewspaperAllocation(Request $request)
+    {
+        $get_category = Member::where('id',$request->member_id)->first();
+        $category = $get_category->category;
+        $newspaper_allo_amount = NewspaperAllowance::where('category_id',$category)->first();
+
+        return response()->json(['newspaper_allo_amount' => $newspaper_allo_amount->max_allocation_amount]);
+    }
+
+    public function newspaperReportGenerate(Request $request)
+    {
+        
+        $member_detail = Member::where('id', $request->member_id)->first();
+        $data = $request->all();
+       
+        $pdf = PDF::loadView('frontend.reports.newspaper-allowance-report-generate', compact('member_detail','data'));
+        return $pdf->download('newspaper-allowance-report-' . $member_detail->name . '.pdf');
+    }
+
+    public function groupNewspaperAllocation()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.group-newspaper-allowance',compact('categories'));
+    }
+
+    public function groupNewspaperReportGenerate(Request $request)
+    {
+        $members = Member::where('category',$request->category)->get();
+        $total = 0;
+        foreach($members as $member)
+        {
+            $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
+            $total += $amount->amount;
+        }
+
+        
+
+        $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members','total'));
+        return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
+
+    }
+    
 }

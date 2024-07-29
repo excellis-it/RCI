@@ -193,6 +193,16 @@ Route::middleware('permssions')->group(function () {
     Route::get('/generate-children-allowance', [ReportController::class, 'cildrenAllowance'])->name('reports.children-allowance');
     Route::post('/reports-children-allowanc-generate', [ReportController::class, 'cildrenAllowanceGenerate'])->name('reports.children-allowance-generate');
 
+    Route::get('/generate-group-children-allowance', [ReportController::class, 'groupChildrenAllowance'])->name('reports.group-children-allowance');
+    Route::post('/reports-group-children-allowanc-generate', [ReportController::class, 'groupChildrenAllowanceGenerate'])->name('reports.group-children-allowance-generate');
+
+    Route::get('/reports-newspaper', [ReportController::class,'newspaperAllowance'])->name('reports.newspaper-allowance');
+    Route::post('/generate-newspaper-report',[ReportController::class, 'newspaperReportGenerate'])->name('reports.newspaper-allowance-generate');
+    Route::post('get-member-newspaper-allocation',[ReportController::class, 'getMemberNewspaperAllocation'])->name('reports.member-newspaper-allocation');
+   
+    Route::get('/group-newspaper-report',[ReportController::class, 'groupNewspaperAllocation'])->name('reports.group-newspaper-allowance');
+    Route::post('/group-newspaper-report-generate',[ReportController::class, 'groupNewspaperReportGenerate'])->name('reports.group-newspaper-allowance-generate');
+   
     Route::post('/get-member-children', [ReportController::class, 'getMemberChildren'])->name('reports.get-member-children');
 
     //payroll
