@@ -736,7 +736,7 @@ class ReportController extends Controller
         {
             $member_detail = Member::where('id', $member->id)->first();
             $member_children = MemberFamily::where('member_id', $member->id)->first();
-            $total += $request->child1_amount + $request->child2_amount ?? 0;
+            $total += ($member_children->child1_amount ?? 0) + ($member_children->child2_amount ?? 0);
         }
 
         $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members','data','total','bill_no','today'));
@@ -784,8 +784,6 @@ class ReportController extends Controller
             $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
             $total += $amount->amount;
         }
-
-        
 
         $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members','total'));
         return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');

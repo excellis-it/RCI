@@ -183,9 +183,9 @@
                     border: none;
                   "
                 >   {{ $member->name ?? 'N/A'}}<br />
-                    {{ $member_detail->emp_id ?? 'N/A'}}<br />
-                    {{ $member_detail->desigs->designation ?? 'N/A'}}<br />
-                    {{ $member_detail->gpf_number ?? 'N/A'}} / {{ $member_detail->pran_number ?? 'N/A'}}<br /></td>
+                    {{ $member->emp_id ?? 'N/A'}}<br />
+                    {{ $member->desigs->designation ?? 'N/A'}}<br />
+                    {{ $member->gpf_number ?? 'N/A'}} / {{ $member->pran_number ?? 'N/A'}}<br /></td>
                 <td
                   style="
                     font-size: 10px;
@@ -199,7 +199,7 @@
                   "
                 >  
                 {{ $member->memberFamily->child1_name ?? 'N/A'}}<br />
-                {{ $member->memberFamily->child1_name->child1_dob ?? 'N/A'}}<br /></td>
+                {{ $member->memberFamily->child1_dob ?? 'N/A'}}<br /></td>
                 <td
                   style="
                     font-size: 10px;
@@ -214,7 +214,7 @@
                 >
                 {{ $member->memberFamily->child1_scll_name ?? 'N/A'}}<br />
                 {{ $member->memberFamily->child1_class ?? 'N/A'}}<br />
-                {{ $member->memberFamily->child1_academic ?? 'N/A'}}<br />
+                {{ $member->memberFamily->child1_academic_yr ?? 'N/A'}}<br />
                 </td>
                 <td
                   style="
@@ -339,7 +339,9 @@
                 </tr>
                 @else
                 @endif
+                <tr><td style="height: 10px;"></td></tr>
                 @endforeach
+                
               </tbody>
             </table>
           </td>
@@ -447,9 +449,6 @@
     </table>
   </body>
 </html>
-
-
-<div class="page-break"></div>
 
 
 
