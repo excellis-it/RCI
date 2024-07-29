@@ -225,6 +225,11 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
     Route::post('reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
 
+        // gpf withdrawal report
+    Route::get('reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
+    Route::post('reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
+        
+       
 
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
