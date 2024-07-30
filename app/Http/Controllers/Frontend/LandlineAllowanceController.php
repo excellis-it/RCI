@@ -56,7 +56,7 @@ class LandlineAllowanceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|unique:newspaper_allowances',
+            'category_id' => 'required|unique:landline_allowances',
             'mobile_max_allo' => 'required|numeric',
             'landline_max_allo' => 'required|numeric',
             'broad_band_max_allo' => 'required|numeric',
@@ -114,10 +114,10 @@ class LandlineAllowanceController extends Controller
         $landline_allow->landline_max_allo = $request->landline_max_allo;
         $landline_allow->broad_band_max_allo = $request->broad_band_max_allo;
         $landline_allow->total_amount_allo = $request->total_amount_allo;
-        $landline_allow->save();
+        $landline_allow->update();
 
         session()->flash('message', 'Landline updated successfully');
-        return response()->json(['success' => 'Landline updated successfully']);
+        return response()->json(['message' => 'Landline updated successfully']);
     }
 
     /**

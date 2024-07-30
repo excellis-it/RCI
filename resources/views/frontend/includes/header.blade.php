@@ -120,7 +120,7 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Updations<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -145,8 +145,8 @@
                         </ul>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            </li> --}}
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Computations<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -163,8 +163,8 @@
                         </ul>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            </li> --}}
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Floppy<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -197,10 +197,10 @@
                         </ul>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
+            </li> --}}
+            {{-- <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="">PayCertificate</a>
-            </li>
+            </li> --}}
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Reports<span
@@ -242,6 +242,8 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.landline-mobile-allowance')}}" target="_blank">Landline/Mobile Allowance</a>
                             </li>
+
+                            
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.group-newspaper-allowance')}}" target="_blank">Group Newspaper Allowance</a>
@@ -407,6 +409,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('landline-allowance.index') }}">Landline Allowance</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('bag-allowance.index')}}" target="_blank">Bag/Ladies-Purse Allowance</a>
+                            </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -439,7 +445,11 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-newspaper-allowance.index') }}">Newspaper Allowance</a>
+                                    href="{{ route('member-newspaper-allowance.index') }}">Member Newspaper Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('member-bag-allowance.index')}}" target="_blank">Member Purse Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

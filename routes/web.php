@@ -47,6 +47,7 @@ use App\Http\Controllers\Frontend\SectionController;
 use App\Http\Controllers\Frontend\RuleController;
 use App\Http\Controllers\Frontend\NewspaperAllowanceController;
 use App\Http\Controllers\Frontend\LandlineAllowanceController;
+use App\Http\Controllers\Frontend\BagPurseAllowanceController;
 
 
 // member info
@@ -62,6 +63,7 @@ use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
 use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberNewspaperAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberBagAllowanceController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -179,8 +181,16 @@ Route::middleware('permssions')->group(function () {
         'member-family' => MemberFamilyController::class,
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
+        'bag-allowance' => BagPurseAllowanceController::class,
 
     ]);
+
+    Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
+
+    Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
+
+    //landline fetch
+    Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
 
     // newspaper allowance fetch
     Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
@@ -537,6 +547,7 @@ Route::middleware('permssions')->group(function () {
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
+            'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
 
         Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');

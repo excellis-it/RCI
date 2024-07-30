@@ -368,7 +368,7 @@
                       border: 1px solid #000;
                     "
                   >
-                    {{ $member_detail->name ?? 'N/A'}} , {{ $member_detail->desigs->designation ?? 'N/A'}}
+                    ABCD
                   </td>
                   <td
                     style="
@@ -382,7 +382,7 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $month_name ?? 'N/A'}}
+                    Oct-23
                   </td>
                   <td
                     style="
@@ -396,7 +396,7 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $member_all_allowance->landline_allow ?? 'N/A'}}
+                    0.00
                   </td>
                   <td
                     style="
@@ -410,7 +410,7 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $member_all_allowance->mobile_allow ?? 'N/A'}}
+                    591.00
                   </td>
                   <td
                     style="
@@ -424,7 +424,7 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $member_all_allowance->broad_band_allow ?? 'N/A'}}
+                    1000.00
                   </td>
                   <td
                     style="
@@ -438,7 +438,7 @@
                       border: 1px solid #000;
                     "
                   >
-                    {{ $total ?? 0}}
+                    1591.00
                   </td>
                   <td
                     style="
@@ -452,7 +452,7 @@
                       border: 1px solid #000;
                     "
                   >
-                    {{ $landline_allowance->total_amount_allo ?? 'N/A'}}
+                    2655.00
                   </td>
                   <td
                     style="
@@ -466,9 +466,10 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $total ?? 0}}
+                    1591.00
                   </td>
-                  <td 
+                  <td
+                    rowspan="500"
                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -480,7 +481,7 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $total ?? 0}}
+                    4763.00
                   </td>
                   <td
                     style="
@@ -493,7 +494,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     "
-                  >{{$member_personal_detail->landline_no ?? 'N/A'}}</td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -505,11 +506,11 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     "
-                  >{{$member_personal_detail->mobile_no ?? 'N/A'}}
-                    
+                  >
+                    9440432789
                   </td>
                 </tr>
-                {{-- <tr>
+                <tr>
                   <td
                     style="
                       font-size: 10px;
@@ -816,7 +817,469 @@
                   >
                     9440432789
                   </td>
-                </tr> --}}
+                </tr>
+                 <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    2
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    ABCD
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    Oct-23
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    0.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1000.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    2655.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    9440432789
+                  </td>
+                </tr>
+                 <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    2
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    ABCD
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    Oct-23
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    0.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1000.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    2655.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    9440432789
+                  </td>
+                </tr>
+                 <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    2
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    ABCD
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    Oct-23
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    0.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1000.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    2655.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    1591.00
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    9440432789
+                  </td>
+                </tr>
               </tbody>
             </table>
           </td>

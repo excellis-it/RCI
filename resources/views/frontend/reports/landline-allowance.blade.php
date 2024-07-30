@@ -77,6 +77,8 @@ Landline Allowance
                                                         </div>
                                                     </div>
 
+                                                    
+
                                                     <div class="form-group col-md-3 mb-2 emp_status">
                                                         <div class="col-md-12">
                                                             <label>Employee Status</label>
@@ -111,30 +113,31 @@ Landline Allowance
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-3 mb-2 total_allo" style="display:none;">
+                                                    <div class="form-group col-md-3 mb-2 month_drop" style="display:none;">
                                                         <div class="col-md-12">
-                                                            <label>Total Amount</label>
+                                                            <label>Month</label>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <input type="text" name="amount" class="form-control" id="amount">
-                                                        </div>
-                                                        @if ($errors->has('amount'))
+                                                            <select name="month" class="form-select" id="month">
+                                                               <option value="">Select Month</option>
+                                                                <option value="01">January</option>
+                                                                <option value="02">February</option>
+                                                                <option value="03">March</option>
+                                                                <option value="04">April</option>
+                                                                <option value="05">May</option>
+                                                                <option value="06">June</option>
+                                                                <option value="07">July</option>
+                                                                <option value="08">August</option>
+                                                                <option value="09">September</option>
+                                                                <option value="10">October</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">December</option>
+                                                            </select>
+                                                            @if ($errors->has('month'))
                                                                 <div class="error" style="color:red;">
-                                                                    {{ $errors->first('amount') }}</div>
-                                                        @endif
-                                                    </div>
-
-                                                    <div class="form-group col-md-7 mb-2 total_allo" style="display:none;">
-                                                        <div class="col-md-12">
-                                                            <label>Remarks</label>
+                                                                    {{ $errors->first('month') }}</div>
+                                                            @endif
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <input type="text" name="remarks" class="form-control" id="remarks">
-                                                        </div>
-                                                        @if ($errors->has('remarks'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('remarks') }}</div>
-                                                        @endif
                                                     </div>
                                                 </div>
 
@@ -233,12 +236,14 @@ Landline Allowance
             var report_type = $(this).val();
             if (report_type == 'group') {
                 $('.cat_drop').show();
+                $('.month_drop').show();
                 $('.emp_status').hide();
                 $('.member').hide();
                 $('.total_allo').hide();
 
             } else {
                 $('.cat_drop').hide();
+                $('.month_drop').show();
                 $('.emp_status').show();
                 $('.member').show();
                 $('.total_allo').show();
@@ -246,4 +251,6 @@ Landline Allowance
         });
     });
 </script>
+
+
 @endpush

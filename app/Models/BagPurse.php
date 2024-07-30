@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LandlineAllowance extends Model
+class BagPurse extends Model
 {
     use HasFactory;
-
     //category relation
     public function category()
     {

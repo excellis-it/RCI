@@ -14,6 +14,8 @@ use App\Models\MemberPolicyInfo;
 use App\Models\MemberLoan;
 use App\Models\MemberIncomeTax;
 use App\Models\Group;
+use App\Models\LandlineAllowance;
+use App\Models\MemberPersonalInfo;
 use Carbon\Carbon;
 
 use App\Models\SiteLogo;
@@ -911,8 +913,44 @@ class ReportController extends Controller
 
     public function landlineReportGenerate(Request $request)
     {
-        $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate' );
-        return $pdf->download('landline-allowance-report-' . 'all-members' . '.pdf');
+        $request->validate([
+            'report_type' => 'required',
+            //if $request->report_type == 'individual'
+            'member_id' => 'required_if:report_type,individual',
+            'e_status' =>'required_if:report_type,individual',
+            //if $request->report_type == 'group'
+            'category' => 'required_if:report_type,group',
+
+        ]);
+
+        $data = $request->all();
+
+        if($request->report_type == 'individual') {
+            $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+            $member_detail = Member::where('id', $request->member_id)->first();
+            $member_personal_detail = MemberPersonalInfo::where('member_id', $request->member_id)->first();
+            $landline_allowance = LandlineAllowance::where('category_id', $member_detail->category)->orderBy('id','desc')->first() ?? 0;
+            $member_all_allowance = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->month)->first() ?? 0;
+            $total = ($member_all_allowance->landline_allow ?? 0) + ($member_all_allowance->mobile_allow ?? 0) + ($member_all_allowance->broad_band_allow ?? 0);
+            $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail','member_all_allowance','data', 'total','landline_allowance','month_name'));
+            return $pdf->download('landline-allowance-report-' . $member_detail->name . '.pdf');
+
+        }else{
+
+            $members = Member::where('category',$request->category)->get();
+            $total = 0;
+            foreach($members as $member)
+            {
+                $member_credit = MemberCredit::where('member_id', $member->id)->whereMonth('created_at', $request->month)->first();
+                $total_allowance = ($member_credit->landline_allow ?? 0) + ($member_credit->mobile_allow ?? 0) + ($member_credit->broad_band_allow ?? 0);
+                $total += ($member_credit->landline_allow ?? 0) + ($member_credit->mobile_allow ?? 0) + ($member_credit->broad_band_allow ?? 0);
+            }
+
+            $pdf = PDF::loadView('frontend.reports.group-landline-allow-report-generate', compact('members','total'));
+            return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
+        } 
+
+        
     }
     
 }
