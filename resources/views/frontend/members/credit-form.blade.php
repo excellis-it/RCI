@@ -428,44 +428,39 @@
         </div>
 
     </div>
-        
+    
+    <div class="row">
         <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>PUA</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="pua" id="pua"
-                                    value="{{ $member_credit->pua ?? (old('pua') ?? '') }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>PUA</label>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Arrs of Pay & Allowance</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="arrs_pay_allowance" id="arrs_pay_allowance"
-                                    value="{{ $member_credit->arrs_pay_allowance ?? (old('arrs_pay_allowance') ?? '') }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="pua" id="pua"
+                            value="{{ $member_credit->pua ?? (old('pua') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </div>
-       
-        
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Arrs of Pay & Allowance</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="arrs_pay_allowance" id="arrs_pay_allowance"
+                            value="{{ $member_credit->arrs_pay_allowance ?? (old('arrs_pay_allowance') ?? '') }}"
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+        
     <div class="row">
         <div class="col-md-12">
             <div class="form-group mb-2">

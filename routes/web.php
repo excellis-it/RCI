@@ -45,6 +45,9 @@ use App\Http\Controllers\Frontend\TptaController;
 use App\Http\Controllers\Frontend\CghsController;
 use App\Http\Controllers\Frontend\SectionController;
 use App\Http\Controllers\Frontend\RuleController;
+use App\Http\Controllers\Frontend\NewspaperAllowanceController;
+use App\Http\Controllers\Frontend\LandlineAllowanceController;
+
 
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
@@ -58,6 +61,7 @@ use App\Http\Controllers\Frontend\MemberInfo\PensionController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
 use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberNewspaperAllowanceController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -173,8 +177,13 @@ Route::middleware('permssions')->group(function () {
         'cghs' => CghsController::class,
         'rules' => RuleController::class,
         'member-family' => MemberFamilyController::class,
+        'newspaper-allowance' => NewspaperAllowanceController::class,
+        'landline-allowance' => LandlineAllowanceController::class,
 
     ]);
+
+    // newspaper allowance fetch
+    Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
 
     // family member
     Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
@@ -202,6 +211,9 @@ Route::middleware('permssions')->group(function () {
    
     Route::get('/group-newspaper-report',[ReportController::class, 'groupNewspaperAllocation'])->name('reports.group-newspaper-allowance');
     Route::post('/group-newspaper-report-generate',[ReportController::class, 'groupNewspaperReportGenerate'])->name('reports.group-newspaper-allowance-generate');
+
+    Route::get('/reports-landline',[ReportController::class, 'landlineAllocation'])->name('reports.landline-mobile-allowance');
+    Route::post('/generate-landline-report',[ReportController::class, 'landlineReportGenerate'])->name('reports.landline-allowance-generate');
    
     Route::post('/get-member-children', [ReportController::class, 'getMemberChildren'])->name('reports.get-member-children');
 
@@ -524,7 +536,10 @@ Route::middleware('permssions')->group(function () {
             'member-gpf' => MemberGpfController::class,
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
+            'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
         ]);
+
+        Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
 
         // leave type
         Route::prefix('leave-type')->group(function () {
