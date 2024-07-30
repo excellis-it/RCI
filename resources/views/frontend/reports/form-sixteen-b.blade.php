@@ -42,7 +42,7 @@
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
                                                         
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Members</label>
                                                             </div>
@@ -64,14 +64,14 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Year</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <select name="report_year" id="report_year" class="form-select">
                                                                     <option value="">Select Year</option>
-                                                                    @foreach ($financialYears as $financialYear)
+                                                                    @foreach ($assessment_year as $financialYear)
                                                                         <option value="{{ $financialYear }}">
                                                                             {{ $financialYear }}
                                                                         </option>
@@ -85,8 +85,38 @@
                                                             </div>
                                                         </div>
 
-                                                        
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-12">
+                                                                    <label>Income from House Property</label>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <input type="text" name="house_property_income" class="form-control" id="house_property_income" value="{{ old('house_property_income') }}">
+                                                                    @if ($errors->has('house_property_income'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('house_property_income') }}</div>
+                                                                    @endif
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
+                                                        
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-12">
+                                                                    <label>Income from Other Source</label>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <input type="text" name="other_income" class="form-control" id="other_income" value="{{ old('other_income') }}">
+                                                                    @if ($errors->has('other_income'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('other_income') }}</div>
+                                                                    @endif
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -96,12 +126,11 @@
                                 </div>
 
                                 {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-8">
+                                
                                         <div class="row justify-content-end">
-                                            <div class="col-md-3">
+                                            <div class="col-md-3 col-lg-2">
                                                 <div class="row justify-content-end">
-                                                    <div class="form-group col-md-6 mb-2">
+                                                    <div class="form-group col-md-12 mb-2">
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
                                                     
@@ -111,8 +140,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </form>
                         </div>
                     </div>

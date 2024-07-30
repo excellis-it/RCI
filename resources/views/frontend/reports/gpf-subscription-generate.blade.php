@@ -85,7 +85,7 @@
                                 font-weight: 400;
                                 color: #000;
                                 text-align: center; ">
-                                    In Respect Of <strong>{{ $member->name }} {{ $member->desigs->designation }}</strong>
+                                    In Respect Of <strong>{{ $member->name ?? '' }} {{ $member->desigs->designation ?? '' }}</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -94,7 +94,7 @@
                                 font-weight: 400;
                                 color: #000;
                                 text-align: center;  padding: 0px 5px 30px 5px;">
-                                    GPF NO: <strong>{{ $member_core_info->gpf_acc_no }}</strong>
+                                    GPF NO: <strong>{{ $member_core_info->gpf_acc_no ?? '' }}</strong>
                                 </td>
                             </tr>
                         </tbody>
@@ -116,8 +116,8 @@
                             <tr>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">{{ $loop->iteration }}</td>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">{{ \Carbon\Carbon::parse($gpfdetail->created_at)->format('mY') }}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">{{ $gpfdetail->monthly_subscription }}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">{{ $gpfdetail->refund }}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">{{ $gpfdetail->monthly_subscription ?? '' }}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">{{ $gpfdetail->refund ?? '' }}</td>
                             </tr>
                             @endforeach
                             
@@ -126,9 +126,9 @@
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;"></td>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;"><strong>TOTAL</strong>
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;"><strong>{{ $total_sub_amt }}</strong>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;"><strong>{{ $total_sub_amt ?? 0 }}</strong>
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;"><strong>{{ $total_refund }}</strong></td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;"><strong>{{ $total_refund ?? 0 }}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -168,7 +168,7 @@
                                 color: #000;
                                 text-align: left; padding-left: 10px;">
                                 @php $total_amt = $gpfData->closing_balance + $total_sub_amt; @endphp
-                                    Rs. {{ $total_amt }} /-
+                                    Rs. {{ $total_amt ?? 0 }} /-
                                 </td>
                             </tr>
                             <tr>
@@ -184,7 +184,7 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: left; padding-left: 10px;">
-                                    Rs. {{ $total_refund }} /-
+                                    Rs. {{ $total_refund ?? 0 }} /-
                                 </td>
                             </tr>
                             <tr>
@@ -201,7 +201,7 @@
                                 color: #000;
                                 text-align: left; padding-left: 10px;">
                                 @php $net_amt = $total_amt - $total_refund; @endphp
-                                    Rs. {{ $net_amt }} /-
+                                    Rs. {{ $net_amt ?? 0 }} /-
                                 </td>
                             </tr>
                         </tbody>

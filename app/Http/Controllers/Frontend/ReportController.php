@@ -1004,7 +1004,9 @@ class ReportController extends Controller
 
         if($member_retirement_info->retirement_type == 'voluntary') {
             $retirement_type = 'VRS';
-        } 
+        } else {
+            $retirement_type = '';
+        }
 
         $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage'));
         return $pdf->download('terminal-benefits-' . $member->name . '.pdf');
@@ -1015,7 +1017,7 @@ class ReportController extends Controller
         $members = Member::all();
         $assessment_year = Helper::getFinancialYears();
 
-        return view('frontend.reports.form-sixteen-b', compact('members', 'assessment_year', 'current_financial_year'));
+        return view('frontend.reports.form-sixteen-b', compact('members', 'assessment_year'));
 
     }
 
@@ -1029,7 +1031,8 @@ class ReportController extends Controller
         $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
         $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
 
-        
+        $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->first();
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();        
 
 
         $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'financial_year', 'member_credit_data'));
