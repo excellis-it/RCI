@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LandlineAllowance extends Model
+class MemberBagPurse extends Model
 {
     use HasFactory;
 
-    //category relation
-    public function category()
+    //member relation
+    public function member()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Member::class);
     }
 }

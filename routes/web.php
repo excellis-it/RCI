@@ -47,6 +47,7 @@ use App\Http\Controllers\Frontend\SectionController;
 use App\Http\Controllers\Frontend\RuleController;
 use App\Http\Controllers\Frontend\NewspaperAllowanceController;
 use App\Http\Controllers\Frontend\LandlineAllowanceController;
+use App\Http\Controllers\Frontend\BagPurseAllowanceController;
 
 
 // member info
@@ -63,6 +64,7 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberRetirementInfoController as MemberRetirementController;
 use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberNewspaperAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberBagAllowanceController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -180,8 +182,16 @@ Route::middleware('permssions')->group(function () {
         'member-family' => MemberFamilyController::class,
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
+        'bag-allowance' => BagPurseAllowanceController::class,
 
     ]);
+
+    Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
+
+    Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
+
+    //landline fetch
+    Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
 
     // newspaper allowance fetch
     Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
@@ -196,6 +206,9 @@ Route::middleware('permssions')->group(function () {
        // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
+
+    Route::get('/bag-purse-allowance-report', [ReportController::class, 'bagPurseAllowanceReport'])->name('reports.bag-purse-allowance');
+    Route::post('/bag-purse-allowance-report-generate', [ReportController::class, 'bagPurseAllowanceReportGenerate'])->name('reports.bag-allowance-generate');
        // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
@@ -555,10 +568,12 @@ Route::middleware('permssions')->group(function () {
             'member-pension' => PensionController::class,
             'member-retirement' => MemberRetirementController::class,
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
+            'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
 
         Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
-
+        Route::get('/member-bag-fetch',[MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');
+        Route::post('/member-bag-allotment-fetch',[MemberBagAllowanceController::class, 'fetchBagAllotment'])->name('get-member-bag-allowance');
         // leave type
         Route::prefix('leave-type')->group(function () {
             Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Landline List
+   Bag Allowance List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Landline Listing</h3>
+                    <h3>Bag Allowance Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Landline Listing</span></li>
+                        <li><span class="bread-blod">Bag Allowance Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.landline-allowance.form')
+                            @include('frontend.bag-purse-allowance.form')
                         </div>
 
                         <div class="row">
@@ -48,26 +48,18 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
                                                     style="cursor: pointer"> <span id="percentage_icon"><i
                                                             class="fa fa-arrow-down">Category</i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                    style="cursor: pointer">Mobile max-allocation <span id="year_icon"><i
+                                                    style="cursor: pointer">Entitle Amount<span id="year_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                            style="cursor: pointer">Landline max-allocation <span id="year_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                            style="cursor: pointer">Broad-band max-allocation <span id="year_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" 
-                                                    style="cursor: pointer">Total allocation  </th>
+                                                            <th>Year</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.landline-allowance.table')
+                                            @include('frontend.bag-purse-allowance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -90,7 +82,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Landline!",
+                    text: "To delete this bag purse!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -113,7 +105,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('landline-allowance.fetch-data') }}",
+                    url: "{{ route('bag-allowance.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -178,7 +170,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#landline-allowance-create-form').submit(function(e) {
+            $('#bag-purse-allowance-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -233,7 +225,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#landline-allowance-edit-form', function(e) {
+            $(document).on('submit', '#bag-purse-allowance-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();

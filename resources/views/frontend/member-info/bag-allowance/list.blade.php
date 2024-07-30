@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Landline List
+   Member Bag Allowance
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Landline Listing</h3>
+                    <h3>Member Bag Allowance Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Landline Listing</span></li>
+                        <li><span class="bread-blod">Member Bag Allowance</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.landline-allowance.form')
+                            @include('frontend.member-info.bag-allowance.form')
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -49,25 +49,29 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
-                                                    style="cursor: pointer"> <span id="percentage_icon"><i
-                                                            class="fa fa-arrow-down">Category</i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                    style="cursor: pointer">Mobile max-allocation <span id="year_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
+                                                    style="cursor: pointer">Member Name <span id="leave_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                            style="cursor: pointer">Landline max-allocation <span id="year_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                            style="cursor: pointer">Broad-band max-allocation <span id="year_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" 
-                                                    style="cursor: pointer">Total allocation  </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                    style="cursor: pointer">Year<span id="leave_type_abbr_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                    style="cursor: pointer">Entitle Amount<span id="leave_type_abbr_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                            style="cursor: pointer">Bill Amount<span id="leave_type_abbr_icon"><i
+                                                                    class="fa fa-arrow-down"></i></span> </th>       
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                                    style="cursor: pointer">Net Amount<span id="leave_type_abbr_icon"><i
+                                                                            class="fa fa-arrow-down"></i></span> </th>                                     
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                                            style="cursor: pointer">Remarks<span id="leave_type_abbr_icon"><i
+                                                                                    class="fa fa-arrow-down"></i></span> </th>   
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.landline-allowance.table')
+                                            @include('frontend.member-info.bag-allowance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -90,7 +94,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Landline!",
+                    text: "To delete this family details!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -113,7 +117,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('landline-allowance.fetch-data') }}",
+                    url: "{{ route('member-bag-allowance.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -178,7 +182,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#landline-allowance-create-form').submit(function(e) {
+            $('#member-bag-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -233,7 +237,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#landline-allowance-edit-form', function(e) {
+            $(document).on('submit', '#member-bag-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -259,4 +263,31 @@
             });
         });
     </script>
+
+    <script>
+       
+        $(document).ready(function() {
+            $('#member_id').change(function() {
+                var member_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('get-member-bag-allowance') }}",
+                    type: 'POST',
+                    data: {
+                        member_id: member_id
+                    },
+                    headers:{
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    
+                    success: function(response) {
+                        $('#entitle_amount').val(response.data.entitle_amount);
+                    
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
+        </script>
 @endpush

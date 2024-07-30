@@ -10,7 +10,7 @@
       cellpadding="0"
       cellspacing="0"
       bgcolor="#ffffff"
-      style="border-radius: 0px; margin: 0 auto; text-align: center"
+      style="border-radius: 0px; margin: 0 auto"
     >
       <tbody>
         <tr>
@@ -26,165 +26,162 @@
                 <tr>
                   <td
                     style="
-                      width: 50px;
-                      font-size: 14px;
-                      line-height: 18px;
+                      font-size: 10px;
+                      line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      border: 1px solid #000;
+                      text-decoration: underline;
                     "
-                  ></td>
-                  <td
-                    colspan="11"
+                  >
+                    Details of reimbursement of expendenture for perches of
+                    Briefcase, official Bag / Ladies for official use.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="height: 20px"></td>
+        </tr>
+        <tr>
+          <td style="padding: 0 0px">
+            <table
+              width="100%"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              align="center"
+            >
+              <thead>
+                <tr>
+                  <th
                     style="
-                      font-size: 14px;
-                      line-height: 18px;
+                      font-size: 10px;
+                      line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
-                      text-transform: uppercase;
                       border: 1px solid #000;
+                      text-transform: uppercase;
                     "
                   >
-                    CLAIM TOWARDS REIMBURSEMENT OF LANDLINE/MOBILE/BROAD-BAND
-                    BILLS OF SCIENTISTS OF CHESS, HYDERABAD
-                  </td>
+                    SN.
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Name
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Designation
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Pay Matrix Level
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Entittled Amount
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Bill Amount
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Net Amount to Disbursed
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Remarks
+                  </th>
                 </tr>
-                <tr>
-                  <td
-                    rowspan="2"
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  >
-                    S.No.
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  ></td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  ></td>
-                  <td
-                    colspan="2"
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: right;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Paid Amount
-                  </td>
-                  <td
-                    colspan="2"
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Including Tax
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  ></td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  ></td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  ></td>
-                  <td
-                    colspan="2"
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    "
-                  ></td>
-                </tr>
+              </thead>
+              <tbody>
                 <tr>
                   <td
                     style="
@@ -196,9 +193,10 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
                   >
-                    Name & Designation Shril Smt/Ms.
+                    1.
                   </td>
                   <td
                     style="
@@ -210,10 +208,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Month
-                  </td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -224,10 +221,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Landline
-                  </td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -238,10 +234,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Mobile
-                  </td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -252,10 +247,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Broad band*
-                  </td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -266,10 +260,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Total Amount
-                  </td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -280,10 +273,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Entitlement
-                  </td>
+                  ></td>
                   <td
                     style="
                       font-size: 10px;
@@ -294,52 +286,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    Amount Claimed
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Total Amount
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Landline Number
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Mobile Number
-                  </td>
+                  ></td>
                 </tr>
                 <tr>
                   <td
@@ -352,9 +301,10 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
                   >
-                    1
+                    2.
                   </td>
                   <td
                     style="
@@ -366,286 +316,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
-                    "
-                  >
-                    {{ $member_detail->name ?? 'N/A'}} , {{ $member_detail->desigs->designation ?? 'N/A'}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $month_name ?? 'N/A'}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $member_all_allowance->landline_allow ?? 'N/A'}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $member_all_allowance->mobile_allow ?? 'N/A'}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $member_all_allowance->broad_band_allow ?? 'N/A'}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    {{ $total ?? 0}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    {{ $landline_allowance->total_amount_allo ?? 'N/A'}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $total ?? 0}}
-                  </td>
-                  <td 
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $total ?? 0}}
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >{{$member_personal_detail->landline_no ?? 'N/A'}}</td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >{{$member_personal_detail->mobile_no ?? 'N/A'}}
-                    
-                  </td>
-                </tr>
-                {{-- <tr>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    2
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    ABCD
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Oct-23
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    0.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    591.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    1000.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    1591.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    2655.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    1591.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
+                      height: 10px;
                     "
                   ></td>
                   <td
@@ -658,10 +329,74 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
-                  >
-                    9440432789
-                  </td>
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
                 </tr>
                 <tr>
                   <td
@@ -674,9 +409,10 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
                     "
                   >
-                    3
+                    3.
                   </td>
                   <td
                     style="
@@ -688,118 +424,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
-                    "
-                  >
-                    ABCD
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    Oct-23
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    0.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    591.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    1000.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    1591.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    2655.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                    1591.00
-                  </td>
-                  <td
-                    style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
+                      height: 10px;
                     "
                   ></td>
                   <td
@@ -812,11 +437,831 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
                     "
                   >
-                    9440432789
+                    4.
                   </td>
-                </tr> --}}
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >
+                    5.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >
+                    6.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >
+                    7.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >
+                    8.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >
+                    9.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >
+                    10.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  ></td>
+                </tr>
               </tbody>
             </table>
           </td>
