@@ -95,7 +95,7 @@
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="row justify-content-end">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="row justify-content-end">
                         <div class="form-group col-md-3 mb-2">
                             <a href="{{ route('members.create') }}"><button type="button"

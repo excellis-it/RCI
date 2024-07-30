@@ -39,7 +39,7 @@
       <tr>
         <td style="font-size: 16px; line-height: 14px; font-weight: 500; color: #000; text-align: center; padding: 0px 5px 10px !important; margin: 0px 0px !important;
           text-transform: uppercase;">
-          Newspaper allowence per parson - {{ $total ?? 0 }}/-
+          Newspaper allowence for all parson - {{ $total ?? 0 }}/-
         </td>
       </tr>
       
@@ -117,6 +117,7 @@
               </tr>
             </thead>
             <tbody>
+              @if(isset($members) && count($members) > 0)
                 @foreach($members as $member)
               <tr>
                 <td style="
@@ -197,6 +198,86 @@
                 </td>
               </tr>
               @endforeach
+              @else
+              <tr>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
+                  0
+                </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
+                N/A
+                </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">N/A
+              
+              </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">0
+                </td>
+                
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-right: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
+              N/A
+                </td>
+              </tr>
+              @endif
 
             </tbody>
           </table>

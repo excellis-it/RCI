@@ -105,20 +105,16 @@
                                 </div>
 
                                 {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-8">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-6 col-lg-2">
                                         <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row justify-content-end">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Generate</button>
-                                                    </div>
-                                                    
-                                                    {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
-                                                </div>
+                                            <div class="form-group mb-2">
+                                                <button type="submit" class="listing_add">Generate</button>
                                             </div>
+                                            
+                                            {{-- <div class="form-group col-md-6 mb-2">
+                                                <button type="submit" class="listing_exit">Cancel</button>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>

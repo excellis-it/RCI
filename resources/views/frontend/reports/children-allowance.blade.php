@@ -41,8 +41,44 @@
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-                                                        
+
                                                         <div class="form-group col-md-3 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Report Type</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="report_type" class="form-select" id="report_type">
+                                                                    <option value="">Select Type</option>
+                                                                    <option value="individual">Individual</option>
+                                                                    <option value="group">Group(Category)</option>
+                                                                </select>
+                                                                @if ($errors->has('report_type'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('report_type') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-3 mb-2 cat_drop" style="display:none;">
+                                                            <div class="col-md-12">
+                                                                <label>Category</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="category" class="form-select" id="category">
+                                                                    @foreach($categories as $category)
+                                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @if ($errors->has('category'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('category') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-3 mb-2 emp_status">
                                                             <div class="col-md-12">
                                                                 <label>Employee Status</label>
                                                             </div>
@@ -55,7 +91,7 @@
                                                                 <span id="e_status-error" class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-3 mb-2">
+                                                        <div class="form-group col-md-3 mb-2 member">
                                                             <div class="col-md-12">
                                                                 <label>Members</label>
                                                             </div>
@@ -199,5 +235,28 @@
             
         });
     });
+    </script>
+
+    <script>
+        // report_type change event
+        $(document).ready(function() {
+            $('#report_type').change(function() {
+                var report_type = $(this).val();
+                if(report_type == 'group'){
+                    $('.cat_drop').show();
+                    $('.emp_status').hide();
+                    $('.member').hide();
+                    $('#children_list').hide();
+
+                }else{
+                    $('.cat_drop').hide();
+                    $('.emp_status').show();
+                    $('.member').show();
+                    $('#children_list').show();
+
+                }
+            });
+        });
+
     </script>
 @endpush

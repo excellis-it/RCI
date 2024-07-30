@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-Newspaper Allowance
+Landline Allowance
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@ Newspaper Allowance
         <div class="d-flex">
             <div class="arrow_left"><a href="{{ route('members.index') }}" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
             <div class="">
-                <h3>Newspaper Allowance Generate</h3>
+                <h3>Landline Allowance Generate</h3>
                 <ul class="breadcome-menu mb-0">
                     <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                    <li><span class="bread-blod">Newspaper Allowance</span></li>
+                    <li><span class="bread-blod">Landline Allowance</span></li>
                 </ul>
             </div>
         </div>
@@ -31,7 +31,7 @@ Newspaper Allowance
             <div class="card w-100">
                 <div class="card-body">
                     <div id="form">
-                        <form action="{{ route('reports.newspaper-allowance-generate') }}" method="POST">
+                        <form action="{{ route('reports.landline-allowance-generate') }}" method="POST">
                             @csrf
 
                             <div class="row">
@@ -102,7 +102,6 @@ Newspaper Allowance
                                                         </div>
                                                         <div class="col-md-12">
                                                             <select name="member_id" class="form-select" id="member_id">
-                                                               
                                                             </select>
 
                                                             @if ($errors->has('member_id'))

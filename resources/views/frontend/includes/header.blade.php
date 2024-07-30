@@ -229,18 +229,23 @@
                                 href="{{ route('reports.children-allowance')}}" target="_blank">Children Allowance</a>
                             </li>
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.group-children-allowance')}}" target="_blank">Children Group Allowance</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.newspaper-allowance')}}" target="_blank">Newspaper Allowance</a>
                             </li>
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.group-newspaper-allowance')}}" target="_blank">Group Newspaper Allowance</a>
+                                href="{{ route('reports.landline-mobile-allowance')}}" target="_blank">Landline/Mobile Allowance</a>
                             </li>
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.group-newspaper-allowance')}}" target="_blank">Group Newspaper Allowance</a>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.salary-certificate')}}" target="_blank">Salary Certificate</a>
@@ -415,6 +420,16 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('newspaper-allowance.index') }}">Newspaper Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('landline-allowance.index') }}">Landline Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pension-rate.index') }}">Pension Rates</a>
                             </li>
 
@@ -441,6 +456,10 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-alloted-leave.index') }}">Member Alloted Leave</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-newspaper-allowance.index') }}">Newspaper Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
