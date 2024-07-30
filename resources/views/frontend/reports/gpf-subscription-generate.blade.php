@@ -65,8 +65,8 @@
                                     Calculation Statement Showing The Recovery Made Towards GPF <br> Subscription &
                                     Advance
                                     For the Period
-                                    From {{ \Carbon\Carbon::parse($from_month)->format('M') }}, {{ \Carbon\Carbon::parse($from_year)->format('Y') }} To
-                                    {{ \Carbon\Carbon::parse($to_month)->format('M') }}, {{ \Carbon\Carbon::parse($to_year)->format('Y') }}
+                                    From {{ \Carbon\Carbon::parse($start_date)->format('M') }}, {{ \Carbon\Carbon::parse($start_date)->format('Y') }} To
+                                    {{ \Carbon\Carbon::parse($end_date)->format('M') }}, {{ \Carbon\Carbon::parse($end_date)->format('Y') }}
                                 </td>
                             </tr>
                             <tr>
@@ -221,7 +221,7 @@
                 text-align: center;
                 padding: 30px 5px 0px 5px
                 ">
-                    (Rupees: <span style="text-decoration: underline;">{{$words}}</span> Only)
+                    (Rupees: <span style="text-decoration: underline;">{{$words}}</span>)
                 </td>
             </tr>
             <tr>
@@ -235,7 +235,7 @@
                                 color: #000;
                                 text-align: left;">Center For High Energy Systems and Science <br>
                                     OLD RCI UTILITY BUILDING, RCI CAMPUS, PO <br> VIGYANAKANCHA <br>
-                                    Date: 22-Sep-2023
+                                    Date: {{ \Carbon\Carbon::now()->format('d-M-Y') }}
                                 </td>
                                 <td style="font-size: 16px;
                                 line-height: 18px;

@@ -31,6 +31,7 @@ use App\Models\Category;
 use App\Models\MemberFamily;
 use App\Models\DebitVoucherDetail;
 use App\Models\MemberGpf;
+use App\Models\MemberRetirementInfo;
 
 
 class ReportController extends Controller
@@ -789,7 +790,7 @@ class ReportController extends Controller
         $member_core_info = MemberCoreInfo::where('member_id', $member_id)->first();
         
 
-        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt'));
+        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt', 'start_date', 'end_date'));
         return $pdf->download('gpf-subscription-' . $member->name . '.pdf');
     }
 
@@ -933,6 +934,55 @@ class ReportController extends Controller
         $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members','total'));
         return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
 
+    }
+
+    public function terminalBenefits()
+    {
+        $members = Member::whereHas('memberRetirementInfo')->with('memberRetirementInfo')->get();
+
+        return view('frontend.reports.terminal-benefits', compact('members'));
+    }
+
+    public function terminalBenefitsGenerate(Request $request) 
+    {
+        $member_id = $request->member_id;
+        $member = Member::where('id', $member_id)->with('memberRetirementInfo')->first();
+        $member_retirement_info = MemberRetirementInfo::where('member_id', $member_id)->first();
+        $member_credit_data = MemberCredit::where('member_id', $member_id)->latest()->first();
+        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+
+        if($member_retirement_info->retirement_type == 'voluntary') {
+            $retirement_type = 'VRS';
+        } 
+
+        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage'));
+        return $pdf->download('terminal-benefits-' . $member->name . '.pdf');
+    }
+
+    public function formSixteenB()
+    {
+        $members = Member::all();
+        $assessment_year = Helper::getFinancialYears();
+
+        return view('frontend.reports.form-sixteen-b', compact('members', 'assessment_year', 'current_financial_year'));
+
+    }
+
+    public function formSixteenBGenerate(Request $request)
+    {
+        $member = Member::where('id', $request->member_id)->first();
+        $assessment_year = $request->report_year;
+        $current_financial_year = date('Y') . '-' . (date('Y') + 1);
+
+        [$startYear, $endYear] = explode('-', $request->report_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
+
+        
+
+
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'financial_year', 'member_credit_data'));
+        return $pdf->download('form-sixteen-b-' . $member->name . '.pdf');
     }
     
 }

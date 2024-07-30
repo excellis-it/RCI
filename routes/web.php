@@ -57,7 +57,7 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
-use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberRetirementInfoController as MemberRetirementController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -233,7 +233,17 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
     Route::post('reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
 
-        // gpf advance report
+        // terminal benefits report
+    Route::get('reports-terminal-benefits', [ReportController::class, 'terminalBenefits'])->name('reports.terminal-benefits');
+    Route::post('reports-terminal-benefits-generate', [ReportController::class, 'terminalBenefitsGenerate'])->name('reports.terminal-benefits-generate');
+
+        // form 16 b
+    Route::get('reports-form-16b', [ReportController::class, 'formSixteenB'])->name('reports.form-16b');
+    Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');
+
+        // form 16 a
+
+        
         
        
 
@@ -530,6 +540,7 @@ Route::middleware('permssions')->group(function () {
             'member-gpf' => MemberGpfController::class,
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
+            'member-retirement' => MemberRetirementController::class,
         ]);
 
         // leave type
@@ -571,6 +582,9 @@ Route::middleware('permssions')->group(function () {
 
         // pension
         Route::post('/get-member-salary-detail', [PensionController::class, 'getMemberSalaryDetail'])->name('member-pension.get-member-salary-detail');
+
+        // retirement
+        Route::get('/member-retirement-fetch-data', [MemberRetirementController::class, 'fetchData'])->name('member-retirement.fetch-data');
 
     });
 

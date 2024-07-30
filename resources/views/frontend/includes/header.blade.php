@@ -281,6 +281,16 @@
                                     href="{{ route('reports.gpf-subscription')}}">GPF Subscription</a>
                             </li>
 
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.terminal-benefits')}}">Terminal Benefit</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.form-16b')}}">Form 16 (Part B)</a>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -449,6 +459,11 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-gpf.index') }}">GPF Management</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-retirement.index') }}">Retirement Info</a>
                             </li>
 
                             {{-- <li class="mb-2">

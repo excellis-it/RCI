@@ -148,6 +148,11 @@ class Member extends Model
     {
         return $this->hasOne(MemberNewspaperAllowance::class, 'member_id');
     }
+
+    public function memberRetirementInfo()
+    {
+        return $this->hasMany(MemberRetirementInfo::class, 'member_id');
+    }
     
 
     
