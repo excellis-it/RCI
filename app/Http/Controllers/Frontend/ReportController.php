@@ -678,9 +678,13 @@ class ReportController extends Controller
     {
         // dd($request->all());
         $type = $request->type;
-        $year = $request->report_year;
+        if($request->type == 'individual') {
+            $year = $request->report_year;
+        } else {
+            $year = $request->report_year_group;
+        }
 
-        [$startYear, $endYear] = explode('-', $request->report_year);
+        [$startYear, $endYear] = explode('-', $year);
         $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
         $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
 

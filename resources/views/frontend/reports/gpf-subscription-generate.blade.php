@@ -167,7 +167,7 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: left; padding-left: 10px;">
-                                @php $total_amt = $gpfData->closing_balance + $total_sub_amt; @endphp
+                                @php $total_amt = ($gpfData->closing_balance ?? 0) + $total_sub_amt; @endphp
                                     Rs. {{ $total_amt ?? 0 }} /-
                                 </td>
                             </tr>
