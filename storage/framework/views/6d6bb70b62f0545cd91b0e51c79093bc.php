@@ -26,14 +26,14 @@
 
 
     <div class="">
-       
+
             <div class="card-wrap">
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
                         <a href="<?php echo e(route('cash-payments.index')); ?>">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Public Fund</h5> 
+                                    <h5 class="card-title">Public Fund</h5>
                                 </div>
                             </div>
                         </a>
@@ -49,18 +49,22 @@
                     </div>
                     
                     <div class="col-lg-3 col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Income tax</h5> 
+                        <a href="<?php echo e(route('arrears.index')); ?>">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Income tax</h5>
+                                </div>
                             </div>
-                        </div>
+                        </a>
+
                     </div>
                 </div>
             </div>
             <!-- Add more cards as needed -->
         </div>
-   
+
     </div>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('frontend.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp53\htdocs\RCI\resources\views/frontend/dashboard.blade.php ENDPATH**/ ?>

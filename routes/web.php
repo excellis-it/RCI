@@ -604,7 +604,7 @@ Route::middleware('permssions')->group(function () {
             'member-gpf' => MemberGpfController::class,
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
-            'tada-advance'=>TaDaAdvanceController::class
+            'tada-advance'=>TaDaAdvanceController::class,
             'member-retirement' => MemberRetirementController::class,
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
             'member-bag-allowance' => MemberBagAllowanceController::class,

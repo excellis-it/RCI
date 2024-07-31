@@ -93,87 +93,10 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Updations<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Individual</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Negative Payment</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Attendence</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">QtrInfo</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Computations<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Group Updation</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Pay Computation</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Floppy<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Bank</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Bank Loan</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">LIC</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">ITAV</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">CDA Loan</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">CDA</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="">PayCertificate</a>
-            </li>
+            
+            
+            
+            
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Reports<span
@@ -183,7 +106,7 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="<?php echo e(route('reports.payslip')); ?>" target="_blank">Payslip</a>
+                                    href="<?php echo e(route('reports.payslip')); ?>" >Payslip</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -191,28 +114,87 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="<?php echo e(route('reports.paybill')); ?>" target="_blank">Paybill</a>
+                                href="<?php echo e(route('reports.paybill')); ?>" >Paybill</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="<?php echo e(route('reports.payroll')); ?>" target="_blank">Payroll</a>
+                                href="<?php echo e(route('reports.payroll')); ?>" >Payroll</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="<?php echo e(route('reports.salary-certificate')); ?>" target="_blank">Salary Certificate</a>
+                                href="<?php echo e(route('reports.children-allowance')); ?>" >Children Allowance</a>
                             </li>
+
+                            
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="<?php echo e(route('reports.bonus-schedule')); ?>" target="_blank">Bonus & Dress Allowance</a>
+                                href="<?php echo e(route('reports.newspaper-allowance')); ?>" >Newspaper Allowance</a>
                             </li>
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="<?php echo e(route('reports.last-pay-certificate')); ?>" target="_blank">Last Pay Certificate</a>
+                                href="<?php echo e(route('reports.landline-mobile-allowance')); ?>" >Landline/Mobile Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="<?php echo e(route('reports.bag-purse-allowance')); ?>" >Bag/Ladies Purse</a>
                             </li>
                             
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="<?php echo e(route('reports.pl-withdrawl')); ?>" target="_blank">PL Withdrawl</a>
+                                href="<?php echo e(route('reports.salary-certificate')); ?>" >Salary Certificate</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="<?php echo e(route('reports.bonus-schedule')); ?>" >Bonus & Dress Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="<?php echo e(route('reports.last-pay-certificate')); ?>" >Last Pay Certificate</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="<?php echo e(route('reports.professional-update-allowance')); ?>" >Professional Update Allowance</a>
+                            </li>
+                            
+                            
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('reports.quaterly-tds')); ?>">Quaterly TDS Report</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('reports.gpf-withdrawal')); ?>">GPF Withdrawal</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('reports.gpf-subscription')); ?>">GPF Subscription</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('reports.terminal-benefits')); ?>">Terminal Benefit</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('reports.form-16b')); ?>">Form 16 (Part B)</a>
+                            </li>
+
+                            
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('ltc-advance')); ?>">Ltc Advance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('ltc-advance-settlement')); ?>">Ltc Advance Settlement</a>
                             </li>
 
                         </ul>
@@ -325,6 +307,20 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('newspaper-allowance.index')); ?>">Newspaper Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('landline-allowance.index')); ?>">Landline Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="<?php echo e(route('bag-allowance.index')); ?>" >Bag/Ladies-Purse Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="<?php echo e(route('pension-rate.index')); ?>">Pension Rates</a>
                             </li>
                             <li class="mb-2">
@@ -358,7 +354,19 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('member-newspaper-allowance.index')); ?>">Member Newspaper Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="<?php echo e(route('member-bag-allowance.index')); ?>" target="_blank">Member Purse Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="<?php echo e(route('member-leaves.index')); ?>">Member Leave</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('member-family.index')); ?>">Member Family info</a>
                             </li>
 
                             <li class="mb-2">
@@ -377,6 +385,11 @@
                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="<?php echo e(route('tada-plus.index')); ?>">TA/DA Plus Claim</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="<?php echo e(route('member-retirement.index')); ?>">Retirement Info</a>
                             </li>
 
                             
