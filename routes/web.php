@@ -197,6 +197,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('/ltc-advance', [ReportController::class, 'ltcAdvanceReport'])->name('ltc-advance');
     Route::get('/ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlementReport'])->name('ltc-advance-settlement');
 
+    Route::post('/ltc-advance-report', [ReportController::class, 'ltcAdvanceReportGenerate'])->name('ltc-advance-report-generate');
+
     //landline fetch
     Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
     // newspaper allowance fetch
