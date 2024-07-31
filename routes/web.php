@@ -185,21 +185,22 @@ Route::middleware('permssions')->group(function () {
         'bag-allowance' => BagPurseAllowanceController::class,
 
     ]);
-
+    
+    //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
-
     Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
 
     //ltc routes
     Route::get('/reports-ltc-advance', [ReportController::class, 'ltcAdvance'])->name('reports.ltc-advance');
     Route::get('/reports-ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlement'])->name('reports.ltc-advance-settlement');
 
+    Route::get('/ltc-advance', [ReportController::class, 'ltcAdvanceReport'])->name('ltc-advance');
+    Route::get('/ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlementReport'])->name('ltc-advance-settlement');
+
     //landline fetch
     Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
-
     // newspaper allowance fetch
     Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
-
     // family member
     Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
 
@@ -272,10 +273,6 @@ Route::middleware('permssions')->group(function () {
     Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');
 
         // form 16 a
-
-        
-        
-       
 
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
@@ -462,9 +459,7 @@ Route::middleware('permssions')->group(function () {
 
     //member recovery original route
     Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
-
     // members.loan.get-loan
-
 
     //member expectation route
     Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');

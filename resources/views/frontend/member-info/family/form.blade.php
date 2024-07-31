@@ -49,7 +49,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Spouse :</label>
+                                <label>Spouse:</label>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="child1_amount" id="child1_amount" value="{{ $member_fam_edit->child1_amount}}" placeholder="">
+                                <input type="number" min="0" class="form-control" name="child1_amount" id="child1_amount" value="{{ $member_fam_edit->child1_amount}}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -258,7 +258,7 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="child2_amount" id="child2_amount" value="{{ $member_fam_edit->child2_amount}}" placeholder="">
+                                <input type="number" min="0" class="form-control" name="child2_amount" id="child2_amount" value="{{ $member_fam_edit->child2_amount}}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -450,7 +450,7 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="child1_amount" id="child1_amount" placeholder="">
+                                <input type="number" min="0" class="form-control"  name="child1_amount" id="child1_amount" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -535,7 +535,7 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="child2_amount" id="child2_amount" placeholder="">
+                                <input type="number" min="0" class="form-control" name="child2_amount" id="child2_amount" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

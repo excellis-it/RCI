@@ -53,7 +53,7 @@ class MemberRetirementInfoController extends Controller
     {
         $request->validate([
             'member_id' => 'required',
-            'retirement_age' => 'required',
+            'retirement_age' => 'required|numeric',
             'retirement_date' => 'required',
             'retirement_type' => 'required',
             'el_days' => 'required',
@@ -99,6 +99,15 @@ class MemberRetirementInfoController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $request->validate([
+            'member_id' => 'required',
+            'retirement_age' => 'required|numeric',
+            'retirement_date' => 'required',
+            'retirement_type' => 'required',
+            'el_days' => 'required',
+            'hpl_days' => 'required',
+        ]);
         // dd($request->all());
         $retirement = MemberRetirementInfo::findOrFail($id);
         $retirement->member_id = $request->member_id;
