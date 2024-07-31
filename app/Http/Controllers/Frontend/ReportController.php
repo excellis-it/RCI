@@ -1176,5 +1176,6 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via'));
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
+    }
     
 }

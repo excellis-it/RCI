@@ -278,6 +278,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-form-16', [ReportController::class, 'formSixteen'])->name('reports.form-16');
     Route::post('reports-form-16-generate', [ReportController::class, 'formSixteenGenerate'])->name('reports.form-16-generate');
 
+        
+
         // form 12 bb
 
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
