@@ -28,7 +28,7 @@
                                 <label>Retirement Age</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="retirement_age" id="retirement_age" placeholder="" value="{{ $retirementInfo->retirement_age }}">
+                                <input type="number" min="1" class="form-control" name="retirement_age" id="retirement_age" placeholder="" value="{{ $retirementInfo->retirement_age }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 <label>Retirement Age</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="retirement_age" id="retirement_age" placeholder="" value="60">
+                                <input type="number" min="1"  class="form-control" name="retirement_age" id="retirement_age" placeholder="" value="60">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

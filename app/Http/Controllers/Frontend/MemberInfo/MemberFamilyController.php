@@ -61,12 +61,13 @@ class MemberFamilyController extends Controller
         //validation
         $request->validate([
             'member_id' => 'required',
+            'child1_amount' => 'nullable|numeric',
         ]);
         // if memeber has already data then show error message
-        $member_family = MemberFamily::where('member_id', $request->member_id)->count();
-        if($member_family > 0){
-            return response()->json(['message' => 'Member family details already exists']);
-        }
+        // $member_family = MemberFamily::where('member_id', $request->member_id)->count();
+        // if($member_family > 0){
+        //     return response()->json(['message' => 'Member family details already exists']);
+        // }
 
         $member_family = new MemberFamily();
         $member_family->member_id = $request->member_id;
@@ -117,6 +118,12 @@ class MemberFamilyController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $request->validate([
+            'member_id' => 'required',
+            'child1_amount' => 'nullable|numeric',
+        ]);
+
         $update_member_family = MemberFamily::find($id);
         $update_member_family->member_id = $request->member_id;
         $update_member_family->father_mother_name = $request->father_mother_name;

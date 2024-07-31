@@ -29,7 +29,13 @@
                                 <label>Finantial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="finantial_year" value="{{ $member_gpf->finantial_year }}" placeholder="yyyy - yyyy" style="">
+                                <select class="form-select" name="finantial_year" id="finantial_year">
+                                    <option value="">Select Finantial Year</option>
+                                    @foreach($financialYears as $finantial_year)
+                                        <option value="{{ $finantial_year }}" {{ $member_gpf->finantial_year == $finantial_year ? 'selected' : ''}}>{{ $finantial_year }}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" class="form-control" name="finantial_year" value="{{ $member_gpf->finantial_year }}" placeholder="yyyy - yyyy" style=""> --}}
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -164,7 +170,13 @@
                                 <label>Finantial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="finantial_year"  placeholder="yyyy - yyyy" style="">
+                                {{-- <input type="text" class="form-control" name="finantial_year"  placeholder="yyyy - yyyy" style=""> --}}
+                                <select class="form-select" name="finantial_year" id="finantial_year">
+                                    <option value="">Select Finantial Year</option>
+                                    @foreach($financialYears as $finantial_year)
+                                        <option value="{{ $finantial_year }}" >{{ $finantial_year }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

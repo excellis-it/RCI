@@ -1136,5 +1136,11 @@ class ReportController extends Controller
     {
         return view('frontend.reports.ltc-advance-settlement');
     }
+
+    public function ltcAdvanceReport()
+    {
+        $pdf = PDF::loadView('frontend.reports.ltc-advance-report');
+        return $pdf->download('ltc-advance-' .'.pdf');
+    }
     
 }
