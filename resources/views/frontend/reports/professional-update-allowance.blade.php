@@ -105,7 +105,7 @@
                                                                         <label>Year</label>
                                                                     </div>
                                                                     <div class="col-md-12">
-                                                                        <select name="report_year" id="report_year" class="form-select">
+                                                                        <select name="report_year_group" id="report_year" class="form-select">
                                                                             <option value="">Select Year</option>
                                                                             @foreach ($financialYears as $financialYear)
                                                                                 <option value="{{ $financialYear }}">
@@ -235,7 +235,7 @@
             });
         });
     </script> --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
                 var year = $(this).val();
@@ -266,7 +266,7 @@
                 
             });
         });
-    </script>
+    </script> --}}
     <!-- <script>
         $(document).ready(function() {
             $('#e_status').change(function() {

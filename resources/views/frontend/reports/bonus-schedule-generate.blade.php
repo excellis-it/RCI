@@ -219,6 +219,7 @@
                 </th>
               </tr>
             </thead>
+            @if (count($result) > 0)
             <tbody>
               @foreach ($result as $memberId => $data)
               <tr>
@@ -336,6 +337,23 @@
               @endforeach
               
             </tbody>
+            @else
+            <tbody>
+              <tr>
+                <td colspan="10" style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                    ">
+                  No Records Found
+                </td>
+              </tr>
+            </tbody>
+            @endif
             <tfoot>
               <tr>
                 <th colspan="6" style="

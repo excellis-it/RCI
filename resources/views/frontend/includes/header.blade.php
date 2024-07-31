@@ -210,7 +210,7 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.payslip')}}" target="_blank">Payslip</a>
+                                    href="{{ route('reports.payslip')}}" >Payslip</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -218,62 +218,62 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.paybill')}}" target="_blank">Paybill</a>
+                                href="{{ route('reports.paybill')}}" >Paybill</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.payroll')}}" target="_blank">Payroll</a>
+                                href="{{ route('reports.payroll')}}" >Payroll</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.children-allowance')}}" target="_blank">Children Allowance</a>
+                                href="{{ route('reports.children-allowance')}}" >Children Allowance</a>
                             </li>
 
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.group-children-allowance')}}" target="_blank">Children Group Allowance</a>
+                                href="{{ route('reports.group-children-allowance')}}" >Children Group Allowance</a>
                             </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.newspaper-allowance')}}" target="_blank">Newspaper Allowance</a>
+                                href="{{ route('reports.newspaper-allowance')}}" >Newspaper Allowance</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.landline-mobile-allowance')}}" target="_blank">Landline/Mobile Allowance</a>
+                                href="{{ route('reports.landline-mobile-allowance')}}" >Landline/Mobile Allowance</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.bag-purse-allowance')}}" target="_blank">Bag/Ladies Purse</a>
+                                href="{{ route('reports.bag-purse-allowance')}}" >Bag/Ladies Purse</a>
                             </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.group-newspaper-allowance')}}" target="_blank">Group Newspaper Allowance</a>
+                                href="{{ route('reports.group-newspaper-allowance')}}" >Group Newspaper Allowance</a>
                             </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.salary-certificate')}}" target="_blank">Salary Certificate</a>
+                                href="{{ route('reports.salary-certificate')}}" >Salary Certificate</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.bonus-schedule')}}" target="_blank">Bonus & Dress Allowance</a>
+                                href="{{ route('reports.bonus-schedule')}}" >Bonus & Dress Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.last-pay-certificate')}}" target="_blank">Last Pay Certificate</a>
+                                href="{{ route('reports.last-pay-certificate')}}" >Last Pay Certificate</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.professional-update-allowance')}}" target="_blank">Professional Update Allowance</a>
+                                href="{{ route('reports.professional-update-allowance')}}" >Professional Update Allowance</a>
                             </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.crv')}}" target="_blank">CRV</a>
+                                    href="{{ route('reports.crv')}}" >CRV</a>
                             </li> --}}
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.pl-withdrawl')}}" target="_blank">PL Withdrawl</a>
+                                    href="{{ route('reports.pl-withdrawl')}}" >PL Withdrawl</a>
                             </li> --}}
 
                             <li class="mb-2">
@@ -434,7 +434,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('bag-allowance.index')}}" target="_blank">Bag/Ladies-Purse Allowance</a>
+                                href="{{ route('bag-allowance.index')}}" >Bag/Ladies-Purse Allowance</a>
                             </li>
 
                             <li class="mb-2">
