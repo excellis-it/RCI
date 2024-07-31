@@ -190,6 +190,10 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
 
+    //ltc routes
+    Route::get('/reports-ltc-advance', [ReportController::class, 'ltcAdvance'])->name('reports.ltc-advance');
+    Route::get('/reports-ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlement'])->name('reports.ltc-advance-settlement');
+
     //landline fetch
     Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
 
