@@ -1106,19 +1106,24 @@ class ReportController extends Controller
 
     public function formSixteenBGenerate(Request $request)
     {
-        $member = Member::where('id', $request->member_id)->first();
+        $member = Member::where('id', $request->member_id)->with('desigs')->first();
         $assessment_year = $request->report_year;
         $current_financial_year = date('Y') . '-' . (date('Y') + 1);
+        $income_from_other_sources = $request->other_income;
+        $income_from_house_property = $request->house_property_income;
+        $prerequisite172 = 0; $profits_in_lieu = 0; $total_from_other_employer = 0; $amt10a = 0; $amt10b = 0; $exemption10 = 0;
+        $standard_deduction_16 = 0; $entertainment_allow = 0; $profession_tax = 0; $other_deduction_via = 0;
 
         [$startYear, $endYear] = explode('-', $request->report_year);
         $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
         $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
 
-        $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->first();
-        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();        
+        $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();  
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();      
 
 
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'financial_year', 'member_credit_data'));
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year', 'income_from_other_sources', 'income_from_house_property', 'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via'));
         return $pdf->download('form-sixteen-b-' . $member->name . '.pdf');
     }
 
