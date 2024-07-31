@@ -1,0 +1,738 @@
+<form action="<?php echo e(route('members.debit.update')); ?>" id="member-debit-form" method="post">
+    <?php echo csrf_field(); ?>
+
+    <input type="hidden" name="member_id" value="<?php echo e($member->id); ?>">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>GPF Sub</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="gpa_sub" id="gpa_sub"
+                            value="<?php echo e($member_debit->gpa_sub ?? $memberGpf->monthly_subscription  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>GPF Adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="gpa_adv" id="gpa_adv"
+                            value="<?php echo e($member_debit->gpf_adv ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Eol/Hpl</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="eol" id="eol"
+                            value="<?php echo e($member_debit->eol ??  ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Rent</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="rent" id="rent"
+                            value="<?php echo e($member_debit->rent ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>LF Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="lf_arr" id="lf_arr"
+                            value="<?php echo e($member_debit->lf_arr  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>TADA</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tada" id="tada"
+                            value="<?php echo e($member_debit->tada  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>HBA Adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hba" id="hba"
+                            value="<?php echo e($member_debit->hba  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>HBA Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hba_interest" id="hba_interest"
+                            value="<?php echo e($member_debit->hba_int  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp Adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_adv" id="comp_adv"
+                            value="<?php echo e($member_debit->comp_adv  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Comp Int</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="comp_int" id="comp_int"
+                            value="<?php echo e($member_debit->comp_int  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Leave Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="leave_rec" id="leave_rec"
+                            value="<?php echo e($member_debit->leave_rec  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Pension Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="pension_rec" id="pension_rec"
+                            value="<?php echo e($member_debit->pension_rec  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Misc Debit</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="misc1" id="misc1"
+                            value="<?php echo e($member_debit->misc1  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>GPF Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="gpf_rec" id="gpf_rec"
+                            value="<?php echo e($member_debit->gpf_rec  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>I.Tax</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="i_tax" id="i_tax"
+                            value="<?php echo e($member_debit->i_tax ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Elec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="elec" id="elec"
+                            value="<?php echo e($member_debit->elec ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Elec Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="elec_arr" id="elec_arr"
+                            value="<?php echo e($member_debit->elec_arr  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Medi</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="medi" id="medi"
+                            value="<?php echo e($member_debit->medi ??  ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Pc</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="pc" id="pc"
+                            value="<?php echo e($member_debit->pc  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Misc Debit(it)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="misc2" id="misc2"
+                            value="<?php echo e($member_debit->misc2  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>GPF Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="gpf_arr" id="gpf_arr"
+                            value="<?php echo e($member_debit->gpf_arr  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Edu cess</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="ecess" id="ecess"
+                            value="<?php echo e($member_debit->ecess  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Water</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="water" id="water"
+                            value="<?php echo e($member_debit->water  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Water Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="water_arr" id="water_arr"
+                            value="<?php echo e($member_debit->water_arr  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>LTC</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="ltc" id="ltc"
+                            value="<?php echo e($member_debit->ltc  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Fest adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="fadv" id="fadv"
+                            value="<?php echo e($member_debit->fadv  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Misc3</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="misc3" id="misc3"
+                            value="<?php echo e($member_debit->misc3  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CGEGIS</label>
+                    </div>
+                    <div class="col-md-12">
+                       
+                        <input type="text" class="form-control" name="cgegis" id="cgegis"
+                            value="<?php echo e($member_debit->cgegis  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CDA</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cda" id="cda"
+                            value="<?php echo e($member_debit->cda  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Furn</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="furn" id="furn"
+                            value="<?php echo e($member_debit->furn ??  ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Furn Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="furn_arr" id="furn_arr"
+                            value="<?php echo e($member_debit->furn_arr  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CAR Adv</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="car" id="car"
+                            value="<?php echo e($member_debit->car  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CAR Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="car_interest" id="car_interest"
+                            value="<?php echo e($member_debit->car_int  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>HRA Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="hra_rec" id="hra_rec"
+                            value="<?php echo e($member_debit->hra_rec  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>TotDebits</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tot_debits" id="tot_debits"
+                            value="<?php echo e($member_debit->tot_debits  ?? ''); ?>" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CGHS </label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cghs" id="cghs"
+                            value="<?php echo e($member_debit->cghs  ?? $member_cghs->contribution ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>P.Tax</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="ptax" id="ptax"
+                            value="<?php echo e($member_debit->ptax  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CMG</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cmg" id="cmg"
+                            value="<?php echo e($member_debit->cmg  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>PL INSUR</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="pli" id="pli"
+                            value="<?php echo e($member_debit->pli  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Scooter</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="scooter" id="scooter"
+                            value="<?php echo e($member_debit->scooter  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Scooter Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="scooter_interest" id="scooter_interest"
+                            value="<?php echo e($member_debit->sco_int  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>TPT Rec</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tpt_rec" id="tpt_rec"
+                            value="<?php echo e($member_debit->tpt_rec  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Net Pay</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="net_pay" id="net_pay"
+                            value="<?php echo e($member_credit->tot_credits ?? (old('tot_credits') ?? 0)); ?>" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Basic</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="basics" id="basics"
+                            value="<?php echo e($member_debit->basic ?? $member->basic ?? ''); ?>" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Quarter Charge</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="quarter_charge" id="quarter_charge"
+                            value="<?php echo e($member_debit->quarter_charges ?? $member->quarter->qrt_charge ?? ''); ?>" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CGEIS Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cgeis_arr" id="cgeis_arr"
+                            value="<?php echo e($member_debit->cgeis_arr ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Penal Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="penal_interest" id="penal_interest"
+                            value="<?php echo e($member_debit->penal_intr ??  ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Society</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="society" id="society"
+                            value="<?php echo e($member_debit->society  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Remarks</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="remarks" id="remarks"
+                            value="<?php echo e($member_debit->remarks  ?? ''); ?>" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row justify-content-end">
+                <div class="col-md-6">
+                    <div class="row justify-content-end">
+                        <div class="form-group col-md-3 mb-2">
+                            <a href="<?php echo e(route('members.create')); ?>"><button type="button"
+                                    class="another-btn">Another</button></a>
+                        </div>
+                        <div class="form-group col-md-3 mb-2">
+                            <button type="submit" class="listing_add" id="debit-update">Update</button>
+                        </div>
+                        <div class="form-group col-md-3 mb-2">
+                            <button type="reset" class="listing_exit">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="tot_credits" value="<?php echo e($member_credit->tot_credits ?? ''); ?>">
+
+
+</form>
+<?php /**PATH C:\xampp82\htdocs\RCI\resources\views/frontend/members/debit-form.blade.php ENDPATH**/ ?>

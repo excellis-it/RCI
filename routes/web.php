@@ -42,9 +42,13 @@ use App\Http\Controllers\Frontend\CityController;
 use App\Http\Controllers\Frontend\GpfController;
 use App\Http\Controllers\Frontend\GradePayController;
 use App\Http\Controllers\Frontend\TptaController;
-use App\Http\Controllers\Frontend\CghsController; 
+use App\Http\Controllers\Frontend\CghsController;
 use App\Http\Controllers\Frontend\SectionController;
 use App\Http\Controllers\Frontend\RuleController;
+use App\Http\Controllers\Frontend\TaDaController;
+use App\Http\Controllers\Frontend\MemberInfo\TaDaAdvanceController;
+use App\Http\Controllers\Frontend\MemberInfo\TadaPlusClaimController;
+use App\Http\Controllers\Frontend\MemberInfo\TadaJourneyDetailController;
 
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
@@ -142,7 +146,7 @@ Route::middleware('permssions')->group(function () {
         'groups' => GroupController::class,
         'cadres' => CadreController::class,
         'fund-types' => FundTypeController::class,
-        'quarters' => QuaterController::class, 
+        'quarters' => QuaterController::class,
         'ex-services' => ExServiceController::class,
         'pgs' => PgController::class,
         'cgegis' => CgegisController::class,
@@ -150,7 +154,7 @@ Route::middleware('permssions')->group(function () {
         'policy' => PolicyController::class,
         'members' => MemberController::class,
         'public-funds' => PublicFundController::class,
-        'cash-payments' => CashPaymentController::class, 
+        'cash-payments' => CashPaymentController::class,
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
         'reset-voucher' => ResetVoucherController::class,
@@ -168,7 +172,10 @@ Route::middleware('permssions')->group(function () {
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
         'rules' => RuleController::class,
-         
+        'tada' => TaDaController::class,
+        'tada-plus' => TadaPlusClaimController::class,
+        'tada-journey' => TadaJourneyDetailController::class
+
     ]);
 
         //payslip
@@ -197,8 +204,8 @@ Route::middleware('permssions')->group(function () {
 
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
-        
-       
+
+
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -310,7 +317,7 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/ex-services-fetch-data', [ExServiceController::class, 'fetchData'])->name('ex-services.fetch-data');
 
-    //pg 
+    //pg
     Route::prefix('pgs')->group(function () {
         Route::get('/pgs-delete/{id}', [PgController::class, 'delete'])->name('pgs.delete');
     });
@@ -359,7 +366,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
     Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
-    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');    
+    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
@@ -434,6 +441,36 @@ Route::middleware('permssions')->group(function () {
     });
     Route::get('/hras-fetch-data', [HraController::class, 'fetchData'])->name('hras.fetch-data');
 
+    //tada
+    Route::prefix('tada')->group(function () {
+        Route::get('/tada-delete/{id}', [TaDaController::class, 'delete'])->name('tada.delete');
+    });
+    Route::get('/tada-fetch-data', [TaDaController::class, 'fetchData'])->name('tada.fetch-data');
+
+    //tada Advance
+    Route::prefix('/member-info/tada-advance')->group(function () {
+        Route::get('/tada-advance-delete/{id}', [TadaAdvanceController::class, 'delete'])->name('tada-advance.delete');
+        Route::get('/tada-advance-fetch-data', [TadaAdvanceController::class, 'fetchData'])->name('tada-advance.fetch-data');
+        Route::get('/report/{id}', [TadaAdvanceController::class, 'report'])->name('tada-advance.report');
+        Route::get('/tada-priority-table/{id}', [TadaAdvanceController::class, 'priority_list'])->name('tada-priority.list');
+        Route::post('/tada-priority-add', [TadaAdvanceController::class, 'store_priority'])->name('tada-priority.add');
+        Route::get('/tada-priority-remove/{id}/{tada_adv_id}', [TadaAdvanceController::class, 'delete_priority']);
+        Route::get('/report-priority/{id}', [TadaAdvanceController::class, 'report_priority']);
+
+        Route::get('/tada-journey-table/{id}', [TadaJourneyDetailController::class, 'index'])->name('tada-journey.list');
+        Route::post('/tada-journey-add', [TadaJourneyDetailController::class, 'store'])->name('tada-journey.add');
+        Route::get('/tada-journey-remove/{id}/{tada_adv_id}', [TadaJourneyDetailController::class, 'delete']);
+        Route::get('/report-journey/{id}', [TadaJourneyDetailController::class, 'report']);
+    });
+
+    //tada Plus
+    Route::prefix('/member-info/tada-plus')->group(function () {
+        Route::get('/report/{id}', [TadaPlusClaimController::class, 'report'])->name('tada-plus.report-plus');
+    });
+
+
+
+
     //tpta
     Route::prefix('tptas')->group(function () {
         Route::get('/tptas-delete/{id}', [TptaController::class, 'delete'])->name('tptas.delete');
@@ -471,6 +508,8 @@ Route::middleware('permssions')->group(function () {
         Route::get('/reset-voucher-delete/{id}', [ResetVoucherController::class, 'delete'])->name('reset-voucher.delete');
     });
 
+
+
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     // Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
@@ -483,9 +522,10 @@ Route::middleware('permssions')->group(function () {
             'member-leaves' => MemberLeaveController::class,
             'attendances' => AttendanceController::class,
             'penal-interest' => PenalInterestController::class,
-            'member-gpf' => MemberGpfController::class, 
+            'member-gpf' => MemberGpfController::class,
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
+            'tada-advance'=>TaDaAdvanceController::class
         ]);
 
         // leave type
@@ -566,7 +606,7 @@ Route::middleware('permssions')->group(function () {
         Route::prefix('project')->group(function () {
             Route::get('/project-delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
         });
-        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data'); 
+        Route::get('/project-fetch-data', [ProjectController::class, 'fetchData'])->name('project.fetch-data');
 
         // cda receipt
         Route::prefix('cda-receipts')->group(function () {
@@ -612,7 +652,7 @@ Route::middleware('permssions')->group(function () {
     //grade pay routes
     Route::get('/grade-pays-fetch-data', [GradePayController::class, 'fetchData'])->name('grade-pays.fetch-data');
 
-    
+
     // inventory routes
     Route::prefix('inventory')->group(function () {
         Route::group(['middleware' => 'material'], function () {
@@ -729,7 +769,7 @@ Route::middleware('permssions')->group(function () {
             });
             Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
         });
-        
+
     });
-   
+
 });
