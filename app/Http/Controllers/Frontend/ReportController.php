@@ -13,6 +13,7 @@ use App\Models\MemberRecovery;
 use App\Models\MemberPolicyInfo;
 use App\Models\MemberLoan;
 use App\Models\MemberIncomeTax;
+use App\Models\MemberBagPurse;
 use App\Models\Group;
 use App\Models\LandlineAllowance;
 use App\Models\MemberPersonalInfo;
@@ -914,8 +915,6 @@ class ReportController extends Controller
     public function landlineReportGenerate(Request $request)
     {
         $request->validate([
-            'report_type' => 'required',
-            //if $request->report_type == 'individual'
             'member_id' => 'required_if:report_type,individual',
             'e_status' =>'required_if:report_type,individual',
             //if $request->report_type == 'group'
@@ -925,7 +924,6 @@ class ReportController extends Controller
 
         $data = $request->all();
 
-        if($request->report_type == 'individual') {
             $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
             $member_detail = Member::where('id', $request->member_id)->first();
             $member_personal_detail = MemberPersonalInfo::where('member_id', $request->member_id)->first();
@@ -935,22 +933,48 @@ class ReportController extends Controller
             $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail','member_all_allowance','data', 'total','landline_allowance','month_name'));
             return $pdf->download('landline-allowance-report-' . $member_detail->name . '.pdf');
 
-        }else{
-
-            $members = Member::where('category',$request->category)->get();
-            $total = 0;
-            foreach($members as $member)
-            {
-                $member_credit = MemberCredit::where('member_id', $member->id)->whereMonth('created_at', $request->month)->first();
-                $total_allowance = ($member_credit->landline_allow ?? 0) + ($member_credit->mobile_allow ?? 0) + ($member_credit->broad_band_allow ?? 0);
-                $total += ($member_credit->landline_allow ?? 0) + ($member_credit->mobile_allow ?? 0) + ($member_credit->broad_band_allow ?? 0);
-            }
-
-            $pdf = PDF::loadView('frontend.reports.group-landline-allow-report-generate', compact('members','total'));
-            return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
-        } 
-
         
+    }
+
+    public function bagPurseAllowanceReport()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.bag-purse-allowance',compact('categories'));
+    }
+
+    public function bagPurseAllowanceReportGenerate(Request $request)
+    {
+        $request->validate([
+            'report_type' => 'required',
+            //if $request->report_type == 'individual'
+            'member_id' => 'required_if:report_type,individual',
+            'e_status' =>'required_if:report_type,individual',
+            //if $request->report_type == 'group'
+            'category' => 'required_if:report_type,group',
+
+        ]); 
+        $data = $request->all();
+
+        $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate');
+            return $pdf->download('bag-purse-allowance-report-' . '.pdf');
+
+        // if($request->report_type == 'individual') {
+        //     $member_detail = Member::where('id', $request->member_id)->first();
+        //     $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('member_detail','data'));
+        //     return $pdf->download('bag-purse-allowance-report-' . $member_detail->name . '.pdf');
+        // }else{
+
+        //     $members = Member::where('category',$request->category)->get();
+        //     $total = 0;
+        //     foreach($members as $member)
+        //     {
+        //         $amount = MemberBagPurse::where('member_id', $member->id)->first();
+        //         $total += $amount->amount;
+        //     }
+
+        //     $pdf = PDF::loadView('frontend.reports.group-bag-purse-report-generate', compact('members','total'));
+        //     return $pdf->download('bag-purse-allowance-report-' . 'all-members' . '.pdf');
+        // } 
     }
     
 }

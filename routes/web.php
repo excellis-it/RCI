@@ -205,6 +205,9 @@ Route::middleware('permssions')->group(function () {
        // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
+
+    Route::get('/bag-purse-allowance-report', [ReportController::class, 'bagPurseAllowanceReport'])->name('reports.bag-purse-allowance');
+    Route::post('/bag-purse-allowance-report-generate', [ReportController::class, 'bagPurseAllowanceReportGenerate'])->name('reports.bag-allowance-generate');
        // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
@@ -551,7 +554,8 @@ Route::middleware('permssions')->group(function () {
         ]);
 
         Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
-
+        Route::get('/member-bag-fetch',[MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');
+        Route::post('/member-bag-allotment-fetch',[MemberBagAllowanceController::class, 'fetchBagAllotment'])->name('get-member-bag-allowance');
         // leave type
         Route::prefix('leave-type')->group(function () {
             Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');

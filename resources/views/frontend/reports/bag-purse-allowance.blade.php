@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-Landline Allowance
+Bag/Ladies Purse Allowance
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@ Landline Allowance
         <div class="d-flex">
             <div class="arrow_left"><a href="{{ route('members.index') }}" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
             <div class="">
-                <h3>Landline Allowance Generate</h3>
+                <h3>Bag/Ladies Purse Allowance Generate</h3>
                 <ul class="breadcome-menu mb-0">
                     <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                    <li><span class="bread-blod">Landline Allowance</span></li>
+                    <li><span class="bread-blod">Bag/Ladies Purse Allowance</span></li>
                 </ul>
             </div>
         </div>
@@ -31,7 +31,7 @@ Landline Allowance
             <div class="card w-100">
                 <div class="card-body">
                     <div id="form">
-                        <form action="{{ route('reports.landline-allowance-generate') }}" method="POST">
+                        <form action="{{ route('reports.bag-allowance-generate') }}" method="POST">
                             @csrf
 
                             <div class="row">
@@ -41,7 +41,7 @@ Landline Allowance
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
 
-                                                    {{-- <div class="form-group col-md-3 mb-2">
+                                                    <div class="form-group col-md-3 mb-2">
                                                         <div class="col-md-12">
                                                             <label>Report Type</label>
                                                         </div>
@@ -57,9 +57,9 @@ Landline Allowance
                                                             @endif
                                                             
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
 
-                                                    <div class="form-group col-md-3 mb-2" >
+                                                    <div class="form-group col-md-3 mb-2 cat_drop" style="display:none;">
                                                         <div class="col-md-12">
                                                             <label>Category</label>
                                                         </div>
@@ -98,7 +98,7 @@ Landline Allowance
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 mb-2 member">
+                                                    <div class="form-group col-md-3 mb-2 member">
                                                         <div class="col-md-12">
                                                             <label>Employee</label>
                                                         </div>
@@ -113,31 +113,27 @@ Landline Allowance
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-3 mb-2 month_drop" style="display:none;">
+                                                    <div class="form-group col-md-3 mb-2 year" >
                                                         <div class="col-md-12">
-                                                            <label>Month</label>
+                                                            <label>Year</label>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <select name="month" class="form-select" id="month">
-                                                               <option value="">Select Month</option>
-                                                                <option value="01">January</option>
-                                                                <option value="02">February</option>
-                                                                <option value="03">March</option>
-                                                                <option value="04">April</option>
-                                                                <option value="05">May</option>
-                                                                <option value="06">June</option>
-                                                                <option value="07">July</option>
-                                                                <option value="08">August</option>
-                                                                <option value="09">September</option>
-                                                                <option value="10">October</option>
-                                                                <option value="11">November</option>
-                                                                <option value="12">December</option>
+                                                            <select name="year" class="form-select" id="year">
+                                                                <option value="">Select Year</option>
+                                                                @for($i = date('Y'); $i >= 1958; $i--)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                @endfor
+
                                                             </select>
-                                                            @if ($errors->has('month'))
+
+                                                            @if ($errors->has('member_id'))
                                                                 <div class="error" style="color:red;">
-                                                                    {{ $errors->first('month') }}</div>
+                                                                    {{ $errors->first('member_id') }}</div>
                                                             @endif
                                                         </div>
+                                                    </div>
+
+                                                    
                                                     </div>
                                                 </div>
 
@@ -240,6 +236,27 @@ Landline Allowance
                 $('.member').show();
                 $('.total_allo').show();
             
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#report_type').change(function() {
+            var report_type = $(this).val();
+            if (report_type == 'group') {
+                $('.cat_drop').show();
+                $('.emp_status').hide();
+                $('.member').hide();
+                $('.total_allo').hide();
+
+            } else {
+                $('.cat_drop').hide();
+                $('.emp_status').show();
+                $('.member').show();
+                $('.total_allo').show();
+                
+            }
         });
     });
 </script>

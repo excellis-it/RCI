@@ -53,16 +53,25 @@
                                                     style="cursor: pointer">Member Name <span id="leave_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Amount<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
                                                     style="cursor: pointer">Year<span id="leave_type_abbr_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                    style="cursor: pointer">Entitle Amount<span id="leave_type_abbr_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                            style="cursor: pointer">Bill Amount<span id="leave_type_abbr_icon"><i
+                                                                    class="fa fa-arrow-down"></i></span> </th>       
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                                    style="cursor: pointer">Net Amount<span id="leave_type_abbr_icon"><i
+                                                                            class="fa fa-arrow-down"></i></span> </th>                                     
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
+                                                                            style="cursor: pointer">Remarks<span id="leave_type_abbr_icon"><i
+                                                                                    class="fa fa-arrow-down"></i></span> </th>   
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.member-info.newspaper-allowance.table')
+                                            @include('frontend.member-info.bag-allowance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -108,7 +117,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-newspaper-allowance.fetch-data') }}",
+                    url: "{{ route('member-bag-allowance.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -173,7 +182,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-newspaper-create-form').submit(function(e) {
+            $('#member-bag-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -228,7 +237,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-newspaper-edit-form', function(e) {
+            $(document).on('submit', '#member-bag-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -254,4 +263,31 @@
             });
         });
     </script>
+
+    <script>
+       
+        $(document).ready(function() {
+            $('#member_id').change(function() {
+                var member_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('get-member-bag-allowance') }}",
+                    type: 'POST',
+                    data: {
+                        member_id: member_id
+                    },
+                    headers:{
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    
+                    success: function(response) {
+                        $('#entitle_amount').val(response.data.entitle_amount);
+                    
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
+        </script>
 @endpush

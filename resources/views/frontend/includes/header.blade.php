@@ -243,7 +243,10 @@
                                 href="{{ route('reports.landline-mobile-allowance')}}" target="_blank">Landline/Mobile Allowance</a>
                             </li>
 
-                            
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.bag-purse-allowance')}}" target="_blank">Bag/Ladies Purse</a>
+                            </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.group-newspaper-allowance')}}" target="_blank">Group Newspaper Allowance</a>
