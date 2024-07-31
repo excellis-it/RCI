@@ -209,8 +209,8 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                                    Mr. SHEIKH ASHFAQ
-                                    AHMAD,
+                                    Mr. {{ $member->name ?? '' }}, {{ $member->emp_id ?? '' }},
+                                    ({{ $member->gpf_pran_no ?? '' }}) {{ $member->bank_ac_no ?? '' }}
                                     2005AC1383,
                                     SCIENTIST F, (1602548)
                                     10468461137

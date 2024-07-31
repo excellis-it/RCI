@@ -1144,9 +1144,10 @@ class ReportController extends Controller
         return view('frontend.reports.ltc-advance-report',compact('members','categories'));
     }
 
-    public function ltcAdvanceReportGenerate()
+    public function ltcAdvanceReportGenerate(Request $request)
     {
-        $pdf = PDF::loadView('frontend.reports.ltc-advance-report-generate');
+        $member = Member::where('id', $request->member_id)->first();
+        $pdf = PDF::loadView('frontend.reports.ltc-advance-report-generate',compact('member'));
         return $pdf->download('ltc-advance-' .'.pdf');
     }
     
