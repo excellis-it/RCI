@@ -315,16 +315,16 @@
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="row justify-content-end">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="row justify-content-end">
-                        <div class="form-group col-md-4 mb-2">
+                        <div class="form-group col-md-3 mb-2">
                             <a href="{{ route('members.create') }}"><button type="button"
                                 class="another-btn">Another</button></a>
                         </div>
-                        <div class="form-group col-md-4 mb-2">
+                        <div class="form-group col-md-3 mb-2">
                             <button type="submit" class="listing_add" id="recovry-update">Update</button>
                         </div>
-                        <div class="form-group col-md-4 mb-2">
+                        <div class="form-group col-md-3 mb-2">
                             <button type="reset" class="listing_exit">Cancel</button>
                         </div>
                     </div>
