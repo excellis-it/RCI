@@ -41,18 +41,29 @@
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-                                                        <div class="form-group col-md-6 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Employee Status</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="e_status" class="form-select" id="e_status">
+                                                                    <option value="">Select Employee Status</option>
+                                                                    <option value="active">Active</option>
+                                                                    <option value="deputation">On Deputation</option>
+                                                                </select>
+                                                                @if ($errors->has('e_status'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('e_status') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Members</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <select name="member_id" class="form-select">
-                                                                    <option value="">Select Member</option>
-                                                                    @foreach ($members as $member)
-                                                                        <option value="{{ $member->id }}">
-                                                                            {{ $member->name }} ({{ $member->emp_id }})
-                                                                        </option>
-                                                                    @endforeach
                                                                 </select>
                                                                 @if ($errors->has('member_id'))
                                                                     <div class="error" style="color:red;">
@@ -62,7 +73,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-6 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Year</label>
                                                             </div>
@@ -94,20 +105,16 @@
                                 </div>
 
                                 {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-8">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-6 col-lg-2">
                                         <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row justify-content-end">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Generate</button>
-                                                    </div>
-                                                    
-                                                    {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
-                                                </div>
+                                            <div class="form-group mb-2">
+                                                <button type="submit" class="listing_add">Generate</button>
                                             </div>
+                                            
+                                            {{-- <div class="form-group col-md-6 mb-2">
+                                                <button type="submit" class="listing_exit">Cancel</button>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -185,4 +192,22 @@
             });
         });
     </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#e_status').change(function() {
+                var e_status = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('reports.get-all-members') }}",
+                    type: 'POST',
+                    data: { e_status, _token: '{{ csrf_token() }}' },
+                    success: ({members}) => {
+                        const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
+                        members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
+                    },
+                    error: (xhr) => console.log(xhr)
+                });
+            });
+        });
+    </script>
 @endpush

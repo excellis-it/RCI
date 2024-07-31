@@ -1657,4 +1657,27 @@
             updateEolHpl();
         });
     </script>
+
+    <script>
+        //get ifsc code from bank id
+        $(document).ready(function() {
+            $('#bank').change(function() {
+                var bank_id = $(this).val();
+                
+                $.ajax({
+                    url: "{{ route('members.core-info.get-ifsc') }}",
+                    type: 'POST',
+                    data: {
+                        bank_id: bank_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#ifsc').val(response.ifsc.ifsc);
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

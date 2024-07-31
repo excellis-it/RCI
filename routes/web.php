@@ -49,6 +49,10 @@ use App\Http\Controllers\Frontend\TaDaController;
 use App\Http\Controllers\Frontend\MemberInfo\TaDaAdvanceController;
 use App\Http\Controllers\Frontend\MemberInfo\TadaPlusClaimController;
 use App\Http\Controllers\Frontend\MemberInfo\TadaJourneyDetailController;
+use App\Http\Controllers\Frontend\NewspaperAllowanceController;
+use App\Http\Controllers\Frontend\LandlineAllowanceController;
+use App\Http\Controllers\Frontend\BagPurseAllowanceController;
+
 
 // member info
 use App\Http\Controllers\Frontend\MemberInfo\MemberIncomeTaxController;
@@ -60,6 +64,11 @@ use App\Http\Controllers\Frontend\MemberInfo\PenalInterestController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberGpfController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberRetirementInfoController as MemberRetirementController;
+use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberNewspaperAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberBagAllowanceController;
 
 // inventory
 use App\Http\Controllers\Inventory\InventoryTypeController;
@@ -91,6 +100,8 @@ use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
+use App\Http\Controllers\IncomeTax\ArrearsController;
+use App\Http\Controllers\IncomeTax\RentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -174,9 +185,31 @@ Route::middleware('permssions')->group(function () {
         'rules' => RuleController::class,
         'tada' => TaDaController::class,
         'tada-plus' => TadaPlusClaimController::class,
-        'tada-journey' => TadaJourneyDetailController::class
+        'tada-journey' => TadaJourneyDetailController::class,
+        'member-family' => MemberFamilyController::class,
+        'newspaper-allowance' => NewspaperAllowanceController::class,
+        'landline-allowance' => LandlineAllowanceController::class,
+        'bag-allowance' => BagPurseAllowanceController::class,
 
     ]);
+
+    //bag purse report
+    Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
+    Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
+
+    //ltc routes
+    Route::get('/reports-ltc-advance', [ReportController::class, 'ltcAdvance'])->name('reports.ltc-advance');
+    Route::get('/reports-ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlement'])->name('reports.ltc-advance-settlement');
+
+    Route::get('/ltc-advance', [ReportController::class, 'ltcAdvanceReport'])->name('ltc-advance');
+    Route::get('/ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlementReport'])->name('ltc-advance-settlement');
+
+    //landline fetch
+    Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
+    // newspaper allowance fetch
+    Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
+    // family member
+    Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
 
         //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
@@ -185,9 +218,30 @@ Route::middleware('permssions')->group(function () {
        // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
+
+    Route::get('/bag-purse-allowance-report', [ReportController::class, 'bagPurseAllowanceReport'])->name('reports.bag-purse-allowance');
+    Route::post('/bag-purse-allowance-report-generate', [ReportController::class, 'bagPurseAllowanceReportGenerate'])->name('reports.bag-allowance-generate');
        // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
+
+    Route::get('/generate-children-allowance', [ReportController::class, 'cildrenAllowance'])->name('reports.children-allowance');
+    Route::post('/reports-children-allowanc-generate', [ReportController::class, 'cildrenAllowanceGenerate'])->name('reports.children-allowance-generate');
+
+    Route::get('/generate-group-children-allowance', [ReportController::class, 'groupChildrenAllowance'])->name('reports.group-children-allowance');
+    Route::post('/reports-group-children-allowanc-generate', [ReportController::class, 'groupChildrenAllowanceGenerate'])->name('reports.group-children-allowance-generate');
+
+    Route::get('/reports-newspaper', [ReportController::class,'newspaperAllowance'])->name('reports.newspaper-allowance');
+    Route::post('/generate-newspaper-report',[ReportController::class, 'newspaperReportGenerate'])->name('reports.newspaper-allowance-generate');
+    Route::post('get-member-newspaper-allocation',[ReportController::class, 'getMemberNewspaperAllocation'])->name('reports.member-newspaper-allocation');
+
+    Route::get('/group-newspaper-report',[ReportController::class, 'groupNewspaperAllocation'])->name('reports.group-newspaper-allowance');
+    Route::post('/group-newspaper-report-generate',[ReportController::class, 'groupNewspaperReportGenerate'])->name('reports.group-newspaper-allowance-generate');
+
+    Route::get('/reports-landline',[ReportController::class, 'landlineAllocation'])->name('reports.landline-mobile-allowance');
+    Route::post('/generate-landline-report',[ReportController::class, 'landlineReportGenerate'])->name('reports.landline-allowance-generate');
+
+    Route::post('/get-member-children', [ReportController::class, 'getMemberChildren'])->name('reports.get-member-children');
 
     //payroll
     Route::get('/reports-payroll', [ReportController::class, 'payroll'])->name('reports.payroll');
@@ -205,9 +259,35 @@ Route::middleware('permssions')->group(function () {
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
 
+        // professional Update allowance
+    Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
+    Route::post('reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
+
+        // gpf withdrawal report
+    Route::get('reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
+    Route::post('reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
+
+        // gpf subscription report
+    Route::get('reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
+    Route::post('reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
+
+        // terminal benefits report
+    Route::get('reports-terminal-benefits', [ReportController::class, 'terminalBenefits'])->name('reports.terminal-benefits');
+    Route::post('reports-terminal-benefits-generate', [ReportController::class, 'terminalBenefitsGenerate'])->name('reports.terminal-benefits-generate');
+
+        // form 16 b
+    Route::get('reports-form-16b', [ReportController::class, 'formSixteenB'])->name('reports.form-16b');
+    Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');
+
+        // form 16 a
 
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
+
+    // Quaterly TDS Report
+    Route::get('/reports-quaterly-tds', [ReportController::class, 'quaterlyTds'])->name('reports.quaterly-tds');
+    Route::post('/reports-quaterly-tds-generate', [ReportController::class, 'quaterlyTdsGenerate'])->name('reports.quaterly-tds-generate');
+
 
     //user routes
     Route::get('/users-delete/{id}', [UserController::class, 'delete'])->name('users.delete');
@@ -386,9 +466,7 @@ Route::middleware('permssions')->group(function () {
 
     //member recovery original route
     Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
-
     // members.loan.get-loan
-
 
     //member expectation route
     Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');
@@ -397,6 +475,7 @@ Route::middleware('permssions')->group(function () {
     Route::delete('/members-expectation-delete/{id}',[MemberController::class, 'memberExpectationDelete'])->name('members.expectation-delete');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
+    Route::post('/members-core-info-ifsc',[MemberController::class,'memberBankIfsc'])->name('members.core-info.get-ifsc');
 
     Route::post('/get-members-grade-pay',[MemberController::class,'getMemberGradePay'])->name('members.grade-pay');
     Route::post('/get-members-cgegis-value',[MemberController::class,'getmemberCgegisvalue'])->name('members.get-cgegis-value');
@@ -526,8 +605,14 @@ Route::middleware('permssions')->group(function () {
             'pension-rate' => PensionRateController::class,
             'member-pension' => PensionController::class,
             'tada-advance'=>TaDaAdvanceController::class
+            'member-retirement' => MemberRetirementController::class,
+            'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
+            'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
 
+        Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
+        Route::get('/member-bag-fetch',[MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');
+        Route::post('/member-bag-allotment-fetch',[MemberBagAllowanceController::class, 'fetchBagAllotment'])->name('get-member-bag-allowance');
         // leave type
         Route::prefix('leave-type')->group(function () {
             Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');
@@ -568,6 +653,23 @@ Route::middleware('permssions')->group(function () {
         // pension
         Route::post('/get-member-salary-detail', [PensionController::class, 'getMemberSalaryDetail'])->name('member-pension.get-member-salary-detail');
 
+        // retirement
+        Route::get('/member-retirement-fetch-data', [MemberRetirementController::class, 'fetchData'])->name('member-retirement.fetch-data');
+
+    });
+
+    // Income Tax
+    Route::prefix('income-tax')->group(function () {
+        Route::resources([
+            'arrears' => ArrearsController::class,
+            'rents' => RentController::class
+        ]);
+
+        Route::post('/arrears-member-details', [ArrearsController::class, 'memberDetails'])->name('arrears.member-details');
+        Route::get('/arrears-fetch-data', [ArrearsController::class, 'fetchData'])->name('arrears.fetch-data');
+
+        Route::post('/rent-member-details', [RentController::class, 'memberDetails'])->name('rents.member-details');
+        Route::get('/rent-fetch-data', [RentController::class, 'fetchData'])->name('rents.fetch-data');
     });
 
     // imprest routes

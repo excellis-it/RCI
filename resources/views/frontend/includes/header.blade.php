@@ -120,7 +120,7 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Updations<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -145,8 +145,8 @@
                         </ul>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            </li> --}}
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Computations<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -163,8 +163,8 @@
                         </ul>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+            </li> --}}
+            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Floppy<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
@@ -197,10 +197,10 @@
                         </ul>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
+            </li> --}}
+            {{-- <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="">PayCertificate</a>
-            </li>
+            </li> --}}
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Reports<span
@@ -210,7 +210,7 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.payslip')}}" target="_blank">Payslip</a>
+                                    href="{{ route('reports.payslip')}}" >Payslip</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -218,31 +218,107 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.paybill')}}" target="_blank">Paybill</a>
+                                href="{{ route('reports.paybill')}}" >Paybill</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.payroll')}}" target="_blank">Payroll</a>
+                                href="{{ route('reports.payroll')}}" >Payroll</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.salary-certificate')}}" target="_blank">Salary Certificate</a>
+                                href="{{ route('reports.children-allowance')}}" >Children Allowance</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.bonus-schedule')}}" target="_blank">Bonus & Dress Allowance</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.last-pay-certificate')}}" target="_blank">Last Pay Certificate</a>
-                            </li>
+
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.crv')}}" target="_blank">CRV</a>
+                                href="{{ route('reports.group-children-allowance')}}" >Children Group Allowance</a>
                             </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.pl-withdrawl')}}" target="_blank">PL Withdrawl</a>
+                                href="{{ route('reports.newspaper-allowance')}}" >Newspaper Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.landline-mobile-allowance')}}" >Landline/Mobile Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.bag-purse-allowance')}}" >Bag/Ladies Purse</a>
+                            </li>
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.group-newspaper-allowance')}}" >Group Newspaper Allowance</a>
+                            </li> --}}
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.salary-certificate')}}" >Salary Certificate</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.bonus-schedule')}}" >Bonus & Dress Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.last-pay-certificate')}}" >Last Pay Certificate</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('reports.professional-update-allowance')}}" >Professional Update Allowance</a>
+                            </li>
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.crv')}}" >CRV</a>
+                            </li> --}}
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.pl-withdrawl')}}" >PL Withdrawl</a>
+                            </li> --}}
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.quaterly-tds')}}">Quaterly TDS Report</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.gpf-withdrawal')}}">GPF Withdrawal</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.gpf-subscription')}}">GPF Subscription</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.terminal-benefits')}}">Terminal Benefit</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.form-16b')}}">Form 16 (Part B)</a>
+                            </li>
+
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.ltc-advance')}}">Ltc Advance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.ltc-advance-settlement')}}">Ltc Advance Settlement</a>
+                            </li> --}}
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('ltc-advance')}}">Ltc Advance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('ltc-advance-settlement')}}">Ltc Advance Settlement</a>
                             </li>
 
                         </ul>
@@ -369,6 +445,20 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('newspaper-allowance.index') }}">Newspaper Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('landline-allowance.index') }}">Landline Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('bag-allowance.index')}}" >Bag/Ladies-Purse Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pension-rate.index') }}">Pension Rates</a>
                             </li>
                             <li class="mb-2">
@@ -402,7 +492,19 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-newspaper-allowance.index') }}">Member Newspaper Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                href="{{ route('member-bag-allowance.index')}}" target="_blank">Member Purse Allowance</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-leaves.index') }}">Member Leave</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-family.index') }}">Member Family info</a>
                             </li>
 
                             <li class="mb-2">
@@ -421,6 +523,11 @@
                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('tada-plus.index') }}">TA/DA Plus Claim</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-retirement.index') }}">Retirement Info</a>
                             </li>
 
                             {{-- <li class="mb-2">

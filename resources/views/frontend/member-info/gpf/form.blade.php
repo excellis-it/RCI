@@ -29,7 +29,13 @@
                                 <label>Finantial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="finantial_year" value="{{ $member_gpf->finantial_year }}" placeholder="yyyy - yyyy" style="">
+                                <select class="form-select" name="finantial_year" id="finantial_year">
+                                    <option value="">Select Finantial Year</option>
+                                    @foreach($financialYears as $finantial_year)
+                                        <option value="{{ $finantial_year }}" {{ $member_gpf->finantial_year == $finantial_year ? 'selected' : ''}}>{{ $finantial_year }}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" class="form-control" name="finantial_year" value="{{ $member_gpf->finantial_year }}" placeholder="yyyy - yyyy" style=""> --}}
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -76,7 +82,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-8 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Monthly Subscription</label>
@@ -84,6 +90,18 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="monthly_subscription" value="{{ $member_gpf->monthly_subscription }}" id="monthly_subscription" >
                                 <span class="text-danger" id="subscription_error_message"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Refund of Advance(If Any)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="refund" value="{{ $member_gpf->refund }}" id="refund" >
+                                <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -152,7 +170,13 @@
                                 <label>Finantial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="finantial_year"  placeholder="yyyy - yyyy" style="">
+                                {{-- <input type="text" class="form-control" name="finantial_year"  placeholder="yyyy - yyyy" style=""> --}}
+                                <select class="form-select" name="finantial_year" id="finantial_year">
+                                    <option value="">Select Finantial Year</option>
+                                    @foreach($financialYears as $finantial_year)
+                                        <option value="{{ $finantial_year }}" >{{ $finantial_year }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -200,7 +224,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-8 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Monthly Subscription</label>
@@ -208,6 +232,18 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="monthly_subscription" id="monthly_subscription" readonly>
                                 <span class="text-danger" id="subscription_error_message"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Refund of Advance(If Any)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="refund" id="refund" >
+                                <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>

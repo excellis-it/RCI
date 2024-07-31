@@ -43,7 +43,46 @@
                                                     <div class="row align-items-center">
                                                        
 
-                                                        <div class="form-group col-md-6 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Employee Status</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="e_status" class="form-select" id="e_status">
+                                                                    <option value="">Select Employee Status</option>
+                                                                    <option value="active">Active</option>
+                                                                    <option value="deputation">On Deputation</option>
+                                                                </select>
+                                                                @if ($errors->has('e_status'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('e_status') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-4 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Category</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="category" class="form-select" id="category">
+                                                                    <option value="">Select Employee Category</option>
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->id }}">
+                                                                            {{ $category->category }}</option>
+                                                                        
+                                                                    @endforeach
+                                                                </select>
+                                                                @if ($errors->has('category'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('category') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Year</label>
                                                             </div>

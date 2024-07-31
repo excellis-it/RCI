@@ -77,7 +77,7 @@ class Member extends Model
     {
         return $this->belongsTo(Cgegis::class, 'cgegis');
     }
-    
+
     public function payLevels()
     {
         return $this->belongsTo(PmLevel::class, 'pm_level');
@@ -109,6 +109,11 @@ class Member extends Model
         return $this->hasOne(MemberCredit::class, 'member_id')->orderBy('id', 'desc');
     }
 
+    public function memberOneDebit()
+    {
+        return $this->hasOne(MemberDebit::class, 'member_id')->latest();
+    }
+
     public function memberDebit()
     {
         return $this->hasMany(MemberDebit::class, 'member_id')->latest();
@@ -133,6 +138,21 @@ class Member extends Model
     {
         return $this->belongsTo(GradePay::class, 'g_pay');
     }
+
+    public function memberFamily()
+    {
+        return $this->hasOne(MemberFamily::class, 'member_id');
+    }
+
+    public function memberNewspaper()
+    {
+        return $this->hasOne(MemberNewspaperAllowance::class, 'member_id');
+    }
+
+    public function memberRetirementInfo()
+    {
+        return $this->hasMany(MemberRetirementInfo::class, 'member_id');
+    }
     
 
     
@@ -140,5 +160,8 @@ class Member extends Model
 
 
 
-    
+
+
+
+
 }

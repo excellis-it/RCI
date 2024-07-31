@@ -63,7 +63,7 @@
                                                                 <label>Members</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="member_id" class="form-select">
+                                                                <select name="member_id" class="form-select" id="member_id">
                                                                 </select>
                                                                 @if ($errors->has('member_id'))
                                                                     <div class="error" style="color:red;">

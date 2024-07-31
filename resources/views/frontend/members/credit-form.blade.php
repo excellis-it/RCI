@@ -332,6 +332,54 @@
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Landline Alw</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="landline_allow" id="landline_allow"
+                                    value="{{ $member_credit->landline_allow ?? (old('landline_allow') ?? '') }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Mobile Alw</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="mobile_allow" id="mobile_allow"
+                                    value="{{ $member_credit->mobile_allow ?? (old('mobile_allow') ?? '') }}"
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Broad band Alw</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="broad_band_allow" id="broad_band_allow"
+                                    value="{{ $member_credit->broad_band_allow ?? (old('broad_band_allow') ?? '') }}"
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Risk Alw</label>
                             </div>
                             <div class="col-md-12">
@@ -342,6 +390,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -357,12 +409,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-end">
-        <div class="col-md-6">
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -376,25 +422,45 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Arrs of Pay & Allowance</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="arrs_pay_allowance" id="arrs_pay_allowance"
-                                    value="{{ $member_credit->arrs_pay_allowance ?? (old('arrs_pay_allowance') ?? '') }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>PUA</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="pua" id="pua"
+                            value="{{ $member_credit->pua ?? (old('pua') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Arrs of Pay & Allowance</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="arrs_pay_allowance" id="arrs_pay_allowance"
+                            value="{{ $member_credit->arrs_pay_allowance ?? (old('arrs_pay_allowance') ?? '') }}"
+                            placeholder="">
+                        <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+        
     <div class="row">
         <div class="col-md-12">
             <div class="form-group mb-2">
