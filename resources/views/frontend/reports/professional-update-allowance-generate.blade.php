@@ -163,7 +163,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                 {{ $member_data['member']->emp_id }}
+                 {{ $member_data['member']->emp_id ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -178,7 +178,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              {{ $member_data['member']->name }}
+              {{ $member_data['member']->name ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -193,7 +193,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              {{ $member_data['member']->desigs->designation }}
+              {{ $member_data['member']->desigs->designation ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -208,7 +208,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              {{ $member_data['member']->basic }}
+              {{ $member_data['member']->basic ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -223,7 +223,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              {{ $member_data['member']->payLevels->value }}
+              {{ $member_data['member']->payLevels->value ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -238,7 +238,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              {{ $member_data['total_pua'] }}
+              {{ $member_data['total_pua'] ?? '' }}
                 </td>                
                 <td style="
                 font-size: 10px;
@@ -254,7 +254,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              {{ $member_data['total_pua'] }}
+              {{ $member_data['total_pua'] ?? '' }}
                 </td>
               </tr>
             </tbody>

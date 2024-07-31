@@ -86,7 +86,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $member->emp_id }}
+                    {{ $member->emp_id ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -114,7 +114,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $member->name }}
+                    {{ $member->name ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -142,7 +142,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $member_core_data->gpf_acc_no }}
+                    {{ $member_core_data->gpf_acc_no ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -170,7 +170,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $member->desigs->designation }}
+                    {{ $member->desigs->designation ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -198,7 +198,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    Rs. {{ $member_credit_data->tot_credits }} /-
+                    Rs. {{ $member_credit_data->tot_credits ?? '' }} /-
                   </td>
                 </tr>
                 <tr>
@@ -226,7 +226,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ \Carbon\Carbon::parse($member->dob)->format('d M Y') }}
+                    {{ \Carbon\Carbon::parse($member->dob)->format('d M Y') ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -254,7 +254,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ \Carbon\Carbon::parse($member->doj_lab)->format('d M Y') }}
+                    {{ \Carbon\Carbon::parse($member->doj_lab)->format('d M Y') ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -282,7 +282,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ \Carbon\Carbon::parse($member->dob)->addYears(60)->format('d M Y') }}
+                    {{ \Carbon\Carbon::parse($member->dob)->addYears(60)->format('d M Y') ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -325,7 +325,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    i) Closing balance as per statement for the year {{  \Carbon\Carbon::now()->subYear()->format('Y') }}
+                    i) Closing balance as per statement for the year {{  \Carbon\Carbon::now()->subYear()->format('Y') ?? '' }}
                   </td>
                   <td
                     style="
@@ -353,7 +353,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    ii) Credit from <b>Mar {{ \Carbon\Carbon::parse($month)->format('Y') }}</b> to <b>{{ \Carbon\Carbon::parse($month)->format('M Y') }}</b> On account of monthly subscription
+                    ii) Credit from <b>Mar {{ \Carbon\Carbon::parse($month)->format('Y') ?? '' }}</b> to <b>{{ \Carbon\Carbon::parse($month)->format('M Y') ?? '' }}</b> On account of monthly subscription
                   </td>
                   <td
                     style="
@@ -381,7 +381,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    iii) Refund of Adv. from <b>MAR {{ \Carbon\Carbon::parse($month)->format('Y') }}</b> to <b>{{ \Carbon\Carbon::parse($month)->format('M Y') }}</b> @ Rs. p.m.
+                    iii) Refund of Adv. from <b>MAR {{ \Carbon\Carbon::parse($month)->format('Y') ?? '' }}</b> to <b>{{ \Carbon\Carbon::parse($month)->format('M Y') ?? '' }}</b> @ Rs. p.m.
                   </td>
                   <td
                     style="
@@ -478,7 +478,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    Rs. {{ $received_amount }} /-
+                    Rs. {{ $received_amount ?? '' }} /-
                   </td>
                 </tr>
                 <tr>
@@ -506,7 +506,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $reason }}
+                    {{ $reason ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -534,7 +534,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ \Carbon\Carbon::parse($apply_date)->format('d M Y') }} By Director
+                    {{ \Carbon\Carbon::parse($apply_date)->format('d M Y') ?? '' }} By Director
                   </td>
                 </tr>
                 <tr>
@@ -591,7 +591,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    Rs. {{ $required_amount }} /-
+                    Rs. {{ $required_amount ?? '' }} /-
                   </td>
                 </tr>
                 <tr>
@@ -619,7 +619,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $reason }}
+                    {{ $reason ?? '' }}
                   </td>
                 </tr>
                 <tr>
@@ -647,7 +647,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ \Carbon\Carbon::parse($required_date)->format('d-M-Y') }}
+                    {{ \Carbon\Carbon::parse($required_date)->format('d-M-Y') ?? '' }}
                   </td>
                 </tr>
               </tbody>
@@ -679,7 +679,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    Date: {{ \Carbon\Carbon::now()->format('d-M-Y') }}
+                    Date: {{ \Carbon\Carbon::now()->format('d-M-Y') ?? '' }}
                   </td>
                   <td
                     style="
@@ -693,8 +693,8 @@
                     "
                   >
                     (Sign of the applicant) <br />
-                    {{ $member->name }} <br />
-                    {{ $member->desigs->designation }}
+                    {{ $member->name ?? '' }} <br />
+                    {{ $member->desigs->designation ?? '' }}
                   </td>
                 </tr>
               </tbody>
