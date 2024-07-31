@@ -272,7 +272,11 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-form-16b', [ReportController::class, 'formSixteenB'])->name('reports.form-16b');
     Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');
 
-        // form 16 a
+        // form 16 
+    Route::get('reports-form-16', [ReportController::class, 'formSixteen'])->name('reports.form-16');
+    Route::post('reports-form-16-generate', [ReportController::class, 'formSixteenGenerate'])->name('reports.form-16-generate');
+
+        // form 12 bb
 
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
