@@ -301,6 +301,16 @@
                                     href="{{ route('reports.form-16b')}}">Form 16 (Part B)</a>
                             </li>
 
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.ltc-advance')}}">Ltc Advance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.ltc-advance-settlement')}}">Ltc Advance Settlement</a>
+                            </li>
+
                         </ul>
                     </div>
                 </div>

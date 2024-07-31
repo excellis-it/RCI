@@ -954,7 +954,7 @@ class ReportController extends Controller
             foreach($members as $member)
             {
                 $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
-                $total += $amount->amount;
+                $total += $amount->amount ?? 0;
             }
 
             $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members','total'));
@@ -1031,26 +1031,43 @@ class ReportController extends Controller
         ]); 
         $data = $request->all();
 
-        $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate');
+        if($request->report_type == 'individual') {
+            $member_detail = Member::where('id', $request->member_id)->first();
+            $member_purse_allowances = MemberBagPurse::where('member_id', $request->member_id)->where('year', $request->year)->get();
+
+            $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('member_purse_allowances','member_detail','data'));
             return $pdf->download('bag-purse-allowance-report-' . '.pdf');
+        }else{
 
-        // if($request->report_type == 'individual') {
-        //     $member_detail = Member::where('id', $request->member_id)->first();
-        //     $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('member_detail','data'));
-        //     return $pdf->download('bag-purse-allowance-report-' . $member_detail->name . '.pdf');
-        // }else{
+            $members = Member::where('category', $request->category)->get();
+            $total = 0;
+            $member_purse_allowances = [];
 
-        //     $members = Member::where('category',$request->category)->get();
-        //     $total = 0;
-        //     foreach($members as $member)
-        //     {
-        //         $amount = MemberBagPurse::where('member_id', $member->id)->first();
-        //         $total += $amount->amount;
-        //     }
+            foreach ($members as $member) {
+                $amount = MemberBagPurse::where('member_id', $member->id)
+                                        ->where('year', $request->year)
+                                        ->first();
+                
+                if ($amount) {
+                    $total += $amount->amount ?? 0;
 
-        //     $pdf = PDF::loadView('frontend.reports.group-bag-purse-report-generate', compact('members','total'));
-        //     return $pdf->download('bag-purse-allowance-report-' . 'all-members' . '.pdf');
-        // } 
+                    $member_details = [
+                        'name' => $member->name,
+                        'designation' => $member->desigs->designation ?? 'N/A',
+                        'pay_level' => $member->payLevels->payLevels ?? 'N/A',
+                        'entitle_amount' => $amount->entitle_amount ?? 0,
+                        'bill_amount' => $amount->bill_amount ?? 0,
+                        'net_amount' => $amount->net_amount ?? 0,
+                        'remarks' => $amount->remarks ?? 'N/A'
+                    ];
+
+                    $member_purse_allowances[] = $member_details;
+                }
+            }
+
+            $pdf = PDF::loadView('frontend.reports.group-bag-purse-report-generate', compact('member_purse_allowances','total'));
+            return $pdf->download('bag-purse-allowance-report-' . 'all-members' . '.pdf');
+        } 
     }
 
     public function terminalBenefits()
@@ -1103,6 +1120,16 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'financial_year', 'member_credit_data'));
         return $pdf->download('form-sixteen-b-' . $member->name . '.pdf');
+    }
+
+    public function ltcAdvance()
+    {
+        return view('frontend.reports.ltc-advancement' );
+    }
+
+    public function ltcAdvanceSettlement()
+    {
+        return view('frontend.reports.ltc-advance-settlement');
     }
     
 }
