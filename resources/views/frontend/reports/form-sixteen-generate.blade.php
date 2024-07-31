@@ -294,7 +294,8 @@
                       border-left: 1px solid #000;
                       height: 10px;
                     "
-                  ></td>
+                  >
+                {{ $member_core_info->pan_no }}</td>
                 </tr>
                 <tr>
                   <td colspan="2"
@@ -330,9 +331,10 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                       height: 10px;
+                      vertical-align: top;
                     "
                   >
-                    Period
+                    Period 
                   </td>
                   <td  colspan="2"
                     style="
@@ -346,6 +348,7 @@
                       border-top: 1px solid #000;
                       border-left: 1px solid #000;
                       height: 10px;
+                       vertical-align: top;
                     "
                   >
                     Assessment year
@@ -385,7 +388,7 @@
                 >
                 Acknowledgement No
                 </td>
-                <td rowspan="5"
+                <td rowspan=""
                   style="
                     font-size: 10px;
                     line-height: 14px;
@@ -402,7 +405,7 @@
                 >
                 From 
                 </td>
-                <td rowspan="5"
+                <td rowspan=""
                 style="
                   font-size: 10px;
                   line-height: 14px;
@@ -420,7 +423,7 @@
               >
              To
               </td>
-              <td rowspan="5"
+              <td rowspan=""
                 style="
                   font-size: 10px;
                   line-height: 14px;
@@ -454,6 +457,54 @@
         >
         </td>
         <td
+        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: center;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            border-left: 1px solid #000;
+            height: 10px;
+        "
+        >
+        </td>
+        <td rowspan="4"             
+        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: center;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            border-left: 1px solid #000;
+            height: 10px;
+        "
+        >
+        </td>
+        <td rowspan="4"
+        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: center;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            border-bottom: 1px solid #000;
+            border-right: 1px solid #000;
+            border-left: 1px solid #000;
+            height: 10px;
+        "
+        >
+        </td>
+        <td rowspan="4"
         style="
             font-size: 10px;
             line-height: 14px;
@@ -621,7 +672,7 @@
                   <tr>
                     <td
                       style="
-                        width: 5%;
+                        width: 50px;
                         font-size: 10px;
                         line-height: 14px;
                         font-weight: 400;
@@ -704,6 +755,7 @@
                   <tr>
                     <td
                     style="
+                      width: 50px;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -784,6 +836,7 @@
                   <tr>
                     <td
                     style="
+                     width: 50px;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -864,6 +917,7 @@
                   <tr>
                     <td
                     style="
+                      width: 50px;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -945,6 +999,7 @@
                   <tr>
                     <td
                     style="
+                      width: 50px;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -1024,6 +1079,7 @@
                   <tr>
                     <td
                     style="
+                      width: 50px;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 600;
@@ -1103,7 +1159,7 @@
                   <tr>
                     <td
                     style="
-                      width: 10%;
+                      width: 50px;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
