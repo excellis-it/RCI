@@ -580,6 +580,33 @@ Route::middleware('permssions')->group(function () {
     Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
     // Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
 
+     // manik routes
+     Route::prefix('tada')->group(function () {
+        Route::get('/tada-delete/{id}', [TaDaController::class, 'delete'])->name('tada.delete');
+    });
+    Route::get('/tada-fetch-data', [TaDaController::class, 'fetchData'])->name('tada.fetch-data');
+
+    //tada Advance
+    Route::prefix('/member-info/tada-advance')->group(function () {
+        Route::get('/tada-advance-delete/{id}', [TadaAdvanceController::class, 'delete'])->name('tada-advance.delete');
+        Route::get('/tada-advance-fetch-data', [TadaAdvanceController::class, 'fetchData'])->name('tada-advance.fetch-data');
+        Route::get('/report/{id}', [TadaAdvanceController::class, 'report'])->name('tada-advance.report');
+        Route::get('/tada-priority-table/{id}', [TadaAdvanceController::class, 'priority_list'])->name('tada-priority.list');
+        Route::post('/tada-priority-add', [TadaAdvanceController::class, 'store_priority'])->name('tada-priority.add');
+        Route::get('/tada-priority-remove/{id}/{tada_adv_id}', [TadaAdvanceController::class, 'delete_priority']);
+        Route::get('/report-priority/{id}', [TadaAdvanceController::class, 'report_priority']);
+
+        Route::get('/tada-journey-table/{id}', [TadaJourneyDetailController::class, 'index'])->name('tada-journey.list');
+        Route::post('/tada-journey-add', [TadaJourneyDetailController::class, 'store'])->name('tada-journey.add');
+        Route::get('/tada-journey-remove/{id}/{tada_adv_id}', [TadaJourneyDetailController::class, 'delete']);
+        Route::get('/report-journey/{id}', [TadaJourneyDetailController::class, 'report']);
+    });
+
+    //tada Plus
+    Route::prefix('/member-info/tada-plus')->group(function () {
+        Route::get('/report/{id}', [TadaPlusClaimController::class, 'report'])->name('tada-plus.report-plus');
+    });
+
     // member info routes
     Route::prefix('member-info')->group(function () {
         Route::resources([
@@ -596,32 +623,7 @@ Route::middleware('permssions')->group(function () {
             'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
 
-        // manik routes
-        Route::prefix('tada')->group(function () {
-            Route::get('/tada-delete/{id}', [TaDaController::class, 'delete'])->name('tada.delete');
-        });
-        Route::get('/tada-fetch-data', [TaDaController::class, 'fetchData'])->name('tada.fetch-data');
-    
-        //tada Advance
-        Route::prefix('/member-info/tada-advance')->group(function () {
-            Route::get('/tada-advance-delete/{id}', [TadaAdvanceController::class, 'delete'])->name('tada-advance.delete');
-            Route::get('/tada-advance-fetch-data', [TadaAdvanceController::class, 'fetchData'])->name('tada-advance.fetch-data');
-            Route::get('/report/{id}', [TadaAdvanceController::class, 'report'])->name('tada-advance.report');
-            Route::get('/tada-priority-table/{id}', [TadaAdvanceController::class, 'priority_list'])->name('tada-priority.list');
-            Route::post('/tada-priority-add', [TadaAdvanceController::class, 'store_priority'])->name('tada-priority.add');
-            Route::get('/tada-priority-remove/{id}/{tada_adv_id}', [TadaAdvanceController::class, 'delete_priority']);
-            Route::get('/report-priority/{id}', [TadaAdvanceController::class, 'report_priority']);
-    
-            Route::get('/tada-journey-table/{id}', [TadaJourneyDetailController::class, 'index'])->name('tada-journey.list');
-            Route::post('/tada-journey-add', [TadaJourneyDetailController::class, 'store'])->name('tada-journey.add');
-            Route::get('/tada-journey-remove/{id}/{tada_adv_id}', [TadaJourneyDetailController::class, 'delete']);
-            Route::get('/report-journey/{id}', [TadaJourneyDetailController::class, 'report']);
-        });
-    
-        //tada Plus
-        Route::prefix('/member-info/tada-plus')->group(function () {
-            Route::get('/report/{id}', [TadaPlusClaimController::class, 'report'])->name('tada-plus.report-plus');
-        });
+       
     
 
         Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
