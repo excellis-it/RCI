@@ -1195,6 +1195,34 @@ class ReportController extends Controller
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
     }
 
+    public function formSixteenA()
+    {
+        $members = Member::all();
+        $assessment_year = Helper::getFinancialYears();
+
+        return view('frontend.reports.form-sixteen-a', compact('members', 'assessment_year'));
+    }
+
+    public function formSixteenAGenerate(Request $request)
+    {
+        $member = Member::where('id', $request->member_id)->with('desigs')->first();
+        $assessment_year = $request->report_year;
+        $current_financial_year = date('Y') . '-' . (date('Y') + 1);
+        $prerequisite172 = 0; $profits_in_lieu = 0; $total_from_other_employer = 0; $amt10a = 0; $amt10b = 0; $exemption10 = 0;
+        $standard_deduction_16 = 0; $entertainment_allow = 0; $profession_tax = 0; $other_deduction_via = 0;
+
+        [$startYear, $endYear] = explode('-', $request->report_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
+
+        $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();  
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-a-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear'));
+        return $pdf->download('form-sixteen-a-' . $member->name . '.pdf');
+    }
+
     public function payMatrixReport()
     {
         $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
