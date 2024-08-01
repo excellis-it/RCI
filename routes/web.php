@@ -210,6 +210,7 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/ltc-advance', [ReportController::class, 'ltcAdvanceReport'])->name('ltc-advance');
     Route::get('/ltc-advance-settlement', [ReportController::class, 'ltcAdvanceSettlementReport'])->name('ltc-advance-settlement');
+    Route::post('/get-member-leave-count', [ReportController::class, 'getMemberLeave'])->name('get-member-total-leave');
 
     Route::post('/ltc-advance-report', [ReportController::class, 'ltcAdvanceReportGenerate'])->name('ltc-advance-report-generate');
 

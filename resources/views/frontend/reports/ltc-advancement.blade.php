@@ -46,10 +46,11 @@
                                                                 <label>Member</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">member</option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
+                                                                <select name="member_id" class="form-select" id="member_id">
+                                                                    <option value="">Select Member</option>
+                                                                    @foreach($members as $member)
+                                                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                                                    @endforeach    
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -61,9 +62,10 @@
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">member</option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
+                                                                    <option value="">Select year</option>
+                                                                    @foreach($assessment_years as $year)
+                                                                        <option value="{{ $year }}">{{ $year }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                                 </div>
                                                             </div>
@@ -82,7 +84,7 @@
                                                         <div class="form-group col-md-3 mb-2">
                                                             <div class="row align-items-center">
                                                                 <div class="col-md-12">
-                                                                    <label>Period</label>
+                                                                    <label>Period (from start date to end date)</label>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <input type="date" name="" class="form-control" id="">
@@ -98,10 +100,11 @@
                                                                     <label>Leave Type</label>
                                                                 </div>
                                                                 <div class="col-md-12">
-                                                                    <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value=""></option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
+                                                                    <select name="leave_type" class="form-select" id="leave_type">
+                                                                    <option value="">Select Type</option>
+                                                                    @foreach($leave_types as $type)
+                                                                        <option value="{{ $type->id }}">{{ $type->leave_type }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                                 </div>
                                                             </div>
@@ -112,7 +115,7 @@
                                                                     <label>Earnd Leave</label>
                                                                 </div>
                                                                 <div class="col-md-12">
-                                                                    <input type="text" name="" class="form-control" id="">
+                                                                    <input type="text" name="total_leave" class="form-control" id="total_leave">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -385,88 +388,32 @@
 @endsection
 
 @push('scripts')
-    {{-- <script>
-        $(document).ready(function() {
-            $('#payslip-generate-form').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
 
+<script>
+    // get member total leave respect to leave_type
+    $(document).on('change', '#leave_type', function() {
+        var leave_type = $(this).val();
+        var member_id = $('#member_id').val();
 
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
-    <script>
-        $(document).ready(function() {
-            $('#report_year').change(function() {
-                var year = $(this).val();
-                var currentDate = new Date();
-                var monthDropdown = $('#report_month');
-
-                if(year == currentDate.getFullYear()) {
-                    var currentMonth = currentDate.getMonth() + 1;
-                    var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
-
-                    monthDropdown.empty();
-                    for (var month = 1; month <= endMonth; month++) {
-                        var option = $('<option></option>');
-                        option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
-                        monthDropdown.append(option);
-                    }
-
-                } else {
-                    monthDropdown.empty();
-                    for (var month = 1; month <= 12; month++) {
-                        var option = $('<option></option>');
-                        option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
-                        monthDropdown.append(option);
-                    }
+        if (leave_type != '' && member_id != '') {
+            $.ajax({
+                url: "{{ route('get-member-total-leave') }}",
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    leave_type: leave_type,
+                    member_id: member_id
+                },
+                success: function(response) {
+                    alert(response.leave);
+                    $('#total_leave').val(response.leave);
+                    
                 }
-                
             });
-        });
+        }
+    });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#e_status').change(function() {
-                var e_status = $(this).val();
-
-                $.ajax({
-                    url: "{{ route('reports.get-all-members') }}",
-                    type: 'POST',
-                    data: { e_status, _token: '{{ csrf_token() }}' },
-                    success: ({members}) => {
-                        const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
-                        members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
-                    },
-                    error: (xhr) => console.log(xhr)
-                });
-            });
-        });
-    </script>
+  
 
 
 @endpush
