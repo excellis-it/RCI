@@ -30,6 +30,9 @@ class AuthController extends Controller
                 return redirect()->route('dashboard');
             }else if (auth()->user()->status == 1 && Auth::user()->hasRole('MATERIAL-MANAGER')){
                 return redirect()->route('item-codes.index');
+            }else if (auth()->user()->status == 1 && Auth::user()->hasRole('ACCOUNTANT')){
+                
+                return redirect()->route('dashboard');
             } else {
                 auth()->logout();
                 return redirect()->back()->with('error', 'Your account is not active!');

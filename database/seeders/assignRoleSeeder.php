@@ -22,6 +22,10 @@ class assignRoleSeeder extends Seeder
             [
                 'name' => 'MATERIAL-MANAGER',
                 'guard_name' => 'web', 
+            ],
+            [
+                'name' => 'ACCOUNTANT',
+                'guard_name' => 'web', 
             ]
         ];
 

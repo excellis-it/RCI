@@ -221,6 +221,9 @@ Route::middleware('permssions')->group(function () {
     // family member
     Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
 
+    Route::get('/reports-pay-matrix', [ReportController::class, 'payMatrixReport'])->name('reports.pay-matrix');
+    Route::post('/reports-pay-matrix-generate', [ReportController::class, 'payMatrixReportGenerate'])->name('reports.pay-matrix-report-generate');
+
         //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
