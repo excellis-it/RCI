@@ -193,6 +193,7 @@ Route::middleware('permssions')->group(function () {
         'bag-allowance' => BagPurseAllowanceController::class,
 
         //manik routes
+        'tada-advance' => TadaAdvanceController::class,
         'tada' => TaDaController::class,
         'tada-plus' => TadaPlusClaimController::class,
         'tada-journey' => TadaJourneyDetailController::class

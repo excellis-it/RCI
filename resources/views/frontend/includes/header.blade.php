@@ -2,8 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse"
-                    href="javascript:void(0)">
+                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
@@ -11,17 +10,16 @@
 
         <ul class="navbar-nav quick-links d-none d-lg-flex">
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)"
-                    data-bs-toggle="dropdown">Administration<span class="mt-1"><i
-                            class="ti ti-chevron-down"></i></span></a>
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Administration<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('rules.index')}}">Rule Updation</a>
+                                    href="{{ route('rules.index') }}">Rule Updation</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Exception</a>
                             </li>
@@ -36,58 +34,58 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Installment Update</a>
+                            </li> --}}
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('sections.index') }}">Section</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('sections.index')}}">Section</a>
+                                    href="{{ route('designation-types.index') }}">Designation Type</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('designation-types.index')}}">Designation Type</a>
-                            </li>
-
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('categories.index')}}">Category Update</a>
+                                    href="{{ route('categories.index') }}">Category Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('payscale-types.index')}}">PayScale Type</a>
+                                    href="{{ route('payscale-types.index') }}">PayScale Type</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('payscales.index')}}">PayScale Update</a>
+                                    href="{{ route('payscales.index') }}">PayScale Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('payband-types.index')}}">PayBand Type</a>
+                                    href="{{ route('payband-types.index') }}">PayBand Type</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('paybands.index')}}">PayBand Update</a>
+                                    href="{{ route('paybands.index') }}">PayBand Update</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('designations.index')}}">Desig Update</a>
+                                    href="{{ route('designations.index') }}">Desig Update</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Pers Update</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('users.index')}}">New User</a>
+                                    href="{{ route('users.index') }}">New User</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('password') }}">Password Change</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Permission</a>
-                            </li>
+                            </li> --}}
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Clear Remarks</a>
@@ -203,30 +201,30 @@
             </li> --}}
 
             <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Reports<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Reports<span class="mt-1"><i
+                            class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.payslip')}}" >Payslip</a>
+                                    href="{{ route('reports.payslip') }}">Payslip</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.annual-income-tax-report')}}" >Annual Income Tax</a>
+                                    href="{{ route('reports.annual-income-tax-report') }}">Annual Income Tax</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.paybill')}}" >Paybill</a>
+                                    href="{{ route('reports.paybill') }}">Paybill</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.payroll')}}" >Payroll</a>
+                                    href="{{ route('reports.payroll') }}">Payroll</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.children-allowance')}}" >Children Allowance</a>
+                                    href="{{ route('reports.children-allowance') }}">Children Allowance</a>
                             </li>
 
                             {{-- <li class="mb-2">
@@ -235,17 +233,18 @@
                             </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.newspaper-allowance')}}" >Newspaper Allowance</a>
+                                    href="{{ route('reports.newspaper-allowance') }}">Newspaper Allowance</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.landline-mobile-allowance')}}" >Landline/Mobile Allowance</a>
+                                    href="{{ route('reports.landline-mobile-allowance') }}">Landline/Mobile
+                                    Allowance</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.bag-purse-allowance')}}" >Bag/Ladies Purse</a>
+                                    href="{{ route('reports.bag-purse-allowance') }}">Bag/Ladies Purse</a>
                             </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -253,19 +252,20 @@
                             </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.salary-certificate')}}" >Salary Certificate</a>
+                                    href="{{ route('reports.salary-certificate') }}">Salary Certificate</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.bonus-schedule')}}" >Bonus & Dress Allowance</a>
+                                    href="{{ route('reports.bonus-schedule') }}">Bonus & Dress Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.last-pay-certificate')}}" >Last Pay Certificate</a>
+                                    href="{{ route('reports.last-pay-certificate') }}">Last Pay Certificate</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('reports.professional-update-allowance')}}" >Professional Update Allowance</a>
+                                    href="{{ route('reports.professional-update-allowance') }}">Professional Update
+                                    Allowance</a>
                             </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -278,34 +278,34 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.quaterly-tds')}}">Quaterly TDS Report</a>
+                                    href="{{ route('reports.quaterly-tds') }}">Quaterly TDS Report</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.gpf-withdrawal')}}">GPF Withdrawal</a>
+                                    href="{{ route('reports.gpf-withdrawal') }}">GPF Withdrawal</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.gpf-subscription')}}">GPF Subscription</a>
+                                    href="{{ route('reports.gpf-subscription') }}">GPF Subscription</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.terminal-benefits')}}">Terminal Benefit</a>
+                                    href="{{ route('reports.terminal-benefits') }}">Terminal Benefit</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.form-16')}}">Form 16 </a>
+                                    href="{{ route('reports.form-16') }}">Form 16 </a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.form-16b')}}">Form 16 (Part B)</a>
+                                    href="{{ route('reports.form-16b') }}">Form 16 (Part B)</a>
                             </li>
-{{-- 
+                            {{-- 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.ltc-advance')}}">Ltc Advance</a>
@@ -318,7 +318,7 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('ltc-advance')}}">Ltc Advance</a>
+                                    href="{{ route('ltc-advance') }}">Ltc Advance</a>
                             </li>
 
                             {{-- <li class="mb-2">
@@ -459,12 +459,19 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('bag-allowance.index')}}" >Bag/Ladies-Purse Allowance</a>
+                                    href="{{ route('bag-allowance.index') }}">Bag/Ladies-Purse Allowance</a>
                             </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pension-rate.index') }}">Pension Rates</a>
+                            </li>
+
+                            {{-- manik's work --}}
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('tada.index') }}">TA/DA Categorial Allowance</a>
                             </li>
 
 
@@ -493,11 +500,13 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-newspaper-allowance.index') }}">Member Newspaper Allowance</a>
+                                    href="{{ route('member-newspaper-allowance.index') }}">Member Newspaper
+                                    Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                href="{{ route('member-bag-allowance.index')}}" target="_blank">Member Purse Allowance</a>
+                                    href="{{ route('member-bag-allowance.index') }}" target="_blank">Member Purse
+                                    Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -528,6 +537,15 @@
                                     href="{{ route('member-pension.index') }}">Member Pension</a>
                             </li> --}}
 
+                            {{-- manik's work --}}
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('tada-advance.index') }}">TA/DA Advance</a>
+                            </li>
+                           <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('tada-plus.index') }}">TA/DA Plus Claim</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -591,7 +609,8 @@
         </ul>
 
         <div class="d-block d-lg-none">
-            <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
+            <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" width=""
+                alt="">
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
@@ -603,7 +622,7 @@
             </li> --}}
             <li class="nav-item">
                 <a class="fw-semibold bg-hover-primary text-decoration-none text-deger ps-3 d-none d-md-block"
-                    href="{{route('logout')}}">
+                    href="{{ route('logout') }}">
                     <i class="ti ti-logout fs-4"></i> Logout
                 </a>
             </li>
@@ -758,7 +777,7 @@
                             <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                                 <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                     <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
-                                    width="24" height="24">
+                                        width="24" height="24">
                                 </span>
                                 <div class="w-75 d-inline-block v-middle ps-3">
                                     <h6 class="mb-1 bg-hover-primary fw-semibold"> Change Logo </h6>
