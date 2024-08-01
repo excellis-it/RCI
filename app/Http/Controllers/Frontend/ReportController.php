@@ -1235,5 +1235,25 @@ class ReportController extends Controller
         return $pdf->download('pay-matrix-commission-report-' . '.pdf');
 
     }
+
+    public function daArrears()
+    {
+        $financialYears = Helper::getFinancialYears();
+        return view('frontend.reports.da-arrears', compact('financialYears'));
+    }
+
+    public function daArrearsGenerate(Request $request)
+    {
+        $members = Member::where('e_status', $request->e_status)->get();
+        $assessment_year = $request->report_year;
+        $current_financial_year = date('Y') . '-' . (date('Y') + 1);
+        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $da_arrears = MemberCredit::where('member_id', $request->member_id)->where('created_at', $request->report_year)->first();
+
+        // $fake_members = [];
+
+        $pdf = PDF::loadView('frontend.reports.da-arrears-generate', compact('members', 'assessment_year', 'current_financial_year', 'da_percentage', 'da_arrears'));
+        return $pdf->download('da-arrears-' . $assessment_year . '.pdf');
+    }
     
 }

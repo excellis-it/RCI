@@ -300,6 +300,10 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-form-16a', [ReportController::class, 'formSixteenA'])->name('reports.form-16a');
     Route::post('reports-form-16a-generate', [ReportController::class, 'formSixteenAGenerate'])->name('reports.form-16a-generate');
 
+        // da arrears report
+    Route::get('reports-da-arrears', [ReportController::class, 'daArrears'])->name('reports.da-arrears');
+    Route::post('reports-da-arrears-generate', [ReportController::class, 'daArrearsGenerate'])->name('reports.da-arrears-generate');
+
         
 
         // form 12 bb
