@@ -26,7 +26,7 @@
                         <a data-route="{{route('tada-advance.edit', $val->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                         &nbsp;<a href="{{URL::to('/member-info/tada-advance/report/'.$val->id)}}"  class="edit_pencil"><i class="ti ti-download"></i></a>
 
-                        <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('tada-advance.delete', $val->id)}}"><i class="ti ti-trash"></i></a>
+                        {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('tada-advance.delete', $val->id)}}"><i class="ti ti-trash"></i></a> --}}
                     </td>
                 </tr>
             @endforeach
