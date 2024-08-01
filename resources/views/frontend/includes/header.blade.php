@@ -313,6 +313,11 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.da-arrears') }}">DA Arrears</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.pay-matrix') }}">Pay Matrix</a>
                             </li>
                             
