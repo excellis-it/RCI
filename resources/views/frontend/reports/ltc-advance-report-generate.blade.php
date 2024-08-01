@@ -211,9 +211,7 @@
               ">
                                     Mr. {{ $member->name ?? '' }}, {{ $member->emp_id ?? '' }},
                                     ({{ $member->gpf_pran_no ?? '' }}) {{ $member->bank_ac_no ?? '' }}
-                                    2005AC1383,
-                                    SCIENTIST F, (1602548)
-                                    10468461137
+                                 
                                 </td>
                                 <td
                                     style="
@@ -229,7 +227,7 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                                    127700
+                                    00000
                                 </td>
                                 <td
                                     style="
@@ -261,7 +259,7 @@
                 margin: 0px 0px !important;
                 height: 20px;
               ">
-                                    Total Amount: 127700
+                                    Total Amount: 0000
                                 </td>
                             </tr>
                         </tbody>
@@ -1441,7 +1439,7 @@
                                 </td>
                                 <td colspan="5"
                                 style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border: 1px solid #000; text-transform: uppercase;">
-                                Rs. 127700 
+                                Rs. 00000
                                 </td>
                             </tr>
                             <tr>
