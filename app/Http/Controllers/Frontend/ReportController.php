@@ -34,6 +34,9 @@ use App\Models\Category;
 use App\Models\MemberFamily;
 use App\Models\DebitVoucherDetail;
 use App\Models\MemberGpf;
+use App\Models\LeaveType;
+use App\Models\MemberAllotedLeave;
+use App\Models\MemberLeave;
 use App\Models\MemberRetirementInfo;
 
 
@@ -1129,7 +1132,19 @@ class ReportController extends Controller
 
     public function ltcAdvance()
     {
-        return view('frontend.reports.ltc-advancement' );
+        $members = Member::orderBy('id', 'desc')->get();
+        $assessment_years = Helper::getFinancialYears();
+        $leave_types = LeaveType::where('status',1)->orderBy('id','desc')->get();
+        return view('frontend.reports.ltc-advancement',compact('members','assessment_years','leave_types'));
+    }
+
+    public function getMemberLeave(Request $request)
+    {
+        $leave = MemberLeave::where('member_id', $request->member_id)
+        ->where('leave_type_id', $request->leave_type)
+        ->where('year', date('Y'))
+        ->sum('remaining_leaves');
+        return response()->json(['leave' => $leave->remaining_leaves]);
     }
 
     public function ltcAdvanceSettlement()
@@ -1144,9 +1159,10 @@ class ReportController extends Controller
         return view('frontend.reports.ltc-advance-report',compact('members','categories'));
     }
 
-    public function ltcAdvanceReportGenerate()
+    public function ltcAdvanceReportGenerate(Request $request)
     {
-        $pdf = PDF::loadView('frontend.reports.ltc-advance-report-generate');
+        $member = Member::where('id', $request->member_id)->first();
+        $pdf = PDF::loadView('frontend.reports.ltc-advance-report-generate',compact('member'));
         return $pdf->download('ltc-advance-' .'.pdf');
     }
 

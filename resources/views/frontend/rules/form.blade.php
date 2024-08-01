@@ -50,7 +50,7 @@
                                 <select name="year" class="form-select" id="year">
                                     <option value="">Select Year</option>
                                     @for ($i = date('Y'); $i >= 1950; $i--)
-                                        <option value="{{ $i }}" {{ $rule->year == }}>
+                                        <option value="{{ $i }}" {{ $rule->year == $i}}>
                                             {{ $i }}</option>
                                     @endfor
                                 </select>
