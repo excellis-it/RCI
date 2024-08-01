@@ -52,7 +52,7 @@
                                 </td>
                                 <td>
                                     
-                                    <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;" src="" />
+                                    <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;" src="https://excellis.co.in/rci//frontend_assets/images/drdo-logo.png" />
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
