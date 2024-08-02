@@ -72,12 +72,12 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Unit Code (युनिट कोड): 330000110 <br>
-                                    Proj. Name (परीयोजना का नाम): {{$project->name}} <br>
-                                    Bill No (विल): {{$tadaAdv->bill_no}}<br>
+                                    Unit Code : 330000110 <br>
+                                    Proj. Name : {{$project->name}} <br>
+                                    Bill No : {{$tadaAdv->bill_no}}<br>
                                     Indent No: 20{{time()}} <br>
                                     MO No: BUO20{{time()}} <br>
-                                    Date (तारीख): {{date('jS F, Y')}}
+                                    Date {{date('jS F, Y')}}
                                 </th>
                             </tr>
 
@@ -155,7 +155,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Signature (हस्ताक्षर)<br>
+                                    Signature <br>
                                     (PIS NO: 2004AC1214) <br>
                                     {{$member['desigs']->designation}}<br>
                                     Pay Level: @if($memberPerInfo) {{$memberPerInfo->pm_level}} @endif <br>
