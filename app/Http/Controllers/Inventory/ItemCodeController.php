@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ItemCode;
 use App\Models\Member;
+use App\Models\Uom;
 use Illuminate\Support\Str;
 use App\Models\User;
 
@@ -19,8 +20,9 @@ class ItemCodeController extends Controller
     {
         $items = ItemCode::orderBy('id','desc')->paginate(10);
         $members = User::role('MATERIAL-MANAGER')->get();
+        $uoms = Uom::all();
 
-        return view('inventory.items.list',compact('items', 'members'));
+        return view('inventory.items.list',compact('items', 'members', 'uoms'));
     }
 
     public function fetchData(Request $request)
@@ -66,9 +68,10 @@ class ItemCodeController extends Controller
 
         // Fetch members
          $members = User::role('MATERIAL-MANAGER')->get();
+         $uoms = Uom::all();
 
         return response()->json([
-            'data' => view('inventory.items.table', compact('items', 'members'))->render()
+            'data' => view('inventory.items.table', compact('items', 'members', 'uoms'))->render()
         ]);
     }
 }
@@ -139,8 +142,9 @@ class ItemCodeController extends Controller
         
         $edit_item_code = ItemCode::find($id);
         $members = User::role('MATERIAL-MANAGER')->get();
+        $uoms = Uom::all();
         $edit = true;
-        return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members'))->render()]);
+        return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members', 'uoms'))->render()]);
 
     }
 

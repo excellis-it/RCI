@@ -320,10 +320,12 @@
                     // $('#description').val(response.description);
                     // $('#uom').val(response.uom);
 
+
                     var $row = $(getval).closest('.count-class');
                     $row.find('#item_type').val(response.item_type);
                     $row.find('#description').val(response.description);
                     $row.find('#uom').val(response.uom);
+                    $row.find('#uom_id').val(response.uom_id);
                 },
                 error: function(xhr) {
                     console.log(xhr);

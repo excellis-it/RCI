@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('payment_type', ['onetime', 'perday', 'perkm', 'permonth', 'peryear', 'perweek']);
             $table->tinyInteger('currency')->comment('1=INR, 2=USD');
             $table->tinyInteger('status')->default(1)->comment('1=Active, 0=Inactive');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
 
             // Optional: Add indexes, foreign keys, etc. as needed
         });
