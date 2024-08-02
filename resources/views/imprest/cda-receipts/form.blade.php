@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-xl-8">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
@@ -21,16 +21,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>DV Date</label>
+                                    <label>Cheque No</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" 
+                                        name="chq_no" id="chq_no" value="{{ $cdaReceipt->cheq_no }}" placeholder="">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Chq Date</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" 
-                                        name="dv_date" id="dv_date" value="{{ $cdaReceipt->dv_date }}" placeholder="">
-                                    
+                                        name="cheq_date" id="cheq_date" value="{{ $cdaReceipt->cheq_date }}" placeholder="">
+                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -41,19 +55,18 @@
                                 <label>Rct Vr. Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" value="{{ $cdaReceipt->amount }}" name="vr_amount" id="vr_amount"
+                                <input type="text" class="form-control" value="{{ $cdaReceipt->amount }}" name="amount" id="amount"
                                     placeholder="">
-                                
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-6">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Details</label>
                             </div>
                             <div class="col-md-12">
-
                                 <select name="details" class="form-select">
                                     <option value="" selected>Select</option>
                                     @foreach ($cdaReceiptDetails as $key => $cdaReceiptDetail)
@@ -61,9 +74,6 @@
                                             {{ $cdaReceiptDetail->details }}</option>
                                     @endforeach
                                 </select>
-
-                                
-                                
                             </div>
                         </div>
                     </div>
@@ -89,7 +99,7 @@
         <div class="row">
             <div class="col-xl-8">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
@@ -103,16 +113,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>DV Date</label>
+                                    <label>Chq No</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" 
+                                        name="chq_no" id="chq_no"  placeholder="">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Chq Date</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" 
-                                        name="dv_date" id="dv_date" placeholder="">
-                                        <span class="text-danger"></span>
+                                        name="cheq_date" id="cheq_date" placeholder="">
+                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

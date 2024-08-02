@@ -56,11 +56,16 @@ CDA Receipt List
                                                     style="cursor: pointer">VR DATE.<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="dv_date"
-                                                    style="cursor: pointer">DV DATE<span id="dv_date_icon"><i
+                                                    style="cursor: pointer">CHQ NO.<span id="dv_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="dv_date"
+                                                    style="cursor: pointer">CHQ DATE.<span id="dv_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>                                          
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">AMT<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                    style="cursor: pointer">DETAIL<span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 
                                                 <th></th>
