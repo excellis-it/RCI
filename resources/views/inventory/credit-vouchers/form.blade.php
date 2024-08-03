@@ -88,6 +88,7 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="uom" id="uom"
                                     value="{{ $creditVoucher->uom ?? '' }}" placeholder="">
+                                <input type="hidden" name="uom_id[]" id="uom_id">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -340,6 +341,7 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="uom[]" id="uom"
                                     value="" placeholder="" readonly>
+                                <input type="hidden" name="uom_id[]" id="uom_id">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -626,6 +628,7 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="uom[]" id="uom"
                                     value="" placeholder="">
+                                    <input type="hidden" name="uom_id[]" id="uom_id">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

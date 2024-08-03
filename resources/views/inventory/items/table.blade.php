@@ -3,7 +3,16 @@
         <tr>
             <td> {{ (($items->currentPage()-1) * $items->perPage() + $loop->index + 1) ?? 0 }}</td>
             <td>{{$item->code ?? 'N/A'}}</td>
-            <td>{{$item->uom ?? 'N/A'}}</td>
+            @if($item->uom != null)
+                @foreach ($uoms as $uom)
+                    @if ($uom->id == $item->uom)
+                        <td>{{$uom->name ?? 'N/A'}}</td>
+                    @endif
+                    
+                @endforeach
+            @else
+                <td>N/A</td>
+            @endif
             <td>{{$item->item_type ?? 'N/A'}}</td>
             <td>{{$item->entry_date ?? 'N/A'}}</td>
             <td>{{ $item->createdBy->user_name ?? 'N/A'}}</td>

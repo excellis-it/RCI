@@ -13,6 +13,7 @@ use App\Models\SupplyOrder;
 use App\Models\CreditVoucherDetail;
 use App\Models\Rin;
 use App\Models\InventoryProject;
+use App\Models\Uom;
 use Carbon\Carbon;
 
 class CreditVoucherController extends Controller
@@ -31,7 +32,8 @@ class CreditVoucherController extends Controller
         $supplyOrders = SupplyOrder::all();
         $rins = Rin::all();
         $projects = InventoryProject::all();
-        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects'));
+        $uoms = Uom::all();
+        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms'));
     }
 
     public function fetchData(Request $request)
@@ -148,7 +150,7 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->item_code_id = $request->item_code_id[$key];
                     $creditVoucherDetail->inv_no = $request->inv_no[$key];
                     $creditVoucherDetail->description = $request->description[$key];
-                    $creditVoucherDetail->uom = $request->uom[$key];
+                    $creditVoucherDetail->uom = $request->uom_id[$key];
                     $creditVoucherDetail->item_type = $request->item_type[$key];
                     $creditVoucherDetail->price = $request->price[$key];
                     $creditVoucherDetail->quantity = $request->quantity[$key];
@@ -188,9 +190,10 @@ class CreditVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $supplyOrders = SupplyOrder::all();
         $members = Member::all();
+        $uoms = Uom::all();
         $edit = true;
 
-        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members'))->render()]);
+        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms'))->render()]);
         // return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 
@@ -211,7 +214,7 @@ class CreditVoucherController extends Controller
         $creditVoucher->voucher_date = $request->voucher_date;
         // $creditVoucher->inv_no = $request->inv_no;
         // $creditVoucher->description = $request->description;
-        $creditVoucher->uom = $request->uom;
+        $creditVoucher->uom = $request->uom_id;
         // $creditVoucher->item_type = $request->item_type;
         $creditVoucher->tax = intval($request->tax);
         $creditVoucher->price = $request->price;
@@ -247,7 +250,8 @@ class CreditVoucherController extends Controller
     {
         // dd($request->all());
         $itemCode = ItemCode::findOrFail($request->item_code_id);
+        $uom = Uom::findOrFail($itemCode->uom);
         // $inventoryType = InventoryType::findOrFail($itemCode->inventory_type_id);
-        return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description, 'uom' => $itemCode->uom]);
+        return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description, 'uom' => $uom->name, 'uom_id' => $uom->id]);
     }
 }

@@ -91,6 +91,8 @@ use App\Http\Controllers\Inventory\CreditVoucherNumberController;
 use App\Http\Controllers\Inventory\CertificateIssueVoucherController;
 use App\Http\Controllers\Inventory\TransferVoucherController;
 use App\Http\Controllers\Inventory\RinController;
+use App\Http\Controllers\Inventory\UomController;
+use App\Http\Controllers\Inventory\VendorController;
 use App\Http\Controllers\Inventory\DashbaordController as InventoryDashbaordController;
 use App\Http\Controllers\Inventory\ReportController as InventoryReportController;
 
@@ -804,6 +806,8 @@ Route::middleware('permssions')->group(function () {
                 'supply-orders' => SupplyOrderController::class,
                 'credit-voucher-numbers' => CreditVoucherNumberController::class,
                 'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
+                'uom' => UomController::class,
+                'vendors' => VendorController::class,
             ]);
 
             // report routes
@@ -899,6 +903,12 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
             });
             Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
+
+            // uoms
+            Route::get('/uom-fetch-data', [UomController::class, 'fetchData'])->name('uom.fetch-data');
+
+            // vendors
+            Route::get('/vendors-fetch-data', [VendorController::class, 'fetchData'])->name('vendors.fetch-data');
         });
 
     });
