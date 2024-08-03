@@ -56737,6 +56737,32 @@ ul {
     font-weight: 700 !important;  
 }
 
+/* imprest module report css */
+.boxed label {
+    display: inline-block;
+    width: 200px;
+    padding: 10px;
+    border: solid 2px #ccc;
+    transition: all 0.3s;
+}
+
+.boxed input[type="radio"] {
+    display: none;
+}
+
+.boxed input[type="radio"]:checked + label {
+    border: solid 2px #074465;
+}
+
+.boxed label:hover {
+    border-color: #074465; 
+    background-color: #f0f0f0;
+}
+
+.radio-container {
+    margin-bottom: 10px; 
+}
+
 
 @media (max-width:1600px) {
     .app-header .navbar .navbar-nav .nav-item .nav-link{
