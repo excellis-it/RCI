@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cda_bill_audit_teams', function (Blueprint $table) {
-            $table->integer('pc_no')->nullable()->after('adv_amount');
-            $table->integer('firm_name')->nullable()->after('crv_no');
-            $table->integer('cda_bill_no')->nullable()->after('firm_name');
-            $table->integer('cda_bill_date')->nullable()->after('cda_bill_no');
-            $table->integer('cda_bill_amount')->nullable()->after('cda_bill_no');
+            $table->string('pc_no')->nullable()->after('adv_amount');
+            $table->string('firm_name')->nullable()->after('crv_no');
+            $table->string('cda_bill_no')->nullable()->after('firm_name');
+            $table->string('cda_bill_date')->nullable()->after('cda_bill_no');
+            $table->string('cda_bill_amount')->nullable()->after('cda_bill_no');
         });
     }
 
