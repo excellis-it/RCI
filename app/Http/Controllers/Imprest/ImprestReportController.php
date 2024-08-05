@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use PDF;
 use App\Models\CdaBillAuditTeam;
 use DateTime;
+use Carbon\Carbon;
 
 class ImprestReportController extends Controller
 {
@@ -54,8 +55,14 @@ class ImprestReportController extends Controller
 
         }else if($request->bill_type == 'cda_bill'){
 
-            $cda_at_bills = CdaBillAuditTeam::orderBy('id','desc')->get();
-            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date','cda_at_bills'));
+            $cda_at_bills = CdaBillAuditTeam::orderBy('id', 'desc')
+                            ->where('created_at', '<', $request_date)
+                            ->get();
+            $total = 0;
+            foreach($cda_at_bills as $cda_at_bill){
+                $total += $cda_at_bill->cda_bill_amount;
+            }
+            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date','cda_at_bills','total'));
             return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
         }else{
             return redirect()->back()->with('error', 'Invalid Bill Type');

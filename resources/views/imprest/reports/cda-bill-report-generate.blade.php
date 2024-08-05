@@ -245,7 +245,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                  CH0026
+                  {{ $cda_at_bill->pc_no ?? '' }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -258,7 +258,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                  BuildUp
+                  {{ $cda_at_bill->project->name ?? '' }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -271,7 +271,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                  12
+                   {{ $cda_at_bill->adv_no ?? '' }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -284,7 +284,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                  10/01/2024
+                   {{ $cda_at_bill->adv_date ?? '' }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -297,7 +297,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                  5000
+                  {{ $cda_at_bill->adv_amount ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -309,7 +309,7 @@
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
-              ">
+              "> {{ $cda_at_bill->var_no ?? '' }}
                 
                 </td>
                 <td style="
@@ -323,7 +323,7 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                11/05/2016
+                {{ $cda_at_bill->var_date ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -336,7 +336,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                   0
+                    {{ $cda_at_bill->var_amount ?? '' }}
               </td>
               <td style="
                 font-size: 10px;
@@ -349,7 +349,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-
+                {{ $cda_at_bill->crv_no ?? '' }}
               </td>
               <td style="
                 font-size: 10px;
@@ -362,7 +362,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                  
+                   {{ $cda_at_bill->firm_name ?? '' }}
               </td>
               <td style="
                 font-size: 10px;
@@ -375,7 +375,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                  
+                   {{ $cda_at_bill->cda_bill_no ?? '' }}
               </td>
               <td style="
                 font-size: 10px;
@@ -388,7 +388,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                   20/04/2016 4:21:50 PM
+                  {{ $cda_at_bill->cda_bill_date ?? '' }}
               </td>
               <td style="
                 font-size: 10px;
@@ -400,7 +400,7 @@
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
-              ">
+              ">{{ $cda_at_bill->cda_bill_amount ?? '' }}
 
               </td>
               </tr>
@@ -579,7 +579,7 @@
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
-              ">
+              ">{{ $total ?? 0}}
 
               </td>
               </tr>
