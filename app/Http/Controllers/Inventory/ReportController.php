@@ -146,4 +146,16 @@ class ReportController extends Controller
         $pdf = PDF::loadView('frontend.reports.single-debit-voucher-generate', compact('debitVoucher', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
         return $pdf->download('debit-voucher.pdf');
     }
+
+    public function lvpList()
+    {
+        return view('frontend.reports.lvp-list');
+    }
+
+    public function lvpListGenerate(Request $request)
+    {
+
+        $pdf = PDF::loadView('frontend.reports.single-lvp-generate');
+        return $pdf->download('lvp-list.pdf');
+    }
 }

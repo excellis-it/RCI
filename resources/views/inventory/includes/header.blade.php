@@ -96,10 +96,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('credit-voucher-numbers.index') }}">Credit Voucher Numbers</a>
                             </li> --}}
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Report Generation</a>
-                            </li>
+                            </li> --}}
                               
                         </ul>
                     </div>
@@ -122,6 +122,26 @@
                     </div>
                 </div>
             </li> --}}
+
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Reports<span
+                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('inventory-types.index') }}">Inventory Type</a>
+                            </li> --}}
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('uom.index') }}">LVP List</a>
+                            </li>
+                              
+                        </ul>
+                    </div>
+                </div>
+            </li>
 
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Public Fund<span

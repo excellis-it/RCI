@@ -810,6 +810,10 @@ Route::middleware('permssions')->group(function () {
             Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
                 // debit voucher
             Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
+                // lvp list
+            Route::get('/reports-lvp-list', [InventoryReportController::class, 'lvpList'])->name('reports.lvp-list');
+            Route::post('/reports-lvp-list-generate', [InventoryReportController::class, 'lvpListGenerate'])->name('reports.lvp-list-generate');
+
 
             //reset item codes
             Route::prefix('reset-codes')->group(function () {
