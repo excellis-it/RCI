@@ -63,18 +63,20 @@ class CdaBillAuditTeamController extends Controller
     public function store(Request $request)
     {
         
-        $request->validate([
-            'adv_no' => 'required',
-            'adv_date' => 'required',
-            'adv_amount' => 'required|numeric',
-            'project_id' => 'required',
-            'var_date' => 'required',
-            'var_amount' => 'required|numeric',
-            'var_type_id' => 'required',
-            'chq_no' => 'required',
-            'chq_date' => 'required',
-            'crv_no' => 'required',
-        ]);
+        // $request->validate([
+        //     'pc_no' => 'required',
+        //     'project_id' => 'required',
+        //     'adv_no' => 'required|numeric',
+        //     'adv_date' => 'required',
+        //     'adv_amount' => 'required',
+        //     'var_date' => 'required|numeric',
+        //     'var_amount' => 'required',
+        //     'crv_no' => 'required',
+        //     'firm_name' => 'required',
+        //     'cda_bill_no' => 'required',
+        //     'cda_bill_date' => 'required',
+        //     'cda_bill_amount' => 'required',
+        // ]);
 
         $voucherText = ImprestResetVoucher::where('status', 1)->first();
         $cdaBill = CdaBillAuditTeam::latest()->first();
@@ -90,17 +92,19 @@ class CdaBillAuditTeamController extends Controller
         }
         
         $cda_bill = new CdaBillAuditTeam();
+        $cda_bill->pc_no = $request->pc_no;
+        $cda_bill->project_id = $request->project_id;
         $cda_bill->adv_no = $request->adv_no;
         $cda_bill->adv_date = $request->adv_date;
-        $cda_bill->project_id = $request->project_id;
-        $cda_bill->var_type_id = $request->var_type_id;
         $cda_bill->adv_amount = $request->adv_amount;
         $cda_bill->var_no = $constantString . $counter;
         $cda_bill->var_date = $request->var_date;
         $cda_bill->var_amount = $request->var_amount;
-        $cda_bill->chq_no = $request->chq_no;
-        $cda_bill->chq_date = $request->chq_date;
         $cda_bill->crv_no = $request->crv_no;
+        $cda_bill->firm_name = $request->firm_name;
+        $cda_bill->cda_bill_no = $request->cda_bill_no;
+        $cda_bill->cda_bill_date = $request->cda_bill_date;
+        $cda_bill->cda_bill_amount = $request->cda_bill_amount;
         $cda_bill->save();
 
         session()->flash('message', 'CDA bill updated successfully');
@@ -133,30 +137,32 @@ class CdaBillAuditTeamController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'adv_no' => 'required',
-            'adv_date' => 'required',
-            'adv_amount' => 'required|numeric',
-            'project_id' => 'required',
-            'var_date' => 'required',
-            'var_amount' => 'required|numeric',
-            'var_type_id' => 'required',
-            'chq_no' => 'required',
-            'chq_date' => 'required',
-            'crv_no' => 'required',
-        ]);
+        // $request->validate([
+        //     'adv_no' => 'required',
+        //     'adv_date' => 'required',
+        //     'adv_amount' => 'required|numeric',
+        //     'project_id' => 'required',
+        //     'var_date' => 'required',
+        //     'var_amount' => 'required|numeric',
+        //     'var_type_id' => 'required',
+        //     'chq_no' => 'required',
+        //     'chq_date' => 'required',
+        //     'crv_no' => 'required',
+        // ]);
 
         $cda_bill = CdaBillAuditTeam::findOrFail($id);
+        $cda_bill->pc_no = $request->pc_no;
+        $cda_bill->project_id = $request->project_id;
         $cda_bill->adv_no = $request->adv_no;
         $cda_bill->adv_date = $request->adv_date;
-        $cda_bill->project_id = $request->project_id;
-        $cda_bill->var_type_id = $request->var_type_id;
         $cda_bill->adv_amount = $request->adv_amount;
         $cda_bill->var_date = $request->var_date;
         $cda_bill->var_amount = $request->var_amount;
-        $cda_bill->chq_no = $request->chq_no;
-        $cda_bill->chq_date = $request->chq_date;
         $cda_bill->crv_no = $request->crv_no;
+        $cda_bill->firm_name = $request->firm_name;
+        $cda_bill->cda_bill_no = $request->cda_bill_no;
+        $cda_bill->cda_bill_date = $request->cda_bill_date;
+        $cda_bill->cda_bill_amount = $request->cda_bill_amount;
         $cda_bill->update();
 
         session()->flash('message', 'CDA bill updated successfully');

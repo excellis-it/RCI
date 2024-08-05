@@ -41,7 +41,7 @@
                 <a class="nav-link {{ Route::is('project.index') ? 'active' : '' }}" href="{{ route('project.index') }}">Projects</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link" href="#">Report</a>
+                <a class="nav-link" href="{{ route('imprest-report') }}">Report</a>
             </li>
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pay & Allowance<span

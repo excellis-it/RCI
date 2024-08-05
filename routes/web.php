@@ -49,7 +49,7 @@ use App\Http\Controllers\Frontend\NewspaperAllowanceController;
 use App\Http\Controllers\Frontend\LandlineAllowanceController;
 use App\Http\Controllers\Frontend\BagPurseAllowanceController;
 
-//manik routes
+//manik's works
 use App\Http\Controllers\Frontend\TaDaController;
 
 
@@ -106,6 +106,8 @@ use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
+use App\Http\Controllers\Imprest\ImprestReportController;
+
 use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
 use Illuminate\Support\Facades\Route;
@@ -711,6 +713,9 @@ Route::middleware('permssions')->group(function () {
             'advance-settlement' => AdvanceSettlementController::class,
             'advance-funds' => AdvanceFundController::class,
         ]);
+
+        Route::get('/report-imprest', [ImprestReportController::class, 'imprestReport'])->name('imprest-report');
+        Route::post('/report-imprest-generate', [ImprestReportController::class, 'imprestReportGenerate'])->name('generate.imprest-report');
 
         // cda receipt details
         Route::prefix('cda-receipt-details')->group(function () {

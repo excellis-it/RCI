@@ -57,7 +57,6 @@ class CdaReceiptController extends Controller
         
         $request->validate([
             'voucher_date' => 'required',
-            'dv_date' => 'required',
             'vr_amount' => 'required|numeric',
             'details' => 'required',
         ]);
@@ -78,7 +77,8 @@ class CdaReceiptController extends Controller
         $cdaReceipt = new CDAReceipt();
         $cdaReceipt->voucher_no = $constantString . $counter;
         $cdaReceipt->voucher_date = $request->voucher_date;
-        $cdaReceipt->dv_date = $request->dv_date;
+        $cdaReceipt->cheq_no = $request->cheq_no;
+        $cdaReceipt->cheq_date = $request->cheq_date;
         $cdaReceipt->amount = $request->vr_amount;
         $cdaReceipt->details = $request->details;
         $cdaReceipt->save();
@@ -117,15 +117,15 @@ class CdaReceiptController extends Controller
         
         $request->validate([
             'voucher_date' => 'required',
-            'dv_date' => 'required',
-            'vr_amount' => 'required|numeric',
+            'amount' => 'required|numeric',
             'details' => 'required',
         ]);
 
         $cdaReceipt = CDAReceipt::findOrFail($id);
         $cdaReceipt->voucher_date = $request->voucher_date;
-        $cdaReceipt->dv_date = $request->dv_date;
-        $cdaReceipt->amount = $request->vr_amount;
+        $cdaReceipt->cheq_no = $request->chq_no;
+        $cdaReceipt->cheq_date = $request->cheq_date;
+        $cdaReceipt->amount = $request->amount;
         $cdaReceipt->details = $request->details;
         $cdaReceipt->update();
 
