@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('cda_receipts', function (Blueprint $table) {
             //
-            $table->integer('cheq_no')->nullable()->after('dv_date');
-            $table->integer('cheq_date')->nullable()->after('cheq_no');
+            $table->string('cheq_no')->nullable()->after('dv_date');
+            $table->string('cheq_date')->nullable()->after('cheq_no');
         });
     }
 
