@@ -85,8 +85,6 @@ class AdvanceFundController extends Controller
             'adv_date' => 'required',
             'adv_amount' => 'required|numeric',
             'project_id' => 'required',
-            'chq_no' => 'required',
-            'chq_date' => 'required',
             'var_type_id' => 'required',
         ]);
 
@@ -103,8 +101,6 @@ class AdvanceFundController extends Controller
         $advance_fund->adv_date = $request->adv_date;
         $advance_fund->adv_amount = $request->adv_amount;
         $advance_fund->project_id = $request->project_id;
-        $advance_fund->chq_no = $request->chq_no;
-        $advance_fund->chq_date = $request->chq_date;
         $advance_fund->var_type_id = $request->var_type_id;
         $advance_fund->save();
 
@@ -154,8 +150,6 @@ class AdvanceFundController extends Controller
             'adv_date' => 'required',
             'adv_amount' => 'required|numeric',
             'project_id' => 'required',
-            'chq_no' => 'required',
-            'chq_date' => 'required',
             'var_type_id' => 'required',
         ]);
 
@@ -172,8 +166,6 @@ class AdvanceFundController extends Controller
         $advance_fund->adv_date = $request->adv_date;
         $advance_fund->adv_amount = $request->adv_amount;
         $advance_fund->project_id = $request->project_id;
-        $advance_fund->chq_no = $request->chq_no;
-        $advance_fund->chq_date = $request->chq_date;
         $advance_fund->var_type_id = $request->var_type_id;
         $advance_fund->update();
 
