@@ -38,7 +38,7 @@ use App\Helpers\Helper;
                     <a class="sidebar-link {{ Request::is('cash-payments*') ? 'active' : '' }}"
                         href="{{ route('cash-payments.index') }}" >
                         <span>
-                            <i class="fa fa-money"></i>
+                            <i class="ti ti-cash"></i>
                         </span>
                         <span class="hide-menu">Cash Payment</span>
                     </a>

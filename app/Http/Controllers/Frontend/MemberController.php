@@ -325,9 +325,6 @@ class MemberController extends Controller
             $update_credit_member->incentive = $request->incentive;
             $update_credit_member->variable_amount = $request->var_amount;
             $update_credit_member->arrs_pay_alw = $request->arrs_pay_allowance;
-            $update_credit_member->landline_allow = $request->landline_allow;
-            $update_credit_member->mobile_allow = $request->mobile_allow;
-            $update_credit_member->broad_band_allow = $request->broad_band_allow;
             $update_credit_member->tot_credits = $request->tot_credits;
             $update_credit_member->remarks = $request->remarks;
             $update_credit_member->update();
@@ -365,9 +362,6 @@ class MemberController extends Controller
             $member_credit->incentive = $request->incentive;
             $member_credit->variable_amount = $request->var_amount;
             $member_credit->arrs_pay_alw = $request->arrs_pay_allowance;
-            $member_credit->landline_allow = $request->landline_allow;
-            $member_credit->mobile_allow = $request->mobile_allow;
-            $member_credit->broad_band_allow = $request->broad_band_allow;
             $member_credit->tot_credits = $request->tot_credits;
             $member_credit->remarks = $request->remarks;
             $member_credit->save();

@@ -223,20 +223,15 @@
                             </div>
                         </div>
                     </div>
+                   
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>PH</label>
+                                <label>PH Allowance</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="ph" id="ph">
-                                    <option value="">Select</option>
-                                    @foreach ($pgs as $pg)
-                                        <option value="{{ $pg->id }}"
-                                            {{ isset($member_personal->ph) && $pg->id == $member_personal->ph ? 'selected' : '' }}>
-                                            {{ $pg->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="ph" id="ph"
+                                    value="{{ $member_personal->ph ?? 0 }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -487,31 +482,23 @@
                         <div class="col-md-12">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio1"
-                                    value="none"
+                                    value="Yes"
                                     {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
-                                    (($member_personal->pay_stop ?? null) == 'none' || ($member->pay_stop ?? null) == 'none')
+                                    (($member_personal->pay_stop ?? null) == 'Yes' || ($member->pay_stop ?? null) == 'Yes')
                                    ? 'checked'
                                    : '' }}>
-                                <label class="form-check-label" for="inlineRadio1">None</label>
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio2"
-                                    value="full-pay"
+                                    value="No"
                                     {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
-                                    (($member_personal->pay_stop ?? null) == 'Full Pay' || ($member->pay_stop ?? null) == 'Full Pay')
+                                    (($member_personal->pay_stop ?? null) == 'No' || ($member->pay_stop ?? null) == 'No')
                                    ? 'checked'
                                    : '' }}>
-                                <label class="form-check-label" for="inlineRadio2">Full Pay</label>
+                                <label class="form-check-label" for="inlineRadio2">No</label>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio3"
-                                    value="table-rec"
-                                    {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
-                                    (($member_personal->pay_stop ?? null) == 'table-rec' || ($member->pay_stop ?? null) == 'table-rec')
-                                   ? 'checked'
-                                   : '' }}>
-                                <label class="form-check-label" for="inlineRadio3">Table Rce</label>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -616,3 +603,5 @@
         </div>
     </div>
 </form>
+
+

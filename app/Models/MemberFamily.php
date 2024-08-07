@@ -13,4 +13,9 @@ class MemberFamily extends Model
     {
         return $this->belongsTo(Member::class);
     }
+
+    public function children()
+    {
+        return $this->hasMany(MemberChildrenDetail::class);
+    }
 }

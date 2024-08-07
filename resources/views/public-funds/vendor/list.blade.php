@@ -1,6 +1,6 @@
-@extends('frontend.layouts.master')
+@extends('frontend.public-fund.layouts.master')
 @section('title')
-   Family List
+   Vendor List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Family Detail Listing</h3>
+                    <h3> Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Family Listing</span></li>
+                        <li><span class="bread-blod">Vendors </span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.member-info.family.form')
+                            @include('public-funds.vendor.form')
                         </div>
 
                         <div class="row">
@@ -49,23 +49,21 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
-                                                    style="cursor: pointer">Member Name <span id="leave_type_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="f_name"
+                                                    style="cursor: pointer">Name  <span id="f_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Spouse Name<span id="leave_type_abbr_icon"><i
+                                                            <th class="sorting" data-sorting_type="desc" data-column_name="email"
+                                                    style="cursor: pointer">Email  <span id="email_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">DOB<span id="leave_type_abbr_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="phone"
+                                                    style="cursor: pointer">Phone  <span id="phone_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Work Status<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.member-info.family.table')
+                                            @include('public-funds.vendor.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -84,34 +82,13 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this family details!",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
-                    }
-                })
-        });
-    </script>
+   
     <script>
         $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-family.fetch-data') }}",
+                    url: "{{ route('public-fund-vendors.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -176,7 +153,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-family-create-form').submit(function(e) {
+            $('#public-vendor-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -231,7 +208,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-family-edit-form', function(e) {
+            $(document).on('submit', '#public-vendor-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -245,38 +222,14 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
                         });
                     }
                 });
             });
         });
     </script>
-
-    <script>
-        // #add_more button click event
-        $(document).on('click', '.add_more', function() {
-
-            function getOrdinal(n) {
-                var s = ["th", "st", "nd", "rd"],
-                    v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            }
-            var html = '';
-            // count rows
-            var rowCount = $('#family_member .child1').length + 2;
-            html += '<div class="row child1"><div class="form-group col-md-3 mb-2"><div class="row align-items-center"><div class="col-md-12"><label> '+ getOrdinal(rowCount) +' Child Details:</label></div></div></div><div class="form-group col-md-5 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Name</label></div><div class="col-md-12"><input type="text" class="form-control" name="child_name[]" id="child1_name" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-4 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Dob</label></div><div class="col-md-12"><input type="date" class="form-control" name="child_dob[]" id="child1_dob" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-3 mb-2"></div><div class="form-group col-md-5 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>School</label></div><div class="col-md-12"><input type="text" class="form-control" name="child_scll_name[]" id="child1_scll_name" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content"><button type="button" class="btn btn-danger btn-sm" onclick="removeChildDetails(this)">✖</button></div></div>';
-            $('#family_member').append(html);
-
-            removeChildDetails = function(item) {
-                $(item).closest('.row').remove();
-            }
-
-        });
-        </script>
 @endpush

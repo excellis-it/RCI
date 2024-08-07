@@ -110,6 +110,7 @@ use App\Http\Controllers\Imprest\ImprestReportController;
 
 use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
+use App\Http\Controllers\PublicFund\PublicFundVendorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -173,6 +174,7 @@ Route::middleware('permssions')->group(function () {
         'policy' => PolicyController::class,
         'members' => MemberController::class,
         'public-funds' => PublicFundController::class,
+        'public-fund-vendors' => PublicFundVendorController::class,
         'cash-payments' => CashPaymentController::class,
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
@@ -203,6 +205,9 @@ Route::middleware('permssions')->group(function () {
         'tada-journey' => TadaJourneyDetailController::class
 
     ]);
+
+    // public funcd fetch
+    Route::get('/public-fund-vendors-fetchData', [PublicFundVendorController::class, 'fetchData'])->name('public-fund-vendors.fetch-data');
     
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
@@ -634,9 +639,6 @@ Route::middleware('permssions')->group(function () {
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
             'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
-
-       
-    
 
         Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
         Route::get('/member-bag-fetch',[MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');

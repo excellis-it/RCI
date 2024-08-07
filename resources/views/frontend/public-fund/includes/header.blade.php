@@ -35,6 +35,9 @@
                 <a class="nav-link" href="{{ route('reset-voucher.index') }}">Reset Voucher</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link {{ Route::is('public-fund-vendors.index') ? 'active' : '' }}" href="{{ route('public-fund-vendors.index') }}">Vendors</a>
+            </li>
+            <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="#">Report</a>
             </li>
 

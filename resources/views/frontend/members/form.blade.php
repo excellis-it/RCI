@@ -655,24 +655,24 @@
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio"
                                                                             name="pay_stop" id="inlineRadio1"
-                                                                            value="none">
+                                                                            value="Yes">
                                                                         <label class="form-check-label"
-                                                                            for="inlineRadio1">None</label>
+                                                                            for="inlineRadio1">Yes</label>
                                                                     </div>
                                                                     <div class="form-check form-check-inline ml-2">
                                                                         <input class="form-check-input" type="radio"
                                                                             name="pay_stop" id="inlineRadio2"
-                                                                            value="full-pay">
+                                                                            value="No">
                                                                         <label class="form-check-label"
-                                                                            for="inlineRadio2">Full Pay</label>
+                                                                            for="inlineRadio2">No</label>
                                                                     </div>
-                                                                    <div class="form-check form-check-inline ml-2">
+                                                                    {{-- <div class="form-check form-check-inline ml-2">
                                                                         <input class="form-check-input" type="radio"
                                                                             name="pay_stop" id="inlineRadio3"
                                                                             value="table-rec">
                                                                         <label class="form-check-label"
                                                                             for="inlineRadio3">Table Rec</label>
-                                                                    </div>
+                                                                    </div> --}}
                                                                 </div>
                                                             </div>
                                                         </div>

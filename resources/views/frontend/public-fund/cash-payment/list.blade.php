@@ -15,10 +15,10 @@ Cash Payments List
         <div class="d-flex">
             <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
             <div class="">
-                <h3>Cash Payment Listing</h3>
+                <h3>Listing</h3>
                 <ul class="breadcome-menu mb-0">
-                   
-                    <li><span class="bread-blod">Listing</span></li>
+                    <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                    <li><span class="bread-blod">Public Fund</span></li>
                 </ul>
             </div>
         </div>
@@ -84,28 +84,7 @@ Cash Payments List
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this Cash Pyament!",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
-                    }
-                })
-        });
-    </script>
+   
     <script>
         $(document).ready(function() {
 

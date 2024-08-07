@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('member_families', function (Blueprint $table) {
+        Schema::create('member_children_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('member_id')->nullable();
-            $table->string('father_mother_name')->nullable();
-            $table->string('parent_dob')->nullable();
-            $table->string('parent_work_status')->nullable();
-            $table->string('wife_hus_name')->nullable();
-            $table->string('dob')->nullable();
-            $table->string('work_status')->nullable();
+            $table->string('child_name')->nullable();
+            $table->string('child_dob')->nullable();
+            $table->string('child_school')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('member_families');
+        Schema::dropIfExists('member_children_details');
     }
 };
