@@ -105,10 +105,12 @@ class MemberFamilyController extends Controller
      */
     public function edit(string $id)
     {
+      
         $member_fam_edit =  MemberFamily::find($id);
+        $member_childrens = MemberChildrenDetail::where('member_id', $member_fam_edit->member_id)->get();
         $members = Member::where('member_status', true)->orderBy('id','desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.member-info.family.form', compact('member_fam_edit','members','edit'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.family.form', compact('member_fam_edit','members','edit','member_childrens'))->render()]);
     }
 
     /**
@@ -116,31 +118,34 @@ class MemberFamilyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
+        
         $request->validate([
             'member_id' => 'required',
-            'child1_amount' => 'nullable|numeric',
         ]);
 
         $update_member_family = MemberFamily::find($id);
         $update_member_family->member_id = $request->member_id;
         $update_member_family->father_mother_name = $request->father_mother_name;
+        $update_member_family->parent_dob = $request->parent_dob;
+        $update_member_family->parent_work_status = $request->parent_work_status;
         $update_member_family->wife_hus_name = $request->wife_hus_name;
         $update_member_family->dob = $request->dob;
         $update_member_family->work_status = $request->work_status;
-        $update_member_family->child1_name = $request->child1_name;
-        $update_member_family->child1_dob = $request->child1_dob;
-        $update_member_family->child1_class = $request->child1_class;
-        $update_member_family->child1_academic_yr = $request->child1_academic_yr;
-        $update_member_family->child1_amount = $request->child1_amount;
-        $update_member_family->child1_scll_name = $request->child1_scll_name;
-        $update_member_family->child2_name = $request->child2_name;
-        $update_member_family->child2_class = $request->child2_class;
-        $update_member_family->child2_academic_yr = $request->child2_academic_yr;
-        $update_member_family->child2_amount = $request->child2_amount;
-        $update_member_family->child2_dob = $request->child2_dob;
-        $update_member_family->child2_scll_name = $request->child2_scll_name;
         $update_member_family->update();
+
+        if($request->child_name){
+            // delete member's children details
+            MemberChildrenDetail::where('member_id', $request->member_id)->delete();
+            foreach($request->child_name as $key => $value){
+
+                $child = new MemberChildrenDetail();
+                $child->member_id = $request->member_id;
+                $child->child_name = $value ?? '';
+                $child->child_dob = $request->child_dob[$key] ?? '';
+                $child->child_school = $request->child_scll_name[$key] ?? '';
+                $child->save();
+            }
+        }
 
         session()->flash('message', 'Member family updated successfully');
         return response()->json(['message' => 'Member family updated successfully']);
@@ -152,5 +157,13 @@ class MemberFamilyController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function memberChildDelete(Request $request)
+    {
+        $child_delete = MemberChildrenDetail::find($request->id);
+        $child_delete->delete();
+        
+        return response()->json(['message' => 'Child details deleted successfully']);
     }
 }

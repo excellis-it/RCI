@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('member_children_details', function (Blueprint $table) {
+        Schema::create('member_child_allowances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('member_id')->nullable();
+            $table->unsignedInteger('member_id')->nullable();
+            $table->string('year')->nullable();
+            $table->unsignedInteger('child_id')->nullable();
             $table->string('child_name')->nullable();
             $table->string('child_dob')->nullable();
             $table->string('child_school')->nullable();
+            $table->string('child_class')->nullable();
+            $table->string('academic_year')->nullable();
+            $table->string('allowance_amount')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('member_children_details');
+        Schema::dropIfExists('member_child_allowances');
     }
 };

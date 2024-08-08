@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Family List
+   Child Allowance List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Family Detail Listing</h3>
+                    <h3>Child Allowance Detail Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Family Listing</span></li>
+                        <li><span class="bread-blod">Child Allowance Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.member-info.family.form')
+                            @include('frontend.member-info.child-allowance.form')
                         </div>
 
                         <div class="row">
@@ -43,6 +43,17 @@
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
                                     </div>
+                                    <div class="col-md-2 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <select class="form-select" id="search-year" name="year">
+                                                <option value="">Select Year</option>
+                                                @foreach (range(date('Y'), 1958) as $year)
+                                                    <option value="{{ $year }}" {{ $year == date('Y') ? 'selected' : '' }}>{{ $year }}</option>
+                                                @endforeach
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
@@ -52,20 +63,11 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
                                                     style="cursor: pointer">Member Name <span id="leave_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Spouse Name<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">DOB<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Work Status<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.member-info.family.table')
+                                            @include('frontend.member-info.child-allowance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -84,34 +86,13 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this family details!",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
-                    }
-                })
-        });
-    </script>
+   
     <script>
         $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('member-family.fetch-data') }}",
+                    url: "{{ route('child-allowance.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -176,7 +157,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-family-create-form').submit(function(e) {
+            $('#member-child-allowance-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -210,11 +191,15 @@
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
+                var year = $('#search-year').val();
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: route,
                     type: 'GET',
+                    data: {
+                        year: year
+                    },
                     success: function(response) {
                         $('#form').html(response.view);
                         $('#loading').removeClass('loading');
@@ -231,7 +216,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-family-edit-form', function(e) {
+            $(document).on('submit', '#member-child-allowance-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -259,32 +244,27 @@
     </script>
 
     <script>
-        // #add_more button click event
-        $(document).on('click', '.add_more', function() {
-
-            function getOrdinal(n) {
-                var s = ["th", "st", "nd", "rd"],
-                    v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            }
-            var html = '';
-            // count rows
-            var rowCount = $('#family_member .child1').length + 2;
-            html += '<div class="row child1"><div class="form-group col-md-3 mb-2"><div class="row align-items-center"><div class="col-md-12"><label> Child Details:</label></div></div></div><div class="form-group col-md-5 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Name</label></div><div class="col-md-12"><input type="text" class="form-control" name="child_name[]" id="child1_name" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-4 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Dob</label></div><div class="col-md-12"><input type="date" class="form-control" name="child_dob[]" id="child1_dob" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-3 mb-2"></div><div class="form-group col-md-5 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>School</label></div><div class="col-md-12"><input type="text" class="form-control" name="child_scll_name[]" id="child1_scll_name" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content"><button type="button" class="btn btn-danger btn-sm" onclick="removeChildDetails(this)">✖</button></div></div>';
-            $('#family_member').append(html);
-
-            removeChildDetails = function(item) {
-                $(item).closest('.row').remove();
-            }
-
+        //member_id change event for fetching children loop details
+        $(document).ready(function() {
+            $('#member_id').change(function() {
+                var member_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('child-allowance.member-children') }}",
+                    type: 'GET',
+                    data: {
+                        member_id: member_id
+                    },
+                    success: function(response) {
+                        $('#children-form').html(response.view);
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        console.log(xhr);
+                    }
+                });
+            });
         });
-    </script>
-
-    <script>
-       $(document).on('click', '.remove-child', function() {
-            $(this).closest('.child-row').remove();
-        });
-    </script>
+        </script>
 
    
 

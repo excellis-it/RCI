@@ -123,61 +123,72 @@
                 </div>
 
                 <hr>
-
-                @foreach($member_fam_edit->children as $key => $child)
-                <div class="row">
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>{{ $key  }} Child Details:</label>
+                @if($member_childrens->count() > 0)
+                @foreach($member_childrens as $key => $child)
+                    <div class="row child-row" id="child-row">
+                        <div class="form-group col-md-3 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label> Child Details:</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-               
-                    <div class="form-group col-md-5 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Name</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="child_name[]" value="{{ $child->child_name ?? ''}}" id="child1_name" placeholder="">
-                                <span class="text-danger"></span>
+
+                        <div class="form-group col-md-5 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="child_name[]" value="{{ $child->child_name ?? ''}}" id="child1_name" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Dob</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="child_dob[]" value="{{ $child->child_dob ?? ''}}" id="child1_dob" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-3 mb-2">
-                    </div>
-
-                    <div class="form-group col-md-5 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>School</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" value="{{ $child->child_scll_name ?? ''}}" name="child_scll_name[]" id="child1_scll_name" placeholder="">
-                                <span class="text-danger"></span>
+                        <div class="form-group col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Dob</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="date" class="form-control" name="child_dob[]" value="{{ $child->child_dob ?? ''}}" id="child1_dob" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content">
-                        <button type="button" class="btn btn-danger btn-sm" >✖</button>
+                        <div class="form-group col-md-3 mb-2">
+                        </div>
+
+                        <div class="form-group col-md-5 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>School</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" value="{{ $child->child_school ?? ''}}" name="child_scll_name[]" id="child1_scll_name" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content">
+                            <button type="button" class="btn btn-danger btn-sm remove-child" >✖</button>
+                        </div>
+                    </div>
+                @endforeach
+                @endif
+
+                <div class="form-group col-md-2 mb-2">
+                    <div class="col-md-12">
+                        <label></label>
+                    </div>
+                    <div class="row align-items-center">
+                        <button type="button" class="listing_add add_more">Add More</button>
                     </div>
                 </div>
-                @endforeach
+                
 
                 <div class="row" >
                     <div id="family_member">

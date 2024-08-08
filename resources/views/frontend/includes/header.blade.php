@@ -515,21 +515,27 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-leaves.index') }}">Member Leave</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-newspaper-allowance.index') }}">Member Newspaper
                                     Allowance</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-bag-allowance.index') }}" target="_blank">Member Purse
+                                    href="{{ route('member-bag-allowance.index') }}" >Member Purse
                                     Allowance</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-leaves.index') }}">Member Leave</a>
-                            </li>
+                           
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-family.index') }}">Member Family info</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('child-allowance.index') }}">Member Child Allowance</a>
                             </li>
 
                             <li class="mb-2">
