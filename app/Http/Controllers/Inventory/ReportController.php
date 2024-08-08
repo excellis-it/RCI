@@ -149,13 +149,13 @@ class ReportController extends Controller
 
     public function lvpList()
     {
-        return view('frontend.reports.lvp-list');
+        return view('inventory.reports.lvp-list');
     }
 
     public function lvpListGenerate(Request $request)
     {
 
-        $pdf = PDF::loadView('frontend.reports.single-lvp-generate');
+        $pdf = PDF::loadView('inventory.reports.lvp-list-generate');
         return $pdf->download('lvp-list.pdf');
     }
 }

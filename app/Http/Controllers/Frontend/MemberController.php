@@ -258,9 +258,11 @@ class MemberController extends Controller
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
-        $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
+        $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->latest()->first() ?? '';
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf'));
+        $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
+
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf', 'daPercentage', 'check_hba'));
     }
 
     public function memberCreditUpdate(Request $request)
@@ -387,6 +389,8 @@ class MemberController extends Controller
             return response()->json(['message' => 'Credit member addition is required.', 'status' => 'error']);
         }
     }
+
+    
 
     public function memberDebitUpdate(Request $request)
     {

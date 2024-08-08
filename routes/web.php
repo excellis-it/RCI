@@ -195,6 +195,7 @@ Route::middleware('permssions')->group(function () {
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
         'bag-allowance' => BagPurseAllowanceController::class,
+        
 
         //manik routes
         'tada-advance' => TadaAdvanceController::class,
