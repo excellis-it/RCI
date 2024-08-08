@@ -395,7 +395,7 @@ use App\Helpers\Helper;
                         type: $(this).attr('method'),
                         data: formData,
                         success: function(response) {
-                            toastr.success(response.message);
+                            window.location.reload();
                         },
                         error: function(xhr) {
                             // Handle errors (e.g., display validation errors)

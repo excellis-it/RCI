@@ -241,7 +241,7 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                        window.location.reload();
+                         window.location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -257,4 +257,37 @@
             });
         });
     </script>
+
+    <script>
+        // #add_more button click event
+        $(document).on('click', '.add_more', function() {
+
+            function getOrdinal(n) {
+                var s = ["th", "st", "nd", "rd"],
+                    v = n % 100;
+                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            }
+            var html = '';
+            // count rows
+            var rowCount = $('#family_member .child1').length + 2;
+            html += '<div class="row child1"><div class="form-group col-md-3 mb-2"><div class="row align-items-center"><div class="col-md-12"><label> Child Details:</label></div></div></div><div class="form-group col-md-5 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Name</label></div><div class="col-md-12"><input type="text" class="form-control" name="child_name[]" id="child1_name" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-4 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Dob</label></div><div class="col-md-12"><input type="date" class="form-control" name="child_dob[]" id="child1_dob" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-3 mb-2"></div><div class="form-group col-md-5 mb-2"><div class="row align-items-center"><div class="col-md-12"><label>School</label></div><div class="col-md-12"><input type="text" class="form-control" name="child_scll_name[]" id="child1_scll_name" placeholder=""><span class="text-danger"></span></div></div></div><div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content"><button type="button" class="btn btn-danger btn-sm" onclick="removeChildDetails(this)">✖</button></div></div>';
+            $('#family_member').append(html);
+
+            removeChildDetails = function(item) {
+                $(item).closest('.row').remove();
+            }
+
+        });
+    </script>
+
+    <script>
+       $(document).on('click', '.remove-child', function() {
+            $(this).closest('.child-row').remove();
+        });
+    </script>
+
+   
+
+
+
 @endpush

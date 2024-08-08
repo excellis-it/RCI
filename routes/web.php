@@ -68,6 +68,7 @@ use App\Http\Controllers\Frontend\MemberInfo\MemberRetirementInfoController as M
 use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberNewspaperAllowanceController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberBagAllowanceController;
+use App\Http\Controllers\Frontend\MemberInfo\MemberChildAllowanceController;
 
 //manik routes
 use App\Http\Controllers\Frontend\MemberInfo\TaDaAdvanceController;
@@ -110,6 +111,7 @@ use App\Http\Controllers\Imprest\ImprestReportController;
 
 use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
+use App\Http\Controllers\PublicFund\PublicFundVendorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -173,6 +175,7 @@ Route::middleware('permssions')->group(function () {
         'policy' => PolicyController::class,
         'members' => MemberController::class,
         'public-funds' => PublicFundController::class,
+        'public-fund-vendors' => PublicFundVendorController::class,
         'cash-payments' => CashPaymentController::class,
         'cheque-payments' => ChequePaymentController::class,
         'payment-categories' => PaymentCategoryController::class,
@@ -196,6 +199,7 @@ Route::middleware('permssions')->group(function () {
         'landline-allowance' => LandlineAllowanceController::class,
         'bag-allowance' => BagPurseAllowanceController::class,
         
+        'child-allowance' => MemberChildAllowanceController::class,
 
         //manik routes
         'tada-advance' => TadaAdvanceController::class,
@@ -204,6 +208,16 @@ Route::middleware('permssions')->group(function () {
         'tada-journey' => TadaJourneyDetailController::class
 
     ]);
+
+    Route::get('/child-allowance-fetch', [MemberChildAllowanceController::class, 'childallowancefetch'])->name('child-allowance.fetch-data');
+    //child list fetch
+    Route::get('/member-family-child-fetch', [MemberChildAllowanceController::class, 'memberChildDataFetch'])->name('child-allowance.member-children');
+
+    // child delete
+    Route::post('/member-family-child-delete', [MemberFamilyController::class, 'memberChildDelete'])->name('member-family.delete-child');
+
+    // public funcd fetch
+    Route::get('/public-fund-vendors-fetchData', [PublicFundVendorController::class, 'fetchData'])->name('public-fund-vendors.fetch-data');
     
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
@@ -635,9 +649,6 @@ Route::middleware('permssions')->group(function () {
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
             'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
-
-       
-    
 
         Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
         Route::get('/member-bag-fetch',[MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');

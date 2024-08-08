@@ -185,7 +185,7 @@
         <div class="row justify-content-end">
             <div class="col-md-2">
                 <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
+                    <button type="submit" class="listing_add">Update</button>
                 </div>
             </div>
             <div class="col-md-2">
