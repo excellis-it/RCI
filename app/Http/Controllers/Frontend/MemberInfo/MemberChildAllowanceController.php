@@ -24,15 +24,29 @@ class MemberChildAllowanceController extends Controller
         ->groupBy('member_id')
         ->paginate(10);
 
-        
-
         return view('frontend.member-info.child-allowance.list', compact('members','member_allowances'));
     }
 
     public function childallowancefetch(Request $request)
     {
-        $member = Member::find($request->id);
-        return view('frontend.member-info.child-allowance.child-allowance', compact('member'));
+        if ($request->ajax()) {
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $member_allowances = MemberChildAllowance::selectRaw('member_id, MAX(id) as id')
+                ->where(function($queryBuilder) use ($query) {
+                    $queryBuilder->whereHas('member', function($queryBuilder) use ($query) {
+                        $queryBuilder->where('name', 'like', '%' . $query . '%');
+                    });
+                })
+                ->where('year', date('Y'))
+                ->groupBy('member_id')
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
+
+            return response()->json(['data' => view('frontend.member-info.child-allowance.table', compact('member_allowances'))->render()]);
+        }
     }
 
     public function memberChildDataFetch(Request $request)

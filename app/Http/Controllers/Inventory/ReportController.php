@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\DebitVoucher;
+use App\Models\GatePass;
 use App\Models\DebitVoucherDetail;
 use App\Models\ExternalIssueVoucher;
 use App\Models\TransferVoucher;
@@ -199,5 +200,19 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('inventory.reports.lvp-list-generate');
         return $pdf->download('lvp-list.pdf');
+    }
+
+    public function gatePassReport($id)
+    {
+        $gatePass = GatePass::findOrFail($id);
+        if($gatePass->gate_pass_type == 'returnable')
+        {
+            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate');
+            return $pdf->download('debit-voucher.pdf');
+        }else{
+            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate');
+            return $pdf->download('debit-voucher.pdf');
+        }
+        
     }
 }
