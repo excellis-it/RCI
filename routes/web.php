@@ -821,6 +821,9 @@ Route::middleware('permssions')->group(function () {
                 'vendors' => VendorController::class,
             ]);
 
+            //gate pass report
+            Route::get('/gate-pass-report/{id}', [InventoryReportController::class, 'gatePassReport'])->name('gate-passes.report');
+
             // report routes
                 // credit voucher
             Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');

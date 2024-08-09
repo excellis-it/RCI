@@ -44,6 +44,25 @@
 
                                                         <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
+                                                                <label>Year</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="year" class="form-select" id="year">
+                                                                    <option value="">Select Year</option>
+                                                                    @foreach(range(date('Y'), 1958) as $year)
+                                                                        <option value="{{ $year }}" >{{ $year }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @if ($errors->has('year'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('year') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <div class="col-md-12">
                                                                 <label>Report Type</label>
                                                             </div>
                                                             <div class="col-md-12">
@@ -123,6 +142,19 @@
                                                     <div class="row align-items-center">
                                                         <div id="children_list">
                                                             @include('frontend.reports.children-allowance-children-list')
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-3 mb-2 type-select" >
+                                                        <div class="col-md-12">
+                                                            <label>A/c Officer Sign</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <select name="accountant" class="form-select" id="accountant">
+                                                                <option value="">Select </option>
+                                                                @foreach($accountants as $accountant)
+                                                                    <option value="{{ $accountant->user_name }}">{{ $accountant->user_name }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -217,11 +249,11 @@
     $(document).ready(function() {
         $('select[name="member_id"]').change(function() {
             var member_id = $(this).val();
-           
+            var year = $('#year').val();
             $.ajax({
                 url: "{{ route('reports.get-member-children') }}",
                 type: 'POST',
-                data: { member_id, _token: '{{ csrf_token() }}' },
+                data: { member_id, year, _token: '{{ csrf_token() }}' },
                 success: function(response) {
 
                     if(response.status == 'success'){

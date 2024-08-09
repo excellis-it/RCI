@@ -18,7 +18,10 @@ use App\Models\PayCommission;
 use App\Models\Group;
 use App\Models\LandlineAllowance;
 use App\Models\MemberPersonalInfo;
+use App\Models\MemberChildAllowance;
+use App\Models\MemberChildrenDetail;
 use Carbon\Carbon;
+use App\Models\User;
 
 use App\Models\SiteLogo;
 use App\Models\DearnessAllowancePercentage;
@@ -611,7 +614,8 @@ class ReportController extends Controller
     public function cildrenAllowance()
     {
         $categories = Category::orderBy('id', 'desc')->get();
-        return view('frontend.reports.children-allowance', compact('categories'));
+        $accountants = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.children-allowance', compact('categories','accountants'));
     }
 
     public function cildrenAllowanceGenerate(Request $request)
@@ -627,47 +631,89 @@ class ReportController extends Controller
         //     'child1_amount' => 'required',
         // ]);
 
-        $data = $request->all();
+        $data = $request->all(); 
         $timestamp = now()->format('YmdHis');
         $bill_no = date('Y').'-PGB'.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT). $timestamp;
         $today =  Carbon::now()->format('d-M-Y');
+        $accountant = $request->accountant;
 
         if($request->report_type == 'individual') {
-            $member_detail = Member::where('id', $request->member_id)->first();
-            $member_children = MemberFamily::where('member_id', $request->member_id)->first();
-            $total = $request->child1_amount + $request->child2_amount ?? 0;
 
-            $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('member_detail', 'data', 'member_children', 'total','bill_no','today'));
+            $member_detail = Member::where('id', $request->member_id)->first();
+            $child_datas = [
+                'child_name' => $request->input('child_name'),
+                'child_dob' => $request->input('child_dob'),
+                'child_scll_name' => $request->input('child_scll_name'),
+                'child_class' => $request->input('child_class'),
+                'child_academic' => $request->input('child_academic'),
+                'child_amount' => $request->input('child_amount')
+            ];
+
+            $children = [];
+            $total = 0;
+            $num_of_children = count($child_datas['child_name']);
+        
+            for ($i = 0; $i < $num_of_children; $i++) {
+                $children[] = [
+                    'child_name' => $child_datas['child_name'][$i],
+                    'child_dob' => $child_datas['child_dob'][$i],
+                    'child_scll_name' => $child_datas['child_scll_name'][$i],
+                    'child_class' => $child_datas['child_class'][$i],
+                    'child_academic' => $child_datas['child_academic'][$i],
+                    'child_amount' => $child_datas['child_amount'][$i]
+                ];
+
+                $total += $child_datas['child_amount'][$i];
+            }
+            
+           
+            $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('data', 'total','bill_no','today','children','member_detail','accountant'));
             return $pdf->download('children-allowance-report-' . $member_detail->name . '.pdf');
         } else {
             // call this function groupChildrenAllowanceGenerate()
-            $members = Member::where('category',$request->category)->get();
+            $members = Member::where('category', $request->category)->get();
             $total = 0;
+            $accountant = $request->accountant;
+            
+            // Prepare data to pass to the view
+            $members_data = [];
 
-            foreach($members as $member)
-            {
-                $member_detail = Member::where('id', $member->id)->first();
-                $member_children = MemberFamily::where('member_id', $member->id)->first();
-                $total += ($member_children->child1_amount ?? 0) + ($member_children->child2_amount ?? 0);
+            foreach ($members as $member) {
+                $member_childrens = MemberChildAllowance::where('member_id', $member->id)->get();
+
+                // Collecting member and their children's data
+                $members_data[] = [
+                    'member' => $member,
+                    'children' => $member_childrens,
+                ];
+
+                // Calculating the total allowance
+                foreach ($member_childrens as $child) {
+                    $total += ($child->allowance_amount ?? 0);
+                }
             }
 
-            $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members','data','total','bill_no','today'));
+            $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members_data','data','total','bill_no','today','accountant'));
             return $pdf->download('group-children-allowance-report-' . 'all members' . '.pdf');
         }
-        // $member_detail = Member::where('id', $request->member_id)->first();
-        // $member_children = MemberFamily::where('member_id', $request->member_id)->first();
-        // $total = $request->child1_amount + $request->child2_amount ?? 0;
-
         
     }
 
     public function getMemberChildren(Request $request)
     {
+        
+        $year = $request->year ?? date('Y');
 
-        $member_family = MemberFamily::where('member_id', $request->member_id)->first();
-        $edit = true;
+        $child_allowance_count = MemberChildAllowance::where('member_id', $request->member_id)->where('year', $year)->count();
+        if($child_allowance_count > 0) {
+            $children_allowances = MemberChildAllowance::where('member_id', $request->member_id)->where('year', $year)->get();
+            $edit = true;
+        } else {
+            $children_allowances = MemberChildrenDetail::where('member_id', $request->member_id)->get();
+            $edit = false;
+        }
 
-        return response()->json(['view' => view('frontend.reports.children-allowance-children-list', compact('edit', 'member_family'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('frontend.reports.children-allowance-children-list', compact('edit', 'children_allowances'))->render(), 'status' => 'success']);
     }
 
     public function professionalUpdateAllowance()

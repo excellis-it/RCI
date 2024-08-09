@@ -113,6 +113,8 @@ class GatePassController extends Controller
         //
     }
 
+   
+   
     public function delete(string $id)
     {
         $gatepass = GatePass::findOrFail($id);

@@ -492,7 +492,7 @@
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
                         a.href = url;
-                        a.download = 'credit-voucher-' + id + '.pdf';
+                        a.download = 'credit-voucher-' + id + '.pdf'; 
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);

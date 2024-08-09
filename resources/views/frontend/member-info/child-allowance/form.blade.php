@@ -11,7 +11,8 @@
                                 <label>Member</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <input type="text"  name="member_id" value="{{ $member_id }}" hidden>
+                                <select class="form-select" name="member" id="member_id" disabled>
                                     <option value="">Select Member</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}" {{ $member_id == $member->id ? 'selected':''}}>{{ $member->name}}</option>
@@ -44,8 +45,6 @@
                     </div>
                     
                 </div>
-               
-
             </div>
             <div class="col-md-2">
                 <div class="mb-1">

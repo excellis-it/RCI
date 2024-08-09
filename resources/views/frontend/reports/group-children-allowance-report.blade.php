@@ -155,7 +155,13 @@
               </thead>
               <tr><td style="height: 10px;"></td></tr>
               <tbody>
-                @foreach($members as $member)
+                @foreach ($members_data as $data)
+                @php
+                    $member = $data['member'];
+                    $children = $data['children'];
+                @endphp
+    
+                @foreach ($children as $child)
                 <tr>
                 <td
                   style="
@@ -198,8 +204,8 @@
                     border: none;
                   "
                 >  
-                {{ $member->memberFamily->child1_name ?? 'N/A'}}<br />
-                {{ $member->memberFamily->child1_dob ?? 'N/A'}}<br /></td>
+                {{ $child->child_name ?? 'N/A' }}<br />
+                {{ $child->child_dob ?? 'N/A'}}<br /></td>
                 <td
                   style="
                     font-size: 10px;
@@ -212,9 +218,9 @@
                     border: none;
                   "
                 >
-                {{ $member->memberFamily->child1_scll_name ?? 'N/A'}}<br />
-                {{ $member->memberFamily->child1_class ?? 'N/A'}}<br />
-                {{ $member->memberFamily->child1_academic_yr ?? 'N/A'}}<br />
+                {{ $child->child_school ?? 'N/A'}}<br />
+                {{ $child->child_class ?? 'N/A'}}<br />
+                {{ $child->academic_year ?? 'N/A'}}<br />
                 </td>
                 <td
                   style="
@@ -228,7 +234,7 @@
                     border: none;
                   "
                 >
-                {{ $member->memberFamily->child1_amount ?? 0}}
+                {{ $child->allowance_amount ?? 0}}
                 </td>
                 <td
                   style="
@@ -242,104 +248,11 @@
                     border: none;
                   "
                 >
-                {{ $member->memberFamily->child1_amount ?? 0}}
+                {{ $child->allowance_amount ?? 0}}
                 </td>
                 </tr>
-
-              
-                @if(isset($member->memberFamily->child2_class) && $member->memberFamily->child2_academic && $member->memberFamily->child2_amount)
-                <tr>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                      {{ $loop->iteration }}
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >   {{ $member->name ?? 'N/A'}}<br />
-                        {{ $member->emp_id ?? 'N/A'}}<br />
-                        {{ $member->desigs->designation ?? 'N/A'}}<br />
-                        {{ $member->gpf_number ?? 'N/A'}} / {{ $member->pran_number ?? 'N/A'}}<br /></td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >  
-                    {{ $member->memberFamily->child2_name ?? 'N/A'}}<br />
-                    {{ $member->memberFamily->child2_dob ?? 'N/A'}}<br /></td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                    {{ $member->memberFamily->child2_scll_name ?? 'N/A'}}<br />
-                    {{ $member->memberFamily->child2_class ?? 'N/A'}}<br />
-                    {{ $member->memberFamily->child2_academic ?? 'N/A'}}<br />
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                    {{ $data['child2_amount'] ?? ''}}
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                    {{ $member->memberFamily->child2_amount ?? ''}}
-                    </td>
-                </tr>
-                @else
-                @endif
                 <tr><td style="height: 10px;"></td></tr>
+                @endforeach
                 @endforeach
                 
               </tbody>
@@ -436,7 +349,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    Mr. D. MADHU SUDAN REDDY<br />
+                    {{ $accountant ?? 'N/A'}}<br />
                     ACCOUNTS OFFICER<br />
                     ForDirector
                   </td>

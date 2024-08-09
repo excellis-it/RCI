@@ -156,6 +156,8 @@
               </thead>
               <tr><td style="height: 10px;"></td></tr>
               <tbody>
+                @foreach($children as $key => $child)
+              
                 <tr>
                 <td
                   style="
@@ -169,7 +171,7 @@
                     border: none;
                   "
                 >
-                  1
+                {{ $key +1 }}
                 </td>
                 <td
                   style="
@@ -198,8 +200,8 @@
                     border: none;
                   "
                 >  
-                {{ $data['child1_name'] ?? 'N/A'}}<br />
-                {{ $data['child1_dob'] ?? 'N/A'}}<br /></td>
+                {{ $child['child_name'] ?? 'N/A'}}<br />
+                {{ $child['child_dob'] ?? 'N/A'}}<br /></td>
                 <td
                   style="
                     font-size: 10px;
@@ -212,9 +214,9 @@
                     border: none;
                   "
                 >
-                {{ $data['child1_scll_name'] ?? 'N/A'}}<br />
-                {{ $data['child1_class'] ?? 'N/A'}}<br />
-                {{ $data['child1_academic'] ?? 'N/A'}}<br />
+                {{ $child['child_scll_name'] ?? 'N/A'}}<br />
+                {{ $child['child_class'] ?? 'N/A'}}<br />
+                {{ $child['child_academic'] ?? 'N/A'}}<br />
                 </td>
                 <td
                   style="
@@ -228,7 +230,7 @@
                     border: none;
                   "
                 >
-                {{ $data['child1_amount'] ?? 0}}
+                {{ $child['child_amount'] ?? 0}}
                 </td>
                 <td
                   style="
@@ -242,102 +244,12 @@
                     border: none;
                   "
                 >
-                {{ $data['child1_amount'] ?? 0}}
+                {{ $child['child_amount'] ?? 0}}
                 </td>
                 </tr>
+                @endforeach
 
-                @if($data['child2_class'] && $data['child2_academic'] && $data['child2_amount'])
-                <tr>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                      2
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >   {{ $member_detail->name ?? 'N/A'}}<br />
-                        {{ $member_detail->emp_id ?? 'N/A'}}<br />
-                        {{ $member_detail->desigs->designation ?? 'N/A'}}<br />
-                        {{ $member_detail->gpf_number ?? 'N/A'}} / {{ $member_detail->pran_number ?? 'N/A'}}<br /></td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >  
-                    {{ $data['child2_name'] ?? 'N/A'}}<br />
-                    {{ $data['child2_dob'] ?? 'N/A'}}<br /></td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                    {{ $data['child2_scll_name'] ?? 'N/A'}}<br />
-                    {{ $data['child2_class'] ?? 'N/A'}}<br />
-                    {{ $data['child2_academic'] ?? 'N/A'}}<br />
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                    {{ $data['child2_amount'] ?? ''}}
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: left;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: none;
-                      "
-                    >
-                    {{ $data['child2_amount'] ?? ''}}
-                    </td>
-                </tr>
-                @else
-                @endif
+                
               </tbody>
             </table>
           </td>
@@ -432,7 +344,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    Mr. D. MADHU SUDAN REDDY<br />
+                    {{ $accountant ?? 'N/A' }}<br />
                     ACCOUNTS OFFICER<br />
                     ForDirector
                   </td>
@@ -669,6 +581,7 @@
                     Academic Year
                   </td>
                 </tr>
+                @foreach($children as $key => $child)
                 <tr>
                   <td
                     style="
@@ -693,7 +606,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     "
-                  >{{ $data['child1_name'] ?? 'N/A' }}</td>
+                  >{{ $child['child_name'] ?? 'N/A'}}</td>
                   <td
                     style="
                       font-size: 14px;
@@ -720,66 +633,11 @@
                       border: 1px solid #000;
                     "
                   >
-                  {{ $data['child1_academic'] ?? 'N/A' }}
+                  {{ $child['child_academic'] ?? 'N/A'}}<br />
                   </td>
                 </tr>
-                @if($data['child2_class'] && $data['child2_academic'] && $data['child2_amount'])
-                <tr>
-                  <td
-                    style="
-                      font-size: 14px;
-                      line-height: 18px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >{{ $member_detail->name ?? 'N/A' }}</td>
-                  <td
-                    style="
-                      font-size: 14px;
-                      line-height: 18px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >{{ $data['child2_name'] ?? 'N/A' }}</td>
-                  <td
-                    style="
-                      font-size: 14px;
-                      line-height: 18px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $member_detail->pran_number ?? 'N/A' }}
-                  </td>
-                  <td
-                    style="
-                      font-size: 14px;
-                      line-height: 18px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    "
-                  >
-                  {{ $data['child2_academic'] ?? 'N/A'}}
-                  </td>
-                </tr>
-                @else
-                @endif
+                @endforeach
+                
                 
                       </tbody>
                     </table>
@@ -1155,6 +1013,4 @@
   </body>
 </html>
 
-
-<div class="page-break"></div>
 
