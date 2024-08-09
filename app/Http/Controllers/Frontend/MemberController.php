@@ -139,7 +139,6 @@ class MemberController extends Controller
             'doj_lab' => 'required|date',
             'doj_service1' => 'required',
             'adhar_number' => 'required',
-            'gpf_number' => 'required',
             'app_date' => 'required',
             'dop' => 'required',
             'next_inr' => 'required',
@@ -152,6 +151,7 @@ class MemberController extends Controller
             'rent_or_not' => 'required',
             'pran_number' => 'required',
             'e_status' => 'required',
+            'nps_available' => 'required',
         ]);
 
         //check employee id 
@@ -190,6 +190,7 @@ class MemberController extends Controller
         $member->doj_lab = $request->doj_lab;
         $member->doj_service1 = $request->doj_service1;
         $member->adhar_number = $request->adhar_number;
+        $member->nps_available = $request->nps_available;
         $member->gpf_number = $request->gpf_number;
         $member->app_date = $request->app_date;
         $member->dop = $request->dop;
