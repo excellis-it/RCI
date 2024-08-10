@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Models\CertificateIssueVoucher;
 use Illuminate\Http\Request;
 
 use App\Models\CreditVoucher;
@@ -11,7 +12,11 @@ use App\Models\DebitVoucher;
 use App\Models\GatePass;
 use App\Models\Rin;
 use App\Models\DebitVoucherDetail;
-
+use App\Models\ExternalIssueVoucher;
+use App\Models\TransferVoucher;
+use App\Models\ConversionVoucher;
+use App\Models\GatePass;
+use App\Models\ItemCode;
 use PDF;
 use Carbon\Carbon;
 
@@ -156,16 +161,52 @@ class ReportController extends Controller
     }
 
   
+    public function transferVoucherGenerate(Request $request)
+    {
+        $transferVoucher = TransferVoucher::where('id', $request->id)->first();
+        $itemDesc = ItemCode::where('id', $transferVoucher->item_id)->first();
+        $pdf = PDF::loadView('inventory.reports.single-transfer-voucher-generate', compact('transferVoucher', 'itemDesc'));
+        return $pdf->download('transfer-voucher.pdf');
+    }
+
+    public function conversionVoucherGenerate(Request $request)
+    {
+        $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
+        $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
+
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc'));
+        return $pdf->download('conversion-voucher.pdf');
+    }
+
+    public function externalIssueVoucherGenerate(Request $request)
+    {
+        // dd($request->all());
+        $externalIssueVoucher = ExternalIssueVoucher::where('id', $request->id)->first();
+        $itemDesc = ItemCode::where('id', $externalIssueVoucher->item_id)->first();
+        $gatepass = GatePass::where('id', $externalIssueVoucher->gate_pass_id)->first();
+
+        $pdf = PDF::loadView('inventory.reports.single-external-issue-voucher-generate', compact('externalIssueVoucher', 'itemDesc', 'gatepass'));
+        return $pdf->download('external-issue-voucher.pdf');
+    }
+
+    public function certificateIssueVoucherGenerate(Request $request)
+    {
+        $certificateIssueVoucher = CertificateIssueVoucher::where('id', $request->id)->first();
+        $itemDesc = ItemCode::where('id', $certificateIssueVoucher->item_id)->first();
+
+        $pdf = PDF::loadView('inventory.reports.single-certificate-issue-voucher-generate', compact('certificateIssueVoucher', 'itemDesc'));
+        return $pdf->download('certificate-issue-voucher.pdf');
+    }
 
     public function lvpList()
     {
-        return view('frontend.reports.lvp-list');
+        return view('inventory.reports.lvp-list');
     }
 
     public function lvpListGenerate(Request $request)
     {
 
-        $pdf = PDF::loadView('frontend.reports.single-lvp-generate');
+        $pdf = PDF::loadView('inventory.reports.lvp-list-generate');
         return $pdf->download('lvp-list.pdf');
     }
 

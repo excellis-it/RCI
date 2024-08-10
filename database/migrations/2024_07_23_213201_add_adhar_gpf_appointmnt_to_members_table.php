@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('adhar_number')->nullable()->after('doj_service1');
             $table->string('gpf_number')->nullable()->after('adhar_number');
             $table->string('app_date')->nullable()->after('gpf_number');
+            $table->string('nps_available')->nullable()->after('app_date');
         });
     }
 
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->dropColumn('adhar_number');
             $table->dropColumn('gpf_number');
             $table->dropColumn('app_date');
+            $table->dropColumn('nps_available');
         });
     }
 };

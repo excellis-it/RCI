@@ -88,6 +88,14 @@
             </div>
         </div>
     </div>
+    
+    @php
+    if($check_hba){
+        $isReadonly = ($check_hba->loan_name !== 'HBA' && $check_hba->loan_name !== 'hba');
+    }else{
+        $isReadonly = true;
+    }
+    @endphp
     <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
@@ -97,7 +105,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba" id="hba"
-                            value="{{ $member_debit->hba  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->hba  ?? '' }}" placeholder="0" {{ $isReadonly ? 'readonly' : '' }}>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -111,7 +119,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba_interest" id="hba_interest"
-                            value="{{ $member_debit->hba_int  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->hba_int  ?? '' }}" placeholder="0" {{ $isReadonly ? 'readonly' : '' }}>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -125,7 +133,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba_cur_instl" id="hba_cur_instl"
-                            value="{{ $member_debit->hba_cur_instl  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->hba_cur_instl  ?? '' }}" placeholder="0" {{ $isReadonly ? 'readonly' : '' }}>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -139,7 +147,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba_int_cur_instl" id="hba_int_cur_instl"
-                            value="{{ $member_debit->hba_int_cur_instl  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->hba_int_cur_instl  ?? '' }}" placeholder="0" {{ $isReadonly ? 'readonly' : '' }}>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -153,7 +161,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba_int_total_instl" id="hba_int_total_instl"
-                            value="{{ $member_debit->hba_int_total_instl  ?? '' }}" placeholder="">
+                            value="{{ $member_debit->hba_int_total_instl  ?? '' }}" placeholder="0" {{ $isReadonly ? 'readonly' : '' }}>
                         <span class="text-danger"></span>
                     </div>
                 </div>

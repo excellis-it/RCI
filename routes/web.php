@@ -198,6 +198,7 @@ Route::middleware('permssions')->group(function () {
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
         'bag-allowance' => BagPurseAllowanceController::class,
+        
         'child-allowance' => MemberChildAllowanceController::class,
 
         //manik routes
@@ -838,6 +839,14 @@ Route::middleware('permssions')->group(function () {
             Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
                 // debit voucher
             Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
+                // transfer voucher
+            Route::post('/reports-transfer-voucher', [InventoryReportController::class, 'transferVoucherGenerate'])->name('reports.transfer-voucher');
+                // conversion voucher
+            Route::post('/reports-conversion-voucher', [InventoryReportController::class, 'conversionVoucherGenerate'])->name('reports.conversion-voucher');
+                // external issue voucher
+            Route::post('/reports-external-issue-voucher', [InventoryReportController::class, 'externalIssueVoucherGenerate'])->name('reports.external-issue-voucher');
+                // certificate issue voucher
+            Route::post('/reports-certificate-issue-voucher', [InventoryReportController::class, 'certificateIssueVoucherGenerate'])->name('reports.certificate-issue-voucher');
                 // lvp list
             Route::get('/reports-lvp-list', [InventoryReportController::class, 'lvpList'])->name('reports.lvp-list');
             Route::post('/reports-lvp-list-generate', [InventoryReportController::class, 'lvpListGenerate'])->name('reports.lvp-list-generate');

@@ -34,6 +34,7 @@
                 
             @endif
             <td class="sepharate"><a data-route="{{route('external-issue-vouchers.edit', $externalIssueVoucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $externalIssueVoucher->id }}"><i class="fa fa-print"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('external-issue-vouchers.delete', $externalIssueVoucher->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>

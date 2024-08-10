@@ -472,6 +472,7 @@
             });
         });
     </script>
+    
     {{-- credit script end --}}
 
     {{-- debit script --}}

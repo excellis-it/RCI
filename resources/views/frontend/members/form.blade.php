@@ -525,17 +525,38 @@
                                                     <div class="form-group col-md-4 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
-                                                                <label>Adhar Number</label>
+                                                                <label>NPS Available</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" name="adhar_number"
-                                                                    id="adhar_number" >
+                                                                <div class="form-inline">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="nps_available" id="inlineRadio1"
+                                                                            value="Yes">
+                                                                        <label class="form-check-label"
+                                                                            for="inlineRadio1">Yes</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline ml-2">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="nps_available" id="inlineRadio2"
+                                                                            value="No">
+                                                                        <label class="form-check-label"
+                                                                            for="inlineRadio2">No</label>
+                                                                    </div>
+                                                                    {{-- <div class="form-check form-check-inline ml-2">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="pay_stop" id="inlineRadio3"
+                                                                            value="table-rec">
+                                                                        <label class="form-check-label"
+                                                                            for="inlineRadio3">Table Rec</label>
+                                                                    </div> --}}
+                                                                </div>
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    <div class="form-group col-md-4 mb-2" id="gpf_div" hidden>
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Gpf Number</label>
@@ -543,6 +564,19 @@
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="gpf_number"
                                                                     id="gpf_number" >
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 mb-2" id="nps_div" hidden>
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>PRAN Number</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control" name="pran_number"
+                                                                    id="pran_number" >
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -564,7 +598,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="row">
-                                                    <div class="form-group col-md-12 mb-2">
+                                                    <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>CGEIS</label>
@@ -572,6 +606,19 @@
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="cgeis"
                                                                     id="cgeis" value="{{ old('cgeis') ?? '' }}"
+                                                                    placeholder="">
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>Aadhar No.</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control" name="adhar_number"
+                                                                    id="adhar_number" 
                                                                     placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -720,20 +767,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-3 mb-2">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-12">
-                                                <label for="PIS">PRAN No.</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <input type="text" class="form-control" name="pran_number"
-                                                    id="pran_number" value="{{ old('pran_number') ?? '' }}"
-                                                    placeholder="">
-                                                <span class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3 mb-2">
+                                    
+                                    <div class="form-group col-md-6 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label for="PIS">Employment Status</label>
@@ -879,7 +914,7 @@
                     success: function(response) {
 
                         //windows load with toastr message
-                        // window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
 
@@ -976,6 +1011,20 @@
             });
         });
 
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('input[name="nps_available"]').change(function() {
+                if ($(this).val() === 'Yes') {
+                    $('#nps_div').prop('hidden', false);
+                    $('#gpf_div').prop('hidden', true);
+                } else {
+                    $('#nps_div').prop('hidden', true);
+                    $('#gpf_div').prop('hidden', false);
+                }
+            });
+        });
     </script>
 
 @endpush

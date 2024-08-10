@@ -251,7 +251,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('uom.index') }}">LVP List</a>
+                                    href="{{ route('reports.lvp-list') }}">LVP List</a>
                             </li>
                               
                         </ul>

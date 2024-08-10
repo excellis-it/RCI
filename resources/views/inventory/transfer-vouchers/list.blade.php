@@ -333,6 +333,39 @@
 
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.print-route').on('click', function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('reports.transfer-voucher')}}",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id
+                    },
+                    xhrFields: {
+                        responseType: 'blob' // Important for handling binary data
+                    },
+                    success: function(blob) {
+                        // alert('Success');
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'transfer-voucher-' + id + '.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('There was an error with your request:', error);
+                    }
+                });
+            });
+        });
+    </script>
+
 
 
 
