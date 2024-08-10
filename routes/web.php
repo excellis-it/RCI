@@ -827,6 +827,8 @@ Route::middleware('permssions')->group(function () {
             Route::get('/traffic-control-reports',[InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
             Route::get('/reports-security-gate-store',[InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
             Route::get('/reports-store-inward',[InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
+            Route::get('/reports-rin-controller',[InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
+            Route::get('/reports-certificate-receipt',[InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
 
             //rins routes
             Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');

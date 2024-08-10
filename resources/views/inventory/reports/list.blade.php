@@ -61,7 +61,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <a href="{{route('arrears.index')}}">
+                    <a href="{{ route('reports.rin-controller') }}">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Rin Controller Register</h5>
@@ -74,7 +74,7 @@
 
             <div class="row justify-content-center">
                 <div class="col-lg-3 col-md-6">
-                    <a href="{{route('cash-payments.index')}}">
+                    <a href="{{route('reports.certificate-receipt-voucher')}}">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Certificate receipt voucher</h5>

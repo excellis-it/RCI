@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\DebitVoucher;
-use App\Models\GatePass;
+
 use App\Models\Rin;
 use App\Models\DebitVoucherDetail;
 use App\Models\ExternalIssueVoucher;
@@ -249,5 +249,17 @@ class ReportController extends Controller
     {
         $pdf = PDF::loadView('inventory.reports.store-inward-generate');
         return $pdf->download('store-inward.pdf');
+    }
+
+    public function rinControllerReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.rin-controller-generate');
+        return $pdf->download('rin-controller.pdf');
+    }
+
+    public function certificateReceiptVoucher()
+    {
+        $pdf = PDF::loadView('inventory.reports.certificate-receipt-voucher-generate');
+        return $pdf->download('certificate-receipt-voucher.pdf');
     }
 }
