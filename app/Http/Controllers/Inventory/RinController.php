@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Rin;
 use App\Models\ItemCode;
+use DB;
 
 class RinController extends Controller
 {
@@ -14,7 +15,13 @@ class RinController extends Controller
      */
     public function index()
     {
-        $rins = Rin::orderBy('id','desc')->paginate(10);
+        $rins = Rin::select('rins.rin_no', 'rins.id')
+                ->join(DB::raw('(SELECT rin_no, MAX(id) as max_id FROM rins GROUP BY rin_no) as subquery'), function($join) {
+                    $join->on('rins.id', '=', 'subquery.max_id');
+                })
+                ->orderBy('rins.id', 'desc')
+                ->paginate(10);
+  
         $items = ItemCode::all();
 
         return view('inventory.rins.list',compact('rins', 'items'));
@@ -59,35 +66,47 @@ class RinController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'item_id' => 'required',
-            'received_quantity' => 'required',
-            'accepted_quantity' => 'required',
-            'rejected_quantity' => 'required',
-            'nc_status' => 'required',
-            'au_status' => 'required',
-        ]);
 
+        $request->validate([
+            'item_id.*' => 'required',
+            // 'received_quantity' => 'required',
+            // 'accepted_quantity' => 'required',
+            // 'rejected_quantity' => 'required',
+            // 'nc_status' => 'required',
+            // 'au_status' => 'required',
+        ]);
         // auto generate rin id
         $lastRin = Rin::orderBy('id', 'desc')->first();
+
         if ($lastRin) {
-            $rin_id = 'RIN' . str_pad((int)($lastRin->rin_no) + 1, 4, '0', STR_PAD_LEFT);
+            // Extract the numeric part of rin_no
+            $lastNumber = (int) filter_var($lastRin->rin_no, FILTER_SANITIZE_NUMBER_INT);
+        
+            // Increment the numeric part and format it with leading zeros
+            $rin_id = 'RIN' . str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
         } else {
+            // If no RIN exists, start with RIN0001
             $rin_id = 'RIN' . str_pad(1, 4, '0', STR_PAD_LEFT);
         }
 
-        $rin = new Rin();
-        $rin->item_id = $request->item_id;
-        $rin->rin_no = $rin_id;
-        $rin->description = $request->description;
-        $rin->received_quantity = $request->received_quantity;
-        $rin->accepted_quantity = $request->accepted_quantity;
-        $rin->rejected_quantity = $request->rejected_quantity;
-        $rin->remarks = $request->remarks;
-        $rin->nc_status = $request->nc_status;
-        $rin->au_status = $request->au_status;
-        $rin->save();
-
+        if($request->item_id){
+           foreach($request->item_id as $key => $item){
+                $rin = new Rin();
+                $rin->rin_no = $rin_id;
+                $rin->item_id = $item;
+                $rin->description = $request->description[$key];
+                $rin->received_quantity = $request->received_quantity[$key];
+                $rin->accepted_quantity = $request->accepted_quantity[$key];
+                $rin->rejected_quantity = $request->rejected_quantity[$key];
+                $rin->remarks = $request->remarks[$key];
+                $rin->unit_cost = $request->unit_cost [$key];
+                $rin->total_cost = $request->total_cost[$key];
+                $rin->nc_status = $request->nc_status[$key];
+                $rin->au_status = $request->au_status[$key];
+                $rin->save();
+           }
+        }
+        
         session()->flash('message', 'RIN Created successfully');
         return response()->json(['success' => 'RIN Created successfully']);
     }
@@ -161,5 +180,7 @@ class RinController extends Controller
         $item = ItemCode::find($request->id);
         return response()->json(['description' => $item->description]);
     }
+
+    
     
 }

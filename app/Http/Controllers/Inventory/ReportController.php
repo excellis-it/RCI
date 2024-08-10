@@ -9,6 +9,7 @@ use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\DebitVoucher;
 use App\Models\GatePass;
+use App\Models\Rin;
 use App\Models\DebitVoucherDetail;
 
 use PDF;
@@ -148,6 +149,14 @@ class ReportController extends Controller
         return $pdf->download('debit-voucher.pdf');
     }
 
+
+    Public function inventoryReportGenerate()
+    {
+        return view('inventory.reports.list');
+    }
+
+  
+
     public function lvpList()
     {
         return view('frontend.reports.lvp-list');
@@ -172,5 +181,32 @@ class ReportController extends Controller
             return $pdf->download('debit-voucher.pdf');
         }
         
+    }
+
+    public function rinsReport($id)
+    {
+        $rin = Rin::findOrFail($id);
+        $all_items = Rin::where('rin_no', $rin->rin_no)->get();
+        $total_item = count($all_items);
+        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin','all_items','total_item'));
+        return $pdf->download('rin.pdf');
+    }
+
+    public function trafficControlReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.traffic-control-generate');
+        return $pdf->download('traffic-control.pdf');
+    }
+
+    public function securityGateReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.security-gate-store-generate');
+        return $pdf->download('security-gate-store.pdf');
+    }
+
+    public function storeInwardReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.store-inward-generate');
+        return $pdf->download('store-inward.pdf');
     }
 }

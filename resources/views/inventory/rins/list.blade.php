@@ -49,15 +49,15 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_id"
+                                                <th>Rin No.</th>
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="item_id"
                                                     style="cursor: pointer"> Item Code <span id="item_id_icon"></span> </th>
-                                                {{-- <th>Code</th> --}}
                                                 <th>Received Quantity</th>
                                                 <th>Accepted Quantity</th>
                                                 <th>Rejected Quantity</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="nc_status"
                                                     style="cursor: pointer">C/NC/NCF <span id="nc_status_icon"></span> </th>
-                                                <th>A/U</th>
+                                                <th>A/U</th> --}}
                                                 
                                                 <th></th>
                                             </tr>
@@ -185,7 +185,7 @@
                     data: formData,
                     success: function(response) {
                         //windows load with toastr message
-                        window.location.reload();
+                        // window.location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -287,6 +287,26 @@
         });
     </script>
     <script>
+       $(document).ready(function() {
+            // Trigger calculation when the user inputs data in received or accepted quantity
+            $(document).on('keyup', '.received_quantity, .accepted_quantity', function() {
+                // Get the parent row to ensure we're working with the correct set of inputs
+                var $row = $(this).closest('.row');
+                
+                // Find the received and accepted quantity within the same parent row
+                var received = parseInt($row.find('.received_quantity').val()) || 0;
+                var accepted = parseInt($row.find('.accepted_quantity').val()) || 0;
+
+                // Calculate the rejected quantity
+                var rejected = received - accepted;
+
+                // Update the rejected quantity input field
+                $row.find('.rejected_quantity').val(rejected);
+            });
+        });
+
+    </script>
+    <script>
         // $(document).ready(function(){
 
         //     function updateEditDifference() {
@@ -307,6 +327,34 @@
                 var accepted = parseInt($('#edit_accepted_quantity').val());
                 var difference = received - accepted;
                 $('#edit_rejected_quantity').val(difference);
+            });
+        });
+    </script>
+
+    <script>
+        // add new row
+        $(document).ready(function() {
+            $(document).on('click', '.add-more-rin', function() {
+                var tr = $('#credit_new_html').html();
+                $('#credit_form_add_new_row').append(tr);
+
+                if($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
             });
         });
     </script>

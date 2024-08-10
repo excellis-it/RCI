@@ -13,4 +13,9 @@ class Rin extends Model
     {
         return $this->hasOne(CreditVoucherDetail::class);
     }
+
+    public function itemCode()
+    {
+        return $this->belongsTo(ItemCode::class, 'item_id');
+    }
 }

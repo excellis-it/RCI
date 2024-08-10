@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('remarks')->nullable();
             $table->string('nc_status')->nullable();
             $table->string('au_status')->nullable();
+            $table->string('unit_cost')->nullable();
+            $table->string('total_cost')->nullable();
             $table->timestamps();
         });
     }

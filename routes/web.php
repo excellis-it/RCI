@@ -821,6 +821,15 @@ Route::middleware('permssions')->group(function () {
                 'vendors' => VendorController::class,
             ]);
 
+            Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
+
+            Route::get('/traffic-control-reports',[InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
+            Route::get('/reports-security-gate-store',[InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
+            Route::get('/reports-store-inward',[InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
+
+            //rins routes
+            Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');
+
             //gate pass report
             Route::get('/gate-pass-report/{id}', [InventoryReportController::class, 'gatePassReport'])->name('gate-passes.report');
 
