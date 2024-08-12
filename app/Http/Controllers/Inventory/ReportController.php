@@ -22,7 +22,7 @@ use Carbon\Carbon;
 
 class ReportController extends Controller
 {
-    public function creditVoucherGenerate(Request $request) 
+    public function creditVoucherGenerate(Request $request)
     {
         // dd($request->all());
         $creditVoucher = CreditVoucher::where('id', $request->id)->first();
@@ -38,48 +38,50 @@ class ReportController extends Controller
         $result['voucher_no'] = $creditVoucher->voucher_no;
         $result['voucher_date'] = $creditVoucher->voucher_date;
 
+        if ($creditVoucherDetails) {
 
-        foreach ($creditVoucherDetails as $detail) {
-            $price = $detail->price ?? 0;
-            $totalCost = $detail->total_price ?? 0;
+            foreach ($creditVoucherDetails as $detail) {
+                $price = $detail->price ?? 0;
+                $totalCost = $detail->total_price ?? 0;
 
-            $result[$creditVoucher->voucher_no][$detail->itemCodes->code] = [
-                'rin_no' => $detail->rins->rin_no ?? 'N/A',
-                'rin_date' => $detail->rins->created_at ?? 'N/A',
-                'consigner' => $detail->consigner ?? 'N/A',
-                'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                'member_name' => $detail->members->name ?? 'N/A',
-                'item_code' => $detail->itemCodes->code ?? 'N/A',
-                'description' => $detail->description ?? 'N/A',
-                'quantity' => $detail->quantity ?? 'N/A',
-                'remarks' => $detail->rins->remarks ?? 'N/A',
-                'nc_status' => $detail->rins->nc_status ?? 'N/A',
-                'au_status' => $detail->rins->au_status ?? 'N/A',
-                'rate' => $price ?? 'N/A',
-                'tax' => $detail->tax ?? 'N/A',
-                'total_cost' => $totalCost ?? 'N/A',
-            ];
+                $result[$creditVoucher->voucher_no][$detail->itemCodes->code] = [
+                    'rin_no' => $detail->rins->rin_no ?? 'N/A',
+                    'rin_date' => $detail->rins->created_at ?? 'N/A',
+                    'consigner' => $detail->consigner ?? 'N/A',
+                    'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                    'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                    'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                    'member_name' => $detail->members->name ?? 'N/A',
+                    'item_code' => $detail->itemCodes->code ?? 'N/A',
+                    'description' => $detail->description ?? 'N/A',
+                    'quantity' => $detail->quantity ?? 'N/A',
+                    'remarks' => $detail->rins->remarks ?? 'N/A',
+                    'nc_status' => $detail->rins->nc_status ?? 'N/A',
+                    'au_status' => $detail->rins->au_status ?? 'N/A',
+                    'rate' => $price ?? 'N/A',
+                    'tax' => $detail->tax ?? 'N/A',
+                    'total_cost' => $totalCost ?? 'N/A',
+                ];
 
-            $totalItemCost += (float)$price;;
-            $total += (float)$totalCost;
+                $totalItemCost += (float)$price;
+                $total += (float)$totalCost;
 
-            $singleData[$creditVoucher->voucher_no] = [
-                'rin_no' => $detail->rins->rin_no ?? 'N/A',
-                'rin_date' => $detail->rins->created_at ?? 'N/A',
-                'consignor' => $detail->consigner ?? 'N/A',
-                'member_name' => $detail->members->name ?? 'N/A',
-                'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-            ];
+                $singleData[$creditVoucher->voucher_no] = [
+                    'rin_no' => $detail->rins->rin_no ?? 'N/A',
+                    'rin_date' => $detail->rins->created_at ?? 'N/A',
+                    'consignor' => $detail->consigner ?? 'N/A',
+                    'member_name' => $detail->members->name ?? 'N/A',
+                    'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                    'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                    'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                ];
 
-            $itemCount++;
-
+                $itemCount++;
+            }
         }
-        // dd($itemCount);
 
+    
+        // dd($itemCount);
 
         $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount'));
         return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
@@ -149,18 +151,18 @@ class ReportController extends Controller
         }
 
         // dd($result, $totalItemCost, $total, $itemCodeCounts);
-        
+
         $pdf = PDF::loadView('frontend.reports.single-debit-voucher-generate', compact('debitVoucher', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
         return $pdf->download('debit-voucher.pdf');
     }
 
 
-    Public function inventoryReportGenerate()
+    public function inventoryReportGenerate()
     {
         return view('inventory.reports.list');
     }
 
-  
+
     public function transferVoucherGenerate(Request $request)
     {
         $transferVoucher = TransferVoucher::where('id', $request->id)->first();
@@ -213,15 +215,13 @@ class ReportController extends Controller
     public function gatePassReport($id)
     {
         $gatePass = GatePass::findOrFail($id);
-        if($gatePass->gate_pass_type == 'returnable')
-        {
+        if ($gatePass->gate_pass_type == 'returnable') {
             $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate');
             return $pdf->download('debit-voucher.pdf');
-        }else{
+        } else {
             $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate');
             return $pdf->download('debit-voucher.pdf');
         }
-        
     }
 
     public function rinsReport($id)
@@ -229,7 +229,7 @@ class ReportController extends Controller
         $rin = Rin::findOrFail($id);
         $all_items = Rin::where('rin_no', $rin->rin_no)->get();
         $total_item = count($all_items);
-        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin','all_items','total_item'));
+        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin', 'all_items', 'total_item'));
         return $pdf->download('rin.pdf');
     }
 

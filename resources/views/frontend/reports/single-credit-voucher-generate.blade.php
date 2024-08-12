@@ -50,7 +50,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    SIR NO: &nbsp; {{ $creditVoucher->id }}
+                                    SIR NO: &nbsp; {{ $creditVoucher->id ?? 'N/A' }}
                                 </td>
                                 <td colspan="2"
                                     style="
@@ -64,7 +64,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->voucher_no }}
+                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->voucher_no ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="
@@ -78,7 +78,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    RIN NO: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['rin_no'] }}
+                                    RIN NO: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['rin_no']   ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="
@@ -92,7 +92,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    CRV NO: &nbsp; {{ $creditVoucher->voucher_no }}
+                                    CRV NO: &nbsp; {{ $creditVoucher->voucher_no  ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
@@ -122,7 +122,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->voucher_date }}
+                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="
@@ -137,7 +137,7 @@
                       border: 1px solid #000;
                     ">
                                     RIN DATE: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['rin_date'] }}
+                                    {{ $singleData[$creditVoucher->voucher_no]['rin_date']  ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="
@@ -151,7 +151,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    CRV DATE: &nbsp; {{ $creditVoucher->voucher_date }}
+                                    CRV DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +167,7 @@
                       border: 1px solid #000;
                     ">
                                     Consignor's Name & address: M/S. &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['consignor'] }}
+                                    {{ $singleData[$creditVoucher->voucher_no]['consignor']  ?? 'N/A' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -190,8 +190,8 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    Authority: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['member_name'] }}<br />
-                                    Date: &nbsp; {{ $creditVoucher->voucher_date }}
+                                    Authority: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['member_name']  ?? 'N/A' }}<br />
+                                    Date: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
                                 </td>
                                 <td colspan="6"
                                     style="
@@ -205,7 +205,7 @@
                       border: 1px solid #000;
                     ">
                                     Cost Debatable to Budget Head: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['cost_debatable'] }} <br />
+                                    {{ $singleData[$creditVoucher->voucher_no]['cost_debatable']  ?? 'N/A' }} <br />
                                 </td>
                                 <td colspan="3"
                                     style="
@@ -219,8 +219,8 @@
                       border: 1px solid #000;
                     ">
                                     Project No.: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['project_no'] }}<br />
-                                    Project Code: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['project_code'] }}
+                                    {{ $singleData[$creditVoucher->voucher_no]['project_no']  ?? 'N/A' }}<br />
+                                    Project Code: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['project_code']  ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
@@ -399,7 +399,7 @@
                       border-right: 1px solid #000;
                     ">
                     @php $index++; @endphp
-                                        {{ $index }}
+                                        {{ $index  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -413,7 +413,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['item_code'] }}
+                                        {{  $creditDetail['item_code']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -427,7 +427,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['description'] }}
+                                        {{ $creditDetail['description']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -441,7 +441,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['nc_status'] }}
+                                        {{  $creditDetail['nc_status']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -455,7 +455,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['au_status'] }}
+                                        {{ $creditDetail['au_status']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -469,7 +469,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['quantity'] }}
+                                        {{ $creditDetail['quantity']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -483,7 +483,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['rate'] }}
+                                        {{ $creditDetail['rate']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -497,7 +497,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['tax'] }}%
+                                        {{ $creditDetail['tax']  ?? 'N/A' }}%
                                     </td>
                                     <td
                                         style="
@@ -511,7 +511,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['total_cost'] }}
+                                        {{  $creditDetail['total_cost']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -553,7 +553,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['remarks'] }}
+                                        {{  $creditDetail['remarks']  ?? 'N/A' }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -572,7 +572,7 @@
                       border: 1px solid #000;
                     ">
                                     Total Number Number of Items:
-                                    <span style="text-align: right">{{ $itemCount }}</span>
+                                    <span style="text-align: right">{{ $itemCount ?? 'N/A'  }}</span>
                                 </td>
                                 <td colspan="5"
                                     style="
@@ -586,7 +586,7 @@
                       border: 1px solid #000;
                     ">
                                     Total Item Cost (Rs.)
-                                    <span style="text-align: right">{{ $totalItemCost }}/-</span>
+                                    <span style="text-align: right">{{ $totalItemCost  ?? 'N/A' }}/-</span>
                                 </td>
                                 <td colspan="4"
                                     style="
@@ -638,7 +638,7 @@
                       border: 1px solid #000;
                     ">
                                     Inclusive of taxes TOTAL COST (Rs.)<br />
-                                    In words: {{ $words }}
+                                    In words: {{ $words  ?? 'N/A' }}
                                 </td>
                                 <td colspan="3"
                                     style="
@@ -651,7 +651,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    {{ $total }}/-
+                                    {{ $total  ?? 'N/A' }}/-
                                 </td>
                                 <td
                                     style="
