@@ -66,19 +66,19 @@ class ReportController extends Controller
                 $totalItemCost += (float)$price;
                 $total += (float)$totalCost;
 
-                $singleData[$creditVoucher->voucher_no] = [
-                    'rin_no' => $detail->rins->rin_no ?? 'N/A',
-                    'rin_date' => $detail->rins->created_at ?? 'N/A',
-                    'consignor' => $detail->consigner ?? 'N/A',
-                    'member_name' => $detail->members->name ?? 'N/A',
-                    'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                    'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                    'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                ];
+            $singleData[$creditVoucher->voucher_no] = [
+                'rin_no' => $detail->rins->rin_no ?? 'N/A',
+                'rin_date' => $detail->rins->created_at ?? 'N/A',
+                'consignor' => $detail->consigner ?? 'N/A',
+                'member_name' => $detail->members->name ?? 'N/A',
+                'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+            ];
 
-                $itemCount++;
-            }
+            $itemCount++;
         }
+    }
 
     
         // dd($itemCount);
@@ -262,4 +262,157 @@ class ReportController extends Controller
         $pdf = PDF::loadView('inventory.reports.certificate-receipt-voucher-generate');
         return $pdf->download('certificate-receipt-voucher.pdf');
     }
+
+
+
+    public function ledgerSheetReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.ledger-sheet-generate');
+        return $pdf->download('ledger-sheet.pdf');
+    }
+
+
+    public function binCardReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.bin-card-generate');
+        return $pdf->download('bin-card.pdf');
+    }
+
+    public function registerForInventories()
+    {
+        $pdf = PDF::loadView('inventory.reports.register-for-inventories-generate');
+        return $pdf->download('register-for-inventories.pdf');
+    }
+
+    public function stockSheetReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.stock-sheet-generate');
+        return $pdf->download('stock-sheet.pdf');
+    }
+
+    public function inventoryLoanRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.inventory-loan-register-generate');
+        return $pdf->download('inventory-loan-register.pdf');
+    }
+
+    public function discrepancyReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.discrepancy-report-generate');
+        return $pdf->download('discrepancy-report.pdf');
+    }
+
+    public function internalDemandIssueVoucher()
+    {
+        $pdf = PDF::loadView('inventory.reports.internal-demand-issue-voucher-generate');
+        return $pdf->download('internal-demand-issue-voucher.pdf');
+    }
+
+    public function internalReturnReceiptVoucher()
+    {
+        $pdf = PDF::loadView('inventory.reports.internal-return-receipt-voucher-generate');
+        return $pdf->download('internal-return-receipt-voucher.pdf');
+    }
+
+    public function trialStoreGatePass()
+    {
+        $pdf = PDF::loadView('inventory.reports.trial-store-gate-pass-generate');
+        return $pdf->download('trial-store-gate-pass.pdf');
+    }
+
+    public function armamentsAmmunitionRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.armaments-ammunition-register-generate');
+        return $pdf->download('armaments-ammunition-register.pdf');
+    }
+
+    public function disposalItemReport()
+    {
+        $pdf = PDF::loadView('inventory.reports.disposal-item-report-generate');
+        return $pdf->download('disposal-item-report.pdf');
+    }
+
+    public function statementOfDamaged()
+    {
+        $pdf = PDF::loadView('inventory.reports.statement-of-damaged-generate');
+        return $pdf->download('statement-of-damaged.pdf');
+    }
+
+    public function cashPurchaseControlRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.cash-purchase-control-register-generate');
+        return $pdf->download('cash-purchase-control-register.pdf');
+    }
+
+    public function storesOutwardRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.stores-outward-register-generate');
+        return $pdf->download('stores-outward-register.pdf');
+    }
+
+    public function recordOfTransaction()
+    {
+        $pdf = PDF::loadView('inventory.reports.record-of-transaction-generate');
+        return $pdf->download('record-of-transaction.pdf');
+    }
+
+    public function loanOutLedgerRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.loan-out-ledger-register-generate');
+        return $pdf->download('loan-out-ledger-register.pdf');
+    }
+
+    public function loanInLedgerRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.loan-in-ledger-register-generate');
+        return $pdf->download('loan-in-ledger-register.pdf');
+    }
+
+    public function cprvControlRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.cprv-control-register-generate');
+        return $pdf->download('cprv-control-register.pdf');
+    }
+
+    public function cpivControlRegister()
+    {
+        $pdf = PDF::loadView('inventory.reports.cpiv-control-register-generate');
+        return $pdf->download('cpiv-control-register.pdf');
+    }
+
+    public function contingentBill() //not getting data
+    {
+        $pdf = PDF::loadView('inventory.reports.contingent-bill-generate');
+        return $pdf->download('contingent-bill.pdf');
+    }
+
+    public function contractorsBill()
+    {
+        $pdf = PDF::loadView('inventory.reports.contractors-bill-generate');
+        return $pdf->download('contractors-bill.pdf');
+    }
+
+    public function certifiedIssueVoucher()
+    {
+        $pdf = PDF::loadView('inventory.reports.certified-issue-voucher-generate');
+        return $pdf->download('certified-issue-voucher.pdf');
+    }
+
+    public function expendableStoreIssueVoucher()
+    {
+        $pdf = PDF::loadView('inventory.reports.expendable-store-issue-voucher-generate');
+        return $pdf->download('expendable-store-issue-voucher.pdf');
+    }
+
+    public function fitmentVoucher()
+    {
+        $pdf = PDF::loadView('inventory.reports.fitment-voucher-generate');
+        return $pdf->download('fitment-voucher.pdf');
+    }
+
+    // public function reportLvpList()
+    // {
+    //     $pdf = PDF::loadView('inventory.reports.report-lvp-list-generate');
+    //     return $pdf->download('report-lvp-list.pdf');
+    // }
 }
