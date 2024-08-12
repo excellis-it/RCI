@@ -198,7 +198,7 @@ Route::middleware('permssions')->group(function () {
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
         'bag-allowance' => BagPurseAllowanceController::class,
-        
+
         'child-allowance' => MemberChildAllowanceController::class,
 
         //manik routes
@@ -218,7 +218,7 @@ Route::middleware('permssions')->group(function () {
 
     // public funcd fetch
     Route::get('/public-fund-vendors-fetchData', [PublicFundVendorController::class, 'fetchData'])->name('public-fund-vendors.fetch-data');
-    
+
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
     Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
@@ -266,13 +266,13 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reports-newspaper', [ReportController::class,'newspaperAllowance'])->name('reports.newspaper-allowance');
     Route::post('/generate-newspaper-report',[ReportController::class, 'newspaperReportGenerate'])->name('reports.newspaper-allowance-generate');
     Route::post('get-member-newspaper-allocation',[ReportController::class, 'getMemberNewspaperAllocation'])->name('reports.member-newspaper-allocation');
-   
+
     Route::get('/group-newspaper-report',[ReportController::class, 'groupNewspaperAllocation'])->name('reports.group-newspaper-allowance');
     Route::post('/group-newspaper-report-generate',[ReportController::class, 'groupNewspaperReportGenerate'])->name('reports.group-newspaper-allowance-generate');
 
     Route::get('/reports-landline',[ReportController::class, 'landlineAllocation'])->name('reports.landline-mobile-allowance');
     Route::post('/generate-landline-report',[ReportController::class, 'landlineReportGenerate'])->name('reports.landline-allowance-generate');
-   
+
     Route::post('/get-member-children', [ReportController::class, 'getMemberChildren'])->name('reports.get-member-children');
 
     //payroll
@@ -311,7 +311,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-form-16b', [ReportController::class, 'formSixteenB'])->name('reports.form-16b');
     Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');
 
-        // form 16 
+        // form 16
     Route::get('reports-form-16', [ReportController::class, 'formSixteen'])->name('reports.form-16');
     Route::post('reports-form-16-generate', [ReportController::class, 'formSixteenGenerate'])->name('reports.form-16-generate');
 
@@ -323,7 +323,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-da-arrears', [ReportController::class, 'daArrears'])->name('reports.da-arrears');
     Route::post('reports-da-arrears-generate', [ReportController::class, 'daArrearsGenerate'])->name('reports.da-arrears-generate');
 
-        
+
 
         // form 12 bb
 
@@ -829,6 +829,56 @@ Route::middleware('permssions')->group(function () {
             Route::get('/reports-store-inward',[InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
             Route::get('/reports-rin-controller',[InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
             Route::get('/reports-certificate-receipt',[InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
+
+            // Ledger Sheet Report
+            Route::get('/ledger-sheet-report',[InventoryReportController::class, 'ledgerSheetReport'])->name('reports.ledger-sheet');
+            // Bin Card Report
+            Route::get('/bin-card-report',[InventoryReportController::class, 'binCardReport'])->name('reports.bin-card');
+            //Register for inventories report
+            Route::get('/register-for-inventories',[InventoryReportController::class, 'registerForInventories'])->name('reports.register-for-inventories');
+            //Stock sheet
+            Route::get('/reports-stock-sheet',[InventoryReportController::class, 'stockSheetReport'])->name('reports.stock-sheet');
+            //Inventory Loan register report
+            Route::get('/inventory-loan-register',[InventoryReportController::class, 'inventoryLoanRegister'])->name('reports.inventory-loan-register');
+            //Discrepancy report
+            Route::get('/discrepancy-report',[InventoryReportController::class, 'discrepancyReport'])->name('reports.discrepancy-report');
+            //Internal demand & issue voucher report
+            Route::get('/internal-demand-issue-voucher',[InventoryReportController::class, 'internalDemandIssueVoucher'])->name('reports.internal-demand-issue-voucher');
+            // Internal return & receipt voucher report
+            Route::get('/internal-return-receipt-voucher',[InventoryReportController::class, 'internalReturnReceiptVoucher'])->name('reports.internal-return-receipt-voucher');
+            // Trial store gate pass report
+            Route::get('/trial-store-gate-pass',[InventoryReportController::class, 'trialStoreGatePass'])->name('reports.trial-store-gate-pass');
+            //Armaments and Ammunition register report
+            Route::get('/armaments-ammunition-register',[InventoryReportController::class, 'armamentsAmmunitionRegister'])->name('reports.armaments-ammunition-register');
+            //Disposal Item report
+            Route::get('/disposal-item-report',[InventoryReportController::class, 'disposalItemReport'])->name('reports.disposal-item-report');
+            //Statement of damaged report
+            Route::get('/statement-of-damaged',[InventoryReportController::class, 'statementOfDamaged'])->name('reports.statement-of-damaged');
+            //Cash purchase control register report
+            Route::get('/cash-purchase-control-register',[InventoryReportController::class, 'cashPurchaseControlRegister'])->name('reports.cash-purchase-control-register');
+            //Stores outward register report
+            Route::get('/stores-outward-register',[InventoryReportController::class, 'storesOutwardRegister'])->name('reports.stores-outward-register');
+            // Record of transaction report
+            Route::get('/record-of-transaction',[InventoryReportController::class, 'recordOfTransaction'])->name('reports.record-of-transaction');
+            //Loan out ledger register report
+            Route::get('/loan-out-ledger-register',[InventoryReportController::class, 'loanOutLedgerRegister'])->name('reports.loan-out-ledger-register');
+            //Loan in ledger register report
+            Route::get('/loan-in-ledger-register',[InventoryReportController::class, 'loanInLedgerRegister'])->name('reports.loan-in-ledger-register');
+            //CPRV control register
+            Route::get('/cprv-control-register',[InventoryReportController::class, 'cprvControlRegister'])->name('reports.cprv-control-register');
+            // CPIV control register report
+            Route::get('/cpiv-control-register',[InventoryReportController::class, 'cpivControlRegister'])->name('reports.cpiv-control-register');
+            //Contingent bill report
+            Route::get('/contingent-bill',[InventoryReportController::class, 'contingentBill'])->name('reports.contingent-bill');
+            // Contractor's bill report
+            Route::get('/contractors-bill',[InventoryReportController::class, 'contractorsBill'])->name('reports.contractors-bill');
+            // Certified issue voucher report
+            Route::get('/certified-issue-voucher',[InventoryReportController::class, 'certifiedIssueVoucher'])->name('reports.certified-issue-voucher');
+            //Expendable store issue voucher report
+            Route::get('/expendable-store-issue-voucher',[InventoryReportController::class, 'expendableStoreIssueVoucher'])->name('reports.expendable-store-issue-voucher');
+            //Fitment Voucher report
+            Route::get('/fitment-voucher',[InventoryReportController::class, 'fitmentVoucher'])->name('reports.fitment-voucher');
+
 
             //rins routes
             Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');

@@ -146,21 +146,21 @@ class CreditVoucherController extends Controller
             if(count($request->item_code_id) > 0) {
                 foreach ($request->item_code_id as $key => $value) {
                     $creditVoucherDetail = new CreditVoucherDetail();
-                    $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id;
-                    $creditVoucherDetail->item_code_id = $request->item_code_id[$key];
-                    $creditVoucherDetail->inv_no = $request->inv_no[$key];
-                    $creditVoucherDetail->description = $request->description[$key];
-                    $creditVoucherDetail->uom = $request->uom_id[$key];
-                    $creditVoucherDetail->item_type = $request->item_type[$key];
-                    $creditVoucherDetail->price = $request->price[$key];
-                    $creditVoucherDetail->quantity = $request->quantity[$key];
-                    $creditVoucherDetail->supply_order_no = $request->supply_order_no[$key];
+                    $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
+                    $creditVoucherDetail->item_code_id = $request->item_code_id[$key] ?? null;
+                    $creditVoucherDetail->inv_no = $request->inv_no[$key] ?? null;
+                    $creditVoucherDetail->description = $request->description[$key] ?? null;
+                    $creditVoucherDetail->uom = $request->uom_id[$key] ?? null;
+                    $creditVoucherDetail->item_type = $request->item_type[$key] ?? null;
+                    $creditVoucherDetail->price = $request->price[$key] ?? null;
+                    $creditVoucherDetail->quantity = $request->quantity[$key] ?? null;
+                    $creditVoucherDetail->supply_order_no = $request->supply_order_no[$key] ?? null;
                     $creditVoucherDetail->rin = $request->rin[$key] ?? null;
-                    $creditVoucherDetail->member_id = $request->member_id[$key];
-                    $creditVoucherDetail->order_type = $request->order_type[$key];
-                    $creditVoucherDetail->tax = $request->tax[$key];
-                    $creditVoucherDetail->total_price = $request->total_price[$key];
-                    $creditVoucherDetail->consigner = $request->consigner[$key];
+                    $creditVoucherDetail->member_id = $request->member_id[$key] ?? null;
+                    $creditVoucherDetail->order_type = $request->order_type[$key] ?? null;
+                    $creditVoucherDetail->tax = $request->tax[$key] ?? null;
+                    $creditVoucherDetail->total_price = $request->total_price[$key] ?? null;
+                    $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
                     $creditVoucherDetail->save();
                 }
             }

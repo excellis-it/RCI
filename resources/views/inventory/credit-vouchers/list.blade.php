@@ -488,7 +488,7 @@
                         responseType: 'blob' // Important for handling binary data
                     },
                     success: function(blob) {
-                        alert('Success');
+                        // alert('Success');
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
                         a.href = url;
