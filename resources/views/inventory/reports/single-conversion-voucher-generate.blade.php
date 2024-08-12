@@ -174,45 +174,45 @@
               <tr style="height: 60px;">
 
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  &nbsp;</td>
+                 1. &nbsp;</td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    {{ $itemDesc->code }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                  0001
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    {{ $itemDesc->description }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    {{ $itemDesc->item_type }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                  {{ $conconversionVoucher->quantity }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                  50
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    {{ $itemDesc->code }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    0001
+                </td>   
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
+                    {{ $itemDesc->description }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    {{ $itemDesc->item_type }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    {{ $conconversionVoucher->quantity }}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    50
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">
-                  
+                    test
                 </td>
               </tr>
             </tbody>
