@@ -38,7 +38,7 @@
                       width: 100%;
                     "
                   >
-                  (Name of Lab/ Estt)<br />
+                  CHESS, Hyderabad<br />
                   STORES INWARD REGISTER (SIR)
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>

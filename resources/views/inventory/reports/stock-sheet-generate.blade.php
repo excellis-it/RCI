@@ -39,7 +39,7 @@
                       width: 100%;
                     "
                   >
-                  (Name of Lab/ Estt)<br />
+                  CHESS, Hyderabad<br />
                   STOCK SHEET <br>
                   (Statement of Stock Verification)
                   </td>

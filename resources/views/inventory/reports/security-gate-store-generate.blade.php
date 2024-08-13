@@ -38,7 +38,7 @@
                       width: 100%;
                     "
                   >
-                  (Name of Lab/ Estt)<br />
+                  CHESS, Hyderabad<br />
                   SECURITY GATE STORES ENTRY REGISTER*
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>

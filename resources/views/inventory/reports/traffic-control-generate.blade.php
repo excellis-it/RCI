@@ -25,7 +25,7 @@
                       font-size: 10px;
                       width: 100%;
                     ">
-                                    (Name of Lab/ Estt)<br />
+                                    CHESS, Hyderabad<br />
                                     TRAFFIC CONTROL REGISTER (TCR)
                                 </td>
                                 <td style="font-size: 10px; text-align: right"></td>
