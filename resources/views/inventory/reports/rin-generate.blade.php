@@ -31,9 +31,8 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    NAME OF LAB/ESTT
-                                    <br>
-                                    RECEIPT & INSPECTION NOTE (RIN)
+                                   CHESS, Hyderabad<br />
+                                    STORES INWARD REGISTER (SIR)
 
 
                                 </td>

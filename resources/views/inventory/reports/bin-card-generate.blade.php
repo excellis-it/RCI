@@ -25,7 +25,7 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  (Name of the Lab/Estt)<br />
+                  CHESS, Hyderabad<br />
                   BIN CARD
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>

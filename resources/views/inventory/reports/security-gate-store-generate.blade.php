@@ -38,7 +38,7 @@
                       width: 100%;
                     "
                   >
-                  (Name of Lab/ Estt)<br />
+                  CHESS, Hyderabad<br />
                   SECURITY GATE STORES ENTRY REGISTER*
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>
@@ -82,6 +82,17 @@
                
   
                       </tr>
+                      
+                      <tr>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">13-08-2024, 06.44pm</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001/12-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001/12-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">Vendor1, Hyderabad</td>
+                 
+               
+  
+                      </tr>
                 </tbody>
               </table>
             </td>
@@ -114,6 +125,17 @@
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">7</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">8</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">9</td>
+                   
+                   
+               
+  
+                      </tr>
+                      
+                      <tr>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">5</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">test</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
                    
                    
                

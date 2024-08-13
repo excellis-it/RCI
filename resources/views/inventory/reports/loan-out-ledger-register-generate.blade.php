@@ -25,9 +25,8 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  (NAME OF LAB/ESTT)<br />
-                  LOAN OUT LEDGER <br>
-                  (REGISTER)
+                  CHESS, Hyderabad<br />
+                  STORES INWARD REGISTER (SIR)
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>
               </tr>

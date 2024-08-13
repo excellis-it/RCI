@@ -38,7 +38,7 @@
                       width: 100%;
                     "
                   >
-                  (Name of Lab/ Estt)<br />
+                  CHESS, Hyderabad<br />
                   STORES INWARD REGISTER (SIR)
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>
@@ -89,6 +89,21 @@
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">9</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">10</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">11</td>
+               
+  
+                      </tr>
+                       <tr>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001  & 13-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">11-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">test</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">12-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">test</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">RIN0001 & 13-08-2024</td>
                
   
                       </tr>

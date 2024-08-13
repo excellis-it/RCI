@@ -64,7 +64,7 @@
                     <a href="{{ route('reports.rin-controller') }}">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Rin Controller Register</h5>
+                                <h5 class="card-title">Rin Control Register</h5>
                             </div>
                         </div>
                     </a>
