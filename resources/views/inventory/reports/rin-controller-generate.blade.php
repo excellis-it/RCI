@@ -60,7 +60,7 @@
                 <tbody>
                   <tr>
                     <td style="padding-top: 20px;  text-decoration: underline;">
-                        Financial Year:
+                        Financial Year: 2024-2025
                     </td>
                   </tr>
                  
@@ -105,6 +105,21 @@
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">7</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">8</td>
                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">9</td>
+         
+               
+  
+                      </tr>
+                      
+                      <tr>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">RIN0001</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">12-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001 & 10-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001 & 10-08-2024</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">Test</td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001</td>
          
                
   

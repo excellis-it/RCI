@@ -12,8 +12,7 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: center; font-weight: bold; font-size: 10px;">
-                                    (Name of Lab/Estt) <br />
-                                    Record of Transactions: FOL<br /><br />
+                                   CHESS, Hyderabad<br />
                                 </td>
                                 <td style="font-size: 14px"></td>
                                 <td style="font-size: 10px; "></td>
@@ -207,7 +206,8 @@
                     ">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRDO.SM.36
                                     <br>
-                                    (Name of Lab/Estt) <br />
+                                   CHESS, Hyderabad<br />
+                        
                                     Record of Transactions: FOL
                                 </td>
                                 <td style="font-size: 14px"></td>
@@ -353,7 +353,7 @@
                     ">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRDO.SM.36
                                     <br>
-                                    (Name of Lab/Estt) <br />
+                                    CHESS, Hyderabad<br />
                                     Record of Transactions: FOL
                                 </td>
                                 <td style="font-size: 14px"></td>

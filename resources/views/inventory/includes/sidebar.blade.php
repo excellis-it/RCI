@@ -66,7 +66,7 @@ use App\Helpers\Helper;
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('inventory/debit-vouchers*') ? 'active' : ''}}" href="{{route('debit-vouchers.index')}}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-box"></i>
+                            <i class="ti ti-cube-send"></i>
                         </span>
                         <span class="hide-menu">Debit Vouchers</span>
                     </a>
@@ -75,7 +75,7 @@ use App\Helpers\Helper;
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('inventory/transfer-vouchers*') ? 'active' : ''}}" href="{{route('transfer-vouchers.index')}}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-box"></i>
+                            <i class="ti ti-transfer-out"></i>
                         </span>
                         <span class="hide-menu">Transfer Vouchers</span>
                     </a>
@@ -83,7 +83,7 @@ use App\Helpers\Helper;
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('inventory/conversion-vouchers*') ? 'active' : ''}}" href="{{route('conversion-vouchers.index')}}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-box"></i>
+                            <i class="ti ti-box-multiple-2"></i>
                         </span>
                         <span class="hide-menu">Conversion Vouchers</span>
                     </a>

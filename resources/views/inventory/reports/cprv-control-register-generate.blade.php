@@ -25,8 +25,8 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  Name of Lab / Estt.<br />
-                  CPRV CONTROL REGISTER
+                 CHESS, Hyderabad<br />
+                  STORES INWARD REGISTER (SIR)
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>
               </tr>
