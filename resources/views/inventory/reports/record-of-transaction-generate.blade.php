@@ -11,14 +11,7 @@
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                         <tbody>
                             <tr>
-
-                                <td
-                                    style="
-                      text-align: center;
-                      font-weight: bold;
-                      font-size: 10px;
-
-                    ">
+                                <td style="text-align: center; font-weight: bold; font-size: 10px;">
                                     (Name of Lab/Estt) <br />
                                     Record of Transactions: FOL<br /><br />
                                 </td>
@@ -26,8 +19,8 @@
                                 <td style="font-size: 10px; "></td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 20px; font-size: 10px;">Pad No: <span
-                                        style="width: 40%; display: inline-block; font-size: 10px;">&nbsp;</span> SI.No:</td>
+                                <td style="padding-bottom: 20px; font-size: 10px;">Pad No:
+                                    <span style="width: 40%; display: inline-block; font-size: 10px;">&nbsp;</span> SI.No:</td>
 
                                 <td></td>
                                 <td></td>
@@ -227,12 +220,8 @@
                                     SI.No:</td>
 
                                 <td></td>
-
-                                <td style="text-align: center;">
-                                    <span style="transform: rotate(-90deg); transform-origin: center bottom;  position: relative;left: 0%; top: 0px; white-space: nowrap;font-size: 10px;">
-                                    ------- FOLD HERE -------
-                                    </span>
-                                </td>
+                                <td></td>
+                                
                             </tr>
                             <tr>
                                 <td style="padding-bottom: 20px;font-size: 10px;">Item Code <br> Description</td>
@@ -312,9 +301,7 @@
                                 </td>
                                 <td></td>
                                 <td style="text-align: center;">
-                                    <span style="transform: rotate(-90deg); transform-origin: center bottom; position: relative;left: 0%; top: 0px; white-space: nowrap;font-size: 10px;">
-                                    ------- FOLD HERE -------
-                                    </span>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -335,18 +322,23 @@
                                     l/c Refueling Section Officer</td>
                                 <td></td>
                                 <td style="text-align: center;">
-                                    <span style="transform: rotate(-90deg); transform-origin: center bottom; position: relative;left: 0%; top: 0px; white-space: nowrap;font-size: 10px;">
-                                    ------- FOLD HERE -------
-                                    </span>
+                                    
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
-
-
                 </td>
-
+                <td style="text-align: center; width:30px; position:relative;">
+                    <span style="color:#000; transform: rotate(-90deg); transform-origin: center bottom; top:20%; left:60%; position: absolute;white-space: nowrap;font-size: 10px;">
+                        ------- FOLD HERE -------
+                    </span>
+                    <span style="color:#000; transform: rotate(-90deg); transform-origin: center bottom; top:40%; left:60%; position: absolute;white-space: nowrap;font-size: 10px;">
+                        ------- FOLD HERE -------
+                    </span>
+                    <span style="color:#000; transform: rotate(-90deg); transform-origin: center bottom; top:60%; left:60%; position: absolute;white-space: nowrap;font-size: 10px;">
+                        ------- FOLD HERE -------
+                    </span>
+                </td>
                 <td>
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                         <tbody>
