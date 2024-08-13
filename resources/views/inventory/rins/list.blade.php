@@ -335,7 +335,7 @@
         // add new row
         $(document).ready(function() {
             $(document).on('click', '.add-more-rin', function() {
-                var tr = $('#credit_new_html').html();
+                var tr = $('#rins_new_html').html();
                 $('#credit_form_add_new_row').append(tr);
 
                 if($('#voucher_date_1').val() != '') {
@@ -358,4 +358,48 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit_rin_add', function() {
+                var tr = $('#rins_edit_html').html();
+                $('#credit_form_edit_new_row').append(tr);
+
+                if($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+        });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $(document).on('click', '.del-rin', function() {
+                    // Count the number of remaining rows
+                    var rowCount = $('.row-item-rin').length;
+
+                    // Check if more than one row exists
+                    if (rowCount > 1) {
+                        // Remove the closest row-item
+                        $(this).closest('.row-item-rin').remove();
+                    } else {
+                        alert("At least one row must remain.");
+                    }
+                });
+            });
+
+        </script>
 @endpush
