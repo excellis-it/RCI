@@ -26,24 +26,24 @@
                                 <td style="font-size: 10px; "></td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 20px;">Pad No: <span
-                                        style="width: 40%; display: inline-block;">&nbsp;</span> SI.No:</td>
+                                <td style="padding-bottom: 20px; font-size: 10px;">Pad No: <span
+                                        style="width: 40%; display: inline-block; font-size: 10px;">&nbsp;</span> SI.No:</td>
 
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 20px;">Item Code <br> Description</td>
+                                <td style="padding-bottom: 20px; font-size: 10px;">Item Code <br> Description</td>
                                 <td></td>
                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             </tr>
                             <tr>
-                                <td>Div/Group: <span style="width: 35%; display: inline-block;">&nbsp;</span> Date:</td>
+                                <td style="padding-bottom: 20px; font-size: 10px;">Div/Group: <span style="width: 35%; display: inline-block;font-size: 10px;">&nbsp;</span> Date:</td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Qty.B/F: (in litres)
+                                <td style="font-size: 10px;">Qty.B/F: (in litres)
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -64,14 +64,14 @@
                                                     style="
                               border: 1px solid #000;
                               padding: 5px;
-                              text-align: center;
+                              text-align: center;font-size: 10px;
                             ">
                                                     Quantity <br> (Litres)
                                                 </th>
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     RV No.
@@ -79,7 +79,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Signature of O i/c <br> Refueling Section
@@ -89,21 +89,21 @@
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
@@ -113,10 +113,10 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 20px 0;">Total Received:</td>
+                                <td style="padding: 20px 0;font-size: 10px;">Total Received:</td>
                             </tr>
                             <tr>
-                                <td>Grand Total:</td>
+                                <td style="font-size: 10px;">Grand Total:</td>
                             </tr>
                             <tr>
 
@@ -134,7 +134,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Air Craft/ MT No <br> AFV/LCV No.<br> (a)
@@ -142,7 +142,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     IV No.
@@ -150,7 +150,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Signature of O i/c <br> Refueling Section
@@ -160,21 +160,21 @@
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
@@ -184,18 +184,18 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 30px; padding-top: 20px;">Total Issues (in litres):</td>
+                                <td style="padding-bottom: 30px; padding-top: 20px;font-size: 10px;">Total Issues (in litres):</td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 30px;">Qty. C/F (in litres)</td>
+                                <td style="padding-bottom: 30px;font-size: 10px;">Qty. C/F (in litres)</td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 30px;">Certified that the Counterfoil is correctly completed
+                                <td style="padding-bottom: 30px;font-size: 10px;">Certified that the Counterfoil is correctly completed
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="text-align: right; padding-top: 40px;">O l/c Refueling Section Officer</td>
+                                <td style="text-align: right; padding-top: 40px;font-size: 10px;">O l/c Refueling Section Officer</td>
                             </tr>
                         </tbody>
                     </table>
@@ -222,23 +222,25 @@
 
                             </tr>
                             <tr>
-                                <td>Pad No: <span
-                                        style="width: 50%; display: inline-block; padding-bottom: 20px;">&nbsp;</span>
+                                <td style="font-size: 10px">Pad No: <span
+                                        style="width: 50%; display: inline-block; padding-bottom: 20px;font-size: 10px;">&nbsp;</span>
                                     SI.No:</td>
 
                                 <td></td>
 
-                                <td
-                                    style="rotate: 90deg; position: relative;left: 0%; top: 0px; transform:translateX(50%); white-space: nowrap;">
-                                    ------- FOLD HERE -------</td>
+                                <td style="text-align: center;">
+                                    <span style="transform: rotate(-90deg); transform-origin: center bottom;  position: relative;left: 0%; top: 0px; white-space: nowrap;font-size: 10px;">
+                                    ------- FOLD HERE -------
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 20px">Item Code <br> Description</td>
+                                <td style="padding-bottom: 20px;font-size: 10px;">Item Code <br> Description</td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>Div/Group: <span style="width: 45%; display: inline-block;">&nbsp;</span> Date:</td>
+                                <td style="font-size: 14px">Div/Group: <span style="width: 45%; display: inline-block;font-size: 10px;">&nbsp;</span> Date:</td>
                                 <td></td>
                                 <td></td>
 
@@ -260,7 +262,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Air Craft/ MT No <br> AFV/LCV No.<br> (a)
@@ -268,7 +270,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: left;
                             ">
                                                     Qty. Issued <br> (In litres) <br> (b)
@@ -276,7 +278,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: left;
                             ">
                                                     Signature of<br> Driver<br> Receiving
@@ -286,21 +288,21 @@
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
@@ -309,30 +311,34 @@
                                     </table>
                                 </td>
                                 <td></td>
-                                <td
-                                    style="rotate: 90deg; position: relative;left: 0%; top: 0px; transform:translateX(50%); white-space: nowrap;">
-                                    ------- FOLD HERE -------</td>
+                                <td style="text-align: center;">
+                                    <span style="transform: rotate(-90deg); transform-origin: center bottom; position: relative;left: 0%; top: 0px; white-space: nowrap;font-size: 10px;">
+                                    ------- FOLD HERE -------
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 30px; padding-top: 20px">Total Issues (in litres):</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-
-                            <tr>
-                                <td>Certified that the entries are made in the Log <br> Books/ Mileage Card</td>
+                                <td style="padding-bottom: 30px; padding-top: 20px;font-size: 10px;">Total Issues (in litres):</td>
                                 <td></td>
                                 <td></td>
                             </tr>
 
                             <tr>
-                                <td style="text-align: right; padding-top: 100px;
+                                <td style="font-size: 10px;">Certified that the entries are made in the Log <br> Books/ Mileage Card</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td style="text-align: right; padding-top: 100px;font-size: 10px;
                                 ">O
                                     l/c Refueling Section Officer</td>
                                 <td></td>
-                                <td
-                                    style="rotate: 90deg; position: relative;left: 0%; top: 0px; transform:translateX(50%); white-space: nowrap;">
-                                    ------- FOLD HERE -------</td>
+                                <td style="text-align: center;">
+                                    <span style="transform: rotate(-90deg); transform-origin: center bottom; position: relative;left: 0%; top: 0px; white-space: nowrap;font-size: 10px;">
+                                    ------- FOLD HERE -------
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -349,7 +355,7 @@
                                 <td
                                     style="
                       text-align: center;
-                      font-weight: bold;
+                      font-weight: bold;font-size: 10px;
                       font-size: 10px; padding-bottom: 20px;
 
                     ">
@@ -362,19 +368,19 @@
                                 <td style="font-size: 10px; "></td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 20px">Pad No: <span
-                                        style="width: 50%; display: inline-block;">&nbsp;</span> SI.No:</td>
+                                <td style="padding-bottom: 20px;font-size: 10px;">Pad No: <span
+                                        style="width: 50%; display: inline-block;font-size: 10px;">&nbsp;</span> SI.No:</td>
 
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 20px">Item Code <br> Description</td>
+                                <td style="padding-bottom: 20px;font-size: 10px;">Item Code <br> Description</td>
                                 <td></td>
                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             </tr>
                             <tr>
-                                <td>Div/Group: <span style="width: 45%; display: inline-block;">&nbsp;</span> Date:</td>
+                                <td style="font-size: 10px;">Div/Group: <span style="width: 45%; display: inline-block;font-size: 10px;">&nbsp;</span> Date:</td>
                                 <td></td>
                             </tr>
 
@@ -394,7 +400,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Air Craft/ MT No <br> AFV/LCV No.<br> (a)
@@ -402,7 +408,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Qty. Issued <br> (In litres) <br> (b)
@@ -410,7 +416,7 @@
                                                 <th
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                     Signature of <br> Driver<br> Receiving <br>(c)
@@ -420,21 +426,21 @@
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
                                                 <td
                                                     style="
                               border: 1px solid #000;
-                              padding: 5px;
+                              padding: 5px;font-size: 10px;
                               text-align: center;
                             ">
                                                 </td>
@@ -444,7 +450,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding-bottom: 30px; padding-top: 20px">Total Issues (in litres):</td>
+                                <td style="padding-bottom: 30px; padding-top: 20px;font-size: 10px;">Total Issues (in litres):</td>
                             </tr>
 
                             <tr>
@@ -452,7 +458,7 @@
                             </tr>
 
                             <tr>
-                                <td style="text-align: right; padding-top: 100px;">O l/c Refueling Section Officer</td>
+                                <td style="text-align: right; padding-top: 100px;font-size: 10px;">O l/c Refueling Section Officer</td>
                             </tr>
                         </tbody>
                     </table>
