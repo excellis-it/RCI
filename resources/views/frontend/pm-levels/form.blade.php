@@ -50,6 +50,23 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Payband</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="payband" id="payband">
+                                    <option value="">Select Payband</option>
+                                    @foreach($pay_bands as $payband)
+                                        <option value="{{ $payband->id }}" {{ $payband->id == $pm_level->payband ? 'selected':'' }}>@if($payband->low_band){{ $payband->low_band }} - {{ $payband->high_band }} @else {{ $payband->high_band }}@endif</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Year</label>
                             </div>
                             <div class="col-md-12">
@@ -129,6 +146,23 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="basic" id="basic" value="{{ $pm_level->basic ?? '' }}"
                                     placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Payband</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="payband" id="payband">
+                                    <option value="">Select Payband</option>
+                                    @foreach($pay_bands as $payband)
+                                        <option value="{{ $payband->id }}">@if($payband->low_band){{ $payband->low_band }} - {{ $payband->high_band }} @else {{ $payband->high_band }}@endif</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

@@ -28,7 +28,7 @@ class PaybandController extends Controller
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('low_band', 'like', '%' . $query . '%')
                     ->orWhere('high_band', 'like', '%' . $query . '%')
-                    ->orWhere('grade_pay', 'like', '%' . $query . '%')
+                    // ->orWhere('grade_pay', 'like', '%' . $query . '%')
                     ->orWhereHas('paybandType', function ($queryBuilder) use ($query) {
                         $queryBuilder->where('payband_type', 'like', '%' . $query . '%');
                     });
@@ -53,16 +53,16 @@ class PaybandController extends Controller
     {
         $request->validate([
             'payband_type_id' => 'required',
-            'low_band' => 'required|numeric',
+            // 'low_band' => 'required|numeric',
             'high_band' => 'required|numeric',
-            'grade_pay' => 'required|numeric',
+            // 'grade_pay' => 'required|numeric',
         ]);
 
         $payband = new Payband();
         $payband->payband_type_id = $request->payband_type_id;
         $payband->low_band = $request->low_band;
         $payband->high_band = $request->high_band;
-        $payband->grade_pay = $request->grade_pay;
+        // $payband->grade_pay = $request->grade_pay;
         $payband->save();
 
         session()->flash('message', 'Payband added successfully');
@@ -95,17 +95,17 @@ class PaybandController extends Controller
     {
         $request->validate([
             'payband_type_id' => 'required',
-            'low_band' => 'required|numeric',
+            // 'low_band' => 'required|numeric',
             'high_band' => 'required|numeric',
-            'grade_pay' => 'required|numeric',
+            // 'grade_pay' => 'required|numeric',
         ]);
 
         $payband = Payband::find($id);
         $payband->payband_type_id = $request->payband_type_id;
         $payband->low_band = $request->low_band;
         $payband->high_band = $request->high_band;
-        $payband->grade_pay = $request->grade_pay;
-        $payband->save();
+        // $payband->grade_pay = $request->grade_pay;
+        $payband->update();
 
         session()->flash('message', 'Payband updated successfully');
         return response()->json(['success' => 'Payband updated successfully']);

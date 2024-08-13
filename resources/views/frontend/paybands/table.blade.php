@@ -4,9 +4,9 @@
             <td>{{$payband->paybandType->payband_type ?? 'N/A'}}</td>
             <td>{{$payband->high_band ?? 'N/A'}}</td>
             <td>{{$payband->low_band ?? 'N/A'}}</td>
-            <td>{{$payband->grade_pay ?? 'N/A'}}</td>
+            {{-- <td>{{$payband->grade_pay ?? 'N/A'}}</td> --}}
             <td class="sepharate"><a data-route="{{route('paybands.edit', $payband->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('paybands.delete', $payband->id)}}"><i class="ti ti-trash"></i></a>
+                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('paybands.delete', $payband->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>
     @endforeach
