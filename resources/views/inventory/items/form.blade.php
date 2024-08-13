@@ -40,7 +40,7 @@
                                 <select class="form-control" name="uom" id="uom">
                                     <option value="">Select</option>
                                     @foreach ($uoms as $uom)
-                                        <option value="{{ $uom->id }}" {{ ($edit_item_code->uom_id == $uom->id) ? 'selected' : '' }}>{{ $uom->name }}</option>
+                                        <option value="{{ $uom->id }}" {{ ($edit_item_code->uom == $uom->id) ? 'selected' : '' }}>{{ $uom->name }}</option>
                                         
                                     @endforeach
                                 </select>
@@ -187,7 +187,7 @@
                                 <label>Created By(Person)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="created_by" id="created_by">
+                                <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select</option>
                                         @foreach ($members as $member)
                                             <option value="{{ $member->id }}">{{ $member->user_name }}</option>   

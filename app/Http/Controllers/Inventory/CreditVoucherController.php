@@ -190,10 +190,12 @@ class CreditVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $supplyOrders = SupplyOrder::all();
         $members = Member::all();
+        $rins = Rin::all();
+        $projects = InventoryProject::all();
         $uoms = Uom::all();
         $edit = true;
 
-        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms'))->render()]);
+        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms', 'rins', 'projects'))->render()]);
         // return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 

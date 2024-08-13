@@ -89,12 +89,12 @@
 
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">2</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">3</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">4</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">5</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">6</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">7</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">13-08-2024</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">Vendor</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">Delhivery</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001/1111/13-08-2024</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">10-08-2024</td>
                             </tr>
                         </tbody>
                     </table>
@@ -130,6 +130,16 @@
                                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">10</td>
                                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">11</td>
                                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">12</td>
+
+
+
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">100 & 500kg</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">OK</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">Prepaid</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">test</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
 
 
 
