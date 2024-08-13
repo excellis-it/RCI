@@ -125,9 +125,10 @@ class RinController extends Controller
     public function edit(string $id)
     {
         $rin = Rin::find($id);
+        $all_rins = Rin::where('rin_no', $rin->rin_no)->get();
         $items = ItemCode::all();
         $edit = true;
-        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items'))->render()]);
+        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items','all_rins'))->render()]);
     }
 
     /**
@@ -135,25 +136,33 @@ class RinController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'item_id' => 'required',
-            'received_quantity' => 'required',
-            'accepted_quantity' => 'required',
-            'rejected_quantity' => 'required',
-            'nc_status' => 'required',
-            'au_status' => 'required',
-        ]);
+        // return $request;
+        $rin_id = Rin::where('id', $request->id)->first();
+        $rin_no = $rin_id->rin_no;
 
-        $rin = Rin::find($id);
-        $rin->item_id = $request->item_id;
-        $rin->description = $request->description;
-        $rin->received_quantity = $request->received_quantity;
-        $rin->accepted_quantity = $request->accepted_quantity;
-        $rin->rejected_quantity = $request->rejected_quantity;
-        $rin->remarks = $request->remarks;
-        $rin->nc_status = $request->nc_status;
-        $rin->au_status = $request->au_status;
-        $rin->update();
+        $delte_old_rins = Rin::where('rin_no', $rin_no)->delete();
+
+        if($request->item_id){
+            foreach($request->item_id as $key => $item){
+                if($item != null){
+
+                    $rin = new Rin();
+                    $rin->rin_no = $rin_no;
+                    $rin->item_id = $item;
+                    $rin->description = $request->description[$key];
+                    $rin->received_quantity = $request->received_quantity[$key];
+                    $rin->accepted_quantity = $request->accepted_quantity[$key];
+                    $rin->rejected_quantity = $request->rejected_quantity[$key];
+                    $rin->remarks = $request->remarks[$key];
+                    $rin->unit_cost = $request->unit_cost [$key];
+                    $rin->total_cost = $request->total_cost[$key];
+                    $rin->nc_status = $request->nc_status[$key];
+                    $rin->au_status = $request->au_status[$key];
+                    $rin->save();
+                }
+            }
+         }
+
 
         session()->flash('message', 'RIN Updated successfully');
         return response()->json(['success' => 'RIN Updated successfully']);

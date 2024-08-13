@@ -14,7 +14,7 @@
               <tr>
                 <td></td>
 
-                <td style="font-size: 14px; text-align: right; font-weight: bold;">DRDO.SM.24 <br>
+                <td style="font-size: 10px; text-align: right; font-weight: bold;">DRDO.SM.24 <br>
                 </td>
               </tr>
               <tr>
@@ -22,13 +22,13 @@
                 <td style="
                       text-align: center;
                       font-weight: bold;
-                      font-size: 14px;
+                      font-size: 10px;
                       width: 100%;
                     ">
                   (NAME OF LAB/ESTT)<br />
                   CASH PURCHASE CONTROL REGISTER (CPCR)
                 </td>
-                <td style="font-size: 14px; text-align: right"></td>
+                <td style="font-size: 10px; text-align: right"></td>
               </tr>
 
             </tbody>
@@ -41,31 +41,31 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" style="margin-top: 2rem">
             <tbody>
               <tr style="height: 120px;">
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">S.NO
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">S.NO
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">NAME
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">NAME
                   OF <br> CPO
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   GROUP <br> NAME
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">CP
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">CP
                   <br> DEMAND <br>
                   No
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">DATE
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">DATE
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   NOMENCLATURE</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">QTY
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">QTY
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   COST <br> DEBITABALE <br> TO</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   UNIT <br> CODE</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   AMOUNT <br> SANCTIONED</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   AMOUNT <br> UTILISED</th>
 
               </tr>
@@ -95,27 +95,27 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" style="margin-top: 2rem">
             <tbody>
               <tr style="height: 120px;">
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">CASH
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">CASH
                   BILL NO</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">DATE
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">DATE
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">FIRM
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">FIRM
                   NAME
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">CRV
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">CRV
                   No</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">IDIV
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">IDIV
                   No
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">DATE
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">DATE
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   SIGNATURE <br> OF CPC</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   ICC. <br> No</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   DATE</th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   REMARKS</th>
 
               </tr>

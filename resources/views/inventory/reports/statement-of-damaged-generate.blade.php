@@ -14,7 +14,7 @@
               <tr>
                 <td></td>
 
-                <td style="font-size: 14px; text-align: right; font-weight: bold;">DRDO.SM.23
+                <td style="font-size: 10px; text-align: right; font-weight: bold;">DRDO.SM.23
                 </td>
               </tr>
               <tr>
@@ -22,13 +22,13 @@
                 <td style="
                       text-align: center;
                       font-weight: bold;
-                      font-size: 14px;
+                      font-size: 10px;
                       width: 100%;
                     ">
                   (Name of the Lab/Estt.)<br />
                   STATEMENT OF EQUIPMENT LOST/DAMAGED
                 </td>
-                <td style="font-size: 14px; text-align: right"></td>
+                <td style="font-size: 10px; text-align: right"></td>
               </tr>
 
             </tbody>
@@ -40,14 +40,14 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;  width: 70%;
+                <td style="font-size: 10px;  width: 70%;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
                         text-align: left;">DIVISION/GROUP: <br>
                   ICC No.
                 </td>
-                <td style="font-size: 16px; width: 30%;
+                <td style="font-size: 10px; width: 30%;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
@@ -68,38 +68,38 @@
             <tbody>
               <tr>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   SI. No
                 </th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Item <br> Code
                 </th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Description
                 </th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Ledger No./ <br> Page No.
                 </th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   A/U
                 </th>
-                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center;">
+                <th valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;">
                   Qty</th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Condition when <br> lost or Damaged</th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Cost of <br> Procurement</th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Assessed <br> Value*</th>
                 <th valign="top"
-                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
                   Total <br> Value <br>of Loss</th>
 
 
@@ -149,7 +149,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 20%;
                         font-weight: 400;
                         color: #000;
@@ -165,14 +165,14 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 50%;
                         font-weight: 400; border: 1px solid #000;
                         color: #000;
                         text-align: left; padding-left: 10px;">If a Board of inquiry held: Yes/No
                   Date________________Place_________________________
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 50%;
                         font-weight: 400;
                         color: #000;
@@ -188,7 +188,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 100%;
                         font-weight: 400;
                         color: #000;
@@ -209,7 +209,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 100%;
                         font-weight: 400;
                         color: #000;
@@ -227,25 +227,25 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
                         text-align: left;">Inventory/ICC Holder
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px;
                         font-weight: 400;
                         color: #000;
                         text-align: left;">O/IC Ledger Section
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
                         text-align: left; padding-left: 10px;">Head MMG
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
@@ -261,13 +261,13 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px; width: 30%;
+                <td style="font-size: 10px; width: 30%;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
                         text-align: left;">&nbsp;
                 </td>
-                <td style="font-size: 16px; width: 40%; padding: 20px;
+                <td style="font-size: 10px; width: 40%; padding: 20px;
                 line-height: 18px; border: 1px solid #000;
                 font-weight: 400;
                 color: #000;
@@ -277,13 +277,13 @@
                   <br>
                   O/IC Ledger Section (Signature & Date)
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;
                         text-align: right; padding-left: 10px;">
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px;
                         font-weight: 600;
                         color: #000;

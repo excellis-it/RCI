@@ -53,7 +53,7 @@
                         color: #000;
                         text-align: left; padding-left: 10px; padding-bottom: 10px;">
                   Voucher No.: <br>
-                  Date:
+                  Date: 12-08-2024
                 </td>
               </tr>
             </tbody>

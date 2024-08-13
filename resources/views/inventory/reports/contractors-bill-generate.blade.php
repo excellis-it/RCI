@@ -59,23 +59,19 @@
                         <tbody>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style="font-size: 14px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
                                 text-align: left;
                                 padding: 0px 0px 10px 0px;
                                 ">
-
-                                    * Contract Agreement
-                                    No:.................................................................... .date
-                                    ................................ Delivery date..................................
+                                    * Contract Agreement No:.......................................date
+                                    ................................. Delivery date..........................................
                                     <br>
                                     Name of Contractor with full postal
-                                    address..............................................................................................................................<br>....................................................................................................................................................................................................................................................
-                                    <br>
-                                    Delivery Challan Nos. & Dates:...
-                                    ....................................................................................................................................
+                                    address.....................................................................................................................<br>...............................................................................................................................................................................................
+                                    <br>Delivery Challan Nos. & Dates:..........................................................................................................................................
                                 </td>
                             </tr>
                         </tbody>
@@ -88,15 +84,15 @@
                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                         <tbody>
                             <tr style=" border: 1px solid black;">
-                                <th style="border: 1px solid #000;">S. No</th>
-                                <th style="border: 1px solid #000; ">Description of Articles <br> Supplied or service
+                                <th style="border: 1px solid #000; font-size: 10px; font-size: 10px;">S. No</th>
+                                <th style="border: 1px solid #000; font-size: 10px; ">Description of Articles <br> Supplied or service
                                     <br> rendered
                                 </th>
-                                <th style="border: 1px solid #000; ">A/U</th>
-                                <th style="border: 1px solid #000; ">Quantity or <br> No. accepted</th>
-                                <th colspan="2" style="    border: 1px solid #000; ">Rate (Per) A/U</th>
-                                <th colspan="2" style="    border: 1px solid #000;">Total Cost</th>
-                                <th style="border: 1px solid #000; ">Remarks</th>
+                                <th style="border: 1px solid #000; font-size: 10px; ">A/U</th>
+                                <th style="border: 1px solid #000; font-size: 10px; ">Quantity or <br> No. accepted</th>
+                                <th colspan="2" style="    border: 1px solid #000; font-size: 10px; ">Rate (Per) A/U</th>
+                                <th colspan="2" style="    border: 1px solid #000; font-size: 10px;">Total Cost</th>
+                                <th style="border: 1px solid #000; font-size: 10px; ">Remarks</th>
                             </tr>
                             <tr>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
@@ -109,17 +105,17 @@
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600; text-align: center;     border-right: 0;
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;  font-size: 10px; font-weight: 600; text-align: center;border-right: 0;
     border-top: 0;">
                                     Rs</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; text-align: center;     border-left: 0;
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; text-align: center;   font-size: 10px;   border-left: 0;
     border-top: 0;">
                                     P
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600; text-align: center;     border-right: 0;
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600; text-align: center;    font-size: 10px;  border-right: 0;
     border-top: 0;">
                                     Rs</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; text-align: center;     border-left: 0;
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; text-align: center;    font-size: 10px;  border-left: 0;
     border-top: 0;">
                                     P
                                 </td>
@@ -128,86 +124,86 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
                             </tr>
                             <tr>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
                             </tr>
                             <tr>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="3" rowspan="4"
-                                    style=" border: 1px solid black; padding: 10px 4px 20px 20px; font-weight: 600;">
+                                    style=" border: 1px solid black;  font-size: 10px; padding: 10px 4px 20px 20px; font-weight: 600;">
                                     Received <span style="    background-color: #fff;
                                     padding: 20px 20px 20px 20px;
-                                    border: 1px solid #000;
+                                    border: 1px solid #000; font-size: 10px;
                                     width: 50px;
                                     height: 31px;
                                     display: inline-block;
@@ -218,64 +214,64 @@
                                     .......................................................................
                                 </td>
                                 <td colspan="2" rowspan="4"
-                                    style=" border: 1px solid black; padding: 0px 5px 0px 5px; text-align: right; border-right: 0;  border-top: 0;">
+                                    style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; text-align: right; border-right: 0;  border-top: 0;">
 
                                 </td>
                                 <td
-                                    style="text-align: right; border: 1px solid black; border-left: 0; border-right: 0; border-bottom: 0; border-top: 0; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                    style="text-align: right; border: 1px solid black;  font-size: 10px; border-left: 0; border-right: 0; border-bottom: 0; border-top: 0; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     GST
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px;">
                                     &nbsp;
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0px 5px 0px 5px; font-weight: 600;">
                                     &nbsp;</td>
 
                             </tr>
                             <tr>
                                 <td
-                                    style=" border: 1px solid black; border-left: 0; border-right: 0; border-bottom: 0; border-top: 0; padding: 0 4px 0px 0px; font-weight: 600;">
+                                    style=" border: 1px solid black;text-align: right; font-size: 10px; border-left: 0; border-right: 0; border-bottom: 0; border-top: 0; padding: 0 4px 0px 0px; font-weight: 600;">
                                     Customs Duty</td>
-                                <td style=" border: 1px solid black; padding: 0 4px 0px 20px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0 4px 0px 20px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0 5px 0px 5px; text-align: right;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 0 5px 0px 5px; text-align: right;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
 
 
                             </tr>
                             <tr>
                                 <td
-                                    style="text-align: right; border: 1px solid black; border-left: 0; border-right: 0; border-bottom: 0; border-top: 0; padding: 5px 4px 5px 00px; font-weight: 600;">
+                                    style="text-align: right; border: 1px solid black;  font-size: 10px; border-left: 0; border-right: 0; border-bottom: 0; border-top: 0; padding: 5px 4px 5px 00px; font-weight: 600;">
                                     Others
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 0px 5px; text-align: right;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 0px 5px; text-align: right;">
 
 
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
 
 
                             </tr>
                             <tr>
                                 <td
-                                    style="text-align: right; border: 1px solid black; border-left: 0; border-right: 0;  border-top: 0; padding: 5px 4px 5px 0px; font-weight: 600;">
+                                    style="text-align: right; border: 1px solid black;  font-size: 10px; border-left: 0; border-right: 0;  border-top: 0; padding: 5px 4px 5px 0px; font-weight: 600;">
                                     Total
 
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; text-align: right;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; text-align: right;">
 
 
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
 
 
@@ -290,38 +286,38 @@
 
                             <tr>
                                 <td colspan="3"
-                                    style="text-align: right; border: 1px solid black;  border-right: 0; border-bottom: 0;  padding: 5px 4px 5px 0px; font-weight: 600;">
+                                    style="text-align: right; border: 1px solid black;  font-size: 10px;  border-right: 0; border-bottom: 0;  padding: 5px 4px 5px 0px; font-weight: 600;">
                                     &nbsp;
 
                                 </td>
                                 <td colspan="3"
-                                    style=" border: 1px solid black; padding: 5px 5px 5px 5px; border-bottom: 0; text-align: right;">
+                                    style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; border-bottom: 0; text-align: right;">
 
 
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="3"
-                                    style="text-align: right; border: 1px solid black;  border-right: 0;  border-top: 0; padding: 5px 4px 5px 0px; font-weight: 600;">
+                                    style="text-align: right; border: 1px solid black;  font-size: 10px;  border-right: 0;  border-top: 0; padding: 5px 4px 5px 0px; font-weight: 600;">
                                     &nbsp;
 
                                 </td>
                                 <td colspan="3"
-                                    style=" border: 1px solid black; padding: 5px 5px 5px 5px;  border-top: 0; text-align: right;">
+                                    style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px;  border-top: 0; text-align: right;">
 
 
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
-                                <td style=" border: 1px solid black; padding: 5px 5px 5px 5px; font-weight: 600;">
+                                <td style=" border: 1px solid black;  font-size: 10px; padding: 5px 5px 5px 5px; font-weight: 600;">
                                 </td>
                             </tr>
 

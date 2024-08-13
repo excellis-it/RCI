@@ -32,7 +32,7 @@
                         <tbody>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -46,7 +46,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -70,7 +70,7 @@
                         <tbody>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -87,7 +87,7 @@
 
 
                                 </td>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -102,7 +102,7 @@
                             </tr>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -229,7 +229,7 @@
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
                         <tbody>
                             <tr>
-                                <td style="font-size: 16px;
+                                <td style="font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 400;
                                 color: #000;
@@ -250,7 +250,7 @@
 
                             </tr>
                             <tr style="">
-                                <td style="font-size: 16px;
+                                <td style="font-size: 10px;
                                 line-height: 18px; padding-top: 20px;
                                 font-weight: 400;
                                 color: #000;
@@ -274,7 +274,7 @@
                         <tbody>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -284,7 +284,7 @@
 
                                     Signature and Designation of
                                 </td>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -296,7 +296,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -306,7 +306,7 @@
 
                                     Inventory/ICC Holder
                                 </td>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -330,7 +330,7 @@
                         <tbody>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -343,7 +343,7 @@
 
                             </tr>
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
@@ -358,7 +358,7 @@
 
                             </tr>
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600; width: 50%;
                                 color: #000;
@@ -369,7 +369,7 @@
                                     Security Out Control No...
                                     .....................................................
                                 </td>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600; width: 50%;
                                 color: #000;
@@ -384,7 +384,7 @@
                             </tr>
 
                             <tr>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600; width: 50%;
                                 color: #000;
@@ -395,7 +395,7 @@
                                     Stores Returned on...
                                     ......................................................(date)
                                 </td>
-                                <td style=" font-size: 16px;
+                                <td style=" font-size: 10px;
                                 line-height: 18px;
                                 font-weight: 600; width: 50%;
                                 color: #000;

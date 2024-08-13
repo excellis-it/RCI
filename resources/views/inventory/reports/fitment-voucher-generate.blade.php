@@ -54,7 +54,7 @@
                         color: #000;
                         text-align: left; padding-left: 10px;">
                   Voucher No_______________________ <br>
-                  Date:
+                  Date: 12-08-2024
                 </td>
               </tr>
             </tbody>
@@ -153,37 +153,34 @@
               </tr>
               <tr>
 
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">&nbsp;
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; ">&nbsp;1
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;25.33.0003
 
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
 
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;lorem ipsum dolor
+
+                </td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;C
+
+                </td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;5
+
+                </td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;10
+
+                </td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;25.33.0003
 
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;lorem ipsum 
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;
-
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; "> &nbsp;lorem ipsum dolor sit amet
                 </td>
               </tr>
 
