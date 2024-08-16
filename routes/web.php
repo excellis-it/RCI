@@ -200,7 +200,7 @@ Route::middleware('permssions')->group(function () {
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
         'bag-allowance' => BagPurseAllowanceController::class,
-
+        'mobile-allowance' => LandlineAllowanceController::class,
         'child-allowance' => MemberChildAllowanceController::class,
         'pay-matrix-rows' => PayMatrixRowController::class,
         'pay-matrix-basics' => PayMatrixBasicController::class,
