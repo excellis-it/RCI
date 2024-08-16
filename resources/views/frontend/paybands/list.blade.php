@@ -57,10 +57,10 @@
                                                     data-column_name="low_band" style="cursor: pointer">
                                                     Low Band <span id="low_band_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th data-sorting_type="desc" class="sorting"
+                                                {{-- <th data-sorting_type="desc" class="sorting"
                                                     data-column_name="grade_pay" style="cursor: pointer">
                                                     Grade Pay <span id="grade_pay_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th></th>
                                             </tr>
                                         </thead>

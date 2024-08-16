@@ -2,6 +2,7 @@
     @foreach ($pm_indices as $key => $pm_index)
         <tr>
             <td> {{ ($pm_indices->currentPage()-1) * $pm_indices->perPage() + $loop->index + 1 }}</td>
+            <td>{{ $pm_index->pmLevel->value ?? 'N/A'}}</td>
             <td>{{ $pm_index->value ?? 'N/A'}}</td>
             <td><span class="{{ ($pm_index->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($pm_index->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('pm-index.edit', $pm_index->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
