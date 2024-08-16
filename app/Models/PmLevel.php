@@ -14,4 +14,6 @@ class PmLevel extends Model
     {
         return $this->belongsTo(PayCommission::class, 'pay_commission');
     }
+
+    
 }

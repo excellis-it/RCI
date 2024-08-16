@@ -64,17 +64,19 @@ class PmLevelController extends Controller
     {
         $request->validate([
             'value' => 'required|max:255',
+            'payband' => 'required',
             'pay_commission' => 'required',
-            'basic' => 'required|numeric',
+            'entry_pay' => 'required|numeric',
             'year' => 'required',
             'status' => 'required',
         ]);
 
         
         $pm_level_value = new PmLevel();
+        $pm_level_value->payband = $request->payband;
         $pm_level_value->pay_commission = $request->pay_commission;
         $pm_level_value->value = $request->value;
-        $pm_level_value->basic = $request->basic;
+        $pm_level_value->entry_pay = $request->entry_pay;
         $pm_level_value->year = $request->year;
         $pm_level_value->status = $request->status;
         $pm_level_value->save();
@@ -114,12 +116,13 @@ class PmLevelController extends Controller
         ]);
 
         $pm_level = PmLevel::find($id);
+        $pm_level->payband = $request->payband;
         $pm_level->pay_commission = $request->pay_commission;
         $pm_level->value = $request->value;
-        $pm_level->basic = $request->basic;
+        $pm_level->entry_pay = $request->entry_pay;
         $pm_level->year = $request->year;
         $pm_level->status = $request->status;
-        $pm_level->save();
+        $pm_level->update();
 
         session()->flash('message', 'PM Level updated successfully');
         return response()->json(['success' => 'PM Level updated successfully']);

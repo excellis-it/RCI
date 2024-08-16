@@ -37,10 +37,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Basic</label>
+                                <label>Entry Pay</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="basic" id="basic" value="{{ $pm_level->basic ?? '' }}"
+                                <input type="text" class="form-control" name="entry_pay" id="entry_pay" value="{{ $pm_level->entry_pay ?? '' }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -141,10 +141,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Basic</label>
+                                <label>Entry Pay</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="basic" id="basic" value="{{ $pm_level->basic ?? '' }}"
+                                <input type="text" class="form-control" name="entry_pay" id="entry_pay" value="{{ $pm_level->entry_pay ?? '' }}"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>

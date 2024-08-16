@@ -48,6 +48,8 @@ use App\Http\Controllers\Frontend\RuleController;
 use App\Http\Controllers\Frontend\NewspaperAllowanceController;
 use App\Http\Controllers\Frontend\LandlineAllowanceController;
 use App\Http\Controllers\Frontend\BagPurseAllowanceController;
+use App\Http\Controllers\Frontend\PayMatrixRowController;
+use App\Http\Controllers\Frontend\PayMatrixBasicController;
 
 //manik's works
 use App\Http\Controllers\Frontend\TaDaController;
@@ -200,6 +202,8 @@ Route::middleware('permssions')->group(function () {
         'bag-allowance' => BagPurseAllowanceController::class,
 
         'child-allowance' => MemberChildAllowanceController::class,
+        'pay-matrix-rows' => PayMatrixRowController::class,
+        'pay-matrix-basics' => PayMatrixBasicController::class,
 
         //manik routes
         'tada-advance' => TadaAdvanceController::class,
@@ -379,6 +383,12 @@ Route::middleware('permssions')->group(function () {
 
     //rule management
     Route::get('/rules-fetch-data', [RuleController::class, 'fetchData'])->name('rules.fetch-data');
+
+    // Pay matrix row
+    Route::get('/pay-matrix-row-fetch-data', [PayMatrixRowController::class, 'fetchData'])->name('pay-matrix-rows.fetch-data');
+
+    // Pay matrix basic
+    Route::get('/pay-matrix-basic-fetch-data', [PayMatrixBasicController::class, 'fetchData'])->name('pay-matrix-basics.fetch-data');
 
 
     // Designation Type

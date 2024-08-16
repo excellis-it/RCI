@@ -383,6 +383,14 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pay-matrix-rows.index') }}">PM Rows</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('pay-matrix-basics.index') }}">PM Basics</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('divisions.index') }}">Divisions</a>
                             </li>
                             <li class="mb-2">

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pm_levels', function (Blueprint $table) {
-            $table->unsignedBigInteger('payband')->nullable()->after('id');
-            $table->string('entry_pay')->nullable()->after('payband');
+        Schema::table('pm_indices', function (Blueprint $table) {
+            $table->unsignedBigInteger('pm_level_id')->nullable()->after('id');
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pm_levels', function (Blueprint $table) {
-            $table->dropColumn('payband');
-            $table->dropColumn('entry_pay');
+        Schema::table('pm_indices', function (Blueprint $table) {
+            $table->dropColumn('pm_level_id');
         });
     }
 };
