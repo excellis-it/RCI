@@ -124,6 +124,7 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
+    @if($member->nps_available == 'No')
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -140,6 +141,7 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
+    @endif
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -159,7 +161,7 @@ id="member-core-form" method="post">
 </div>
 <div class="row">
     
-    
+    @if($member->nps_available == 'Yes')
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -176,7 +178,7 @@ id="member-core-form" method="post">
             </div>
         </div>
     </div>
-
+    @endif
     <div class="col-md-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
