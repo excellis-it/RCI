@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Payband;
 use App\Models\PaybandType;
+use App\Helpers\Helper;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PaybandController extends Controller
@@ -12,8 +14,9 @@ class PaybandController extends Controller
     public function index()
     {
         $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
+        $financialYears = Helper::getFinancialYears();
         $paybands = Payband::orderBy('id', 'desc')->paginate(10);
-        return view('frontend.paybands.list', compact('paybands', 'payband_types'));
+        return view('frontend.paybands.list', compact('paybands', 'payband_types','financialYears'));
     }
 
     public function fetchData(Request $request)
@@ -51,18 +54,33 @@ class PaybandController extends Controller
      */
     public function store(Request $request)
     {
+        
+
         $request->validate([
             'payband_type_id' => 'required',
             // 'low_band' => 'required|numeric',
             'high_band' => 'required|numeric',
-            // 'grade_pay' => 'required|numeric',
+            'financial_year' => 'required',
         ]);
+
+        [$startYear, $endYear] = explode('-', $request->financial_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate($endYear, 3, 31)->endOfDay();
+        
+        $yearMonths = [];
+        for ($current = $startOfYear->copy(); $current->lessThanOrEqualTo($endOfYear); $current->addMonth()) {
+            $yearMonths[] = $current->copy();
+        }
+        
+        $firstMonth = reset($yearMonths)->format('m');
+        $lastMonth = end($yearMonths)->format('m');
 
         $payband = new Payband();
         $payband->payband_type_id = $request->payband_type_id;
         $payband->low_band = $request->low_band;
         $payband->high_band = $request->high_band;
-        // $payband->grade_pay = $request->grade_pay;
+        $payband->month = $firstMonth . ' - ' . $lastMonth;
+        $payband->year = $request->financial_year;
         $payband->save();
 
         session()->flash('message', 'Payband added successfully');
@@ -83,9 +101,10 @@ class PaybandController extends Controller
     public function edit(string $id)
     {
         $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
+        $financialYears = Helper::getFinancialYears();
         $payband = Payband::find($id);
         $edit = true;
-        return response()->json(['view' => view('frontend.paybands.form', compact('edit', 'payband', 'payband_types'))->render()]);
+        return response()->json(['view' => view('frontend.paybands.form', compact('edit', 'payband', 'payband_types','financialYears'))->render()]);
     }
 
     /**
@@ -97,14 +116,27 @@ class PaybandController extends Controller
             'payband_type_id' => 'required',
             // 'low_band' => 'required|numeric',
             'high_band' => 'required|numeric',
-            // 'grade_pay' => 'required|numeric',
+            'financial_year' => 'required',
         ]);
+
+        [$startYear, $endYear] = explode('-', $request->financial_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate($endYear, 3, 31)->endOfDay();
+        
+        $yearMonths = [];
+        for ($current = $startOfYear->copy(); $current->lessThanOrEqualTo($endOfYear); $current->addMonth()) {
+            $yearMonths[] = $current->copy();
+        }
+        
+        $firstMonth = reset($yearMonths)->format('m');
+        $lastMonth = end($yearMonths)->format('m');
 
         $payband = Payband::find($id);
         $payband->payband_type_id = $request->payband_type_id;
         $payband->low_band = $request->low_band;
         $payband->high_band = $request->high_band;
-        // $payband->grade_pay = $request->grade_pay;
+        $payband->month = $firstMonth . ' - ' . $lastMonth;
+        $payband->year = $request->financial_year;
         $payband->update();
 
         session()->flash('message', 'Payband updated successfully');

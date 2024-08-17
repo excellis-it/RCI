@@ -5,6 +5,22 @@
         <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
+                <div class="form-group col-md-5 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Financial year</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select" name="financial_year" id="financial_year">
+                                <option value="">Select Financial year</option>
+                                @foreach ($financialYears as $financialYear)
+                                    <option value="{{ $financialYear}}" {{$payband->year == $financialYear ? 'selected':''}}>{{ $financialYear }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -45,6 +61,10 @@
                         </div>
                     </div>
                 </div>
+
+               
+
+
                 {{-- <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -75,6 +95,23 @@
         <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
+                 {{-- financialYears field --}}
+                 <div class="form-group col-md-5 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Financial year</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select" name="financial_year" id="financial_year">
+                                <option value="">Select Financial year</option>
+                                @foreach ($financialYears as $financialYear)
+                                    <option value="{{ $financialYear}}">{{ $financialYear }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group col-md-7 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -115,6 +152,7 @@
                         </div>
                     </div>
                 </div>
+
                 {{-- <div class="form-group col-md-5 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">

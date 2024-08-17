@@ -57,6 +57,7 @@
                                                     data-column_name="low_band" style="cursor: pointer">
                                                     Low Band <span id="low_band_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Year</th>
                                                 {{-- <th data-sorting_type="desc" class="sorting"
                                                     data-column_name="grade_pay" style="cursor: pointer">
                                                     Grade Pay <span id="grade_pay_icon"><i
@@ -187,7 +188,7 @@
                     data: formData,
                     success: function(response) {
                         //windows load with toastr message
-                        window.location.reload();
+                         window.location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

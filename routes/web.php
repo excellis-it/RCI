@@ -213,6 +213,8 @@ Route::middleware('permssions')->group(function () {
 
     ]);
 
+    Route::get('/get-pay-bands', [PmLevelController::class, 'getPayBands'])->name('pm-levels.get-pay-bands');
+
     Route::get('/child-allowance-fetch', [MemberChildAllowanceController::class, 'childallowancefetch'])->name('child-allowance.fetch-data');
     //child list fetch
     Route::get('/member-family-child-fetch', [MemberChildAllowanceController::class, 'memberChildDataFetch'])->name('child-allowance.member-children');

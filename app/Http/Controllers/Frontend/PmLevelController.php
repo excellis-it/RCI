@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PmLevel;
 use App\Models\Member;
 use App\Models\Payband;
+use App\Helpers\Helper;
 use App\Models\PayCommission;
 
 class PmLevelController extends Controller
@@ -18,8 +19,9 @@ class PmLevelController extends Controller
     {
         $pm_levels = PmLevel::orderBy('id', 'desc')->paginate(10);
         $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
+        $financialYears = Helper::getFinancialYears();
         $pay_bands = Payband::get();
-        return view('frontend.pm-levels.list', compact('pm_levels','pay_commissions', 'pay_bands'));
+        return view('frontend.pm-levels.list', compact('pm_levels','pay_commissions', 'pay_bands','financialYears'));
     }
 
 
@@ -65,7 +67,6 @@ class PmLevelController extends Controller
         $request->validate([
             'value' => 'required|max:255',
             'payband' => 'required',
-            'pay_commission' => 'required',
             'entry_pay' => 'required|numeric',
             'year' => 'required',
             'status' => 'required',
@@ -77,6 +78,7 @@ class PmLevelController extends Controller
         $pm_level_value->pay_commission = $request->pay_commission;
         $pm_level_value->value = $request->value;
         $pm_level_value->entry_pay = $request->entry_pay;
+        $pm_level_value->month = $request->month;
         $pm_level_value->year = $request->year;
         $pm_level_value->status = $request->status;
         $pm_level_value->save();
@@ -100,9 +102,11 @@ class PmLevelController extends Controller
     {
         $pm_level = PmLevel::find($id);
         $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
-        $pay_bands = Payband::get();
+        
+        $financialYears = Helper::getFinancialYears();
+        $pay_bands = Payband::where('year', $pm_level->year)->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.pm-levels.form', compact('edit', 'pm_level','pay_commissions', 'pay_bands'))->render()]);
+        return response()->json(['view' => view('frontend.pm-levels.form', compact('edit', 'pm_level','pay_commissions', 'pay_bands','financialYears'))->render()]);
     }
 
     /**
@@ -112,6 +116,9 @@ class PmLevelController extends Controller
     {
         $request->validate([
             'value' => 'required|max:255',
+            'payband' => 'required',
+            'entry_pay' => 'required|numeric',
+            'year' => 'required',
             'status' => 'required',
         ]);
 
@@ -120,6 +127,7 @@ class PmLevelController extends Controller
         $pm_level->pay_commission = $request->pay_commission;
         $pm_level->value = $request->value;
         $pm_level->entry_pay = $request->entry_pay;
+        $pm_level->month = $request->month;
         $pm_level->year = $request->year;
         $pm_level->status = $request->status;
         $pm_level->update();
@@ -148,5 +156,11 @@ class PmLevelController extends Controller
             $pm_level->delete();
             return redirect()->back()->with('message', 'PM Level deleted successfully');
         }
+    }
+
+    public function getPayBands(Request $request)
+    {
+        $pay_bands = Payband::where('year', $request->year)->get();
+        return response()->json(['pay_bands' => $pay_bands]);
     }
 }

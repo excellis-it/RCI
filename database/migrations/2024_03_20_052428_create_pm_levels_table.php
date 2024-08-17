@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('pay_commission')->nullable();
             $table->string('value')->nullable();
+            $table->string('month')->nullable();
+            $table->string('year')->nullable();
             $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });

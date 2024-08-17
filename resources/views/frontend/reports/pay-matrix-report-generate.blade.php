@@ -21,14 +21,17 @@
     <table style="width:100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
         <tr>
             <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Pay Band</th>
-            <th colspan="5" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5200-20200</th>
+            @foreach($pay_bands as $pay_band)
+            <th colspan="{{ $pay_levels ?? 0}}" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $pay_band->high_band ?? 0 }}  @if($pay_band->low_band !='') - {{ $pay_band->low_band ?? 0}} @endif</th>
+            @endforeach
+            {{-- <th colspan="5" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5200-20200</th>
             <th colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">9300-34800</th>
             <th colspan="3" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">15600-39100</th>
             <th colspan="3" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">37400-67000</th>
             <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">67000-79000</th>
             <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">75500-80000</th>
             <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">80000</th>
-            <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">90000</th>
+            <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">90000</th> --}}
         </tr>
         <tr>
             <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Grade Pay</th>

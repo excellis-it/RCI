@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('low_band')->nullable();
             $table->string('high_band')->nullable();
             $table->string('grade_pay')->nullable();
+            $table->string('year')->nullable();
             $table->timestamps();
         });
     }

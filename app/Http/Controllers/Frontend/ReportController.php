@@ -15,6 +15,8 @@ use App\Models\MemberLoan;
 use App\Models\MemberIncomeTax;
 use App\Models\MemberBagPurse;
 use App\Models\PayCommission;
+use App\Models\PayBand;
+use App\Models\PmLevel;
 use App\Models\Group;
 use App\Models\LandlineAllowance;
 use App\Models\MemberPersonalInfo;
@@ -1272,14 +1274,21 @@ class ReportController extends Controller
     public function payMatrixReport()
     {
         $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
-        return view('frontend.reports.pay-matrix-report', compact('pay_commissions'));
+        $financial_years = Helper::getFinancialYears();
+        return view('frontend.reports.pay-matrix-report', compact('pay_commissions','financial_years'));
     }
 
     public function payMatrixReportGenerate(Request $request)
     {
-        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate');
-        return $pdf->download('pay-matrix-commission-report-' . '.pdf');
 
+        $pay_bands = PayBand::where('year',$request->financial_year)->get();
+        $pay_levels = 0;
+        foreach($pay_bands as $pay_band)
+        {
+            $pay_levels = PmLevel::where('payband',$pay_band->id)->count();
+        }
+        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_levels'));
+        return $pdf->download('pay-matrix-commission-report-' . '.pdf');
     }
 
     public function daArrears()

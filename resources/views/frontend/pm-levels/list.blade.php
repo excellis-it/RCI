@@ -49,9 +49,6 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="pay_commission"
-                                                    style="cursor: pointer">Pay Commission <span id="pay_commission_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
                                                     style="cursor: pointer">PM Level Value <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -255,4 +252,29 @@
             });
         });
     </script>
+
+    <script>
+        // year change payband list will show
+        $(document).ready(function() {
+            $('#year').change(function() {
+                var year = $(this).val();
+                $.ajax({
+                    url: "{{ route('pm-levels.get-pay-bands') }}",
+                    type: 'GET',
+                    data: {
+                        year: year
+                    },
+                    success: function(response) {
+                        const paybandDropdown = $('#payband').empty().append('<option value="">Select Payband</option>');
+                        response.pay_bands.forEach(({ id, high_band, low_band }) => {
+                            paybandDropdown.append(`<option value="${id}">${high_band}${low_band ? ` - ${low_band}` : ''}</option>`);
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+        });
+        </script>
 @endpush

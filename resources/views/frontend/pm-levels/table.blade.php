@@ -2,7 +2,6 @@
     @foreach ($pm_levels as $key => $pm_level)
         <tr>
             <td> {{ ($pm_levels->currentPage()-1) * $pm_levels->perPage() + $loop->index + 1 }}</td>
-            <td>{{ $pm_level->payCommission->name ?? 'N/A'}}</td>
             <td>{{ $pm_level->value ?? 'N/A'}}</td>
             <td>{{ $pm_level->entry_pay ?? 'N/A'}}</td>
             <td>{{ $pm_level->year ?? 'N/A'}}</td>

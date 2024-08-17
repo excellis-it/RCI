@@ -41,9 +41,7 @@
                                             <div class="col-md-8">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-                                                       
-
-                                                        <div class="form-group col-md-6 mb-2">
+                                                        {{-- <div class="form-group col-md-6 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Pay Commission</label>
                                                             </div>
@@ -53,14 +51,32 @@
                                                                     @foreach ($pay_commissions as $pay_commission)
                                                                         <option value="{{ $pay_commission->id }}">
                                                                             {{ $pay_commission->name }}</option>
-                                                                        
                                                                     @endforeach
                                                                 </select>
                                                                 @if ($errors->has('pay_commisssion'))
                                                                     <div class="error" style="color:red;">
                                                                         {{ $errors->first('pay_commisssion') }}</div>
                                                                 @endif
-                                                                
+                                                            </div>
+                                                        </div> --}}
+
+                                                        {{-- finantial_years field --}}
+                                                        <div class="form-group col-md-6 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Financial Year</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="financial_year" class="form-select" id="financial_year">
+                                                                    <option value="">Select Financial Year</option>
+                                                                    @foreach ($financial_years as $financial_year)
+                                                                        <option value="{{ $financial_year }}">
+                                                                            {{ $financial_year }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @if ($errors->has('financial_year'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('financial_year') }}</div>
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -71,20 +87,16 @@
                                                                         <div class="form-group col-md-4 mb-2">
                                                                             <button type="submit" class="listing_add">Generate</button>
                                                                         </div>
-                                                                        
-                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
                         </div>
                     </div>
