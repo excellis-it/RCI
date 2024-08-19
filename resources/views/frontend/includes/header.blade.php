@@ -296,14 +296,14 @@
                                     href="{{ route('reports.terminal-benefits') }}">Terminal Benefit</a>
                             </li>
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.form-16') }}">Form 16 </a>
-                            </li>
+                            </li> --}}
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.form-16a') }}">Form 16 (Part A)</a>
+                                    href="{{ route('reports.form-16') }}">Form 16 (Part A)</a>
                             </li>
 
                             <li class="mb-2">

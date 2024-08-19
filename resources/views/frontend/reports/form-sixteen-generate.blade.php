@@ -30,8 +30,8 @@
                         <tr>
                            <td
                               style="
-                              font-size: 20px;
-                              line-height: 24px;
+                              font-size: 14px;
+                              line-height: 18px;
                               font-weight: 600;
                               color: #000;
                               text-align: center;
@@ -60,7 +60,19 @@
                            </td>
                         </tr>
                         <tr>
-                           <td style="height: 20px"></td>
+                           <td
+                              style="
+                              font-size: 14px;
+                              line-height: 18px;
+                              font-weight: 600;
+                              color: #000;
+                              text-align: center;
+                              padding: 0px 5px !important;
+                              margin: 0px 0px !important;
+                               border-top: 1px solid #000;
+                              "
+                              >PART A 
+                           </td>
                         </tr>
                         <tr>
                            <td
@@ -83,9 +95,9 @@
                   </table>
                </td>
             </tr>
-            <tr>
+            {{-- <tr>
                <td style="height: 20px"></td>
-            </tr>
+            </tr> --}}
             <tr>
                <td style="padding: 0 0px">
                   <table
@@ -147,7 +159,8 @@
                               border-right: 1px solid #000;
                               height: 10px;
                               "
-                              ></td>
+                              >
+                           CHESS, Hyderabad</td>
                            <td
                               colspan="3"
                               style="
@@ -452,7 +465,7 @@
                               border-right: 1px solid #000;
                               height: 10px;
                               "
-                              >
+                              >Q1
                            </td>
                            <td
                               style="
@@ -534,7 +547,7 @@
                               border-right: 1px solid #000;
                               height: 10px;
                               "
-                              >
+                              >Q2
                            </td>
                            <td
                               style="
@@ -567,7 +580,7 @@
                               border-right: 1px solid #000;
                               height: 10px;
                               "
-                              >
+                              >Q3
                            </td>
                            <td
                               style="
@@ -600,7 +613,7 @@
                               border-right: 1px solid #000;
                               height: 10px;
                               "
-                              >
+                              >Q4
                            </td>
                            <td
                               style="
@@ -799,7 +812,7 @@
                               border-right: 1px solid #000;
                               "
                               >
-                              Rs. 0
+                              ₹ {{ $member_credit_data->tot_credits ?? 0 }} 
                            </td>
                            <td
                               style="
@@ -865,6 +878,7 @@
                                border-left: 1px solid #000;
                               "
                               >
+                              ₹ 0
                              
                            </td>
                            <td
@@ -881,7 +895,6 @@
                               border-right: 1px solid #000;
                               "
                               >
-                              Rs. 0
                            </td>
                            <td
                               style="
@@ -949,7 +962,7 @@
                               border-right: 1px solid #000;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -1045,7 +1058,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ {{ $member_credit_data->tot_credits ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1097,6 +1110,7 @@
                               Less : Allowance to the extent exempt
                               under section 10 
                            </td> --}}
+                           @php $total_exemption_10 = ($member_credit_data->tpt ?? 0) + ($member_credit_data->hra ?? 0) + ($member_credit_data->pua ?? 0) + $amt10a + $amt10b + $exemption10; @endphp
                            <td
                               style="
                               font-size: 10px;
@@ -1177,7 +1191,7 @@
                               border-left: 1px solid #000;
                               "
                               >
-                              Rs. 0
+                              ₹ 
                            </td>
                            <td
                               style="
@@ -1190,7 +1204,7 @@
                               margin: 0px 0px !important;
                               height: 10px;
                               "
-                              >
+                              > Total
                            </td>
                            <td
                               style="
@@ -1204,7 +1218,7 @@
                               margin: 0px 0px !important;
                               height: 10px;
                               "
-                              >
+                              > {{ $total_exemption_10 ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -1271,7 +1285,7 @@
                            </td>
                         </tr>
                         <tr>
-                          <td  colspan="2"
+                           <td colspan="3"
                               style="
                               font-size: 10px;
                               line-height: 14px;
@@ -1280,14 +1294,13 @@
                               text-align: left;
                               padding: 0px 5px !important;
                               margin: 0px 0px !important;
-                              height: 10px;
-                              border-top: 1px solid #000;
                               height: 10px;
                               "
                               >
                            </td>
                            <td
                               style="
+                              width: 100px;
                               font-size: 10px;
                               line-height: 14px;
                               font-weight: 400;
@@ -1296,14 +1309,24 @@
                               padding: 0px 5px !important;
                               margin: 0px 0px !important;
                               height: 10px;
-                              border-top: 1px solid #000;
+                              "
+                              >
+                              ₹ {{ $total_exemption_10 ?? 0 }}
+                           </td>
+                           <td
+                              style="
+                              width: 100px;
+                              font-size: 10px;
+                              line-height: 14px;
+                              font-weight: 400;
+                              color: #000;
+                              text-align: left;
+                              padding: 0px 5px !important;
+                              margin: 0px 0px !important;
                               height: 10px;
                               "
                               >
                            </td>
-                        </tr>
-                        <tr>
-                           <td style="height: 10px;"></td>
                         </tr>
                         <tr>
                            <td colspan="2"
@@ -1348,6 +1371,7 @@
                               "
                               >
                            </td>
+                           @php $balance = ($member_credit_data->tot_credits ?? 0) - ($total_exemption_10 ?? 0); @endphp
                            <td
                               style="
                               width: 100px;
@@ -1361,7 +1385,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ {{ $balance ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1434,7 +1458,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              
                            </td>
                            <td
                               style="
@@ -1479,7 +1503,7 @@
                               height: 10px;
                               "
                               >
-                                Rs. 0
+                                ₹ {{ $entertainment_allow }}
                            </td>
                            <td
                               style="
@@ -1552,7 +1576,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ {{ $member_debit_data->ptax ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1627,6 +1651,7 @@
                               >
                              
                            </td> --}}
+                           @php $aggregate = $entertainment_allow + ($member_debit_data->ptax ?? 0); @endphp
                            <td
                               style="
                               font-size: 10px;
@@ -1639,7 +1664,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ {{ $aggregate ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1686,7 +1711,7 @@
                               6.  &nbsp; &nbsp; Income chargeable under the head .
                               ‘Salaries’ (3 - 5)
                            </td>
-                           
+                           @php $income_chargeable = $balance - $aggregate; @endphp
                            <td
                               style="
                               font-size: 10px;
@@ -1727,7 +1752,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ {{ $income_chargeable ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -1851,7 +1876,7 @@
                               border-bottom: 1px solid #000;
                               border-right: 1px solid #000;
                               "
-                              ></td>
+                              >Other</td>
                            <td
                               style="
                               font-size: 10px;
@@ -1867,7 +1892,7 @@
                               border-left: 1px solid #000;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2052,7 +2077,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -2123,7 +2148,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                      </tbody>
@@ -2316,7 +2341,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2372,7 +2397,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2428,7 +2453,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2484,7 +2509,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2540,7 +2565,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2596,7 +2621,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2610,7 +2635,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2624,7 +2649,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -2668,7 +2693,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2682,7 +2707,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -2726,7 +2751,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2740,7 +2765,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -2899,7 +2924,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2913,7 +2938,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2927,7 +2952,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -2959,7 +2984,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2973,7 +2998,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -2987,7 +3012,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3019,7 +3044,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3033,7 +3058,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3047,7 +3072,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3079,7 +3104,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3093,7 +3118,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3107,7 +3132,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3139,7 +3164,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3153,7 +3178,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3167,7 +3192,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3215,7 +3240,7 @@
                               height: 10px;
                               "
                               >
-                              Aggregate of deductible amounts Rs. under Chapter VI-A
+                              Aggregate of deductible amounts ₹ under Chapter VI-A
                            </td>
                            <td
                               style="
@@ -3255,7 +3280,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3286,7 +3311,7 @@
                               height: 10px;
                               "
                               >
-                              Total income (8—10) Rs.
+                              Total income (8—10) ₹
                            </td>
                            <td
                               style="
@@ -3326,7 +3351,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3357,7 +3382,7 @@
                               height: 10px;
                               "
                               >
-                              Tax on total income Rs.
+                              Tax on total income ₹
                            </td>
                            <td
                               style="
@@ -3397,7 +3422,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3468,7 +3493,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3500,7 +3525,7 @@
                               "
                               >
                               Education Cess @ 2% on (tax at S. No. 12 plus surcharge at
-                              S. No. 13) Rs.
+                              S. No. 13) ₹
                            </td>
                            <td
                               style="
@@ -3540,7 +3565,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3571,7 +3596,7 @@
                               height: 10px;
                               "
                               >
-                              Tax payable (12+13+14) Rs.
+                              Tax payable (12+13+14) ₹
                            </td>
                            <td
                               style="
@@ -3611,7 +3636,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3642,7 +3667,7 @@
                               height: 10px;
                               "
                               >
-                              Relief under section 89 (attach details) Rs.
+                              Relief under section 89 (attach details) ₹
                            </td>
                            <td
                               style="
@@ -3682,7 +3707,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3713,7 +3738,7 @@
                               height: 10px;
                               "
                               >
-                              Tax payable (15-16) Rs.
+                              Tax payable (15-16) ₹
                            </td>
                            <td
                               style="
@@ -3753,7 +3778,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3811,7 +3836,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3826,7 +3851,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3883,7 +3908,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                            <td
                               style="
@@ -3898,7 +3923,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                         <tr>
@@ -3969,7 +3994,7 @@
                               height: 10px;
                               "
                               >
-                              Rs. 0
+                              ₹ 0
                            </td>
                         </tr>
                      </tbody>
@@ -4087,7 +4112,7 @@
                               border: 1px solid #000;
                               "
                               >
-                              TDS <br />Rs.
+                              TDS <br />₹
                            </td>
                            <td
                               style="
@@ -4102,7 +4127,7 @@
                               "
                               >
                               Surcharge<br />
-                              Rs.
+                              ₹
                            </td>
                            <td
                               style="
@@ -4118,7 +4143,7 @@
                               >
                               Education<br />
                               Cess<br />
-                              Rs.
+                              ₹
                            </td>
                            <td
                               style="
@@ -4132,7 +4157,7 @@
                               border: 1px solid #000;
                               "
                               >
-                              Total tax deposited Rs.
+                              Total tax deposited ₹
                            </td>
                            <td
                               style="
@@ -5454,7 +5479,7 @@
                               >
                               I _________________, son/daughter of ____________________
                               working in the capacity of ___________________ (designation)
-                              do hereby certify that a sum of Rs. _______________ [Rupees
+                              do hereby certify that a sum of ₹ _______________ [Rupees
                               _________________ (in words)] has been deducted at source
                               and paid to the credit of the Central Government. I further
                               certify that the information given above is true and correct
