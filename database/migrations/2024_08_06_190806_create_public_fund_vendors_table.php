@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('l_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->string('desig')->nullable();
             $table->boolean('status')->default(1)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });

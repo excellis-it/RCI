@@ -64,6 +64,7 @@ class PublicFundVendorController extends Controller
         $public_fund_vendor->l_name = $request->l_name;
         $public_fund_vendor->email = $request->email;
         $public_fund_vendor->phone = $request->phone;
+        $public_fund_vendor->desig = $request->desig;
         $public_fund_vendor->status = $request->status;
         $public_fund_vendor->save();
 
@@ -101,14 +102,14 @@ class PublicFundVendorController extends Controller
             'status' => 'required',
         ]);
 
-
-        $publi_vendor_upadte = PublicFundVendor::find($id);
-        $publi_vendor_upadte->f_name = $request->f_name;
-        $publi_vendor_upadte->l_name = $request->l_name;
-        $publi_vendor_upadte->email = $request->email;
-        $publi_vendor_upadte->phone = $request->phone;
-        $publi_vendor_upadte->status = $request->status;
-        $publi_vendor_upadte->update();
+        $publi_vendor_update = PublicFundVendor::find($id);
+        $publi_vendor_update->f_name = $request->f_name;
+        $publi_vendor_update->l_name = $request->l_name;
+        $publi_vendor_update->email = $request->email;
+        $publi_vendor_update->phone = $request->phone;
+        $publi_vendor_update->desig = $request->desig;
+        $publi_vendor_update->status = $request->status;
+        $publi_vendor_update->update();
 
         session()->flash('message', 'Public vendor updated successfully');
         return response()->json(['success' => 'Public vendor updated successfully']);
