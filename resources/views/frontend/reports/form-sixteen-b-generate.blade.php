@@ -682,7 +682,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: none;
                                  border-right: none;border-top: none; border-bottom: none;">
-                                   a) Contribution to Life Insurance Premia / Provident Fund etc u/s 80C 
+                                   a) Contribution to Life Insurance Premium / Provident Fund etc u/s 80C 
                                 </td>
                                 @php 
                                     $total_80c = 0;
@@ -1331,8 +1331,8 @@
                                         $taxRate = $rate->tax_rate;
 
                                         // tax calculation for current slab
-                                        if ($taxable_income_rounded > $lowerSlabAmount) {
-                                            $currentSlabTaxableIncome = min($taxable_income_rounded, $higherSlabAmount) - $lowerSlabAmount;
+                                        if ($total_taxable_income > $lowerSlabAmount) {
+                                            $currentSlabTaxableIncome = min($total_taxable_income, $higherSlabAmount) - $lowerSlabAmount;
                                             $tax += $currentSlabTaxableIncome * ($taxRate / 100);
                                         }
                                     }

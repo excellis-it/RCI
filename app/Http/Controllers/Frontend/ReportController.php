@@ -1230,7 +1230,8 @@ class ReportController extends Controller
         $assessment_year = $request->report_year;
         $current_financial_year = date('Y') . '-' . (date('Y') + 1);
         $prerequisite172 = 0; $profits_in_lieu = 0; $total_from_other_employer = 0; $amt10a = 0; $amt10b = 0; $exemption10 = 0;
-        $standard_deduction_16 = 0; $entertainment_allow = 0; $profession_tax = 0; $other_deduction_via = 0; 
+        $standard_deduction_16 = 0; $entertainment_allow = 0; $profession_tax = 0; $other_deduction_via = 0; $other_income = 0;
+        $surcharge = 0; $tax_deducted_192i = 0; $tax_paid_192ia = 0;
 
         [$startYear, $endYear] = explode('-', $request->report_year);
         $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
@@ -1240,8 +1241,9 @@ class ReportController extends Controller
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();  
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
 
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data'));
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'));
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
     }
 

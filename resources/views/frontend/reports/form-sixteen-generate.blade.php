@@ -812,7 +812,7 @@
                               border-right: 1px solid #000;
                               "
                               >
-                              ₹ {{ $member_credit_data->tot_credits ?? 0 }} 
+                              Rs. {{ $member_credit_data->tot_credits ?? 0 }} 
                            </td>
                            <td
                               style="
@@ -878,7 +878,7 @@
                                border-left: 1px solid #000;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                              
                            </td>
                            <td
@@ -962,7 +962,7 @@
                               border-right: 1px solid #000;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -1058,7 +1058,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ {{ $member_credit_data->tot_credits ?? 0 }}
+                              Rs. {{ $member_credit_data->tot_credits ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1191,7 +1191,7 @@
                               border-left: 1px solid #000;
                               "
                               >
-                              ₹ 
+                              Rs. 
                            </td>
                            <td
                               style="
@@ -1311,7 +1311,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ {{ $total_exemption_10 ?? 0 }}
+                              Rs. {{ $total_exemption_10 ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1385,7 +1385,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ {{ $balance ?? 0 }}
+                              Rs. {{ $balance ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1503,7 +1503,7 @@
                               height: 10px;
                               "
                               >
-                                ₹ {{ $entertainment_allow }}
+                                Rs. {{ $entertainment_allow }}
                            </td>
                            <td
                               style="
@@ -1576,7 +1576,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ {{ $member_debit_data->ptax ?? 0 }}
+                              Rs. {{ $member_debit_data->ptax ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1664,7 +1664,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ {{ $aggregate ?? 0 }}
+                              Rs. {{ $aggregate ?? 0 }}
                            </td>
                            <td
                               style="
@@ -1752,7 +1752,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ {{ $income_chargeable ?? 0 }}
+                              Rs. {{ $income_chargeable ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -1876,7 +1876,7 @@
                               border-bottom: 1px solid #000;
                               border-right: 1px solid #000;
                               "
-                              >Other</td>
+                              ></td>
                            <td
                               style="
                               font-size: 10px;
@@ -1892,7 +1892,7 @@
                               border-left: 1px solid #000;
                               "
                               >
-                              ₹ 0
+                              Rs. 
                            </td>
                            <td
                               style="
@@ -1950,7 +1950,7 @@
                               border-right: 1px solid #000;
                               height: 10px;
                               "
-                              ></td>
+                              >Other</td>
                            <td
                               style="
                               font-size: 10px;
@@ -1966,7 +1966,7 @@
                               border-left: 1px solid #000;
                               height: 10px;
                               "
-                              ></td>
+                              >{{ $other_income ?? 0 }}</td>
                            <td
                               style="
                               font-size: 10px;
@@ -2051,6 +2051,7 @@
                               height: 10px;
                               "
                               ></td>
+                              @php $gross_total_income = $income_chargeable + $other_income; @endphp
                            <td
                               style="
                               width: 100px;
@@ -2077,7 +2078,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $gross_total_income ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -2148,7 +2149,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                         </tr>
                      </tbody>
@@ -2328,6 +2329,26 @@
                               >
                               &nbsp;&nbsp; (i)
                            </td>
+                           @php 
+                              $total_80c = 0;
+                              $deductible_amount = 0;
+                              foreach($member_it_exemption as $it_exemption)
+                              {
+                                    if (preg_match('/\b80\s*c\b/i', $it_exemption['section']))
+                                    {
+                                       $total_80c += $it_exemption['member_deduction'] ?? 0;
+
+                                       if($total_80c > $it_exemption['max_deduction'])
+                                       {
+                                          $deductible_amount = $it_exemption['max_deduction'];
+                                       }
+                                       else
+                                       {
+                                          $deductible_amount = $total_80c;
+                                       }
+                                    }
+                              }
+                           @endphp
                            <td
                               style="
                               width: 150px;
@@ -2341,7 +2362,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_80c ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2397,7 +2418,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -2453,7 +2474,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -2509,7 +2530,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -2565,7 +2586,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -2621,7 +2642,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -2635,7 +2656,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_80c ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2649,7 +2670,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{  $deductible_amount ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -2668,6 +2689,26 @@
                               >
                               (b) section 80CCC
                            </td>
+                           @php 
+                              $total_80ccc = 0;
+                              $deductible_amount_80ccc = 0;
+                              foreach($member_it_exemption as $it_exemption)
+                              {
+                                    if (preg_match('/\b80\s*c{3}\b/i', $it_exemption['section']))
+                                    {
+                                       $total_80ccc += $it_exemption['member_deduction'] ?? 0;
+
+                                       if($total_80ccc > $it_exemption['max_deduction'])
+                                       {
+                                          $deductible_amount_80ccc = $it_exemption['max_deduction'];
+                                       }
+                                       else
+                                       {
+                                          $deductible_amount_80ccc = $total_80ccc;
+                                       }
+                                    }
+                              }
+                           @endphp
                            <td
                               style="
                               width: 150px;
@@ -2693,7 +2734,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{  $total_80ccc ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2707,7 +2748,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{  $deductible_amount_80ccc ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -2726,6 +2767,46 @@
                               >
                               (c) section 80CCD
                            </td>
+                           @php 
+                              $total_80ccd1 = 0;
+                              $total_80ccd2 = 0;
+                              $total_80ccd = 0;
+                              $deductible_amount_80ccd1 = 0;
+                              $deductible_amount_80ccd2 = 0;
+                              $total_deductible_amount_80ccd = 0;
+                              foreach($member_it_exemption as $it_exemption)
+                              {
+                                    if (preg_match('/\b80\s*c{2}d\(1\)\b/i', $it_exemption['section']))
+                                    {
+                                       $total_80ccd1 += $it_exemption['member_deduction'] ?? 0;
+
+                                       if($total_80ccd1 > $it_exemption['max_deduction'])
+                                       {
+                                          $deductible_amount_80ccd1 = $it_exemption['max_deduction'];
+                                       }
+                                       else
+                                       {
+                                          $deductible_amount_80ccd1 = $total_80ccd1;
+                                       }
+                                    }
+                                    if (preg_match('/\b80\s*c{2}d\(2\)\b/i', $it_exemption['section']))
+                                    {
+                                       $total_80ccd2 += $it_exemption['member_deduction'] ?? 0;
+
+                                       if($total_80ccd2 > $it_exemption['max_deduction'])
+                                       {
+                                          $deductible_amount_80ccd2 = $it_exemption['max_deduction'];
+                                       }
+                                       else
+                                       {
+                                          $deductible_amount_80ccd2 = $total_80ccd2;
+                                       }
+                                    }
+                              } 
+
+                              $total_80ccd = $total_80ccd1 + $total_80ccd2;
+                              $total_deductible_amount_80ccd = $deductible_amount_80ccd1 + $deductible_amount_80ccd2;
+                           @endphp
                            <td
                               style="
                               width: 150px;
@@ -2751,7 +2832,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_80ccd ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2765,7 +2846,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_deductible_amount_80ccd ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -2895,6 +2976,50 @@
                               Deductible Amount
                            </td>
                         </tr>
+                        @php 
+                           $total_80e = 0;
+                           $total_80g = 0;
+                           $qualifying_amount_80e = 0;
+                           $qualifying_amount_80g = 0;
+                           $deductible_amount_80e = 0;
+                           $deductible_amount_80g = 0;
+                           $section_80e = '';
+                           $section_80g = '';
+                           foreach($member_it_exemption as $it_exemption)
+                           {
+                                 if (preg_match('/\b80\s*e\b/i', $it_exemption['section']))
+                                 {
+                                    $total_80e += $it_exemption['member_deduction'] ?? 0;
+
+                                    if($total_80e > $it_exemption['max_deduction'])
+                                    {
+                                       $deductible_amount_80e = $it_exemption['max_deduction'];
+                                    }
+                                    else
+                                    {
+                                       $deductible_amount_80e = $total_80e;
+                                    }
+                                    $qualifying_amount_80e = $it_exemption['max_deduction'];
+                                    $section_80e = $it_exemption['section'];
+                                 }
+
+                                 if (preg_match('/\b80\s*g\b/i', $it_exemption['section']))
+                                 {
+                                    $total_80g += $it_exemption['member_deduction'] ?? 0;
+
+                                    if($total_80g > $it_exemption['max_deduction'])
+                                    {
+                                       $deductible_amount_80g = $it_exemption['max_deduction'];
+                                    }
+                                    else
+                                    {
+                                       $deductible_amount_80g = $total_80g;
+                                    }
+                                    $qualifying_amount_80g = $it_exemption['max_deduction'];
+                                    $section_80g = $it_exemption['section'];
+                                 }
+                           }
+                        @endphp
                         <tr>
                            <td
                               style="
@@ -2909,7 +3034,7 @@
                               height: 10px;
                               "
                               >
-                              (a) section
+                              (a) section {{ $section_80e ?? '' }}
                            </td>
                            <td
                               style="
@@ -2924,7 +3049,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_80e ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2938,7 +3063,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $qualifying_amount_80e ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2952,7 +3077,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $deductible_amount_80e ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -2969,7 +3094,7 @@
                               height: 10px;
                               "
                               >
-                              (b) section
+                              (b) section {{ $section_80g ?? '' }}
                            </td>
                            <td
                               style="
@@ -2984,7 +3109,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_80g ?? 0 }}
                            </td>
                            <td
                               style="
@@ -2998,7 +3123,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $qualifying_amount_80g ?? 0 }}
                            </td>
                            <td
                               style="
@@ -3012,7 +3137,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $deductible_amount_80g ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3044,7 +3169,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -3058,7 +3183,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -3072,7 +3197,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                         </tr>
                         <tr>
@@ -3104,7 +3229,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -3118,7 +3243,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -3132,7 +3257,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                         </tr>
                         <tr>
@@ -3164,7 +3289,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -3178,7 +3303,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                            <td
                               style="
@@ -3192,7 +3317,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. 0
                            </td>
                         </tr>
                         <tr>
@@ -3240,8 +3365,9 @@
                               height: 10px;
                               "
                               >
-                              Aggregate of deductible amounts ₹ under Chapter VI-A
+                              Aggregate of deductible amounts Rs. under Chapter VI-A
                            </td>
+                           @php $aggregate_deductible_amount = $deductible_amount + $deductible_amount_80ccc + $total_deductible_amount_80ccd + $deductible_amount_80e + $deductible_amount_80g; @endphp
                            <td
                               style="
                               font-size: 10px;
@@ -3280,7 +3406,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $aggregate_deductible_amount ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3311,7 +3437,7 @@
                               height: 10px;
                               "
                               >
-                              Total income (8—10) ₹
+                              Total income (8—10) Rs.
                            </td>
                            <td
                               style="
@@ -3325,6 +3451,7 @@
                               height: 10px;
                               "
                               ></td>
+                              @php $total_income_taxable = $gross_total_income - $aggregate_deductible_amount; @endphp
                            <td
                               style="
                               width: 100px;
@@ -3351,7 +3478,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_income_taxable ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3382,7 +3509,7 @@
                               height: 10px;
                               "
                               >
-                              Tax on total income ₹
+                              Tax on total income Rs.
                            </td>
                            <td
                               style="
@@ -3396,6 +3523,29 @@
                               height: 10px;
                               "
                               ></td>
+                              @php
+                                 // Tax Calculation
+                                 $tax = 0;
+                                 $educessRate = $incometaxRate[0]->edu_cess_rate ?? 0;
+
+                                 foreach($incometaxRate as $rate) {
+                                       $lowerSlabAmount = $rate->lower_slab_amount;
+                                       $higherSlabAmount = $rate->higher_slab_amount;
+                                       $taxRate = $rate->tax_rate;
+
+                                       // tax calculation for current slab
+                                       if ($total_income_taxable > $lowerSlabAmount) {
+                                          $currentSlabTaxableIncome = min($total_income_taxable, $higherSlabAmount) - $lowerSlabAmount;
+                                          $tax += $currentSlabTaxableIncome * ($taxRate / 100);
+                                       }
+                                 }
+                                 // $added87aTax = $tax + $relief87A;
+
+                                 $educess = $tax * ($educessRate / 100);
+
+                                 // $total_tax = $added87aTax + $educess;
+                                 
+                              @endphp
                            <td
                               style="
                               width: 100px;
@@ -3422,7 +3572,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3493,7 +3643,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $surcharge ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3524,8 +3674,8 @@
                               height: 10px;
                               "
                               >
-                              Education Cess @ 2% on (tax at S. No. 12 plus surcharge at
-                              S. No. 13) ₹
+                              Education Cess @ 4% on (tax at S. No. 12 plus surcharge at
+                              S. No. 13) Rs.
                            </td>
                            <td
                               style="
@@ -3565,7 +3715,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $educess ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3596,8 +3746,9 @@
                               height: 10px;
                               "
                               >
-                              Tax payable (12+13+14) ₹
+                              Tax payable (12+13+14) Rs.
                            </td>
+                           @php $tax_payable = $tax + $surcharge + $educess; @endphp
                            <td
                               style="
                               font-size: 10px;
@@ -3636,7 +3787,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax_payable ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3667,8 +3818,18 @@
                               height: 10px;
                               "
                               >
-                              Relief under section 89 (attach details) ₹
+                              Relief under section 89 (attach details) Rs.
                            </td>
+                           @php 
+                              $total_89 = 0;
+                              foreach($member_it_exemption as $it_exemption)
+                              {
+                                    if (preg_match('/\b89\s*\b/i', $it_exemption['section']))
+                                    {
+                                       $total_89 += $it_exemption['member_deduction'] ?? 0;
+                                    }
+                              }
+                           @endphp
                            <td
                               style="
                               font-size: 10px;
@@ -3707,7 +3868,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $total_89 ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3738,7 +3899,7 @@
                               height: 10px;
                               "
                               >
-                              Tax payable (15-16) ₹
+                              Tax payable (15-16) Rs.
                            </td>
                            <td
                               style="
@@ -3752,6 +3913,7 @@
                               height: 10px;
                               "
                               ></td>
+                              @php $tax_payable_17 = $tax_payable - $total_89; @endphp
                            <td
                               style="
                               width: 100px;
@@ -3778,7 +3940,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax_payable_17 ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3836,7 +3998,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax_deducted_192i ?? 0 }}
                            </td>
                            <td
                               style="
@@ -3851,7 +4013,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax_deducted_192i ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3908,7 +4070,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax_paid_192ia ?? 0 }}
                            </td>
                            <td
                               style="
@@ -3923,7 +4085,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{  $tax_paid_192ia ?? 0 }}
                            </td>
                         </tr>
                         <tr>
@@ -3968,6 +4130,7 @@
                               height: 10px;
                               "
                               ></td>
+                              @php $tax_payable_refundable = $tax_payable_17 - ($tax_deducted_192i + $tax_paid_192ia); @endphp
                            <td
                               style="
                               width: 100px;
@@ -3994,7 +4157,7 @@
                               height: 10px;
                               "
                               >
-                              ₹ 0
+                              Rs. {{ $tax_payable_refundable ?? 0 }}
                            </td>
                         </tr>
                      </tbody>
@@ -4112,7 +4275,7 @@
                               border: 1px solid #000;
                               "
                               >
-                              TDS <br />₹
+                              TDS <br />Rs.
                            </td>
                            <td
                               style="
@@ -4127,7 +4290,7 @@
                               "
                               >
                               Surcharge<br />
-                              ₹
+                              Rs.
                            </td>
                            <td
                               style="
@@ -4143,7 +4306,7 @@
                               >
                               Education<br />
                               Cess<br />
-                              ₹
+                              Rs.
                            </td>
                            <td
                               style="
@@ -4157,7 +4320,7 @@
                               border: 1px solid #000;
                               "
                               >
-                              Total tax deposited ₹
+                              Total tax deposited Rs.
                            </td>
                            <td
                               style="
@@ -5479,7 +5642,7 @@
                               >
                               I _________________, son/daughter of ____________________
                               working in the capacity of ___________________ (designation)
-                              do hereby certify that a sum of ₹ _______________ [Rupees
+                              do hereby certify that a sum of Rs. _______________ [Rupees
                               _________________ (in words)] has been deducted at source
                               and paid to the credit of the Central Government. I further
                               certify that the information given above is true and correct
