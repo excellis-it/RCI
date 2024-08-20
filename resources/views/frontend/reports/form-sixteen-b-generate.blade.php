@@ -1320,9 +1320,32 @@
                                  border-right: none; border-top: none; border-bottom: none;text-transform: uppercase;">
                                    
                                 </td>
+                                @php
+                                    // Tax Calculation
+                                    $tax = 0;
+                                    $educessRate = $incometaxRate[0]->edu_cess_rate ?? 0;
+
+                                    foreach($incometaxRate as $rate) {
+                                        $lowerSlabAmount = $rate->lower_slab_amount;
+                                        $higherSlabAmount = $rate->higher_slab_amount;
+                                        $taxRate = $rate->tax_rate;
+
+                                        // tax calculation for current slab
+                                        if ($taxable_income_rounded > $lowerSlabAmount) {
+                                            $currentSlabTaxableIncome = min($taxable_income_rounded, $higherSlabAmount) - $lowerSlabAmount;
+                                            $tax += $currentSlabTaxableIncome * ($taxRate / 100);
+                                        }
+                                    }
+                                    // $added87aTax = $tax + $relief87A;
+
+                                    $educess = $tax * ($educessRate / 100);
+
+                                    // $total_tax = $added87aTax + $educess;
+                                    
+                                @endphp
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                   0
+                                   {{ $tax }}
                                 </td>
                             </tr>
                             <tr>
@@ -1347,9 +1370,19 @@
                                  border-right: none; border-top: none; border-bottom: none;text-transform: uppercase;">
                                    
                                 </td>
+                                @php 
+                                    $total_87a = 0;
+                                    foreach($member_it_exemption as $it_exemption)
+                                    {
+                                        if (preg_match('/\b87\s*a\b/i', $it_exemption['section']))
+                                        {
+                                            $total_87a += $it_exemption['member_deduction'] ?? 0;
+                                        }
+                                    }
+                                @endphp
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                   0
+                                   {{ $total_87a }}
                                 </td>
                             </tr>
                             <tr>
@@ -1376,7 +1409,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                   0
+                                   {{ $surcharge }}
                                 </td>
                             </tr>
                             <tr>
@@ -1403,7 +1436,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                  0
+                                  {{ $educess }}
                                 </td>
                             </tr>
                             <tr>
@@ -1428,9 +1461,12 @@
                                  border-right: none; border-top: none; border-bottom: none;text-transform: uppercase;">
                                    
                                 </td>
+                                @php 
+                                    $total_tax_payable = ($tax + $surcharge + $educess) - $total_87a;
+                                @endphp
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                   0
+                                   {{ $total_tax_payable }}
                                 </td>
                             </tr>
                             <tr>
@@ -1438,7 +1474,7 @@
                                  border-right: none; border-top: none; border-bottom: none; width: 50px;">
                                   18.
                                 </td>
-                                <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: none;
+                                <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: none;
                                  border-right: none;border-top: none; border-bottom: none;">
                                   Less: Relief u/s 89 (Attach details)
                                 </td>
@@ -1455,9 +1491,19 @@
                                  border-right: none; border-top: none; border-bottom: none;text-transform: uppercase;">
                                    
                                 </td>
+                                @php 
+                                    $total_89 = 0;
+                                    foreach($member_it_exemption as $it_exemption)
+                                    {
+                                        if (preg_match('/\b89\s*\b/i', $it_exemption['section']))
+                                        {
+                                            $total_89 += $it_exemption['member_deduction'] ?? 0;
+                                        }
+                                    }
+                                @endphp
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                   0
+                                   {{ $total_89 }}
                                 </td>
                             </tr>
                             <tr>
@@ -1484,7 +1530,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-top: none; border-bottom: none;">
-                                   0
+                                   {{ $total_tax_payable }}
                                 </td>
                             </tr>
                             <tr>
@@ -1509,9 +1555,12 @@
                                  border-right: none; border-top: none; border-bottom: 1px solid #000; text-transform: uppercase;">
                                    
                                 </td>
+                                @php 
+                                    $net_tax_payable = $total_tax_payable - ($total_89 + $total_tax_payable);
+                                @endphp
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; width: 50px; border-left: 1px solid #000;
                                  border-right: 1px solid #000; border-bottom: 1px solid #000;">
-                                   0
+                                   {{ $net_tax_payable }}
                                 </td>
                             </tr>
                         </tbody>
