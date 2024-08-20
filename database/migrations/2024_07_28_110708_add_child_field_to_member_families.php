@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::table('member_families', function (Blueprint $table) {
             //
-            $table->string('child1_class')->nullable()->after('child1_scll_name');
+            $table->string('child1_class')->nullable()->after('work_status');
             $table->string('child1_academic_yr')->nullable()->after('child1_class');
             $table->string('child1_amount')->nullable()->after('child1_academic_yr');
 
-            $table->string('child2_class')->nullable()->after('child2_scll_name');
+            $table->string('child2_class')->nullable()->after('child1_academic_yr');
             $table->string('child2_academic_yr')->nullable()->after('child2_class');
             $table->string('child2_amount')->nullable()->after('child2_academic_yr');
         });

@@ -129,22 +129,19 @@ class DesignationController extends Controller
         $request->validate([
             'full_name' => 'required|max:255',
             'designation' => 'required|max:255',
-            'designation_type_id' => 'required',
-            'category_id' => 'required',
-            'payband_type_id' => 'required',
-            'payscale_type_id' => 'required',
+            'group_id' => 'required',
             'order' => 'required|numeric',
         ]);
 
         $designation = Designation::find($id);
         $designation->full_name = $request->full_name;
         $designation->designation = $request->designation;
-        $designation->designation_type_id = $request->designation_type_id;
+        $designation->group_id = $request->group_id;
         $designation->category_id = $request->category_id;
         $designation->payband_type_id = $request->payband_type_id;
-        $designation->payscale_type_id = $request->payscale_type_id;
+        $designation->pay_level_id = $request->pay_level_id;
         $designation->order = $request->order;
-        $designation->payscale_number = $request->payscale_number;
+        $designation->type = $request->designation_type;
         $designation->save();
 
         session()->flash('message', 'Designation updated successfully');

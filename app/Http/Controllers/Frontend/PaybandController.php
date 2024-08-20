@@ -79,7 +79,7 @@ class PaybandController extends Controller
         $payband->payband_type_id = $request->payband_type_id;
         $payband->low_band = $request->low_band;
         $payband->high_band = $request->high_band;
-        $payband->month = $firstMonth . ' - ' . $lastMonth;
+        // $payband->month = $firstMonth . ' - ' . $lastMonth;
         $payband->year = $request->financial_year;
         $payband->save();
 
@@ -135,7 +135,7 @@ class PaybandController extends Controller
         $payband->payband_type_id = $request->payband_type_id;
         $payband->low_band = $request->low_band;
         $payband->high_band = $request->high_band;
-        $payband->month = $firstMonth . ' - ' . $lastMonth;
+        // $payband->month = $firstMonth . ' - ' . $lastMonth;
         $payband->year = $request->financial_year;
         $payband->update();
 
