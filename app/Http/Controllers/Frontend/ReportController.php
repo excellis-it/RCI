@@ -15,8 +15,9 @@ use App\Models\MemberLoan;
 use App\Models\MemberIncomeTax;
 use App\Models\MemberBagPurse;
 use App\Models\PayCommission;
-use App\Models\PayBand;
+use App\Models\Payband;
 use App\Models\PmLevel;
+use App\Models\GradePay;
 use App\Models\Group;
 use App\Models\LandlineAllowance;
 use App\Models\MemberPersonalInfo;
@@ -44,7 +45,9 @@ use App\Models\LeaveType;
 use App\Models\MemberAllotedLeave;
 use App\Models\MemberLeave;
 use App\Models\MemberRetirementInfo;
-
+use App\Models\PayMatrixRow;
+use App\Models\PayMatrixBasic;
+use App\Models\PmIndex;
 
 class ReportController extends Controller
 {
@@ -1285,14 +1288,46 @@ class ReportController extends Controller
     public function payMatrixReportGenerate(Request $request)
     {
 
-        $pay_bands = PayBand::where('year',$request->financial_year)->get();
+        $pay_bands = Payband::where('year',$request->financial_year)->get();
+        $pm_levels = PmLevel::where('year',$request->financial_year)->get();
         $pay_level_counts = [];
         foreach($pay_bands as $pay_band)
         {
             $pay_levels = PmLevel::where('payband',$pay_band->id)->count();
             $pay_level_counts[$pay_band->id] = $pay_levels;
         }
-        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_level_counts'));
+
+        $gradePayArray = [];
+        $entryPayArray = [];
+        $levelArray = [];
+        $pmIndexArray = [];
+        $pmRowArray = [];
+        $pmbasicArray = [];
+
+        // Loop through the $pm_levels array and populate the arrays
+        foreach ($pm_levels as $pm_level) {
+            $grade_pay = GradePay::where('pay_level', $pm_level->id)->first();
+            $pm_index = PmIndex::where('pm_level_id', $pm_level->id)->first();
+            $pm_rows = PayMatrixRow::all();
+            $pm_basics = PayMatrixBasic::where('pay_matrix_row_id', $pm_level->id)->get();
+
+            $gradePayArray[] = $grade_pay->amount ?? '';
+            $entryPayArray[] = $pm_level->entry_pay ?? '';
+            $levelArray[] = $pm_level->value;
+            $pmIndexArray[] = $pm_index->value ?? '';
+            $pmRowArray[] = $pm_level->value;
+        }
+
+        // Create the final structured array
+        $structuredArray = [
+            'GradePay' => $gradePayArray,
+            'EntryPay' => $entryPayArray,
+            'Level' => $levelArray,
+            'PmIndex' => $pmIndexArray,
+
+        ];      
+        // dd($level_array);
+        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_level_counts','pm_levels','structuredArray'));
         return $pdf->download('pay-matrix-commission-report-' . '.pdf');
     }
 
