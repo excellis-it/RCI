@@ -20,9 +20,12 @@
   ">Table 5: Pay Matrix (Civilian Employees)</h2>
     <table style="width:100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
         <tr>
-            <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Pay Band</th>
+            <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-right: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Pay Band</th>
             @foreach($pay_bands as $pay_band)
-            <th colspan="{{ $pay_levels ?? 0}}" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $pay_band->high_band ?? 0 }}  @if($pay_band->low_band !='') - {{ $pay_band->low_band ?? 0}} @endif</th>
+            @php 
+                $colspan = $pay_level_counts[$pay_band->id] ?? 1;
+            @endphp
+            <th colspan="{{ $colspan }}" style="border-top: 1px solid #000; border-right: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">  @if($pay_band->low_band !='') {{ $pay_band->low_band ?? 0}} - @endif {{ $pay_band->high_band ?? 0 }}</th>
             @endforeach
             {{-- <th colspan="5" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5200-20200</th>
             <th colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">9300-34800</th>
