@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
 use App\Models\ResetVoucher;
 use Illuminate\Support\Str;
+use App\Models\Receipt;
 use App\Models\Member;
+use App\Models\PublicFundVendor;
 
 class CashPaymentController extends Controller
 {
@@ -17,10 +19,11 @@ class CashPaymentController extends Controller
      */
     public function index()
     {
+        $receipt_nos = Receipt::where('receipt_type', 'cash')->get();
         $cashPayments = CashPayment::orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $members = Member::orderBy('id', 'desc')->get();
-        return view('frontend.public-fund.cash-payment.list', compact('cashPayments', 'paymentCategories','members'));
+        return view('frontend.public-fund.cash-payment.list', compact('cashPayments', 'paymentCategories','members','receipt_nos'));
     }
 
     public function fetchData(Request $request)
@@ -50,14 +53,25 @@ class CashPaymentController extends Controller
         }
     }
 
+    public function getRctNoDetail(Request $request)
+    {
+        $rct_no = $request->rcpt_no;
+        $detail = true;
+        $receipt = Receipt::where('id', $rct_no)->with('fundVendor','category')->first();
+        if($receipt)
+        {
+            return response()->json(['view' => view('frontend.public-fund.cash-payment.details', compact('receipt','detail'))->render()]);
+        } else {
+            return response()->json(['error' => 'Receipt not found']);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        
-        
         return view('frontend.public-fund.cash-payment.form', compact('paymentCategories'));
     }
 
@@ -79,17 +93,27 @@ class CashPaymentController extends Controller
         $cashPayment = CashPayment::latest()->first();
 
         $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
-        if(isset($cashPayment))
-        {
-            $serial_no = Str::substr($cashPayment->vr_no, -1);
-            $counter = $serial_no + 1;
-            // dd($serial_no);
+
+        if ($cashPayment) {
+            // Extract the numeric part after the constant string
+            $serial_no = (int) Str::after($cashPayment->vr_no, $constantString);
+
+            // Check if the numeric part was correctly extracted
+            if ($serial_no > 0) {
+                $counter = $serial_no + 1;
+            } else {
+                // If for some reason the numeric part is not extracted correctly, start from 1
+                $counter = 1;
+            }
         } else {
             $counter = 1;
         }
+
+        $vr_no = $constantString . $counter;
+
        
         $cashPayment = new CashPayment();
-        $cashPayment->vr_no = $constantString . $counter++;
+        $cashPayment->vr_no = $vr_no;
         $cashPayment->vr_date = $request->vr_date;
         $cashPayment->amount = $request->amount;
         $cashPayment->rct_no = $request->rct_no;

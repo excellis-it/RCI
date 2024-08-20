@@ -49,16 +49,22 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="f_name"
-                                                    style="cursor: pointer">Receipt No.<span id="f_name_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="receipt_no"
+                                                    style="cursor: pointer">Receipt No.<span id="receipt_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                            <th class="sorting" data-sorting_type="desc" data-column_name="email"
-                                                    style="cursor: pointer">Mode <span id="email_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="receipt_type"
+                                                            style="cursor: pointer">Mode <span id="receipt_type_icon"><i
+                                                                    class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
+                                                            style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
+                                                                    class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
+                                                            style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
+                                                                    class="fa fa-arrow-down"></i></span> </th>
+                                               
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                    style="cursor: pointer">Amount  <span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="phone"
-                                                    style="cursor: pointer">Amount  <span id="phone_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -165,7 +171,7 @@
                     success: function(response) {
                        
                         //windows load with toastr message
-                        //window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                        
@@ -284,4 +290,30 @@
             }
         });
     </script>
+
+    <script>
+        $('#vendor_id').change(function() {
+            var vendor_id = $(this).val();
+            var mode = $('#mode').val();
+            if(!isNaN(vendor_id) && vendor_id !== '')
+            {
+                //call ajax
+                $.ajax({
+                    url: "{{ route('receipts.get-vendor-desig') }}",
+                    type: 'GET',
+                    data: {vendor_id: vendor_id},
+                    success: function(response) {
+                        $('#desig').val(response.data.desig);
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        console.log(xhr);
+                    }
+                });
+            }else{
+                $('#desig').val('');
+            }
+           
+        });
+        </script>
 @endpush
