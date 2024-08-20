@@ -1,5 +1,5 @@
 @if (isset($edit))
-    <form action="{{ route('public-fund-vendors.update', $public_fund_vendor->id) }}" method="POST" id="public-vendor-edit-form">
+    <form action="{{ route('fund-vendors.update', $public_fund_vendor->id) }}" method="POST" id="public-vendor-edit-form">
         @method('PUT')
         @csrf
         <div class="row align-items-center">
@@ -11,7 +11,7 @@
                                 <label>First Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="f_name" id="f_name" value="{{ $public_fund_vendor->f_name }}">
+                                <input type="text" class="form-control" name="f_name" id="f_name" value="{{ $public_fund_vendor->f_name ?? '' }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -23,7 +23,7 @@
                                 <label>Last Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="l_name" id="l_name" value="{{ $public_fund_vendor->l_name }}">
+                                <input type="text" class="form-control" name="l_name" id="l_name" value="{{ $public_fund_vendor->l_name ?? '' }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="email" id="email" value="{{ $public_fund_vendor->email }}">
+                                <input type="text" class="form-control" name="email" id="email" value="{{ $public_fund_vendor->email ?? ''}}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -47,13 +47,25 @@
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="phone" id="phone" value="{{ $public_fund_vendor->phone }}">
+                                <input type="number" class="form-control" name="phone" id="phone" value="{{ $public_fund_vendor->phone ?? ''}}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6 mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desig</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="desig" id="desig" value="{{ $public_fund_vendor->desig ?? ''}}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -80,7 +92,7 @@
         </div>
     </form>
 @else
-    <form action="{{ route('public-fund-vendors.store') }}" method="POST" id="public-vendor-create-form">
+    <form action="{{ route('fund-vendors.store') }}" method="POST" id="public-vendor-create-form">
         @csrf
         <div class="row align-items-center">
             <div class="col-md-10">
@@ -133,7 +145,19 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6 mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desig</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="desig" id="desig">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

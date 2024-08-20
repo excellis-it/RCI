@@ -1,6 +1,6 @@
 @extends('frontend.public-fund.layouts.master')
 @section('title')
-   Vendor List
+   Receipts List
 @endsection
 
 @push('styles')
@@ -18,7 +18,7 @@
                     <h3> Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Vendors </span></li>
+                        <li><span class="bread-blod">Receipts </span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('public-funds.vendor.form')
+                            @include('public-funds.receipts.form')
                         </div>
 
                         <div class="row">
@@ -50,20 +50,20 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="f_name"
-                                                    style="cursor: pointer">Name  <span id="f_name_icon"><i
+                                                    style="cursor: pointer">Receipt No.<span id="f_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                             <th class="sorting" data-sorting_type="desc" data-column_name="email"
-                                                    style="cursor: pointer">Email  <span id="email_icon"><i
+                                                    style="cursor: pointer">Mode <span id="email_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="phone"
-                                                    style="cursor: pointer">Phone  <span id="phone_icon"><i
+                                                    style="cursor: pointer">Amount  <span id="phone_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('public-funds.vendor.table')
+                                            @include('public-funds.receipts.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -88,7 +88,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('public-fund-vendors.fetch-data') }}",
+                    url: "{{ route('receipts.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -153,7 +153,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#public-vendor-create-form').submit(function(e) {
+            $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
             
@@ -165,7 +165,7 @@
                     success: function(response) {
                        
                         //windows load with toastr message
-                        window.location.reload();
+                        //window.location.reload();
                     },
                     error: function(xhr) {
                        
@@ -230,6 +230,58 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        $('#mode').change(function() {
+            if ($(this).val() == 'cheque') {
+                $('.cash-form').hide();
+                $('.cash-details').hide();
+                $('.cheque-sr-no').show();
+                $('.cheque-vendor-desig').show();
+                $('.cheque-bill-ref').show();
+                $('.cheque-bank-acc').show();
+                $('.cheque-dv-no').show();
+                $('.cheque-chq-no').show();
+                $('.cheque-date-no').show();
+                $('.cheque-narration').show();
+            } else if ($(this).val() == 'cash') {
+                $('.cash-form').show();
+                $('.cash-details').show();
+                $('.cheque-sr-no').hide();
+                $('.cheque-vendor-desig').hide();
+                $('.cheque-bill-ref').hide();
+                $('.cheque-bank-acc').hide();
+                $('.cheque-dv-no').hide();
+                $('.cheque-chq-no').hide();
+                $('.cheque-date-no').hide();
+                $('.cheque-narration').hide();
+            } else{
+                $('.cash-form').hide();
+                $('.cash-details').hide();
+                $('.cheque-sr-no').hide();
+                $('.cheque-vendor-desig').hide();
+                $('.cheque-bill-ref').hide();
+                $('.cheque-bank-acc').hide();
+                $('.cheque-dv-no').hide();
+                $('.cheque-chq-no').hide();
+                $('.cheque-date-no').hide();
+                $('.cheque-narration').hide();
+            }
+        });
+    </script>
+
+    <script>
+        $('#vendor_id').change(function() {
+            var vendor_id = $(this).val();
+            
+            if(vendor_id == 'Other')
+            {
+                $('.cheque-vendor-name').show();
+            }else{
+                $('.cheque-vendor-name').hide();
+            }
         });
     </script>
 @endpush

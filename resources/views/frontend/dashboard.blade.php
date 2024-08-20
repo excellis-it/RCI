@@ -32,7 +32,7 @@
             <div class="card-wrap">
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{route('cash-payments.index')}}">
+                        <a href="{{route('receipts.index')}}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Public Fund</h5>
