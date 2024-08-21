@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -135,7 +135,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

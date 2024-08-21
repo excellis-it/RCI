@@ -24,7 +24,7 @@ return new class extends Migration
             $table->bigInteger('division')->unsigned()->nullable();
             $table->bigInteger('group')->unsigned()->nullable();
             $table->bigInteger('cadre')->unsigned()->nullable();
-            $table->bigInteger('category')->unsigned()->nullable();
+            $table->string('category')->nullable();
             $table->string('status')->nullable();
             $table->string('old_bp')->nullable();
             $table->string('g_pay')->nullable();
