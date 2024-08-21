@@ -38,7 +38,6 @@ class PensionController extends Controller
     {
         $request->validate([
             'member_id' => 'required',
-            'pran_no' => 'required',
             'npsc_sub_amt' => 'required',
             'npsg_sub_amt' => 'required',
             'year' => 'required',
@@ -46,7 +45,7 @@ class PensionController extends Controller
         ]);
 
         $pension = new Pension();
-        $pension->member_id = $request->member_id;
+        $pension->user_id = $request->member_id;
         $pension->pran_no = $request->pran_no;  
         $pension->npsc_sub_amt = $request->npsc_sub_amt;
         $pension->npsg_sub_amt = $request->npsg_sub_amt;
