@@ -91,6 +91,30 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Var Incr.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="var_incr" id="var_incr" value="{{ $pm_level->var_incr }}"  placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NOI</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="noi" id="noi" value="{{ $pm_level->noi }}"  placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
@@ -215,6 +239,30 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="entry_pay" id="entry_pay"  placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Var Incr.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="var_incr" id="var_incr"  placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NOI</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="noi" id="noi"  placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

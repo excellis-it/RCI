@@ -518,7 +518,7 @@ Route::middleware('permssions')->group(function () {
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
-    Route::post('/eol-hpl', [MemberController::class, 'checkEolHpl'])->name('members.eol-hpl');
+    Route::post('/eol-hpl', [MemberController::class, 'checkEolHplCcl'])->name('members.eol-hpl');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');

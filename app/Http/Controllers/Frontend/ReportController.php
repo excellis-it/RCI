@@ -389,8 +389,7 @@ class ReportController extends Controller
     public function bonusSchedule()
     {
         $financialYears = Helper::getFinancialYears();
-        $categories = Category::orderBy('id', 'desc')->get();
-        return view('frontend.reports.bonus-schedule', compact('financialYears', 'categories'));
+        return view('frontend.reports.bonus-schedule', compact('financialYears'));
     }
 
     public function bonusScheduleGenerate(Request $request)
@@ -411,7 +410,7 @@ class ReportController extends Controller
             $current->addMonth();
         }
 
-        $member_data = Member::where('e_status', $request->e_status)->where('category', $request->category)->with('desigs')->get();
+        $member_data = Member::where('e_status', $request->e_status)->with('desigs')->get();
         $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $year = $request->report_year;
@@ -1328,10 +1327,6 @@ class ReportController extends Controller
             }
         }
 
-        // Constructing the structured array
-        
-        // dd($pmRowArray);
-
         // Create the final structured array
         $structuredArray = [
             'GradePay' => $gradePayArray,
@@ -1343,7 +1338,7 @@ class ReportController extends Controller
      
         // dd($level_array);
         $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_level_counts','pm_levels','structuredArray'));
-        return $pdf->download('pay-matrix-commission-report-' . '.pdf');
+        return $pdf->download('pay-matrix-commission-report-' . $request->financial_year . '.pdf');
     }
 
     public function daArrears()

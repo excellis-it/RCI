@@ -190,7 +190,7 @@
                     success: function(response) {
                        
                         //windows load with toastr message
-                        // window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                        

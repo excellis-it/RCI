@@ -629,6 +629,18 @@
             });
         }
     </script>
+
+    <script>
+        $(document).ready(function() {
+            var var_info = $('#v_incr').val();
+            var noi = $('#noi').val();
+
+            if (var_info != '' && noi != '') {
+                var total = var_info * noi;
+                $('#total').val(total);
+            }
+        });
+    </script>
     {{-- recovery script end --}}
 
     {{-- core script --}}
@@ -1647,6 +1659,7 @@
                     success: function(response) {
                         console.log(response);
                         $('#eol').val(response.total_deduction);
+                        $('#ccl').val(response.ccldeduction);
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -1658,6 +1671,24 @@
             updateEolHpl();
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $("#member-debit-form").validate({
+                rules: {
+                    // Dynamically apply numeric validation to all inputs
+                    '*': {
+                        number: true
+                    }
+                },
+                messages: {
+                    // Generic error message for numeric fields
+                    '*': {
+                        number: "Please enter a valid number"
+                    }
+                }
+            });
+        });
+        </script>
 
     <script>
         //get ifsc code from bank id

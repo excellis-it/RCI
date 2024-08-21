@@ -49,6 +49,20 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
+                        <label>CCL</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="ccl" id="ccl"
+                            value="{{ $member_debit->ccl ??  ''}}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
                         <label>Rent</label>
                     </div>
                     <div class="col-md-12">
@@ -73,6 +87,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -87,16 +103,16 @@
                 </div>
             </div>
         </div>
-    </div>
     
-    @php
-    if($check_hba){
-        $isReadonly = ($check_hba->loan_name !== 'HBA' && $check_hba->loan_name !== 'hba');
-    }else{
-        $isReadonly = true;
-    }
-    @endphp
-    <div class="row">
+    
+        @php
+        if($check_hba){
+            $isReadonly = ($check_hba->loan_name !== 'HBA' && $check_hba->loan_name !== 'hba');
+        }else{
+            $isReadonly = true;
+        }
+        @endphp
+    
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -167,6 +183,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -181,8 +199,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -253,6 +269,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -267,8 +285,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -339,6 +355,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -353,8 +371,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         
         <div class="col-md-2">
             <div class="form-group mb-2">
@@ -426,6 +442,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -440,8 +458,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -512,6 +528,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -526,8 +544,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -598,6 +614,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -612,9 +631,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -685,6 +701,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -699,9 +718,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -773,6 +789,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -787,9 +806,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -860,6 +876,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -874,9 +893,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -947,6 +963,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -961,9 +980,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
