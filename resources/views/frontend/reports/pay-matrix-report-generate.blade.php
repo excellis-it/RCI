@@ -20,9 +20,12 @@
   ">Table 5: Pay Matrix (Civilian Employees)</h2>
     <table style="width:100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
         <tr>
-            <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Pay Band</th>
+            <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-right: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Pay Band</th>
             @foreach($pay_bands as $pay_band)
-            <th colspan="{{ $pay_levels ?? 0}}" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $pay_band->high_band ?? 0 }}  @if($pay_band->low_band !='') - {{ $pay_band->low_band ?? 0}} @endif</th>
+            @php 
+                $colspan = $pay_level_counts[$pay_band->id] ?? 1;
+            @endphp
+            <th colspan="{{ $colspan }}" style="border-top: 1px solid #000; border-right: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">  @if($pay_band->low_band !='') {{ $pay_band->low_band ?? 0}} - @endif {{ $pay_band->high_band ?? 0 }}</th>
             @endforeach
             {{-- <th colspan="5" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5200-20200</th>
             <th colspan="4" style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">9300-34800</th>
@@ -33,94 +36,39 @@
             <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">80000</th>
             <th style="border-top: 1px solid #000; border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">90000</th> --}}
         </tr>
+        
+        
         <tr>
             <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Grade Pay</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">1800</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">1900</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2400</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2800</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">4200</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">4600</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">4800</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5400</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5400</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">6600</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">7600</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">8700</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">8900</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">10000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;"></th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;"></th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;"></th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;"></th>
-        </tr>
-        <tr>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Entry Pay (EP)</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">7000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">7730</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">8460</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">9910</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">11360</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">13500</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">17140</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">18150</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">20800</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">21000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">25350</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">29500</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">46100</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">49100</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">53000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">67000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">75500</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">80000</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">90000</th>
+            @foreach($structuredArray['GradePay'] as $gradePay)
+                <th style="border-left: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $gradePay ?? '' }}</th>
+            @endforeach
             
         </tr>
+        
+        <tr>
+            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Entry Pay (EP)</th>
+            @foreach($structuredArray['EntryPay'] as $entryPay)
+                <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000;font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $entryPay ?? 0 }}</th>
+            @endforeach
+            
+        </tr>
+        
+        
         <tr>
             <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Level</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">1</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">3</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">4</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">5</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">6</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">7</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">8</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">9</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">10</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">11</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">12</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">13</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">13A</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">14</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">15</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">16</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">17</th>
-            <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">18</th>
+            @foreach($structuredArray['Level'] as $level)
+                <th style="border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000;font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $level }}</th>
+            @endforeach
         </tr>
+        
         <tr>
             <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">Index</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.57</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.57</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.57</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.57</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.57</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.62</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.62</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.62</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.62</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.67</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.67</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.67</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.57</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.67</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.72</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.72</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.72</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.81</td>
-            <td style="border-left: 1px solid #000;border-bottom: 1px solid #000; border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">2.78</td>
+            @foreach($structuredArray['PmIndex'] as $index)
+                <td style="border-left: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000; font-size: 16px; padding:6px 5px; text-align:center; line-height: 18px; font-weight: 600; color: #000;">{{ $index }}</td>
+            @endforeach
+            
+            
         </tr>
         <!-- Table rows start here -->
         <tr>

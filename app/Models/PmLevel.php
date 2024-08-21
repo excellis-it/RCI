@@ -15,5 +15,11 @@ class PmLevel extends Model
         return $this->belongsTo(PayCommission::class, 'pay_commission');
     }
 
+    //grade pay relation
+    // public function gradePay()
+    // {
+    //     return $this->hasMany(GradePay::class, 'pay_level');
+    // }
+
     
 }

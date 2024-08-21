@@ -15,8 +15,9 @@ use App\Models\MemberLoan;
 use App\Models\MemberIncomeTax;
 use App\Models\MemberBagPurse;
 use App\Models\PayCommission;
-use App\Models\PayBand;
+use App\Models\Payband;
 use App\Models\PmLevel;
+use App\Models\GradePay;
 use App\Models\Group;
 use App\Models\LandlineAllowance;
 use App\Models\MemberPersonalInfo;
@@ -44,7 +45,9 @@ use App\Models\LeaveType;
 use App\Models\MemberAllotedLeave;
 use App\Models\MemberLeave;
 use App\Models\MemberRetirementInfo;
-
+use App\Models\PayMatrixRow;
+use App\Models\PayMatrixBasic;
+use App\Models\PmIndex;
 
 class ReportController extends Controller
 {
@@ -1230,7 +1233,8 @@ class ReportController extends Controller
         $assessment_year = $request->report_year;
         $current_financial_year = date('Y') . '-' . (date('Y') + 1);
         $prerequisite172 = 0; $profits_in_lieu = 0; $total_from_other_employer = 0; $amt10a = 0; $amt10b = 0; $exemption10 = 0;
-        $standard_deduction_16 = 0; $entertainment_allow = 0; $profession_tax = 0; $other_deduction_via = 0; 
+        $standard_deduction_16 = 0; $entertainment_allow = 0; $profession_tax = 0; $other_deduction_via = 0; $other_income = 0;
+        $surcharge = 0; $tax_deducted_192i = 0; $tax_paid_192ia = 0;
 
         [$startYear, $endYear] = explode('-', $request->report_year);
         $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
@@ -1240,8 +1244,9 @@ class ReportController extends Controller
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();  
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
 
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data'));
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'));
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
     }
 
@@ -1283,13 +1288,46 @@ class ReportController extends Controller
     public function payMatrixReportGenerate(Request $request)
     {
 
-        $pay_bands = PayBand::where('year',$request->financial_year)->get();
+        $pay_bands = Payband::where('year',$request->financial_year)->get();
+        $pm_levels = PmLevel::where('year',$request->financial_year)->get();
+        $pay_level_counts = [];
         foreach($pay_bands as $pay_band)
         {
-            $pay_levels = PmLevel::where('payband',$pay_band->id)->get();
+            $pay_levels = PmLevel::where('payband',$pay_band->id)->count();
+            $pay_level_counts[$pay_band->id] = $pay_levels;
         }
-        
-        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_levels'));
+
+        $gradePayArray = [];
+        $entryPayArray = [];
+        $levelArray = [];
+        $pmIndexArray = [];
+        $pmRowArray = [];
+        $pmbasicArray = [];
+
+        // Loop through the $pm_levels array and populate the arrays
+        foreach ($pm_levels as $pm_level) {
+            $grade_pay = GradePay::where('pay_level', $pm_level->id)->first();
+            $pm_index = PmIndex::where('pm_level_id', $pm_level->id)->first();
+            $pm_rows = PayMatrixRow::all();
+            $pm_basics = PayMatrixBasic::where('pay_matrix_row_id', $pm_level->id)->get();
+
+            $gradePayArray[] = $grade_pay->amount ?? '';
+            $entryPayArray[] = $pm_level->entry_pay ?? '';
+            $levelArray[] = $pm_level->value;
+            $pmIndexArray[] = $pm_index->value ?? '';
+            $pmRowArray[] = $pm_level->value;
+        }
+
+        // Create the final structured array
+        $structuredArray = [
+            'GradePay' => $gradePayArray,
+            'EntryPay' => $entryPayArray,
+            'Level' => $levelArray,
+            'PmIndex' => $pmIndexArray,
+
+        ];      
+        // dd($level_array);
+        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_level_counts','pm_levels','structuredArray'));
         return $pdf->download('pay-matrix-commission-report-' . '.pdf');
     }
 
