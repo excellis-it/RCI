@@ -1284,11 +1284,11 @@ class ReportController extends Controller
     {
 
         $pay_bands = PayBand::where('year',$request->financial_year)->get();
-        $pay_levels = 0;
         foreach($pay_bands as $pay_band)
         {
-            $pay_levels = PmLevel::where('payband',$pay_band->id)->count();
+            $pay_levels = PmLevel::where('payband',$pay_band->id)->get();
         }
+        
         $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_levels'));
         return $pdf->download('pay-matrix-commission-report-' . '.pdf');
     }

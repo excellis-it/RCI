@@ -25,7 +25,31 @@ class ReceiptController extends Controller
 
     public function fetchData(Request $request)
     {
-        return $request;
+        if ($request->ajax()) {
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $query = $request->get('query');
+            $query = str_replace(" ", "%", $query);
+            $receipts = Receipt::where(function($queryBuilder) use ($query) {
+                $queryBuilder->where('id', 'like', '%' . $query . '%')
+                    ->orWhere('receipt_no', 'like', '%' . $query . '%')
+                    ->orWhere('receipt_type', 'like', '%' . $query . '%')
+                    ->orWhere('vr_no', 'like', '%' . $query . '%')
+                    ->orWhere('vr_date', 'like', '%' . $query . '%')
+                    ->orWhere('amount', 'like', '%' . $query . '%');
+            })
+            ->orderBy($sort_by, $sort_type)
+            ->paginate(10);
+        
+            return response()->json(['data' => view('public-funds.receipts.table', compact('receipts'))->render()]);
+        }
+    }
+
+    public function getVendorDesig(Request $request)
+    {
+        
+        $vendor = PublicFundVendor::where('id', $request->vendor_id)->first();
+        return response()->json(['data' => view('public-funds.receipts.details', compact('receipts'))->render()]);
     }
 
     /**
@@ -65,15 +89,22 @@ class ReceiptController extends Controller
         $last_receipt = Receipt::latest()->first();
         $currentDate = date('Y-m-d');
         $constantString = 'RV-' . $currentDate . '-';
-        if(isset($last_receipt) && Str::substr($last_receipt->receipt_no, 3, 7) === $currentDate)
-        {
+
+        if (isset($last_receipt) && Str::substr($last_receipt->receipt_no, 3, 10) === $currentDate) {
+            // Extract the last 4 digits (counter) from the last receipt_no
             $serial_no = (int) Str::substr($last_receipt->receipt_no, -4);
             $counter = $serial_no + 1;
         } else {
+            // Start with 0001 if no receipt exists for today
             $counter = 1;
         }
+
+        // Pad the counter with leading zeros to ensure it is 4 digits long
         $formattedCounter = str_pad($counter, 4, '0', STR_PAD_LEFT);
+
+        // Combine everything to form the new receipt number
         $new_receipt_no = $constantString . $formattedCounter;
+
 
         //vr no generation
         $voucherText = ResetVoucher::where('status', 1)->first();
@@ -126,7 +157,11 @@ class ReceiptController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $receipt_edit = Receipt::where('id', $id)->first();
+        $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
+        $vendors = PublicFundVendor::where('status', 1)->orderBy('id', 'desc')->get();
+        $edit = true;
+        return response()->json(['view' => view('public-funds.receipts.form', compact('edit','receipt_edit','paymentCategories','vendors'))->render()]);
     }
 
     /**
@@ -134,7 +169,25 @@ class ReceiptController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $find_receipt = Receipt::where('id', $id)->first();
+        $find_receipt->vr_date = $request->vr_date;
+        $find_receipt->amount = $request->amount;
+        $find_receipt->form = $request->form;
+        $find_receipt->details = $request->details;
+        $find_receipt->category_id = $request->category;
+        $find_receipt->sr_no = $request->sr_no;
+        $find_receipt->vendor_name = $request->vendor_name;
+        $find_receipt->desig = $request->desig;
+        $find_receipt->bill_ref = $request->bill_ref;
+        $find_receipt->bank_acc_no = $request->bank_acc;
+        $find_receipt->dv_no = $request->dv_no;
+        $find_receipt->cheque_no = $request->cheque_no;
+        $find_receipt->cheque_date = $request->cheque_date;
+        $find_receipt->narration = $request->narration;
+        $find_receipt->update();
+
+        session()->flash('message', 'Receipt updated successfully');
+        return response()->json(['success' => 'Receipt updated successfully']);
     }
 
     /**

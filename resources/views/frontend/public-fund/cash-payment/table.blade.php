@@ -3,13 +3,10 @@
 @if (count($cashPayments) > 0)
     @foreach ($cashPayments as $key => $cashPayment)
         <tr>
-            <td>{{ $cashPayment->vr_no ?? 'N/A'}}</td>
-            <td>{{ $cashPayment->vr_date ?? 'N/A'}}</td>
-            <td>{{ $cashPayment->amount ?? 'N/A'}}</td>
             <td>{{ $cashPayment->rct_no ?? 'N/A'}}</td>
             <td>{{ $cashPayment->form ?? 'N/A'}}</td>
             <td>{{ $cashPayment->details ?? 'N/A'}}</td>
-            <td>{{ $cashPayment->member->name ?? 'N/A'}}</td>
+           
            
             <td class="sepharate"><a data-route="{{route('cash-payments.edit', $cashPayment->id)}}"  class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('cash-payments.delete', $cashPayment->id)}}"><i class="ti ti-trash"></i></a> --}}

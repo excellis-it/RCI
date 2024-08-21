@@ -13,4 +13,14 @@ class CashPayment extends Model
     {
         return $this->belongsTo(Member::class);
     }
+
+    public function fundVendor()
+    {
+        return $this->belongsTo(PublicFundVendor::class, 'vendor_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(PaymentCategory::class, 'category_id');
+    }
 }

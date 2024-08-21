@@ -231,6 +231,8 @@ Route::middleware('permssions')->group(function () {
         'receipts' => ReceiptController::class
     ]);
 
+    Route::get('/receipts-vendor-desig', [ReceiptController::class, 'getVendorDesig'])->name('receipts.get-vendor-desig');
+
     Route::get('/receipts-fetch-data', [ReceiptController::class, 'fetchData'])->name('receipts.fetch-data');
 
     //bag purse report
@@ -610,7 +612,7 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cash-payments-delete/{id}', [CashPaymentController::class, 'delete'])->name('cash-payments.delete');
     });
     Route::get('/cash-payments-fetch-data', [CashPaymentController::class, 'fetchData'])->name('cash-payments.fetch-data');
-
+    Route::get('/cash-payments-get-details', [CashPaymentController::class, 'getRctNoDetail'])->name('cash-payments.get-details');
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');

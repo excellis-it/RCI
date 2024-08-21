@@ -48,19 +48,9 @@ Cash Payments List
                                 <table class="table customize-table mb-0 align-middle bg_tbody">
                                     <thead class="text-white fs-4 bg_blue">
                                         <tr>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                style="cursor: pointer">VR No. <span id="vr_no_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
-                                                style="cursor: pointer">VR Date. <span id="vr_date_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                                        <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                style="cursor: pointer">AMT<span id="amount_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
                                             <th>RCT No</th>
-                                            <th>Form</th>
-                                            <th>Details</th>
-                                            <th>name</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -240,5 +230,53 @@ Cash Payments List
             });
         });
     });
+</script>
+
+<script>
+
+    //rcpt_no  on chnage
+    $(document).on('change', '#rcpt_no', function() {
+        var rcpt_no = $(this).val();
+    
+        $.ajax({
+            url: "{{ route('cash-payments.get-details') }}",
+            type: 'GET',
+            data: {
+                rcpt_no: rcpt_no
+            },
+            success: function(response) {
+                
+                $('.cash-payment-details').html(response.view);
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+    
+</script>
+
+<script>
+        $(document).on('click', '#add_more', function() {
+
+            function getOrdinal(n) {
+                var s = ["th", "st", "nd", "rd"],
+                    v = n % 100;
+                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            }
+
+            var html = '';
+            // count rows
+            var rowCount = $('#cash_payment_amount .child1').length + 2;
+            html += '<div class="row"><div class="col-lg-3"><div class="form-group mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Amount</label></div><div class="col-md-12"><input type="text" class="form-control" name="amount" id="amount" placeholder="" /><span class="text-danger"></span></div></div></div></div><div class="col-lg-3"><div class="form-group mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Date</label></div><div class="col-md-12"><input type="date" class="form-control" name="date" id="date" placeholder="" /><span class="text-danger"></span></div><div class="col-lg-12"><div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div></div></div></div></div>';
+
+            $('#cash_payment_amount').append(html);
+            });
+
+            // Handle removing rows
+            $(document).on('click', '.remove-child', function() {
+            $(this).closest('.row').remove();
+        });
+
 </script>
 @endpush
