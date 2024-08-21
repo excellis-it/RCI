@@ -29,7 +29,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+
+                    {{-- <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Category</label>
@@ -46,7 +47,27 @@
                                 <span class="text-danger" id="category_id-error"></span>
                             </div>
                         </div>
+                    </div> --}}
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Group</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="group_id" id="group_id">
+                                    <option value="">Select Group</option>
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}"
+                                            {{ $designation->group_id == $group->id ? 'selected' : '' }}>
+                                            {{ $group->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger" id="group_id_error"></span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -59,26 +80,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="designation_type_id" id="designation_type_id">
-                                   
-                                    @foreach ($designation_types as $designationType)
-                                        <option value="{{ $designationType->id }}"
-                                            {{ $designation->designation_type_id == $designationType->id ? 'selected' : '' }}>
-                                            {{ $designationType->designation_type }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger" id="designation_type_id-error"></span>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- increment 1 --}}
-                    <div class="form-group col-md-3 mb-2">
+                  
+                    {{-- <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Payscale</label>
@@ -108,8 +111,40 @@
                             </div>
                         </div>
                     </div>
-                    {{-- increment 2 --}}
+                    --}}
+
                     <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>PayLevel</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select edit_pay_level" name="pay_level_id" >
+                                    <option value="">Select PayLevel</option>
+                                    @foreach ($pay_levels as $pay_level)
+                                        <option value="{{ $pay_level->id }}"
+                                            {{ $designation->pay_level_id == $pay_level->id ? 'selected' : '' }}>
+                                            {{ $pay_level->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="designation_type" id="designation_type"
+                                value="{{ $designation->type ?? '' }}" placeholder="">
+                                <span class="text-danger" id="designation_type_id-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Payband</label>
@@ -126,7 +161,7 @@
                                 <span class="text-danger" id="payband_type_id-error"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-md-2">
@@ -172,18 +207,16 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Category</label>
+                                <label>Group</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="category_id" id="category_id">
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->category }}</option>
+                                <select class="form-select" name="group_id" id="group_id">
+                                    <option value="">Select Group</option>
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}">{{ $group->value }}</option>
                                     @endforeach
                                 </select>
-                                <span class="text-danger"></span>
+                                <span class="text-danger" id="group_id_error"></span>
                             </div>
                         </div>
                     </div>
@@ -199,26 +232,40 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Type</label>
+                                <label>PayLevel</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="designation_type_id" id="designation_type_id">
-                                    <option value="">Select Designation</option>
-                                    @foreach ($designation_types as $designationType)
-                                        <option value="{{ $designationType->id }}"
-                                            {{ old('designation_type_id') == $designationType->id ? 'selected' : '' }}>
-                                            {{ $designationType->designation_type }}</option>
+                                <select class="form-select pay_level_id" name="pay_level_id" >
+                                    <option value="">Select PayLevel</option>
+                                    @foreach ($pay_levels as $pay_level)
+                                        <option value="{{ $pay_level->id }}"
+                                            {{ old('pay_level_id') == $pay_level->id ? 'selected' : '' }}>
+                                            {{ $pay_level->value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    {{-- increment 1 --}}
+
                     <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                 <input type="text" class="form-control" name="designation_type" id="designation_type"
+                                    value="{{ old('designation_type') ?? '' }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Payscale</label>
@@ -246,9 +293,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    
                     {{-- increment 2 --}}
-                    <div class="form-group col-md-3 mb-2">
+                    {{-- <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Payband</label>
@@ -265,7 +314,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-md-2">

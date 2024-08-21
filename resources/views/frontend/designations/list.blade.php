@@ -57,10 +57,9 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="order"
                                                     style="cursor: pointer">Order <span id="order_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                        <th>Category</th>
+                                                        <th>Group</th>
                                                 <th>Type</th>
-                                                <th>Payscale</th>
-                                                <th>Payband</th>
+                                                <th>PayLevel</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -84,28 +83,7 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this designation.",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
-                    }
-                })
-        });
-    </script>
+    
     <script>
         $(document).ready(function() {
 
@@ -277,4 +255,34 @@
             });
         });
     </script>
+
+    <script>
+        $('.pay_level_id').on('change', function() {
+            var pay_level_id = $(this).val();
+            // alert(pay_level_id);
+            
+            if (pay_level_id < 7) {
+                $('#designation_type').val('Non-Gazetted Officer');
+            } else if (pay_level_id >= 7) {
+                $('#designation_type').val('Gazetted Officer');
+            } else{
+                $('#designation_type').val('');
+            }
+        
+        });
+    </script>
+
+    <script>
+        $('.edit_pay_level').on('change', function() {
+            var pay_level_id = $(this).val();
+            // if (pay_level_id < 7) {
+            //     $('#edit_designation_type').val('Non-Gazetted Officer');
+            // } else if (pay_level_id >= 7) {
+            //     $('#edit_designation_type').val('Gazetted Officer');
+            // } else{
+            //     $('#edit_designation_type').val('');
+            // }
+        
+        });
+        </script>
 @endpush

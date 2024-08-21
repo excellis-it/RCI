@@ -7,9 +7,11 @@ use App\Models\Category;
 use App\Models\Designation;
 use App\Models\DesignationType;
 use App\Models\Payband;
+use App\Models\PmLevel;
 use App\Models\PaybandType;
 use App\Models\Payscale;
 use App\Models\PayscaleType;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class DesignationController extends Controller
@@ -23,8 +25,10 @@ class DesignationController extends Controller
         $designation_types = DesignationType::orderBy('designation_type', 'asc')->get();
         $categories = Category::orderBy('category', 'asc')->get();
         $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
+        $pay_levels = PmLevel::orderBy('id', 'desc')->get();
         $payscale_types = PayscaleType::orderBy('payscale_type', 'asc')->get();
-        return view('frontend.designations.list', compact('designations', 'designation_types', 'categories', 'payband_types', 'payscale_types'));
+        $groups = Group::orderBy('id','asc')->get();
+        return view('frontend.designations.list', compact('designations', 'designation_types', 'categories', 'payband_types', 'payscale_types','pay_levels','groups'));
     }
 
     public function fetchData(Request $request)
@@ -73,22 +77,19 @@ class DesignationController extends Controller
         $request->validate([
             'full_name' => 'required|max:255',
             'designation' => 'required|max:255',
-            'designation_type_id' => 'required',
-            'category_id' => 'required',
-            'payband_type_id' => 'required',
-            'payscale_type_id' => 'required',
+            'group_id' => 'required',
             'order' => 'required|numeric',
         ]);
 
         $designation = new Designation();
         $designation->full_name = $request->full_name;
         $designation->designation = $request->designation;
-        $designation->designation_type_id = $request->designation_type_id;
+        $designation->group_id = $request->group_id;
         $designation->category_id = $request->category_id;
         $designation->payband_type_id = $request->payband_type_id;
-        $designation->payscale_type_id = $request->payscale_type_id;
+        $designation->pay_level_id = $request->pay_level_id;
         $designation->order = $request->order;
-        $designation->payscale_number = $request->payscale_number;
+        $designation->type = $request->designation_type;
         $designation->save();
 
         session()->flash('message', 'Designation added successfully');
@@ -114,7 +115,10 @@ class DesignationController extends Controller
         $categories = Category::orderBy('category', 'asc')->get();
         $payband_types = PaybandType::orderBy('payband_type', 'asc')->get();
         $payscale_types = PayscaleType::orderBy('payscale_type', 'asc')->get();
-        return response()->json(['view' => view('frontend.designations.form', compact('edit', 'designation', 'designation_types', 'categories', 'payband_types', 'payscale_types'))->render()]);
+
+        $pay_levels = PmLevel::orderBy('id', 'desc')->get();
+        $groups = Group::orderBy('id','asc')->get();
+        return response()->json(['view' => view('frontend.designations.form', compact('edit', 'designation', 'designation_types', 'categories', 'payband_types', 'payscale_types','pay_levels','groups'))->render()]);
     }
 
     /**

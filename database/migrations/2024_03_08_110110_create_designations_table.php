@@ -20,7 +20,10 @@ return new class extends Migration
             $table->string('payscale_number')->nullable();
             $table->string('designation')->unique();
             $table->string('full_name')->nullable();
+            $table->bigInteger('group_id')->unsigned()->nullable();
+            $table->bigInteger('pay_level_id')->unsigned()->nullable();
             $table->string('order')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
