@@ -407,6 +407,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('grade-pays.index') }}">Grade Pay</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('quarters.index') }}">Quarters charge</a>
                             </li>
                             <li class="mb-2">
@@ -458,10 +462,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('tptas.index') }}">TPT</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('grade-pays.index') }}">Grade Pay</a>
-                            </li>
+                            
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('income-taxes.index') }}">Income Tax</a>

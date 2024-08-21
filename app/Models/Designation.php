@@ -40,4 +40,14 @@ class Designation extends Model
         return $this->belongsTo(PayscaleType::class);
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function payLevel()
+    {
+        return $this->belongsTo(PmLevel::class);
+    }
+
 }

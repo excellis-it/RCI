@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('pm_levels', function (Blueprint $table) {
             //
             $table->string('basic')->nullable()->after('value');
-            $table->string('year')->nullable()->after('basic');
+            
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::table('pm_levels', function (Blueprint $table) {
             //
             $table->dropColumn('basic');
-            $table->dropColumn('year');
+            
         });
     }
 };

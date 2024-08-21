@@ -1246,8 +1246,9 @@ class MemberController extends Controller
         $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first() ?? null;
         $basic_pay = PmLevel::where('id', $request->pm_level)->where('year', date('Y'))->orderBy('id', 'desc')->first() ?? null;
         $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first() ?? null;
+        $pm_index = PmIndex::where('pm_level_id',$request->pm_level)->where('status',1)->first();
 
-        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter, 'basic_pay' => $basic_pay]);
+        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter, 'basic_pay' => $basic_pay, 'pm_index' => $pm_index]);
     }
 
     public function getmemberCgegisvalue(Request $request)

@@ -13,9 +13,11 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="category_id" id="category_id">
                                     <option value="">Select Category</option>
-                                    @foreach($categories as $category)
+                                    <option value="NPS" {{ $newspaper_allowance->category_id == "NPS" ? 'selected' : ''}}>NPS</option>
+                                    <option value="GPF" {{ $newspaper_allowance->category_id == "GPF" ? 'selected' : ''}}>GPF</option>
+                                    <!-- @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ $newspaper_allowance->category_id == $category->id ? 'selected' :''}}>{{ $category->category }}</option>
-                                    @endforeach
+                                    @endforeach -->
                                 </select>
                                 <span class="text-danger"></span>                         
                             </div>   
@@ -71,9 +73,11 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="category_id" id="category_id">
                                     <option value="">Select Category</option>
-                                    @foreach($categories as $category)
+                                    <option value="NPS">NPS</option>
+                                    <option value="GPF">GPF</option>
+                                    <!-- @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->category }}</option>
-                                    @endforeach
+                                    @endforeach -->
                                 </select>
                                 <span class="text-danger"></span>                         
                             </div>   
