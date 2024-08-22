@@ -1302,21 +1302,35 @@ class ReportController extends Controller
         $levelArray = [];
         $pmIndexArray = [];
         $pmRowArray = [];
-        $pmbasicArray = [];
 
-        // Loop through the $pm_levels array and populate the arrays
+        // Initialize the pmRowArray with empty arrays for each row
+        $pm_rows = PayMatrixRow::all();
+        foreach ($pm_rows as $row) {
+            $pmRowArray[$row->id] = []; // Initialize empty array for each row
+        }
+
         foreach ($pm_levels as $pm_level) {
             $grade_pay = GradePay::where('pay_level', $pm_level->id)->first();
             $pm_index = PmIndex::where('pm_level_id', $pm_level->id)->first();
-            $pm_rows = PayMatrixRow::all();
-            $pm_basics = PayMatrixBasic::where('pay_matrix_row_id', $pm_level->id)->get();
 
             $gradePayArray[] = $grade_pay->amount ?? '';
             $entryPayArray[] = $pm_level->entry_pay ?? '';
             $levelArray[] = $pm_level->value;
             $pmIndexArray[] = $pm_index->value ?? '';
-            $pmRowArray[] = $pm_level->value;
+
+            foreach ($pm_rows as $row) {
+                $pay_matrix_basic = PayMatrixBasic::where('pay_matrix_row_id', $row->id)
+                                                ->where('pm_level_id', $pm_level->id)
+                                                ->first();
+
+                // Add the basic pay value to the correct row
+                $pmRowArray[$row->id][] = $pay_matrix_basic->basic_pay ?? '';
+            }
         }
+
+        // Constructing the structured array
+        
+        // dd($pmRowArray);
 
         // Create the final structured array
         $structuredArray = [
@@ -1324,8 +1338,9 @@ class ReportController extends Controller
             'EntryPay' => $entryPayArray,
             'Level' => $levelArray,
             'PmIndex' => $pmIndexArray,
-
-        ];      
+            'PmRow' => array_values($pmRowArray) // Convert associative array to indexed array
+        ];
+     
         // dd($level_array);
         $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands','pay_level_counts','pm_levels','structuredArray'));
         return $pdf->download('pay-matrix-commission-report-' . '.pdf');
