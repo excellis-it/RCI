@@ -1571,6 +1571,7 @@
             ];
 
             var tot_credits = parseInt($('#tot_credits').val()) || 0;
+           
 
             function updateTotalDebit() {
                 let total = 0;
@@ -1580,7 +1581,8 @@
                 });
 
                 $('#tot_debits').val((total).toFixed(2));
-                $('#net_pay').val((tot_credits - total).toFixed(2));
+                const netPay = Math.max(tot_credits - total, 0);
+                $('#net_pay').val(netPay.toFixed(2));
             }
             // Trigger the AJAX request when the page loads
             updateTotalDebit();

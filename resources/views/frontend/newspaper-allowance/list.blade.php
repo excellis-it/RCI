@@ -247,4 +247,21 @@
             });
         });
     </script>
+
+    <script>
+        $('#group_id').change(function() {
+            var group_id = $(this).val();
+            
+            $.ajax({
+                url: "{{ route('newspaper-allowance.get-designation') }}",
+                type: 'GET',
+                data: {
+                    group_id: group_id
+                },
+                success: function(response) {
+                    $('#category_id').html(response);
+                }
+            });
+        });
+    </script>
 @endpush

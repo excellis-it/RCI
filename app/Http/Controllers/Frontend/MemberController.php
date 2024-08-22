@@ -173,7 +173,7 @@ class MemberController extends Controller
         $member->category = $request->category;
         $member->status = $request->status;
         $member->old_bp = $request->old_bp;
-        $member->g_pay = $request->g_pay_id;
+        $member->g_pay = $request->g_pay_val;
         $member->pay_band = $request->pay_band_id;
         $member->fund_type = $request->fund_type;
         $member->dob = $request->dob;
@@ -199,6 +199,7 @@ class MemberController extends Controller
         $member->member_city = $request->member_city;
         $member->rent_or_not = $request->rent_or_not;
         $member->pran_number = $request->pran_number;
+        $member->member_status = 1;
         $member->save();
 
         session()->flash('message', 'Member added successfully');
