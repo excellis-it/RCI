@@ -548,6 +548,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/get-members-grade-pay',[MemberController::class,'getMemberGradePay'])->name('members.grade-pay');
     Route::post('/get-members-cgegis-value',[MemberController::class,'getmemberCgegisvalue'])->name('members.get-cgegis-value');
     Route::post('/get-members-category-value',[MemberController::class,'getmemberCategoryValue'])->name('members.get-category-value');
+    
 
     //member loan info
     Route::post('/members-loan-info-store',[MemberController::class,'memberLoanInfoStore'])->name('members.loan.store');

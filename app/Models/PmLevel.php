@@ -15,6 +15,11 @@ class PmLevel extends Model
         return $this->belongsTo(PayCommission::class, 'pay_commission');
     }
 
+    public function payBand()
+    {
+        return $this->belongsTo(PayBand::class, 'payband');
+    }
+
     //grade pay relation
     // public function gradePay()
     // {

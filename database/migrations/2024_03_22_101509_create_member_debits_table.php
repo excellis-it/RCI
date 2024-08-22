@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('gpa_sub')->nullable();
             $table->string('gpf_adv')->nullable();
             $table->string('eol')->nullable();
+            $table->string('ccl')->nullable();
             $table->string('rent')->nullable();
             $table->string('lf_arr')->nullable();
             $table->string('tada')->nullable();

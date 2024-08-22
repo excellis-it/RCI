@@ -22,6 +22,7 @@ use App\Models\PaybandType;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberRecovery;
+use App\Models\PayMatrixBasic;
 use App\Models\MemberCoreInfo;
 use App\Models\MemberPersonalInfo;
 use App\Models\Bank;
@@ -117,7 +118,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -133,25 +134,13 @@ class MemberController extends Controller
             'status' => 'required',
             'old_bp' => 'required',
             'g_pay_val' => 'required',
-            'pay_band' => 'required',
             'fund_type' => 'required',
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
-            'doj_service1' => 'required',
             'adhar_number' => 'required',
             'app_date' => 'required',
-            'dop' => 'required',
-            'next_inr' => 'required',
-            'quater' => 'required',
-            'quater_no' => 'required',
-            'doj_service2' => 'required',
-            'pg' => 'required',
-            'cgegis' => 'required',
-            'member_city' => 'required',
-            'rent_or_not' => 'required',
             'pran_number' => 'required',
             'e_status' => 'required',
-            'nps_available' => 'required',
         ]);
 
         //check employee id 
@@ -169,10 +158,11 @@ class MemberController extends Controller
 
         // store data
         $member = new Member();
+        $member->e_status = $request->e_status;
         $member->pers_no = $request->pers_no;
+        $member->name = $request->name;
         $member->emp_id = $constantString . $counter++;
         $member->gender = $request->gender;
-        $member->name = $request->name;
         $member->pm_level = $request->pm_level;
         $member->pm_index = $request->pm_index;
         $member->basic = $request->basic;
@@ -183,14 +173,13 @@ class MemberController extends Controller
         $member->category = $request->category;
         $member->status = $request->status;
         $member->old_bp = $request->old_bp;
-        $member->g_pay = $request->g_pay_val;
-        $member->pay_band = $request->pay_band;
+        $member->g_pay = $request->g_pay_id;
+        $member->pay_band = $request->pay_band_id;
         $member->fund_type = $request->fund_type;
         $member->dob = $request->dob;
         $member->doj_lab = $request->doj_lab;
         $member->doj_service1 = $request->doj_service1;
         $member->adhar_number = $request->adhar_number;
-        $member->nps_available = $request->nps_available;
         $member->gpf_number = $request->gpf_number;
         $member->app_date = $request->app_date;
         $member->dop = $request->dop;
@@ -210,7 +199,6 @@ class MemberController extends Controller
         $member->member_city = $request->member_city;
         $member->rent_or_not = $request->rent_or_not;
         $member->pran_number = $request->pran_number;
-        $member->e_status = $request->e_status;
         $member->save();
 
         session()->flash('message', 'Member added successfully');
@@ -1243,19 +1231,28 @@ class MemberController extends Controller
 
     public function getMemberGradePay(Request $request)
     {
-        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first() ?? null;
-        $basic_pay = PmLevel::where('id', $request->pm_level)->where('year', date('Y'))->orderBy('id', 'desc')->first() ?? null;
-        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first() ?? null;
+        $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first() ?? '';
+        $basic_pays = PayMatrixBasic::where('pm_level_id',$request->pm_level)->where('status',1)->get() ?? '';
+        $quarter = '';
+        if($grade_pay != null) {
+            $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first() ?? '';
+        }
+        $payBand = PmLevel::where('id',$request->pm_level)->where('status',1)->orderBy('id','desc')->with('payBand')->first() ?? '';
         $pm_index = PmIndex::where('pm_level_id',$request->pm_level)->where('status',1)->first();
 
-        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter, 'basic_pay' => $basic_pay, 'pm_index' => $pm_index]);
+        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->where('status',1)->first() ?? '';
+
+        return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter, 'basic_pays' => $basic_pays, 'pm_index' => $pm_index, 'payBand' => $payBand]);
     }
 
     public function getmemberCgegisvalue(Request $request)
     {
-        $cgegis_value = Cgegis::where('group_id', $request->group)->where('status', 1)->first();
-        return response()->json(['cgegis_value' => $cgegis_value]);
+        $designations = Designation::where('group_id', $request->group)->get() ?? '';
+        $cgegis_value = Cgegis::where('group_id', $request->group)->where('status', 1)->first() ?? '';
+        return response()->json(['cgegis_value' => $cgegis_value, 'desigs' => $designations]);
     }
+
+   
 
     public function getmemberCategoryValue(Request $request)
     {
