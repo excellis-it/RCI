@@ -409,14 +409,15 @@ class ReportController extends Controller
             $yearMonths[] = $current->format('M-y');
             $current->addMonth();
         }
+        $category = Category::where('category', 'C')->first();
 
-        $member_data = Member::where('e_status', $request->e_status)->with('desigs')->get();
+        $member_data = Member::where('e_status', $request->e_status)->where('category', $category->id)->with('desigs', 'groups')->get();
         $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $year = $request->report_year;
         $months = $yearMonths;
         $unitCode = 'RCI-CHESS-' . rand(1000, 9999);
-        $category = Category::where('id', $request->category)->first();
+        // $category = Category::where('id', $request->category)->first();
 
         // create an array to store the result member wise
         $result = [];
@@ -722,10 +723,10 @@ class ReportController extends Controller
 
     public function professionalUpdateAllowance()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
-        $members = Member::where('e_status', 'active')->orderBy('id', 'desc')->get();
+        $category = Category::where('category', 'C')->first();
+        $members = Member::where('e_status', 'active')->where('category', $category->id)->orderBy('id', 'desc')->get();
         $financialYears = Helper::getFinancialYears();
-        return view('frontend.reports.professional-update-allowance', compact('categories', 'members', 'financialYears'));
+        return view('frontend.reports.professional-update-allowance', compact('category', 'members', 'financialYears'));
     }
 
     public function professionalUpdateAllowanceGenerate(Request $request) 
@@ -733,8 +734,15 @@ class ReportController extends Controller
         // dd($request->all());
         $type = $request->type;
         if($request->type == 'individual') {
+            $request->validate([
+                'member_id' => 'required',
+                'report_year' => 'required',
+            ]);
             $year = $request->report_year;
         } else {
+            $request->validate([
+                'report_year_group' => 'required',
+            ]);
             $year = $request->report_year_group;
         }
 
@@ -876,16 +884,15 @@ class ReportController extends Controller
 
     public function quaterlyTds()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
+       
         $financialYears = Helper::getFinancialYears();
-        return view('frontend.reports.quaterly-tds-report', compact('categories', 'financialYears'));
+        return view('frontend.reports.quaterly-tds-report', compact('financialYears'));
     }
 
     public function quaterlyTdsGenerate(Request $request)
     {
         $request->validate([
             'e_status' => 'required',
-            'category' => 'required',
             'report_quarter' => 'required',
             'report_year' => 'required',
         ]);
@@ -932,8 +939,7 @@ class ReportController extends Controller
             $number_months = ['01', '02', '03'];
         }
 
-        $members = Member::where('category', $request->category)
-            ->where('e_status', $request->e_status)
+        $members = Member::where('e_status', $request->e_status)
             ->get();
 
         $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months','months', 'year', 'report_quarter', 'report_year','number_months'));
