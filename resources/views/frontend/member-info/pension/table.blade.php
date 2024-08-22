@@ -2,9 +2,9 @@
     @foreach ($pensions as $key => $pension)
         <tr>
             <td> {{ ($pensions->currentPage()-1) * $pensions->perPage() + $loop->index + 1 }}</td>
-            @if($pension->member_id != null)
+            @if($pension->user_id != null)
                 @foreach($members as $member)
-                    @if($member->id == $pension->member_id)
+                    @if($member->id == $pension->user_id)
                         <td>{{ $member->name ?? 'N/A'}}</td>
                     @endif
                 @endforeach
@@ -19,7 +19,7 @@
             <td>{{ $pension->npsg_hpl_amt ?? 'N/A' }}</td>
             <td>{{ $pension->year ?? 'N/A' }}</td>
             <td>{{ $pension->month ?? 'N/A' }}</td>
-            <td class="sepharate"><a data-route="{{route('leave-type.edit', $pension->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+            <td class="sepharate"><a data-route="{{route('member-pension.edit', $pension->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('pm-index.delete', $pension->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>
         </tr>

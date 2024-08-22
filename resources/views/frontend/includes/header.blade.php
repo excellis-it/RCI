@@ -566,10 +566,10 @@
                                     href="{{ route('mobile-allowance.index') }}">Mobile/Landline Allowance</a>
                             </li>
 
-                            {{-- <li class="mb-2">
+                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-pension.index') }}">Member Pension</a>
-                            </li> --}}
+                            </li>
 
                             {{-- manik's work --}}
                             <li class="mb-2">
@@ -578,7 +578,7 @@
                             </li>
                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('tada-plus.index') }}">TA/DA Plus Claim</a>
+                                    href="{{ route('tada-plus.index') }}">TA/DA Final Settlement</a>
                             </li>
                         </ul>
                     </div>

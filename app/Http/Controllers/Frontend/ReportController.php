@@ -1349,16 +1349,40 @@ class ReportController extends Controller
 
     public function daArrears()
     {
-        $financialYears = Helper::getFinancialYears();
-        return view('frontend.reports.da-arrears', compact('financialYears'));
+        // $financialYears = Helper::getFinancialYears();
+        return view('frontend.reports.da-arrears');
     }
 
     public function daArrearsGenerate(Request $request)
     {
+        $from_year = $request->from_year;
+        $from_month = $request->from_month;
+        $to_year = $request->to_year;
+        $to_month = $request->to_month;
+
+        // Construct the start and end dates
+        $start_date = Carbon::create($from_year, $from_month, 1)->startOfMonth();
+        $end_date = Carbon::create($to_year, $to_month, 1)->endOfMonth();
+
         $members = Member::where('e_status', $request->e_status)->get();
         $assessment_year = $request->report_year;
         $current_financial_year = date('Y') . '-' . (date('Y') + 1);
-        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $da_percentage = $daRecords = DearnessAllowancePercentage::whereBetween('year', [$from_year, $to_year])
+                                        ->where(function($query) use ($from_year, $to_year, $from_month, $to_month) {
+                                            $query->where(function($subQuery) use ($from_year, $from_month) {
+                                                $subQuery->where('year', $from_year)
+                                                        ->where('month', '>=', $from_month);
+                                            })
+                                            ->orWhere(function($subQuery) use ($to_year, $to_month) {
+                                                $subQuery->where('year', $to_year)
+                                                        ->where('month', '<=', $to_month);
+                                            })
+                                            ->orWhere(function($subQuery) use ($from_year, $to_year) {
+                                                $subQuery->whereBetween('year', [strval($from_year + 1), strval($to_year - 1)]);
+                                            });
+                                        })
+                                        ->latest()->first();
+                                        dd($da_percentage);
         $da_arrears = MemberCredit::where('member_id', $request->member_id)->where('created_at', $request->report_year)->first();
 
         // $fake_members = [];
