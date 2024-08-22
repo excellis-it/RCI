@@ -68,16 +68,14 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Category </label>
+                                <label>Group </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="category_id" id="category_id">
-                                    <option value="">Select Category</option>
-                                    <option value="NPS">NPS</option>
-                                    <option value="GPF">GPF</option>
-                                    <!-- @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
-                                    @endforeach -->
+                                <select class="form-select" name="group_id" id="group_id">
+                                    <option value="">Select Group</option>
+                                    @foreach($groups as $group)
+                                        <option value="{{ $group->id }}">{{ $group->value }}</option>
+                                    @endforeach
                                 </select>
                                 <span class="text-danger"></span>                         
                             </div>   

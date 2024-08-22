@@ -957,7 +957,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="net_pay" id="net_pay"
-                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? 0) }}" placeholder="" readonly>
+                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? 0) }}" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

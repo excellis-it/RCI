@@ -855,7 +855,7 @@
                     success: function(response) {
 
                         //windows load with toastr message
-                        //window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
 
@@ -898,7 +898,7 @@
                         $basicSelect.empty(); // Clear existing options
                         $basicSelect.append('<option value="">Select</option>');
                         $.each(response.basic_pays, function(index, basic_pay) {
-                            $basicSelect.append('<option value="' + basic_pay.id +
+                            $basicSelect.append('<option value="' + basic_pay.basic_pay +
                                 '">' + basic_pay.basic_pay + '</option>');
                         });
 

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Pg extends Model
 {
     use HasFactory;
+    
 }

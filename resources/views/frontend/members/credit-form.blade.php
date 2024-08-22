@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="pay" id="basic-pay"
-                            value="{{ $member->basic  ?? (old('basic') ?? '') }}" placeholder="" readonly>
+                            value="{{ $member->basic  ?? (old('basic') ?? '') }}" placeholder="" >
                         <span class="text-danger"></span>
                     </div>
                 </div>

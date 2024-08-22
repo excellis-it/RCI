@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\NewspaperAllowance;
 use App\Models\MemberNewspaperAllowance;
 use App\Models\Member;
+use App\Models\Group;
 
 class NewspaperAllowanceController extends Controller
 {
@@ -16,9 +17,10 @@ class NewspaperAllowanceController extends Controller
      */
     public function index()
     {
+        $groups = Group::where('status',1)->get();
         $categories = Category::where('status',1)->get();
         $newspaper_allows = NewspaperAllowance::paginate(10);
-        return view('frontend.newspaper-allowance.list',compact('categories','newspaper_allows'));
+        return view('frontend.newspaper-allowance.list',compact('categories','newspaper_allows','groups'));
     }
 
     public function fetchData(Request $request)
