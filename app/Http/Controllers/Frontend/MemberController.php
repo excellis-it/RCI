@@ -288,13 +288,16 @@ class MemberController extends Controller
         $inputs = $request->all();
         $rules = [];
         $requiredField = 'pay';
+        $nonNumericField = 'remarks';
 
         if (array_key_exists($requiredField, $inputs)) {
             $rules[$requiredField] = 'required|numeric';
         }
 
         foreach ($inputs as $field => $value) {
-            if ($field !== $requiredField) {
+            if ($field === $nonNumericField) {
+                $rules[$field] = 'string';
+            } elseif ($field !== $requiredField) {
                 $rules[$field] = 'numeric';
             }
         }
@@ -1297,7 +1300,7 @@ class MemberController extends Controller
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $member = Member::where('id', $request->memberID)->first();
         $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
-        $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('status', 1)->first();
+        $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
         $basicPay = $request->basicPay;
 
         $daAmount = ($basicPay * $da_percentage->percentage) / 100;

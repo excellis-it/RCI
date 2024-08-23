@@ -1361,35 +1361,182 @@ class ReportController extends Controller
         $to_year = $request->to_year;
         $to_month = $request->to_month;
 
-        // Construct the start and end dates
         $start_date = Carbon::create($from_year, $from_month, 1)->startOfMonth();
         $end_date = Carbon::create($to_year, $to_month, 1)->endOfMonth();
 
         $members = Member::where('e_status', $request->e_status)->get();
-        $assessment_year = $request->report_year;
-        $current_financial_year = date('Y') . '-' . (date('Y') + 1);
-        $da_percentage = $daRecords = DearnessAllowancePercentage::whereBetween('year', [$from_year, $to_year])
-                                        ->where(function($query) use ($from_year, $to_year, $from_month, $to_month) {
-                                            $query->where(function($subQuery) use ($from_year, $from_month) {
-                                                $subQuery->where('year', $from_year)
-                                                        ->where('month', '>=', $from_month);
-                                            })
-                                            ->orWhere(function($subQuery) use ($to_year, $to_month) {
-                                                $subQuery->where('year', $to_year)
-                                                        ->where('month', '<=', $to_month);
-                                            })
-                                            ->orWhere(function($subQuery) use ($from_year, $to_year) {
-                                                $subQuery->whereBetween('year', [strval($from_year + 1), strval($to_year - 1)]);
-                                            });
-                                        })
-                                        ->latest()->first();
-                                        dd($da_percentage);
-        $da_arrears = MemberCredit::where('member_id', $request->member_id)->where('created_at', $request->report_year)->first();
+
+        $due_da_percentage_for_heading = DearnessAllowancePercentage::whereBetween('year', [$from_year, $to_year])
+            ->where(function($query) use ($from_year, $to_year, $from_month, $to_month) {
+                $query->where(function($subQuery) use ($from_year, $from_month) {
+                    $subQuery->where('year', $from_year)
+                            ->where('month', '>=', $from_month);
+                })
+                ->orWhere(function($subQuery) use ($to_year, $to_month) {
+                    $subQuery->where('year', $to_year)
+                            ->where('month', '<=', $to_month);
+                })
+                ->orWhere(function($subQuery) use ($from_year, $to_year) {
+                    $subQuery->whereBetween('year', [strval($from_year + 1), strval($to_year - 1)]);
+                });
+            })
+            ->latest()->first();
+
+        $drawn_da_percentage_for_heading = DearnessAllowancePercentage::whereBetween('year', [$from_year, $to_year])
+            ->where(function($query) use ($from_year, $to_year, $from_month, $to_month) {
+                $query->where(function($subQuery) use ($from_year, $from_month) {
+                    $subQuery->where('year', $from_year)
+                            ->where('month', '>=', $from_month);
+                })
+                ->orWhere(function($subQuery) use ($to_year, $to_month) {
+                    $subQuery->where('year', $to_year)
+                            ->where('month', '<=', $to_month);
+                })
+                ->orWhere(function($subQuery) use ($from_year, $to_year) {
+                    $subQuery->whereBetween('year', [strval($from_year + 1), strval($to_year - 1)]);
+                });
+            })
+            ->where('is_active', 0)
+            ->latest()->first();
+
+        $da_percentage_diff_heading = $due_da_percentage_for_heading->percentage - $drawn_da_percentage_for_heading->percentage;
+
+        $report = [];
+
+        foreach ($members as $index => $member) {
+            $current_date = clone $start_date;
+            $memberData = [];
+            
+            // Initialize cumulative totals for the member
+            $cumulativeDaDiff = 0;
+            $cumulativeTptDiff = 0;
+
+            while ($current_date <= $end_date) {
+                $year = $current_date->year;
+                $month = $current_date->month;
+
+                $da_percentage = DearnessAllowancePercentage::where('year', $year)
+                                                            ->where('month', $month)
+                                                            ->first();
+
+                $prev_da_percentage = DearnessAllowancePercentage::where('year', $year)
+                                                                ->where('month', '<=', $month)
+                                                                ->where('is_active', 0)
+                                                                ->latest()
+                                                                ->first();
+
+                $basic = $member->basic;
+                $g_pay = $member->g_pay;
+                if($da_percentage) {
+                    $da_due = $basic * $da_percentage->percentage / 100;
+                } else {
+                    $da_due = 0;
+                }
+                if($prev_da_percentage) {
+                    $da_drawn = $basic * $prev_da_percentage->percentage / 100;
+                } else {
+                    $da_drawn = 0;
+                }
+                $da_diff = $da_due - $da_drawn;
+
+                $tptData = MemberCredit::where('member_id', $member->id)
+                                        ->whereYear('created_at', $year)
+                                        ->whereMonth('created_at', $month)
+                                        ->select('tpt', 'da_on_tpt')
+                                        ->first();
+            
+                if($tptData) {
+                    $tpt_due = $tptData->tpt + ($tptData->tpt * $da_percentage->percentage / 100);
+                    $tpt_drawn = $tptData->tpt + $tptData->da_on_tpt;
+                    $tpt_diff = $tpt_due - $tpt_drawn;
+                } else {
+                    $tpt_due = 0;
+                    $tpt_drawn = 0;
+                    $tpt_diff = 0;
+                }
+
+                $npsData = MemberDebit::where('member_id', $member->id)
+                                        ->whereYear('created_at', $year)
+                                        ->whereMonth('created_at', $month)
+                                        ->select('pension_rec', 'eol', 'npsg')
+                                        ->first();
+
+                if($npsData) {
+                    $nps = $npsData->npsg + $npsData->pension_rec;
+                    $eol = $npsData->eol;
+                } else {
+                    $nps = 0;
+                    $eol = 0;
+                }
+
+                $total = $da_due + $tpt_due - $da_drawn - $tpt_drawn;
+                $final = $total - $nps;
+
+                // Accumulate the monthly values for the cumulative row
+                $cumulativeDaDiff += $da_diff;
+                $cumulativeTptDiff += $tpt_diff;
+
+                // Populate report structure for this month
+                $memberData[] = [
+                    'Sl_No' => $index + 1,
+                    'Emp_ID' => $member->emp_id,
+                    'Name' => $member->name,
+                    'Desig' => $member->designation->designation,
+                    'Month' => $current_date->format('M-Y'),
+                    'Basic' => $basic,
+                    'GPAY' => $g_pay,
+                    'Due' => $da_due,
+                    'Drawn' => $da_drawn,
+                    'Diff' => $da_diff,
+                    'TPT_Due' => $tpt_due,
+                    'TPT_Drawn' => $tpt_drawn,
+                    'TPT_Diff' => $tpt_diff,
+                    'NPS' => $nps,
+                    'EOl' => $eol,
+                    'Final' => $final,
+                    'Remarks' => '' // Placeholder for any remarks
+                ];
+
+                // Move to the next month
+                $current_date->addMonth();
+            }
+
+            // Add cumulative data row for DA Difference and TPT Difference
+            $memberData[] = [
+                'Sl_No' => '', // leave blank
+                'Emp_ID' => '', // leave blank
+                'Name' => '', // leave blank
+                'Desig' => '', // leave blank
+                'Month' => '',
+                'Basic' => '',
+                'GPAY' => '',
+                'Due' => '',
+                'Drawn' => '',
+                'Diff' => $cumulativeDaDiff,
+                'TPT_Due' => '',
+                'TPT_Drawn' => '',
+                'TPT_Diff' => $cumulativeTptDiff,
+                'NPS' => '',
+                'EOl' => '',
+                'Final' => '', // leave blank
+                'Remarks' => '' // leave blank
+            ];
+
+            // Merge member data with the overall report
+            $report = array_merge($report, $memberData);
+        }
+
+
+
+
+        // The $report array now holds the data in the required structure.
+
+        // $da_arrears = MemberCredit::where('member_id', $request->member_id)->where('created_at', $request->report_year)->first();
 
         // $fake_members = [];
 
-        $pdf = PDF::loadView('frontend.reports.da-arrears-generate', compact('members', 'assessment_year', 'current_financial_year', 'da_percentage', 'da_arrears'));
-        return $pdf->download('da-arrears-' . $assessment_year . '.pdf');
+        $pdf = PDF::loadView('frontend.reports.da-arrears-generate-new', compact('report', 'da_percentage_diff_heading', 'due_da_percentage_for_heading', 'drawn_da_percentage_for_heading', 'start_date', 'end_date'));
+        return $pdf->download('da-arrears-' . Carbon::parse($start_date)->format('M-Y') . 'to' . Carbon::parse($end_date)->format('M-Y') . '.pdf');
     }
     
 }
