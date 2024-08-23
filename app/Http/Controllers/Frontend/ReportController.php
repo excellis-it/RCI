@@ -67,7 +67,7 @@ class ReportController extends Controller
             'year' => 'required',
         ]);
 
-        $member_data = Member::where('id', $request->member_id)->first() ?? '';
+        $member_data = Member::where('id', $request->member_id)->where('pay_stop','No')->first() ?? '';
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first() ?? '';
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first() ?? '';
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first() ?? '';
