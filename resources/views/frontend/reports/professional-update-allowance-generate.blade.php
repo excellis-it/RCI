@@ -90,6 +90,19 @@
                       border-top: 1px solid #000;
                       border-left: 1px solid #000;
                     ">
+                  GPF/NPS No.
+                </th>
+                <th style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-top: 1px solid #000;
+                      border-left: 1px solid #000;
+                    ">
                   Designation
                 </th>
                 <th style="
@@ -179,6 +192,21 @@
                 border-bottom: 1px solid #000;
               ">
               {{ $member_data['member']->name ?? '' }}
+                </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
+              {{ $member_data['member']->pran_number ??  $member_data['member']->gpf_number ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -307,6 +335,19 @@
                     ">
                   Name
                 </th>
+                <th style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 600;
+                    color: #000;
+                    text-align: center;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    border-top: 1px solid #000;
+                    border-left: 1px solid #000;
+                  ">
+                GPF/NPS No.
+              </th>
                 <th style="
                       font-size: 10px;
                       line-height: 14px;
@@ -437,6 +478,21 @@
                 border-top: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
+              {{ $data['member']->pran_number ?? $data['member']->gpf_number ?? '' }}
+                </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
               {{ $data['member']->desigs->designation ?? '' }}
                 </td>
                 <td style="
@@ -506,7 +562,7 @@
             @else
             <tbody>
               <tr>
-                <td colspan="8" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;
+                <td colspan="9" style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;
                   height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
                   No Data Found
                 </td>

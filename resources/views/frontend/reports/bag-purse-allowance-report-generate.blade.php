@@ -102,6 +102,21 @@
                       text-transform: uppercase;
                     "
                   >
+                    GPF/NPS No.
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
                     Designation
                   </th>
                   <th
@@ -225,6 +240,19 @@
                       border: 1px solid #000;
                       height: 10px;
                     "
+                  >{{ $member_detail->pran_number ?? $member_detail->gpf_number ?? 'N/A' }}</td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
                   >{{$member_detail->desigs->designation ?? 'N/A'}}</td>
                   <td
                     style="
@@ -293,8 +321,9 @@
                   >{{ $member_purse_allowance->remarks ?? 'N/A'}}</td>
                 </tr>
                 @endforeach
-                @else<tr>
-                  <td
+                @else
+                <tr>
+                  <td colspan="9"
                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -306,9 +335,8 @@
                       border: 1px solid #000;
                       height: 10px;
                     "
-                  >
-                    
-                  </td>
+                  >  No data available</td>
+                  {{-- </td>
                   <td
                     style="
                       font-size: 10px;
@@ -400,6 +428,19 @@
                       height: 10px;
                     "
                   >N/A</td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
+                  >N/A</td> --}}
                 </tr>
                 @endif
                 {{-- <tr>

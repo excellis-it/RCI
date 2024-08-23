@@ -253,6 +253,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
     // newspaper allowance fetch
     Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
+    Route::get('/newspaper-allowance-get-designation', [NewspaperAllowanceController::class, 'newspaperGroupDesignation'])->name('newspaper-allowance.get-designation');
     // family member
     Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
 

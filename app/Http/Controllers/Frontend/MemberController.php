@@ -130,7 +130,7 @@ class MemberController extends Controller
             'division' => 'required',
             'group' => 'required',
             'cadre' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
             'status' => 'required',
             'old_bp' => 'required',
             'g_pay_val' => 'required',
@@ -170,7 +170,7 @@ class MemberController extends Controller
         $member->division = $request->division;
         $member->group = $request->group;
         $member->cadre = $request->cadre;
-        $member->category = $request->category;
+        $member->category = $request->category_id;
         $member->status = $request->status;
         $member->old_bp = $request->old_bp;
         $member->g_pay = $request->g_pay_val;

@@ -432,6 +432,7 @@ class ReportController extends Controller
         foreach ($member_data as $member) {
             $result[$member->id] = [
                 'name' => $member->name,
+                'gpf_nps' => $member->gpf_number ?? $member->pran_number ?? 'N/A',
                 'emp_id' => $member->emp_id,
                 'designation' => $member->desigs->designation ?? 'N/A',
                 'doj' => $member->doj_lab,

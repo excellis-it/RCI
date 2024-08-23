@@ -24,12 +24,12 @@ return new class extends Migration
             $table->bigInteger('division')->unsigned()->nullable();
             $table->bigInteger('group')->unsigned()->nullable();
             $table->bigInteger('cadre')->unsigned()->nullable();
-            $table->string('category')->nullable();
+            $table->bigInteger('category')->nullable();
             $table->string('status')->nullable();
             $table->string('old_bp')->nullable();
             $table->string('g_pay')->nullable();
             $table->bigInteger('pay_band')->unsigned()->nullable();
-            $table->bigInteger('fund_type')->unsigned()->nullable();
+            $table->string('fund_type')->nullable();
             $table->date('dob')->nullable();
             $table->string('doj_lab')->nullable();
             $table->string('doj_service1')->nullable();

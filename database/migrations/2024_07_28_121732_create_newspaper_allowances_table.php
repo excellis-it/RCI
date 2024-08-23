@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('newspaper_allowances', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->string('duration')->nullable();
+            $table->string('year')->nullable();
+            $table->string('month_duration')->nullable();
             $table->string('max_allocation_amount')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();

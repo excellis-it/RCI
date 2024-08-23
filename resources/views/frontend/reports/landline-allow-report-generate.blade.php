@@ -39,7 +39,7 @@
                     "
                   ></td>
                   <td
-                    colspan="11"
+                    colspan="12"
                     style="
                       font-size: 14px;
                       line-height: 18px;
@@ -171,7 +171,7 @@
                     "
                   ></td>
                   <td
-                    colspan="2"
+                    colspan="3"
                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -199,6 +199,20 @@
                     "
                   >
                     Name & Designation Shril Smt/Ms.
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
+                    GPF/NPS No.
                   </td>
                   <td
                     style="
@@ -382,8 +396,23 @@
                       border: 1px solid #000;
                     "
                   >
+                  {{ $member_detail->pran_number ?? $member_detail->gpf_number ?? 'N/A' }}
+                  </td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    "
+                  >
                   {{ $month_name ?? 'N/A'}}
                   </td>
+                  
                   <td
                     style="
                       font-size: 10px;

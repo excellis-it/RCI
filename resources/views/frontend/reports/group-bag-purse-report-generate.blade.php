@@ -102,6 +102,21 @@
                       text-transform: uppercase;
                     "
                   >
+                    GPF/NPS No.
+                  </th>
+                  <th
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      text-transform: uppercase;
+                    "
+                  >
                     Designation
                   </th>
                   <th
@@ -225,6 +240,19 @@
                       border: 1px solid #000;
                       height: 10px;
                     "
+                  >{{ $member_purse_allowance['pran_number'] ?? $member_purse_allowance['gpf_number'] ?? 'N/A'}}</td>
+                  <td
+                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 10px;
+                    "
                   >{{ $member_purse_allowance['designation']  ?? 'N/A'}}</td>
                   <td
                     style="
@@ -295,7 +323,8 @@
                 @endforeach
                 @else
                 <tr>
-                    <td
+                  <tr>
+                    <td colspan="9"
                       style="
                         font-size: 10px;
                         line-height: 14px;
@@ -307,100 +336,7 @@
                         border: 1px solid #000;
                         height: 10px;
                       "
-                    >
-                      0
-                    </td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
-                    <td
-                      style="
-                        font-size: 10px;
-                        line-height: 14px;
-                        font-weight: 400;
-                        color: #000;
-                        text-align: center;
-                        padding: 0px 5px !important;
-                        margin: 0px 0px !important;
-                        border: 1px solid #000;
-                        height: 10px;
-                      "
-                    >N/A</td>
+                    >  No data available</td>
                   </tr>
                 @endif
                 {{-- <tr>

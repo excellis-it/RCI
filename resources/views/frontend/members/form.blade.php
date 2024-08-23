@@ -318,21 +318,27 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-6 mb-2">
+                                                    {{-- <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Fund Type</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select class="form-select" name="fund_type"
-                                                                    id="fund_type">
-                                                                    <option value="">Select</option>
-                                                                    @foreach ($fundTypes as $fundType)
-                                                                        <option value="{{ $fundType->id }}">
-                                                                            {{ $fundType->value }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="text" class="form-control"
+                                                                    name="fund_type" id="fund_type">
+                                                                
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div> --}}
+                                                    <div class="form-group col-md-6 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>Aadhar No.</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control"
+                                                                    name="adhar_number" id="adhar_number" placeholder="">
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -477,39 +483,46 @@
                                                                 <label>Category</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control" id="category"
-                                                                    name="category" readonly>
+                                                                <select class="form-select" name="category_id"
+                                                                    id="category">
+                                                                    <option value="">Select</option>
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->id }}">
+                                                                    {{ $category->category }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     {{-- <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>NPS Available</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-inline">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="nps_available" id="inlineRadio1"
-                                                        value="Yes">
-                                                    <label class="form-check-label"
-                                                        for="inlineRadio1">Yes</label>
-                                                </div>
-                                                <div class="form-check form-check-inline ml-2">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="nps_available" id="inlineRadio2"
-                                                        value="No">
-                                                    <label class="form-check-label"
-                                                        for="inlineRadio2">No</label>
-                                                </div>
-                                                
-                                            </div>
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>NPS Available</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-inline">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="nps_available" id="inlineRadio1"
+                                                                            value="Yes">
+                                                                        <label class="form-check-label"
+                                                                            for="inlineRadio1">Yes</label>
+                                                                    </div>
+                                                                    <div class="form-check form-check-inline ml-2">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="nps_available" id="inlineRadio2"
+                                                                            value="No">
+                                                                        <label class="form-check-label"
+                                                                            for="inlineRadio2">No</label>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div> --}}
 
                                                     <div class="form-group col-md-4 mb-2" id="gpf_div" hidden>
                                                         <div class="row align-items-center">
@@ -568,7 +581,22 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="form-group col-md-6 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>Fund Type</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control"
+                                                                    name="fund_type" id="fund_type">
+                                                                
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                    
+                                                    {{-- <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Aadhar No.</label>
@@ -579,7 +607,7 @@
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
 
@@ -980,11 +1008,11 @@
                 var doj_lab = $(this).val();
                 var doj_lab_year = new Date(doj_lab).getFullYear();
                 if (doj_lab_year > 2004) {
-                    $('#category').val('NPS');
+                    $('#fund_type').val('NPS');
                     $('#nps_div').prop('hidden', false);
                     $('#gpf_div').prop('hidden', true);
                 } else {
-                    $('#category').val('GPF');
+                    $('#fund_type').val('GPF');
                     $('#gpf_div').prop('hidden', false);
                     $('#nps_div').prop('hidden', true);
                 }

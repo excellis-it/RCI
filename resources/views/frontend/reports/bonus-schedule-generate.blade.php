@@ -137,6 +137,19 @@
                       border-top: 1px solid #000;
                       border-bottom: 1px solid #000;
                     ">
+                  GPF/NPS No.
+                </th>
+                <th style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-top: 1px solid #000;
+                      border-bottom: 1px solid #000;
+                    ">
                   Desig
                 </th>
                 <th style="
@@ -265,6 +278,17 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
+                  {{  $data['gpf_nps'] ?? 'N/A' }}
+                </td>
+                <td style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                    ">
                  {{  $data['designation'] }}                 
                 </td>
                 <td style="
@@ -340,7 +364,7 @@
             @else
             <tbody>
               <tr>
-                <td colspan="10" style="
+                <td colspan="11" style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -356,7 +380,7 @@
             @endif
             <tfoot>
               <tr>
-                <th colspan="6" style="
+                <th colspan="7" style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 600;

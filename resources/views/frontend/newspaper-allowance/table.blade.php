@@ -2,6 +2,7 @@
     @foreach ($newspaper_allows as $key => $newspaper_allow)
         <tr>
             <td> {{ ($newspaper_allows->currentPage()-1) * $newspaper_allows->perPage() + $loop->index + 1 }}</td>
+            <td>{{ $newspaper_allow->duration == 'half_yearly' ? 'Half Yearly' : 'Yearly' }}</td>
             <td>{{ $newspaper_allow->category->category ?? 'N/A'}}</td>
             <td>{{ $newspaper_allow->max_allocation_amount ?? 'N/A'}}</td>
             <td class="sepharate"><a data-route="{{route('newspaper-allowance.edit', $newspaper_allow->id)}}" href="javascript:void(0);" class="edit_pencil edit-route-loan"><i class="ti ti-pencil"></i></a>
