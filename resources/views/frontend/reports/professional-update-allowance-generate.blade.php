@@ -556,6 +556,7 @@
               ">
               {{ $data['total_pua'] ?? 0 }}
                 </td>
+                
               </tr>
             @endforeach
             </tbody>
