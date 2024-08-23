@@ -112,6 +112,20 @@
                                                                 </div>
                                                             </div>
                                                         </div> 
+
+                                                        <div class="form-group col-md-3 mb-2 type-select" >
+                                                            <div class="col-md-12">
+                                                                <label>A/c Officer Sign</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="accountant" class="form-select" id="accountant">
+                                                                    <option value="">Select </option>
+                                                                    @foreach($accountants as $accountant)
+                                                                        <option value="{{ $accountant->user_name }}">{{ $accountant->user_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

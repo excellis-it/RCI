@@ -57,7 +57,7 @@ class TaDaAdvanceController extends Controller
     {
         $id=$request->id;
         $data = TadaAdvance::findOrFail($id);
-        $member = Member::with('desigs')->where('id', $data->member_id)->get()->first() ?? '';
+        $member = Member::with('desigs')->where('id', $data->member_id)->where('pay_stop','No')->get()->first() ?? '';
 
         $project = Project::where('id', $data->project_id)->get()->first() ?? '';
         $memberInfo = MemberCoreInfo::where('member_id', $data->member_id)->first() ?? '';

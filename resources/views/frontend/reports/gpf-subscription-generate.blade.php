@@ -94,7 +94,7 @@
                                 font-weight: 400;
                                 color: #000;
                                 text-align: center;  padding: 0px 5px 30px 5px;">
-                                    GPF NO: <strong>{{ $member_core_info->gpf_acc_no ?? '' }}</strong>
+                                    GPF NO: <strong>{{ $member->gpf_number ?? $member->pran_number ??  '' }}</strong>
                                 </td>
                             </tr>
                         </tbody>
@@ -241,7 +241,7 @@
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: right; padding-left: 10px;">D. Madhu Sudan Reddy<br>Accounts Officer<br>For
+                                text-align: right; padding-left: 10px;">{{ $accountant ?? '' }}<br>Accounts Officer<br>For
                                     Director
                                 </td>
                             </tr>

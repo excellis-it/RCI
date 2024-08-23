@@ -126,9 +126,9 @@ Bag/Ladies Purse Allowance
 
                                                             </select>
 
-                                                            @if ($errors->has('member_id'))
+                                                            @if ($errors->has('year'))
                                                                 <div class="error" style="color:red;">
-                                                                    {{ $errors->first('member_id') }}</div>
+                                                                    {{ $errors->first('year') }}</div>
                                                             @endif
                                                         </div>
                                                     </div>

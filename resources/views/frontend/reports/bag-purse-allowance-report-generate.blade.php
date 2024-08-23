@@ -266,7 +266,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     "
-                  >{{$member_detail->payLevels->payLevels ?? 'N/A'}}</td>
+                  >{{$member_detail->payLevels->value ?? 'N/A'}}</td>
                   <td
                     style="
                       font-size: 10px;

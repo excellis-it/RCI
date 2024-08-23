@@ -13,7 +13,8 @@ Ltc Advance Allowance
 <div class="container-fluid">
     <div class="breadcome-list">
         <div class="d-flex">
-            <div class="arrow_left"><a href="{{ route('members.index') }}" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+            <div class="arrow_left"><a href="{{ route('members.index') }}" class="text-white"><i
+                        class="ti ti-arrow-left"></i></a></div>
             <div class="">
                 <h3>Ltc Advance Allowance Generate</h3>
                 <ul class="breadcome-menu mb-0">
@@ -41,7 +42,7 @@ Ltc Advance Allowance
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
 
-                                                
+
                                                     <div class="form-group col-md-3 mb-2 emp_status">
                                                         <div class="col-md-12">
                                                             <label>Employee Status</label>
@@ -54,8 +55,8 @@ Ltc Advance Allowance
                                                             </select>
 
                                                             @if ($errors->has('e_status'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('e_status') }}</div>
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('e_status') }}</div>
                                                             @endif
 
                                                         </div>
@@ -70,47 +71,44 @@ Ltc Advance Allowance
                                                             </select>
 
                                                             @if ($errors->has('member_id'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('member_id') }}</div>
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('member_id') }}</div>
                                                             @endif
                                                         </div>
                                                     </div>
-
-                                                   
-                                                    
-                                                    </div>
                                                 </div>
-
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- save cancel button design in right corner --}}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row justify-content-end">
-                                        <div class="col-md-3">
-                                            <div class="row justify-content-end">
-                                                <div class="form-group col-md-6 mb-2">
-                                                    <button type="submit" class="listing_add">Generate</button>
-                                                </div>
-
-                                                {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
+
+                    {{-- save cancel button design in right corner --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row justify-content-end">
+                                <div class="col-md-3">
+                                    <div class="row justify-content-end">
+                                        <div class="form-group col-md-6 mb-2">
+                                            <button type="submit" class="listing_add">Generate</button>
+                                        </div>
+
+                                        {{-- <div class="form-group col-md-6 mb-2">
+                                            <button type="submit" class="listing_exit">Cancel</button>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

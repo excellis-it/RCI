@@ -240,7 +240,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     "
-                  >{{ $member_purse_allowance['pran_number'] ?? $member_purse_allowance['gpf_number'] ?? 'N/A'}}</td>
+                  >{{ $member_purse_allowance['gpf_pran'] ?? 'N/A'}}</td>
                   <td
                     style="
                       font-size: 10px;

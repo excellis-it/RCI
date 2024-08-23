@@ -287,52 +287,130 @@
                 </div>
             </div>
 
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Landline Number</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Landline Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="landline_no" id="landline_no"
+                                    value="{{ $member_personal->landline_no ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="landline_no" id="landline_no"
-                            value="{{ $member_personal->landline_no ?? '' }}"
-                            placeholder="">
-                        <span class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Mobile Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="mobile_no" id="mobile_no"
+                                    value="{{ $member_personal->mobile_no ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Mobile Number</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="mobile_no" id="mobile_no"
-                            value="{{ $member_personal->mobile_no ?? '' }}"
-                            placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Desig</label>
-                    </div>
-                    <div class="col-md-12">
-                        <select class="form-select" name="desig" id="desig">
-                            <option value="">Select</option>
-                            @foreach ($designations as $designation)
-                                <option value="{{ $designation->id }}"
-                                    {{ (isset($member_personal->desig) || isset($member->desig)) && ($designation->id == ($member_personal->desig ?? $member->desig ?? null)) ? 'selected' : '' }}>
-                                    {{ $designation->designation }}</option>
-                            @endforeach
-                        </select>
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
             <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Mobile Allowance</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="mobile_allowance" id="mobile_allowance"
+                                    value="{{ $member_personal->mobile_allowance ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Broadband Allowance</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="broadband_allowance" id="broadband_allowance"
+                                    value="{{ $member_personal->broadband_allowance ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Landline Allowance</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="landline_allowance" id="landline_allowance"
+                                    value="{{ $member_personal->landline_allowance ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Cr Water</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="cr_water" id="cr_water"
+                                    value="{{ $member_personal->cr_water ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desig</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="desig" id="desig">
+                                    <option value="">Select</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}"
+                                            {{ (isset($member_personal->desig) || isset($member->desig)) && ($designation->id == ($member_personal->desig ?? $member->desig ?? null)) ? 'selected' : '' }}>
+                                            {{ $designation->designation }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -353,6 +431,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -388,9 +469,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -405,6 +483,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -432,6 +515,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">  
+                <div class="col-md-6">  
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -446,63 +534,69 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>CGEGIS</label>
-                        </div>
-                        <div class="col-md-6">
-                            <select class="form-select" name="cgegis" id="cgegis">
-                                <option value="">Select</option>
-                                @foreach ($cgegises as $cgegis)
-                                    <option value="{{ $cgegis->id }}"
-                                        {{ (isset($member_personal->cgegis) || isset($member->cgegis)) && ($cgegis->id == ($member_personal->cgegis ?? $member->cgegis ?? null)) ? 'selected' : '' }}>
-                                        {{ $cgegis->value }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="cgegis_text" id="cgegis_text"
-                                value="{{ $member_personal->cgegis_text ?? ($member->cgegis_text ?? '') }}"
-                                placeholder="">
-                            <span class="text-danger"></span>
+                <div class="col-md-6">  
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>CGEGIS</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="cgegis" id="cgegis">
+                                    <option value="">Select</option>
+                                    @foreach ($cgegises as $cgegis)
+                                        <option value="{{ $cgegis->id }}"
+                                            {{ (isset($member_personal->cgegis) || isset($member->cgegis)) && ($cgegis->id == ($member_personal->cgegis ?? $member->cgegis ?? null)) ? 'selected' : '' }}>
+                                            {{ $cgegis->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group mb-3">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Paystop</label>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio1"
-                                    value="Yes"
-                                    {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
-                                    (($member_personal->pay_stop ?? null) == 'Yes' || ($member->pay_stop ?? null) == 'Yes')
-                                   ? 'checked'
-                                   : '' }}>
-                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+
+            <div class="row">    
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="cgegis_text" id="cgegis_text"
+                        value="{{ $member_personal->cgegis_text ?? ($member->cgegis_text ?? '') }}"
+                        placeholder="">
+                    <span class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Paystop</label>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio2"
-                                    value="No"
-                                    {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
-                                    (($member_personal->pay_stop ?? null) == 'No' || ($member->pay_stop ?? null) == 'No')
-                                   ? 'checked'
-                                   : '' }}>
-                                <label class="form-check-label" for="inlineRadio2">No</label>
+                            <div class="col-md-12">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio1"
+                                        value="Yes"
+                                        {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
+                                        (($member_personal->pay_stop ?? null) == 'Yes' || ($member->pay_stop ?? null) == 'Yes')
+                                       ? 'checked'
+                                       : '' }}>
+                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="pay_stop" id="inlineRadio2"
+                                        value="No"
+                                        {{ (isset($member_personal->pay_stop) || isset($member->pay_stop)) &&
+                                        (($member_personal->pay_stop ?? null) == 'No' || ($member->pay_stop ?? null) == 'No')
+                                       ? 'checked'
+                                       : '' }}>
+                                    <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                               
                             </div>
-                           
                         </div>
                     </div>
                 </div>
             </div>
+                    
+          
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group mb-2">

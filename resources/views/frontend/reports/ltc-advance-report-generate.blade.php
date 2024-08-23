@@ -210,7 +210,7 @@
                 border-bottom: 1px solid #000;
               ">
                                     Mr. {{ $member->name ?? '' }}, {{ $member->emp_id ?? '' }},
-                                    ({{ $member->gpf_pran_no ?? '' }}) {{ $member->bank_ac_no ?? '' }}
+                                    ({{ $member->gpf_number ?? $member->pran_number ?? '' }}) {{ $member->bank_ac_no ?? '' }}
                                  
                                 </td>
                                 <td
