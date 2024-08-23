@@ -1,17 +1,24 @@
 @if (isset($edit))
-    <form action="{{ route('member-pension.update', $pensionRate->id) }}" method="POST" id="pension-edit-form">
+    <form action="{{ route('member-pension.update', $member_pension->id) }}" method="POST" id="pension-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>NPSC Credit Rate</label>
+                                <label>Member Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_credit_rate" id="npsc_credit_rate" value="{{ $pensionRate->npsc_credit_rate }}" >
+                                <select name="member_id" class="form-select" id="member_id">
+                                    <option value="">Select Member</option>
+                                    @foreach ($members as $member)
+                                        <option value="{{ $member->id }}" {{ ($member_pension->user_id == $member->id) ? 'selected' : '' }}>
+                                            {{ $member->name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -20,10 +27,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>NPSG Credit Rate</label>
+                                <label>NPSC Sub. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_credit_rate" id="npsg_credit_rate" placeholder="" value="{{ $pensionRate->npsg_credit_rate }}">
+                                <input type="text" class="form-control" name="npsc_sub_amt" id="npsc_sub_amt" value="{{ $member_pension->npsc_sub_amt }}" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -32,10 +39,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>NPSC Debit Rate</label>
+                                <label>NPSG Sub. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_debit_rate" id="npsc_debit_rate" placeholder="" value="{{ $pensionRate->npsc_debit_rate }}">
+                                <input type="text" class="form-control" name="npsg_sub_amt" id="npsg_sub_amt" placeholder="" value="{{ $member_pension->npsg_sub_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -46,10 +53,72 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>NPSG Debit Rate</label>
+                                <label>NPSC EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_debit_rate" id="npsg_debit_rate" placeholder="" value="{{ $pensionRate->npsg_debit_rate }}">
+                                <input type="text" class="form-control" name="npsc_eol_deduction_amt" id="npsc_eol_deduction_amt" placeholder="" value="{{ $member_pension->npsc_eol_deduction_amt }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSG EOL Deduction Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsg_eol_deduction_amt" id="npsg_eol_deduction_amt" placeholder="" value="{{ $member_pension->npsg_eol_deduction_amt }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSC EOL Credit Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsc_eol_credit_amt" id="npsc_eol_credit_amt" placeholder="" value="{{ $member_pension->npsc_eol_credit_amt }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSG EOL Credit Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsg_eol_credit_amt" id="npsg_eol_credit_amt" placeholder="" value="{{ $member_pension->npsg_eol_credit_amt }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSC HPL Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsc_hpl_amt" id="npsc_hpl_amt" placeholder="" value="{{ $member_pension->npsc_hpl_amt }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSG HPL Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsg_hpl_amt" id="npsg_hpl_amt" placeholder="" value="{{ $member_pension->npsg_hpl_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -61,7 +130,7 @@
                                 <label>Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="year" id="year" value="{{ $pensionRate->year }}" readonly>
+                                <input type="text" class="form-control" name="year" id="year" value="{{ $member_pension->year }}" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -70,18 +139,20 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Status</label>
+                                <label>Month</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($pensionRate->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($pensionRate->status == 0) ? 'selected' : '' }}>Inactive</option>
-                                </select>
-                                <span class="text-danger"></span>
+                                <input type="text" class="form-control" name="month" id="month" value="{{ $member_pension->month }}" readonly>
+                                @if ($errors->has('month'))
+                                    <div class="error" style="color:red;">
+                                        {{ $errors->first('month') }}</div>
+                                @endif
+                                
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
+            
             </div>
             <div class="col-md-2">
                 <div class="mb-1">

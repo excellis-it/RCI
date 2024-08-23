@@ -250,39 +250,56 @@ class MemberController extends Controller
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->latest()->first() ?? '';
 
+        $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
+
         $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf', 'daPercentage', 'check_hba'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf', 'daPercentage', 'check_hba', 'member_var_info'));
     }
 
     public function memberCreditUpdate(Request $request)
     {
         //validation 
-        $validated = $request->validate([
-            'pay' => 'required',
-            // 'da' => 'required',
-            // 'tpt' => 'required',
-            // 'cr_rent' => 'required',
-            // 'g_pay' => 'required',
-            // 'hra' => 'required',
-            // 'da_on_tpt' => 'required',
-            // 'cr_elec' => 'required',
-            // 'fpa' => 'required',
-            // 's_pay' => 'required',
-            // 'hindi' => 'required',
-            // 'cr_water' => 'required',
-            // 'add_inc2' => 'required',
-            // 'npa' => 'required',
-            // 'deptn_alw' => 'required',
-            // 'misc_1' => 'required',
-            // 'var_incr' => 'required',
-            // 'wash_alw' => 'required',
-            // 'dis_alw' => 'required',
-            // 'misc_2' => 'required',
-            // 'risk_alw' => 'required',
-            // 'tot_credits' => 'required',
-            // 'remarks' => 'required',
-        ]);
+        // $validated = $request->validate([
+        //     'pay' => 'required',
+        //     // 'da' => 'required',
+        //     // 'tpt' => 'required',
+        //     // 'cr_rent' => 'required',
+        //     // 'g_pay' => 'required',
+        //     // 'hra' => 'required',
+        //     // 'da_on_tpt' => 'required',
+        //     // 'cr_elec' => 'required',
+        //     // 'fpa' => 'required',
+        //     // 's_pay' => 'required',
+        //     // 'hindi' => 'required',
+        //     // 'cr_water' => 'required',
+        //     // 'add_inc2' => 'required',
+        //     // 'npa' => 'required',
+        //     // 'deptn_alw' => 'required',
+        //     // 'misc_1' => 'required',
+        //     // 'var_incr' => 'required',
+        //     // 'wash_alw' => 'required',
+        //     // 'dis_alw' => 'required',
+        //     // 'misc_2' => 'required',
+        //     // 'risk_alw' => 'required',
+        //     // 'tot_credits' => 'required',
+        //     // 'remarks' => 'required',
+        // ]);
+        $inputs = $request->all();
+        $rules = [];
+        $requiredField = 'pay';
+
+        if (array_key_exists($requiredField, $inputs)) {
+            $rules[$requiredField] = 'required|numeric';
+        }
+
+        foreach ($inputs as $field => $value) {
+            if ($field !== $requiredField) {
+                $rules[$field] = 'numeric';
+            }
+        }
+
+        $request->validate($rules);
 
         $check_credit_member = MemberCredit::where('member_id', $request->member_id)
             ->whereMonth('created_at', now()->month)
@@ -419,6 +436,14 @@ class MemberController extends Controller
         //     'remarks' => 'required',
         // ]);
 
+        $inputs = $request->all();
+        $rules = [];
+
+        foreach ($inputs as $field => $value) {
+            // Apply numeric validation to each field
+            $rules[$field] = 'numeric';
+        }
+        $request->validate($rules);
 
 
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
@@ -426,6 +451,7 @@ class MemberController extends Controller
             $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
             $update_debit_member->gpa_sub = $request->gpa_sub;
             $update_debit_member->eol = $request->eol;
+            $update_debit_member->ccl = $request->ccl;
             $update_debit_member->rent = $request->rent;
             $update_debit_member->lf_arr = $request->lf_arr;
             $update_debit_member->tada = $request->tada;
@@ -508,6 +534,7 @@ class MemberController extends Controller
             $debit_member->member_id = $request->member_id;
             $debit_member->gpa_sub = $request->gpa_sub;
             $debit_member->eol = $request->eol;
+            $debit_member->ccl = $request->ccl;
             $debit_member->rent = $request->rent;
             $debit_member->lf_arr = $request->lf_arr;
             $debit_member->tada = $request->tada;
@@ -1296,7 +1323,7 @@ class MemberController extends Controller
         return response()->json(['edu_cal' => $edu_cal]);
     }
 
-    public function checkEolHpl(Request $request) 
+    public function checkEolHplCcl(Request $request) 
     {
         // dd($request->all());
 
@@ -1306,6 +1333,8 @@ class MemberController extends Controller
         // Check if member has EOL or HPL
         $hasEOL = false;
         $hasHPL = false;
+        $hasCCL = false;
+        $cclDays = 0;
         $result = [];
         $total_deduction = 0;
         
@@ -1318,7 +1347,10 @@ class MemberController extends Controller
             if ($result[$leave->leave_type_id]['leave_name'] === 'HPL') {
                 $hasHPL = true;
             }
-
+            if ($result[$leave->leave_type_id]['leave_name'] === 'CCL') {
+                $hasCCL = true;
+                $cclDays += $leave->no_of_days;
+            }
             if(($hasEOL) || ($hasHPL)) {
                 // check if member has nps
                 $coreInfo = MemberCoreInfo::where('member_id', $request->memberID)->first();
@@ -1377,10 +1409,23 @@ class MemberController extends Controller
                     
                 }
                 $total_deduction += floatval(str_replace(',', '', $result[$leave->leave_type_id]['eolHplDeduction']));
-            }
-        }
+            } elseif ($hasCCL) {
+                $totalDaysCCL = $cclDays;
+                $basic = $member->basic;
+                $da = $member->da;
 
-        return response()->json(['result' => $result, 'total_deduction' => $total_deduction]);
+                if ($totalDaysCCL > 365) {
+                    // Apply 20% deduction if CCL days exceed 365
+                    // $salary = $basic + $da;
+                    $cclDeduction = number_format((float)($basic * 0.20), 2);
+                    // $total_deduction += floatval(str_replace(',', '', $cclDeduction));
+                } 
+            }
+            // dd($total_deduction);
+        }
+        
+
+        return response()->json(['result' => $result, 'total_deduction' => $total_deduction, 'ccldeduction' => $cclDeduction]);
     }
 
     public function memberBankIfsc(Request $request)

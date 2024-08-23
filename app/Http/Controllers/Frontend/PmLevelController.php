@@ -77,6 +77,8 @@ class PmLevelController extends Controller
         $pm_level_value->payband = $request->payband;
         $pm_level_value->pay_commission = $request->pay_commission;
         $pm_level_value->value = $request->value;
+        $pm_level_value->var_incr = $request->var_incr;
+        $pm_level_value->noi = $request->noi;
         $pm_level_value->entry_pay = $request->entry_pay;
         $pm_level_value->month = $request->month;
         $pm_level_value->year = $request->year;
@@ -126,6 +128,8 @@ class PmLevelController extends Controller
         $pm_level->payband = $request->payband;
         $pm_level->pay_commission = $request->pay_commission;
         $pm_level->value = $request->value;
+        $pm_level->var_incr = $request->var_incr;
+        $pm_level->noi = $request->noi;
         $pm_level->entry_pay = $request->entry_pay;
         $pm_level->month = $request->month;
         $pm_level->year = $request->year;

@@ -135,7 +135,9 @@ class Helper {
         if ($length > 2) {
             $hundreds = substr($number, 0, -2);
             $number = substr($number, -2);
-            $words[] = self::convertGroup($hundreds) . ' hundred';
+            if ((int)$hundreds > 0) {
+                $words[] = self::convertGroup($hundreds) . ' hundred';
+            }
         }
         if ($number > 0) {
             $words[] = self::convertGroup($number);
@@ -143,6 +145,7 @@ class Helper {
 
         return implode(' ', $words);
     }
+
 
     private static function convertGroup($group)
     {

@@ -61,26 +61,6 @@
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="form-group col-md-4 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Category</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="category" class="form-select" id="category">
-                                                                    <option value="">Select Employee Category</option>
-                                                                    @foreach ($categories as $category)
-                                                                        <option value="{{ $category->id }}">
-                                                                            {{ $category->category }}</option>
-                                                                        
-                                                                    @endforeach
-                                                                </select>
-                                                                @if ($errors->has('category'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('category') }}</div>
-                                                                @endif
-                                                                
-                                                            </div>
-                                                        </div>
                                                         
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">

@@ -18,7 +18,7 @@ class PensionController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
+        $members = Member::where('category', 'NPS')->get();
         $pensions = Pension::paginate(10);
         return view('frontend.member-info.pension.list', compact('members', 'pensions'));
     }
@@ -38,7 +38,6 @@ class PensionController extends Controller
     {
         $request->validate([
             'member_id' => 'required',
-            'pran_no' => 'required',
             'npsc_sub_amt' => 'required',
             'npsg_sub_amt' => 'required',
             'year' => 'required',
@@ -46,12 +45,13 @@ class PensionController extends Controller
         ]);
 
         $pension = new Pension();
-        $pension->member_id = $request->member_id;
-        $pension->pran_no = $request->pran_no;  
+        $pension->user_id = $request->member_id; 
         $pension->npsc_sub_amt = $request->npsc_sub_amt;
         $pension->npsg_sub_amt = $request->npsg_sub_amt;
-        $pension->npsc_eol_amt = $request->npsc_eol_amt;
-        $pension->npsg_eol_amt = $request->npsg_eol_amt;
+        $pension->npsc_eol_credit_amt = $request->npsc_eol_credit_amt;
+        $pension->npsg_eol_credit_amt = $request->npsg_eol_credit_amt;
+        $pension->npsc_eol_deduction_amt = $request->npsc_eol_deduction_amt;
+        $pension->npsg_eol_deduction_amt = $request->npsg_eol_deduction_amt;
         $pension->npsc_hpl_amt = $request->npsc_hpl_amt;
         $pension->npsg_hpl_amt = $request->npsg_hpl_amt;
         $pension->year = $request->year;
@@ -75,7 +75,11 @@ class PensionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $member_pension = Pension::findOrFail($id);
+        $members = Member::where('category', 'NPS')->get();
+        $edit = true;
+
+        return response()->json(['view' => view('frontend.member-info.pension.form', compact('member_pension', 'edit', 'members'))->render()]);
     }
 
     /**
@@ -83,7 +87,30 @@ class PensionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'member_id' => 'required',
+            'npsc_sub_amt' => 'required',
+            'npsg_sub_amt' => 'required',
+            'year' => 'required',
+            'month' => 'required',
+        ]);
+
+        $pension = Pension::findOrFail($id);
+        $pension->user_id = $request->member_id; 
+        $pension->npsc_sub_amt = $request->npsc_sub_amt;
+        $pension->npsg_sub_amt = $request->npsg_sub_amt;
+        $pension->npsc_eol_credit_amt = $request->npsc_eol_credit_amt;
+        $pension->npsg_eol_credit_amt = $request->npsg_eol_credit_amt;
+        $pension->npsc_eol_deduction_amt = $request->npsc_eol_deduction_amt;
+        $pension->npsg_eol_deduction_amt = $request->npsg_eol_deduction_amt;
+        $pension->npsc_hpl_amt = $request->npsc_hpl_amt;
+        $pension->npsg_hpl_amt = $request->npsg_hpl_amt;
+        $pension->year = $request->year;
+        $pension->month = $request->month;
+        $pension->update();
+
+        session()->flash('success', 'Pension updated successfully');
+        return response()->json(['success' => 'Pension updated successfully']);
     }
 
     /**

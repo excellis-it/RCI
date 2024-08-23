@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('pran_no')->nullable();
             $table->string('npsc_sub_amt')->nullable();
             $table->string('npsg_sub_amt')->nullable();
-            $table->string('npsc_eol_amt')->nullable();
-            $table->string('npsg_eol_amt')->nullable();
+            $table->string('npsc_eol_credit_amt')->nullable();
+            $table->string('npsg_eol_credit_amt')->nullable();
+            $table->string('npsc_eol_deduction_amt')->nullable();
+            $table->string('npsg_eol_deduction_amt')->nullable();
             $table->string('npsc_hpl_amt')->nullable();
             $table->string('npsg_hpl_amt')->nullable();
             $table->string('year')->nullable();

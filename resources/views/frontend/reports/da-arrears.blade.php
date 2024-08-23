@@ -60,26 +60,55 @@
                                                         </div>
                                                         
 
-                                                        <div class="form-group col-md-4 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Year</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="report_year" id="report_year" class="form-select">
-                                                                    <option value="">Select Year</option>
-                                                                    @foreach ($financialYears as $financialYear)
-                                                                        <option value="{{ $financialYear }}">
-                                                                            {{ $financialYear }}
-                                                                        </option>
-                                                                        
-                                                                    @endforeach
-                                                                </select>
-                                                                @if ($errors->has('report_year'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('report_year') }}</div>
-                                                                @endif
+                                                         <!-- New fields for from year-month and to year-month -->
+                                                         <div class="form-group col-md-3 mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-12">
+                                                                    <label>From Year-Month</label>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <select name="from_year" class="form-select" id="from_year">
+                                                                        @for ($year = now()->year; $year >= 2000; $year--)
+                                                                            <option value="{{ $year }}">{{ $year }}</option>
+                                                                        @endfor
+                                                                    </select>
+                                                                    <select name="from_month" class="form-select" id="from_month">
+                                                                        @for ($month = 1; $month <= 12; $month++)
+                                                                            <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
+                                                                        @endfor
+                                                                    </select>
+                                                                    @if ($errors->has('from_year') || $errors->has('from_month'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('from_year') }} {{ $errors->first('from_month') }}</div>
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
+
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-12">
+                                                                    <label>To Year-Month</label>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <select name="to_year" class="form-select" id="to_year">
+                                                                        @for ($year = now()->year; $year >= 2000; $year--)
+                                                                            <option value="{{ $year }}">{{ $year }}</option>
+                                                                        @endfor
+                                                                    </select>
+                                                                    <select name="to_month" class="form-select" id="to_month">
+                                                                        @for ($month = 1; $month <= 12; $month++)
+                                                                            <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
+                                                                        @endfor
+                                                                    </select>
+                                                                    @if ($errors->has('to_year') || $errors->has('to_month'))
+                                                                        <div class="error" style="color:red;">
+                                                                            {{ $errors->first('to_year') }} {{ $errors->first('to_month') }}</div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Rest of the existing fields -->
 
                                                         
 
@@ -194,6 +223,38 @@
                     },
                     error: (xhr) => console.log(xhr)
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#report_year').change(function() {
+                var year = $(this).val();
+                var currentDate = new Date();
+                var monthDropdown = $('#month');
+
+                if(year == currentDate.getFullYear()) {
+                    var currentMonth = currentDate.getMonth() + 1;
+                    var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
+
+                    monthDropdown.empty();
+                    for (var month = 1; month <= endMonth; month++) {
+                        var option = $('<option></option>');
+                        option.val(month);
+                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        monthDropdown.append(option);
+                    }
+
+                } else {
+                    monthDropdown.empty();
+                    for (var month = 1; month <= 12; month++) {
+                        var option = $('<option></option>');
+                        option.val(month);
+                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        monthDropdown.append(option);
+                    }
+                }
+                
             });
         });
     </script>
