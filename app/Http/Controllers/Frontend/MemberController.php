@@ -846,6 +846,10 @@ class MemberController extends Controller
             $update_personal_member->pay_stop = $request->pay_stop;
             $update_personal_member->landline_no = $request->landline_no;
             $update_personal_member->mobile_no = $request->mobile_no;
+            $update_personal_member->mobile_allowance = $request->mobile_allowance;
+            $update_personal_member->broadband_allowance = $request->broadband_allowance;
+            $update_personal_member->landline_allowance = $request->landline_allowance;
+            $update_personal_member->cr_water = $request->cr_water;
             $update_personal_member->e_status = $request->e_status;
             $update_personal_member->update();
 
@@ -872,6 +876,7 @@ class MemberController extends Controller
             $member_details->quater_no = $request->quater_no;
             $member_details->ex_service = $request->ex_service;
             $member_details->cgegis = $request->cgegis;
+
             $member_details->pay_stop = $request->pay_stop;
             $member_details->e_status = $request->e_status;
             $member_details->update();
@@ -910,6 +915,10 @@ class MemberController extends Controller
             $personal_member->pay_stop = $request->pay_stop;
             $personal_member->landline_no = $request->landline_no;
             $personal_member->mobile_no = $request->mobile_no;
+            $personal_member->mobile_allowance = $request->mobile_allowance;
+            $personal_member->broadband_allowance = $request->broadband_allowance;
+            $personal_member->landline_allowance = $request->landline_allowance;
+            $personal_member->cr_water = $request->cr_water;
             $personal_member->e_status = $request->e_status;
             $personal_member->save();
 

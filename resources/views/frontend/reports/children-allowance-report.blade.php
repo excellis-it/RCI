@@ -187,7 +187,7 @@
                 >   {{ $member_detail->name ?? 'N/A'}}<br />
                     {{ $member_detail->emp_id ?? 'N/A'}}<br />
                     {{ $member_detail->desigs->designation ?? 'N/A'}}<br />
-                    {{ $member_detail->gpf_number ?? 'N/A'}} / {{ $member_detail->pran_number ?? 'N/A'}}<br /></td>
+                    {{ $member_detail->gpf_number ?? $member_detail->pran_number ?? 'N/A'}} <br /></td>
                 <td
                   style="
                     font-size: 10px;
@@ -619,7 +619,7 @@
                       border: 1px solid #000;
                     "
                   >
-                 {{ $member_detail->pran_number ?? 'N/A' }}
+                 {{ $member_detail->pran_number ?? $member_detail->gpf_number ?? 'N/A' }}
                   </td>
                   <td
                     style="
@@ -637,7 +637,6 @@
                   </td>
                 </tr>
                 @endforeach
-                
                 
                       </tbody>
                     </table>

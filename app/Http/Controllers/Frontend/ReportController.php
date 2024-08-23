@@ -67,7 +67,7 @@ class ReportController extends Controller
             'year' => 'required',
         ]);
 
-        $member_data = Member::where('id', $request->member_id)->where('pay_stop','No')->first() ?? '';
+        $member_data = Member::where('id', $request->member_id)->first() ?? '';
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first() ?? '';
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first() ?? '';
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first() ?? '';
@@ -103,7 +103,7 @@ class ReportController extends Controller
 
         $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
         $all_members_info = [];
-        $member_datas = Member::where('e_status', $request->e_status)->where('category', $request->category)->where('member_status', 1)->orderBy('id', 'desc')->with('desigs')->get();
+        $member_datas = Member::where('e_status', $request->e_status)->where('category', $request->category)->where('member_status', 1)->where('pay_stop','No')->orderBy('id', 'desc')->with('desigs')->get();
         foreach ($member_datas as $member_data) {
             $member_details['member_credit'] = MemberCredit::where('member_id', $member_data->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
             $member_details['member_debit'] = MemberDebit::where('member_id', $member_data->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
@@ -360,10 +360,10 @@ class ReportController extends Controller
 
         $startYear = 1958;
         $endYear = date('Y');
-
+        $accountants = User::role('ACCOUNTANT')->get();
         $years = range($startYear, $endYear);
 
-        return view('frontend.reports.salary-certificate', compact('years'));
+        return view('frontend.reports.salary-certificate', compact('years','accountants'));
     }
 
     public function salaryCertificateGenerate(Request $request)
@@ -371,9 +371,11 @@ class ReportController extends Controller
         $request->validate([
             'member_id' => 'required',
             'year' => 'required',
-            'month' => 'required'
+            'month' => 'required',
+            'accountant' => 'required',
         ]);
 
+        $accountant = $request->accountant;
         $member_data = Member::where('id', $request->member_id)->with('desigs')->first();
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
@@ -382,7 +384,7 @@ class ReportController extends Controller
         $dateStr = sprintf('2024-%02d-01', $requestMonth);
         $month = date('M', strtotime($dateStr));
 
-        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'year', 'month'));
+        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'year', 'month','accountant'));
         return $pdf->download('salary-certificate-' . $member_data->name . '.pdf');
     }
 
@@ -409,70 +411,83 @@ class ReportController extends Controller
             $yearMonths[] = $current->format('M-y');
             $current->addMonth();
         }
-        $category = Category::where('category', 'C')->first();
+        $category = Category::where('category', 'C')->first() ?? '';
+        if($category){
+            
+            $member_data = Member::where('e_status', $request->e_status)->where('category', $category->id)->where('pay_stop','No')->with('desigs', 'groups')->get() ?? '';
+            $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+            $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+            $year = $request->report_year;
+            $months = $yearMonths;
+            $unitCode = 'RCI-CHESS-' . rand(1000, 9999);
+            // $category = Category::where('id', $request->category)->first();
 
-        $member_data = Member::where('e_status', $request->e_status)->where('category', $category->id)->with('desigs', 'groups')->get();
-        $member_credit_data = MemberCredit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
-        $member_debit_data = MemberDebit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
-        $year = $request->report_year;
-        $months = $yearMonths;
-        $unitCode = 'RCI-CHESS-' . rand(1000, 9999);
-        // $category = Category::where('id', $request->category)->first();
-
-        // create an array to store the result member wise
-        $result = [];
-        $total_credit = [
-            'dress_alw' => 0,
-            'bonus' => 0,
-        ];
-        $total_debit = [
-            'eol' => 0,
-        ];
-
-        foreach ($member_data as $member) {
-            $result[$member->id] = [
-                'name' => $member->name,
-                'gpf_nps' => $member->gpf_number ?? $member->pran_number ?? 'N/A',
-                'emp_id' => $member->emp_id,
-                'designation' => $member->desigs->designation ?? 'N/A',
-                'doj' => $member->doj_lab,
-                'credit' => [
-                    'basic_pay' => 0,
-                    'dress_alw' => 0,
-                    'bonus' => 0,
-                ],
-                'debit' => [
-                    'eol' => 0,
-                ],
-                'total' => 0
+            // create an array to store the result member wise
+            $result = [];
+            $total_credit = [
+                'dress_alw' => 0,
+                'bonus' => 0,
             ];
-        }
+            $total_debit = [
+                'eol' => 0,
+            ];
 
-        foreach ($member_credit_data as $credit) {
-            $memberId = $credit->member_id;
-            if (isset($result[$memberId])) {
-                $result[$memberId]['credit']['basic_pay'] += $credit->pay;
-                $result[$memberId]['credit']['dress_alw'] += $credit->dis_alw;
-                $result[$memberId]['credit']['bonus'] += $credit->incentive;
-
-                $total_credit['dress_alw'] += $credit->dis_alw;
-                $total_credit['bonus'] += $credit->incentive;
+            foreach ($member_data as $member) {
+                $result[$member->id] = [
+                    'name' => $member->name,
+                    'gpf_nps' => $member->gpf_number ?? $member->pran_number ?? 'N/A',
+                    'emp_id' => $member->emp_id,
+                    'designation' => $member->desigs->designation ?? 'N/A',
+                    'doj' => $member->doj_lab,
+                    'credit' => [
+                        'basic_pay' => 0,
+                        'dress_alw' => 0,
+                        'bonus' => 0,
+                    ],
+                    'debit' => [
+                        'eol' => 0,
+                    ],
+                    'total' => 0
+                ];
             }
-        }
 
-        foreach ($member_debit_data as $debit) {
-            $memberId = $debit->member_id;
-            if (isset($result[$memberId])) {
-                $result[$memberId]['debit']['eol'] += $debit->eol;
+            foreach ($member_credit_data as $credit) {
+                $memberId = $credit->member_id;
+                if (isset($result[$memberId])) {
+                    $result[$memberId]['credit']['basic_pay'] += $credit->pay;
+                    $result[$memberId]['credit']['dress_alw'] += $credit->dis_alw;
+                    $result[$memberId]['credit']['bonus'] += $credit->incentive;
 
-                $total_debit['eol'] += $debit->eol;
+                    $total_credit['dress_alw'] += $credit->dis_alw;
+                    $total_credit['bonus'] += $credit->incentive;
+                }
             }
-        }
 
-        foreach ($result as $memberId => $data) {
-            $creditTotal = array_sum($data['credit']);
-            $debitTotal = array_sum($data['debit']);
-            $result[$memberId]['total'] = $creditTotal - $debitTotal;
+            foreach ($member_debit_data as $debit) {
+                $memberId = $debit->member_id;
+                if (isset($result[$memberId])) {
+                    $result[$memberId]['debit']['eol'] += $debit->eol;
+
+                    $total_debit['eol'] += $debit->eol;
+                }
+            }
+
+            foreach ($result as $memberId => $data) {
+                $creditTotal = array_sum($data['credit']);
+                $debitTotal = array_sum($data['debit']);
+                $result[$memberId]['total'] = $creditTotal - $debitTotal;
+            }
+        }else{
+            $member_data = [];
+            $member_credit_data = [];
+            $member_debit_data = [];
+            $year = '';
+            $months = [];
+            $unitCode = '';
+            $result = [];
+            $total_credit = [];
+            $total_debit = [];
+            $category = '';
         }
 
         $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit', 'category'));
@@ -506,8 +521,13 @@ class ReportController extends Controller
 
     public function getMemberInfo(Request $request)
     {
-        $members = Member::where('e_status', $request->e_status)->orderBy('id', 'desc')->get();
-        // dd($members);
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop','No')->orderBy('id', 'desc')->get();
+        return response()->json(['members' => $members]);
+    }
+
+    public function getMemberGpf(Request $request)
+    {
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop','No')->where('fund_type','GPF')->orderBy('id', 'desc')->get();
         return response()->json(['members' => $members]);
     }
 
@@ -546,7 +566,7 @@ class ReportController extends Controller
             'misc2_debit' => 0, 'misc3_debit' => 0, 'total_debit' => 0, 'net_pay' => 0
         ];
 
-        $members = Member::where('category', $request->category)->where('e_status', $request->e_status)->get();
+        $members = Member::where('category', $request->category)->where('e_status', $request->e_status)->where('pay_stop','No')->get();
         foreach ($members as $member) {
             // sum value of basicpay this month of this category member
             $total['basic'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pay') ?? 0;
@@ -626,16 +646,11 @@ class ReportController extends Controller
 
     public function cildrenAllowanceGenerate(Request $request)
     {
-        // $request->validate([
-        //     'e_status' => 'required',
-        //     'member_id' => 'required',
-        //     'child1_name' => 'required',
-        //     'child1_dob' => 'required',
-        //     'child1_scll_name' => 'required',
-        //     'child1_class' => 'required',
-        //     'child1_academic' => 'required',
-        //     'child1_amount' => 'required',
-        // ]);
+        $request->validate([
+            'report_type' => 'required',
+            'year' => 'required',
+            'e_status' => 'required'
+        ]);
 
         $data = $request->all(); 
         $timestamp = now()->format('YmdHis');
@@ -671,13 +686,12 @@ class ReportController extends Controller
 
                 $total += $child_datas['child_amount'][$i];
             }
-            
            
             $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('data', 'total','bill_no','today','children','member_detail','accountant'));
             return $pdf->download('children-allowance-report-' . $member_detail->name . '.pdf');
         } else {
             // call this function groupChildrenAllowanceGenerate()
-            $members = Member::where('category', $request->category)->get();
+            $members = Member::where('category', $request->category)->where('pay_stop','No')->get();
             $total = 0;
             $accountant = $request->accountant;
             
@@ -724,7 +738,7 @@ class ReportController extends Controller
 
     public function professionalUpdateAllowance()
     {
-        $category = Category::where('category', 'C')->first();
+        $category = Category::where('category', 'A')->first();
         $members = Member::where('e_status', 'active')->where('category', $category->id)->orderBy('id', 'desc')->get();
         $financialYears = Helper::getFinancialYears();
         return view('frontend.reports.professional-update-allowance', compact('category', 'members', 'financialYears'));
@@ -841,14 +855,15 @@ class ReportController extends Controller
     {
         $startYear = 1958;
         $endYear = date('Y');
-
+        $accountants = User::role('ACCOUNTANT')->get();
         $years = range($startYear, $endYear);
-        return view('frontend.reports.gpf-subscription', compact('years'));
+        return view('frontend.reports.gpf-subscription', compact('years','accountants'));
     }
 
     public function gpfSubscriptionGenerate(Request $request)
     {
         // dd($request->all());
+        $accountant = $request->accountant;
         $e_status = $request->e_status;
         $member_id = $request->member_id;
         $from_year = $request->from_year;
@@ -879,7 +894,7 @@ class ReportController extends Controller
         $member_core_info = MemberCoreInfo::where('member_id', $member_id)->first();
         
 
-        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt', 'start_date', 'end_date'));
+        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt', 'start_date', 'end_date','accountant'));
         return $pdf->download('gpf-subscription-' . $member->name . '.pdf');
     }
 
@@ -940,7 +955,7 @@ class ReportController extends Controller
             $number_months = ['01', '02', '03'];
         }
 
-        $members = Member::where('e_status', $request->e_status)
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop','No')
             ->get();
 
         $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months','months', 'year', 'report_quarter', 'report_year','number_months'));
@@ -1083,6 +1098,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'report_type' => 'required',
+            'year' => 'required',
             //if $request->report_type == 'individual'
             'member_id' => 'required_if:report_type,individual',
             'e_status' =>'required_if:report_type,individual',
@@ -1100,7 +1116,7 @@ class ReportController extends Controller
             return $pdf->download('bag-purse-allowance-report-' . '.pdf');
         }else{
 
-            $members = Member::where('category', $request->category)->get();
+            $members = Member::where('category', $request->category)->where('pay_stop','No')->get();
             $total = 0;
             $member_purse_allowances = [];
 
@@ -1114,8 +1130,9 @@ class ReportController extends Controller
 
                     $member_details = [
                         'name' => $member->name,
+                        'gpf_pran' => $member->gpf_number ?? $member->pran_number ?? 'N/A',
                         'designation' => $member->desigs->designation ?? 'N/A',
-                        'pay_level' => $member->payLevels->payLevels ?? 'N/A',
+                        'pay_level' => $member->payLevels->value ?? 'N/A',
                         'entitle_amount' => $amount->entitle_amount ?? 0,
                         'bill_amount' => $amount->bill_amount ?? 0,
                         'net_amount' => $amount->net_amount ?? 0,

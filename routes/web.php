@@ -307,6 +307,7 @@ Route::middleware('permssions')->group(function () {
 
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
+    Route::post('/get-member-gpf', [ReportController::class, 'getMemberGpf'])->name('reports.get-all-gpf-members');
 
         // professional Update allowance
     Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');

@@ -191,7 +191,7 @@
                 >   {{ $member->name ?? 'N/A'}}<br />
                     {{ $member->emp_id ?? 'N/A'}}<br />
                     {{ $member->desigs->designation ?? 'N/A'}}<br />
-                    {{ $member->gpf_number ?? 'N/A'}} / {{ $member->pran_number ?? 'N/A'}}<br /></td>
+                    {{ $member->gpf_number ?? $member->pran_number ?? 'N/A'}} <br /></td>
                 <td
                   style="
                     font-size: 10px;
