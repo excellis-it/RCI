@@ -9,7 +9,9 @@
 
 
 <body style="background: #fff; font-family: 'Noto Sans', sans-serif;">
-    
+
+
+    @foreach($all_members as $member_data)
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center;">
         <tbody>
@@ -49,7 +51,7 @@
                                     {{ $member_data->emp_id ?? '' }}<br>
                                     {{ $member_data->name ?? '' }} <br>
                                     {{ $member_data->desigs->designation ?? '' }}({{ $member_data->payLevels->value ?? '' }})<br>
-                                    {{ $member_core_info->pan_no ?? '' }}<br>
+                                    {{ $member_data-> ?? '' }}<br>
                                 </td>
                                 <td>
                                     
@@ -1101,6 +1103,7 @@
             </tr>
         </tbody>
     </table>
+    @endforeach
 </body>
 
 </html>

@@ -41,7 +41,25 @@
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
+
                                                         <div class="form-group col-md-3 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Report Type</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="report_type" class="form-select" id="report_type">
+                                                                    <option value="">Select Type</option>
+                                                                    <option value="individual">Individual</option>
+                                                                    <option value="group">Group</option>
+                                                                </select>
+                                                                @if ($errors->has('report_type'))
+                                                                    <div class="error" style="color:red;">
+                                                                        {{ $errors->first('report_type') }}</div>
+                                                                @endif
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-3 mb-2 emp_status" style="display:none;">
                                                             <div class="col-md-12">
                                                                 <label>Employee Status</label>
                                                             </div>
@@ -58,7 +76,7 @@
                                                                 
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-3 mb-2">
+                                                        <div class="form-group col-md-3 mb-2 member_list" style="display:none;">
                                                             <div class="col-md-12">
                                                                 <label>Members</label>
                                                             </div>
@@ -73,7 +91,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-3 mb-2">
+                                                        <div class="form-group col-md-3 mb-2 ">
                                                             <div class="row align-items-center">
                                                                 <div class="col-md-12">
                                                                     <label>Year</label>
@@ -229,6 +247,30 @@
             });
         });
     </script>
+
+<script>
+    // report_type change event
+    $(document).ready(function() {
+        $('#report_type').change(function() {
+            var report_type = $(this).val();
+            alert(report_type);
+            if(report_type == 'group'){
+            //     $('.cat_drop').show();
+                $('.emp_status').hide();
+                $('.member_list').hide();
+            //     $('#children_list').hide();
+
+            }else{
+            //     $('.cat_drop').hide();
+                $('.emp_status').show();
+                $('.member_list').show();
+            //     $('#children_list').show();
+
+            }
+        });
+    });
+
+</script>
 
 
 @endpush

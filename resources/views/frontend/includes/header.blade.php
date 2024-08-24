@@ -371,7 +371,7 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('pay-commissions.index') }}">Pay Commisions</a>
+                                    href="{{ route('pay-commissions.index') }}">Pay Commissions</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

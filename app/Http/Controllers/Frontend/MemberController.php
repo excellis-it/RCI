@@ -260,7 +260,6 @@ class MemberController extends Controller
     public function memberCreditUpdate(Request $request)
     {
         //validation 
-<<<<<<< HEAD
         // $validated = $request->validate([
         //     'pay' => 'required',
         //     // 'da' => 'required',
@@ -290,25 +289,11 @@ class MemberController extends Controller
         $rules = [];
         $requiredField = 'pay';
         $nonNumericField = 'remarks';
-=======
-        $validated = $request->validate([
-            'pay' => 'required|numeric',
-            'da' => 'required|numeric',
-            'tpt' => 'numeric',
-            'cr_rent' => 'numeric',
-            'hra' => 'numeric',
-            'var_incr' => 'numeric'
-        ]);
-        // $inputs = $request->all();
-        // $rules = [];
-        // $requiredField = 'pay';
->>>>>>> origin
 
         // if (array_key_exists($requiredField, $inputs)) {
         //     $rules[$requiredField] = 'required|numeric';
         // }
 
-<<<<<<< HEAD
         foreach ($inputs as $field => $value) {
             if ($field === $nonNumericField) {
                 $rules[$field] = 'string';
@@ -316,13 +301,6 @@ class MemberController extends Controller
                 $rules[$field] = 'numeric';
             }
         }
-=======
-        // foreach ($inputs as $field => $value) {
-        //     if ($field !== $requiredField) {
-        //         $rules[$field] = 'numeric';
-        //     }
-        // }
->>>>>>> origin
 
 
         $check_credit_member = MemberCredit::where('member_id', $request->member_id)
