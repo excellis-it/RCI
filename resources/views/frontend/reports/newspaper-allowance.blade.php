@@ -96,7 +96,27 @@ Newspaper Allowance
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 mb-2 member">
+                                                  {{-- year dropdown from current year to 1958 --}}
+
+                                                    <div class="form-group col-md-3 mb-2">
+                                                        <div class="col-md-12">
+                                                            <label>Year</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <select name="report_year" class="form-select" id="report_year">
+                                                                @for ($i = date('Y'); $i >= 1958; $i--)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                @endfor
+                                                            </select>
+                                                            @if ($errors->has('report_year'))
+                                                                <div class="error" style="color:red;">
+                                                                    {{ $errors->first('report_year') }}</div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    
+
+                                                    <div class="form-group col-md-3 mb-2 member">
                                                         <div class="col-md-12">
                                                             <label>Employee</label>
                                                         </div>
@@ -125,7 +145,7 @@ Newspaper Allowance
                                                         @endif
                                                     </div>
 
-                                                    <div class="form-group col-md-7 mb-2 total_allo" style="display:none;">
+                                                    <div class="form-group col-md-6 mb-2 total_allo" style="display:none;">
                                                         <div class="col-md-12">
                                                             <label>Remarks</label>
                                                         </div>
@@ -207,6 +227,7 @@ Newspaper Allowance
     $(document).ready(function() {
         $('select[name="member_id"]').change(function() {
             var member_id = $(this).val();
+            var year = $('#report_year').val();
             $('.total_allo').show();
 
             $.ajax({
@@ -214,11 +235,12 @@ Newspaper Allowance
                 type: 'POST',
                 data: {
                     member_id,
+                    year,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
 
-                    $('#amount').val(response.newspaper_allo_amount.amount);
+                    $('#amount').val(response.newspaper_allo_amount.max_allocation_amount);
                     $('#remarks').val(response.newspaper_allo_amount.remarks);
 
                 },

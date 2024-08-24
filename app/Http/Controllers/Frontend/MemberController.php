@@ -260,46 +260,28 @@ class MemberController extends Controller
     public function memberCreditUpdate(Request $request)
     {
         //validation 
-        // $validated = $request->validate([
-        //     'pay' => 'required',
-        //     // 'da' => 'required',
-        //     // 'tpt' => 'required',
-        //     // 'cr_rent' => 'required',
-        //     // 'g_pay' => 'required',
-        //     // 'hra' => 'required',
-        //     // 'da_on_tpt' => 'required',
-        //     // 'cr_elec' => 'required',
-        //     // 'fpa' => 'required',
-        //     // 's_pay' => 'required',
-        //     // 'hindi' => 'required',
-        //     // 'cr_water' => 'required',
-        //     // 'add_inc2' => 'required',
-        //     // 'npa' => 'required',
-        //     // 'deptn_alw' => 'required',
-        //     // 'misc_1' => 'required',
-        //     // 'var_incr' => 'required',
-        //     // 'wash_alw' => 'required',
-        //     // 'dis_alw' => 'required',
-        //     // 'misc_2' => 'required',
-        //     // 'risk_alw' => 'required',
-        //     // 'tot_credits' => 'required',
-        //     // 'remarks' => 'required',
-        // ]);
-        $inputs = $request->all();
-        $rules = [];
-        $requiredField = 'pay';
+        $validated = $request->validate([
+            'pay' => 'required|numeric',
+            'da' => 'required|numeric',
+            'tpt' => 'numeric',
+            'cr_rent' => 'numeric',
+            'hra' => 'numeric',
+            'var_incr' => 'numeric'
+        ]);
+        // $inputs = $request->all();
+        // $rules = [];
+        // $requiredField = 'pay';
 
-        if (array_key_exists($requiredField, $inputs)) {
-            $rules[$requiredField] = 'required|numeric';
-        }
+        // if (array_key_exists($requiredField, $inputs)) {
+        //     $rules[$requiredField] = 'required|numeric';
+        // }
 
-        foreach ($inputs as $field => $value) {
-            if ($field !== $requiredField) {
-                $rules[$field] = 'numeric';
-            }
-        }
+        // foreach ($inputs as $field => $value) {
+        //     if ($field !== $requiredField) {
+        //         $rules[$field] = 'numeric';
+        //     }
+        // }
 
-        $request->validate($rules);
 
         $check_credit_member = MemberCredit::where('member_id', $request->member_id)
             ->whereMonth('created_at', now()->month)

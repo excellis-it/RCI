@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\MemberNewspaperAllowance;
+use App\Models\Category;
 
 class MemberNewspaperAllowanceController extends Controller
 {
@@ -16,8 +17,9 @@ class MemberNewspaperAllowanceController extends Controller
     {
         //
         $members = Member::where('member_status', 1)->get();
+        $categories = Category::orderBy('id', 'desc')->get();
         $member_newspapers = MemberNewspaperAllowance::paginate(10);
-        return view('frontend.member-info.newspaper-allowance.list', compact('members','member_newspapers'));
+        return view('frontend.member-info.newspaper-allowance.list', compact('members','member_newspapers','categories'));
     }
 
     public function fetchData(Request $request)

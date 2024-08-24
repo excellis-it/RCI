@@ -999,10 +999,10 @@ class ReportController extends Controller
 
     public function getMemberNewspaperAllocation(Request $request)
     {
-       
-        $newspaper_allo_amount = MemberNewspaperAllowance::where('member_id', $request->member_id)->first();
-
-        return response()->json(['newspaper_allo_amount' => $newspaper_allo_amount]);
+        
+        $member_detail = Member::where('id', $request->member_id)->first();
+        $get_news_allow = NewspaperAllowance::where('category_id', $member_detail->category_id)->where('year', $request->year)->first();
+        return response()->json(['get_news_allow' => $get_news_allow]);
     }
 
     public function newspaperReportGenerate(Request $request)
