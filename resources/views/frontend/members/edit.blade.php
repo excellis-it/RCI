@@ -405,6 +405,7 @@
                         type: $(form).attr('method'),
                         data: formData,
                         success: function(response) {
+                           
                             toastr.success(response.message);
                         },
                         error: function(xhr) {
@@ -479,11 +480,23 @@
     <script>
         $(document).ready(function() {
             $('#member-debit-form').validate({ // Initialize form validation
+                rules: {
+                    // Define rules for your form fields
+                    'pay': {
+                        required: true
+                    }
+                },
+                messages: {
+                    // Define messages for your form fields
+                    'pay': {
+                        required: "Please enter pay",
+                    }
 
+                },
                 submitHandler: function(form) {
                     var formData = $(form).serialize();
 
-
+                    
                     $.ajax({
                         url: $(form).attr('action'),
                         type: $(form).attr('method'),
@@ -1673,24 +1686,7 @@
             updateEolHpl();
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $("#member-debit-form").validate({
-                rules: {
-                    // Dynamically apply numeric validation to all inputs
-                    '*': {
-                        number: true
-                    }
-                },
-                messages: {
-                    // Generic error message for numeric fields
-                    '*': {
-                        number: "Please enter a valid number"
-                    }
-                }
-            });
-        });
-        </script>
+    
 
     <script>
         //get ifsc code from bank id

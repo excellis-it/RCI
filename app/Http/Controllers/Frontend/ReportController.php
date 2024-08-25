@@ -69,6 +69,7 @@ class ReportController extends Controller
 
         if($request->report_type == 'group')
         {
+            
             $all_members = Member::orderBy('id', 'desc')->get();
             foreach($all_members as $member)
             {
@@ -82,9 +83,9 @@ class ReportController extends Controller
                 $monthName = $dateObj->format('F');
                 $year = $request->year;
                 $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
-
+                
                 $pdf = PDF::loadView('frontend.reports.group-payslip-generate', compact('all_members','member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
-                $pdf->save('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
+                return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
             }
 
         }else{

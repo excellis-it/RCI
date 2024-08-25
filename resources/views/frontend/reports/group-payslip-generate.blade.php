@@ -51,7 +51,7 @@
                                     {{ $member_data->emp_id ?? '' }}<br>
                                     {{ $member_data->name ?? '' }} <br>
                                     {{ $member_data->desigs->designation ?? '' }}({{ $member_data->payLevels->value ?? '' }})<br>
-                                    {{ $member_data-> ?? '' }}<br>
+                                    {{ $member_core_info->pan_no ?? '' }}<br>
                                 </td>
                                 <td>
                                     
@@ -66,7 +66,7 @@
                                 </td>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
                                     margin: 0px 0px !important;">
-                                    {{ $member_core_info->gpf_acc_no ?? '' }}<br>
+                                    {{ $member_data->gpf_number ?? $member_data->pran_number ?? '' }}<br>
                                     {{ $member_core_info->banks->bank_name ?? '' }} <br>
                                     {{ $member_core_info->bank_acc_no ?? '' }}<br>
                                     {{ $member_core_info->banks->ifsc ?? '' }}
