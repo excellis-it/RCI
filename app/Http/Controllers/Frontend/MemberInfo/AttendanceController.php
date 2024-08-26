@@ -12,6 +12,7 @@ class AttendanceController extends Controller
     /**
      * Display a listing of the resource.
      */
+    
     public function index()
     {
         $attendances = Attendance::paginate(10);
