@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Payslip Report Generate
+    LF Changes Report Generate
 @endsection
 
 @push('styles')
@@ -19,7 +19,7 @@
                     <h3>Report Generate</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Payslip</span></li>
+                        <li><span class="bread-blod">LF Changes </span></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.payslip-generate') }}" method="POST" >
+                            <form action="{{ route('reports.lf-report-generate') }}" method="POST" >
                                 @csrf
 
                                 <div class="row">
@@ -41,56 +41,24 @@
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-
                                                         <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
-                                                                <label>Report Type</label>
+                                                                <label>Category</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="report_type" class="form-select" id="report_type">
-                                                                    <option value="">Select Type</option>
-                                                                    <option value="individual">Individual</option>
-                                                                    <option value="group">Group</option>
+                                                                <select name="category" class="form-select" id="category">
+                                                                    <option value="">Select Category</option>
+                                                                    @foreach($categories as $category)
+                                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                                                    @endforeach                                                                 
                                                                 </select>
-                                                                @if ($errors->has('report_type'))
+                                                                @if ($errors->has('category'))
                                                                     <div class="error" style="color:red;">
-                                                                        {{ $errors->first('report_type') }}</div>
+                                                                        {{ $errors->first('category') }}</div>
                                                                 @endif
                                                                 
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-3 mb-2 emp_status" style="display:none;">
-                                                            <div class="col-md-12">
-                                                                <label>Employee Status</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">Select Employee Status</option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
-                                                                </select>
-                                                                @if ($errors->has('e_status'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('e_status') }}</div>
-                                                                @endif
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-md-3 mb-2 member_list" style="display:none;">
-                                                            <div class="col-md-12">
-                                                                <label>Members</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="member_id" class="form-select" id="member_id">
-                                                                </select>
-                                                                @if ($errors->has('member_id'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('member_id') }}</div>
-                                                                @endif
-                                                                
-                                                            </div>
-                                                        </div>
-
                                                         <div class="form-group col-md-3 mb-2 ">
                                                             <div class="row align-items-center">
                                                                 <div class="col-md-12">
@@ -130,6 +98,19 @@
                                                                 </div>
                                                             </div>
                                                         </div> 
+                                                        <div class="form-group col-md-3 mb-2 type-select" >
+                                                            <div class="col-md-12">
+                                                                <label>A/c Officer Sign</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="accountant" class="form-select" id="accountant">
+                                                                    <option value="">Select </option>
+                                                                    @foreach($accountants as $accountant)
+                                                                        <option value="{{ $accountant->user_name }}">{{ $accountant->user_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -231,11 +212,11 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#e_status').change(function() {
+            $('#gpf_e_status').change(function() {
                 var e_status = $(this).val();
 
                 $.ajax({
-                    url: "{{ route('reports.get-all-members') }}",
+                    url: "{{ route('reports.get-all-gpf-members') }}",
                     type: 'POST',
                     data: { e_status, _token: '{{ csrf_token() }}' },
                     success: ({members}) => {
@@ -247,29 +228,6 @@
             });
         });
     </script>
-
-<script>
-    // report_type change event
-    $(document).ready(function() {
-        $('#report_type').change(function() {
-            var report_type = $(this).val();
-            if(report_type == 'group'){
-            //     $('.cat_drop').show();
-                $('.emp_status').hide();
-                $('.member_list').hide();
-            //     $('#children_list').hide();
-
-            }else{
-            //     $('.cat_drop').hide();
-                $('.emp_status').show();
-                $('.member_list').show();
-            //     $('#children_list').show();
-
-            }
-        });
-    });
-
-</script>
 
 
 @endpush

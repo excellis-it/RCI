@@ -438,14 +438,14 @@ class MemberController extends Controller
         //     'remarks' => 'required',
         // ]);
 
-        $inputs = $request->all();
-        $rules = [];
+        // $inputs = $request->all();
+        // $rules = [];
 
-        foreach ($inputs as $field => $value) {
-            // Apply numeric validation to each field
-            $rules[$field] = 'numeric';
-        }
-        $request->validate($rules);
+        // foreach ($inputs as $field => $value) {
+        //     // Apply numeric validation to each field
+        //     $rules[$field] = 'numeric';
+        // }
+        // $request->validate($rules);
 
 
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();

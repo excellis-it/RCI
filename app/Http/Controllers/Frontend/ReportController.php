@@ -70,23 +70,63 @@ class ReportController extends Controller
         if($request->report_type == 'group')
         {
             
-            $all_members = Member::orderBy('id', 'desc')->get();
-            foreach($all_members as $member)
-            {
-                $member_data = Member::where('id', $member->id)->first() ?? '';
-                $member_credit_data = MemberCredit::where('member_id', $member->id)->first() ?? '';
-                $member_debit_data = MemberDebit::where('member_id', $member->id)->first() ?? '';
-                $member_core_info = MemberCoreInfo::where('member_id', $member->id)->first() ?? '';
-                $member_recoveries_data = MemberRecovery::where('member_id', $member->id)->first() ?? '';
-                $month = $request->month;
-                $dateObj = \DateTime::createFromFormat('!m', $month);
-                $monthName = $dateObj->format('F');
-                $year = $request->year;
-                $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
-                
-                $pdf = PDF::loadView('frontend.reports.group-payslip-generate', compact('all_members','member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
-                return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
+        $month = $request->month;
+        $year = $request->year;
+
+        $all_members = Member::with([
+            'memberCredit' => function ($query) use ($month, $year) {
+                $query->whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year);
+            },
+            'memberOneDebit' => function ($query) use ($month, $year) {
+                $query->whereMonth('created_at', $month)
+                    ->whereYear('created_at', $year);
+            },
+            'memberCoreInfo' => 
+            function ($query) {
+                $query->latest();
+            },
+            'memberOneRecovery' => 
+            // no month year ch3ecking
+            function ($query) {
+                $query->latest();
+            },
+        ])
+        
+        ->where('pay_stop','No')   
+        ->orderBy('id', 'desc')
+        ->get();
+
+        $dateObj = \DateTime::createFromFormat('!m', $month);
+        $monthName = $dateObj->format('F');
+
+        $member_data_collection = [];
+
+        foreach ($all_members as $member) {
+            if ($member->memberCredit || $member->memberOneDebit || $member->memberCoreInfo || $member->memberOneRecovery) {
+                $member_quarter_charge = ($member->memberOneDebit->quarter_charges ?? 0) +
+                    ($member->memberOneDebit->elec ?? 0) +
+                    ($member->memberOneDebit->water ?? 0) +
+                    ($member->memberOneDebit->furn ?? 0) +
+                    ($member->memberOneDebit->misc2 ?? 0);
+
+                $member_data_collection[] = [
+                    'member_data' => $member,
+                    'member_credit_data' => $member->memberCredit,
+                    'member_debit_data' => $member->memberOneDebit,
+                    'member_core_info' => $member->memberCoreInfo,
+                    'member_recoveries_data' => $member->memberOneRecovery,
+                    'member_quarter_charge' => $member_quarter_charge,
+                ];
             }
+        }
+
+        
+
+        $pdf = PDF::loadView('frontend.reports.group-payslip-generate', compact('member_data_collection', 'monthName', 'year'));
+        return $pdf->download('payslip-' . $monthName . '-' . $year . '.pdf');
+
+
 
         }else{
 
@@ -1577,6 +1617,72 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('frontend.reports.da-arrears-generate-new', compact('report', 'da_percentage_diff_heading', 'due_da_percentage_for_heading', 'drawn_da_percentage_for_heading', 'start_date', 'end_date'));
         return $pdf->download('da-arrears-' . Carbon::parse($start_date)->format('M-Y') . 'to' . Carbon::parse($end_date)->format('M-Y') . '.pdf');
+    }
+
+
+    public function cgegis()
+    {
+       
+        return view('frontend.reports.cgegis', compact('members', 'financialYears'));
+    }
+
+    public function iTaxRecovery()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.i-tax-recovery', compact('categories','accountants'));
+    }
+
+    public function iTaxReportGenerate(Request $request)
+    {
+        $members = Member::where('category', $request->category)->get();
+        $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
+        $category = Category::where('id', $request->category)->first(); 
+        $year = $request->year;
+        $accountant = $request->accountant;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $pdf = PDF::loadView('frontend.reports.i-tax-report-generate', compact('chunkedMembers','category','month_name','year','accountant'));
+        return $pdf->download('i-tax-recovery-report-' . '.pdf');
+
+    }
+
+    public function lfChanges()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.lf-changes', compact('categories','accountants'));
+    }
+
+    public function lfReportGenerate(Request $request)
+    {
+        $members = Member::where('category', $request->category)->get();
+
+        foreach($members as $member)
+        {
+            $member->credit = MemberCredit::where('member_id', $member->id)
+                ->whereYear('created_at', $request->year)
+                ->whereMonth('created_at', $request->month)
+                ->first() ?? null;
+
+            $member->debit = MemberDebit::where('member_id', $member->id)
+                ->whereYear('created_at', $request->year)
+                ->whereMonth('created_at', $request->month)
+                ->first() ?? null;
+        }
+
+        // Chunk the collection into groups of 10
+        $chunkedMembers = $members->chunk(10);
+        
+        // Additional variables
+        $category = Category::where('id', $request->category)->first();
+        $year = $request->year;
+        $accountant = $request->accountant;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+
+        // Generate the PDF
+        $pdf = PDF::loadView('frontend.reports.lf-chnages-reports', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant'));
+        
+        return $pdf->download('i-tax-recovery-report-' . '.pdf');
     }
     
 }

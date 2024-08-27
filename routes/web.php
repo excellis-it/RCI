@@ -260,10 +260,20 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reports-pay-matrix', [ReportController::class, 'payMatrixReport'])->name('reports.pay-matrix');
     Route::post('/reports-pay-matrix-generate', [ReportController::class, 'payMatrixReportGenerate'])->name('reports.pay-matrix-report-generate');
 
-        //payslip
+    //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
+
+    Route::get('/reports-cgegis',[ReportController::class, 'cgegis'])->name('reports.cgegis');
+
+    //i-tax reports
+    Route::get('/reports-i-tax',[ReportController::class, 'iTaxRecovery'])->name('reports.i-tax');
+    Route::post('/reports-i-tax-generate',[ReportController::class, 'iTaxReportGenerate'])->name('reports.i-tax-report-generate');
+
+    // lf reports
+    Route::get('/reports-lf-changes',[ReportController::class, 'lfChanges'])->name('reports.lf-changes');
+    Route::post('/reports-lf-generate',[ReportController::class, 'lfReportGenerate'])->name('reports.lf-report-generate');
        // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
