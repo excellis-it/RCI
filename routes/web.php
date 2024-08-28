@@ -338,16 +338,16 @@ Route::middleware('permssions')->group(function () {
     Route::post('/get-member-gpf', [ReportController::class, 'getMemberGpf'])->name('reports.get-all-gpf-members');
 
         // professional Update allowance
-    Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
-    Route::post('reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
+    Route::get('/reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
+    Route::post('/reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
 
         // gpf withdrawal report
-    Route::get('reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
-    Route::post('reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
+    Route::get('/reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
+    Route::post('/reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
 
         // gpf subscription report
-    Route::get('reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
-    Route::post('reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
+    Route::get('/reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
+    Route::post('/reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
 
         // terminal benefits report
     Route::get('reports-terminal-benefits', [ReportController::class, 'terminalBenefits'])->name('reports.terminal-benefits');

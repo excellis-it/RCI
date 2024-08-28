@@ -34,100 +34,80 @@
                         <div id="form">
                             <form action="{{ route('reports.quaterly-tds-generate') }}" method="POST" >
                                 @csrf
-
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group col-md-12 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Employee Status</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">Select Employee Status</option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
-                                                                </select>
-                                                                @if ($errors->has('e_status'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('e_status') }}</div>
-                                                                @endif
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Employee Status</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select name="e_status" class="form-select" id="e_status">
+                                                        <option value="">Select Employee Status</option>
+                                                        <option value="active">Active</option>
+                                                        <option value="deputation">On Deputation</option>
+                                                    </select>
+                                                    @if ($errors->has('e_status'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('e_status') }}</div>
+                                                    @endif
 
-                                                            </div>
-                                                        </div>
-                                                        {{-- categories --}}
-                                                        
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Quarter</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="report_quarter" id="report_quarter" class="form-select">
-                                                                    <option value="">Select Quarter</option>
-                                                                    <option value="Q1">Q1</option>
-                                                                    <option value="Q2">Q2</option>
-                                                                    <option value="Q3">Q3</option>
-                                                                    <option value="Q4">Q4</option>
-                                                                </select>
-                                                                @if ($errors->has('report_quarter'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('report_quarter') }}</div>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Year</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="report_year" id="report_year" class="form-select">
-                                                                    <option value="">Select Year</option>
-                                                                    @foreach ($financialYears as $financialYear)
-                                                                        <option value="{{ $financialYear }}">
-                                                                            {{ $financialYear }}
-                                                                        </option>
-
-                                                                    @endforeach
-                                                                </select>
-                                                                @if ($errors->has('report_year'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('report_year') }}</div>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-
-
-
-
-                                                    </div>
                                                 </div>
                                             </div>
+                                            {{-- categories --}}
+                                            
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Quarter</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select name="report_quarter" id="report_quarter" class="form-select">
+                                                        <option value="">Select Quarter</option>
+                                                        <option value="Q1">Q1</option>
+                                                        <option value="Q2">Q2</option>
+                                                        <option value="Q3">Q3</option>
+                                                        <option value="Q4">Q4</option>
+                                                    </select>
+                                                    @if ($errors->has('report_quarter'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('report_quarter') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Year</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select name="report_year" id="report_year" class="form-select">
+                                                        <option value="">Select Year</option>
+                                                        @foreach ($financialYears as $financialYear)
+                                                            <option value="{{ $financialYear }}">
+                                                                {{ $financialYear }}
+                                                            </option>
+
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('report_year'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('report_year') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
 
-                                {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="row justify-content-end">
-                                            <div class="col-md-6">
-                                                <div class="row justify-content-end">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Generate</button>
-                                                    </div>
-
-                                                    {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
-                                                </div>
+                                            <div class="form-group col-md-6 mb-2">
+                                                <button type="submit" class="listing_add">Generate</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                 
                             </form>
                         </div>
                     </div>

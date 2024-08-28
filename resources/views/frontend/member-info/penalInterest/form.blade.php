@@ -3,18 +3,18 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="form-group col-md-12 mb-2">
                         <div class="row align-items-center">
 
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
-                                    <label>Member Name</label>
+                                    <label>Member</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <select name="member_id" id="member_id" class="form-select">
+                                    <select name="member_id" id="member_id" class="form-select search-select-box">
                                         <option value="">Select Member</option>
                                         @foreach ($memberloans as $member)
                                             <option value="{{ $member->member_id }}">
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
                                     <label>Loan Type</label>
                                 </div>
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
                                     <label>Interest Rate</label>
                                 </div>
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
                                     <label>No. of Days</label>
                                 </div>
@@ -75,9 +75,7 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
                                     <label>Status</label>
                                 </div>
@@ -94,7 +92,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
                                     <label>Penal Interest Amount</label>
                                 </div>
@@ -108,14 +106,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-4 mb-2">
                                 <div class="col-md-12">
                                     <label>Year</label>
                                 </div>
                                 <div class="col-md-12">
                                     <select name="year" class="form-select" id="year">
                                         <option value="">Select Year</option>
-                                        @for ($i = date('Y'); $i >= 1950; $i--)
+                                        @for ($i = date('Y'); $i >= 1958; $i--)
                                             <option value="{{ $i }}">
                                                 {{ $i }}</option>
                                         @endfor
@@ -141,8 +139,17 @@
                                     @endif
                                 </div>
                             </div>
-                            
+
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="mb-1">
+                        <button type="submit" class="listing_add">Add</button>
+                    </div>
+                    <div class="mb-1">
+                        <a href="" class="listing_exit">Back</a>
                     </div>
                 </div>
             </div>
@@ -150,7 +157,7 @@
     </div>
 
     {{-- save cancel button design in right corner --}}
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12">
             <div class="row justify-content-end">
                 <div class="col-md-3">
@@ -159,12 +166,9 @@
                             <button type="submit" class="listing_add">Add</button>
                         </div>
 
-                        {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </form>

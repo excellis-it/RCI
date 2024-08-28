@@ -152,7 +152,7 @@
                                 <label>Member</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <select class="form-select search-select-box" name="member_id" id="member_id">
                                     <option value="">Select Member</option>
                                     @if($member)
                                         @foreach ($member as $val)
@@ -184,7 +184,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Bill Date</label>
@@ -196,7 +196,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Departure Date&Time</label>
@@ -208,7 +208,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Amount Request</label>
@@ -219,7 +219,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Amount Allowed</label>
@@ -231,7 +231,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Amount Disallowed</label>
@@ -242,7 +242,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -256,11 +256,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
 
             </div>

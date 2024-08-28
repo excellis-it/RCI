@@ -715,11 +715,19 @@ class ReportController extends Controller
             'e_status' => 'required'
         ]);
 
+        // need atleast one child_name field is rewquired
+        if($request->report_type == 'individual') {
+            $request->validate([
+                'child_name' => 'required'
+            ]);
+        } 
+
         $data = $request->all(); 
         $timestamp = now()->format('YmdHis');
         $bill_no = date('Y').'-PGB'.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT). $timestamp;
         $today =  Carbon::now()->format('d-M-Y');
         $accountant = $request->accountant;
+        
 
         if($request->report_type == 'individual') {
 
@@ -802,6 +810,9 @@ class ReportController extends Controller
     public function professionalUpdateAllowance()
     {
         $category = Category::where('category', 'A')->first();
+        if(!$category) {
+            return redirect()->back()->with('error', 'Category A not found!');
+        }
         $members = Member::where('e_status', 'active')->where('category', $category->id)->orderBy('id', 'desc')->get();
         $financialYears = Helper::getFinancialYears();
         return view('frontend.reports.professional-update-allowance', compact('category', 'members', 'financialYears'));

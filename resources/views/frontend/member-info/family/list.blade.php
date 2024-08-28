@@ -4,6 +4,8 @@
 @endsection
 
 @push('styles')
+
+
 @endpush
 
 @section('content')
@@ -286,8 +288,12 @@
         });
     </script>
 
+<script>
+    var select_box_element = document.querySelector('.select-box-drop');
+    dselect(select_box_element, {
+        search: true
+    });
+</script>
+
    
-
-
-
 @endpush

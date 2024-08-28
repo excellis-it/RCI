@@ -38,11 +38,11 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-8">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
 
-                                                        <div class="form-group col-md-3 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Year</label>
                                                             </div>
@@ -61,7 +61,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-3 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Report Type</label>
                                                             </div>
@@ -79,7 +79,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group col-md-3 mb-2 cat_drop" style="display:none;">
+                                                        <div class="form-group col-md-4 mb-2 cat_drop" style="display:none;">
                                                             <div class="col-md-12">
                                                                 <label>Category</label>
                                                             </div>
@@ -97,7 +97,7 @@
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="form-group col-md-3 mb-2 emp_status">
+                                                        <div class="form-group col-md-4 mb-2 emp_status">
                                                             <div class="col-md-12">
                                                                 <label>Employee Status</label>
                                                             </div>
@@ -110,15 +110,29 @@
                                                                 <span id="e_status-error" class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group col-md-3 mb-2 member">
+                                                        <div class="form-group col-md-4 mb-2 member">
                                                             <div class="col-md-12">
                                                                 <label>Members</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="member_id" class="form-select" id="member_id">
+                                                                <select name="member_id" class="form-select search-select-box" id="member_id">
                                                                 </select>
                                                                 <span id="member_id-error" class="text-danger"></span>
                                                                 
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-4 mb-2 type-select" >
+                                                            <div class="col-md-12">
+                                                                <label>A/c Officer Sign</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="accountant" class="form-select" id="accountant">
+                                                                    <option value="">Select </option>
+                                                                    @foreach($accountants as $accountant)
+                                                                        <option value="{{ $accountant->user_name }}">{{ $accountant->user_name }}</option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         {{-- <div class="form-group col-md-3 mb-2 type-select" >
@@ -144,19 +158,7 @@
                                                             @include('frontend.reports.children-allowance-children-list')
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-3 mb-2 type-select" >
-                                                        <div class="col-md-12">
-                                                            <label>A/c Officer Sign</label>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <select name="accountant" class="form-select" id="accountant">
-                                                                <option value="">Select </option>
-                                                                @foreach($accountants as $accountant)
-                                                                    <option value="{{ $accountant->user_name }}">{{ $accountant->user_name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -234,10 +236,23 @@
                 url: "{{ route('reports.get-all-members') }}",
                 type: 'POST',
                 data: { e_status, _token: '{{ csrf_token() }}' },
-                success: ({members}) => {
-                    const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
-                    members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
+                
+                
+                success: ({ members }) => {
+                    // Reference the existing select element
+                    const memberDropdown = $('#member_id');
+                    memberDropdown.empty();
+                    memberDropdown.append('<option value="">Select Member</option>');
+                    members.forEach(({ id, name, emp_id }) => {
+                        memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`);
+                    });
+
+                    var select_box_element = document.querySelector('.search-select-box');
+                    dselect(select_box_element, {
+                        search: true
+                    });
                 },
+
                 error: (xhr) => console.log(xhr)
             });
         });

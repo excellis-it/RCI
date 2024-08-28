@@ -153,7 +153,7 @@
                                 <label>Members</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id" >
+                                <select class="form-select search-select-box" name="member_id" id="member_id" >
                                     <option value="">Select member</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}">{{ $member->name }}</option>
@@ -190,7 +190,7 @@
                             <div class="col-md-12">
                             <select name="year" class="form-select" id="year">
                                 <option value="">Select Year</option>
-                                @for ($i = date('Y'); $i >= 1950; $i--)
+                                @for ($i = date('Y'); $i >= 1958; $i--)
                                     <option value="{{ $i }}">
                                         {{ $i }}</option>
                                 @endfor
@@ -260,7 +260,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-8 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Closing Balance</label>

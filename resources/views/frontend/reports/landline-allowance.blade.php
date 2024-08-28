@@ -35,135 +35,96 @@ Landline Allowance
                             @csrf
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group col-md-12 mb-2">
-                                                <div class="row align-items-center">
+                                        <div class="form-group col-md-4 mb-2" >
+                                            <div class="col-md-12">
+                                                <label>Category</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="category" class="form-select" id="category">
+                                                    @foreach($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('category'))
+                                                    <div class="error" style="color:red;">
+                                                        {{ $errors->first('category') }}</div>
+                                                @endif
+                                                
+                                            </div>
+                                        </div>
 
-                                                    {{-- <div class="form-group col-md-3 mb-2">
-                                                        <div class="col-md-12">
-                                                            <label>Report Type</label>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <select name="report_type" class="form-select" id="report_type">
-                                                                <option value="">Select Type</option>
-                                                                <option value="individual">Individual</option>
-                                                                <option value="group">Group(Category)</option>
-                                                            </select>
-                                                            @if ($errors->has('report_type'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('report_type') }}</div>
-                                                            @endif
-                                                            
-                                                        </div>
-                                                    </div> --}}
+                                        <div class="form-group col-md-4 mb-2 emp_status">
+                                            <div class="col-md-12">
+                                                <label>Employee Status</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="e_status" class="form-select" id="e_status">
+                                                    <option value="">Select Employee Status</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="deputation">On Deputation</option>
+                                                </select>
 
-                                                    <div class="form-group col-md-3 mb-2" >
-                                                        <div class="col-md-12">
-                                                            <label>Category</label>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <select name="category" class="form-select" id="category">
-                                                                @foreach($categories as $category)
-                                                                    <option value="{{ $category->id }}">{{ $category->category }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                            @if ($errors->has('category'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('category') }}</div>
-                                                            @endif
-                                                            
-                                                        </div>
-                                                    </div>
+                                                @if ($errors->has('e_status'))
+                                                    <div class="error" style="color:red;">
+                                                        {{ $errors->first('e_status') }}</div>
+                                                @endif
 
-                                                    
+                                            </div>
+                                        </div>
 
-                                                    <div class="form-group col-md-3 mb-2 emp_status">
-                                                        <div class="col-md-12">
-                                                            <label>Employee Status</label>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <select name="e_status" class="form-select" id="e_status">
-                                                                <option value="">Select Employee Status</option>
-                                                                <option value="active">Active</option>
-                                                                <option value="deputation">On Deputation</option>
-                                                            </select>
+                                        <div class="form-group col-md-4 mb-2 member">
+                                            <div class="col-md-12">
+                                                <label>Employee</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="member_id" class="form-select search-select-box" id="member_id">
+                                                </select>
 
-                                                            @if ($errors->has('e_status'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('e_status') }}</div>
-                                                            @endif
+                                                @if ($errors->has('member_id'))
+                                                    <div class="error" style="color:red;">
+                                                        {{ $errors->first('member_id') }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
 
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group col-md-4 mb-2 member">
-                                                        <div class="col-md-12">
-                                                            <label>Employee</label>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <select name="member_id" class="form-select" id="member_id">
-                                                            </select>
-
-                                                            @if ($errors->has('member_id'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('member_id') }}</div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group col-md-3 mb-2 month_drop" style="display:none;">
-                                                        <div class="col-md-12">
-                                                            <label>Month</label>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <select name="month" class="form-select" id="month">
-                                                               <option value="">Select Month</option>
-                                                                <option value="01">January</option>
-                                                                <option value="02">February</option>
-                                                                <option value="03">March</option>
-                                                                <option value="04">April</option>
-                                                                <option value="05">May</option>
-                                                                <option value="06">June</option>
-                                                                <option value="07">July</option>
-                                                                <option value="08">August</option>
-                                                                <option value="09">September</option>
-                                                                <option value="10">October</option>
-                                                                <option value="11">November</option>
-                                                                <option value="12">December</option>
-                                                            </select>
-                                                            @if ($errors->has('month'))
-                                                                <div class="error" style="color:red;">
-                                                                    {{ $errors->first('month') }}</div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                        <div class="form-group col-md-4 mb-2 month_drop" style="display:none;">
+                                            <div class="col-md-12">
+                                                <label>Month</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="month" class="form-select" id="month">
+                                                    <option value="">Select Month</option>
+                                                    <option value="01">January</option>
+                                                    <option value="02">February</option>
+                                                    <option value="03">March</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">May</option>
+                                                    <option value="06">June</option>
+                                                    <option value="07">July</option>
+                                                    <option value="08">August</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                                @if ($errors->has('month'))
+                                                    <div class="error" style="color:red;">
+                                                        {{ $errors->first('month') }}</div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {{-- save cancel button design in right corner --}}
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <div class="row justify-content-end">
-                                        <div class="col-md-3">
-                                            <div class="row justify-content-end">
-                                                <div class="form-group col-md-6 mb-2">
-                                                    <button type="submit" class="listing_add">Generate</button>
-                                                </div>
-
-                                                {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
-                                            </div>
+                                        <div class="form-group col-md-6 mb-2">
+                                            <button type="submit" class="listing_add">Generate</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div>          
                             </div>
                         </form>
                     </div>
@@ -184,20 +145,24 @@ Landline Allowance
             $.ajax({
                 url: "{{ route('reports.get-all-members') }}",
                 type: 'POST',
-                data: {
-                    e_status,
-                    _token: '{{ csrf_token() }}'
+                data: { e_status, _token: '{{ csrf_token() }}' },
+                
+                
+                success: ({ members }) => {
+                    // Reference the existing select element
+                    const memberDropdown = $('#member_id');
+                    memberDropdown.empty();
+                    memberDropdown.append('<option value="">Select Member</option>');
+                    members.forEach(({ id, name, emp_id }) => {
+                        memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`);
+                    });
+
+                    var select_box_element = document.querySelector('.search-select-box');
+                    dselect(select_box_element, {
+                        search: true
+                    });
                 },
-                success: ({
-                    members
-                }) => {
-                    const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
-                    members.forEach(({
-                        id,
-                        name,
-                        emp_id
-                    }) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
-                },
+
                 error: (xhr) => console.log(xhr)
             });
         });

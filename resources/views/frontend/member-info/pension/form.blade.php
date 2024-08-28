@@ -177,7 +177,7 @@
                                 <label>Member Name</label>
                             </div>
                             <div class="col-md-12">
-                                <select name="member_id" class="form-select" id="member_id">
+                                <select name="member_id" class="form-select search-select-box" id="member_id">
                                     <option value="">Select Member</option>
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}">
@@ -212,8 +212,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -274,8 +272,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -288,6 +284,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">

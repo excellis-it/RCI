@@ -22,6 +22,7 @@
 
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('frontend_assets/css/style.min.css') }}">
+    {{-- <link id="" rel="" href="{{ asset('frontend_assets/css/dselect.scss') }}"> --}}
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
@@ -51,6 +52,7 @@
     <script src="{{ asset('frontend_assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('frontend_assets/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('frontend_assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('frontend_assets/js/dselect.js') }}"></script>
     <!--  core files -->
     <script src="{{ asset('frontend_assets/js/app.min.js') }}"></script>
     <script src="{{ asset('frontend_assets/js/app.init.js') }}"></script>
