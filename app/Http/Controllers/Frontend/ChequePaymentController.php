@@ -9,6 +9,7 @@ use App\Models\ChequePayment;
 use App\Models\ResetVoucher;
 use Illuminate\Support\Str;
 use App\Models\Member;
+use App\Models\Receipt;
 use App\Models\Designation;
 
 class ChequePaymentController extends Controller
@@ -18,10 +19,11 @@ class ChequePaymentController extends Controller
      */
     public function index()
     {
+        $receipt_nos = Receipt::where('receipt_type', 'cheque')->get();
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $chequePayments = ChequePayment::orderBy('id', 'desc')->paginate(10);
         $members = Member::orderBy('id', 'desc')->get();
-        return view('frontend.public-fund.cheque-payment.list', compact('chequePayments', 'paymentCategories','members'));
+        return view('frontend.public-fund.cheque-payment.list', compact('chequePayments', 'paymentCategories','members','receipt_nos'));
 
     }
 

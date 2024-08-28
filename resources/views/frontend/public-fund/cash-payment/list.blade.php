@@ -259,24 +259,23 @@ Cash Payments List
 <script>
         $(document).on('click', '#add_more', function() {
 
-            function getOrdinal(n) {
-                var s = ["th", "st", "nd", "rd"],
-                    v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            }
+        function getOrdinal(n) {
+            var s = ["th", "st", "nd", "rd"],
+                v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
 
-            var html = '';
-            // count rows
-            var rowCount = $('#cash_payment_amount .child1').length + 2;
-            html += '<div class="row .child1"><div class="col-lg-3"><div class="form-group mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Amount</label></div><div class="col-md-12"><input type="text" class="form-control" name="amount" id="amount" placeholder="" /><span class="text-danger"></span></div></div></div></div><div class="col-lg-3"><div class="form-group mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Date</label></div><div class="col-md-12"><input type="date" class="form-control" name="date" id="date" placeholder="" /><span class="text-danger"></span></div><div class="col-lg-12"><div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div></div></div></div></div>';
+        var html = '';
+        // count rows
+        var rowCount = $('#cash_payment_amount .child1').length + 2;
+        html += '<div class="row child1 mb-2"><div class="col-lg-3"><div class="form-group"><label>Amount</label><input type="text" class="form-control" name="amount" id="amount" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-3"><div class="form-group"><label>Date</label><input type="date" class="form-control" name="date" id="date" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div>';
 
-            $('#cash_payment_amount').append(html);
-            });
-
-            // Handle removing rows
-            $(document).on('click', '.remove-child', function() {
-            $(this).closest('.row').remove();
+        $('#cash_payment_amount').append(html);
         });
 
+        // Handle removing rows
+        $(document).on('click', '.remove-child', function() {
+        $(this).closest('.child1').remove();
+        });
 </script>
 @endpush
