@@ -265,15 +265,33 @@ Route::middleware('permssions')->group(function () {
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
 
-    Route::get('/reports-cgegis',[ReportController::class, 'cgegis'])->name('reports.cgegis');
+    // cgegis reports
+    Route::get('/reports-cgegis',[ReportController::class, 'cgegisReport'])->name('reports.cgegis');
+    route::post('/reports-cgegis-generate',[ReportController::class, 'cgegisReportGenerate'])->name('reports.cgegis-report-generate');
+
+    //cghs reports
+    Route::get('/reports-cghs',[ReportController::class, 'cghsReport'])->name('reports.cghs');
+    route::post('/reports-cghs-generate',[ReportController::class, 'cghsReportGenerate'])->name('reports.cghs-report-generate');
+
+    // hba reports
+    Route::get('/reports-hba',[ReportController::class, 'hbaReport'])->name('reports.hba');
+    Route::post('/reports-hba-generate',[ReportController::class, 'hbaReportGenerate'])->name('reports.hba-report-generate');
 
     //i-tax reports
     Route::get('/reports-i-tax',[ReportController::class, 'iTaxRecovery'])->name('reports.i-tax');
     Route::post('/reports-i-tax-generate',[ReportController::class, 'iTaxReportGenerate'])->name('reports.i-tax-report-generate');
 
+    Route::get('/reports-nps',[ReportController::class, 'npsReport'])->name('reports.nps');
+    Route::post('/reports-nps-generate',[ReportController::class, 'npsReportGenerate'])->name('reports.nps-report-generate');
+    Route::get('/get-da-percent-nps',[ReportController::class, 'getDaPercentNps'])->name('reports.get-da-percent-nps');
+
     // lf reports
     Route::get('/reports-lf-changes',[ReportController::class, 'lfChanges'])->name('reports.lf-changes');
     Route::post('/reports-lf-generate',[ReportController::class, 'lfReportGenerate'])->name('reports.lf-report-generate');
+
+    // misc reports
+    Route::get('/reports-misc',[ReportController::class, 'miscReport'])->name('reports.misc');
+    Route::post('/reports-misc-generate',[ReportController::class, 'miscReportGenerate'])->name('reports.msc-report-generate');
        // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');

@@ -182,5 +182,17 @@ class Helper {
 
         return $debit;
     }
+    public static function getCreditDetails($member_id, $month, $year)
+    {
+        $credit = MemberCredit::where('member_id', $member_id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return $credit;
+    }
+
+   
 
 }

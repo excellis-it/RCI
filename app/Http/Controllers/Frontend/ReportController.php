@@ -1639,9 +1639,10 @@ class ReportController extends Controller
         $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
         $category = Category::where('id', $request->category)->first(); 
         $year = $request->year;
+        $month = $request->month;
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-        $pdf = PDF::loadView('frontend.reports.i-tax-report-generate', compact('chunkedMembers','category','month_name','year','accountant'));
+        $pdf = PDF::loadView('frontend.reports.i-tax-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
         return $pdf->download('i-tax-recovery-report-' . '.pdf');
 
     }
@@ -1676,13 +1677,122 @@ class ReportController extends Controller
         // Additional variables
         $category = Category::where('id', $request->category)->first();
         $year = $request->year;
+        $month = $request->month;
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
 
         // Generate the PDF
-        $pdf = PDF::loadView('frontend.reports.lf-chnages-reports', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant'));
+        $pdf = PDF::loadView('frontend.reports.lf-chnages-reports', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant','month'));
         
-        return $pdf->download('i-tax-recovery-report-' . '.pdf');
+        return $pdf->download('lf-chnages-recovery-report-' . '.pdf');
     }
+
+    public function miscReport()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.misc-report', compact('categories'));
+    }
+
+    public function miscReportGenerate(Request $request)
+    {
+        $members = Member::where('category', $request->category)->get();
+        $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
+        $category = Category::where('id', $request->category)->first(); 
+        $year = $request->year;
+        $month = $request->month;
+        $accountant = $request->accountant;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $pdf = PDF::loadView('frontend.reports.misc-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
+        return $pdf->download('misc-report-' . '.pdf');
+    }
+
+    public function npsReport()
+    {
+        $financialYears = Helper::getFinancialYears();
+        return view('frontend.reports.nps-report', compact('financialYears'));
+    }
+
+    public function npsReportGenerate(Request $request)
+    {
+        $members = Member::orderBy('id','desc')->where('fund_type', 'NPS')->get();
+        $chunkedMembers = $members->chunk(10); 
+        $financial_year = $request->financial_year;
+        $year = $request->year;
+        $da = $request->da;
+        $accountant = $request->accountant;
+        $month = $request->month;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $pdf = PDF::loadView('frontend.reports.nps-report-generate', compact('chunkedMembers','financial_year','month_name','year','da','accountant','month'));
+        return $pdf->download('misc-report-' . '.pdf');
+    }
+
+    public function getDaPercentNps(Request $request)
+    {
+        $get_da_percenrtage = DearnessAllowancePercentage::where('financial_year', $request->financial_year)->where('year', $request->year)->where('is_active',1)->first();
+        return response()->json(['da_percentage' => $get_da_percenrtage->percentage]);
+    }
+
+    public function cgegisReport()
+    {
+        $categories = Category::orderby('id','desc')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.cgegis-report', compact('categories','accountants'));
+    }
+
+    public function cgegisReportGenerate(Request $request)
+    {
+        $members = Member::where('category', $request->category)->get();
+        $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
+        $category = Category::where('id', $request->category)->first(); 
+        $year = $request->year;
+        $month = $request->month;
+        $accountant = $request->accountant;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $pdf = PDF::loadView('frontend.reports.cgegis-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
+        return $pdf->download('cgegis-report-' . '.pdf');
+    }
+
+    public function cghsReport()
+    {
+        $categories = Category::orderby('id','desc')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.cghs-report', compact('categories','accountants'));
+    }
+
+    public function cghsReportGenerate(Request $request)
+    {
+        $members = Member::where('category', $request->category)->get();
+        $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
+        $category = Category::where('id', $request->category)->first(); 
+        $year = $request->year;
+        $month = $request->month;
+        $accountant = $request->accountant;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $pdf = PDF::loadView('frontend.reports.cghs-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
+        return $pdf->download('cghs-report-' . '.pdf');
+    }
+
+    public function hbaReport()
+    {
+        $categories = Category::orderby('id','desc')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.hba-report', compact('categories','accountants'));
+    }
+
+    public function hbaReportGenerate(Request $request)
+    {
+        $members = Member::where('category', $request->category)->get();
+        $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
+        $category = Category::where('id', $request->category)->first(); 
+        $year = $request->year;
+        $accountant = $request->accountant;
+        $month = $request->month;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $pdf = PDF::loadView('frontend.reports.hba-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
+        return $pdf->download('hba-report-' . '.pdf');
+    }
+
+
+    
     
 }

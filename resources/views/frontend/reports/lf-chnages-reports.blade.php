@@ -15,6 +15,26 @@
 
 <body style="background: #fff">
 
+
+    @php
+    $grandTotal = [
+    'rent' => 0,
+    'elec' => 0,
+    'water' => 0,
+    'furn' => 0,
+    'rent_arr' => 0,
+    'elec_arr' => 0,
+    'water_arr' => 0,
+    'furn_arr' => 0,
+    'cr_rent' => 0,
+    'cr_elec' => 0,
+    'cr_water' => 0,
+    'total' => 0
+    ];
+    @endphp
+
+    @foreach($chunkedMembers as $chunkIndex => $chunk)
+
     
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
@@ -65,8 +85,6 @@
                     </table>
                 </td>
             </tr>
-
-
 
             <tr>
                 <td>
@@ -129,24 +147,7 @@
                             </tr>
 
 
-                            @php
-                            $grandTotal = [
-                            'rent' => 0,
-                            'elec' => 0,
-                            'water' => 0,
-                            'furn' => 0,
-                            'rent_arr' => 0,
-                            'elec_arr' => 0,
-                            'water_arr' => 0,
-                            'furn_arr' => 0,
-                            'cr_rent' => 0,
-                            'cr_elec' => 0,
-                            'cr_water' => 0,
-                            'total' => 0
-                            ];
-                            @endphp
-
-                            @foreach($chunkedMembers as $chunkIndex => $chunk)
+                            
                             @php
                             $pageTotal = [
                             'rent' => 0,
@@ -169,6 +170,7 @@
                             // Fetch member details, credits, and debits
                             $member_details = $member;
                             $member_credit = $member->pay ?? 0;
+                            
                             $member_debit = $member->debit ?? 0;
 
                             // Calculate totals for this member
@@ -290,7 +292,7 @@
                             <tr>
                                 <td colspan="5"
                                     style=" border: 1px solid black; border-bottom: 0; border-left: 0px; padding: 0px 5px 0px 5px; border-right: 0; text-align: left;">
-                                    Page 1 Total
+                                    Page {{ $chunkIndex + 1 }} Total
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-bottom: 0; border-right: 0; border-left: 0px;">
@@ -343,7 +345,7 @@
 
                             </tr>
 
-                            @endforeach
+                           
 
                             <tr>
                                 <td colspan="5"
@@ -352,7 +354,7 @@
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
-                                    {{  $grandTotal['total'] ?? 0 }}
+                                    {{  $grandTotal['rent'] ?? 0 }}
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
@@ -435,6 +437,11 @@
         </tbody>
 
     </table>
+
+    @if (!$loop->last)
+    <div class="page-break"></div>
+    @endif
+    @endforeach
 
 </body>
 

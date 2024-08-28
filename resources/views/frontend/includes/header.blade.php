@@ -338,15 +338,15 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('ltc-advance') }}">NPS</a>
+                                    href="{{ route('reports.nps') }}">NPS</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('ltc-advance') }}">HBA</a>
+                                    href="{{ route('reports.hba') }}">HBA</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('ltc-advance') }}">CGHS</a>
+                                    href="{{ route('reports.cghs') }}">CGHS</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -359,6 +359,10 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.lf-changes') }}">LF Changes</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.misc') }}">Misc 1</a>
                             </li>
 
                             {{-- <li class="mb-2">
