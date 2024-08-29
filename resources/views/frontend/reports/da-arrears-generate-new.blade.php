@@ -44,10 +44,10 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
-               Center for Hi h Energy Systems & Sciences, Hyderabad<br>
+               Center for High Energy Systems & Sciences, Hyderabad<br>
                <span style="font-size: 10px !important;
                line-height: 14px !important;">
-                DA Arrears @ {{ $da_percentage_diff_heading }} % W.E From {{ Jul - 2023 }} To Oct - 2023 in R/o NIE
+                DA Arrears @ {{ $da_percentage_diff_heading }} % W.E From {{ \Carbon\Carbon::parse($start_date)->format('M-Y') }} To {{ \Carbon\Carbon::parse($end_date)->format('M-Y') }} in R/o NIE
                </span>
                 </td>
               </tr>
@@ -372,7 +372,7 @@
                 border-bottom: 1px solid #000;
                 border-left: 1px solid #000;
               ">
-              46%
+              {{ $due_da_percentage_for_heading->percentage }}%
                 </td>
                 <td style="
                 font-size: 10px;
@@ -385,7 +385,7 @@
                 height: 10px;
                 border-bottom: 1px solid #000;
               ">
-              42%
+              {{ $drawn_da_percentage_for_heading->percentage }}%
                 </td>
                 <td style="
                 font-size: 10px;
@@ -707,6 +707,7 @@
               ">
                 </td>
               </tr>
+              @foreach ($report as $memberData)
               <tr>
                 <td style="
                 font-size: 10px;
@@ -721,7 +722,7 @@
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-              1
+              {{ $loop->iteration }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -736,7 +737,7 @@
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-              CH0051
+              {{ $memberData['Emp_ID'] ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -751,7 +752,7 @@
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-             xxxxxxxx
+                {{ $memberData['Name'] ?? '' }}, {{ $memberData['Desig'] ?? '' }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -766,7 +767,25 @@
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-                Jul-23    
+                <table style="width: 100%; border-collapse: collapse;">
+                  @foreach($memberData['monthly_data'] as $data)
+                  <tr>
+                      <td style="
+                          font-size: 10px;
+                          line-height: 14px;
+                          font-weight: 400;
+                          color: #000;
+                          text-align: left;
+                          padding: 0px 5px !important;
+                          margin: 0px 0px !important;
+                          height: 20px;
+                          border-bottom: 1px solid #000;
+                      ">
+                          {{ \Carbon\Carbon::parse($data['Month'])->format('M-Y') ?? '' }}
+                      </td>
+                  </tr>
+                  @endforeach
+              </table>    
                 </td>
                 <td style="
                 font-size: 10px;
@@ -780,7 +799,7 @@
                 border-left: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-                42200
+                {{ $memberData['Basic'] ?? 0 }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -794,851 +813,323 @@
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-                0
+                {{ $memberData['GPAY'] ?? 0 }}
                 </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
-                19412
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-top: 1px solid #000;
-              ">
-                 17724
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
-                 1688
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
+                  <td style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      height: 20px;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                      border-top: 1px solid #000;
+                  ">
+                      <table style="width: 100%; border-collapse: collapse;">
+                          @foreach($memberData['monthly_data'] as $data)
+                              <tr>
+                                  <td style="
+                                      font-size: 10px;
+                                      line-height: 14px;
+                                      font-weight: 400;
+                                      color: #000;
+                                      text-align: left;
+                                      padding: 0px 5px !important;
+                                      margin: 0px 0px !important;
+                                      height: 20px;
+                                      border-bottom: 1px solid #000;
+                                  ">
+                                      {{ $data['Due'] ?? '' }}
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                  </td>
+                  <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: center;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-top: 1px solid #000;
+                    ">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            @foreach($memberData['monthly_data'] as $data1)
+                                <tr>
+                                    <td style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: center;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-bottom: 1px solid #000;
+                                    ">
+                                        {{ $data1['Drawn'] ?? '' }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </td>
+                  <td style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: right;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      height: 20px;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                      border-top: 1px solid #000;
+                  ">
+                      <table style="width: 100%; border-collapse: collapse;">
+                          @foreach($memberData['monthly_data'] as $data)
+                              <tr>
+                                  <td style="
+                                      font-size: 10px;
+                                      line-height: 14px;
+                                      font-weight: 400;
+                                      color: #000;
+                                      text-align: right;
+                                      padding: 0px 5px !important;
+                                      margin: 0px 0px !important;
+                                      height: 20px;
+                                      border-bottom: 1px solid #000;
+                                  ">
+                                      {{ $data['Diff'] ?? '' }}
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                  </td>
+                  <td style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  height: 20px;
+                  border-left: 1px solid #000;
+                  border-right: 1px solid #000;
+                  border-top: 1px solid #000;
+                ">
 
+                  </td>
+                  <td style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      height: 20px;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                      border-top: 1px solid #000;
+                  ">
+                      <table style="width: 100%; border-collapse: collapse;">
+                        <tbody>
+                          @foreach($memberData['monthly_data'] as $data)
+                              <tr>
+                                  <td style="
+                                      font-size: 10px;
+                                      line-height: 14px;
+                                      font-weight: 400;
+                                      color: #000;
+                                      text-align: left;
+                                      padding: 0px 5px !important;
+                                      margin: 0px 0px !important;
+                                      height: 20px;
+                                      border-bottom: 1px solid #000;
+                                  ">
+                                      {{ $data['NPS'] ?? '' }}
+                                  </td>
+                              </tr>
+                          @endforeach
+                          </tbody>
+                      </table>
+                  </td>
+                  <td style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: right;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      height: 20px;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                      border-top: 1px solid #000;
+                  ">
+                      <table style="width: 100%; border-collapse: collapse;">
+                          @foreach($memberData['monthly_data'] as $data)
+                              <tr>
+                                  <td style="
+                                      font-size: 10px;
+                                      line-height: 14px;
+                                      font-weight: 400;
+                                      color: #000;
+                                      text-align: right;
+                                      padding: 0px 5px !important;
+                                      margin: 0px 0px !important;
+                                      height: 20px;
+                                      border-bottom: 1px solid #000;
+                                  ">
+                                      {{ $data['EOl'] ?? '' }}
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                  </td>
+                  <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: left;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-right: 1px solid #000;
+                    border-top: 1px solid #000;
+                ">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        @foreach($memberData['monthly_data'] as $data)
+                            <tr>
+                                <td style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 400;
+                                    color: #000;
+                                    text-align: left;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $data['TPT_Due'] ?? '' }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
-                  0
+                  <td style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      height: 20px;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                      border-top: 1px solid #000;
+                  ">
+                      <table style="width: 100%; border-collapse: collapse;">
+                          @foreach($memberData['monthly_data'] as $data)
+                              <tr>
+                                  <td style="
+                                      font-size: 10px;
+                                      line-height: 14px;
+                                      font-weight: 400;
+                                      color: #000;
+                                      text-align: center;
+                                      padding: 0px 5px !important;
+                                      margin: 0px 0px !important;
+                                      height: 20px;
+                                      border-bottom: 1px solid #000;
+                                  ">
+                                      {{ $data['TPT_Drawn'] ?? '' }}
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                  </td>
+                  <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-right: 1px solid #000;
+                    border-top: 1px solid #000;
+                ">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        @foreach($memberData['monthly_data'] as $data)
+                            <tr>
+                                <td style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 400;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $data['TPT_Diff'] ?? '' }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
-                 0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
-                   5256
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-top: 1px solid #000;
-              ">
-                 5112
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
-               144    
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
+                  <td style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  height: 20px;
+                  border-left: 1px solid #000;
+                  border-right: 1px solid #000;
+                  border-top: 1px solid #000;
+                ">
 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-top: 1px solid #000;
-              ">
+                  </td>
+                  <td style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  height: 20px;
+                  border-left: 1px solid #000;
+                  border-right: 1px solid #000;
+                  border-top: 1px solid #000;
+                ">
 
-                </td>
+                  </td>
+                  
+                
               </tr>
-              <tr>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-             MTS
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-             
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">  
-              Aug-23 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                19412
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-              ">
-                 17724
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-                 1688
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                  0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                 0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                   5256
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-              ">
-                 5112
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-               144    
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-               Sep-23   
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                19412
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-              ">
-                 17724
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-                 1688
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                  0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                 0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                   5256
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-              ">
-                 5112
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-               144    
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-            
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">  
-               Oct-23 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-              ">
-                19412
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-              ">
-                 17724
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-              ">
-                 1688
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                  0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                 0
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                   5256
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-                 5112
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-               144    
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-              ">
-
-                </td>
-              </tr>
               <tr>
                 <td style="
                 font-size: 10px;
@@ -1764,6 +1255,15 @@
               ">
                  
                 </td>
+                @php  
+
+                  $total_due = array_sum(array_column($memberData['monthly_data'], 'Diff'));
+                  $total_nps = array_sum(array_column($memberData['monthly_data'], 'NPS'));
+                  $total_eol = array_sum(array_column($memberData['monthly_data'], 'Eol'));
+                  $total_tpt_due = array_sum(array_column($memberData['monthly_data'], 'TPT_Diff')); 
+
+                  $final = ($total_due - $total_nps - $total_eol) + $total_tpt_due;
+                @endphp
                 <td style="
                 font-size: 10px;
                 line-height: 14px;
@@ -1777,7 +1277,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              6752   
+              {{  $total_due }}   
                 </td>
                 <td style="
                 font-size: 10px;
@@ -1792,7 +1292,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                  0
+                  {{  $total_nps }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -1807,7 +1307,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                 0
+                 {{ $total_eol }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -1848,7 +1348,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                576
+                {{ $total_tpt_due }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -1863,7 +1363,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                 7328
+                 {{ $final }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -1881,7 +1381,8 @@
 
                 </td>
               </tr>
-              <tr>
+              @endforeach
+              {{-- <tr>
                 <td style="
                 font-size: 10px;
                 line-height: 14px;
@@ -2112,7 +1613,7 @@
               ">
 
                 </td>
-              </tr>
+              </tr> --}}
               <tr>
                 <td style="
                 font-size: 10px;
@@ -2128,6 +1629,20 @@
               ">
               Grand Total
                 </td>
+                @php 
+                  $grand_total_due = 0;
+                  $grand_total_nps = 0;
+                  $grand_total_eol = 0;
+                  $grand_total_tpt_due = 0;
+                  $grand_final = 0;
+                  
+                  $grand_total_due += $total_due;
+                  $grand_total_nps += $total_nps;
+                  $grand_total_eol += $total_eol;
+                  $grand_total_tpt_due += $total_tpt_due;
+
+                  $grand_final = ($grand_total_due - $grand_total_nps - $grand_total_eol) + $grand_total_tpt_due;
+                @endphp
                 <td style="
                 font-size: 10px;
                 line-height: 14px;
@@ -2242,7 +1757,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-              6752   
+              {{  $grand_total_due }}   
                 </td>
                 <td style="
                 font-size: 10px;
@@ -2257,7 +1772,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                  0
+                  {{ $grand_total_nps }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -2272,7 +1787,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                 0
+                 {{ $grand_total_eol }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -2315,7 +1830,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                576
+                {{  $grand_total_tpt_due }}
                 </td>
                 <td style="
                 font-size: 10px;
@@ -2330,7 +1845,7 @@
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
-                 7328
+                 {{  $grand_final }}
                 </td>
                 <td style="
                 font-size: 10px;
