@@ -7,6 +7,7 @@ use App\Models\MemberCoreInfo;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberLoan;
+use App\Models\MemberLoanInfo;
 use App\Models\SiteLogo;
 use App\Models\Pension;
 
@@ -220,7 +221,7 @@ class Helper {
 
     public static function getLoanDetails($member_id, $month, $year)
     {
-        $loan = MemberLoan::where('member_id', $member_id)
+        $loan = MemberLoanInfo::where('member_id', $member_id)
             ->whereMonth('created_at', $month)
             ->whereYear('created_at', $year)
             ->orderBy('id', 'desc')
