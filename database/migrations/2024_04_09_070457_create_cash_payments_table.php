@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('cash_payments', function (Blueprint $table) {
             $table->id();
-            $table->string('vr_no')->nullable();
-            $table->date('vr_date')->nullable();
             $table->string('amount')->nullable();
-            $table->string('rct_no_id')->nullable();
-            $table->string('form')->nullable();
-            $table->string('details')->nullable();
+            $table->date('date')->nullable();
+            $table->bigInteger('rct_no')->unsigned()->nullable();  
             $table->bigInteger('member_id')->unsigned()->nullable();      
-            $table->string('category')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

@@ -209,8 +209,8 @@ class Helper {
     public static function pensionInfo($member_id, $month, $year)
     {
         $pension = Pension::where('user_id', $member_id)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('month', $month)
+            ->where('year', $year)
             ->orderBy('id', 'desc')
             ->first();
 

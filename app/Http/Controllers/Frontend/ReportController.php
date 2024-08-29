@@ -1772,7 +1772,7 @@ class ReportController extends Controller
     }
 
     public function npsReportGenerate(Request $request)
-    {
+    {                                                                       
         $members = Member::orderBy('id','desc')->where('fund_type', 'NPS')->get();
         $chunkedMembers = $members->chunk(10); 
         $financial_year = $request->financial_year;

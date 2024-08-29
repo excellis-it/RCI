@@ -35,6 +35,18 @@ use App\Helpers\Helper;
                 </li> 
 
                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ Request::is('receipts*') ? 'active' : '' }}"
+                        href="{{ route('receipts.index') }}" >
+                        <span>
+                            <i class="ti ti-cash"></i>
+                        </span>
+                        <span class="hide-menu">Receipt</span>
+                    </a>
+
+                    {{-- <li class="nav-item dropdown-hover d-none d-lg-block">
+                        <a class="nav-link" href="{{ route('receipts.index') }}">Receipt</a>
+                    </li> --}}
+
                     <a class="sidebar-link {{ Request::is('cash-payments*') ? 'active' : '' }}"
                         href="{{ route('cash-payments.index') }}" >
                         <span>

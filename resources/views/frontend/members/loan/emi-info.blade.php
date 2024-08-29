@@ -77,25 +77,11 @@
                                     </div>
                                 </div>
 
-
-                                {{-- <div class="row justify-content-end">
-                                    
-                                </div> --}}
                             </form>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
-                                {{-- <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="position-relative">

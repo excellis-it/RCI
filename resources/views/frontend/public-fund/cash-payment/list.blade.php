@@ -213,7 +213,7 @@ Cash Payments List
                 success: function(response) {
                    
                     //windows load with toastr message
-                    window.location.reload();
+                   // window.location.reload();
                 },
                 error: function(xhr) {
                    
@@ -268,7 +268,7 @@ Cash Payments List
         var html = '';
         // count rows
         var rowCount = $('#cash_payment_amount .child1').length + 2;
-        html += '<div class="row child1 mb-2"><div class="col-lg-3"><div class="form-group"><label>Amount</label><input type="text" class="form-control" name="amount" id="amount" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-3"><div class="form-group"><label>Date</label><input type="date" class="form-control" name="date" id="date" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div>';
+        html += '<div class="row child1 mb-2"><div class="col-lg-3"><div class="form-group"><label>Amount</label><input type="text" class="form-control" name="amount[]" id="amount" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-3"><div class="form-group"><label>Date</label><input type="date" class="form-control" name="date[]" id="date" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div>';
 
         $('#cash_payment_amount').append(html);
         });
