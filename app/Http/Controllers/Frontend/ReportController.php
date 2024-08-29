@@ -1776,7 +1776,7 @@ class ReportController extends Controller
         $accountant = $request->accountant;
         $month = $request->month;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-
+        
         $pdf = PDF::loadView('frontend.reports.hba-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
         return $pdf->download('hba-report-' . '.pdf');
     }

@@ -5,6 +5,7 @@ use App\Models\CashPayment;
 use App\Models\ChequePayment;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
+use App\Models\MemberLoan;
 use App\Models\SiteLogo;
 
 class Helper {
@@ -191,6 +192,17 @@ class Helper {
             ->first();
 
         return $credit;
+    }
+
+    public static function getLoanDetails($member_id, $month, $year)
+    {
+        $loan = MemberLoan::where('member_id', $member_id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return $loan;
     }
 
    

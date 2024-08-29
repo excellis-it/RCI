@@ -12,6 +12,9 @@
 </style>
 
 <body style="background: #fff">
+    @php 
+        use App\Helpers\Helper;
+    @endphp
 
     @foreach($chunkedMembers as $chunkIndex => $members)
 
@@ -54,7 +57,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    15/07/2024 4:27:31 PM <br>
+                                    {{ \Carbon\Carbon::now()->format('d-m-Y') }} {{ \Carbon\Carbon::now()->format('h:i:s') }} <br>
                                     Unit Code - 330000110
                                 </th>
                             </tr>
@@ -127,7 +130,7 @@
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: center;">
 
-                                    0
+                                    {{ optional(Helper::getLoanDetails($member->id, $month, $year))->da ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; text-align: center; border-left: 0px; border-right: 0; ">
