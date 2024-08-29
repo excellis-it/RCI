@@ -164,24 +164,47 @@ class ReportController extends Controller
             'year' => 'required',
         ]);
 
-        $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
-        $all_members_info = [];
-        $member_datas = Member::where('e_status', $request->e_status)->where('category', $request->category)->where('member_status', 1)->where('pay_stop','No')->orderBy('id', 'desc')->with('desigs')->get();
-        foreach ($member_datas as $member_data) {
-            $member_details['member_credit'] = MemberCredit::where('member_id', $member_data->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
-            $member_details['member_debit'] = MemberDebit::where('member_id', $member_data->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
-            $member_details['member_core_info'] = MemberCoreInfo::where('member_id', $member_data->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->with('banks')->first();
-            $member_details['member_recovery'] = MemberRecovery::where('member_id', $member_data->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->first();
-            $combined_member_info = [
-                'member_data' => $member_data,
-                'details' => $member_details
-            ];
+            $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
+            $all_members_info = [];
+            $member_datas = Member::where('e_status', $request->e_status)
+                ->where('category', $request->category)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')
+                ->orderBy('id', 'desc')
+                ->with('desigs')
+                ->get();
 
-            $all_members_info[] = $combined_member_info;
-        }
-        // Split the data into chunks for pagination
-        $perPage = 2; // Set this according to how many records fit on a page
-        $groupedData = array_chunk($all_members_info, $perPage);
+            foreach ($member_datas as $member_data) {
+                $member_details = [
+                    'member_credit' => MemberCredit::where('member_id', $member_data->id)
+                        ->whereYear('created_at', $request->year)
+                        ->whereMonth('created_at', $request->month)
+                        ->first(),
+                    'member_debit' => MemberDebit::where('member_id', $member_data->id)
+                        ->whereYear('created_at', $request->year)
+                        ->whereMonth('created_at', $request->month)
+                        ->first(),
+                    'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
+                        ->whereYear('created_at', $request->year)
+                        ->whereMonth('created_at', $request->month)
+                        ->with('banks')
+                        ->first(),
+                    'member_recovery' => MemberRecovery::where('member_id', $member_data->id)
+                        ->whereYear('created_at', $request->year)
+                        ->whereMonth('created_at', $request->month)
+                        ->first(),
+                ];
+
+                $combined_member_info = [
+                    'member_data' => $member_data,
+                    'details' => $member_details,
+                ];
+
+                $all_members_info[] = $combined_member_info;
+            }
+
+            // Convert the array to a Laravel Collection to use chunk method
+            $groupedData = collect($all_members_info)->chunk(3); 
 
         // dd($all_members_info);
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
@@ -715,12 +738,7 @@ class ReportController extends Controller
             'e_status' => 'required'
         ]);
 
-        // need atleast one child_name field is rewquired
-        if($request->report_type == 'individual') {
-            $request->validate([
-                'child_name' => 'required'
-            ]);
-        } 
+       
 
         $data = $request->all(); 
         $timestamp = now()->format('YmdHis');
@@ -730,6 +748,10 @@ class ReportController extends Controller
         
 
         if($request->report_type == 'individual') {
+
+            $request->validate([
+                'member_id' => 'required',
+            ]);
 
             $member_detail = Member::where('id', $request->member_id)->first();
             $child_datas = [
@@ -743,8 +765,12 @@ class ReportController extends Controller
 
             $children = [];
             $total = 0;
-            $num_of_children = count($child_datas['child_name']);
-        
+
+            // Check if 'child_name' exists and is an array, otherwise set $num_of_children to 0
+            $num_of_children = isset($child_datas['child_name']) && is_array($child_datas['child_name']) 
+                            ? count($child_datas['child_name']) 
+                            : 0;
+
             for ($i = 0; $i < $num_of_children; $i++) {
                 $children[] = [
                     'child_name' => $child_datas['child_name'][$i],
@@ -757,7 +783,12 @@ class ReportController extends Controller
 
                 $total += $child_datas['child_amount'][$i];
             }
-           
+
+            // Check if $children has no value
+            if (empty($children)) {
+                return redirect()->back()->with('error', 'No children data found.');
+            }
+
             $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('data', 'total','bill_no','today','children','member_detail','accountant'));
             return $pdf->download('children-allowance-report-' . $member_detail->name . '.pdf');
         } else {
@@ -770,7 +801,7 @@ class ReportController extends Controller
             $members_data = [];
 
             foreach ($members as $member) {
-                $member_childrens = MemberChildAllowance::where('member_id', $member->id)->get();
+                $member_childrens = MemberChildAllowance::where('member_id', $member->id)->where('year',$request->year)->get();
 
                 // Collecting member and their children's data
                 $members_data[] = [
@@ -1073,9 +1104,8 @@ class ReportController extends Controller
 
     public function getMemberNewspaperAllocation(Request $request)
     {
-        
         $member_detail = Member::where('id', $request->member_id)->first();
-        $get_news_allow = NewspaperAllowance::where('category_id', $member_detail->category_id)->where('year', $request->year)->first();
+        $get_news_allow = NewspaperAllowance::where('category_id', $member_detail->category)->where('year', $request->year)->first();
         return response()->json(['get_news_allow' => $get_news_allow]);
     }
 
@@ -1420,7 +1450,11 @@ class ReportController extends Controller
                                                 ->where('pm_level_id', $pm_level->id)
                                                 ->first();
 
-                // Add the basic pay value to the correct row
+                if (!$pay_matrix_basic) {
+                    // Redirect back to the previous page with an error message
+                    return redirect()->back()->with('error', 'Pay matrix basic not found for row ID: ');
+                }
+                                            
                 $pmRowArray[$row->id][] = $pay_matrix_basic->basic_pay ?? '';
             }
         }
@@ -1647,6 +1681,11 @@ class ReportController extends Controller
     public function iTaxReportGenerate(Request $request)
     {
         $members = Member::where('category', $request->category)->get();
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
+       
         $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
         $category = Category::where('id', $request->category)->first(); 
         $year = $request->year;
@@ -1692,6 +1731,11 @@ class ReportController extends Controller
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
 
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
+
         // Generate the PDF
         $pdf = PDF::loadView('frontend.reports.lf-chnages-reports', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant','month'));
         
@@ -1713,6 +1757,10 @@ class ReportController extends Controller
         $month = $request->month;
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
         $pdf = PDF::loadView('frontend.reports.misc-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
         return $pdf->download('misc-report-' . '.pdf');
     }
@@ -1732,7 +1780,12 @@ class ReportController extends Controller
         $da = $request->da;
         $accountant = $request->accountant;
         $month = $request->month;
+        
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
         $pdf = PDF::loadView('frontend.reports.nps-report-generate', compact('chunkedMembers','financial_year','month_name','year','da','accountant','month'));
         return $pdf->download('misc-report-' . '.pdf');
     }
@@ -1753,6 +1806,10 @@ class ReportController extends Controller
     public function cgegisReportGenerate(Request $request)
     {
         $members = Member::where('category', $request->category)->get();
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
         $chunkedMembers = $members->chunk(10); // Chunk the collection into groups of 8
         $category = Category::where('id', $request->category)->first(); 
         $year = $request->year;
@@ -1779,6 +1836,10 @@ class ReportController extends Controller
         $month = $request->month;
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
         $pdf = PDF::loadView('frontend.reports.cghs-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
         return $pdf->download('cghs-report-' . '.pdf');
     }
@@ -1799,6 +1860,10 @@ class ReportController extends Controller
         $accountant = $request->accountant;
         $month = $request->month;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        if($members->count() == 0)
+        {
+            return redirect()->back()->with('error','No data found');
+        }
         $pdf = PDF::loadView('frontend.reports.hba-report-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
         return $pdf->download('hba-report-' . '.pdf');
     }

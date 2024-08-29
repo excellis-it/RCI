@@ -66,8 +66,8 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            
-                                            <!-- New fields for from year-month and to year-month -->
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-md-4 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
@@ -115,7 +115,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                        </div>
+                                        <div class="row">
                                             <div class="form-group col-md-4 mb-2 type-select" >
                                                 <div class="col-md-12">
                                                     <label>A/c Officer Sign</label>
@@ -129,7 +130,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="col-md-4">

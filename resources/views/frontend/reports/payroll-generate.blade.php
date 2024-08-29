@@ -859,7 +859,7 @@
                         <tbody>
                             <tr>
                                 <td style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border: none;">
-                                    (Rupees Zero Only)
+                                    {{  \App\Helpers\Helper::convertToWords($total['net_pay'] ?? 0) }}
                                 </td>
                             </tr>
                         </tbody>
