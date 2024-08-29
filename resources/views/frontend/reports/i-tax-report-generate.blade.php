@@ -9,6 +9,10 @@
    }
 </style>
 
+@php
+use App\Helpers\Helper;
+@endphp
+
 <body style="background: #fff">
 
     @foreach($chunkedMembers as $chunkIndex => $chunk)
@@ -102,8 +106,9 @@
 
                             @foreach($chunk as $key => $member)
                             @php
-                                $memberCoreInfo = $member->memberCoreInfo;
-
+                               
+                                
+                                $memberCoreInfo = Helper::getMemberCoreInfo($member->id, $month, $year);
                                 $itax = $memberCoreInfo ? $memberCoreInfo->i_tax : 0;
                                 $ecess = $memberCoreInfo ? $memberCoreInfo->ecess : 0;
 
@@ -129,15 +134,15 @@
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: center;font-size: 16px;">
-                                    {{ $member->memberCoreInfo->pan_no ?? 'N/A' }}
+                                    {{ optional(Helper::getMemberCoreInfo($member->id, $month, $year))->pan_no ?? '0' }}
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; text-align: center; border-left: 0px; border-right: 0; font-size: 16px;">
-                                    {{ $member->memberCoreInfo->i_tax ?? 'N/A' }}
+                                    {{ optional(Helper::getMemberCoreInfo($member->id, $month, $year))->i_tax ?? '0' }}
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: right;font-size: 16px;">
-                                    {{ $member->memberCoreInfo->ecess ?? 'N/A' }}
+                                    {{ optional(Helper::getMemberCoreInfo($member->id, $month, $year))->ecess ?? '0' }}
                                 </td>
                             </tr>
                             @endforeach

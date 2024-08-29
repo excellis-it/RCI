@@ -12,6 +12,11 @@
     }
     </style>
 
+    
+@php
+use App\Helpers\Helper;
+@endphp
+
 <body style="background: #fff">
 
     @foreach($chunkedMembers as  $chunkIndex => $chunk)
@@ -105,8 +110,9 @@
                             @foreach($chunk as $member)
 
                             @php
-                                $total += $member->cgegisVal->value;
-                                $grand_total += $member->cgegisVal->value;
+                                $cgegis_val = Helper::getDebitDetails($member->id, $month, $year) ?? 0;
+                                $total += $cgegis_val->cgegis ?? 0;
+                                $grand_total += $cgegis_val->cgegis ?? 0;
 
                             @endphp
                             <tr>
@@ -136,7 +142,7 @@
                                 </td>
                                 <td
                                     style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">
-                                    {{  $member->cgegisVal->value ?? '' }}
+                                    {{  $cgegis_val->cgegis ?? 0 }}
                                 </td>
                             </tr>
                             @endforeach

@@ -62,6 +62,7 @@ Newspaper Allowance
                                             </div>
                                             <div class="col-md-12">
                                                 <select name="category" class="form-select" id="category">
+                                                    <option value="">Select Category</option>
                                                     @foreach($categories as $category)
                                                         <option value="{{ $category->id }}">{{ $category->category }}</option>
                                                     @endforeach
@@ -138,7 +139,20 @@ Newspaper Allowance
                                             @endif
                                         </div>
 
-                                        <div class="form-group col-md-4 mb-2 total_allo" style="display:none;">
+                                        <div class="form-group col-md-4 mb-2 duration" style="display:none;">
+                                            <div class="col-md-12">
+                                                <label>Duration</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" name="duration" class="form-control" id="duration" disabled>
+                                            </div>
+                                            @if ($errors->has('duration'))
+                                                    <div class="error" style="color:red;">
+                                                        {{ $errors->first('duration') }}</div>
+                                            @endif
+                                        </div>
+
+                                        <div class="form-group col-md-4 mb-2" >
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
                                             </div>
@@ -228,8 +242,9 @@ Newspaper Allowance
                 },
                 success: function(response) {
 
-                    $('#amount').val(response.newspaper_allo_amount.max_allocation_amount);
-                    $('#remarks').val(response.newspaper_allo_amount.remarks);
+                    $('#amount').val(response.get_news_allow.max_allocation_amount);
+                    $('#remarks').val(response.get_news_allow.remarks);
+                    $('#duration').val(response.get_news_allow.duration);
 
                 },
             });
@@ -247,12 +262,15 @@ Newspaper Allowance
                 $('.emp_status').hide();
                 $('.member').hide();
                 $('.total_allo').hide();
+                $('.duration').hide();
+
 
             } else {
                 $('.cat_drop').hide();
                 $('.emp_status').show();
                 $('.member').show();
                 $('.total_allo').show();
+                $('.duration').show();
             }
         });
     });

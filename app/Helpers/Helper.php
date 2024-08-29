@@ -3,10 +3,12 @@
 namespace App\Helpers;
 use App\Models\CashPayment;
 use App\Models\ChequePayment;
+use App\Models\MemberCoreInfo;
 use App\Models\MemberCredit;
 use App\Models\MemberDebit;
 use App\Models\MemberLoan;
 use App\Models\SiteLogo;
+use App\Models\Pension;
 
 class Helper {
 
@@ -112,7 +114,7 @@ class Helper {
         return ucfirst($result);
     }
 
-    private static function convertToWords($number)
+    public static function convertToWords($number)
     {
         $number = ltrim($number, '0');
         $length = strlen($number);
@@ -194,6 +196,28 @@ class Helper {
         return $credit;
     }
 
+    public static function getMemberCoreInfo($member_id, $month, $year)
+    {
+        $coreInfo = MemberCoreInfo::where('member_id', $member_id)
+        ->whereMonth('created_at', $month)
+        ->whereYear('created_at', $year)
+        ->orderBy('id', 'desc')
+        ->first();
+
+        return $coreInfo;
+    }
+
+    public static function pensionInfo($member_id, $month, $year)
+    {
+        $pension = Pension::where('user_id', $member_id)
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return $pension;
+    }
+
     public static function getLoanDetails($member_id, $month, $year)
     {
         $loan = MemberLoan::where('member_id', $member_id)
@@ -205,6 +229,5 @@ class Helper {
         return $loan;
     }
 
-   
 
 }

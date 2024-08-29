@@ -134,7 +134,7 @@
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; text-align: center; border-left: 0px; border-right: 0; ">
-                                    0
+                                    {{ optional(Helper::getLoanDetails($member->id, $month, $year))->loan_adv ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: right;">

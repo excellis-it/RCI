@@ -43,6 +43,7 @@ Landline Allowance
                                             </div>
                                             <div class="col-md-12">
                                                 <select name="category" class="form-select" id="category">
+                                                    <option value="">Select Category</option>
                                                     @foreach($categories as $category)
                                                         <option value="{{ $category->id }}">{{ $category->category }}</option>
                                                     @endforeach

@@ -36,124 +36,103 @@
                                 @csrf
 
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group col-md-12 mb-2">
-                                                    <div class="row align-items-center">
-                                                       
-                                                        {{-- finantial year dropdown --}}
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Financial Year</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <select name="financial_year" class="form-select" id="financial_year">
-                                                                        <option value="">Select Financial Year</option>
-                                                                        @foreach ($financialYears as $financialYear)
-                                                                            <option value="{{ $financialYear }}">
-                                                                                {{ $financialYear }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @if ($errors->has('financial_year'))
-                                                                        <div class="error" style="color:red;">
-                                                                            {{ $errors->first('financial_year') }}</div>
-                                                                    @endif
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                    <div class="col-md-8">
+                                        <div class="row">                                      
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>Financial Year</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <select name="financial_year" class="form-select" id="financial_year">
+                                                            <option value="">Select Financial Year</option>
+                                                            @foreach ($financialYears as $financialYear)
+                                                                <option value="{{ $financialYear }}">
+                                                                    {{ $financialYear }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @if ($errors->has('financial_year'))
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('financial_year') }}</div>
+                                                        @endif
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                        {{-- year dropdown --}}
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Year</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <select name="year" class="form-select" id="year">
-                                                                        <option value="">Select Year</option>
-                                                                        @for ($year = date('Y'); $year >= 1558; $year--)
-                                                                            <option value="{{ $year }}">{{ $year }}</option>
-                                                                        @endfor
-                                                                    </select>
-                                                                    @if ($errors->has('year'))
-                                                                        <div class="error" style="color:red;">
-                                                                            {{ $errors->first('year') }}</div>
-                                                                    @endif
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>Year</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <select name="year" class="form-select" id="year">
+                                                            <option value="">Select Year</option>
+                                                            @for ($year = date('Y'); $year >= 1558; $year--)
+                                                                <option value="{{ $year }}">{{ $year }}</option>
+                                                            @endfor
+                                                        </select>
+                                                        @if ($errors->has('year'))
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('year') }}</div>
+                                                        @endif
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>Month</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <select name="month" class="form-select" id="month">
-                                                                        <option value="">Select Month</option>
-                                                                        <option value="1">January</option>
-                                                                        <option value="2">February</option>
-                                                                        <option value="3">March</option>
-                                                                        <option value="4">April</option>
-                                                                        <option value="5">May</option>
-                                                                        <option value="6">June</option>
-                                                                        <option value="7">July</option>
-                                                                        <option value="8">August</option>
-                                                                        <option value="9">September</option>
-                                                                        <option value="10">October</option>
-                                                                        <option value="11">November</option>
-                                                                        <option value="12">December</option>
-                                                                    </select>
-                                                                    @if ($errors->has('month'))
-                                                                        <div class="error" style="color:red;">
-                                                                            {{ $errors->first('month') }}</div>
-                                                                    @endif
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div> 
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>Month</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <select name="month" class="form-select" id="month">
+                                                            <option value="">Select Month</option>
+                                                            <option value="1">January</option>
+                                                            <option value="2">February</option>
+                                                            <option value="3">March</option>
+                                                            <option value="4">April</option>
+                                                            <option value="5">May</option>
+                                                            <option value="6">June</option>
+                                                            <option value="7">July</option>
+                                                            <option value="8">August</option>
+                                                            <option value="9">September</option>
+                                                            <option value="10">October</option>
+                                                            <option value="11">November</option>
+                                                            <option value="12">December</option>
+                                                        </select>
+                                                        @if ($errors->has('month'))
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('month') }}</div>
+                                                        @endif
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div> 
 
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>DA</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <input type="text" name="da" id="da-percent" class="form-control" placeholder="DA">
-                                                                    @if ($errors->has('da'))
-                                                                        <div class="error" style="color:red;">
-                                                                            {{ $errors->first('da') }}</div>
-                                                                    @endif
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>DA</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <input type="text" name="da" id="da-percent" class="form-control" placeholder="DA">
+                                                        @if ($errors->has('da'))
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('da') }}</div>
+                                                        @endif
                                                         
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row justify-content-end">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Generate</button>
-                                                    </div>
-                                                    
-                                                    {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
-                                                </div>
+                                            <div class="form-group col-md-6 mb-2">
+                                                <button type="submit" class="listing_add">Generate</button>
                                             </div>
                                         </div>
                                     </div>

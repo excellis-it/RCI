@@ -38,99 +38,81 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group col-md-12 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="form-group col-md-4 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Employee Status</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
-                                                                    <option value="">Select Employee Status</option>
-                                                                    <option value="active">Active</option>
-                                                                    <option value="deputation">On Deputation</option>
-                                                                </select>
-                                                                @if ($errors->has('e_status'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('e_status') }}</div>
-                                                                @endif
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Employee Status</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select name="e_status" class="form-select" id="e_status">
+                                                        <option value="">Select Employee Status</option>
+                                                        <option value="active">Active</option>
+                                                        <option value="deputation">On Deputation</option>
+                                                    </select>
+                                                    @if ($errors->has('e_status'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('e_status') }}</div>
+                                                    @endif
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>From Year-Month</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <select name="from_year" class="form-select" id="from_year">
+                                                            @for ($year = now()->year; $year >= 2000; $year--)
+                                                                <option value="{{ $year }}">{{ $year }}</option>
+                                                            @endfor
+                                                        </select>
+                                                        <select name="from_month" class="form-select" id="from_month">
+                                                            @for ($month = 1; $month <= 12; $month++)
+                                                                <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
+                                                            @endfor
+                                                        </select>
+                                                        @if ($errors->has('from_year') || $errors->has('from_month'))
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('from_year') }} {{ $errors->first('from_month') }}</div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                         <!-- New fields for from year-month and to year-month -->
-                                                         <div class="form-group col-md-3 mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>From Year-Month</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <select name="from_year" class="form-select" id="from_year">
-                                                                        @for ($year = now()->year; $year >= 2000; $year--)
-                                                                            <option value="{{ $year }}">{{ $year }}</option>
-                                                                        @endfor
-                                                                    </select>
-                                                                    <select name="from_month" class="form-select" id="from_month">
-                                                                        @for ($month = 1; $month <= 12; $month++)
-                                                                            <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
-                                                                        @endfor
-                                                                    </select>
-                                                                    @if ($errors->has('from_year') || $errors->has('from_month'))
-                                                                        <div class="error" style="color:red;">
-                                                                            {{ $errors->first('from_year') }} {{ $errors->first('from_month') }}</div>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-md-12">
-                                                                    <label>To Year-Month</label>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <select name="to_year" class="form-select" id="to_year">
-                                                                        @for ($year = now()->year; $year >= 2000; $year--)
-                                                                            <option value="{{ $year }}">{{ $year }}</option>
-                                                                        @endfor
-                                                                    </select>
-                                                                    <select name="to_month" class="form-select" id="to_month">
-                                                                        @for ($month = 1; $month <= 12; $month++)
-                                                                            <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
-                                                                        @endfor
-                                                                    </select>
-                                                                    @if ($errors->has('to_year') || $errors->has('to_month'))
-                                                                        <div class="error" style="color:red;">
-                                                                            {{ $errors->first('to_year') }} {{ $errors->first('to_month') }}</div>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Rest of the existing fields -->
-
-                                                        
-
-                                                        
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>To Year-Month</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <select name="to_year" class="form-select" id="to_year">
+                                                            @for ($year = now()->year; $year >= 2000; $year--)
+                                                                <option value="{{ $year }}">{{ $year }}</option>
+                                                            @endfor
+                                                        </select>
+                                                        <select name="to_month" class="form-select" id="to_month">
+                                                            @for ($month = 1; $month <= 12; $month++)
+                                                                <option value="{{ $month }}">{{ \Carbon\Carbon::create()->month($month)->format('F') }}</option>
+                                                            @endfor
+                                                        </select>
+                                                        @if ($errors->has('to_year') || $errors->has('to_month'))
+                                                            <div class="error" style="color:red;">
+                                                                {{ $errors->first('to_year') }} {{ $errors->first('to_month') }}</div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                {{-- save cancel button design in right corner --}}
-                                <div class="row justify-content-end">
-                                    <div class="col-md-6 col-lg-2">
+                                    <div class="col-md-4">
                                         <div class="row justify-content-end">
-                                            <div class="form-group mb-2">
-                                                <button type="submit" class="listing_add">Generate</button>
+                                            <div class="col-md-12">
+                                                <div class="row justify-content-end">
+                                                    <div class="form-group col-md-6 mb-2">
+                                                        <button type="submit" class="listing_add">Generate</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            
-                                            {{-- <div class="form-group col-md-6 mb-2">
-                                                <button type="submit" class="listing_exit">Cancel</button>
-                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>

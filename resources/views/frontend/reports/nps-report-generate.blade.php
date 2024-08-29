@@ -116,10 +116,10 @@
                                 </th>
                                 <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">DA</th>
                                 <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">Tot Sal</th>
-                                <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">PPAN</th>
-                                <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">TIER 1
+                                <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">PRAN</th>
+                                <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">TIER 1<br>
                                     (Sub)</th>
-                                <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">TIER 1
+                                <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">TIER 1<br>
                                     (Arr)</th>
                                 <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">TIER 2</th>
                                 <th style=" border: 1px solid black; border-bottom: 0; border-left: 0px; border-right: 0;">Govt. <br> Cont
@@ -128,6 +128,11 @@
                             </tr>
 
                             @foreach($members as $key => $member)
+
+                            @php
+                                $total_sal = optional(Helper::getCreditDetails($member->id, $month, $year))->pay + optional(Helper::getCreditDetails($member->id, $month, $year))->g_pay;
+                                $total = optional(Helper::pensionInfo($member->id, $month, $year))->npsc_sub_amt + optional(Helper::pensionInfo($member->id, $month, $year))->npsg_sub_amt;
+                            @endphp
                             <tr>
                                 <td style=" border: 1px solid black; border-left: 0px; padding: 0px 5px 0px 5px; border-right: 0; text-align: center;">{{ $key + 1 }}</td>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px;  border-right: 0; ">{{  $member->emp_id ?? 'N/A' }}</td>
@@ -135,7 +140,7 @@
                                 </td>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; text-align: center;">{{  $member->desigs->designation ?? 'N/A' }} {{  $member->groups->value ?? 'N/A' }}
                                 </td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; text-align: center;">0
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; text-align: center;">{{ optional(Helper::getCreditDetails($member->id, $month, $year))->pay ?? 'N/A' }}
                                 </td>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">{{ optional(Helper::getCreditDetails($member->id, $month, $year))->g_pay ?? 'N/A' }}
                                 </td>
@@ -143,17 +148,17 @@
                                     {{ optional(Helper::getCreditDetails($member->id, $month, $year))->da ?? 'N/A' }}</td>
                                 <td
                                     style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0;  text-align: center;">
-                                    {{ optional(Helper::getCreditDetails($member->id, $month, $year))->tot_credits ?? 'N/A' }}</td>
+                                    {{ $total_sal ?? 'N/A' }}</td>
                                 <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">{{  $member->pran_number ?? 'N/A' }}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">00</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">{{ optional(Helper::pensionInfo($member->id, $month, $year))->npsc_sub_amt ?? 'N/A' }}</td>
                                 <td
                                     style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0;  text-align: center">
-                                    01</td>
+                                    0</td>
                                 <td
                                     style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0;  text-align: center">
-                                    02</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">03</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">04</td>
+                                    0</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">{{ optional(Helper::pensionInfo($member->id, $month, $year))->npsg_sub_amt ?? '0' }}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-right: 0; ">{{  $total ?? 0 }}</td>
                             </tr>
                             @endforeach
 
