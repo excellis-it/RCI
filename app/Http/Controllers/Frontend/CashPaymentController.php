@@ -88,7 +88,7 @@ class CashPaymentController extends Controller
             $cashPayment->rct_no = $rct_no;
             $cashPayment->amount = $amount;
             $cashPayment->date = $request->date[$key];
-            $cashPayment->status = 1;
+            $cashPayment->status = 'pending';
             $cashPayment->save();
         }
         
