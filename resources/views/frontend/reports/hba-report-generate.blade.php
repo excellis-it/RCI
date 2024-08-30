@@ -136,19 +136,19 @@
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; text-align: center; border-left: 0px; border-right: 0; ">
-                                    {{ optional(Helper::getLoanDetails($member->id, $month, $year))->total_amount ?? 'N/A' }}
+                                    {{ optional(Helper::getHbaLoanDetails($member->id, $month, $year))->total_amount ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: right;">
-                                    {{ optional(Helper::getLoanDetails($member->id, $month, $year))->inst_amount ?? 'N/A' }}
+                                    {{ optional(Helper::getHbaLoanDetails($member->id, $month, $year))->inst_amount ?? 'N/A' }}
                                 </td>
                                 @php 
-                                    $emi = optional(Helper::getLoanDetails($member->id, $month, $year))->inst_amount ?? 0;
-                                    $current_inst_no = optional(Helper::getLoanDetails($member->id, $month, $year))->present_inst_no ?? 0;
+                                    $emi = optional(Helper::getHbaLoanDetails($member->id, $month, $year))->inst_amount ?? 0;
+                                    $current_inst_no = optional(Helper::getHbaLoanDetails($member->id, $month, $year))->present_inst_no ?? 0;
 
                                     $total_rec = $emi * $current_inst_no;
-                                    $loan_bal = optional(Helper::getLoanDetails($member->id, $month, $year))->total_amount - $total_rec;
-                                    $pageTotalLoanAdv += optional(Helper::getLoanDetails($member->id, $month, $year))->inst_amount;
+                                    $loan_bal = optional(Helper::getHbaLoanDetails($member->id, $month, $year))->total_amount - $total_rec;
+                                    $pageTotalLoanAdv += optional(Helper::getHbaLoanDetails($member->id, $month, $year))->inst_amount;
                                  @endphp
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: center;">
@@ -160,7 +160,7 @@
                                 </td>
                                 <td
                                     style="  padding: 0px 5px 0px 5px; border-bottom: 0px; border-left: 0px; border-right: 0; text-align: right;">
-                                   {{ $current_inst_no }} / {{ optional(Helper::getLoanDetails($member->id, $month, $year))->tot_no_of_inst ?? 'N/A' }}
+                                   {{ $current_inst_no }} / {{ optional(Helper::getHbaLoanDetails($member->id, $month, $year))->tot_no_of_inst ?? 'N/A' }}
                                 </td>
 
                             </tr>
@@ -211,9 +211,9 @@
 
 
                             <tr>
-                                <td colspan="5"
+                                <td  colspan="5"
                                     style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px; border-bottom: 0;  border-right: 0; font-weight: 600;">
-                                    Page {{ $chunkIndex }} Total
+                                    Page {{ $chunkIndex + 1 }} Total
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-bottom: 0; border-left: 0px;">
@@ -249,38 +249,53 @@
                             @endforeach
                             <tr>
                                 <td>
-                                    <table>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="start">
                                         <tbody>
                                             <tr>
-                                                <td colspan="5"
-                                                    style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px;  border-right: 0; font-weight: 600;">
+                                                <td 
+                                                    style="border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px;  border-right: 0; font-weight: 600;">
                                                     Grand Total
                                                 </td>
                                                 <td
-                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
+                                                   
+                                                </td>
+                                                <td
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
 
                                                 </td>
+                                                <td
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
 
+                                                </td>
                                                 <td
                                                     style="text-align: right; font-weight: 600; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
                                                     {{ $grandTotalLoanAdv }}
                                                 </td>
                                                 <td
-                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
 
                                                 </td>
                                                 <td
-                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
+
+                                                </td>
+
+                                                
+                                                
+                                                <td
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
 
                                                 </td>
                                                 <td
-                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
 
                                                 </td>
+                                                <td
+                                                    style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px; width: 50px; height: 20px;">
 
-
+                                                </td>
                                             </tr>
-
                                         </tbody>
                                     </table>
                                 </td>

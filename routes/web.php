@@ -335,6 +335,7 @@ Route::middleware('permssions')->group(function () {
 
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
+    Route::post('/get-nps-member-info', [ReportController::class, 'getNpsMemberInfo'])->name('reports.get-nps-members');
     Route::post('/get-member-gpf', [ReportController::class, 'getMemberGpf'])->name('reports.get-all-gpf-members');
 
         // professional Update allowance
@@ -368,6 +369,10 @@ Route::middleware('permssions')->group(function () {
         // da arrears report
     Route::get('reports-da-arrears', [ReportController::class, 'daArrears'])->name('reports.da-arrears');
     Route::post('reports-da-arrears-generate', [ReportController::class, 'daArrearsGenerate'])->name('reports.da-arrears-generate');
+
+        // pay fixation arrears report
+    Route::get('reports-pay-fixation-arrears', [ReportController::class, 'payFixationArrears'])->name('reports.pay-fixation-arrears');
+    Route::post('reports-pay-fixation-arrears-generate', [ReportController::class, 'payFixationArrearsGenerate'])->name('reports.pay-fixation-arrears-generate');
 
 
 
