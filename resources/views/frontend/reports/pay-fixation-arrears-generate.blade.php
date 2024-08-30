@@ -25,7 +25,7 @@
                       text-transform: uppercase;
                     ">
                   DUE DRAWN STATEMENT OF PAY FIXATION ARREARS IN R/O <br>
-                  PRAN NO:
+                  PRAN NO: {{ $member->pran_number }}<br>
                 </td>
               </tr>
             </tbody>
@@ -520,6 +520,7 @@
                     ">
                 </td>
               </tr>
+              @foreach($monthlyData as $data)
               <tr>
                 <td style="
                       font-size: 10px;
@@ -532,7 +533,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    23-Jul 	64723
+                    {{ \Carbon\Carbon::create($data['Year'])->format('y') }} - {{ $data['Month'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -545,7 +546,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    27184
+                    {{ $data['Basic'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -730,6 +731,7 @@
                     5359
                 </td>
               </tr>
+                @endforeach
               <tr>
                 <td style="
                       font-size: 10px;
