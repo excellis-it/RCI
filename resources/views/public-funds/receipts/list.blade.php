@@ -6,6 +6,10 @@
 @push('styles')
 @endpush
 
+@php
+    use App\Helpers\Helper;
+@endphp
+
 @section('content')
     <section id="loading">
         <div id="loading-content"></div>
@@ -21,6 +25,15 @@
                         <li><span class="bread-blod">Receipts </span></li>
                     </ul>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 text-start mb-3">
+                <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
+            </div>
+            <div class="col-md-6 text-end mb-3">
+               <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
             </div>
         </div>
         <!--  Row 1 -->

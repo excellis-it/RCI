@@ -647,9 +647,11 @@ Route::middleware('permssions')->group(function () {
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
+        
     });
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
     Route::post('/cheque-payments-member-desig', [ChequePaymentController::class, 'fetchMemberDesig'])->name('cheque-payments.get-member-desig');
+    Route::get('/cheque-payments-rct-details', [ChequePaymentController::class, 'getReceiptNoDetail'])->name('cheque-payments.get-rct-details');
 
     //reset voucher
     Route::prefix('reset-voucher')->group(function () {

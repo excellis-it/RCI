@@ -23,4 +23,10 @@ class CashPayment extends Model
     {
         return $this->belongsTo(PaymentCategory::class, 'category_id');
     }
+
+    // receipt relation
+    public function receipt()
+    {
+        return $this->belongsTo(Receipt::class, 'rct_no');
+    }
 }

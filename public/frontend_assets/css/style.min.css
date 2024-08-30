@@ -56771,13 +56771,13 @@ ul {
     width: 338px;
 } */
 .select-box-drop .dropdown-menu{
-    width: 338px;
+    width: 100%;
     border: 1px solid #C4C4C4;
     padding: 5px;
 }
 
 .search-select-box .dropdown-menu{
-    width: 264px;
+    width: 100%;
     border: 1px solid #C4C4C4;
     padding: 5px;
 }
