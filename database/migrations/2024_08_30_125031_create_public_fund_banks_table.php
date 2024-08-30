@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('public_fund_banks', function (Blueprint $table) {
             $table->id();
+            $table->string('bank_name')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('ifsc_code')->nullable();
             $table->timestamps();
         });
     }

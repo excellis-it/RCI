@@ -115,6 +115,7 @@ use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
 use App\Http\Controllers\PublicFund\PublicFundVendorController;
 use App\Http\Controllers\PublicFund\ReceiptController;
+use App\Http\Controllers\PublicFund\PublicFundBankController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -225,6 +226,8 @@ Route::middleware('permssions')->group(function () {
 
     // public funcd fetch
     Route::get('/public-fund-vendors-fetchData', [PublicFundVendorController::class, 'fetchData'])->name('public-fund-vendors.fetch-data');
+
+    Route::get('/public-fund-bank-details', [PublicFundBankController::class, 'getBankDetails'])->name('public-fund.bank-details');
 
     //receipts routes
     Route::resources([
@@ -374,10 +377,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-pay-fixation-arrears', [ReportController::class, 'payFixationArrears'])->name('reports.pay-fixation-arrears');
     Route::post('reports-pay-fixation-arrears-generate', [ReportController::class, 'payFixationArrearsGenerate'])->name('reports.pay-fixation-arrears-generate');
 
-
-
-        // form 12 bb
-
+    // form 12 bb
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
