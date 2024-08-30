@@ -60,7 +60,7 @@
                                                 <div class="row">
                                                     
 
-                                                    <div class="form-group col-md-3 mb-2">
+                                                    <div class="form-group col-md-4 mb-2">
                                                         <div class="col-md-12">
                                                             <label>Employee Status</label>
                                                         </div>
@@ -105,12 +105,12 @@
                                                 <div class="row">
                                                     
 
-                                                    <div class="form-group col-md-3 mb-2">
+                                                    <div class="form-group col-md-4 mb-2">
                                                         <div class="col-md-12">
                                                             <label>Members</label>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <select name="member_id" class="form-select" id="member_id">
+                                                            <select name="member_id" class="form-select search-select-box" id="member_id">
                                                                 <option value="">Select Member</option>
                                                                 @foreach($members as $member)
                                                                     <option value="{{ $member->id }}">{{$member->name}} ({{$member->emp_id}})</option>
@@ -264,4 +264,11 @@
             });
         });
     </script>
+
+<script>
+    var select_box_element = document.querySelector('.search-select-box');
+    dselect(select_box_element, {
+        search: true
+    });
+</script>
 @endpush
