@@ -218,6 +218,7 @@
                         $totalFurn = 0;
                         $totalMiscRent = 0;
                         $bn = 0;
+                        $totalcredit = 0;
                         $totalDebit = 0;
                         $totalNetPay = 0;
 

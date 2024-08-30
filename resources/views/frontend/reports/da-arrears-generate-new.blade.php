@@ -4,7 +4,17 @@
 <title>RCI</title>
 <meta charset="utf-8" />
 
+<style>
+  @page {
+      size: 29.7cm 42cm
+  }
+  .page-break {
+     page-break-before: always;
+ }
+</style>
+
 <body style="background: #fff">
+  @foreach($report as $chunkIndex => $chunkReport)
   <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
     style="border-radius: 0px; margin: 0 auto; text-align: center">
     <tbody>
@@ -23,7 +33,7 @@
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                     ">
-                    PAGE NUMBER - 1
+                    PAGE NUMBER - {{ $chunkIndex + 1 }}
                 </td>
               </tr>
             </tbody>
@@ -707,7 +717,7 @@
               ">
                 </td>
               </tr>
-              @foreach ($report as $memberData)
+              @foreach($chunkReport as $memberData)
               <tr>
                 <td style="
                 font-size: 10px;
@@ -721,6 +731,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
+                vertical-align: top;
               ">
               {{ $loop->iteration }}
                 </td>
@@ -736,6 +747,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
+                vertical-align: top;
               ">
               {{ $memberData['Emp_ID'] ?? '' }}
                 </td>
@@ -751,6 +763,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
+                vertical-align: top;
               ">
                 {{ $memberData['Name'] ?? '' }}, {{ $memberData['Desig'] ?? '' }}
                 </td>
@@ -766,6 +779,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
+                vertical-align: top;
               ">
                 <table style="width: 100%; border-collapse: collapse;">
                   @foreach($memberData['monthly_data'] as $data)
@@ -779,7 +793,6 @@
                           padding: 0px 5px !important;
                           margin: 0px 0px !important;
                           height: 20px;
-                          border-bottom: 1px solid #000;
                       ">
                           {{ \Carbon\Carbon::parse($data['Month'])->format('M-Y') ?? '' }}
                       </td>
@@ -798,6 +811,7 @@
                 height: 20px;
                 border-left: 1px solid #000;
                 border-top: 1px solid #000;
+                vertical-align: top;
               ">
                 {{ $memberData['Basic'] ?? 0 }}
                 </td>
@@ -812,6 +826,7 @@
                 height: 20px;
                 border-right: 1px solid #000;
                 border-top: 1px solid #000;
+                vertical-align: top;
               ">
                 {{ $memberData['GPAY'] ?? 0 }}
                 </td>
@@ -840,7 +855,6 @@
                                       padding: 0px 5px !important;
                                       margin: 0px 0px !important;
                                       height: 20px;
-                                      border-bottom: 1px solid #000;
                                   ">
                                       {{ $data['Due'] ?? '' }}
                                   </td>
@@ -873,7 +887,6 @@
                                         padding: 0px 5px !important;
                                         margin: 0px 0px !important;
                                         height: 20px;
-                                        border-bottom: 1px solid #000;
                                     ">
                                         {{ $data1['Drawn'] ?? '' }}
                                     </td>
@@ -906,7 +919,6 @@
                                       padding: 0px 5px !important;
                                       margin: 0px 0px !important;
                                       height: 20px;
-                                      border-bottom: 1px solid #000;
                                   ">
                                       {{ $data['Diff'] ?? '' }}
                                   </td>
@@ -955,7 +967,6 @@
                                       padding: 0px 5px !important;
                                       margin: 0px 0px !important;
                                       height: 20px;
-                                      border-bottom: 1px solid #000;
                                   ">
                                       {{ $data['NPS'] ?? '' }}
                                   </td>
@@ -989,7 +1000,6 @@
                                       padding: 0px 5px !important;
                                       margin: 0px 0px !important;
                                       height: 20px;
-                                      border-bottom: 1px solid #000;
                                   ">
                                       {{ $data['EOl'] ?? '' }}
                                   </td>
@@ -1022,7 +1032,6 @@
                                     padding: 0px 5px !important;
                                     margin: 0px 0px !important;
                                     height: 20px;
-                                    border-bottom: 1px solid #000;
                                 ">
                                     {{ $data['TPT_Due'] ?? '' }}
                                 </td>
@@ -1055,7 +1064,6 @@
                                       padding: 0px 5px !important;
                                       margin: 0px 0px !important;
                                       height: 20px;
-                                      border-bottom: 1px solid #000;
                                   ">
                                       {{ $data['TPT_Drawn'] ?? '' }}
                                   </td>
@@ -1088,7 +1096,6 @@
                                     padding: 0px 5px !important;
                                     margin: 0px 0px !important;
                                     height: 20px;
-                                    border-bottom: 1px solid #000;
                                 ">
                                     {{ $data['TPT_Diff'] ?? '' }}
                                 </td>
@@ -1237,6 +1244,7 @@
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;
                 height: 20px;
+                border-left: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
                  
@@ -1250,6 +1258,7 @@
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;
                 height: 20px;
+                border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
               ">
@@ -1276,6 +1285,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
               {{  $total_due }}   
                 </td>
@@ -1291,6 +1301,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
                   {{  $total_nps }}
                 </td>
@@ -1306,6 +1317,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
                  {{ $total_eol }}
                 </td>
@@ -1320,6 +1332,7 @@
                 height: 20px;
                 border-left: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
                 
                 </td>
@@ -1332,7 +1345,9 @@
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;
                 height: 20px;
+                border-left: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
                  
                 </td>
@@ -1345,8 +1360,10 @@
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;
                 height: 20px;
+                border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
                 {{ $total_tpt_due }}
                 </td>
@@ -1362,6 +1379,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
                  {{ $final }}
                 </td>
@@ -1377,6 +1395,7 @@
                 border-left: 1px solid #000;
                 border-right: 1px solid #000;
                 border-bottom: 1px solid #000;
+                border-top: 1px solid #000;
               ">
 
                 </td>
@@ -1614,259 +1633,279 @@
 
                 </td>
               </tr> --}}
-              <tr>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 600;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-              Grand Total
-                </td>
-                @php 
-                  $grand_total_due = 0;
-                  $grand_total_nps = 0;
-                  $grand_total_eol = 0;
-                  $grand_total_tpt_due = 0;
-                  $grand_final = 0;
-                  
-                  $grand_total_due += $total_due;
-                  $grand_total_nps += $total_nps;
-                  $grand_total_eol += $total_eol;
-                  $grand_total_tpt_due += $total_tpt_due;
-
-                  $grand_final = ($grand_total_due - $grand_total_nps - $grand_total_eol) + $grand_total_tpt_due;
-                @endphp
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-            
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">  
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-                
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-bottom: 1px solid #000;
-              ">
-                 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 600;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-              {{  $grand_total_due }}   
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 600;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                  {{ $grand_total_nps }}
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 600;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                 {{ $grand_total_eol }}
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: center;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                 
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 600;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                {{  $grand_total_tpt_due }}
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 600;
-                color: #000;
-                text-align: right;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-                 {{  $grand_final }}
-                </td>
-                <td style="
-                font-size: 10px;
-                line-height: 14px;
-                font-weight: 400;
-                color: #000;
-                text-align: left;
-                padding: 0px 5px !important;
-                margin: 0px 0px !important;
-                height: 20px;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                border-bottom: 1px solid #000;
-              ">
-
-                </td>
-              </tr>
             </tbody>
           </table>
         </td>
       </tr>
+              @if (!$loop->last)
+                  <div class="page-break"></div>
+              @endif
+              @endforeach
+              <tr>
+                <td>
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+                    <tbody>
+                      <tr>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                      ">
+                      Grand Total
+                        </td>
+                        @php 
+                          $grand_total_due = 0;
+                          $grand_total_nps = 0;
+                          $grand_total_eol = 0;
+                          $grand_total_tpt_due = 0;
+                          $grand_final = 0;
+                          
+                          $grand_total_due += $total_due;
+                          $grand_total_nps += $total_nps;
+                          $grand_total_eol += $total_eol;
+                          $grand_total_tpt_due += $total_tpt_due;
+
+                          $grand_final = ($grand_total_due - $grand_total_nps - $grand_total_eol) + $grand_total_tpt_due;
+                        @endphp
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">
+                    
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">  
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">
+                        
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: center;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-bottom: 1px solid #000;
+                      ">
+                        
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                      ">
+                        
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:30px;
+                      ">
+                      {{  $grand_total_due }}   
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:34px;
+                      ">
+                          {{ $grand_total_nps }}
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:34px;
+                      ">
+                        {{ $grand_total_eol }}
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:41px;
+                      ">
+                        
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: center;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:41px;
+                      ">
+                        
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:44px;
+                      ">
+                        {{  $grand_total_tpt_due }}
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        text-align: right;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:63px;
+                      ">
+                        {{  $grand_final }}
+                        </td>
+                        <td style="
+                        font-size: 10px;
+                        line-height: 14px;
+                        font-weight: 400;
+                        color: #000;
+                        text-align: left;
+                        padding: 0px 5px !important;
+                        margin: 0px 0px !important;
+                        height: 20px;
+                        border-left: 1px solid #000;
+                        border-right: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        width:67px;
+                      ">
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
       <tr>
         <td style="height: 40px;"></td>
       </tr>
@@ -1896,6 +1935,7 @@
       </tr>
     </tbody>
   </table>
+  
 </body>
 
 </html>

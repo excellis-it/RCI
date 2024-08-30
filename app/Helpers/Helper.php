@@ -219,9 +219,10 @@ class Helper {
         return $pension;
     }
 
-    public static function getLoanDetails($member_id, $month, $year)
+    public static function getHbaLoanDetails($member_id, $month, $year)
     {
         $loan = MemberLoanInfo::where('member_id', $member_id)
+            ->where('loan_name', 'hba')
             ->whereMonth('created_at', $month)
             ->whereYear('created_at', $year)
             ->orderBy('id', 'desc')
