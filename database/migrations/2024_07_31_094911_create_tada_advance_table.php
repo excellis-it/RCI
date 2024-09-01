@@ -25,7 +25,7 @@ return new class extends Migration
             $table->float('claim_amount', 10, 2)->default(0.00);
             $table->float('pass_amount', 10, 2)->default(0.00);
             $table->string('mro')->nullable();
-            $table->float('due_amount', 10, 2);
+            $table->float('due_amount', 10, 2)->nullable();
             $table->tinyInteger('status')->comment('0=Pending, 1=Accepted');
             $table->timestamps(); // Handles created_at and updated_at fields
 
