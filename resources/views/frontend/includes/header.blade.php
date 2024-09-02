@@ -365,10 +365,10 @@
                                     href="{{ route('reports.misc') }}">Misc 1</a>
                             </li>
 
-                            {{-- <li class="mb-2">
+                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Pay Fixation Arrear</a>
-                            </li> --}}
+                            </li> 
 
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

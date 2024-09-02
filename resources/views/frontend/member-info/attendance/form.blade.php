@@ -113,7 +113,7 @@
                                                         <button type="submit" class="listing_add">Save</button>
                                                     </div>
                                                     <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
+                                                        <button type="reset" class="listing_exit">Cancel</button>
                                                     </div>
                                                 </div>
                                             </div>
