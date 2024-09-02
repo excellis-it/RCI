@@ -8,11 +8,11 @@
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code Type No. </label>
+                                <label>Item Code Classification No. </label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="code_type_no" id="code_type_no">
-                                    <option value="">Select Item Code Type No.</option>
+                                    <option value="">Select Item Code Classification No.</option>
                                     <option value="1" {{ ($item_code_type->code_type_no == 1) ? 'selected' : '' }}>1</option>
                                     <option value="2" {{ ($item_code_type->code_type_no == 2) ? 'selected' : '' }}>2</option>
                                     <option value="3" {{ ($item_code_type->code_type_no == 3) ? 'selected' : '' }}>3</option>
@@ -31,7 +31,7 @@
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code Type Name</label>
+                                <label>Item Code Classification Name</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="code_type_name" id="code_type_name"
@@ -61,11 +61,11 @@
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code Type No. </label>
+                                <label>Item Code Classification No. </label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="code_type_no" id="code_type_no">
-                                    <option value="">Select Item Code Type No.</option>
+                                    <option value="">Select Item Code Classification No.</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -84,7 +84,7 @@
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code Type Name</label>
+                                <label>Item Code Classification Name</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="code_type_name" id="code_type_name" value=""

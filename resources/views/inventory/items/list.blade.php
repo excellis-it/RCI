@@ -121,7 +121,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
@@ -142,7 +142,7 @@
                     }
                 })
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
 
@@ -299,7 +299,9 @@
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // $('#' + key + '-error').html(value[0]);
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });

@@ -13,8 +13,8 @@
         <td colspan="4" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
-                     (Showing {{ $itemCodeTypes->firstItem() }} – {{ $itemCodeTypes->lastItem() }} Item Code Types of
-                    {{$itemCodeTypes->total() }} Item code Types)
+                     (Showing {{ $itemCodeTypes->firstItem() }} – {{ $itemCodeTypes->lastItem() }} Item Code Classification of
+                    {{$itemCodeTypes->total() }} Item Code Classifications)
                 </div>
                 <div>{!! $itemCodeTypes->links() !!}</div>
             </div>
@@ -22,6 +22,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="4" class="text-center">No Item Code Types Found</td>
+        <td colspan="4" class="text-center">No Item Code Classifications Found</td>
     </tr>
 @endif
