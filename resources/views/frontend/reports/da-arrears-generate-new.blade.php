@@ -14,7 +14,16 @@
 </style>
 
 <body style="background: #fff">
+  @php
+    // Initialize grand totals outside of the loop
+      $grand_total_due = 0;
+      $grand_total_nps = 0;
+      $grand_total_eol = 0;
+      $grand_total_tpt_due = 0;
+      $grand_final = 0;
+  @endphp
   @foreach($report as $chunkIndex => $chunkReport)
+  
   <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
     style="border-radius: 0px; margin: 0 auto; text-align: center">
     <tbody>
@@ -1400,6 +1409,14 @@
 
                 </td>
               </tr>
+              @php 
+                $grand_total_due += $total_due;
+                $grand_total_nps += $total_nps;
+                $grand_total_eol += $total_eol;
+                $grand_total_tpt_due += $total_tpt_due;
+
+                $grand_final = ($grand_total_due - $grand_total_nps - $grand_total_eol) + $grand_total_tpt_due;
+              @endphp
               @endforeach
               {{-- <tr>
                 <td style="
@@ -1637,6 +1654,7 @@
           </table>
         </td>
       </tr>
+      
               @if (!$loop->last)
                   <div class="page-break"></div>
               @endif
@@ -1660,20 +1678,7 @@
                       ">
                       Grand Total
                         </td>
-                        @php 
-                          $grand_total_due = 0;
-                          $grand_total_nps = 0;
-                          $grand_total_eol = 0;
-                          $grand_total_tpt_due = 0;
-                          $grand_final = 0;
-                          
-                          $grand_total_due += $total_due;
-                          $grand_total_nps += $total_nps;
-                          $grand_total_eol += $total_eol;
-                          $grand_total_tpt_due += $total_tpt_due;
-
-                          $grand_final = ($grand_total_due - $grand_total_nps - $grand_total_eol) + $grand_total_tpt_due;
-                        @endphp
+                        
                         <td style="
                         font-size: 10px;
                         line-height: 14px;
