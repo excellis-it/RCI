@@ -20,11 +20,23 @@ class ChequePaymentController extends Controller
     public function index()
     {
         $receipt_nos = Receipt::where('receipt_type', 'cheque')->get();
+        $cheque_receipt_nos = Receipt::where('receipt_type', 'cheque')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $chequePayments = ChequePayment::orderBy('id', 'desc')->paginate(10);
         $members = Member::orderBy('id', 'desc')->get();
-        return view('frontend.public-fund.cheque-payment.list', compact('chequePayments', 'paymentCategories','members','receipt_nos'));
+        return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories','members','receipt_nos'));
+    }
 
+    public function getReceiptNoDetail(Request $request)
+    {
+        $rct_no = $request->rcpt_no;
+        $detail = true;
+        $receipt = Receipt::where('id', $rct_no)->with('fundVendor','category')->first();
+        if($receipt)
+        {
+            return response()->json(['view' => view('frontend.public-fund.cheque-payment.details', compact('receipt','detail'))->render()]);
+        } else {
+            return response()->json(['error' => 'Receipt not found']);
+        }
     }
 
     /**
@@ -33,7 +45,6 @@ class ChequePaymentController extends Controller
     public function create()
     {
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-    
         return view('frontend.public-fund.cheque-payment.form', compact('paymentCategories'));
     }
 
@@ -73,41 +84,16 @@ class ChequePaymentController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $request->validate([
-            'vr_date' => 'required',
-            'sr_no' => 'required',
-            'amount' => 'required|numeric',
-            'member_id' => 'required',
-        ]);
-        $voucherText = ResetVoucher::where('status', 1)->first();
-        $chequePayment = ChequePayment::latest()->first();
 
-        $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
-        if(isset($cashPayment))
-        {
-            $serial_no = Str::substr($cashPayment->vr_no, -1);
-            $counter = $serial_no + 1;
-            // dd($serial_no);
-        } else {
-            $counter = 1;
+        $rct_no = $request->rcpt_no;
+        foreach($request->amount as $key => $amount) {
+            $chequePayment = new ChequePayment();
+            $chequePayment->rct_no = $rct_no;
+            $chequePayment->amount = $amount;
+            $chequePayment->date = $request->date[$key];
+            $chequePayment->status = 'pending';
+            $chequePayment->save();
         }
-
-        $chequePayment = new ChequePayment();
-        $chequePayment->vr_no = $constantString . $counter++;
-        $chequePayment->vr_date = $request->vr_date;
-        $chequePayment->sr_no = $request->sr_no;
-        $chequePayment->amount = $request->amount;
-        $chequePayment->member_id = $request->member_id;
-        $chequePayment->designation = $request->designation;
-        $chequePayment->bill_ref = $request->bill_ref;
-        $chequePayment->bank_account = $request->bank_account;
-        $chequePayment->dv_no = $request->dv_no;
-        $chequePayment->cheque_no = $request->cheque_no;
-        $chequePayment->cheque_date = $request->cheque_date;
-        $chequePayment->narration = $request->narration;
-        $chequePayment->category = $request->category;
-        $chequePayment->save();
 
         session()->flash('message', 'Cheque Payment added successfully');
         return response()->json(['success' => 'Cheque Payment added successfully']);
@@ -116,11 +102,10 @@ class ChequePaymentController extends Controller
 
     public function fetchMemberDesig(Request $request)
     {
-            $member_id = $request->member;
-            $member = Member::findOrFail($member_id);
-            $get_designation = Designation::where('designation_type_id', $member->desig)->first();
-            return response()->json(['designation' => $get_designation]);
-       
+        $member_id = $request->member;
+        $member = Member::findOrFail($member_id);
+        $get_designation = Designation::where('designation_type_id', $member->desig)->first();
+        return response()->json(['designation' => $get_designation]);
     }
 
     /**
@@ -136,11 +121,14 @@ class ChequePaymentController extends Controller
      */
     public function edit(string $id)
     {
-        $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $chequePayment = ChequePayment::findOrFail($id);
+       
+        $receipt_nos = Receipt::where('receipt_type', 'cheque')->get();
+        $receipt = Receipt::where('id', $id)->first();
+        $chequePayments = ChequePayment::where('rct_no', $id)->get();
         $members = Member::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'chequePayment', 'paymentCategories','members'))->render()]);
+
+        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'receipt_nos', 'receipt','chequePayments','members'))->render()]);
         
     }
 

@@ -6,6 +6,10 @@ Cheque Payment List
 @push('styles')
 @endpush
 
+@php
+    use App\Helpers\Helper;
+@endphp
+
 @section('content')
 <section id="loading">
     <div id="loading-content"></div>
@@ -21,6 +25,15 @@ Cheque Payment List
                     <li><span class="bread-blod">Listing</span></li>
                 </ul>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-start mb-3">
+            <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
+        </div>
+        <div class="col-md-6 text-end mb-3">
+           <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
         </div>
     </div>
     <!--  Row 1 -->
@@ -50,18 +63,17 @@ Cheque Payment List
                                         <tr>
                                             
                                             <th class="sorting" data-sorting_type="desc" data-column_name="sr_no"
-                                                style="cursor: pointer">SR.NO<span id="sr_no_icon"><i
+                                                style="cursor: pointer">RCT No<span id="sr_no_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                style="cursor: pointer">VR.NO<span id="vr_no_icon"><i
+                                                style="cursor: pointer">Amount<span id="vr_no_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
-                                                style="cursor: pointer">VR.DATE<span id="vr_date_icon"><i
+                                                style="cursor: pointer">SR No.<span id="vr_date_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                            style="cursor: pointer">AMT<span id="amount_icon"><i
+                                            style="cursor: pointer">Vendor<span id="amount_icon"><i
                                                 class="fa fa-arrow-down"></i></span> </th>
-                                            <th>NAME</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -85,28 +97,29 @@ Cheque Payment List
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this Cheque Payment!",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
-                    }
-                })
+<script>
+
+    //rcpt_no  on chnage
+    $(document).on('change', '#rcpt_no', function() {
+        var rcpt_no = $(this).val();
+    
+        $.ajax({
+            url: "{{ route('cheque-payments.get-rct-details') }}",
+            type: 'GET',
+            data: {
+                rcpt_no: rcpt_no
+            },
+            success: function(response) {
+                
+                 $('.cheque-payment-details').html(response.view);
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
         });
-    </script>
+    });
+    
+</script>
     <script>
         $(document).ready(function() {
 
@@ -261,7 +274,7 @@ Cheque Payment List
 
 <script>
     $(document).ready(function() {
-        $(document).on('change', '#member_id', function() {
+        $(document).on('change', '#vendor', function() {
             var member = $(this).val();
             $.ajax({
                 url: "{{ route('cheque-payments.get-member-desig') }}",
@@ -282,4 +295,27 @@ Cheque Payment List
         });
     });
     </script>
+
+<script>
+    $(document).on('click', '#add_more', function() {
+
+    function getOrdinal(n) {
+        var s = ["th", "st", "nd", "rd"],
+            v = n % 100;
+        return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    var html = '';
+    // count rows
+    var rowCount = $('#cheque_payment_amount .child1').length + 2;
+    html += '<div class="row child1 mb-2"><div class="col-lg-3"><div class="form-group"><label>Amount</label><input type="text" class="form-control" name="amount[]" id="amount" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-3"><div class="form-group"><label>Date</label><input type="date" class="form-control" name="date[]" id="date" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div>';
+
+    $('#cheque_payment_amount').append(html);
+    });
+
+    // Handle removing rows
+    $(document).on('click', '.remove-child', function() {
+    $(this).closest('.child1').remove();
+    });
+</script>
 @endpush

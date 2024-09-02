@@ -161,6 +161,11 @@
 
                                     </tr>
                                 @endforeach
+
+                            @else
+                                <tr>
+                                    <td colspan="12" style="text-align: center;">No data found</td>
+                                </tr>    
                             @endif
 
 

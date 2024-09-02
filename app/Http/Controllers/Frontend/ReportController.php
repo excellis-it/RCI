@@ -128,7 +128,12 @@ class ReportController extends Controller
 
 
 
-        }else{
+        }else{ 
+
+            if( $request->member_id == null){
+                return redirect()->back()->with('error', 'Please select a member');
+            }
+
 
             $member_data = Member::where('id', $request->member_id)->first() ?? '';
             $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first() ?? '';
@@ -173,6 +178,11 @@ class ReportController extends Controller
                 ->orderBy('id', 'desc')
                 ->with('desigs')
                 ->get();
+
+
+                if($member_datas->count() == 0){
+                    return redirect()->back()->with('error', 'No data found for the selected criteria');
+                }
 
             foreach ($member_datas as $member_data) {
                 $member_details = [
@@ -845,6 +855,8 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Category A not found!');
         }
         $members = Member::where('e_status', 'active')->where('category', $category->id)->orderBy('id', 'desc')->get();
+
+        
         $financialYears = Helper::getFinancialYears();
         return view('frontend.reports.professional-update-allowance', compact('category', 'members', 'financialYears'));
     }
@@ -879,6 +891,10 @@ class ReportController extends Controller
 
             foreach($member_credit_data as $member_credit) {
                 $total_pua += $member_credit->pua;
+            }
+
+            if($member->isEmpty()) {
+                return redirect()->back()->with('error', 'No data available');
             }
 
             $member_data = [
@@ -947,6 +963,10 @@ class ReportController extends Controller
         $total_sub_amt = 0;
         $total_refund = 0;
 
+        if($member_gpf_datas->isEmpty()) {
+            return redirect()->back()->with('error', 'No GPF data found for the selected month');
+        }
+
         foreach($member_gpf_datas as $gpf_data) {
             $total_sub_amt += $gpf_data->monthly_subscription;
             $total_refund += $gpf_data->refund;
@@ -997,6 +1017,10 @@ class ReportController extends Controller
         
         $member = Member::where('id', $member_id)->with('desigs')->first();
         $member_core_info = MemberCoreInfo::where('member_id', $member_id)->first();
+
+        if($totalGpfDetails->isEmpty()) {
+            return redirect()->back()->with('error', 'No data found for the selected month');
+        }
         
 
         $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt', 'start_date', 'end_date','accountant'));
@@ -1180,16 +1204,19 @@ class ReportController extends Controller
 
         $data = $request->all();
 
-            $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-            $member_detail = Member::where('id', $request->member_id)->first();
-            $member_personal_detail = MemberPersonalInfo::where('member_id', $request->member_id)->first();
-            $landline_allowance = LandlineAllowance::where('category_id', $member_detail->category)->orderBy('id','desc')->first() ?? 0;
-            $member_all_allowance = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->month)->first() ?? 0;
-            $total = ($member_all_allowance->landline_allow ?? 0) + ($member_all_allowance->mobile_allow ?? 0) + ($member_all_allowance->broad_band_allow ?? 0);
-            $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail','member_all_allowance','data', 'total','landline_allowance','month_name'));
-            return $pdf->download('landline-allowance-report-' . $member_detail->name . '.pdf');
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+        $member_detail = Member::where('id', $request->member_id)->first();
+        if($member_detail == null) {
+            return redirect()->back()->with('error', 'Member not found!');
+        }
+        $member_personal_detail = MemberPersonalInfo::where('member_id', $request->member_id)->first();
+        $landline_allowance = LandlineAllowance::where('category_id', $member_detail->category)->orderBy('id','desc')->first() ?? 0;
+        $member_all_allowance = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->month)->first() ?? 0;
+        $total = ($member_all_allowance->landline_allow ?? 0) + ($member_all_allowance->mobile_allow ?? 0) + ($member_all_allowance->broad_band_allow ?? 0);
 
-        
+        $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail','member_all_allowance','data', 'total','landline_allowance','month_name'));
+        return $pdf->download('landline-allowance-report-' . $member_detail->name . '.pdf');
+    
     }
 
     public function bagPurseAllowanceReport()
@@ -1261,6 +1288,10 @@ class ReportController extends Controller
 
     public function terminalBenefitsGenerate(Request $request) 
     {
+        // validation 
+        $request->validate([
+            'member_id' => 'required',
+        ]);
         $member_id = $request->member_id;
         $member = Member::where('id', $member_id)->with('memberRetirementInfo')->first();
         $member_retirement_info = MemberRetirementInfo::where('member_id', $member_id)->first();
@@ -1304,6 +1335,10 @@ class ReportController extends Controller
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();  
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();      
         $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
+
+        if($member_it_exemption->count() == 0) {
+            return redirect()->back()->with('error', 'No data found for the selected year');  
+        }
 
 
         $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year', 'income_from_other_sources', 'income_from_house_property', 'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'incometaxRate', 'surcharge'));
@@ -1372,6 +1407,10 @@ class ReportController extends Controller
         $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
         $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
+
+        if($member_it_exemption->count() == 0) {
+            return redirect()->back()->with('error', 'No data found for the selected year');  
+        }
 
         $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'));
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
@@ -1450,10 +1489,7 @@ class ReportController extends Controller
                                                 ->where('pm_level_id', $pm_level->id)
                                                 ->first();
 
-                if (!$pay_matrix_basic) {
-                    // Redirect back to the previous page with an error message
-                    return redirect()->back()->with('error', 'Pay matrix basic not found for row ID: ');
-                }
+                
                                             
                 $pmRowArray[$row->id][] = $pay_matrix_basic->basic_pay ?? '';
             }
@@ -1776,7 +1812,7 @@ class ReportController extends Controller
             return redirect()->back()->with('error','No data found');
         }
         $pdf = PDF::loadView('frontend.reports.nps-report-generate', compact('chunkedMembers','financial_year','month_name','year','da','accountant','month'));
-        return $pdf->download('misc-report-' . '.pdf');
+        return $pdf->download('nps-report-' . '.pdf');
     }
 
     public function getDaPercentNps(Request $request)

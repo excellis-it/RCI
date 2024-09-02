@@ -78,6 +78,16 @@ use App\Helpers\Helper;
                     </a>
                     
                 </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ Request::is('bank-details*') ? 'active' : '' }}"
+                            href="{{ route('public-fund.bank-details') }}" >
+                        <span>
+                            <i class="ti ti-cash"></i>
+                        </span>
+                        <span class="hide-menu">Bank Detail</span>
+                    </a>
+                </li>
             </ul>
 
         </nav>

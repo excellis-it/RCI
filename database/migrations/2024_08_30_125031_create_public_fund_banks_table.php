@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cheque_payments', function (Blueprint $table) {
+        Schema::create('public_fund_banks', function (Blueprint $table) {
             $table->id();
-            $table->string('amount')->nullable();
-            $table->date('date')->nullable();
-            $table->bigInteger('rct_no')->unsigned()->nullable();  
-            $table->bigInteger('member_id')->unsigned()->nullable();      
-            $table->string('status')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('ifsc_code')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cheque_payments');
+        Schema::dropIfExists('public_fund_banks');
     }
 };
