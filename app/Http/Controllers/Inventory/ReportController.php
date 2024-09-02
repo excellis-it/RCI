@@ -17,6 +17,7 @@ use App\Models\TransferVoucher;
 use App\Models\ConversionVoucher;
 use App\Models\GatePass;
 use App\Models\ItemCode;
+use App\Models\InventoryNumber;
 use PDF;
 use Carbon\Carbon;
 
@@ -175,8 +176,9 @@ class ReportController extends Controller
     {
         $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
         $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
+        $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
 
-        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc'));
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc', 'inv_no'));
         return $pdf->download('conversion-voucher.pdf');
     }
 

@@ -114,6 +114,7 @@ class ConversionVoucherController extends Controller
         $conversionVoucher->quantity = $request->quantity;
         $conversionVoucher->voucher_no = $request->voucher_no;
         $conversionVoucher->voucher_date = $request->voucher_date;
+        $conversionVoucher->voucher_type = $request->voucher_type;
         $conversionVoucher->remarks = $request->remark;
         $conversionVoucher->save();
 
