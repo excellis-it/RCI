@@ -578,7 +578,7 @@
                             </li>
                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('tada-plus.index') }}">TA/DA Plus Claim</a>
+                                    href="{{ route('tada-plus.index') }}">TA/DA Final Settlement</a>
                             </li>
                         </ul>
                     </div>

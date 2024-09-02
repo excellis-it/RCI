@@ -9,6 +9,7 @@ use App\Models\NewspaperAllowance;
 use App\Models\MemberNewspaperAllowance;
 use App\Models\Member;
 use App\Models\Group;
+use App\Models\Designation;
 
 class NewspaperAllowanceController extends Controller
 {
@@ -21,6 +22,13 @@ class NewspaperAllowanceController extends Controller
         $categories = Category::where('status',1)->get();
         $newspaper_allows = NewspaperAllowance::paginate(10);
         return view('frontend.newspaper-allowance.list',compact('categories','newspaper_allows','groups'));
+    }
+
+    public function newspaperGroupDesignation(Request $request)
+    {
+        $group_id = $request->group_id;
+        $designations = Designation::where('group_id',$group_id)->get();
+        return response()->json(['designations' => $designations]);
     }
 
     public function fetchData(Request $request)
@@ -59,34 +67,48 @@ class NewspaperAllowanceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|unique:newspaper_allowances',
+            'category_id' => 'required',
             'max_allocation_amount' => 'required|numeric',
         ]);
 
+        //checking if already category_id, duration and year exists
+        $newspaper_allow = NewspaperAllowance::where('category_id', $request->category_id)
+            ->where('duration', $request->duration)
+            ->where('year', $request->year)
+            ->first();
+
+        if ($newspaper_allow) {
+            session()->flash('error', 'A newspaper allowance for the specified category, duration, and year already exists.');
+            return response()->json(['error' => 'A newspaper allowance for the specified category, duration, and year already exists.']);
+        }
+       
         $newspaper_allow = new NewspaperAllowance();
         $newspaper_allow->category_id = $request->category_id;
+        $newspaper_allow->duration = $request->duration;
+        $newspaper_allow->year = $request->year;
+        $newspaper_allow->month_duration = $request->month_duration;
         $newspaper_allow->max_allocation_amount = $request->max_allocation_amount;
         $newspaper_allow->remarks = $request->remarks;
         $newspaper_allow->save();
 
         // get all members respect to category
-        $members = Member::where('category', $request->category_id)->get();
-        foreach ($members as $member) {
-            $del_news_allowance = MemberNewspaperAllowance::where('member_id', $member->id)->first();
-            if($del_news_allowance){
-                $del_news_allowance->delete();
-            }
+        // $members = Member::where('category', $request->category_id)->get();
+        // foreach ($members as $member) {
+        //     $del_news_allowance = MemberNewspaperAllowance::where('member_id', $member->id)->first();
+        //     if($del_news_allowance){
+        //         $del_news_allowance->delete();
+        //     }
 
-            $member_newspaper_allow = new MemberNewspaperAllowance();
-            $member_newspaper_allow->member_id = $member->id;
-            $member_newspaper_allow->amount = $request->max_allocation_amount;
-            $member_newspaper_allow->year = date('Y');
-            $member_newspaper_allow->remarks = $request->remarks;
-            $member_newspaper_allow->save();
-        }
+        //     $member_newspaper_allow = new MemberNewspaperAllowance();
+        //     $member_newspaper_allow->member_id = $member->id;
+        //     $member_newspaper_allow->amount = $request->max_allocation_amount;
+        //     $member_newspaper_allow->year = date('Y');
+        //     $member_newspaper_allow->remarks = $request->remarks;
+        //     $member_newspaper_allow->save();
+        // }
 
-        session()->flash('message', 'Newspaper added successfully');
-        return response()->json(['success' => 'Newspaper added successfully']);
+        session()->flash('message', 'Newspaper allowance added successfully');
+        return response()->json(['success' => 'Newspaper allowance added successfully']);
     }
 
     /**
@@ -115,35 +137,37 @@ class NewspaperAllowanceController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'category_id' => 'required',
             'max_allocation_amount' => 'required|numeric',
         ]);
 
         $newspaper_allow = NewspaperAllowance::where('id', $id)->first();
-        $newspaper_allow->category_id = $request->category_id;
+        // $newspaper_allow->category_id = $request->category_id;
+        // $newspaper_allow->duration = $request->duration;
+        // $newspaper_allow->year = $request->year;
+        // $newspaper_allow->month_duration = $request->month_duration;
         $newspaper_allow->max_allocation_amount = $request->max_allocation_amount;
         $newspaper_allow->remarks = $request->remarks;
         $newspaper_allow->update();
 
         // get all members respect to category
-        $members = Member::where('category', $request->category_id)->get();
-        foreach ($members as $member) {
-            $del_news_allowance = MemberNewspaperAllowance::where('member_id', $member->id)->first();
-            if($del_news_allowance){
-                $del_news_allowance->delete();
-            }
+        // $members = Member::where('category', $request->category_id)->get();
+        // foreach ($members as $member) {
+        //     $del_news_allowance = MemberNewspaperAllowance::where('member_id', $member->id)->first();
+        //     if($del_news_allowance){
+        //         $del_news_allowance->delete();
+        //     }
 
 
-            $member_newspaper_allow = new MemberNewspaperAllowance();
-            $member_newspaper_allow->member_id = $member->id;
-            $member_newspaper_allow->amount = $request->max_allocation_amount;
-            $member_newspaper_allow->year = date('Y');
-            $member_newspaper_allow->remarks = $request->remarks;
-            $member_newspaper_allow->save();
-        }
+        //     $member_newspaper_allow = new MemberNewspaperAllowance();
+        //     $member_newspaper_allow->member_id = $member->id;
+        //     $member_newspaper_allow->amount = $request->max_allocation_amount;
+        //     $member_newspaper_allow->year = date('Y');
+        //     $member_newspaper_allow->remarks = $request->remarks;
+        //     $member_newspaper_allow->save();
+        // }
 
-        session()->flash('message', 'Newspaper updated successfully');
-        return response()->json(['success' => 'Newspaper updated successfully']);
+        session()->flash('message', 'Newspaper allowance updated successfully');
+        return response()->json(['success' => 'Newspaper allowance updated successfully']);
     }
 
     /**

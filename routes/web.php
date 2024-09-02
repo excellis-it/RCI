@@ -253,6 +253,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/landline-allowance-fetch-data', [LandlineAllowanceController::class, 'fetchData'])->name('landline-allowance.fetch-data');
     // newspaper allowance fetch
     Route::get('/newspaper-allowance-fetch-data', [NewspaperAllowanceController::class, 'fetchData'])->name('newspaper-allowance.fetch-data');
+    Route::get('/newspaper-allowance-get-designation', [NewspaperAllowanceController::class, 'newspaperGroupDesignation'])->name('newspaper-allowance.get-designation');
     // family member
     Route::get('/member-family-fetch-data', [MemberFamilyController::class, 'fetchData'])->name('member-family.fetch-data');
 
@@ -306,6 +307,7 @@ Route::middleware('permssions')->group(function () {
 
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
+    Route::post('/get-member-gpf', [ReportController::class, 'getMemberGpf'])->name('reports.get-all-gpf-members');
 
         // professional Update allowance
     Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
@@ -518,7 +520,7 @@ Route::middleware('permssions')->group(function () {
     //member debit update
     Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
     Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
-    Route::post('/eol-hpl', [MemberController::class, 'checkEolHpl'])->name('members.eol-hpl');
+    Route::post('/eol-hpl', [MemberController::class, 'checkEolHplCcl'])->name('members.eol-hpl');
     //member recovery update
     Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
     Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');

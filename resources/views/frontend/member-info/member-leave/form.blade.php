@@ -181,7 +181,7 @@
                                 <select class="form-select" name="leave_type_id" id="leave_type_id">
                                     <option value="">Select Leave Type</option>
                                     @foreach ($leaveTypes as $leaveType)
-                                        <option value="{{ $leaveType->id }}">{{ $leaveType->leave_type }}</option>
+                                        <option value="{{ $leaveType->id }}">{{ $leaveType->leave_type_abbr }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

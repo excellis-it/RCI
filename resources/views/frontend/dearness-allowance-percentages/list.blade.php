@@ -257,4 +257,36 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#year').change(function() {
+                var year = $(this).val();
+                var currentDate = new Date();
+                var monthDropdown = $('#month');
+
+                if(year == currentDate.getFullYear()) {
+                    var currentMonth = currentDate.getMonth() + 1;
+                    var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
+
+                    monthDropdown.empty();
+                    for (var month = 1; month <= endMonth; month++) {
+                        var option = $('<option></option>');
+                        option.val(month);
+                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        monthDropdown.append(option);
+                    }
+
+                } else {
+                    monthDropdown.empty();
+                    for (var month = 1; month <= 12; month++) {
+                        var option = $('<option></option>');
+                        option.val(month);
+                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        monthDropdown.append(option);
+                    }
+                }
+                
+            });
+        });
+    </script>
 @endpush

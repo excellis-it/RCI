@@ -46,7 +46,7 @@
                                                                 <label>Employee Status</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
+                                                                <select name="e_status" class="form-select" id="gpf_e_status">
                                                                     <option value="">Select Employee Status</option>
                                                                     <option value="active">Active</option>
                                                                     <option value="deputation">On Deputation</option>
@@ -253,11 +253,11 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#e_status').change(function() {
+            $('#gpf_e_status').change(function() {
                 var e_status = $(this).val();
 
                 $.ajax({
-                    url: "{{ route('reports.get-all-members') }}",
+                    url: "{{ route('reports.get-all-gpf-members') }}",
                     type: 'POST',
                     data: { e_status, _token: '{{ csrf_token() }}' },
                     success: ({members}) => {

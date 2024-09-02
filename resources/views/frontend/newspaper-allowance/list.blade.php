@@ -49,6 +49,9 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="duration"
+                                                    style="cursor: pointer">Duration <span id="duration_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="loan_name"
                                                     style="cursor: pointer">Category <span id="loan_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -259,9 +262,30 @@
                     group_id: group_id
                 },
                 success: function(response) {
-                    $('#category_id').html(response);
+                var $desigSelect = $('#designation_id');
+                    $desigSelect.empty(); // Clear existing options
+                    $desigSelect.append('<option value="">Select</option>');
+                    $.each(response.designations, function(index, designation) {
+                        $desigSelect.append('<option value="' + designation.id +
+                            '">' + designation.designation + '</option>');
+                    });
                 }
             });
         });
     </script>
+
+    <script>
+        $('#duration').change(function() {
+            var duration = $(this).val();
+            if (duration == 'half_yearly') {
+                $('.news-year').show();
+                $('.news-month').show();
+                $('.news-amount').show();
+            } else {
+                $('.news-year').show();
+                $('.news-month').hide();
+                $('.news-amount').show();
+            }
+        });
+        </script>
 @endpush

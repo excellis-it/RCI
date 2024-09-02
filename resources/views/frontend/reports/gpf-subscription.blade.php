@@ -46,7 +46,7 @@
                                                                 <label>Employee Status</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <select name="e_status" class="form-select" id="e_status">
+                                                                <select name="e_status" class="form-select" id="gpf_e_status">
                                                                     <option value="">Select Employee Status</option>
                                                                     <option value="active">Active</option>
                                                                     <option value="deputation">On Deputation</option>
@@ -119,6 +119,20 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        <div class="form-group col-md-3 mb-2 type-select" >
+                                                            <div class="col-md-12">
+                                                                <label>A/c Officer Sign</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select name="accountant" class="form-select" id="accountant">
+                                                                    <option value="">Select </option>
+                                                                    @foreach($accountants as $accountant)
+                                                                        <option value="{{ $accountant->user_name }}">{{ $accountant->user_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                         <!-- Rest of the existing fields -->
 
                                                         
@@ -159,11 +173,11 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#e_status').change(function() {
+            $('#gpf_e_status').change(function() {
                 var e_status = $(this).val();
 
                 $.ajax({
-                    url: "{{ route('reports.get-all-members') }}",
+                    url: "{{ route('reports.get-all-gpf-members') }}",
                     type: 'POST',
                     data: { e_status, _token: '{{ csrf_token() }}' },
                     success: ({members}) => {

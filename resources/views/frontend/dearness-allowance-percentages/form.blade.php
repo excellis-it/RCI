@@ -11,7 +11,12 @@
                                 <label>Financial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="year" id="year" value="{{ $dearnessAllowancePercentage->year }}" >
+                                <select class="form-select" name="financial_year" id="financial_year">
+                                    <option value="">Select Year</option>
+                                    @foreach ($financialYears as $financialYear)
+                                        <option value="{{ $financialYear }}" {{ ($dearnessAllowancePercentage->financial_year == $financialYear) ? 'selected' : '' }}>{{ $financialYear }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -48,7 +53,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Pay Commision name</label>
@@ -64,7 +69,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="year" id="year" value="{{ $dearnessAllowancePercentage->year }}" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Month</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="month" id="month" value="{{ $dearnessAllowancePercentage->month }}" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -102,7 +129,13 @@
                                 <label>Financial Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="year" id="year" >
+                                <select class="form-select" name="financial_year" id="financial_year">
+                                    <option value="">Select Year</option>
+                                    @foreach ($financialYears as $financialYear)
+                                        <option value="{{ $financialYear }}">{{ $financialYear }}</option>
+                                        
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -139,7 +172,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Pay Commision name</label>
@@ -155,7 +188,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="year" id="year">
+                                    <option value="">Select Year</option>
+                                    @for ($i = date('Y'); $i >= 1950; $i--)
+                                        <option value="{{ $i }}">
+                                            {{ $i }}</option>
+                                    @endfor
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Month</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="month" id="month">
+                                    <option value="">Select Month</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DearnessAllowancePercentage;
@@ -16,8 +17,9 @@ class DearnessAllowancePercentageController extends Controller
     {
         $dearnessAllowancePercentages = DearnessAllowancePercentage::paginate(10);
         $payCommissions = PayCommission::where('is_active', true)->get();
+        $financialYears = Helper::getFinancialYears();
 
-        return view('frontend.dearness-allowance-percentages.list', compact('dearnessAllowancePercentages', 'payCommissions'));
+        return view('frontend.dearness-allowance-percentages.list', compact('dearnessAllowancePercentages', 'payCommissions', 'financialYears'));
     }
 
     /**
@@ -34,17 +36,19 @@ class DearnessAllowancePercentageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'year' => 'required',
+            'financial_year' => 'required',
             'quarter' => 'required',
             'percentage' => 'required',
             'pay_commission_id' => 'required',
         ]);
 
         $dearnessAllowancePercentage = new DearnessAllowancePercentage();
-        $dearnessAllowancePercentage->year = $request->year;
+        $dearnessAllowancePercentage->financial_year = $request->financial_year;
         $dearnessAllowancePercentage->quarter = $request->quarter;
         $dearnessAllowancePercentage->percentage = $request->percentage;
         $dearnessAllowancePercentage->pay_commission_id = $request->pay_commission_id;
+        $dearnessAllowancePercentage->year = $request->year;
+        $dearnessAllowancePercentage->month = $request->month;
         $dearnessAllowancePercentage->save();
 
         // make the older dearness allowance percentage inactive
@@ -73,10 +77,11 @@ class DearnessAllowancePercentageController extends Controller
     {
         $dearnessAllowancePercentage = DearnessAllowancePercentage::findOrFail($id);
         $payCommissions = PayCommission::where('is_active', true)->get();
+        $financialYears = Helper::getFinancialYears();
         $edit = true;
 
         return response()->json([
-            'view' => view('frontend.dearness-allowance-percentages.form', compact('dearnessAllowancePercentage', 'edit', 'payCommissions'))->render()
+            'view' => view('frontend.dearness-allowance-percentages.form', compact('dearnessAllowancePercentage', 'edit', 'payCommissions', 'financialYears'))->render()
         ]);
     }
 
@@ -86,17 +91,19 @@ class DearnessAllowancePercentageController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'year' => 'required',
+            'financial_year' => 'required',
             'quarter' => 'required',
             'percentage' => 'required',
             'pay_commission_id' => 'required',
         ]);
 
         $dearnessAllowancePercentage = DearnessAllowancePercentage::findOrFail($id);
-        $dearnessAllowancePercentage->year = $request->year;
+        $dearnessAllowancePercentage->financial_year = $request->financial_year;
         $dearnessAllowancePercentage->quarter = $request->quarter;
         $dearnessAllowancePercentage->percentage = $request->percentage;
         $dearnessAllowancePercentage->pay_commission_id = $request->pay_commission_id;
+        $dearnessAllowancePercentage->year = $request->year;
+        $dearnessAllowancePercentage->month = $request->month;
         $dearnessAllowancePercentage->update();
 
         session()->flash('message', 'Dearness Allowance Percentage updated successfully');

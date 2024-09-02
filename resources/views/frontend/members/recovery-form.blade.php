@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="v_incr" id="v_incr"
-                            value="{{ $member_recovery->v_incr ?? (old('v_incr') ?? '') }}" placeholder="">
+                            value="{{ $member_var_info->var_incr ?? $member_recovery->v_incr ?? (old('v_incr') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="noi" id="noi"
-                            value="{{ $member_recovery->noi ?? (old('noi') ?? '') }}" placeholder="">
+                            value="{{ $member_var_info->noi ?? $member_recovery->noi ?? (old('noi') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -59,6 +59,7 @@
                     </div>
                     <div class="col-md-12">
                         <select class="form-select" name="stop" id="stop">
+                            <option value="">Select</option>
                             <option value="Yes"
                                 {{ (isset($member_recovery->stop) && $member_recovery->stop == 'Yes') || old('stop') == 'Yes' ? 'selected' : '' }}>
                                 Yes</option>

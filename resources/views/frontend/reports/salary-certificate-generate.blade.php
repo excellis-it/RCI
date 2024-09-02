@@ -771,7 +771,7 @@
                       border-right: 1px solid #000;
                       border-bottom: 1px solid #000;
                     ">
-                               <span style="font-size: 18px; line-height: 22px;">( D MADHU SUDAN REDDY )</span><br>
+                               <span style="font-size: 18px; line-height: 22px;">( {{ $accountant ?? '' }} )</span><br>
                                     Accounts Officer<br>
                                     For Director, CHESS <br>
                                     Vignyanakancha, Hyd-69<br>

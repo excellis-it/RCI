@@ -40,6 +40,10 @@ return new class extends Migration
             $table->string('pay_stop')->nullable();
             $table->string('pm_level')->nullable();
             $table->string('pm_index')->nullable();
+            $table->string('mobile_allowance')->nullable();
+            $table->string('broadband_allowance')->nullable();
+            $table->string('landline_allowance')->nullable();
+            $table->string('cr_water')->nullable();
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@
               <tr>
                 <td style="font-size: 15px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;
                   text-transform: uppercase;">
-                  Center For High Energy Systems and Science CHESS
+                  Center For High Energy Systems and Science CHESS 
                 </td>
               </tr>
             </tbody>
@@ -73,6 +73,19 @@
                       border-left: 1px solid #000;
                     ">
                   Name
+                </th>
+                <th style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-top: 1px solid #000;
+                      border-left: 1px solid #000;
+                    ">
+                  GPF/NPS No.
                 </th>
                 <th style="
                       font-size: 10px;
@@ -147,6 +160,21 @@
                 border-bottom: 1px solid #000;
               ">
                 {{ $member_detail->name ?? 'N/A'}}
+                </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
+              {{ $member_detail->pran_number ?? $member_detail->gpf_number ?? 'N/A' }}
                 </td>
                 <td style="
                 font-size: 10px;

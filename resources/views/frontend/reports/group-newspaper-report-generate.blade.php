@@ -85,6 +85,19 @@
                       border-top: 1px solid #000;
                       border-left: 1px solid #000;
                     ">
+                  GPF/NPS No.
+                </th>
+                <th style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-top: 1px solid #000;
+                      border-left: 1px solid #000;
+                    ">
                   Rank
                 </th>
                 <th style="
@@ -149,6 +162,21 @@
                 border-bottom: 1px solid #000;
               ">
                 {{ $member->name ?? 'N/A'}}
+                </td>
+                <td style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                height: 20px;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+              ">
+                {{ $member->pran_number ?? $member->gpf_number ?? 'N/A' }}
                 </td>
                 <td style="
                 font-size: 10px;
