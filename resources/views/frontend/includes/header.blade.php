@@ -367,14 +367,13 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Pay Fixation Arrear</a>
+                                    href="{{ route('reports.pay-fixation-arrears') }}">Pay Fixation Arrear</a>
                             </li> 
 
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('ltc-advance-settlement')}}">Ltc Advance Settlement</a>
                             </li> --}}
-
                         </ul>
                     </div>
                 </div>

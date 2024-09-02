@@ -614,7 +614,6 @@ class ReportController extends Controller
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
 
-
     public function getMemberInfo(Request $request)
     {
         $members = Member::where('e_status', $request->e_status)->where('pay_stop','No')->orderBy('id', 'desc')->get();
