@@ -36,145 +36,128 @@
                                 @csrf
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8">
                                         <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group col-md-12 mb-2">
-                                                    <div class="row align-items-center">
-                                                        <div class="form-group col-md-3 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Report Type</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select name="type" class="form-select" id="type">
-                                                                    <option value="">Select Type</option>
-                                                                    <option value="individual">Individual</option>
-                                                                    <option value="group">Group(Category)</option>
-                                                                </select>
-                                                                @if ($errors->has('category'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('category') }}</div>
-                                                                @endif
-                                                                
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="form-group col-md-9 mb-2" id="pua_group_div" hidden>
-                                                            <div class="row">
-                                                                
-
-                                                                <div class="form-group col-md-3 mb-2">
-                                                                    <div class="col-md-12">
-                                                                        <label>Employee Status</label>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <select name="e_status" class="form-select" id="e_status">
-                                                                            <option value="">Select Employee Status</option>
-                                                                            <option value="active">Active</option>
-                                                                            <option value="deputation">On Deputation</option>
-                                                                        </select>
-                                                                        @if ($errors->has('e_status'))
-                                                                            <div class="error" style="color:red;">
-                                                                                {{ $errors->first('e_status') }}</div>
-                                                                        @endif
-                                                                        
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group col-md-4 mb-2">
-                                                                    <div class="col-md-12">
-                                                                        <label>Year</label>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <select name="report_year_group" id="report_year" class="form-select">
-                                                                            <option value="">Select Year</option>
-                                                                            @foreach ($financialYears as $financialYear)
-                                                                                <option value="{{ $financialYear }}">
-                                                                                    {{ $financialYear }}
-                                                                                </option>
-                                                                                
-                                                                            @endforeach
-                                                                        </select>
-                                                                        @if ($errors->has('report_year'))
-                                                                            <div class="error" style="color:red;">
-                                                                                {{ $errors->first('report_year') }}</div>
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
-                                                            </div>    
-                                                        </div>
-
-                                                        <div class="form-group col-md-9 mb-2" id="pua_ind_div" hidden>
-                                                            <div class="row">
-                                                                
-
-                                                                <div class="form-group col-md-3 mb-2">
-                                                                    <div class="col-md-12">
-                                                                        <label>Members</label>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <select name="member_id" class="form-select" id="member_id">
-                                                                            <option value="">Select Member</option>
-                                                                            @foreach($members as $member)
-                                                                                <option value="{{ $member->id }}">{{$member->name}} ({{$member->emp_id}})</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        @if ($errors->has('member_id'))
-                                                                            <div class="error" style="color:red;">
-                                                                                {{ $errors->first('member_id') }}</div>
-                                                                        @endif
-                                                                        
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group col-md-4 mb-2">
-                                                                    <div class="col-md-12">
-                                                                        <label>Year</label>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <select name="report_year" id="report_year" class="form-select">
-                                                                            <option value="">Select Year</option>
-                                                                            @foreach ($financialYears as $financialYear)
-                                                                                <option value="{{ $financialYear }}">
-                                                                                    {{ $financialYear }}
-                                                                                </option>
-                                                                                
-                                                                            @endforeach
-                                                                        </select>
-                                                                        @if ($errors->has('report_year'))
-                                                                            <div class="error" style="color:red;">
-                                                                                {{ $errors->first('report_year') }}</div>
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
-                                                            </div>    
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Report Type</label>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row justify-content-end">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Generate</button>
-                                                    </div>
+                                                <div class="col-md-12">
+                                                    <select name="type" class="form-select" id="type">
+                                                        <option value="">Select Type</option>
+                                                        <option value="individual">Individual</option>
+                                                        <option value="group">Group(Category)</option>
+                                                    </select>
+                                                    @if ($errors->has('category'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('category') }}</div>
+                                                    @endif
                                                     
-                                                    {{-- <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_exit">Cancel</button>
-                                                    </div> --}}
                                                 </div>
+                                            </div>
+
+                                            <div class="form-group col-md-9 mb-2" id="pua_group_div" hidden>
+                                                <div class="row">
+                                                    
+
+                                                    <div class="form-group col-md-4 mb-2">
+                                                        <div class="col-md-12">
+                                                            <label>Employee Status</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <select name="e_status" class="form-select" id="e_status">
+                                                                <option value="">Select Employee Status</option>
+                                                                <option value="active">Active</option>
+                                                                <option value="deputation">On Deputation</option>
+                                                            </select>
+                                                            @if ($errors->has('e_status'))
+                                                                <div class="error" style="color:red;">
+                                                                    {{ $errors->first('e_status') }}</div>
+                                                            @endif
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 mb-2">
+                                                        <div class="col-md-12">
+                                                            <label>Year</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <select name="report_year_group" id="report_year" class="form-select">
+                                                                <option value="">Select Year</option>
+                                                                @foreach ($financialYears as $financialYear)
+                                                                    <option value="{{ $financialYear }}">
+                                                                        {{ $financialYear }}
+                                                                    </option>
+                                                                    
+                                                                @endforeach
+                                                            </select>
+                                                            @if ($errors->has('report_year'))
+                                                                <div class="error" style="color:red;">
+                                                                    {{ $errors->first('report_year') }}</div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+
+                                            <div class="form-group col-md-9 mb-2" id="pua_ind_div" hidden>
+                                                <div class="row">
+                                                    
+
+                                                    <div class="form-group col-md-4 mb-2">
+                                                        <div class="col-md-12">
+                                                            <label>Members</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <select name="member_id" class="form-select search-select-box" id="member_id">
+                                                                <option value="">Select Member</option>
+                                                                @foreach($members as $member)
+                                                                    <option value="{{ $member->id }}">{{$member->name}} ({{$member->emp_id}})</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @if ($errors->has('member_id'))
+                                                                <div class="error" style="color:red;">
+                                                                    {{ $errors->first('member_id') }}</div>
+                                                            @endif
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 mb-2">
+                                                        <div class="col-md-12">
+                                                            <label>Year</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <select name="report_year" id="report_year" class="form-select">
+                                                                <option value="">Select Year</option>
+                                                                @foreach ($financialYears as $financialYear)
+                                                                    <option value="{{ $financialYear }}">
+                                                                        {{ $financialYear }}
+                                                                    </option>
+                                                                    
+                                                                @endforeach
+                                                            </select>
+                                                            @if ($errors->has('report_year'))
+                                                                <div class="error" style="color:red;">
+                                                                    {{ $errors->first('report_year') }}</div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row justify-content-end">
+                                            <div class="form-group col-md-6 mb-2">
+                                                <button type="submit" class="listing_add">Generate</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                           
+                               
                             </form>
                         </div>
                     </div>
@@ -281,4 +264,11 @@
             });
         });
     </script>
+
+<script>
+    var select_box_element = document.querySelector('.search-select-box');
+    dselect(select_box_element, {
+        search: true
+    });
+</script>
 @endpush

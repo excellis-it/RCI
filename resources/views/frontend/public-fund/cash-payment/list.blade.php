@@ -6,6 +6,10 @@ Cash Payments List
 @push('styles')
 @endpush
 
+@php
+    use App\Helpers\Helper;
+@endphp
+
 @section('content')
 <section id="loading">
     <div id="loading-content"></div>
@@ -21,6 +25,15 @@ Cash Payments List
                     <li><span class="bread-blod">Public Fund</span></li>
                 </ul>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-start mb-3">
+            <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
+        </div>
+        <div class="col-md-6 text-end mb-3">
+           <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
         </div>
     </div>
     <!--  Row 1 -->
@@ -50,7 +63,8 @@ Cash Payments List
                                         <tr>
                                             <th>RCT No</th>
                                             <th>Amount</th>
-                                            <th>Status</th>
+                                            <th>Form</th>
+                                            <th>Vendor</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -259,24 +273,23 @@ Cash Payments List
 <script>
         $(document).on('click', '#add_more', function() {
 
-            function getOrdinal(n) {
-                var s = ["th", "st", "nd", "rd"],
-                    v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            }
+        function getOrdinal(n) {
+            var s = ["th", "st", "nd", "rd"],
+                v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
 
-            var html = '';
-            // count rows
-            var rowCount = $('#cash_payment_amount .child1').length + 2;
-            html += '<div class="row"><div class="col-lg-3"><div class="form-group mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Amount</label></div><div class="col-md-12"><input type="text" class="form-control" name="amount" id="amount" placeholder="" /><span class="text-danger"></span></div></div></div></div><div class="col-lg-3"><div class="form-group mb-2"><div class="row align-items-center"><div class="col-md-12"><label>Date</label></div><div class="col-md-12"><input type="date" class="form-control" name="date" id="date" placeholder="" /><span class="text-danger"></span></div><div class="col-lg-12"><div class="form-group col-md-2 mb-2 d-flex align-items-center justify-content"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div></div></div></div></div>';
+        var html = '';
+        // count rows
+        var rowCount = $('#cash_payment_amount .child1').length + 2;
+        html += '<div class="row child1 mb-2"><div class="col-lg-3"><div class="form-group"><label>Amount</label><input type="text" class="form-control" name="amount[]" id="amount" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-3"><div class="form-group"><label>Date</label><input type="date" class="form-control" name="date[]" id="date" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div>';
 
-            $('#cash_payment_amount').append(html);
-            });
-
-            // Handle removing rows
-            $(document).on('click', '.remove-child', function() {
-            $(this).closest('.row').remove();
+        $('#cash_payment_amount').append(html);
         });
 
+        // Handle removing rows
+        $(document).on('click', '.remove-child', function() {
+        $(this).closest('.child1').remove();
+        });
 </script>
 @endpush

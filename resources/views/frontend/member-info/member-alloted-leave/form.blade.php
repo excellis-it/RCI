@@ -54,7 +54,7 @@
                 <div class="row">
                     
                 
-                    <div class="form-group col-md-7 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Year</label>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -111,7 +111,7 @@
                                 <label>Member Name</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <select class="form-select search-select-box" name="member_id" id="member_id">
                                     <option value="">Select Member</option>
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}">{{ $member->name }}</option>
@@ -153,7 +153,7 @@
 
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-7 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Year</label>
@@ -169,7 +169,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>

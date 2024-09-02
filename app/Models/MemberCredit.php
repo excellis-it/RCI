@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MemberCredit extends Model
 {
     use HasFactory;
+
+    
 }

@@ -59,7 +59,7 @@ class MemberNewspaperAllowanceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'member_id' => 'required | unique:member_newspaper_allowances,member_id',
+            'member_id' => 'required',
             'amount' => 'required',
             'year' => 'required',
             'remarks' =>'required',

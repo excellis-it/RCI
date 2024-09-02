@@ -115,6 +115,7 @@ use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
 use App\Http\Controllers\PublicFund\PublicFundVendorController;
 use App\Http\Controllers\PublicFund\ReceiptController;
+use App\Http\Controllers\PublicFund\PublicFundBankController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -226,6 +227,8 @@ Route::middleware('permssions')->group(function () {
     // public funcd fetch
     Route::get('/public-fund-vendors-fetchData', [PublicFundVendorController::class, 'fetchData'])->name('public-fund-vendors.fetch-data');
 
+    Route::get('/public-fund-bank-details', [PublicFundBankController::class, 'getBankDetails'])->name('public-fund.bank-details');
+
     //receipts routes
     Route::resources([
         'receipts' => ReceiptController::class
@@ -260,10 +263,38 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reports-pay-matrix', [ReportController::class, 'payMatrixReport'])->name('reports.pay-matrix');
     Route::post('/reports-pay-matrix-generate', [ReportController::class, 'payMatrixReportGenerate'])->name('reports.pay-matrix-report-generate');
 
-        //payslip
+    //payslip
     Route::get('/reports-payslip', [ReportController::class, 'payslip'])->name('reports.payslip');
     Route::post('/reports-payslip-generate', [ReportController::class, 'payslipGenerate'])->name('reports.payslip-generate');
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
+
+    // cgegis reports
+    Route::get('/reports-cgegis',[ReportController::class, 'cgegisReport'])->name('reports.cgegis');
+    route::post('/reports-cgegis-generate',[ReportController::class, 'cgegisReportGenerate'])->name('reports.cgegis-report-generate');
+
+    //cghs reports
+    Route::get('/reports-cghs',[ReportController::class, 'cghsReport'])->name('reports.cghs');
+    route::post('/reports-cghs-generate',[ReportController::class, 'cghsReportGenerate'])->name('reports.cghs-report-generate');
+
+    // hba reports
+    Route::get('/reports-hba',[ReportController::class, 'hbaReport'])->name('reports.hba');
+    Route::post('/reports-hba-generate',[ReportController::class, 'hbaReportGenerate'])->name('reports.hba-report-generate');
+
+    //i-tax reports
+    Route::get('/reports-i-tax',[ReportController::class, 'iTaxRecovery'])->name('reports.i-tax');
+    Route::post('/reports-i-tax-generate',[ReportController::class, 'iTaxReportGenerate'])->name('reports.i-tax-report-generate');
+
+    Route::get('/reports-nps',[ReportController::class, 'npsReport'])->name('reports.nps');
+    Route::post('/reports-nps-generate',[ReportController::class, 'npsReportGenerate'])->name('reports.nps-report-generate');
+    Route::get('/get-da-percent-nps',[ReportController::class, 'getDaPercentNps'])->name('reports.get-da-percent-nps');
+
+    // lf reports
+    Route::get('/reports-lf-changes',[ReportController::class, 'lfChanges'])->name('reports.lf-changes');
+    Route::post('/reports-lf-generate',[ReportController::class, 'lfReportGenerate'])->name('reports.lf-report-generate');
+
+    // misc reports
+    Route::get('/reports-misc',[ReportController::class, 'miscReport'])->name('reports.misc');
+    Route::post('/reports-misc-generate',[ReportController::class, 'miscReportGenerate'])->name('reports.msc-report-generate');
        // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
@@ -307,19 +338,20 @@ Route::middleware('permssions')->group(function () {
 
     // payslip get member info
     Route::post('/get-member-info', [ReportController::class, 'getMemberInfo'])->name('reports.get-all-members');
+    Route::post('/get-nps-member-info', [ReportController::class, 'getNpsMemberInfo'])->name('reports.get-nps-members');
     Route::post('/get-member-gpf', [ReportController::class, 'getMemberGpf'])->name('reports.get-all-gpf-members');
 
         // professional Update allowance
-    Route::get('reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
-    Route::post('reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
+    Route::get('/reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
+    Route::post('/reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
 
         // gpf withdrawal report
-    Route::get('reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
-    Route::post('reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
+    Route::get('/reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
+    Route::post('/reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
 
         // gpf subscription report
-    Route::get('reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
-    Route::post('reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
+    Route::get('/reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
+    Route::post('/reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
 
         // terminal benefits report
     Route::get('reports-terminal-benefits', [ReportController::class, 'terminalBenefits'])->name('reports.terminal-benefits');
@@ -341,10 +373,11 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-da-arrears', [ReportController::class, 'daArrears'])->name('reports.da-arrears');
     Route::post('reports-da-arrears-generate', [ReportController::class, 'daArrearsGenerate'])->name('reports.da-arrears-generate');
 
+        // pay fixation arrears report
+    Route::get('reports-pay-fixation-arrears', [ReportController::class, 'payFixationArrears'])->name('reports.pay-fixation-arrears');
+    Route::post('reports-pay-fixation-arrears-generate', [ReportController::class, 'payFixationArrearsGenerate'])->name('reports.pay-fixation-arrears-generate');
 
-
-        // form 12 bb
-
+    // form 12 bb
     Route::get('/reports-crv', [ReportController::class, 'crv'])->name('reports.crv');
     Route::get('/reports-pl-withdrawl', [ReportController::class, 'plWithdrawl'])->name('reports.pl-withdrawl');
 
@@ -619,9 +652,11 @@ Route::middleware('permssions')->group(function () {
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
+        
     });
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
     Route::post('/cheque-payments-member-desig', [ChequePaymentController::class, 'fetchMemberDesig'])->name('cheque-payments.get-member-desig');
+    Route::get('/cheque-payments-rct-details', [ChequePaymentController::class, 'getReceiptNoDetail'])->name('cheque-payments.get-rct-details');
 
     //reset voucher
     Route::prefix('reset-voucher')->group(function () {

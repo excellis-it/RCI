@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-    Item Code Type List
+Item Code Classification List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Item Code Type Listing</h3>
+                    <h3>Item Code Classification Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Item Code Type Listing</span></li>
+                        <li><span class="bread-blod">Item Code Classification Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -50,10 +50,10 @@
                                             <tr>
                                                 <th>SL No.</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="code_type_no"
-                                                    style="cursor: pointer"> Item Code Type No. <span id="code_type_no_icon"><i
+                                                    style="cursor: pointer"> Item Code Classification No. <span id="code_type_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th>Code</th> --}}
-                                                <th>Item Code Type Name </th>
+                                                <th>Item Code Classification Name </th>
                                                 
                                                 <th></th>
                                             </tr>

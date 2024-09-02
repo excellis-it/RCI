@@ -5,13 +5,13 @@
         <div class="row">
             <div class="col-md-10">
                 <div class="row">
-                    <div class="form-group col-md-6 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Member</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <select class="form-select" name="" id="member_id" disabled>
                                     <option value="">Select Member</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}" {{ $member_fam_edit->member_id == $member->id ? 'selected':''}}>{{ $member->name}}</option>
@@ -19,9 +19,10 @@
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
+
+                            <input type="hidden" name="member_id" value="{{ $member_fam_edit->member_id }}">
                         </div>
-                    </div>
-                    
+                    </div> 
                 </div>
                 <div class="row">
                     <div class="form-group col-md-2 mb-2">
@@ -211,13 +212,13 @@
         <div class="row">
             <div class="col-md-10">
                 <div class="row">
-                    <div class="form-group col-md-6 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Member</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <select class="form-select select-box-drop" name="member_id" id="member_id">
                                     <option value="">Select Member</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}">{{ $member->name}}</option>
@@ -233,7 +234,7 @@
                     <div class="form-group col-md-2 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Parents :</label>
+                                <label>Parents:</label>
                             </div>
                         </div>
                     </div>

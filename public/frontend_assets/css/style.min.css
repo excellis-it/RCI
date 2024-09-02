@@ -56763,6 +56763,32 @@ ul {
     margin-bottom: 10px; 
 }
 
+/* .form-select .select-box{
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: 0px;
+    transform: translate3d(0px, 36.3636px, 0px);
+    width: 338px;
+} */
+.select-box-drop .dropdown-menu{
+    width: 100%;
+    border: 1px solid #C4C4C4;
+    padding: 5px;
+}
+
+.search-select-box .dropdown-menu{
+    width: 100%;
+    border: 1px solid #C4C4C4;
+    padding: 5px;
+}
+
+.dselect-placeholder {
+    color:  #000;
+    padding-left: 0;                  
+    text-align: left;                 
+    width: 100%;                     
+    display: block;                 
+  }
 
 @media (max-width:1600px) {
     .app-header .navbar .navbar-nav .nav-item .nav-link{

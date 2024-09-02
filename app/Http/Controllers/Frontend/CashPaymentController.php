@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Receipt;
 use App\Models\Member;
 use App\Models\PublicFundVendor;
+use Illuminate\Support\Facades\DB;
 
 class CashPaymentController extends Controller
 {
@@ -20,10 +21,10 @@ class CashPaymentController extends Controller
     public function index()
     {
         $receipt_nos = Receipt::where('receipt_type', 'cash')->get();
-        $cashPayments = CashPayment::orderBy('id', 'desc')->paginate(10);
+        $cash_receipt_nos = Receipt::where('receipt_type', 'cash')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $members = Member::orderBy('id', 'desc')->get();
-        return view('frontend.public-fund.cash-payment.list', compact('cashPayments', 'paymentCategories','members','receipt_nos'));
+        return view('frontend.public-fund.cash-payment.list', compact('receipt_nos','cash_receipt_nos', 'paymentCategories','members'));
     }
 
     public function fetchData(Request $request)
@@ -38,12 +39,6 @@ class CashPaymentController extends Controller
                 $queryBuilder->where('vr_no', 'like', '%' . $query . '%')
                     ->orWhere('vr_date', 'like', '%' . $query . '%')
                     ->orWhere('amount', 'like', '%' . $query . '%')
-                    ->orWhere('rct_no', 'like', '%' . $query . '%')
-                    ->orWhere('form', 'like', '%' . $query . '%')
-                    ->orWhere('details', 'like', '%' . $query . '%')
-                    ->orWhereHas('member', function($q) use ($query) {
-                        $q->where('name', 'like', '%' . $query . '%');
-                    })
                     ->orWhere('category', 'like', '%' . $query . '%');
             })
             ->orderBy($sort_by, $sort_type)
@@ -81,47 +76,17 @@ class CashPaymentController extends Controller
     public function store(Request $request)
     {
         
-        $request->validate([
-            'vr_date' => 'required',
-            'amount' => 'required|numeric',
-            'rct_no' => 'required',
-            'member_id' => 'required',
-        ]);
+        $rct_no = $request->rcpt_no;
 
-        
-        $voucherText = ResetVoucher::where('status', 1)->first();
-        $cashPayment = CashPayment::latest()->first();
-
-        $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
-
-        if ($cashPayment) {
-            // Extract the numeric part after the constant string
-            $serial_no = (int) Str::after($cashPayment->vr_no, $constantString);
-
-            // Check if the numeric part was correctly extracted
-            if ($serial_no > 0) {
-                $counter = $serial_no + 1;
-            } else {
-                // If for some reason the numeric part is not extracted correctly, start from 1
-                $counter = 1;
-            }
-        } else {
-            $counter = 1;
+        foreach($request->amount as $key => $amount) {
+            $cashPayment = new CashPayment();
+            $cashPayment->rct_no = $rct_no;
+            $cashPayment->amount = $amount;
+            $cashPayment->date = $request->date[$key];
+            $cashPayment->status = 'pending';
+            $cashPayment->save();
         }
-
-        $vr_no = $constantString . $counter;
-
-       
-        $cashPayment = new CashPayment();
-        $cashPayment->vr_no = $vr_no;
-        $cashPayment->vr_date = $request->vr_date;
-        $cashPayment->amount = $request->amount;
-        $cashPayment->rct_no = $request->rct_no;
-        $cashPayment->form = $request->form;
-        $cashPayment->details = $request->details;
-        $cashPayment->member_id = $request->member_id;
-        $cashPayment->category = $request->category;
-        $cashPayment->save();
+        
 
         session()->flash('message', 'Cash Payment added successfully');
         return response()->json(['success' => 'Cash Payment added successfully']);
@@ -140,12 +105,11 @@ class CashPaymentController extends Controller
      */
     public function edit(string $id)
     {
-        
-        $cashPayment = CashPayment::findOrFail($id);
-        $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $members = Member::orderBy('id', 'desc')->get();
+        $receipt_nos = Receipt::where('receipt_type', 'cash')->get();
+        $receipt = Receipt::where('id', $id)->first();
+        $cashPayments = CashPayment::where('rct_no', $id)->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayment', 'paymentCategories','members'))->render()]);
+        return response()->json(['view' => view('frontend.public-fund.cash-payment.form', compact('edit', 'cashPayments', 'receipt','receipt_nos'))->render()]);
     }
 
     /**

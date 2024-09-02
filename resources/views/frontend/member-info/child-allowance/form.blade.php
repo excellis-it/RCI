@@ -3,9 +3,9 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Member</label>
@@ -60,15 +60,15 @@
     <form action="{{ route('child-allowance.store') }}" method="POST" id="member-child-allowance-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Member</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
+                                <select class="form-select search-select-box" name="member_id" id="member_id">
                                     <option value="">Select Member</option>
                                     @foreach($members as $member)
                                         <option value="{{ $member->id }}">{{ $member->name}}</option>
@@ -104,11 +104,14 @@
                    
             </div>
             <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
+                <div class="row justify-content-end">
+                    <div class="form-group col-md-6 mb-2">
+                        <button type="submit" class="listing_add">Generate</button>
+                    </div>
+                    
+                    {{-- <div class="form-group col-md-6 mb-2">
+                        <button type="submit" class="listing_exit">Cancel</button>
+                    </div> --}}
                 </div>
             </div>
         </div>

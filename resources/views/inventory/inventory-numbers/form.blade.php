@@ -11,7 +11,7 @@
                                 <label>Inv Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="inventory_type" id="inventory_type">
+                                <select class="form-select" name="inventory_type" id="inventory_type" disabled>
                                     <option value="">Select Inventory Type</option>
                                     <option value="Individual" {{ $inventory_number->inventory_type == 'Individual' ? 'selected':'' }}>Individual</option>
                                     <option value="Project" {{ $inventory_number->inventory_type == 'Project' ? 'selected':'' }}>Project</option>
@@ -77,7 +77,7 @@
                     </div>
                     @endif
 
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -115,7 +115,7 @@
                                 <label>Inv Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="inventory_type" id="inventory_type">
+                                <select class="form-select" name="inventory_type" id="inventory_type" >
                                     <option value="">Select Inventory Type</option>
                                     <option value="Individual">Individual</option>
                                     <option value="Project">Project</option>

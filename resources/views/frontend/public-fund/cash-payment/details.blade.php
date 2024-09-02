@@ -8,7 +8,7 @@
                     <label>Vr. No</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="vr_no" id="vr_no"  value="{{ $receipt->vr_no ?? '' }}" 
+                    <input type="text" class="form-control"  name="" id="vr_no"  value="{{ $receipt->vr_no ?? '' }}" 
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -23,7 +23,7 @@
                     <label>Vr. Date</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="date" class="form-control"  name="vr_date" id="vr_date"  value="{{ $receipt->vr_date ?? '' }}" 
+                    <input type="date" class="form-control"  name="" id="vr_date"  value="{{ $receipt->vr_date ?? '' }}" 
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -38,7 +38,7 @@
                     <label>Net Amount</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="amount" id="net_amount"  value="{{ $receipt->amount ?? '' }}"   
+                    <input type="text" class="form-control"  name="" id="net_amount"  value="{{ $receipt->amount ?? '' }}"   
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -53,7 +53,7 @@
                     <label>Form</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="form" id="form-detail"    value="{{ $receipt->form ?? '' }}"   
+                    <input type="text" class="form-control"  name="" id="form-detail"    value="{{ $receipt->form ?? '' }}"   
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -68,7 +68,7 @@
                     <label>Details</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="details" id="details" value="{{ $receipt->details ?? '' }}"   
+                    <input type="text" class="form-control"  name="" id="details" value="{{ $receipt->details ?? '' }}"   
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -83,7 +83,7 @@
                     <label>Vendor</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="vendor" id="vendor" value="{{ $receipt->fundVendor->f_name ?? '' }} {{ $receipt->fundVendor->l_name ?? '' }}" placeholder="" readonly>
+                    <input type="text" class="form-control" name="" id="vendor" value="{{ $receipt->fundVendor->f_name ?? '' }} {{ $receipt->fundVendor->l_name ?? '' }}" placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                     <label>Category</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="category" id="category"  value="{{ $receipt->category->name ?? '' }}"  
+                    <input type="text" class="form-control"  name="" id="category"  value="{{ $receipt->category->name ?? '' }}"  
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -114,7 +114,7 @@
                     <label>Amount</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="amount" id="amount"  
+                    <input type="text" class="form-control"  name="amount[]" id="amount"  
                         placeholder="">
                     <span class="text-danger"></span>
                 </div>
@@ -129,7 +129,7 @@
                     <label>Date</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="date" class="form-control"  name="date" id="date"  
+                    <input type="date" class="form-control"  name="date[]" id="date"  
                         placeholder="">
                     <span class="text-danger"></span>
                 </div>

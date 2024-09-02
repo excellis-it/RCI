@@ -74,7 +74,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('item-code-types.index') }}">Item Code Types</a>
+                                    href="{{ route('item-code-types.index') }}">Item Code Classification</a>
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

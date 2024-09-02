@@ -77,25 +77,11 @@
                                     </div>
                                 </div>
 
-
-                                {{-- <div class="row justify-content-end">
-                                    
-                                </div> --}}
                             </form>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
-                                {{-- <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="position-relative">
@@ -178,53 +164,33 @@
     </script>
 
 <script>
-    $(document).ready(function() {
-        $('#member-loan-emi-form').validate({
-            rules: {
-                // Define rules for your form fields
-                'member_id': {
-                    required: true
-                },
-                'loan_id': {
-                    required: true
-                }
-            },
-            messages: {
-                // Define messages for your form fields
-                'member_id': {
-                    required: "Please select member",
-                },
-                'loan_id': {
-                    required: "Please select loan",
-                }
-            },
-            submitHandler: function(form) {
-                var formData = $(form).serialize();
+$('#member-loan-emi-form').submit(function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
 
 
-                $.ajax({
-                    url: $(form).attr('action'),
-                    type: $(form).attr('method'),
-                    data: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        $('#emi-table').html(response.view);
-                       
-                    },
-                    error: function(xhr) {
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            $('[name="' + key + '"]').next('.text-danger').html(
-                                value[0]);
-                        });
-                    }
-                });
-            }
-        });
+    $.ajax({
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        data: formData,
+        success: function(response) {
+          
+            $('#emi-table').html(response.view);
+        },
+        error: function(xhr) {
+
+            // Handle errors (e.g., display validation errors)
+            //clear any old errors
+            $('.text-danger').html('');
+            var errors = xhr.responseJSON.errors;
+            $.each(errors, function(key, value) {
+                // Assuming you have a div with class "text-danger" next to each input
+                $('[name="' + key + '"]').next('.text-danger').html(value[
+                    0]);
+            });
+        }
     });
+});
 </script>
 
 <script>
@@ -250,7 +216,7 @@
             },
             success: function(response) {
             
-                $('#emi-table').html(response.data); 
+                $('#emi-table').html(response.view); 
                 // $('.loan-emi-list-container').html(data);
             },
             error: function(response) {

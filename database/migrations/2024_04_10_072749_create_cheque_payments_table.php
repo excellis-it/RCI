@@ -13,19 +13,11 @@ return new class extends Migration
     {
         Schema::create('cheque_payments', function (Blueprint $table) {
             $table->id();
-            $table->string('vr_no')->nullable();
-            $table->date('vr_date')->nullable();
-            $table->string('sr_no')->nullable();
             $table->string('amount')->nullable();
+            $table->date('date')->nullable();
+            $table->bigInteger('rct_no')->unsigned()->nullable();  
             $table->bigInteger('member_id')->unsigned()->nullable();      
-            $table->string('designation')->nullable();
-            $table->string('bill_ref')->nullable();
-            $table->string('bank_account')->nullable();
-            $table->string('dv_no')->nullable();
-            $table->string('cheque_no')->nullable();
-            $table->date('cheque_date')->nullable();
-            $table->string('narration')->nullable();
-            $table->string('category')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

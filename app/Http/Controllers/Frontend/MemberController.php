@@ -45,8 +45,9 @@ use App\Models\MemberLoan;
 use App\Models\LeaveType;
 use App\Models\MemberGpf;
 use App\Models\Cghs;
-use View;
 use Illuminate\Support\Str;
+
+
 
 class MemberController extends Controller
 {
@@ -438,14 +439,14 @@ class MemberController extends Controller
         //     'remarks' => 'required',
         // ]);
 
-        $inputs = $request->all();
-        $rules = [];
+        // $inputs = $request->all();
+        // $rules = [];
 
-        foreach ($inputs as $field => $value) {
-            // Apply numeric validation to each field
-            $rules[$field] = 'numeric';
-        }
-        $request->validate($rules);
+        // foreach ($inputs as $field => $value) {
+        //     // Apply numeric validation to each field
+        //     $rules[$field] = 'numeric';
+        // }
+        // $request->validate($rules);
 
 
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
@@ -1198,12 +1199,12 @@ class MemberController extends Controller
         $members_loans_info = MemberLoanInfo::where('member_id',$request->member_id)->orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
 
-        
         return response()->json(['message' => 'Member loan found successfully', 'data' => $members_loans_info]);
     }
 
     public function memberLoanEmiSubmit(Request $request)
     {
+    
         $validated = $request->validate([
             'member_id' => 'required',
             'loan_id' => 'required',
@@ -1211,17 +1212,15 @@ class MemberController extends Controller
         $members = Member::orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
         $loan_emi_list = MemberLoan::where('member_id', $request->member_id)->where('loan_id', $request->loan_id)->paginate(10);
+        $emiInfo = true;
 
-        return response()->json(['view' => view('frontend.members.loan.emi-info-table', compact('members', 'loans', 'loan_emi_list'))->render()]);
-
-        
+        return response()->json(['view' => view('frontend.members.loan.emi-info-table', compact('members', 'loans', 'loan_emi_list','emiInfo'))->render()]);
     }
 
     public function fetchEmiList(Request $request)
     {
        
         $loanEmiQuery = MemberLoan::query();
-
         if ($request->member_id) {
             $loanEmiQuery->where('member_id', $request->member_id);
         }
@@ -1233,10 +1232,11 @@ class MemberController extends Controller
         $loan_emi_list = $loanEmiQuery->paginate(10, ['*'], 'page', $request->page);
         $members = Member::orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
+        $emiInfo = true;
         // Return the partial view with the data
         if ($request->ajax()) {
             return response()->json([
-                'data' => view('frontend.members.loan.emi-info-table', compact('loan_emi_list','members','loans'))->render()
+                'view' => view('frontend.members.loan.emi-info-table', compact('loan_emi_list','members','loans','emiInfo'))->render()
             ]);
         }
         

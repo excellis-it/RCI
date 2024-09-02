@@ -2,6 +2,7 @@
     <form action="{{ route('categories.update', $category->id) }}" method="POST" id="category-edit-form">
         @method('PUT')
         @csrf
+        
         <div class="row align-items-center">
         <div class="col-md-8">
             <div class="row">
