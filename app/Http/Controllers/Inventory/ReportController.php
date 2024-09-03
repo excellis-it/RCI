@@ -177,9 +177,8 @@ class ReportController extends Controller
     {
         $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
         $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
-        $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
 
-        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc', 'inv_no'));
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc'));
         return $pdf->download('conversion-voucher.pdf');
     }
 
