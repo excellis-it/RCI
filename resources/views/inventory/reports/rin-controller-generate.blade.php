@@ -38,7 +38,7 @@
                       width: 100%;
                     "
                   >
-                  CHESS, Hyderabad<br />
+                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
                   RIN CONTROL REGISTER
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>

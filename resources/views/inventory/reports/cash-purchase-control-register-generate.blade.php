@@ -25,7 +25,7 @@
                       font-size: 10px;
                       width: 100%;
                     ">
-                  (NAME OF LAB/ESTT)<br />
+                  (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES)<br />
                   CASH PURCHASE CONTROL REGISTER (CPCR)
                 </td>
                 <td style="font-size: 10px; text-align: right"></td>

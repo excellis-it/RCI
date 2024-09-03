@@ -25,7 +25,7 @@
                       font-size: 10px;
                       width: 100%;
                     ">
-                  Centre for High Energy System and Sciences <br />
+                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES<br />
                   CONVERSION VOUCHER
                 </td>
                 <td style="font-size: 10px; text-align: right"></td>

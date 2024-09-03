@@ -10,6 +10,6 @@ class PublicFundBankController extends Controller
     //
     public function getBankDetails()
     {
-        
+        return view('public-funds.bank.form');
     }
 }

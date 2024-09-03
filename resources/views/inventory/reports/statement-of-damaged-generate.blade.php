@@ -25,7 +25,7 @@
                       font-size: 10px;
                       width: 100%;
                     ">
-                  (Name of the Lab/Estt.)<br />
+                  (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES)<br />
                   STATEMENT OF EQUIPMENT LOST/DAMAGED
                 </td>
                 <td style="font-size: 10px; text-align: right"></td>

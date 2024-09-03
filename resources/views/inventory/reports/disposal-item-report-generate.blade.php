@@ -39,7 +39,7 @@
                       width: 100%;
                     "
                   >
-                  (NAME OF LAB/ESTT) <br />
+                  (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES) <br />
                   LIST OF ITEMS FOR DISPOSAL
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>

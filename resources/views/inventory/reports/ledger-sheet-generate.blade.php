@@ -25,7 +25,7 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  CHESS, Hyderabad <br />
+                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad <br />
                   LEDGER SHEET
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>

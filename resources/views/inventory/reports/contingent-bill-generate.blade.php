@@ -59,7 +59,7 @@
                                  line-height: 12px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: center;">NAME OF THE LAB/Estt. <br>
+                                text-align: center;">CENTER FOR HIGH ENERGY SYSTEM & SCIENCES <br>
                                     CONTINGENT BILL
                                 </td>
                             </tr>

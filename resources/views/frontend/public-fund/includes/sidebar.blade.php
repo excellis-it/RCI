@@ -79,7 +79,7 @@ use App\Helpers\Helper;
                     
                 </li>
 
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('bank-details*') ? 'active' : '' }}"
                             href="{{ route('public-fund.bank-details') }}" >
                         <span>
@@ -87,7 +87,7 @@ use App\Helpers\Helper;
                         </span>
                         <span class="hide-menu">Bank Detail</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
 
         </nav>

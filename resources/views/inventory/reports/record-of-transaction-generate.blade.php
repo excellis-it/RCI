@@ -12,7 +12,7 @@
                         <tbody>
                             <tr>
                                 <td style="text-align: center; font-weight: bold; font-size: 10px;">
-                                   CHESS, Hyderabad<br />
+                                    CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
                                 </td>
                                 <td style="font-size: 14px"></td>
                                 <td style="font-size: 10px; "></td>
