@@ -715,7 +715,7 @@
             margin: 0px 0px !important;
             height: 5px;
           ">
-                 (D Madhu Sudan Reddy)<br>
+                 ({{ $accountant ?? '' }})<br>
                  Accounts Officer<br>
                  Director, CHESS
                 </td>

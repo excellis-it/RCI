@@ -1281,8 +1281,9 @@ class ReportController extends Controller
     public function terminalBenefits()
     {
         $members = Member::whereHas('memberRetirementInfo')->with('memberRetirementInfo')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
 
-        return view('frontend.reports.terminal-benefits', compact('members'));
+        return view('frontend.reports.terminal-benefits', compact('members','accountants'));
     }
 
     public function terminalBenefitsGenerate(Request $request) 
@@ -1296,6 +1297,7 @@ class ReportController extends Controller
         $member_retirement_info = MemberRetirementInfo::where('member_id', $member_id)->first();
         $member_credit_data = MemberCredit::where('member_id', $member_id)->latest()->first();
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $accountant = $request->accountant;
 
         if($member_retirement_info->retirement_type == 'voluntary') {
             $retirement_type = 'VRS';
@@ -1303,7 +1305,7 @@ class ReportController extends Controller
             $retirement_type = '';
         }
 
-        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage'));
+        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage','accountant'));
         return $pdf->download('terminal-benefits-' . $member->name . '.pdf');
     }
 
@@ -1683,7 +1685,11 @@ class ReportController extends Controller
 
         // Now $report contains separate arrays for each chunk of members
 
-        // dd($report);
+
+        if($chunkedMembers->isEmpty())
+        {
+            return redirect()->back()->with('error','No data found');
+        }
 
 
         $pdf = PDF::loadView('frontend.reports.da-arrears-generate-new', compact('report', 'da_percentage_diff_heading', 'due_da_percentage_for_heading', 'drawn_da_percentage_for_heading', 'start_date', 'end_date', 'chunkedMembers'));

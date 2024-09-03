@@ -317,7 +317,7 @@
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: right; padding-left: 10px;">({{ $accountant ?? 'N/A' }} )<br> Accounts Officer
+                                text-align: right; padding-left: 10px;">({{ $accountant ?? '' }} )<br> Accounts Officer
                                     <br> For Director, CHESS <br>Vignyanakancha, Hyd-69
                                 </td>
                             </tr>
