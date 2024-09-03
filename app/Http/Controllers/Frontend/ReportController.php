@@ -48,6 +48,8 @@ use App\Models\MemberRetirementInfo;
 use App\Models\PayMatrixRow;
 use App\Models\PayMatrixBasic;
 use App\Models\PmIndex;
+use App\Models\Hra;
+use App\Models\Pension;
 
 class ReportController extends Controller
 {
@@ -1911,6 +1913,7 @@ class ReportController extends Controller
         $accountant = $request->accountant;
         $due_basic = $request->due_basic;
         $due_tpt = $request->due_tpt;
+        $pran_no = $member->pran_number ?? '';
 
         $start_date = Carbon::create($from_year, $from_month, 1)->startOfMonth();
         $end_date = Carbon::create($to_year, $to_month, 1)->endOfMonth();
@@ -1929,79 +1932,91 @@ class ReportController extends Controller
                                         ->first();
 
             // Query MemberDebit table for the current month and year
-            $npsData = MemberDebit::where('member_id', $member->id)
-                                ->whereYear('created_at', $year)
-                                ->whereMonth('created_at', $month)
-                                ->select('pension_rec', 'eol', 'npsg')
+            $npsData = Pension::where('user_id', $member->id)
+                                ->whereYear('year', $year)
+                                ->whereMonth('month', $month)
                                 ->first();
 
-            // Only process if either $memberCredit or $npsData has relevant data
-            if ($memberCredit || $npsData) {
-                $drawn_basic = $memberCredit->pay ?? 0;
-                $g_pay = $memberCredit->g_pay ?? 0;
+            // Query HRA table for the current month and year
+            $hraData = Hra::where('status')->latest()->first();
+            $hra_percentage = $hraData->percentage ?? 0;
 
-                // Calculate DA Due and Drawn
-                $da_now_percentage = DearnessAllowancePercentage::where('year', $year)
-                                                                ->where('month', $month)
-                                                                ->where('is_active', 1)
-                                                                ->latest()
-                                                                ->first()
-                                                                ->percentage ?? 0;
-                $prev_da_percentage = DearnessAllowancePercentage::where('year', $year)
-                                                                ->where('month', $month)
-                                                                ->where('is_active', 0)
-                                                                ->latest()
-                                                                ->first()
-                                                                ->percentage ?? 0;
+            // Default values if no data exists for the month
+            $drawn_basic = $memberCredit->pay ?? 0;
 
-                $da_due = $due_basic * $da_now_percentage / 100;
-                $da_drawn = $drawn_basic * $prev_da_percentage / 100;
-                $diff = $da_due - $da_drawn;
+            // Calculate DA Due and Drawn
+            $da_percentage = DearnessAllowancePercentage::where('year', $year)
+                                                            ->where('month', $month)
+                                                            ->where('is_active', 1)
+                                                            ->latest()
+                                                            ->first()
+                                                            ->percentage ?? 0;
 
-                // Calculate TPT Due and Drawn
-                $tpt_due_amt = $memberCredit->tpt ?? $due_tpt;
-                $tpt_da = $memberCredit->da_on_tpt ?? 0;
+            $da_due = $due_basic * $da_percentage / 100;
+            $da_drawn = $drawn_basic * $da_percentage / 100;
+            $diff = $da_due - $da_drawn;
 
-                $tpt_due = $tpt_due_amt + ($tpt_due_amt * $da_now_percentage / 100);
-                $tpt_drawn = $tpt_due_amt + $tpt_da;
-                $tpt_diff = $tpt_due - $tpt_drawn;
+            // Calculate TPT Due and Drawn
+            $tpt_due = $due_tpt;
+            $tpt_drawn = $memberCredit->tpt ?? 0;
+            $tpt_diff = $tpt_due - $tpt_drawn;
 
-                // Calculate NPS, EOL, and Final
-                $nps = ($npsData->npsg ?? 0) + ($npsData->pension_rec ?? 0);
-                $eol = $npsData->eol ?? 0;
+            $due_tpt_da = $tpt_due * $da_percentage / 100;
+            $drawn_tpt_da = $tpt_drawn * $da_percentage / 100;
 
-                $total = $da_due + $tpt_due - $da_drawn - $tpt_drawn;
-                $final = $total - $nps;
+            // Calculate HRA Due and Drawn
+            $hra_due = $due_basic * $hra_percentage / 100;
+            $hra_drawn = $drawn_basic * $hra_percentage / 100;
 
-                // Store the data for this month if there's relevant data
-                $monthlyData[] = [
-                    'Year' => $year,
-                    'Month' => $current_date->format('F'),
-                    'Due_Basic' => $due_basic,
-                    'Drawn_Basic' => $drawn_basic,
-                    'G_Pay' => $g_pay,
-                    'DA_Due' => $da_due,
-                    'DA_Drawn' => $da_drawn,
-                    'Diff' => $diff,
-                    'TPT_Due' => $tpt_due,
-                    'TPT_Drawn' => $tpt_drawn,
-                    'TPT_Diff' => $tpt_diff,
-                    'NPS' => $nps,
-                    'EOL' => $eol,
-                    'Final' => $final,
-                ];
+            // Calculate the total due and drawn
+            $total_due = $due_basic + $da_due + $tpt_due + $hra_due + $due_tpt_da;
+            $total_drawn = $drawn_basic + $da_drawn + $tpt_drawn + $hra_drawn + $drawn_tpt_da;
+
+            // Difference between total due and drawn
+            if($total_drawn == 0 || $total_due == 0)
+            {
+                $total_diff = 0;
             }
+            else
+            {
+                $total_diff = $total_due - $total_drawn;
+            }
+
+            // nps amount
+            $nps = $npsData->npsg_sub_amt ?? 0;
+
+            // total amount
+            $total_amt = $total_diff - $nps;
+
+            // Store the data for this month (even if it's all zeros)
+            $monthlyData[] = [
+                'Year' => $year,
+                'Month' => $current_date->format('F'),
+                'Due_Basic' => $due_basic,
+                'Drawn_Basic' => $drawn_basic,
+                'DA_Due' => $da_due,
+                'DA_Drawn' => $da_drawn,
+                'TPT_Due' => $tpt_due,
+                'TPT_Drawn' => $tpt_drawn,
+                'HRA_Due' => $hra_due,
+                'HRA_Drawn' => $hra_drawn,
+                'tpt_da_due' => $due_tpt_da,
+                'tpt_da_drawn' => $drawn_tpt_da,
+                'Total_Due' => $total_due,
+                'Total_Drawn' => $total_drawn,
+                'Total_Diff' => $total_diff,
+                'NPS' => $nps,
+                'Total_Amt' => $total_amt,  
+            ];
 
             // Move to the next month
             $current_date->addMonth();
         }
 
         // The $monthlyData array now contains all the data for each month within the specified range
-
-
         
         
-        $pdf = PDF::loadView('frontend.reports.pay-fixation-arrears-generate', compact('monthlyData', 'member', 'accountant'));
+        $pdf = PDF::loadView('frontend.reports.pay-fixation-arrears-generate', compact('monthlyData', 'member', 'accountant', 'pran_no', 'start_date', 'end_date'))->setPaper('a4', 'landscape');
         return $pdf->download('pay-fixation-arrears-' . '.pdf');
     }
 
