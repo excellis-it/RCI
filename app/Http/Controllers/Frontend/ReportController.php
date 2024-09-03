@@ -1928,72 +1928,75 @@ class ReportController extends Controller
                                         ->whereMonth('created_at', $month)
                                         ->first();
 
-            $basic = $memberCredit->pay ?? $due_basic;
-            $g_pay = $memberCredit->g_pay ?? 0;
-
-            // Calculate DA Due and Drawn
-            $da_now_percentage = DearnessAllowancePercentage::where('year', $year)
-                                                            ->where('month', $month)
-                                                            ->where('is_active', 1)
-                                                            ->latest()
-                                                            ->first()
-                                                            ->percentage ?? 0;
-            $prev_da_percentage = DearnessAllowancePercentage::where('year', $year)
-                                                            ->where('month', $month)
-                                                            ->where('is_active', 0)
-                                                            ->latest()
-                                                            ->first()
-                                                            ->percentage ?? 0;
-
-            $da_due = $basic * $da_now_percentage / 100;
-            $da_drawn = $basic * $prev_da_percentage / 100;
-            $diff = $da_due - $da_drawn;
-
-            // Calculate TPT Due and Drawn
-            $tpt_due_amt = $memberCredit->tpt ?? $due_tpt;
-            $tpt_da = $memberCredit->da_on_tpt ?? 0;
-
-            $tpt_due = $tpt_due_amt + ($tpt_due_amt * $da_now_percentage / 100);
-            $tpt_drawn = $tpt_due_amt + $tpt_da;
-            $tpt_diff = $tpt_due - $tpt_drawn;
-
-            // Calculate NPS, EOL, and Final
+            // Query MemberDebit table for the current month and year
             $npsData = MemberDebit::where('member_id', $member->id)
                                 ->whereYear('created_at', $year)
                                 ->whereMonth('created_at', $month)
                                 ->select('pension_rec', 'eol', 'npsg')
                                 ->first();
 
-            $nps = ($npsData->npsg ?? 0) + ($npsData->pension_rec ?? 0);
-            $eol = $npsData->eol ?? 0;
+            // Only process if either $memberCredit or $npsData has relevant data
+            if ($memberCredit || $npsData) {
+                $drawn_basic = $memberCredit->pay ?? 0;
+                $g_pay = $memberCredit->g_pay ?? 0;
 
-            $total = $da_due + $tpt_due - $da_drawn - $tpt_drawn;
-            $final = $total - $nps;
+                // Calculate DA Due and Drawn
+                $da_now_percentage = DearnessAllowancePercentage::where('year', $year)
+                                                                ->where('month', $month)
+                                                                ->where('is_active', 1)
+                                                                ->latest()
+                                                                ->first()
+                                                                ->percentage ?? 0;
+                $prev_da_percentage = DearnessAllowancePercentage::where('year', $year)
+                                                                ->where('month', $month)
+                                                                ->where('is_active', 0)
+                                                                ->latest()
+                                                                ->first()
+                                                                ->percentage ?? 0;
 
-            // Store the data for this month
-            $monthlyData[] = [
-                'Year' => $year,
-                'Month' => $current_date->format('F'),
-                'Basic' => $basic,
-                'G_Pay' => $g_pay,
-                'DA_Due' => $da_due,
-                'DA_Drawn' => $da_drawn,
-                'Diff' => $diff,
-                'TPT_Due' => $tpt_due,
-                'TPT_Drawn' => $tpt_drawn,
-                'TPT_Diff' => $tpt_diff,
-                'NPS' => $nps,
-                'EOL' => $eol,
-                'Final' => $final,
-            ];
+                $da_due = $due_basic * $da_now_percentage / 100;
+                $da_drawn = $drawn_basic * $prev_da_percentage / 100;
+                $diff = $da_due - $da_drawn;
+
+                // Calculate TPT Due and Drawn
+                $tpt_due_amt = $memberCredit->tpt ?? $due_tpt;
+                $tpt_da = $memberCredit->da_on_tpt ?? 0;
+
+                $tpt_due = $tpt_due_amt + ($tpt_due_amt * $da_now_percentage / 100);
+                $tpt_drawn = $tpt_due_amt + $tpt_da;
+                $tpt_diff = $tpt_due - $tpt_drawn;
+
+                // Calculate NPS, EOL, and Final
+                $nps = ($npsData->npsg ?? 0) + ($npsData->pension_rec ?? 0);
+                $eol = $npsData->eol ?? 0;
+
+                $total = $da_due + $tpt_due - $da_drawn - $tpt_drawn;
+                $final = $total - $nps;
+
+                // Store the data for this month if there's relevant data
+                $monthlyData[] = [
+                    'Year' => $year,
+                    'Month' => $current_date->format('F'),
+                    'Due_Basic' => $due_basic,
+                    'Drawn_Basic' => $drawn_basic,
+                    'G_Pay' => $g_pay,
+                    'DA_Due' => $da_due,
+                    'DA_Drawn' => $da_drawn,
+                    'Diff' => $diff,
+                    'TPT_Due' => $tpt_due,
+                    'TPT_Drawn' => $tpt_drawn,
+                    'TPT_Diff' => $tpt_diff,
+                    'NPS' => $nps,
+                    'EOL' => $eol,
+                    'Final' => $final,
+                ];
+            }
 
             // Move to the next month
             $current_date->addMonth();
         }
 
         // The $monthlyData array now contains all the data for each month within the specified range
-
-        return view('report', compact('monthlyData', 'member', 'accountant'));
 
 
         

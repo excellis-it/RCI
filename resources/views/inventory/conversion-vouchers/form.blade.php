@@ -202,6 +202,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="voucher_type" id="voucher_type">
+                                    <option value="">Select</option>
+                                    <option value="1">One to One</option>
+                                    <option value="2">One to Many</option>
+                                    <option value="3">Many to One</option>
+                                </select>
+                                <span class="text-danger"></span>
+                                <div class="text-danger" id="voucher_type"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
