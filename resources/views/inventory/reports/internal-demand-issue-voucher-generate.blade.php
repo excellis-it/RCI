@@ -25,7 +25,7 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  (Name of the Lab/Estt.)<br />
+                  (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES)<br />
                   INTERNAL DEMAND AND ISSUE VOUCHER (IDIV)
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>

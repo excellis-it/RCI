@@ -39,7 +39,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    (Name of the Lab/Estt)
+                                    (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES)
 
 
                                 </td>

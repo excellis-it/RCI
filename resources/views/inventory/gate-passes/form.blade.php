@@ -24,8 +24,7 @@
                                 <label>Gate Pass Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="pass_date" id="pass_date" value="{{ $gatepass->gate_pass_date ?? '' }}"
-                                    placeholder="">
+                                 <input type="date" class="form-control" name="pass_date" id="pass_date" value="{{ $gatepass->gate_pass_date ?? '' }}" max="{{ date('Y-m-d') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -82,7 +81,8 @@
                                 <label>Gate Pass Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="pass_date" id="pass_date">
+                                <input type="date" class="form-control" name="pass_date" id="pass_date" max="{{ date('Y-m-d') }}">
+
                                 <span class="text-danger"></span>
                             </div>
                         </div>

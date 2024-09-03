@@ -25,7 +25,7 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  Name of Lab / Estt.<br />
+                 CENTER FOR HIGH ENERGY SYSTEM & SCIENCES<br />
                   CPIV CONTROL REGISTER
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>
