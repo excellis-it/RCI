@@ -27,6 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('member_id')->nullable();
             $table->unsignedBigInteger('project_id')->nullable();
             $table->decimal('tax', 10, 2)->nullable();
+            $table->decimal('tax_amt', 10, 2)->nullable();
             $table->decimal('total_price', 15, 2)->default(0);
             $table->string('consigner')->nullable();
             $table->string('cost_debatable')->nullable();

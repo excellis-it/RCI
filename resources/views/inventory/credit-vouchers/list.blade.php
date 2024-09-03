@@ -403,12 +403,23 @@
                 // $('#total_price').val(total_price);
                 var price = parseInt($row.find('.price').val()) || 0;
                 var tax = parseInt($row.find('.tax').val()) || 0;
-                var total_price = price + (price * tax / 100);
-                $row.find('.total_price').val(total_price);
+                var tax_amt = price * tax / 100;
+                var disc_percent = parseInt($row.find('.disc_percent').val()) || 0; 
+                var disc_amt = price * disc_percent / 100;
+                var actual_price = price + tax_amt;
+                var discounted_price = actual_price - disc_amt;
+                $row.find('.tax_amt').val(tax_amt);
+                if(discounted_price == 0) {
+                    $row.find('.disc_amt').val(0);
+                    $row.find('.total_price').val(actual_price);
+                } else {
+                    $row.find('.disc_amt').val(disc_amt);
+                    $row.find('.total_price').val(discounted_price);
+                }
             }
         
             // Bind change event to input fields
-            $(document).on('keyup', '.price, .tax', function() {
+            $(document).on('keyup', '.price, .tax, .disc_percent', function() {
                 updateTotalPrice(this);
             });
 
