@@ -17,7 +17,7 @@
     <!--  Favicon -->
     <!-- <link rel="shortcut icon" type="image/png" href="favicon.ico"> -->
     <!-- Owl Carousel  -->
-    <link rel="stylesheet" href="{{ asset('frontend_assets/css/owl.carousel.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('frontend_assets/css/owl.carousel.min.css') }}"> --}}
 
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('frontend_assets/css/style.min.css') }}">
@@ -70,6 +70,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="{{ asset('frontend_assets/js/dselect.js') }}"></script>
     <script>
         window.addEventListener('load', () => {
             $('.select23').select2();

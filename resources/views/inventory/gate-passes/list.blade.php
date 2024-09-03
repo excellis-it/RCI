@@ -249,4 +249,12 @@
             });
         });
     </script>
+
+    
+<script>
+    var select_box_element = document.querySelector('.search-select-box');
+    dselect(select_box_element, {
+        search: true
+    });
+</script>
 @endpush

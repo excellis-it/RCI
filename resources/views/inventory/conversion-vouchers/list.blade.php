@@ -357,5 +357,44 @@
             });
         });
     </script>
+
+    <script>
+        $(document).on('change', '#inv_no_1', function() {
+            var inv_no = $(this).val();
+            $('#item_code_id_1').prop('disabled', false);
+            $('.inv_no').each(function() {
+                $(this).val(inv_no);
+            });
+
+            $.ajax({
+                url: "{{ route('debit-vouchers.get-items-by-inv-no')}}",
+                type: 'POST',
+                data: {
+                    inv_no: inv_no,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // console.log(response.creditVouchers[0]);
+                    // add options to select box
+                    var options = '<option value="">Select Item</option>';
+                    $.each(response.creditVouchers, function(index, creditVoucher) {
+                        console.log(creditVoucher);
+                        var itemCode = creditVoucher.item_codes.code;
+                        var itemCodeId = creditVoucher.item_code_id;
+                        var totalQuantity = creditVoucher.total_quantity;
+                        
+                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
+                    });
+                    $('#item_code_id_1').html(options);
+                    $('.item_code_id').html(options);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+        </script>
+
+    
     
 @endpush

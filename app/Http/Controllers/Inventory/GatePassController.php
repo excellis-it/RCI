@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GatePass;
+use App\Models\ItemCode;
 
 class GatePassController extends Controller
 {
@@ -14,7 +15,8 @@ class GatePassController extends Controller
     public function index()
     {
         $gatePasses = GatePass::paginate(10);
-        return view('inventory.gate-passes.list', compact('gatePasses'));
+        $itemCodes = ItemCode::orderBy('id','desc')->get();
+        return view('inventory.gate-passes.list', compact('gatePasses','itemCodes'));
     }
 
     public function fetchData(Request $request)
@@ -52,9 +54,11 @@ class GatePassController extends Controller
             'pass_no' => 'required|unique:gate_passes,gate_pass_no',
             'pass_date' => 'required',
             'pass_type' => 'required',
+            'item_code_id' => 'required'
         ]);
 
         $gatepass = new GatePass();
+        $gatepass->item_code_id = $request->item_code_id;
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
         $gatepass->gate_pass_type = $request->pass_type;
@@ -77,9 +81,10 @@ class GatePassController extends Controller
     public function edit(string $id)
     {
         $gatepass = GatePass::findOrFail($id);
+        $itemCodes = ItemCode::orderBy('id','desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('inventory.gate-passes.form', compact('gatepass', 'edit'))->render()]);
+        return response()->json(['view' => view('inventory.gate-passes.form', compact('gatepass', 'edit','itemCodes'))->render()]);
 
         // return view('inventory.gate-passes.form', compact('gatepass', 'edit'));
     }
@@ -96,7 +101,6 @@ class GatePassController extends Controller
         ]);
 
         $gatepass = GatePass::findOrFail($id);
-
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
         $gatepass->gate_pass_type = $request->pass_type;

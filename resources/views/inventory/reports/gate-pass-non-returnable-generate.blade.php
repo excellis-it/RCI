@@ -97,7 +97,7 @@
 
                                     Pass No.:........(pre-printed) <br>
                                     Book No. :.......(pre-printed) <br>
-                                    Date:. ......................................
+                                    Date:. {{ $date ?? '' }}
                                 </td>
                             </tr>
 
@@ -173,68 +173,13 @@
                                 <th style=" border: 1px solid black; font-size: 12px;">Qty.</th>
                             </tr>
                             <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">1.</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gatePass->itemCode->code ?? ''}}</td>
                                 <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
                                 <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
                                 <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
                             </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
+                           
 
                         </tbody>
                     </table>

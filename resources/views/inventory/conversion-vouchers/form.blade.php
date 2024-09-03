@@ -127,17 +127,32 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
+                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Inventory Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="inv_no" id="inv_no_1">
+                                    <option value="">Select</option>
+                                    @foreach($inventoryNumbers as $inventoryNumber)
+                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_code_id" id="item_code_id">
-                                    <option value="">Select</option>
-                                    @foreach($itemCodes as $item)
-                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
-                                    @endforeach
+                                <select class="form-select" name="item_code_id" id="item_code_id_1">
+                                    
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -169,24 +184,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Inventory Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="inv_no" id="inv_no">
-                                    <option value="">Select</option>
-                                    @foreach($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -219,9 +217,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="row">
                     <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -236,6 +231,7 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="col-md-2">
                 <div class="mb-1">

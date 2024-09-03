@@ -216,13 +216,14 @@ class ReportController extends Controller
 
     public function gatePassReport($id)
     {
+        $date = Carbon::now();
         $gatePass = GatePass::findOrFail($id);
         if ($gatePass->gate_pass_type == 'returnable') {
-            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate');
-            return $pdf->download('debit-voucher.pdf');
+            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate',compact('gatePass','date'));
+            return $pdf->download('returnable-gate-pass.pdf');
         } else {
-            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate');
-            return $pdf->download('debit-voucher.pdf');
+            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate',compact('gatePass','date'));
+            return $pdf->download('non-returnable-gate-pass.pdf');
         }
     }
 

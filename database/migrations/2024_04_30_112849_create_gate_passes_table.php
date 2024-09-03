@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('gate_passes', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('item_code_id')->unsigned()->nullable();
             $table->string('gate_pass_no')->nullable();
             $table->date('gate_pass_date')->nullable();
             $table->timestamps();
