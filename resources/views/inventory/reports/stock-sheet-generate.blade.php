@@ -39,7 +39,7 @@
                       width: 100%;
                     "
                   >
-                  CHESS, Hyderabad<br />
+                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
                   STOCK SHEET <br>
                   (Statement of Stock Verification)
                   </td>

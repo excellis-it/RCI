@@ -48,6 +48,8 @@ use App\Models\MemberRetirementInfo;
 use App\Models\PayMatrixRow;
 use App\Models\PayMatrixBasic;
 use App\Models\PmIndex;
+use App\Models\Hra;
+use App\Models\Pension;
 
 class ReportController extends Controller
 {
@@ -613,7 +615,6 @@ class ReportController extends Controller
         $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
-
 
     public function getMemberInfo(Request $request)
     {
@@ -1282,8 +1283,9 @@ class ReportController extends Controller
     public function terminalBenefits()
     {
         $members = Member::whereHas('memberRetirementInfo')->with('memberRetirementInfo')->get();
+        $accountants = User::role('ACCOUNTANT')->get();
 
-        return view('frontend.reports.terminal-benefits', compact('members'));
+        return view('frontend.reports.terminal-benefits', compact('members','accountants'));
     }
 
     public function terminalBenefitsGenerate(Request $request) 
@@ -1297,6 +1299,7 @@ class ReportController extends Controller
         $member_retirement_info = MemberRetirementInfo::where('member_id', $member_id)->first();
         $member_credit_data = MemberCredit::where('member_id', $member_id)->latest()->first();
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $accountant = $request->accountant;
 
         if($member_retirement_info->retirement_type == 'voluntary') {
             $retirement_type = 'VRS';
@@ -1304,7 +1307,7 @@ class ReportController extends Controller
             $retirement_type = '';
         }
 
-        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage'));
+        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage','accountant'));
         return $pdf->download('terminal-benefits-' . $member->name . '.pdf');
     }
 
@@ -1679,10 +1682,16 @@ class ReportController extends Controller
             // Add the chunk report to the main report array
             $report[$chunkedIndex] = $chunkReport;
         }
+        // dd($report);
+
 
         // Now $report contains separate arrays for each chunk of members
 
-        // dd($report);
+
+        if($chunkedMembers->isEmpty())
+        {
+            return redirect()->back()->with('error','No data found');
+        }
 
 
         $pdf = PDF::loadView('frontend.reports.da-arrears-generate-new', compact('report', 'da_percentage_diff_heading', 'due_da_percentage_for_heading', 'drawn_da_percentage_for_heading', 'start_date', 'end_date', 'chunkedMembers'));
@@ -1902,18 +1911,118 @@ class ReportController extends Controller
 
     public function payFixationArrearsGenerate(Request $request)
     {
-        $members = Member::where('id', $request->member_id)->first(); 
+        $member = Member::where('id', $request->member_id)->first(); 
         $from_year = $request->from_year;
         $from_month = $request->from_month;
         $to_year = $request->to_year;
         $to_month = $request->to_month;
         $accountant = $request->accountant;
+        $due_basic = $request->due_basic;
+        $due_tpt = $request->due_tpt;
+        $pran_no = $member->pran_number ?? '';
 
         $start_date = Carbon::create($from_year, $from_month, 1)->startOfMonth();
         $end_date = Carbon::create($to_year, $to_month, 1)->endOfMonth();
+
+        $monthlyData = []; // Initialize an array to hold the monthly data
+
+        $current_date = clone $start_date;
+        while ($current_date <= $end_date) {
+            $year = $current_date->year;
+            $month = $current_date->month;
+
+            // Query MemberCredit table for the current month and year
+            $memberCredit = MemberCredit::where('member_id', $member->id)
+                                        ->whereYear('created_at', $year)
+                                        ->whereMonth('created_at', $month)
+                                        ->first();
+
+            // Query MemberDebit table for the current month and year
+            $npsData = Pension::where('user_id', $member->id)
+                                ->whereYear('year', $year)
+                                ->whereMonth('month', $month)
+                                ->first();
+
+            // Query HRA table for the current month and year
+            $hraData = Hra::where('status')->latest()->first();
+            $hra_percentage = $hraData->percentage ?? 0;
+
+            // Default values if no data exists for the month
+            $drawn_basic = $memberCredit->pay ?? 0;
+
+            // Calculate DA Due and Drawn
+            $da_percentage = DearnessAllowancePercentage::where('year', $year)
+                                                            ->where('month', $month)
+                                                            ->where('is_active', 1)
+                                                            ->latest()
+                                                            ->first()
+                                                            ->percentage ?? 0;
+
+            $da_due = $due_basic * $da_percentage / 100;
+            $da_drawn = $drawn_basic * $da_percentage / 100;
+            $diff = $da_due - $da_drawn;
+
+            // Calculate TPT Due and Drawn
+            $tpt_due = $due_tpt;
+            $tpt_drawn = $memberCredit->tpt ?? 0;
+            $tpt_diff = $tpt_due - $tpt_drawn;
+
+            $due_tpt_da = $tpt_due * $da_percentage / 100;
+            $drawn_tpt_da = $tpt_drawn * $da_percentage / 100;
+
+            // Calculate HRA Due and Drawn
+            $hra_due = $due_basic * $hra_percentage / 100;
+            $hra_drawn = $drawn_basic * $hra_percentage / 100;
+
+            // Calculate the total due and drawn
+            $total_due = $due_basic + $da_due + $tpt_due + $hra_due + $due_tpt_da;
+            $total_drawn = $drawn_basic + $da_drawn + $tpt_drawn + $hra_drawn + $drawn_tpt_da;
+
+            // Difference between total due and drawn
+            if($total_drawn == 0 || $total_due == 0)
+            {
+                $total_diff = 0;
+            }
+            else
+            {
+                $total_diff = $total_due - $total_drawn;
+            }
+
+            // nps amount
+            $nps = $npsData->npsg_sub_amt ?? 0;
+
+            // total amount
+            $total_amt = $total_diff - $nps;
+
+            // Store the data for this month (even if it's all zeros)
+            $monthlyData[] = [
+                'Year' => $year,
+                'Month' => $current_date->format('F'),
+                'Due_Basic' => $due_basic,
+                'Drawn_Basic' => $drawn_basic,
+                'DA_Due' => $da_due,
+                'DA_Drawn' => $da_drawn,
+                'TPT_Due' => $tpt_due,
+                'TPT_Drawn' => $tpt_drawn,
+                'HRA_Due' => $hra_due,
+                'HRA_Drawn' => $hra_drawn,
+                'tpt_da_due' => $due_tpt_da,
+                'tpt_da_drawn' => $drawn_tpt_da,
+                'Total_Due' => $total_due,
+                'Total_Drawn' => $total_drawn,
+                'Total_Diff' => $total_diff,
+                'NPS' => $nps,
+                'Total_Amt' => $total_amt,  
+            ];
+
+            // Move to the next month
+            $current_date->addMonth();
+        }
+
+        // The $monthlyData array now contains all the data for each month within the specified range
         
         
-        $pdf = PDF::loadView('frontend.reports.pay-fixation-arrears-generate', compact('chunkedMembers','category','month_name','year','accountant','month'));
+        $pdf = PDF::loadView('frontend.reports.pay-fixation-arrears-generate', compact('monthlyData', 'member', 'accountant', 'pran_no', 'start_date', 'end_date'))->setPaper('a4', 'landscape');
         return $pdf->download('pay-fixation-arrears-' . '.pdf');
     }
 

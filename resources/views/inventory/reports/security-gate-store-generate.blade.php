@@ -38,7 +38,7 @@
                       width: 100%;
                     "
                   >
-                  CHESS, Hyderabad<br />
+                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
                   SECURITY GATE STORES ENTRY REGISTER*
                   </td>
                   <td style="font-size: 14px; text-align: right"></td>

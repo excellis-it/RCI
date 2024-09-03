@@ -12,7 +12,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="item_code" id="item_code" value="{{ $edit_item_code->code ?? '' }}"
-                                    placeholder="" readonly>
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                 <label>UOM(Unit Of Measurement)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="uom" id="uom">
+                                <select class="form-select" name="uom" id="uom">
                                     <option value="">Select</option>
                                     @foreach ($uoms as $uom)
                                         <option value="{{ $uom->id }}" {{ ($edit_item_code->uom == $uom->id) ? 'selected' : '' }}>{{ $uom->name }}</option>
@@ -53,10 +53,26 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Item Classification</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="item_code_type_id" id="item_code_type_id">
+                                    <option value="">Select</option>
+                                    @foreach($item_classifications as $item_classification)
+                                        <option value="{{ $item_classification->id }}" {{ ($edit_item_code->item_code_type_id == $item_classification->id) ? 'selected' : '' }}>{{ $item_classification->code_type_name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_type" id="item_type">
+                                <select class="form-select" name="item_type" id="item_type">
                                     <option value="Consumable" {{ $edit_item_code->item_type == 'Consumable' ? 'selected':'' }}>Consumable</option>
                                     <option value="Non-Consumable" {{ $edit_item_code->item_type == 'Non-Consumable' ? 'selected':'' }}>Non-Consumable</option>
                                 </select>
@@ -82,12 +98,7 @@
                                 <label>Created By(Person)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
-                                    <option value="">Select</option>
-                                        @foreach ($members as $member)
-                                            <option value="{{ $member->id }}" {{ ($edit_item_code->member_id == $member->id) ? 'selected' : '' }}>{{ $member->user_name }}</option>   
-                                        @endforeach
-                                </select>
+                                <input type="text" class="form-control" value="{{ Auth::user()->user_name ?? '' }}" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -157,6 +168,23 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Item Classification</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="item_code_type_id" id="item_code_type_id">
+                                    <option value="">Select</option>
+                                    @foreach($item_classifications as $item_classification)
+                                        <option value="{{ $item_classification->id }}">{{ $item_classification->code_type_name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+               
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
@@ -187,12 +215,9 @@
                                 <label>Created By(Person)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="member_id" id="member_id">
-                                    <option value="">Select</option>
-                                        @foreach ($members as $member)
-                                            <option value="{{ $member->id }}">{{ $member->user_name }}</option>   
-                                        @endforeach
-                                </select>
+                                <input type="text" class="form-control" value="{{ Auth::user()->user_name ?? '' }}" readonly>
+                                <input type="hidden" class="form-control" name="member_id" id="member_id" value="{{ Auth::user()->id ?? '' }}"
+                                placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

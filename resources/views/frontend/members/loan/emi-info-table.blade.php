@@ -1,3 +1,5 @@
+
+@if(isset($emiInfo))
 @if(isset($loan_emi_list) && count($loan_emi_list) > 0)
     @foreach($loan_emi_list as $key => $emi_list)
         <tr class="edit-route-loan" data-id="{{ $emi_list->id }}" data-route="{{ route('members.loan.edit', $emi_list->id) }}">
@@ -30,4 +32,5 @@
     <tr>
         <td colspan="9" class="text-center">No Emi Found</td>
     </tr>
+@endif
 @endif

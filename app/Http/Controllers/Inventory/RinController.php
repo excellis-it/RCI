@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Rin;
 use App\Models\ItemCode;
+use App\Models\Vendor;
 use DB;
 
 class RinController extends Controller
@@ -23,8 +24,9 @@ class RinController extends Controller
                 ->paginate(10);
   
         $items = ItemCode::all();
+        $vendors = Vendor::orderBy('id','desc')->get();
 
-        return view('inventory.rins.list',compact('rins', 'items'));
+        return view('inventory.rins.list',compact('rins', 'items','vendors'));
     }
 
     public function fetchData(Request $request)
@@ -103,6 +105,8 @@ class RinController extends Controller
                 $rin->total_cost = $request->total_cost[$key];
                 $rin->nc_status = $request->nc_status[$key];
                 $rin->au_status = $request->au_status[$key];
+                $rin->vendor_id = $request->vendor_id[$key];
+                $rin->supply_order_no = $request->supply_order_no[$key];
                 $rin->save();
            }
         }
@@ -127,8 +131,9 @@ class RinController extends Controller
         $rin = Rin::find($id);
         $all_rins = Rin::where('rin_no', $rin->rin_no)->get();
         $items = ItemCode::all();
+        $vendors = Vendor::orderBy('id','desc')->get();
         $edit = true;
-        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items','all_rins'))->render()]);
+        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items','all_rins','vendors'))->render()]);
     }
 
     /**
@@ -158,6 +163,8 @@ class RinController extends Controller
                     $rin->total_cost = $request->total_cost[$key];
                     $rin->nc_status = $request->nc_status[$key];
                     $rin->au_status = $request->au_status[$key];
+                    $rin->vendor_id = $request->vendor_id[$key];
+                    $rin->supply_order_no = $request->supply_order_no[$key];
                     $rin->save();
                 }
             }

@@ -131,7 +131,7 @@
                                 <label>Inv. No.</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="inv_no" id="inv_no_1">
+                                <select class="form-select" name="inv_no" id="inv_no_1">
                                     <option value="">Select</option>
                                     @foreach($inventoryNumbers as $inventoryNumber)
                                         <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
@@ -147,7 +147,7 @@
                                 <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id[]" id="item_code_id_1" disabled>
+                                <select class="form-select" name="item_code_id[]" id="item_code_id_1" disabled>
                                     {{-- <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
                                         <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
@@ -192,7 +192,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                    <select class="form-control" name="quantity[]" id="quantity">
+                                    <select class="form-select" name="quantity[]" id="quantity">
                                         <option value="">Select</option>
                                     </select>
                                     <div class="text-danger" id="quantity_no"></div>
@@ -206,7 +206,7 @@
                                 <label>Voucher Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="voucher_type" id="voucher_type_1" onchange="getVoucherType(this)">
+                                <select class="form-select" name="voucher_type" id="voucher_type_1" onchange="getVoucherType(this)">
                                     <option value="">Select</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="voucher">Voucher</option>
@@ -261,7 +261,7 @@
                                 <label>Inv. No.</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control inv_no" name="inv_no" id="inv_no" disabled>
+                                <select class="form-select inv_no" name="inv_no" id="inv_no" disabled>
                                     <option value="">Select</option>
                                     @foreach($inventoryNumbers as $inventoryNumber)
                                         <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
@@ -277,7 +277,7 @@
                                 <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control item_code_id" name="item_code_id[]" id="item_code_id" onchange="getQuantity(this)">
+                                <select class="form-select item_code_id" name="item_code_id[]" id="item_code_id" onchange="getQuantity(this)">
                                     {{-- <option value="">Select</option> --}}
                                     {{-- @foreach($creditVouchers as $item)
                                         <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
@@ -322,7 +322,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                    <select class="form-control" name="quantity[]" id="quantity">
+                                    <select class="form-select" name="quantity[]" id="quantity">
                                         <option value="">Select</option>
                                     </select>
                                     <div class="text-danger" id="quantity_no"></div>
@@ -336,7 +336,7 @@
                                 <label>Voucher Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control voucher-type" name="voucher_type" id="voucher_type" disabled>
+                                <select class="form-select voucher-type" name="voucher_type" id="voucher_type" disabled>
                                     <option value="">Select</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="voucher">Voucher</option>

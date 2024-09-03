@@ -127,7 +127,7 @@
                 </div>
                 <div class="row">
                     
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>
@@ -138,6 +138,36 @@
                                     <option value="yes" {{ $rin->au_status == 'yes' ? 'selected':''}}>Yes</option>
                                     <option value="no" {{ $rin->au_status == 'no' ? 'selected':''}}>No</option>
                                 </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supplier Detail</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="vendor_id[]" id="vendor_id">
+                                    <option value="">Select Supplier</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}" {{ $rin->vendor_id == $vendor->id ? 'selected':''}}>{{ $vendor->name }} ({{ $vendor->phone }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supply Order No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control"  value="{{  $rin->supply_order_no ?? '' }}" name="supply_order_no[]" id="supply_order_no"  
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -310,7 +340,7 @@
                 </div>
                 <div class="row">
                     
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>
@@ -325,6 +355,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supplier Detail</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="vendor_id[]" id="vendor_id">
+                                    <option value="">Select Supplier</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}" >{{ $vendor->name }} ({{ $vendor->phone }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supply Order No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control"  name="supply_order_no[]" id="supply_order_no"  
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
 
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
@@ -460,7 +520,7 @@
                 </div>
                 <div class="row">
                     
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>
@@ -475,7 +535,35 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supplier Detail</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="vendor_id[]" id="vendor_id">
+                                    <option value="">Select Supplier</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}" >{{ $vendor->name }} ({{ $vendor->phone }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supply Order No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control"  value="" name="supply_order_no[]" id="supply_order_no"  
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-2 ms-auto">
                         <div class="add-more form-group mt-4">
                             <a href="javascript:void(0);" class="listing_add add-more-rin"><i
@@ -500,7 +588,7 @@
     </form>
 
     <div id="rins_new_html" hidden>
-        <div class="row new_html">
+        <div class=" new_html">
             <hr />
             <div class="col-md-12 count-class">
                 <div class="row">
@@ -625,7 +713,7 @@
                 </div>
                 <div class="row">
                     
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>
@@ -636,6 +724,36 @@
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
                                 </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supplier Detail</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="vendor_id[]" id="vendor_id">
+                                    <option value="">Select Supplier</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}" >{{ $vendor->name }} ({{ $vendor->phone }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supply Order No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="supply_order_no[]" id="supply_order_no"  
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>

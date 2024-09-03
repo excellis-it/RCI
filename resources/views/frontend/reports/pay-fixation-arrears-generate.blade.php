@@ -25,7 +25,7 @@
                       text-transform: uppercase;
                     ">
                   DUE DRAWN STATEMENT OF PAY FIXATION ARREARS IN R/O <br>
-                  PRAN NO:
+                  PRAN NO: {{ $pran_no }}<br>
                 </td>
               </tr>
             </tbody>
@@ -520,6 +520,24 @@
                     ">
                 </td>
               </tr>
+              @php
+               $total_basic_due = 0;
+                $total_da_due = 0;
+                $total_hra_due = 0;
+                $total_tpt_due = 0;
+                $total_da_tpt_due = 0;
+                $total_due = 0;
+                $total_basic_drawn = 0;
+                $total_da_drawn = 0;
+                $total_hra_drawn = 0;
+                $total_tpt_drawn = 0;
+                $total_da_tpt_drawn = 0;
+                $total_drawn = 0;
+                $total_diff = 0;
+                $total_nps = 0;
+                $total_amt = 0;
+             @endphp
+              @foreach($monthlyData as $data)
               <tr>
                 <td style="
                       font-size: 10px;
@@ -532,7 +550,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    23-Jul 	64723
+                    {{ \Carbon\Carbon::create($data['Year'])->format('y') }} - {{ $data['Month'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -545,7 +563,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    27184
+                    {{ $data['Due_Basic'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -558,7 +576,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    17475
+                    {{ $data['DA_Due'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -571,7 +589,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    6097
+                    {{ $data['HRA_Due'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -584,7 +602,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    2561
+                    {{ $data['TPT_Due'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -597,7 +615,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    118040
+                    {{ $data['tpt_da_due'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -610,7 +628,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    64297
+                    {{ $data['Total_Due'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -623,7 +641,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    27005
+                    {{ $data['Drawn_Basic'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -636,7 +654,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    17360
+                    {{ $data['DA_Drawn'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -649,7 +667,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    2787
+                    {{ $data['HRA_Drawn'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -662,7 +680,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    1171
+                    {{ $data['TPT_Drawn'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -675,7 +693,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    112619
+                    {{ $data['tpt_da_drawn'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -688,7 +706,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    5420
+                    {{ $data['Total_Drawn'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -701,7 +719,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    5420
+                    {{ $data['Total_Diff'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -714,7 +732,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                   61
+                   {{ $data['NPS'] }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -727,413 +745,10 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    5359
+                    {{ $data['Total_Amt'] }}
                 </td>
               </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    23-Jul 	64723
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    27184
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    17475
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    6097
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    2561
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    118040
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    64297
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    27005
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    17360
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    2787
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    1171
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    112619
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5420
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5420
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                   61
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5359
-                </td>
-              </tr>
+                
               <tr>
                 <td style="
                       font-size: 10px;
@@ -1328,814 +943,25 @@
                     ">
                 </td>
               </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    23-Jul 	64723
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    27184
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    17475
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    6097
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    2561
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    118040
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    64297
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    27005
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    17360
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    2787
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    1171
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    112619
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5420
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5420
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                   61
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5359
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    23-Jul 	64723
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    27184
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    17475
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    6097
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    2561
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    118040
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    64297
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    27005
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    17360
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    2787
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    1171
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    112619
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5420
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5420
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                   61
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                    5359
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 10px;
-                    ">
-                </td>
-              </tr>
+              @php
+               $total_basic_due += $data['Due_Basic'];
+                $total_da_due += $data['DA_Due'];
+                $total_hra_due += $data['HRA_Due'];
+                $total_tpt_due += $data['TPT_Due'];
+                $total_da_tpt_due += $data['tpt_da_due'];
+                $total_due += $data['Total_Due'];
+                $total_basic_drawn += $data['Drawn_Basic'];
+                $total_da_drawn += $data['DA_Drawn'];
+                $total_hra_drawn += $data['HRA_Drawn'];
+                $total_tpt_drawn += $data['TPT_Drawn'];
+                $total_da_tpt_drawn += $data['tpt_da_drawn'];
+                $total_drawn += $data['Total_Drawn'];
+                $total_diff += $data['Total_Diff'];
+                $total_nps += $data['NPS'];
+                $total_amt += $data['Total_Amt'];
+             @endphp
+              @endforeach
+             
             </tbody>
             <tfoot>
               <tr>
@@ -2163,7 +989,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    399123 
+                      {{ $total_basic_due }} 
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2176,7 +1002,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    167632
+                      {{ $total_da_due }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2189,7 +1015,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    107763
+                      {{ $total_hra_due }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2202,7 +1028,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                     37597
+                      {{ $total_tpt_due }}  
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2215,7 +1041,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    15791
+                      {{ $total_da_tpt_due }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2228,7 +1054,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    727906
+                      {{ $total_due }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2241,7 +1067,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    396497
+                      {{ $total_basic_drawn }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2254,7 +1080,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    166529
+                      {{ $total_da_drawn }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2267,7 +1093,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    107054
+                      {{ $total_hra_drawn }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2280,7 +1106,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    17187
+                      {{ $total_tpt_drawn }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2293,7 +1119,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    7219 
+                      {{ $total_da_tpt_drawn }}  
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2306,7 +1132,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    694485
+                      {{ $total_drawn }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2319,7 +1145,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    33420
+                      {{ $total_diff }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2332,7 +1158,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    373
+                      {{ $total_nps }}
                 </td>
                 <td style="
                       font-size: 10px;
@@ -2345,13 +1171,18 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    33047
+                      {{ $total_amt }}
                 </td>
               </tr>
             </tfoot>
           </table>
         </td>
       </tr>
+      @php
+                    use App\Helpers\Helper;
+
+                    $words = Helper::convert($total_amt);
+            @endphp
        <tr>
         <td style="height: 20px;"></td>
        </tr>
@@ -2369,7 +1200,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
-                (Rupees Thirty Three Thousand Forty Seven only)
+                ({{$words}})
                 </td>
               </tr>
             </tbody>
@@ -2393,7 +1224,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
-                D.0.11 NO: 061/GAZ,DT: 06/09/2023.
+                D.0.11 NO: _____________ , DT: _________________ .
                 </td>
               </tr>
               <tr>
@@ -2406,7 +1237,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
-              D. Madhusudan Reddy <br>
+              {{ $accountant ?? '' }} <br>
               Accounts Officer <br>
               For Director 
                 </td>

@@ -25,7 +25,7 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                  NAME OF THE LAB/ESTT.<br />
+                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES<br />
                   FITMENT VOUCHER (FTVR)
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>

@@ -9,6 +9,8 @@ use App\Models\Member;
 use App\Models\Uom;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\ItemCodeType;
+use Illuminate\Support\Facades\Auth;
 
 
 class ItemCodeController extends Controller
@@ -20,9 +22,10 @@ class ItemCodeController extends Controller
     {
         $items = ItemCode::orderBy('id','desc')->paginate(10);
         $members = User::role('MATERIAL-MANAGER')->get();
+        $item_classifications = ItemCodeType::orderBy('id','desc')->get();
         $uoms = Uom::all();
 
-        return view('inventory.items.list',compact('items', 'members', 'uoms'));
+        return view('inventory.items.list',compact('items', 'members', 'uoms','item_classifications'));
     }
 
     public function fetchData(Request $request)
@@ -118,7 +121,7 @@ class ItemCodeController extends Controller
         $item_code_gen->item_type = $request->item_type;
         $item_code_gen->item_name = $request->item_name;
         $item_code_gen->item_code_type_id = $request->item_code_type_id;
-        $item_code_gen->member_id = $request->member_id;
+        $item_code_gen->member_id = Auth::user()->id;
         $item_code_gen->entry_date = date('Y-m-d');
         $item_code_gen->save();
 
@@ -143,8 +146,9 @@ class ItemCodeController extends Controller
         $edit_item_code = ItemCode::find($id);
         $members = User::role('MATERIAL-MANAGER')->get();
         $uoms = Uom::all();
+        $item_classifications = ItemCodeType::orderBy('id','desc')->get();
         $edit = true;
-        return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members', 'uoms'))->render()]);
+        return response()->json(['view' => view('inventory.items.form', compact('edit','edit_item_code', 'members', 'uoms','item_classifications'))->render()]);
 
     }
 
@@ -157,6 +161,7 @@ class ItemCodeController extends Controller
             'item_code' =>  'required', 
             'uom' => 'required',
             'item_type' => 'required', 
+            'item_name' => 'required',
         ]);
         
         $item_code = ItemCode::find($id);
@@ -165,7 +170,7 @@ class ItemCodeController extends Controller
         $item_code->item_type = $request->item_type;
         $item_code->item_name = $request->item_name;
         $item_code->item_code_type_id = $request->item_code_type_id;
-        $item_code->member_id = $request->member_id;
+        $item_code->member_id = Auth::user()->id;
         $item_code->entry_date = date('Y-m-d');
         $item_code->update();
 

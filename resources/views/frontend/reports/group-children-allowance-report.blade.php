@@ -349,7 +349,7 @@
                       margin: 0px 0px !important;
                     "
                   >
-                    {{ $accountant ?? 'N/A'}}<br />
+                    {{ $accountant ?? ''}}<br />
                     ACCOUNTS OFFICER<br />
                     ForDirector
                   </td>

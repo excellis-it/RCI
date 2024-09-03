@@ -127,6 +127,27 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group col-md-4 mb-2 member">
+                                                <div class="col-md-12">
+                                                    <label>Due Basic</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="text" name="due_basic" class="form-control" id="due_basic" placeholder="Due Basic">
+                                                    <span id="due_basic-error" class="text-danger"></span>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4 mb-2 member">
+                                                <div class="col-md-12">
+                                                    <label>Due TPT</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="text" name="due_tpt" class="form-control" id="due_tpt" placeholder="Due Tpt">
+                                                    <span id="due_tpt-error" class="text-danger"></span>
+                                                    
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -221,7 +242,7 @@
                 var e_status = $(this).val();
     
                 $.ajax({
-                    url: "{{ route('reports.get-nps-members     ') }}",
+                    url: "{{ route('reports.get-nps-members') }}",
                     type: 'POST',
                     data: { e_status, _token: '{{ csrf_token() }}' },
                     

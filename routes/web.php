@@ -206,6 +206,7 @@ Route::middleware('permssions')->group(function () {
         'child-allowance' => MemberChildAllowanceController::class,
         'pay-matrix-rows' => PayMatrixRowController::class,
         'pay-matrix-basics' => PayMatrixBasicController::class,
+        'bank-details' => PublicFundBankController::class,
 
         //manik routes
         'tada-advance' => TadaAdvanceController::class,
@@ -221,13 +222,17 @@ Route::middleware('permssions')->group(function () {
     //child list fetch
     Route::get('/member-family-child-fetch', [MemberChildAllowanceController::class, 'memberChildDataFetch'])->name('child-allowance.member-children');
 
+    // bank details 
+    Route::get('/bank-detail-fetch', [PublicFundBankController::class, 'fetchBankDetails'])->name('bank-details.fetch-data');
+
     // child delete
     Route::post('/member-family-child-delete', [MemberFamilyController::class, 'memberChildDelete'])->name('member-family.delete-child');
 
     // public funcd fetch
     Route::get('/public-fund-vendors-fetchData', [PublicFundVendorController::class, 'fetchData'])->name('public-fund-vendors.fetch-data');
 
-    Route::get('/public-fund-bank-details', [PublicFundBankController::class, 'getBankDetails'])->name('public-fund.bank-details');
+    // Route::get('/public-fund-bank-detail', [PublicFundBankController::class, 'getBankDetails'])->name('public-fund.bank-details');
+    // Route::post('/bank-detail-update', [PublicFundBankController::class, 'getBankDetailsUpdate'])->name('public-fund.bank-details-update');
 
     //receipts routes
     Route::resources([

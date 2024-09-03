@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('quantity')->nullable();
             $table->string('voucher_no')->nullable();
             $table->date('voucher_date')->nullable();
+            $table->string('voucher_type')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

@@ -41,7 +41,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    NAME OF THE LAB / Estt.
+                                    CENTER FOR HIGH ENERGY SYSTEM & SCIENCES
                                     <br>
                                     CONTRACTOR'S BILL
 

@@ -125,13 +125,12 @@ class InventoryNumberController extends Controller
     {
         // validation
         $request->validate([
-            'inventory_type' => 'required',
             'holder_id' => 'required',
             'status' => 'required',
         ]);
 
         $inventoryNumber = InventoryNumber::find($id);
-        $inventoryNumber->inventory_type = $request->inventory_type;
+        // $inventoryNumber->inventory_type = $request->inventory_type;
         $inventoryNumber->holder_id = $request->holder_id;
         $inventoryNumber->group_id = $request->group_id;
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;

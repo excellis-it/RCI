@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('au_status')->nullable();
             $table->string('unit_cost')->nullable();
             $table->string('total_cost')->nullable();
+            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->string('supply_order_no')->nullable();
             $table->timestamps();
         });
     }
