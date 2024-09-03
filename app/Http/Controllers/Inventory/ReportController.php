@@ -16,7 +16,9 @@ use App\Models\ExternalIssueVoucher;
 use App\Models\TransferVoucher;
 use App\Models\ConversionVoucher;
 use App\Models\GatePass;
+use App\Models\InventoryNumber;
 use App\Models\ItemCode;
+use App\Models\InventoryNumber;
 use PDF;
 use Carbon\Carbon;
 

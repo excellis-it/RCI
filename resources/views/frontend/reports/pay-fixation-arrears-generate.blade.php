@@ -546,7 +546,7 @@
                       border: 1px solid #000;
                       height: 10px;
                     ">
-                    {{ $data['Basic'] }}
+                    {{ $data['Due_Basic'] }}
                 </td>
                 <td style="
                       font-size: 10px;

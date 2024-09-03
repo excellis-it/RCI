@@ -1258,6 +1258,15 @@
               ">
                  
                 </td>
+                @php  
+
+                  $total_due = array_sum(array_column($memberData['monthly_data'], 'Diff'));
+                  $total_nps = array_sum(array_column($memberData['monthly_data'], 'NPS'));
+                  $total_eol = array_sum(array_column($memberData['monthly_data'], 'Eol'));
+                  $total_tpt_due = array_sum(array_column($memberData['monthly_data'], 'TPT_Diff')); 
+
+                  $final = ($total_due - $total_nps - $total_eol) + $total_tpt_due;
+                @endphp
                 <td style="
                 font-size: 10px;
                 line-height: 14px;

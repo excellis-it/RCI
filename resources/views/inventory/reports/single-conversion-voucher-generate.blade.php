@@ -46,14 +46,15 @@
                         color: #000;
                         text-align: left;">Group/ Division: <br> <br>
                   Type of Voucher: One to One / Many to One / One to Many &nbsp;&nbsp;&nbsp; Date: <br> <br>
-                  ICC No.
+                  ICC No.: {{ $inv_no->number }} 
                 </td>
                 <td valign="top" style="font-size: 16px; width: 30%;
                         line-height: 18px; 
                         font-weight: 400;
                         color: #000;
                         text-align: left; padding-left: 10px;">
-                  Voucher No {{ $conversionVoucher->voucher_no }}
+                  Voucher No: {{ $conversionVoucher->voucher_no }} <br> <br>
+                  Voucher Date: {{ \Carbon\Carbon::parse($conversionVoucher->voucher_date)->format('d-m-Y') }}
                 </td>
               </tr>
             </tbody>
