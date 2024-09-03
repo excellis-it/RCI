@@ -5,7 +5,24 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select search-select-box" name="item_code_id" id="item_code_id" disabled>
+                                    <option value="">Select</option>
+                                    @foreach ($itemCodes as $item)
+                                        <option value="{{ $item->id }}" {{ $gatepass->item_code_id ==  $item->id ? 'selected': ''}}>
+                                            {{ $item->code }} ({{ $item->item_name }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass No.</label>
@@ -17,8 +34,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-4 mb-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass Date</label>
@@ -30,7 +48,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass Type</label>
@@ -63,7 +81,25 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select search-select-box" name="item_code_id" id="item_code_id" >
+                                    <option value="">Select</option>
+                                    @foreach ($itemCodes as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->code }} ({{ $item->item_name }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass No. </label>
@@ -74,8 +110,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass Date</label>
@@ -88,7 +126,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass Type</label>

@@ -73,8 +73,9 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="item_type" id="item_type">
-                                    <option value="Consumable" {{ $edit_item_code->item_type == 'Consumable' ? 'selected':'' }}>Consumable</option>
-                                    <option value="Non-Consumable" {{ $edit_item_code->item_type == 'Non-Consumable' ? 'selected':'' }}>Non-Consumable</option>
+                                    <option value="Consumable" {{ $edit_item_code->item_type == 'Consumable' ? 'selected':'' }}>Consumable(C)</option>
+                                    <option value="Non-Consumable" {{ $edit_item_code->item_type == 'Non-Consumable' ? 'selected':'' }}>Non-Consumable(NC)</option>
+                                    <option value="Non-Consumable-Fixed" {{ $edit_item_code->item_type == 'Non-Consumable-Fixed' ? 'selected':'' }}> Non-Consumable Fixed(NCF)</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -190,8 +191,9 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="item_type" id="item_type">
                                     <option value="">Select</option>
-                                    <option value="Consumable">Consumable</option>
-                                    <option value="Non-Consumable">Non-Consumable</option>
+                                    <option value="Consumable">Consumable(C)</option>
+                                    <option value="Non-Consumable">Non-Consumable(NC)</option>
+                                    <option value="Non-Consumable-Fixed"> Non-Consumable Fixed(NCF)</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
