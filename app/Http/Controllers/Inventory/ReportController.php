@@ -122,10 +122,10 @@ class ReportController extends Controller
 
             if ($matchingCreditDetail) {
                 $price = $matchingCreditDetail->price ?? 0;
-                $totalCost = $matchingCreditDetail->total_price ?? 0;
+                $totalCost = (($detail->quantity) * $price) ?? 0;
                 $uom = $matchingCreditDetail->uom ?? 'N/A';
-                $description = $matchingCreditDetail->description ?? 'N/A';
-                $remarks = $matchingCreditDetail->rins->remarks ?? 'N/A';
+                $description = $detail->item_desc ?? 'N/A';
+                $remarks = $detail->remarks ?? 'N/A';
 
                 // Access the first item code, assuming itemCodes is a collection
                 $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
@@ -154,7 +154,7 @@ class ReportController extends Controller
         // dd($result, $totalItemCost, $total, $itemCodeCounts);
 
         $pdf = PDF::loadView('frontend.reports.single-debit-voucher-generate', compact('debitVoucher', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
-        return $pdf->download('debit-voucher.pdf');
+        return $pdf->download('debit-voucher ' . date('d-m-Y') .'.pdf');
     }
 
 

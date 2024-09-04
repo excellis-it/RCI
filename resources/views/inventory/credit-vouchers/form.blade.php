@@ -431,6 +431,37 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>GST(%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control gst_percent" name="gst_percent[]" id="gst_percent">
+                                    <option value="">Select</option>
+                                    @foreach ($gstPercentages as $gstPercentage)
+                                        <option value="{{ $gstPercentage->gst_percent }}">{{ $gstPercentage->gst_percent }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control gst_amt" name="gst_amt[]"
+                                    id="gst_amt" value="" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
@@ -440,10 +471,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Quantity</label>
@@ -455,7 +484,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Supply Order Number</label>
@@ -472,7 +503,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Receipt & Inspection Note (RIN)</label>
@@ -491,7 +522,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Cost Debatable to Budget Head</label>
@@ -506,7 +537,7 @@
                 </div>
                 <div class="row">
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Order Type</label>
@@ -522,13 +553,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Consigner's Name & Address</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="consigner[]" id="consigner" placeholder=""></textarea>
+                                <select class="form-control" name="consigner[]" id="consigner">
+                                    <option value="">Select Name</option>
+                                    @foreach ($vendors as $consigner)
+                                        <option value="{{ $consigner->id }}">{{ $consigner->name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -751,6 +787,38 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>GST(%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control gst_percent" name="gst_percent[]" id="gst_percent">
+                                    <option value="">Select</option>
+                                    @foreach ($gstPercentages as $gstPercentage)
+                                        <option value="{{ $gstPercentage->id }}">{{ $gstPercentage->gst_percent }}
+                                            {{-- <input type="hidden" name="gst_percent_id[]" id="gst_percent_id" value="{{  }}"> --}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control gst_amt" name="gst_amt[]"
+                                    id="gst_amt" value="" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
@@ -760,10 +828,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Quantity</label>
@@ -775,7 +841,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Supply Order Number</label>
@@ -792,7 +860,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Receipt & Inspection Note (RIN)</label>
@@ -809,7 +877,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Cost Debatable to Budget Head</label>
@@ -824,7 +892,7 @@
                 </div>
                 <div class="row">
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Order Type</label>
@@ -840,13 +908,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Consigner's Name & Address</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="consigner[]" id="consigner" placeholder=""></textarea>
+                                <select class="form-control" name="consigner[]" id="consigner">
+                                    <option value="">Select Name</option>
+                                    @foreach ($vendors as $consigner)
+                                        <option value="{{ $consigner->id }}">{{ $consigner->name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
