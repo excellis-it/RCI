@@ -12,7 +12,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="voucher_no" id="voucher_no" 
-                                    placeholder="" value="{{ $transfer_voucher->voucher_no}}" >
+                                    placeholder="" value="{{ $transfer_voucher->voucher_no}}" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -24,13 +24,12 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="voucher_date" id="voucher_date" 
-                                    placeholder="" value="{{ $transfer_voucher->voucher_date}}" >
+                                    placeholder="" value="{{ $transfer_voucher->voucher_date}}"  max="{{ date('Y-m-d') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+             
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -59,9 +58,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                   
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -90,7 +86,8 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
+                  
                 <div class="row">
                     <div class="form-group col-md-8 mb-2">
                         <div class="row align-items-center">
@@ -122,7 +119,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Number</label>
@@ -133,7 +130,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -141,13 +138,12 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="voucher_date" id="voucher_date" 
-                                    placeholder="" >
+                                    placeholder=""  max="{{ date('Y-m-d') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

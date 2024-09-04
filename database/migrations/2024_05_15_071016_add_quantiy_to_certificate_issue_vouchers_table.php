@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('certificate_issue_vouchers', function (Blueprint $table) {
             $table->string('quantity')->after('item_id')->nullable();
+            $table->string('total_price')->after('quantity')->nullable();
+            $table->string('au_status')->after('total_price')->nullable();
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('certificate_issue_vouchers', function (Blueprint $table) {
             $table->dropColumn('quantity');
+            $table->dropColumn('total_price');
+            $table->dropColumn('au_status');
         });
     }
 };

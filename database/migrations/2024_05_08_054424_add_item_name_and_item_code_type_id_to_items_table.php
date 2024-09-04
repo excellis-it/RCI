@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('item_code_type_id')->nullable()->after('item_name');
             $table->unsignedBigInteger('member_id')->nullable()->after('item_code_type_id');
             $table->date('entry_date')->nullable()->after('member_id');
+            $table->string('item_price')->nullable()->after('entry_date');
         });
     }
 
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->dropColumn('item_code_type_id');
             $table->dropColumn('member_id');
             $table->dropColumn('entry_date');
+            $table->dropColumn('item_price');
         });
     }
 };

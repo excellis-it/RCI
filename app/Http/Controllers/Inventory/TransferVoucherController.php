@@ -9,6 +9,7 @@ use App\Models\InventoryNumber;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\ItemCode;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -61,10 +62,8 @@ class TransferVoucherController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        
+    {  
         $request->validate([
-            'voucher_no' => 'required|unique:transfer_vouchers|max:255',
             'voucher_date' => 'required|date',
             'from_inv_number' => 'required',
             'to_inv_number' => 'required',
@@ -72,8 +71,22 @@ class TransferVoucherController extends Controller
             'quantity' => 'required',
         ]);
 
+        $currentDate = Carbon::today();
+        $resetDate = Carbon::createFromFormat('Y-m-d', date('Y') . '-04-01')->subDay()->endOfDay();
+
+        if ($currentDate < $resetDate) {
+            $resetDate = Carbon::createFromFormat('Y-m-d', (date('Y') - 1) . '-04-01')->subDay()->endOfDay();
+        }
+
+        $lastVoucher = TransferVoucher::where('created_at', '<', $resetDate)
+            ->orderBy('voucher_no', 'desc')
+            ->first() ?? TransferVoucher::latest()->first();
+
+        $voucherNo = str_pad($lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1, 4, '0', STR_PAD_LEFT);
+
+       
         $transfer_voucher = new TransferVoucher();
-        $transfer_voucher->voucher_no = $request->voucher_no;
+        $transfer_voucher->voucher_no = $voucherNo;
         $transfer_voucher->voucher_date = $request->voucher_date;
         $transfer_voucher->from_inv_number = $request->from_inv_number;
         $transfer_voucher->to_inv_number = $request->to_inv_number;
@@ -82,16 +95,15 @@ class TransferVoucherController extends Controller
         $transfer_voucher->remarks = $request->remarks;
         $transfer_voucher->save();
 
-        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get();
-        foreach ($creditVoucher as $credit) {
-            
+        $creditVouchers = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get();
+
+        foreach ($creditVouchers as $credit) {
             if ($credit->quantity >= $request->quantity) {
                 $credit->quantity -= $request->quantity;
                 $credit->save();
-                $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
-                break; // Exit the loop once a single credit voucher's quantity is reduced
+                $request->quantity = 0;
+                break;
             } else {
-                
                 $request->quantity -= $credit->quantity;
                 $credit->quantity = 0;
                 $credit->save();
@@ -129,12 +141,10 @@ class TransferVoucherController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'voucher_no' => 'required|unique:transfer_vouchers,voucher_no,'.$id.'|max:255',
             'voucher_date' => 'required|date',
         ]);
 
         $transfer_voucher = TransferVoucher::find($id);
-        $transfer_voucher->voucher_no = $request->voucher_no;
         $transfer_voucher->voucher_date = $request->voucher_date;
         // $transfer_voucher->from_inv_number = $request->from_inv_number;
         // $transfer_voucher->to_inv_number = $request->to_inv_number;

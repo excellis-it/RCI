@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('member_id')->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
+            $table->string('voucher_no')->nullable();
+            $table->string('voucher_date')->nullable();
             $table->string('price')->nullable();
             $table->string('item_type')->nullable();
             $table->string('description')->nullable();
+            $table->unsignedBigInteger('inv_no')->nullable();
+            $table->longText('remarks')->nullable();
             $table->timestamps();
         });
     }

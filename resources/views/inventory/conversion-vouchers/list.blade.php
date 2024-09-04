@@ -361,7 +361,7 @@
     <script>
         $(document).on('change', '#inv_no_1', function() {
             var inv_no = $(this).val();
-            $('#item_code_id_1').prop('disabled', false);
+            $('#item_code_id').prop('disabled', false);
             $('.inv_no').each(function() {
                 $(this).val(inv_no);
             });
@@ -385,7 +385,7 @@
                         
                         options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
                     });
-                    $('#item_code_id_1').html(options);
+                    $('#item_code_id').html(options);
                     $('.item_code_id').html(options);
                 },
                 error: function(xhr) {

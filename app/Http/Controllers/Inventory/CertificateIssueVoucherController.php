@@ -10,6 +10,9 @@ use App\Models\ItemCode;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\InventoryNumber;
 
 class CertificateIssueVoucherController extends Controller
 {
@@ -18,11 +21,13 @@ class CertificateIssueVoucherController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
+        
+        $members = User::role('MATERIAL-MANAGER')->get();
+        $inventoryNumbers = InventoryNumber::all();
         $itemCodes = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $certificateIssueVouchers = CertificateIssueVoucher::paginate(10);
 
-        return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers'));
+        return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers','inventoryNumbers'));
 
     }
 
@@ -71,13 +76,33 @@ class CertificateIssueVoucherController extends Controller
             'description' => 'required',
         ]);
 
+        // voucher no generate
+        $currentDate = Carbon::today();
+        $resetDate = Carbon::createFromFormat('Y-m-d', date('Y') . '-04-01')->subDay()->endOfDay();
+ 
+        if ($currentDate < $resetDate) {
+            $resetDate = Carbon::createFromFormat('Y-m-d', (date('Y') - 1) . '-04-01')->subDay()->endOfDay();
+        }
+ 
+        $lastVoucher = CertificateIssueVoucher::where('created_at', '<', $resetDate)
+             ->orderBy('voucher_no', 'desc')
+             ->first() ?? CertificateIssueVoucher::latest()->first();
+ 
+        $voucherNo = str_pad($lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1, 4, '0', STR_PAD_LEFT);
+
         $certificateIssueVoucher = new CertificateIssueVoucher();
+        $certificateIssueVoucher->voucher_no = $voucherNo;
         $certificateIssueVoucher->member_id = $request->member_id;
         $certificateIssueVoucher->item_id = $request->item_id;
+        $certificateIssueVoucher->voucher_date = $request->voucher_date;
         $certificateIssueVoucher->price = $request->price;
         $certificateIssueVoucher->item_type = $request->item_type;
         $certificateIssueVoucher->description = $request->description;
+        $certificateIssueVoucher->inv_no = $request->inv_no;
         $certificateIssueVoucher->quantity = $request->quantity;
+        $certificateIssueVoucher->total_price = $request->total_price;
+        $certificateIssueVoucher->au_status = $request->au_status;
+        $certificateIssueVoucher->remarks = $request->remarks;
         $certificateIssueVoucher->save();
 
         // credit voucher quantity reduce
@@ -87,8 +112,8 @@ class CertificateIssueVoucherController extends Controller
             if ($credit->quantity >= $request->quantity) {
                 $credit->quantity -= $request->quantity;
                 $credit->save();
-                $request->quantity = 0; // Optionally set to 0, if you want to stop further reductions
-                break; // Exit the loop once a single credit voucher's quantity is reduced
+                $request->quantity = 0; 
+                break; 
             } else {
                 
                 $request->quantity -= $credit->quantity;
@@ -149,7 +174,7 @@ class CertificateIssueVoucherController extends Controller
     public function getItemType(Request $request)
     {
         $item = ItemCode::findOrFail($request->item_id);
-        return response()->json(['item_type' => $item->item_type, 'item_description' => $item->description]);
+        return response()->json(['item_type' => $item->item_type, 'item_description' => $item->description, 'item_price' => $item->item_price]);
     }
 
     /**

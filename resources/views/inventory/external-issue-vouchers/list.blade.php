@@ -351,4 +351,80 @@
             });
         });
     </script>
+
+<script>
+    var select_box_element = document.querySelector('.search-select-box');
+    dselect(select_box_element, {
+        search: true
+    });
+</script>
+
+<script>
+    $('#consignee').change(function() {
+        var consignee = $(this).val();
+        if(consignee == '0')
+        {
+            $('.consignee_other_name').show();
+            $('.consignee_other_number').show();
+        }
+        else
+        {
+            $('.consignee_other_name').hide();
+            $('.consignee_other_number').hide();
+        }
+    });
+    </script>
+
+<script>
+    $(document).on('change', '#item_code_id', function() {
+        var item_id = $('#item_code_id').val();
+        $.ajax({
+            url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
+            type: 'GET',
+            data: {
+                item_id: item_id
+            },
+            success: function(response) {
+                $('#item_type').val(response.item_type);
+                $('#description').val(response.item_description);
+                $('#item_unit_price').val(response.item_price);
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#item_code_id').change(function(){
+            var selectedValue = $(this).find(':selected');
+            var quantity = selectedValue.data('hidden-value');
+            // var quantityDiv = $('#quantity');
+            
+            var quantityDivSelectBox = [];
+            quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+            for (var i = 1; i <= quantity; i++) {
+                quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+            }
+
+            $('#quantity').empty();
+            $('#quantity').append(quantityDivSelectBox.join(''));
+            
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#quantity').change(function(){
+            var quantity = $(this).val();
+            var item_unit_price = $('#item_unit_price').val() ?? 0;
+            var total_price = quantity * item_unit_price;
+            $('#total_price').val(total_price);
+        });
+    });
+
+</script>
 @endpush

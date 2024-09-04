@@ -34,6 +34,19 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Price</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_price" id="item_price" value="{{ $edit_item_code->item_price ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>UOM(Unit Of Measurement)</label>
                             </div>
                             <div class="col-md-12">
@@ -48,8 +61,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+               
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -150,6 +162,20 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Price</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_price" id="item_price" value="{{ $edit_item_code->item_price ?? '' }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>UOM(Unit Of Measurement)</label>
                             </div>
                             <div class="col-md-12">
@@ -164,8 +190,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

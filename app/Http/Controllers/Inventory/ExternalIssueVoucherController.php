@@ -10,7 +10,11 @@ use App\Models\CreditVoucherDetail;
 use App\Models\InventoryNumber;
 use App\Models\ItemCode;
 use App\Models\GatePass;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+
 
 class ExternalIssueVoucherController extends Controller
 {
@@ -23,8 +27,9 @@ class ExternalIssueVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::all();
+        $vendors = Vendor::orderBy('id','desc')->get();
         $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-        return view('inventory.external-issue-vouchers.list', compact('externalIssueVouchers', 'creditVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses'));
+        return view('inventory.external-issue-vouchers.list', compact('externalIssueVouchers', 'creditVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses','vendors'));
     }
 
     public function fetchData(Request $request)
@@ -56,7 +61,7 @@ class ExternalIssueVoucherController extends Controller
             }
 
             if ($date) {
-                $externalIssueVoucherQuery->whereDate('voucher_date', $date);
+                $externalIssueVoucherQuery->whereDate('voucher_date',  '<=', $date);
             }
 
             $externalIssueVouchers = $externalIssueVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
@@ -83,19 +88,53 @@ class ExternalIssueVoucherController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'voucher_no' => 'required',
             'voucher_date' => 'required',
             'inv_no' => 'required',
             'item_code_id' => 'required',
             'gate_pass_id' => 'required',
+            'quantity' => 'required',
+            'total_price' => 'required|numeric|min:1',
         ]);
 
+        $currentDate = Carbon::today();
+        $resetDate = Carbon::createFromFormat('Y-m-d', date('Y') . '-04-01')->subDay()->endOfDay();
+
+        if ($currentDate < $resetDate) {
+            $resetDate = Carbon::createFromFormat('Y-m-d', (date('Y') - 1) . '-04-01')->subDay()->endOfDay();
+        }
+
+        $lastVoucher = ExternalIssueVoucher::where('created_at', '<', $resetDate)
+            ->orderBy('voucher_no', 'desc')
+            ->first() ?? ExternalIssueVoucher::latest()->first();
+
+        $voucherNo = str_pad($lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1, 4, '0', STR_PAD_LEFT);
+
+        if($request->consignee == '0'){
+            $request->validate([
+                'other_consignee_name' => 'required',
+                'other_consignee_number' => 'required',
+            ]);
+
+            //create new vendor
+            $vendor = new Vendor();
+            $vendor->name = $request->other_consignee_name;
+            $vendor->phone = $request->other_consignee_number;
+            $vendor->save();
+        }
+
         $externalIssueVoucher = new ExternalIssueVoucher();
-        $externalIssueVoucher->voucher_no = $request->voucher_no;
+        $externalIssueVoucher->vendor_id = $request->consignee;
+        $externalIssueVoucher->other_consignee_name = $request->other_consignee_name;
+        $externalIssueVoucher->other_consignee_number = $request->other_consignee_number;
+        $externalIssueVoucher->voucher_no = $voucherNo;
         $externalIssueVoucher->voucher_date = $request->voucher_date;
         $externalIssueVoucher->inv_no = $request->inv_no;
         $externalIssueVoucher->item_id = $request->item_code_id;
+        $externalIssueVoucher->item_unit_price = $request->unit_price;
+        $externalIssueVoucher->quantity = $request->quantity;
+        $externalIssueVoucher->total_price = $request->total_price;
         $externalIssueVoucher->gate_pass_id = $request->gate_pass_id;
+        $externalIssueVoucher->au_status = $request->au_status ?? 'Yes';
         $externalIssueVoucher->remarks = $request->remarks;
         $externalIssueVoucher->save();
 
@@ -120,9 +159,11 @@ class ExternalIssueVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::all();
+        $vendors = Vendor::orderBy('id','desc')->get();
         $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $edit = true;
-        return response()->json(['view' => view('inventory.external-issue-vouchers.form', compact('externalIssueVoucher', 'edit', 'itemCodes', 'gatePasses', 'creditVouchers', 'inventoryNumbers'))->render()]);
+
+        return response()->json(['view' => view('inventory.external-issue-vouchers.form', compact('externalIssueVoucher', 'edit', 'itemCodes', 'gatePasses', 'creditVouchers', 'inventoryNumbers','vendors'))->render()]);
     }
 
     /**
@@ -136,6 +177,7 @@ class ExternalIssueVoucherController extends Controller
 
         $externalIssueVoucher = ExternalIssueVoucher::findOrFail($id);
         $externalIssueVoucher->voucher_date = $request->voucher_date;
+        $externalIssueVoucher->au_status = $request->au_status;
         $externalIssueVoucher->remarks = $request->remarks;
         $externalIssueVoucher->update();
 

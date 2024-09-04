@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<title>RCI</title>
+<title>RCI-Certificate Issue Voucher</title>
 <meta charset="utf-8" />
 
 <body style="background: #fff">
@@ -45,14 +45,15 @@
                         font-weight: 400;
                         color: #000; padding-bottom: 10px;
                         text-align: left;">Group/Division :......... <br> <br>
-                  Date:
+                  Date: {{  $certificateIssueVoucher->voucher_date ?? '' }}
                 </td>
                 <td valign="top" style="font-size: 12px; width: 30%;
                         line-height: 16px; 
                         font-weight: 400;
                         color: #000;
                         text-align: left; padding-left: 10px; padding-bottom: 10px;">
-                  Voucher No....... ICC No.:___________________________
+                  Voucher No.{{  $certificateIssueVoucher->voucher_no ?? '' }}  <br>
+                  ICC No.:  {{  $certificateIssueVoucher->inventory->number ?? '' }}
                 </td>
               </tr>
             </tbody>
@@ -112,19 +113,19 @@
                     {{ $itemDesc->description ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    Yes
+                  {{  $certificateIssueVoucher->au_status ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    1000
+                  {{  $certificateIssueVoucher->quantity ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    10000
+                  {{  $certificateIssueVoucher->total_price ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    0001
+                  {{  $certificateIssueVoucher->inventory->number ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    test
+                  {{  $certificateIssueVoucher->remarks ?? 'N/A' }}
                 </td>
 
               </tr>

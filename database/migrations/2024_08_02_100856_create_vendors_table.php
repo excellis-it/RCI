@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
             $table->string('phone')->unique();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->boolean('status')->default(0)->comment('0=Inactive, 1=Active');
             $table->timestamps();
         });

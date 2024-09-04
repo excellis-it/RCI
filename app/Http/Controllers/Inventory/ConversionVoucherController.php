@@ -12,6 +12,7 @@ use App\Models\CreditVoucherDetail;
 use App\Models\InventoryType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ConversionVoucherController extends Controller
 {
@@ -101,18 +102,34 @@ class ConversionVoucherController extends Controller
         
         $request->validate([
             'item_code_id' => 'required',
-            'voucher_no' => 'required|unique:conversion_vouchers,voucher_no',
             'voucher_date' => 'required',
             'quantity' => ['required', 'numeric', 'min:1', 'available_quantity'],
         ], [
             'quantity.available_quantity' => 'Quantity is less than or equal to '.$sumQuant.'',
         ]);
 
+
+        // voucher no generate
+
+        $currentDate = Carbon::today();
+        $resetDate = Carbon::createFromFormat('Y-m-d', date('Y') . '-04-01')->subDay()->endOfDay();
+
+        if ($currentDate < $resetDate) {
+            $resetDate = Carbon::createFromFormat('Y-m-d', (date('Y') - 1) . '-04-01')->subDay()->endOfDay();
+        }
+
+        $lastVoucher = ConversionVoucher::where('created_at', '<', $resetDate)
+            ->orderBy('voucher_no', 'desc')
+            ->first() ?? ConversionVoucher::latest()->first();
+
+        $voucherNo = str_pad($lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1, 4, '0', STR_PAD_LEFT);
+
+
         $conversionVoucher = new ConversionVoucher();
         $conversionVoucher->item_id = $request->item_code_id;
         $conversionVoucher->inv_no = $request->inv_no;
         $conversionVoucher->quantity = $request->quantity;
-        $conversionVoucher->voucher_no = $request->voucher_no;
+        $conversionVoucher->voucher_no = $voucherNo;
         $conversionVoucher->voucher_date = $request->voucher_date;
         $conversionVoucher->remarks = $request->remark;
         $conversionVoucher->save();

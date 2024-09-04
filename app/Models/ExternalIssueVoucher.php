@@ -18,4 +18,15 @@ class ExternalIssueVoucher extends Model
     {
         return $this->belongsTo(GatePass::class, 'gate_pass_id');
     }
+
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+    public function inventoryNumber()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'inv_no');
+    }
 }

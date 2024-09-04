@@ -98,6 +98,7 @@ class ItemCodeController extends Controller
             'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
             'uom' => 'required',
             'item_type' => 'required',
+            'item_price' => 'required|numeric',
         ], [
             'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
         ]);
@@ -120,6 +121,7 @@ class ItemCodeController extends Controller
         $item_code_gen->uom = $request->uom;
         $item_code_gen->item_type = $request->item_type;
         $item_code_gen->item_name = $request->item_name;
+        $item_code_gen->item_price = $request->item_price;
         $item_code_gen->item_code_type_id = $request->item_code_type_id;
         $item_code_gen->member_id = Auth::user()->id;
         $item_code_gen->entry_date = date('Y-m-d');
@@ -162,6 +164,7 @@ class ItemCodeController extends Controller
             'uom' => 'required',
             'item_type' => 'required', 
             'item_name' => 'required',
+            'item_price' => 'required|numeric',
         ]);
         
         $item_code = ItemCode::find($id);
@@ -169,6 +172,7 @@ class ItemCodeController extends Controller
         $item_code->uom = $request->uom;
         $item_code->item_type = $request->item_type;
         $item_code->item_name = $request->item_name;
+        $item_code->item_price = $request->item_price;
         $item_code->item_code_type_id = $request->item_code_type_id;
         $item_code->member_id = Auth::user()->id;
         $item_code->entry_date = date('Y-m-d');

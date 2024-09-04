@@ -292,8 +292,7 @@
                                 <label>Voucher Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="voucher_date" id="voucher_date_1"
-                                    value="" placeholder="" max="{{ date('Y-m-d') }}">
+                                <input type="date" class="form-control" name="voucher_date" id="voucher_date_1"  max="{{ date('Y-m-d') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

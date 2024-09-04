@@ -50,14 +50,17 @@
                                             <tr>
                                                 <th>SL No.</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="name"
-                                                    style="cursor: pointer">Member <span id="name_icon"></span> </th>
+                                                    style="cursor: pointer">Person <span id="name_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
+                                                    style="cursor: pointer">Voucher No <span id="name_icon"></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="item_code" 
                                                     style="cursor: pointer">Item Code <span id="item_code_icon"></span></th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="price" 
-                                                    style="cursor: pointer">Price <span id="price_icon"></span></th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="item_type">Item Type</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="quantity" 
                                                     style="cursor: pointer">Quantity <span id="quantity_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="price" 
+                                                    style="cursor: pointer">Total Price <span id="price_icon"></span></th>
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -261,6 +264,7 @@
                 success: function(response) {
                     $('#item_type').val(response.item_type);
                     $('#description').val(response.item_description);
+                    $('#item_price').val(response.item_price);
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -277,7 +281,7 @@
                 // var quantityDiv = $('#quantity');
                 
                 var quantityDivSelectBox = [];
-
+                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
                 for (var i = 1; i <= quantity; i++) {
                     quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
                 }
@@ -321,5 +325,26 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function(){
+        $('#quantity').change(function(){
+            var quantity = $(this).val();
+            var item_unit_price = $('#item_price').val() ?? 0;
+            var total_price = quantity * item_unit_price;
+            $('#total_price').val(total_price);
+        });
+    });
+
+</script>
+
+<script>
+    var select_box_element = document.querySelector('.search-select-box');
+    dselect(select_box_element, {
+        search: true
+    });
+</script>
+
+
   
 @endpush

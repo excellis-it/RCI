@@ -14,10 +14,17 @@ return new class extends Migration
         Schema::create('external_issue_vouchers', function (Blueprint $table) {
             $table->id();
             $table->string('voucher_no')->nullable();
+            $table->bigInteger('vendor_id')->unsigned()->nullable();
+            $table->string('other_consignee_name')->nullable();
+            $table->string('other_consignee_number')->nullable();
             $table->date('voucher_date')->nullable();
             $table->bigInteger('inv_no')->unsigned()->nullable();
             $table->bigInteger('item_id')->unsigned()->nullable();
+            $table->string('item_unit_price')->nullable();
+            $table->string('quantity')->nullable();
+            $table->string('total_price')->nullable();
             $table->bigInteger('gate_pass_id')->unsigned()->nullable();
+            $table->string('au_status')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

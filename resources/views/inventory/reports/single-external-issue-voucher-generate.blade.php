@@ -88,7 +88,7 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: left;">
-                                    Consignee:
+                                    Consignee: {{ $externalIssueVoucher->vendor->name ?? $externalIssueVoucher->other_consignee_name ?? 'N/A'}}
                                 </td>
                                 <td style="font-size: 12px;
                                 line-height: 16px;
@@ -193,7 +193,7 @@
                                 line-height: 16px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: left; padding-left: 10px;">, Dt:
+                                text-align: left; padding-left: 10px;">Dt: {{ $externalIssueVoucher->voucher_date ? date('d-m-Y', strtotime($externalIssueVoucher->voucher_date)) : 'N/A' }}
                                 </td>
                             </tr>
 
@@ -218,14 +218,14 @@
                             </tr>
                             <tr style="height: 250px;">
                                 <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">1.&nbsp;</td>
-                                <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">{{ $itemDesc->code }}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $itemDesc->description }}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">Yes</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">001</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">50</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">100</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">5000</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->remarks }}</td>
+                                <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">{{ $itemDesc->code ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $itemDesc->description ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->au_status ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->inventoryNumber->number ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->item_unit_price ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->quantity ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->total_price ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->remarks ?? ''}}</td>
                             </tr>
 
                         </tbody>
@@ -249,7 +249,7 @@
                                 line-height: 16px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: left; padding-left: 10px;">Total Cost of Issue: 5000
+                                text-align: left; padding-left: 10px;">Total Cost of Issue: {{ $externalIssueVoucher->total_price ?? ''}}
                                 </td>
                             </tr>
 
