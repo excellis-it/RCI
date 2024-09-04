@@ -328,6 +328,41 @@
                         $('#to_inv_number').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
                     }
                 });
+
+
+                $.ajax({
+                url: "{{ route('debit-vouchers.get-items-by-inv-no')}}",
+                type: 'POST',
+                data: {
+                    inv_no: fromInvNumberId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // console.log(response.creditVouchers[0]);
+                    // add options to select box
+                    var options = '<option value="">Select Item</option>';
+                    var itemType = '';  // Initialize itemType outside the loop
+
+                    $.each(response.creditVouchers, function(index, creditVoucher) {
+                        console.log(creditVoucher);
+                        var itemCode = creditVoucher.item_codes.code;
+                        var itemName = creditVoucher.item_codes.item_name;
+                        var itemCodeId = creditVoucher.item_code_id;
+                        var totalQuantity = creditVoucher.total_quantity;
+                        var itemType = creditVoucher.item_codes.item_type;
+                        var itemDescription = creditVoucher.item_codes.description;
+                        
+                        
+                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
+                    });
+                    console.log(itemType);
+                    $('#item_code_id').html(options);
+                    
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
             });
         });
 

@@ -127,7 +127,7 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Number</label>
@@ -138,7 +138,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -170,22 +170,28 @@
                         </div>
                     </div>
                     
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <hr>
                 <h4>Strike Off</h4>
                 <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>From Inv Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="from_inv_number" id="from_inv_number">
+                                    <option value="">Select</option>
+                                    @foreach($inventoryNumbers as $inventoryNumber)
+                                    <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -218,8 +224,7 @@
                                 <label>Qty</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
-                                    placeholder="">
+                                <input type="text" class="form-control" name="quantity" id="quantity">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -230,7 +235,7 @@
                                 <label>Rate</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                <input type="text" class="form-control" name="rate" id="rate" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -242,7 +247,7 @@
                                 <label>Desc</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="remark" id="remark" value=""
+                                <textarea class="form-control" name="desc" id="desc" value=""
                                     placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
@@ -254,6 +259,19 @@
                 <hr>
                 <h4>Brought Of Changes</h4>
                 <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>To Inv Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="to_inv_number" id="to_inv_number">
+                                    
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

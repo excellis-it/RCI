@@ -104,7 +104,7 @@
               <tr>
 
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  1;
+                  1.
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
                     {{ $itemDesc->code ?? 'N/A' }}
