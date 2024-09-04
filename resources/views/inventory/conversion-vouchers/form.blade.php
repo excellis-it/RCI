@@ -125,40 +125,9 @@
     <form action="{{ route('conversion-vouchers.store') }}" method="POST" id="conversion-vouchers-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Inventory Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="inv_no" id="inv_no_1">
-                                    <option value="">Select</option>
-                                    @foreach($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Code</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="item_code_id" id="item_code_id">
-                                    
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Number</label>
@@ -169,8 +138,25 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div> --}}
-
+                    </div>
+                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="inv_no" id="inv_no">
+                                    <option value="">Select</option>
+                                    @foreach($inventoryNumbers as $inventoryNumber)
+                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -184,39 +170,201 @@
                         </div>
                     </div>
                     
-
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Quantity</label>
+                                <label>Voucher Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="quantity" id="quantity">
-
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h4>Strike Off</h4>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="item_code_id" id="item_code_id">
+                                    <option value="">Select</option>
+                                    @foreach($itemCodes as $item)
+                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
+                                    @endforeach
                                 </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Ledger No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remark" id="remark" value=""
+                                    placeholder=""></textarea>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>C/N/C</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Qty</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Rate</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <hr>
+                <h4>Brought Of Changes</h4>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="item_code_id" id="item_code_id">
+                                    <option value="">Select</option>
+                                    @foreach($itemCodes as $item)
+                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Ledger No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remark" id="remark" value=""
+                                    placeholder=""></textarea>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>C/N/C</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Qty</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Rate</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Reason</label>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remark" id="remark" value=""
+                                    placeholder=""></textarea>
                                 <span class="text-danger"></span>
                                 <div class="text-danger" id="quantity_no"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="voucher_type" id="voucher_type">
-                                    <option value="">Select</option>
-                                    <option value="1">One to One</option>
-                                    <option value="2">One to Many</option>
-                                    <option value="3">Many to One</option>
-                                </select>
-                                <span class="text-danger"></span>
-                                <div class="text-danger" id="voucher_type"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-8 mb-2">
+                    <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Remarks</label>
@@ -230,9 +378,8 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Save</button>
                 </div>
