@@ -98,6 +98,7 @@ use App\Http\Controllers\Inventory\UomController;
 use App\Http\Controllers\Inventory\VendorController;
 use App\Http\Controllers\Inventory\DashbaordController as InventoryDashbaordController;
 use App\Http\Controllers\Inventory\ReportController as InventoryReportController;
+use App\Http\Controllers\Inventory\GstController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -885,6 +886,7 @@ Route::middleware('permssions')->group(function () {
                 'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
                 'uom' => UomController::class,
                 'vendors' => VendorController::class,
+                'gst' => GstController::class,
             ]);
 
             Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
@@ -1062,6 +1064,12 @@ Route::middleware('permssions')->group(function () {
 
             // vendors
             Route::get('/vendors-fetch-data', [VendorController::class, 'fetchData'])->name('vendors.fetch-data');
+
+            // gst
+            Route::get('/gst-fetch-data', [GstController::class, 'fetchData'])->name('gst.fetch-data');
+            Route::prefix('gst')->group(function () {
+                Route::get('/delete/{id}', [GstController::class, 'delete'])->name('gst.delete');
+            });
         });
 
     });

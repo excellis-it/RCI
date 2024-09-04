@@ -338,6 +338,8 @@
             $('#item_code_id_1').change(function(){
                 var selectedValue = $(this).find(':selected');
                 var quantity = selectedValue.data('hidden-value');
+                var itemType = selectedValue.data('item-type');
+                var itemDescription = selectedValue.data('item_desc');
                 // var quantityDiv = $('#quantity');
                 
                 var quantityDivSelectBox = [];
@@ -348,6 +350,14 @@
 
                 $('#quantity').empty();
                 $('#quantity').append(quantityDivSelectBox.join(''));
+
+                if (itemType) {
+                    $('#item_type_1').val(itemType);
+                    
+                }
+                if (itemDescription) {
+                    $('#item_desc_1').val(itemDescription);
+                }
                 
             });
         });
@@ -357,6 +367,9 @@
             // var itemCodeId = $(getval).val();
             var selectedValue = $(getval).find(':selected');
             var quantity = selectedValue.data('hidden-value');
+            var itemType = selectedValue.data('item-type');
+            var itemDescription = selectedValue.data('item_desc');
+            
             
             var quantityDivSelectBox = [];
 
@@ -367,6 +380,9 @@
             var $row = $(getval).closest('.count-class');
             $row.find('#quantity').empty();
             $row.find('#quantity').append(quantityDivSelectBox.join(''));
+
+            $row.find('#item_type').val(itemType);
+            $row.find('#item_desc').val(itemDescription);
 
             // $('#quantity').empty();
             // $('#quantity').append(quantityDivSelectBox.join(''));
@@ -410,7 +426,7 @@
                                 var itemCodeId = creditVoucher.item_code_id;
                                 var totalQuantity = creditVoucher.total_quantity;
                                 
-                                options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
+                                options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" >${itemCode}(${totalQuantity})</option>`;
                             });
                             var $row = $(this).closest('.count-class');
                             $row.find('#item_code_id').html(options);
@@ -459,16 +475,29 @@
                     // console.log(response.creditVouchers[0]);
                     // add options to select box
                     var options = '<option value="">Select Item</option>';
+                    var itemType = '';  // Initialize itemType outside the loop
+
                     $.each(response.creditVouchers, function(index, creditVoucher) {
                         console.log(creditVoucher);
                         var itemCode = creditVoucher.item_codes.code;
+                        var itemName = creditVoucher.item_codes.item_name;
                         var itemCodeId = creditVoucher.item_code_id;
                         var totalQuantity = creditVoucher.total_quantity;
+                        var itemType = creditVoucher.item_codes.item_type;
+                        var itemDescription = creditVoucher.item_codes.description;
                         
-                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}">${itemCode}(${totalQuantity})</option>`;
+                        
+                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
                     });
+                    console.log(itemType);
                     $('#item_code_id_1').html(options);
                     $('.item_code_id').html(options);
+                    // if (itemType) {
+                    //     $('#item_type_1').val(itemType);
+                    //     $('.item-type').each(function() {
+                    //         $(this).val(itemType);
+                    //     });
+                    // }
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -521,10 +550,18 @@
                     },
                     success: function(blob) {
                         // alert('Success');
+                        // Get current date
+                        var currentDate = new Date();
+                        var day = String(currentDate.getDate()).padStart(2, '0');
+                        var month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                        var year = currentDate.getFullYear();
+
+                        // Format the date as 'YYYY-MM-DD'
+                        var formattedDate = day + '-' + month + '-' + year ;
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
                         a.href = url;
-                        a.download = 'debit-voucher-' + id + '.pdf';
+                        a.download = 'debit-voucher-' + id + '-' + formattedDate + '.pdf';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);

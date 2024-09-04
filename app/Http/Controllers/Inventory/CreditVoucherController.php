@@ -11,9 +11,11 @@ use App\Models\InventoryNumber;
 use App\Models\Member;
 use App\Models\SupplyOrder;
 use App\Models\CreditVoucherDetail;
+use App\Models\GstPercentage;
 use App\Models\Rin;
 use App\Models\InventoryProject;
 use App\Models\Uom;
+use App\Models\Vendor;
 use Carbon\Carbon;
 
 class CreditVoucherController extends Controller
@@ -33,7 +35,9 @@ class CreditVoucherController extends Controller
         $rins = Rin::all();
         $projects = InventoryProject::all();
         $uoms = Uom::all();
-        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms'));
+        $gstPercentages = GstPercentage::all();
+        $vendors = Vendor::all();
+        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
     }
 
     public function fetchData(Request $request)
@@ -160,6 +164,10 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->order_type = $request->order_type[$key] ?? null;
                     $creditVoucherDetail->tax = $request->tax[$key] ?? null;
                     $creditVoucherDetail->tax_amt = $request->tax_amt[$key] ?? null;
+                    $creditVoucherDetail->disc_percent = $request->disc_percent[$key] ?? null;
+                    $creditVoucherDetail->disc_amt = $request->disc_amt[$key] ?? null;
+                    $creditVoucherDetail->gst_percent = $request->gst_percent[$key] ?? null;
+                    $creditVoucherDetail->gst_amt = $request->gst_amt[$key] ?? null;
                     $creditVoucherDetail->total_price = $request->total_price[$key] ?? null;
                     $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
                     $creditVoucherDetail->save();

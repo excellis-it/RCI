@@ -14,6 +14,12 @@
                         <tbody>
                             <tr>
                                 <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase;">
+                                   DRDO.SM II
+                                </td>
+                            </tr>
+                            <tr>
+                                <td
                                     style="font-size: 14px; line-height: 18px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; text-decoration: underline;">
                                     CENTER FOR HIGH ENERGY SYSTEM & SCIENCES (CHESS),<br> VIGNYAA KANCHA POST, HYDERABAD
                                     —500069 <br>

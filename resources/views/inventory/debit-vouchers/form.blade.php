@@ -161,6 +161,32 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Item Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_type[]" id="item_type_1" value=""
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_desc[]" id="item_desc_1" value=""
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Voucher Number</label>
                             </div>
                             <div class="col-md-12">
@@ -172,8 +198,7 @@
                     </div>
 
                     
-                </div>
-                <div class="row">
+                
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -186,6 +211,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -215,8 +242,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -291,6 +316,32 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Item Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-type" name="item_type[]" id="item_type" value=""
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_desc[]" id="item_desc" value=""
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Voucher Number</label>
                             </div>
                             <div class="col-md-12">
@@ -301,9 +352,7 @@
                         </div>
                     </div>
 
-                    
-                </div>
-                <div class="row">
+                   
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -316,6 +365,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -345,8 +396,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

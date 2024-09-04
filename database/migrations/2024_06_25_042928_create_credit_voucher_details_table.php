@@ -28,6 +28,10 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id')->nullable();
             $table->decimal('tax', 10, 2)->nullable();
             $table->decimal('tax_amt', 10, 2)->nullable();
+            $table->decimal('disc_percent', 10, 2)->nullable();
+            $table->decimal('disc_amt', 10, 2)->nullable();
+            $table->decimal('gst_percent', 10, 2)->nullable();
+            $table->decimal('gst_amt', 10, 2)->nullable();
             $table->decimal('total_price', 15, 2)->default(0);
             $table->string('consigner')->nullable();
             $table->string('cost_debatable')->nullable();

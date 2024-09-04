@@ -16,6 +16,8 @@ return new class extends Migration
             $table->bigInteger('debit_voucher_id')->unsigned()->nullable();
             $table->bigInteger('item_id')->unsigned()->nullable(); 
             $table->string('quantity')->nullable();
+            $table->string('item_type')->nullable();
+            $table->string('item_desc')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

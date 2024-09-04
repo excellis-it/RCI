@@ -104,6 +104,8 @@ class DebitVoucherController extends Controller
             foreach ($request->item_code_id as $key => $itemCode) {
                 $itemsByCode[$itemCode][] = [
                     'quantity' => $request->quantity[$key],
+                    'item_type' => $request->item_type[$key],
+                    'item_desc' => $request->item_desc[$key],
                     'remarks' => $request->remarks[$key]
                 ];
             }
@@ -124,6 +126,8 @@ class DebitVoucherController extends Controller
                     $debitVoucherDetail->debit_voucher_id = $latestVoucher->id;
                     $debitVoucherDetail->item_id = $itemCode; // Assuming item_id corresponds to item code
                     $debitVoucherDetail->quantity = $item['quantity'];
+                    $debitVoucherDetail->item_type = $item['item_type'];
+                    $debitVoucherDetail->item_desc = $item['item_desc'];
                     $debitVoucherDetail->remarks = $item['remarks'];
                     $debitVoucherDetail->save();
 
