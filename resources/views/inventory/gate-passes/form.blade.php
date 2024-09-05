@@ -81,19 +81,43 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code</label>
+                                <label>Consignee name</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select search-select-box" name="item_code_id" id="item_code_id" >
+                                <select class="form-select search-select-box" name="consignee" id="consignee">
                                     <option value="">Select</option>
-                                    @foreach ($itemCodes as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->code }} ({{ $item->item_name }})</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                                     @endforeach
+                                    <option value="0">Other</option>
                                 </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2 consignee_other_name" style="display:none;">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Other consignee name</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="other_consignee_name" id="other_consignee_name" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2 consignee_other_number" style="display:none;">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Other consignee number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="other_consignee_number" id="other_consignee_number" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -110,37 +134,25 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Gate Pass Date</label>
+                                <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="pass_date" id="pass_date" max="{{ date('Y-m-d') }}">
-
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-5 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Gate Pass Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="pass_type" id="pass_type">
-                                    <option value="">Select Gate Pass Type</option>
-                                    <option value="returnable" >Returnable</option>
-                                    <option value="non-returnable">Non-Returnable</option>
+                                <select class="form-select search-select-box" name="item_code_id" id="item_code_id" >
+                                    <option value="">Select</option>
+                                    @foreach ($itemCodes as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->code }} ({{ $item->item_name }})</option>
+                                    @endforeach
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+                   
                 </div>
             </div>
             <div class="col-md-2">

@@ -1003,6 +1003,9 @@ Route::middleware('permssions')->group(function () {
             Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
             Route::post('/get-item-type', [CreditVoucherController::class, 'getItemType'])->name('credit-vouchers.get-item-type');
 
+            // credit-vouchers.get-rin-details
+            Route::post('/credit-vouchers.get-rin-details', [CreditVoucherController::class, 'getRinDetails'])->name('credit-vouchers.get-rin-details');
+
             //debit-vouchers
             Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
             Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');

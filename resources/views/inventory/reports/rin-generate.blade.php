@@ -132,6 +132,7 @@
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">Accepted*</td>
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">Rejected*</td>
                             </tr>
+                            @php $total_basic_cost = 0; @endphp
                             @foreach($all_items as $key => $item)
                             <tr>
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">&nbsp;{{ ($key +1) ?? ''}}.</td>
@@ -142,10 +143,11 @@
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">{{ $item->itemCode->item_type ?? '' }}</td>
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">{{ $item->au_status ?? '' }}</td>
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">{{ $item->received_quantity ?? '' }}</td>
-                                <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">{{ $item->accepted_quantity ?? '' }}</td>
-                                <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">{{ $item->rejected_quantity ?? '' }}</td>
+                                <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;"></td>
+                                <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;"></td>
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">{{ Str::of($item->remarks)->limit(20) ?? ''}}</td>
                             </tr>
+                            @php $total_basic_cost += $item->total_cost; @endphp
                             @endforeach
                             {{-- <tr>
                                 <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">&nbsp;1.</td>
@@ -174,7 +176,7 @@
                                 <td colspan="2"
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
                                     Total Basic Cost (Rs)</td>
-                                <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">
+                                <td style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">{{ $total_basic_cost ?? ''}}
                                 </td>
 
                             </tr>
@@ -217,8 +219,13 @@
                                 <td colspan="10"
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-weight: 600;font-size: 10px;">
                                     Total Cost Inclusive of Taxes, Duties and Other Charges :</td>
+                                    @php 
+                                     use App\Helpers\Helper;
+
+                                        $words = Helper::convert($total_basic_cost);
+                                    @endphp
                                 <td colspan="1"
-                                    style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
+                                    style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">{{ $total_basic_cost ?? ''}} <br>({{ $words ?? '' }})
                                 </td>
 
 
@@ -245,7 +252,7 @@
                                     <br><br>
                                     Inspection Authority/Division Officer
                                     <br>
-                                    Name & Designation: <br>
+                                    Name <br>Designation: <br>
                                     Date: ____________
                                     <br><br>
                                 </td>
@@ -255,7 +262,7 @@
                                     <br><br><br><br><br><br>
                                     Inspection Authority/Division Officer
                                     <br>
-                                    Name & Designation: <br>
+                                    Name <br> Designation: <br>
                                     Date: ____________
                                     <br><br>
                                 </td>

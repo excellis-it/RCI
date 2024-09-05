@@ -32,7 +32,7 @@ class CreditVoucherController extends Controller
         $members = Member::all();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();
-        $rins = Rin::all();
+        $rins = Rin::get()->groupBy('rin_no');
         $projects = InventoryProject::all();
         $uoms = Uom::all();
         $gstPercentages = GstPercentage::all();
@@ -42,7 +42,7 @@ class CreditVoucherController extends Controller
 
     public function fetchData(Request $request)
     {
-      
+
         if ($request->ajax()) {
             $sort_by = $request->get('sortby', 'id'); // Default sort by 'id' if not provided
             $sort_type = $request->get('sorttype', 'asc'); // Default sort type 'asc' if not provided
@@ -50,9 +50,9 @@ class CreditVoucherController extends Controller
             $date = $request->get('date_entry');
             $creditVoucherQuery = CreditVoucher::query();
 
-            if($query){
+            if ($query) {
                 $query = str_replace(" ", "%", $query);
-                $creditVoucherQuery->where(function($queryBuilder) use ($query) {
+                $creditVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
                         ->orWhere('voucher_date', 'like', '%' . $query . '%')
                         ->orWhere('item_type', 'like', '%' . $query . '%')
@@ -78,10 +78,9 @@ class CreditVoucherController extends Controller
             $inventoryNumbers = InventoryNumber::all();
 
             return response()->json([
-                'data' => view('inventory.credit-vouchers.table', compact('creditVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()
+                'data' => view('inventory.credit-vouchers.table', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'))->render()
             ]);
         }
-
     }
 
     /**
@@ -101,13 +100,13 @@ class CreditVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $request->validate([
-            'item_code_id' => 'required',
-            'inv_no' => 'required',
-            'supply_order_no' => 'required',
-            'order_type' => 'required',
-        ]);
+        
+        // $request->validate([
+        //     'item_code' => 'required',
+        //     'inv_no' => 'required',
+        //     'supply_order_no' => 'required',
+        //     'order_type' => 'required',
+        // ]);
 
         //auto increment 4 digit voucher number
         // Get the current date
@@ -128,7 +127,7 @@ class CreditVoucherController extends Controller
             ->orderBy('voucher_no', 'desc')
             ->first();
 
-        if($lastVoucher1) {
+        if ($lastVoucher1) {
             $lastVoucher = $lastVoucher1;
         } else {
             $lastVoucher = CreditVoucher::latest()->first();
@@ -144,14 +143,14 @@ class CreditVoucherController extends Controller
         $creditVoucher = new CreditVoucher();
         $creditVoucher->voucher_no = $voucherNo;
         $creditVoucher->voucher_date = $request->voucher_date;
-        if($creditVoucher->save()) {
+        if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
 
-            if(count($request->item_code_id) > 0) {
-                foreach ($request->item_code_id as $key => $value) {
+            if (count($request->item_code) > 0) {
+                foreach ($request->item_code as $key => $value) {
                     $creditVoucherDetail = new CreditVoucherDetail();
                     $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
-                    $creditVoucherDetail->item_code_id = $request->item_code_id[$key] ?? null;
+                    $creditVoucherDetail->item_code_id = $request->item_code[$key] ?? null;
                     $creditVoucherDetail->inv_no = $request->inv_no[$key] ?? null;
                     $creditVoucherDetail->description = $request->description[$key] ?? null;
                     $creditVoucherDetail->uom = $request->uom_id[$key] ?? null;
@@ -173,7 +172,6 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->save();
                 }
             }
-            
         }
 
         session()->flash('message', 'Credit Voucher added successfully');
@@ -216,7 +214,7 @@ class CreditVoucherController extends Controller
         $request->validate([
             // 'item_code_id' => 'required',
             // 'inv_no' => 'required',
-            
+
         ]);
 
         $creditVoucher = CreditVoucher::findOrFail($id);
@@ -264,5 +262,24 @@ class CreditVoucherController extends Controller
         $uom = Uom::findOrFail($itemCode->uom);
         // $inventoryType = InventoryType::findOrFail($itemCode->inventory_type_id);
         return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description, 'uom' => $uom->name, 'uom_id' => $uom->id]);
+    }
+
+    public function getRinDetails(Request $request)
+    {
+        $set_rins = true;
+        $rins = Rin::with('itemCode', 'itemCode.uomajorment')->where('rin_no', $request->rin)->get();
+        $itemCodes = ItemCode::all();
+        $inventoryTypes = InventoryType::all();
+        $inventoryNumbers = InventoryNumber::all();
+        $creditVouchers = CreditVoucher::paginate(10);
+        $members = Member::all();
+        $lastVoucher = CreditVoucher::latest()->first();
+        $supplyOrders = SupplyOrder::all();
+        $projects = InventoryProject::all();
+        $uoms = Uom::all();
+        $gstPercentages = GstPercentage::all();
+        $vendors = Vendor::all();
+        // return response()->json($rin);
+        return response()->json(['view' => view('inventory.credit-vouchers.rin', compact('rins', 'set_rins', 'inventoryNumbers', 'gstPercentages' , 'itemCodes', 'inventoryTypes', 'creditVouchers', 'members', 'lastVoucher', 'supplyOrders', 'projects', 'uoms', 'vendors'))->render()]);
     }
 }

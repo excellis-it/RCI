@@ -31,7 +31,7 @@
                                 <select class="form-select" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach($members as $member)
-                                        <option value="{{ $member->id }}" {{ $inventory_number->holder_id == $member->id ? 'selected':'' }}>{{ $member->name }}</option>
+                                        <option value="{{ $member->id }}" {{ $inventory_number->holder_id == $member->id ? 'selected':'' }}>{{ $member->user_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -135,7 +135,7 @@
                                 <select class="form-select" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach($members as $member)
-                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                        <option value="{{ $member->id }}">{{ $member->user_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

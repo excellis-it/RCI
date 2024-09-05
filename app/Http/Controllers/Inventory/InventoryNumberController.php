@@ -9,6 +9,7 @@ use App\Models\InventoryType;
 use App\Models\Member;
 use App\Models\InventoryProject;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class InventoryNumberController extends Controller
@@ -20,7 +21,7 @@ class InventoryNumberController extends Controller
     {
         $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->paginate(10);
         $itemTypes = InventoryType::orderBy('id','desc')->get();
-        $members = Member::orderBy('id','desc')->get();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $groups = Group::orderBy('id','desc')->get();
         $invProjects = InventoryProject::orderBy('id','desc')->where('status', 1)->get();
         
@@ -111,7 +112,7 @@ class InventoryNumberController extends Controller
     {
         
         $inventory_number = InventoryNumber::find($id);
-        $members = Member::orderBy('id','desc')->get();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $groups = Group::orderBy('id','desc')->get();
         $invProjects = InventoryProject::orderBy('id','desc')->where('status', 1)->get();
         $edit = true;

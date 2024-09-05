@@ -16,6 +16,9 @@ return new class extends Migration
             $table->bigInteger('item_code_id')->unsigned()->nullable();
             $table->string('gate_pass_no')->nullable();
             $table->date('gate_pass_date')->nullable();
+            $table->bigInteger('consignee_id')->unsigned()->nullable();
+            $table->string('consignee_name')->nullable();
+            $table->string('consignee_phone')->nullable();
             $table->timestamps();
         });
     }
