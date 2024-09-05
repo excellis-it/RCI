@@ -45,6 +45,7 @@ use App\Models\MemberLoan;
 use App\Models\LeaveType;
 use App\Models\MemberGpf;
 use App\Models\Cghs;
+use App\Models\Rule;
 use Illuminate\Support\Str;
 
 
@@ -247,6 +248,7 @@ class MemberController extends Controller
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
+        $rules = Rule::orderBy('id','desc')->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->latest()->first() ?? '';
@@ -255,7 +257,7 @@ class MemberController extends Controller
 
         $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf', 'daPercentage', 'check_hba', 'member_var_info'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf', 'daPercentage', 'check_hba', 'member_var_info','rules'));
     }
 
     public function memberCreditUpdate(Request $request)

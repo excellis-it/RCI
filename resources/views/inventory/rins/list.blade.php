@@ -402,4 +402,50 @@
             });
 
         </script>
+        <script>
+            $(document).ready(function(){
+                // Function to update difference
+                function getTotalCost() {
+                    var received = parseInt($('#received_quantity').val());
+                    var unit_cost = parseInt($('#unit_cost').val());
+                    var totalCost = received * unit_cost;
+                    $('#total_cost').val(totalCost);
+                }
+            
+                // Bind change event to input fields
+                $('#unit_cost').keyup(getTotalCost);
+    
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                // Trigger calculation when the user inputs data in either received or unit cost fields
+                $(document).on('change', '.unit_cost', function() {
+                    // Get the parent row to ensure we're working with the correct set of inputs
+                    var $row = $(this).closest('.row');
+                    
+                    // Log to check if we are in the correct row
+                    console.log("Row:", $row);
+
+                    // Find the received and unit cost values within the same parent row
+                    var received = parseInt($row.find('.received_quantity').val());
+                    var unit_cost = parseInt($row.find('.unit_cost').val());
+
+                    // Log to see if we're fetching the correct values
+                    console.log("Received:", received, "Unit Cost:", unit_cost);
+
+                    // Calculate the total cost
+                    var totalCost = received * unit_cost;
+
+                    // Log the calculated total cost
+                    console.log("Total Cost:", totalCost);
+
+                    // Update the total cost input field
+                    $row.find('.total_cost').val(totalCost.toFixed(2)); // Format to two decimal places
+                });
+            });
+
+
+     
+         </script>
 @endpush

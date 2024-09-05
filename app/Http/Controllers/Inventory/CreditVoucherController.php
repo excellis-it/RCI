@@ -40,6 +40,12 @@ class CreditVoucherController extends Controller
         return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
     }
 
+    
+    public function  rinDetail()
+    {
+        
+    }
+
     public function fetchData(Request $request)
     {
 
@@ -177,6 +183,8 @@ class CreditVoucherController extends Controller
         session()->flash('message', 'Credit Voucher added successfully');
         return response()->json(['success' => 'Credit Voucher added successfully']);
     }
+
+
 
     /**
      * Display the specified resource.
