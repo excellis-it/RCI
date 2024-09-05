@@ -21,5 +21,10 @@ class ItemCode extends Model
         return $this->belongsTo(User::class, 'member_id');
     }
 
+    public function uomajorment()
+    {
+        return $this->belongsTo(Uom::class, 'uom');
+    }
+
     
 }
