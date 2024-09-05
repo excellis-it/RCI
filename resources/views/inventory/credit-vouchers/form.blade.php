@@ -510,7 +510,7 @@
                             <div class="col-md-12">
                                 {{-- <input type="text" class="form-control" name="rin" id="rin" value=""
                                     placeholder=""> --}}
-                                    <select class="form-control rin" name="rin[]" id="rin1">
+                                    <select class="form-control rin" name="rin[]" id="rin1" onchange="rinDetails()">
                                         <option value="">Select</option>
                                         @foreach ($rins as $rin)
                                             <option value="{{ $rin->id }}">{{ $rin->rin_no }}

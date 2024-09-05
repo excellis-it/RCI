@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Accepted Quantity</label>
@@ -71,7 +71,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -167,7 +167,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control"  value="{{  $rin->supply_order_no ?? '' }}" name="supply_order_no[]" id="supply_order_no"  
-                                    placeholder="" >
+                                    placeholder="" readonly >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -262,7 +262,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Accepted Quantity</label>
@@ -283,7 +283,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -379,7 +379,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control"  name="supply_order_no[]" id="supply_order_no"  
-                                    placeholder="" >
+                                    placeholder="" readonly >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -435,14 +435,14 @@
                                 <label>Received Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control received_quantity" name="received_quantity[]" >
+                                <input type="text" class="form-control received_quantity" name="received_quantity[]" id="received_quantity" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Accepted Quantity</label>
@@ -463,7 +463,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -628,14 +628,14 @@
                                 <label>Received Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="received_quantity[]" >
+                                <input type="text" class="form-control received_quantity" name="received_quantity[]" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Accepted Quantity</label>
@@ -656,7 +656,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -675,7 +675,7 @@
                                 <label>Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="unit_cost[]" id="unit_cost"  
+                                <input type="text" class="form-control unit_cost" name="unit_cost[]" id="unit_cost"  
                                     placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
@@ -688,7 +688,7 @@
                                 <label>Total Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_cost[]" id="total_cost"  
+                                <input type="text" class="form-control total_cost" name="total_cost[]" id="total_cost"  
                                     placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
@@ -752,8 +752,12 @@
                                 <label>Supply Order No</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="supply_order_no[]" id="supply_order_no"  
-                                    placeholder="" >
+                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
+                                    <option value="">Select Supply Order No</option>
+                                    @foreach($supply_orders as $supply_order)
+                                        <option value="{{ $supply_order->order_number }}" >{{ $supply_order->order_number }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

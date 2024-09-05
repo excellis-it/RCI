@@ -151,7 +151,10 @@
                     <label>Rule Name</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="rule_name" id="exp_rule_name">
+                    {{-- <input type="text" class="form-control" name="rule_name" id="exp_rule_name"> --}}
+                    @foreach($rules as $rule)
+                        <option value="{{ $rule->id }}">{{ $rule->name }}</option>
+                    @endforeach
                     <span class="text-danger"></span>
                 </div>
             </div>

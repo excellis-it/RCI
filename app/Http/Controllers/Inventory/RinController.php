@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Rin;
 use App\Models\ItemCode;
+use App\Models\SupplyOrder;
 use App\Models\Vendor;
 use DB;
 
@@ -25,9 +26,11 @@ class RinController extends Controller
   
         $items = ItemCode::all();
         $vendors = Vendor::orderBy('id','desc')->get();
+        $supply_orders = SupplyOrder::all();
 
-        return view('inventory.rins.list',compact('rins', 'items','vendors'));
+        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders'));
     }
+
 
     public function fetchData(Request $request)
     {
@@ -50,8 +53,9 @@ class RinController extends Controller
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
             $items = ItemCode::all();
+            $supply_orders = SupplyOrder::all();
 
-            return response()->json(['data' => view('inventory.rins.table', compact('rins', 'items'))->render()]);
+            return response()->json(['data' => view('inventory.rins.table', compact('rins', 'items', 'supply_orders'))->render()]);
         }
     }
 
@@ -132,8 +136,9 @@ class RinController extends Controller
         $all_rins = Rin::where('rin_no', $rin->rin_no)->get();
         $items = ItemCode::all();
         $vendors = Vendor::orderBy('id','desc')->get();
+        $supply_orders = SupplyOrder::all();
         $edit = true;
-        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items','all_rins','vendors'))->render()]);
+        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items','all_rins','vendors', 'supply_orders'))->render()]);
     }
 
     /**
