@@ -253,7 +253,7 @@
     <form action="{{ route('credit-vouchers.store') }}" method="POST" id="credit-vouchers-create-form">
         @csrf
         <div class="row">
-            <div class="form-group col-md-6 mb-2">
+            <div class="form-group col-md-4 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Receipt & Inspection Note (RIN)</label>
@@ -266,6 +266,18 @@
                                     </option>
                                 @endforeach
                             </select>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Voucher Date</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="date" class="form-control" name="voucher_date" id="voucher_date_1"
+                            max="{{ date('Y-m-d') }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>

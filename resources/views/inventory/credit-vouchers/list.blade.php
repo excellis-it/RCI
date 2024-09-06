@@ -358,6 +358,8 @@ Credit Vouchers
 
 <script>
   function getInvDetail(getval) {
+
+    // alert(getval);
     var selectedValue = $(getval).find(':selected');
     var inv_type = selectedValue.data('hidden-value');
     // Find the closest parent .row that wraps the form elements to limit the scope of searching

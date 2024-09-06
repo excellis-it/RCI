@@ -99,6 +99,7 @@ use App\Http\Controllers\Inventory\VendorController;
 use App\Http\Controllers\Inventory\DashbaordController as InventoryDashbaordController;
 use App\Http\Controllers\Inventory\ReportController as InventoryReportController;
 use App\Http\Controllers\Inventory\GstController;
+use App\Http\Controllers\Inventory\InventorySirController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -887,6 +888,7 @@ Route::middleware('permssions')->group(function () {
                 'uom' => UomController::class,
                 'vendors' => VendorController::class,
                 'gst' => GstController::class,
+                'sirs' => InventorySirController::class,
             ]);
 
             Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');

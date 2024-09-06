@@ -42,18 +42,20 @@ class ReportController extends Controller
         if ($creditVoucherDetails) {
 
             foreach ($creditVoucherDetails as $detail) {
+
+                $rin_date = Rin::where('rin_no', $detail->rin)->first();
                 $price = $detail->price ?? 0;
                 $totalCost = $detail->total_price ?? 0;
 
-                $result[$creditVoucher->voucher_no][$detail->itemCodes->code] = [
-                    'rin_no' => $detail->rins->rin_no ?? 'N/A',
-                    'rin_date' => $detail->rins->created_at ?? 'N/A',
+                $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
+                    'rin_no' => $detail->rin ?? 'N/A',
+                    'rin_date' => $rin_date->created_at ?? 'N/A',
                     'consigner' => $detail->consigner ?? 'N/A',
                     'cost_debatable' => $detail->cost_debatable ?? 'N/A',
                     'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
                     'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
                     'member_name' => $detail->members->name ?? 'N/A',
-                    'item_code' => $detail->itemCodes->code ?? 'N/A',
+                    'item_code' => $detail->item_code_id ?? 'N/A',
                     'description' => $detail->description ?? 'N/A',
                     'quantity' => $detail->quantity ?? 'N/A',
                     'remarks' => $detail->rins->remarks ?? 'N/A',

@@ -71,18 +71,7 @@
         </div>
     </div>
 
-    <div class="form-group col-md-4 mb-2">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <label>Voucher Date</label>
-            </div>
-            <div class="col-md-12">
-                <input type="date" class="form-control" name="voucher_date" id="voucher_date_1"
-                    max="{{ date('Y-m-d') }}">
-                <span class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+   
 
     <div class="form-group col-md-4 mb-2">
         <div class="row align-items-center">
@@ -90,7 +79,7 @@
                 <label>Discount(%)</label>
             </div>
             <div class="col-md-12">
-                <input type="text" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" value=""
+                <input type="text" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" 
                     placeholder="">
                 <span class="text-danger"></span>
             </div>
@@ -102,7 +91,7 @@
                 <label>Discount Amt</label>
             </div>
             <div class="col-md-12">
-                <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt" value=""
+                <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
                     placeholder="">
                 <span class="text-danger"></span>
             </div>

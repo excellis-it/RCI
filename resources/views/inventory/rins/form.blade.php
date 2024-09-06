@@ -166,8 +166,14 @@
                                 <label>Supply Order No</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control"  value="{{  $rin->supply_order_no ?? '' }}" name="supply_order_no[]" id="supply_order_no"  
-                                    placeholder="" readonly >
+                                {{-- <input type="text" class="form-control"  value="{{  $rin->supply_order_no ?? '' }}" name="supply_order_no[]" id="supply_order_no"  
+                                    placeholder="" readonly > --}}
+                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
+                                    <option value="">Select Supply Order No</option>
+                                    @foreach($supply_orders as $supply_order)
+                                        <option value="{{ $supply_order->order_number }}" {{ $rin->supply_order_no == $supply_order->order_number ? 'selected':'' }}>{{ $supply_order->order_number }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -184,10 +190,7 @@
                         <label>&nbsp;</label>
                         <button class="listing_add w-100 del-rin form-control"><i class="fa fa-times"></i></button>
                     </div>
-                    
                 </div>
-
-                
             </div>
             @endforeach
 
@@ -378,8 +381,12 @@
                                 <label>Supply Order No</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control"  name="supply_order_no[]" id="supply_order_no"  
-                                    placeholder="" readonly >
+                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
+                                    <option value="">Select Supply Order No</option>
+                                    @foreach($supply_orders as $supply_order)
+                                        <option value="{{ $supply_order->order_number }}" >{{ $supply_order->order_number }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -558,8 +565,12 @@
                                 <label>Supply Order No</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control"  value="" name="supply_order_no[]" id="supply_order_no"  
-                                    placeholder="" >
+                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
+                                    <option value="">Select Supply Order No</option>
+                                    @foreach($supply_orders as $supply_order)
+                                        <option value="{{ $supply_order->order_number }}" >{{ $supply_order->order_number }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

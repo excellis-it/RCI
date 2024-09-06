@@ -29,7 +29,7 @@ class ItemCodeController extends Controller
     }
 
     public function fetchData(Request $request)
-{
+    {
     if ($request->ajax()) {
         $sort_by = $request->get('sortby', 'id'); // Default to 'id' if not provided
         $sort_type = $request->get('sorttype', 'asc'); // Default to 'asc' if not provided

@@ -106,7 +106,7 @@ class CreditVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        
+       
         // $request->validate([
         //     'item_code' => 'required',
         //     'inv_no' => 'required',
@@ -117,8 +117,6 @@ class CreditVoucherController extends Controller
         //auto increment 4 digit voucher number
         // Get the current date
         $currentDate = date('Y-m-d');
-
-        // Get the date for 1st April of the current year
         $resetDate = date('Y') . '-04-01';
         $resetDateTimestamp = Carbon::createFromFormat('Y-m-d', $resetDate)->subDay()->endOfDay();
 
@@ -151,12 +149,14 @@ class CreditVoucherController extends Controller
         $creditVoucher->voucher_date = $request->voucher_date;
         if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
-
+            
             if (count($request->item_code) > 0) {
+                
                 foreach ($request->item_code as $key => $value) {
+                   
                     $creditVoucherDetail = new CreditVoucherDetail();
                     $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
-                    $creditVoucherDetail->item_code_id = $request->item_code[$key] ?? null;
+                    $creditVoucherDetail->item_code_id = $value ?? null;
                     $creditVoucherDetail->inv_no = $request->inv_no[$key] ?? null;
                     $creditVoucherDetail->description = $request->description[$key] ?? null;
                     $creditVoucherDetail->uom = $request->uom_id[$key] ?? null;
@@ -176,9 +176,13 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->total_price = $request->total_price[$key] ?? null;
                     $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
                     $creditVoucherDetail->save();
+
+                   
                 }
             }
         }
+
+
 
         session()->flash('message', 'Credit Voucher added successfully');
         return response()->json(['success' => 'Credit Voucher added successfully']);

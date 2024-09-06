@@ -32,7 +32,7 @@
                                 ">
 
                                 CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
-                                    STORES INWARD REGISTER (SIR)
+                                RECEIPT & INSPECTION NOTE (RIN)
 
 
                                 </td>

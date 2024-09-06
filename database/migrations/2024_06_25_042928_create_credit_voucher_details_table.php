@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('credit_voucher_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('credit_voucher_id')->unsigned()->nullable();
-            $table->bigInteger('item_code_id')->unsigned()->nullable();
+            $table->string('item_code_id')->nullable();
             $table->bigInteger('inv_no')->unsigned()->nullable();  
             $table->string('description')->nullable();
             $table->string('uom')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('price')->nullable();
             $table->string('quantity')->nullable();
             $table->string('supply_order_no')->nullable();
-            $table->unsignedBigInteger('rin')->nullable();
+            $table->string('rin')->nullable();
             $table->string('order_type')->nullable();
             $table->unsignedBigInteger('member_id')->nullable();
             $table->unsignedBigInteger('project_id')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->decimal('disc_amt', 10, 2)->nullable();
             $table->decimal('gst_percent', 10, 2)->nullable();
             $table->decimal('gst_amt', 10, 2)->nullable();
-            $table->decimal('total_price', 15, 2)->default(0);
+            $table->decimal('total_price', 15, 2)->nullable();
             $table->string('consigner')->nullable();
             $table->string('cost_debatable')->nullable();
             $table->timestamps();
