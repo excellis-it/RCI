@@ -8,7 +8,7 @@
                 </a>
             </li>
         </ul>
-        
+
         <ul class="navbar-nav quick-links d-none d-lg-flex">
 
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
@@ -25,7 +25,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{route('cda-receipts.index')}}">Imprest</a>
                             </li>
-                            
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('item-codes.index') }}">Material Management</a>
@@ -33,14 +33,14 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="#">Income Tax</a>
-                                    
+
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('members.index') }}">Member Managemnet</a>
                             </li>
-                            
-                            
+
+
                         </ul>
                     </div>
                 </div>
@@ -86,6 +86,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('transports.index') }}">Transporter/Carrier</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('supply-orders.index') }}">Supply Orders</a>
                             </li>
                             <li class="mb-2">
@@ -108,7 +112,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">Report Generation</a>
                             </li> --}}
-                              
+
                         </ul>
                     </div>
                 </div>
@@ -124,8 +128,8 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pm-levels.index') }}">PM Level</a>
                             </li>
-                            
-                            
+
+
                         </ul>
                     </div>
                 </div>
@@ -261,7 +265,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.lvp-list') }}">LVP List</a>
                             </li>
-                              
+
                         </ul>
                     </div>
                 </div>
@@ -276,13 +280,13 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="">PM Level</a>
-                            </li> 
+                            </li>
                         </ul>
                     </div>
                 </div>
             </li> --}}
 
-            
+
 
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Imprest<span
@@ -299,7 +303,7 @@
                 </div>
             </li>   --}}
         </ul>
-        
+
         <div class="d-block d-lg-none">
             <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
         </div>

@@ -52,10 +52,12 @@ class SupplyOrderController extends Controller
     {
         $request->validate([
             'order_no' => 'required',
+            'date' => 'required',
         ]);
 
         $supplyOrder = new SupplyOrder();
         $supplyOrder->order_number = $request->order_no;
+        $supplyOrder->date = $request->date;
         $supplyOrder->status = $request->status;
         $supplyOrder->save();
 
@@ -88,10 +90,12 @@ class SupplyOrderController extends Controller
     {
         $request->validate([
             'order_no' => 'required',
+            'date' => 'required',
         ]);
 
         $supplyOrder = SupplyOrder::find($id);
         $supplyOrder->order_number = $request->order_no;
+        $supplyOrder->date = $request->date;
         $supplyOrder->status = $request->status;
         $supplyOrder->save();
 

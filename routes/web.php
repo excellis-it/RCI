@@ -115,6 +115,9 @@ use App\Http\Controllers\Imprest\ImprestReportController;
 
 use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
+use App\Http\Controllers\Inventory\SecurityGateStoresController;
+use App\Http\Controllers\Inventory\TrafficControlController;
+use App\Http\Controllers\Inventory\TransportController;
 use App\Http\Controllers\PublicFund\PublicFundVendorController;
 use App\Http\Controllers\PublicFund\ReceiptController;
 use App\Http\Controllers\PublicFund\PublicFundBankController;
@@ -224,7 +227,7 @@ Route::middleware('permssions')->group(function () {
     //child list fetch
     Route::get('/member-family-child-fetch', [MemberChildAllowanceController::class, 'memberChildDataFetch'])->name('child-allowance.member-children');
 
-    // bank details 
+    // bank details
     Route::get('/bank-detail-fetch', [PublicFundBankController::class, 'fetchBankDetails'])->name('bank-details.fetch-data');
 
     // child delete
@@ -590,7 +593,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/get-members-grade-pay',[MemberController::class,'getMemberGradePay'])->name('members.grade-pay');
     Route::post('/get-members-cgegis-value',[MemberController::class,'getmemberCgegisvalue'])->name('members.get-cgegis-value');
     Route::post('/get-members-category-value',[MemberController::class,'getmemberCategoryValue'])->name('members.get-category-value');
-    
+
 
     //member loan info
     Route::post('/members-loan-info-store',[MemberController::class,'memberLoanInfoStore'])->name('members.loan.store');
@@ -659,7 +662,7 @@ Route::middleware('permssions')->group(function () {
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
-        
+
     });
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
     Route::post('/cheque-payments-member-desig', [ChequePaymentController::class, 'fetchMemberDesig'])->name('cheque-payments.get-member-desig');
@@ -887,9 +890,14 @@ Route::middleware('permssions')->group(function () {
                 'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
                 'uom' => UomController::class,
                 'vendors' => VendorController::class,
+                'transports' => TransportController::class,
                 'gst' => GstController::class,
                 'sirs' => InventorySirController::class,
+                'traffic-controls' => TrafficControlController::class,
+                'security-gate-stores' => SecurityGateStoresController::class,
             ]);
+
+            Route::get('/security-gate-stores-fetch-data', [SecurityGateStoresController::class, 'fetchData'])->name('security-gate-stores.fetch-data');
 
             Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
 
@@ -1051,6 +1059,13 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [SupplyOrderController::class, 'delete'])->name('supply-orders.delete');
             });
 
+            // traffic-controls
+            Route::get('/traffic-controls-fetch-data', [TrafficControlController::class, 'fetchData'])->name('traffic-controls.fetch-data');
+            Route::prefix('traffic-controls')->group(function () {
+                Route::get('/delete/{id}', [TrafficControlController::class, 'delete'])->name('traffic-controls.delete');
+            });
+
+
             //credit-voucher-numbers
             Route::get('/credit-voucher-numbers-fetch-data', [CreditVoucherNumberController::class, 'fetchData'])->name('credit-voucher-numbers.fetch-data');
             Route::prefix('credit-voucher-numbers')->group(function () {
@@ -1069,6 +1084,9 @@ Route::middleware('permssions')->group(function () {
 
             // vendors
             Route::get('/vendors-fetch-data', [VendorController::class, 'fetchData'])->name('vendors.fetch-data');
+
+            // transports
+            Route::get('/transports-fetch-data', [TransportController::class, 'fetchData'])->name('transports.fetch-data');
 
             // gst
             Route::get('/gst-fetch-data', [GstController::class, 'fetchData'])->name('gst.fetch-data');

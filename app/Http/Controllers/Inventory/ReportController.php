@@ -18,6 +18,8 @@ use App\Models\ConversionVoucher;
 use App\Models\GatePass;
 use App\Models\InventoryNumber;
 use App\Models\ItemCode;
+use App\Models\SecurityGateStore;
+use App\Models\TrafficControl;
 use PDF;
 use Carbon\Carbon;
 
@@ -83,7 +85,7 @@ class ReportController extends Controller
         }
     }
 
-    
+
         // dd($itemCount);
 
         $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount'));
@@ -238,16 +240,41 @@ class ReportController extends Controller
         return $pdf->download('rin.pdf');
     }
 
-    public function trafficControlReport()
+    public function trafficControlReport(Request $request)
     {
-        $pdf = PDF::loadView('inventory.reports.traffic-control-generate');
-        return $pdf->download('traffic-control.pdf');
+        $date = $request->date;
+
+        // Get data by date range created_at
+        $explode = explode(' - ', $date);
+        $from = Carbon::parse($explode[0])->format('Y-m-d');
+        $to = Carbon::parse($explode[1])->format('Y-m-d');
+
+        $trafficControls = TrafficControl::whereBetween('created_at', [$from, $to])->get();
+
+        // $pdf = PDF::loadView('inventory.reports.traffic-control-generate', compact('trafficControls', 'date'));
+        //landscape a3
+        $pdf = PDF::loadView('inventory.reports.traffic-control-generate', compact('trafficControls', 'date'))->setPaper('a3', 'landscape');
+
+        // Return the PDF directly for download
+        return $pdf->download('traffic-control-report-' . $from . '-to-' . $to . '.pdf');
     }
 
-    public function securityGateReport()
+
+    public function securityGateReport(Request $request)
     {
-        $pdf = PDF::loadView('inventory.reports.security-gate-store-generate');
-        return $pdf->download('security-gate-store.pdf');
+        $date = $request->date;
+
+        // Get data by date range created_at
+        $explode = explode(' - ', $date);
+        $from = Carbon::parse($explode[0])->format('Y-m-d');
+        $to = Carbon::parse($explode[1])->format('Y-m-d');
+
+        $securityGates = SecurityGateStore::whereBetween('created_at', [$from, $to])->get();
+
+        $pdf = PDF::loadView('inventory.reports.security-gate-store-generate', compact('securityGates', 'date'))->setPaper('a3', 'landscape');
+
+        // Return the PDF directly for download
+        return $pdf->download('security-gate-store-report-' . $from . '-to-' . $to . '.pdf');
     }
 
     public function storeInwardReport()
