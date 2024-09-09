@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-    Supply Order List
+    Security Gates Store List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Supply Order Listing</h3>
+                    <h3>Security Gates Store Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Supply Order Listing</span></li>
+                        <li><span class="bread-blod">Security Gates Store Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,13 +30,25 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('inventory.supply-orders.form')
+                            @include('inventory.security-gate-stores.form')
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-4 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control" name="date-pdf" id="date-pdf"
+                                                value="" placeholder="Select Date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <button class="listing_add" type="submit" id="generatepdf">Generate
+                                                PDF</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-end  mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -48,18 +60,38 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="order_no"
-                                                    style="cursor: pointer">Supply Order No. <span id="order_no_icon"><i
+                                                <th> SL No.</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="entry_time"
+                                                    style="cursor: pointer">
+                                                    Date & Time
+                                                    of entry <span id="entry_time_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Date</th>
-                                                <th>Status </th>
 
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="dc_invoice_bill_voucher_no" style="cursor: pointer">
+                                                    DC/Invoice/Bill
+                                                    /Voucher No & Date<span id="dc_invoice_bill_voucher_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
+                                                <th>Name and address
+                                                    of Consignor</th>
+                                                <th>Supply Order/Contract/Authority / Cash
+                                                    Purchase Authorization No.& Date
+
+                                                </th>
+                                                <th> No. of Package/Items</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vehicle_no"
+                                                    style="cursor: pointer">Vehicle No. <span id="vehicle_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                {{-- remarks --}}
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="remarks"
+                                                    style="cursor: pointer">Remarks <span id="remarks_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.supply-orders.table')
+                                            @include('inventory.security-gate-stores.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -82,7 +114,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Inventory Project!",
+                    text: "To delete this Security Gates Store!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -105,7 +137,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('supply-orders.fetch-data') }}",
+                    url: "{{ route('security-gate-stores.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -170,7 +202,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#supply-orders-create-form').submit(function(e) {
+            $('#security-gate-stores-create-form').submit(function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -223,7 +255,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#supply-orders-edit-form', function(e) {
+            $(document).on('submit', '#security-gate-stores-edit-form', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -236,14 +268,30 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $('#date-pdf').daterangepicker();
+    </script>
+
+    <script>
+        $(document).on('click', '#generatepdf', function() {
+            var date = $('#date-pdf').val();
+            var url = "{{ route('reports.security-gate') }}";
+
+            // Redirect to the URL with the date range as a query parameter
+            window.location.href = url + '?date=' + encodeURIComponent(date);
         });
     </script>
 @endpush

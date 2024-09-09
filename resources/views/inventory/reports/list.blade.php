@@ -34,7 +34,7 @@
         <div class="card-wrap">
             <div class="row justify-content-center">
                 <div class="col-lg-3 col-md-6">
-                    <a href="{{ route('reports.traffic-control') }}">
+                    <a href="{{ route('traffic-controls.index') }}">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Traffic Control Register</h5>
@@ -43,7 +43,7 @@
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <a href="{{ route('reports.security-gate') }}">
+                    <a href="{{ route('security-gate-stores.index') }}">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Security Gate Store Register</h5>

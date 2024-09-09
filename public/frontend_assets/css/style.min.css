@@ -56124,6 +56124,7 @@ ul {
     box-shadow: none;
     border: none;
     font-size: 14px;
+    white-space: nowrap;
 }
 
 .bg_tbody tbody tr {
@@ -56480,7 +56481,7 @@ ul {
     border: none;
 }
 .listing_add:hover{
-   color: #fff; 
+   color: #fff;
 }
 .listing_exit {
     padding: 7px 17px;
@@ -56681,15 +56682,15 @@ ul {
     background: rgb(0 181 239 / 05%);
 }
 .edit-mem-tab .nav-tabs li {
-  padding: 0px 5px;  
+  padding: 0px 5px;
 }
 .edit-mem-tab .nav-tabs li:first-child {
-  padding: 0px 5px 0px 0px;  
+  padding: 0px 5px 0px 0px;
 }
 .credit-frm{
     padding-top: 15px;
 }
-.gross-div{    
+.gross-div{
    padding: 20px 20px;
    background: rgb(0 181 239 / 05%);
    border-radius: 10px;
@@ -56702,7 +56703,7 @@ ul {
     width: 100%;
     display: inline-block;
     text-align: center;
-    border: 1px solid #000;  
+    border: 1px solid #000;
 }
 .delete-btn-1{
      padding: 7px 17px;
@@ -56734,7 +56735,7 @@ ul {
 .add-head h4{
     font-size: 20px !important;
     line-height: 24px !important;
-    font-weight: 700 !important;  
+    font-weight: 700 !important;
 }
 
 /* imprest module report css */
@@ -56755,12 +56756,12 @@ ul {
 }
 
 .boxed label:hover {
-    border-color: #074465; 
+    border-color: #074465;
     background-color: #f0f0f0;
 }
 
 .radio-container {
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
 /* .form-select .select-box{
@@ -56784,10 +56785,10 @@ ul {
 
 .dselect-placeholder {
     color:  #000;
-    padding-left: 0;                  
-    text-align: left;                 
-    width: 100%;                     
-    display: block;                 
+    padding-left: 0;
+    text-align: left;
+    width: 100%;
+    display: block;
   }
 
 @media (max-width:1600px) {
@@ -56801,7 +56802,7 @@ ul {
         padding: 8px 8px;
     }
     .app-header {
-        padding:0 10px;        
+        padding:0 10px;
     }
 }
 
@@ -56824,8 +56825,8 @@ ul {
     .app-header .navbar .navbar-nav.quick-links .nav-item .nav-link {
         font-size: 12px;
     }
-    
-    
+
+
 }
 
 @media (max-width:768px) {

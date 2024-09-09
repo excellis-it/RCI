@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-    Supply Order List
+    Transport List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Supply Order Listing</h3>
+                    <h3>Transport Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Supply Order Listing</span></li>
+                        <li><span class="bread-blod">Transport Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('inventory.supply-orders.form')
+                            @include('inventory.transports.form')
                         </div>
 
                         <div class="row">
@@ -49,17 +49,20 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="order_no"
-                                                    style="cursor: pointer">Supply Order No. <span id="order_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Date</th>
-                                                <th>Status </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
+                                                    style="cursor: pointer"> Transport Name <span id="name_icon"></span> </th>
+                                                {{-- <th>Code</th> --}}
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="email"
+                                                style="cursor: pointer">Email</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="address"
+                                                style="cursor: pointer">Address</th>
+                                                <th>Status</th>
 
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('inventory.supply-orders.table')
+                                            @include('inventory.transports.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -78,11 +81,11 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Inventory Project!",
+                    text: "To delete this Inventory Type",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -99,13 +102,13 @@
                     }
                 })
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('supply-orders.fetch-data') }}",
+                    url: "{{ route('transports.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -170,7 +173,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#supply-orders-create-form').submit(function(e) {
+            $('#transport-create-form').submit(function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -223,7 +226,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#supply-orders-edit-form', function(e) {
+            $(document).on('submit', '#transport-edit-form', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -246,4 +249,64 @@
             });
         });
     </script>
+    {{-- <script>
+        $(document).ready(function(){
+            $('#item_id').change(function() {
+                var item_code_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('rins.get-item-description')}}",
+                    type: 'POST',
+                    data: {
+                        id: item_code_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#description').val(response.description);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                 });
+            });
+        });
+    </script> --}}
+    {{-- <script>
+        $(document).ready(function(){
+            // Function to update difference
+            function updateDifference() {
+                var received = parseInt($('#received_quantity').val());
+                var accepted = parseInt($('#accepted_quantity').val());
+                var difference = received - accepted;
+                $('#rejected_quantity').val(difference);
+            }
+
+            // Bind change event to input fields
+            $('#received_quantity, #accepted_quantity').keyup(updateDifference);
+
+        });
+    </script> --}}
+    {{-- <script>
+        // $(document).ready(function(){
+
+        //     function updateEditDifference() {
+        //         alert('test');
+        //         var received = parseInt($('#edit_received_quantity').val());
+        //         var accepted = parseInt($('#edit_accepted_quantity').val());
+        //         var difference = received - accepted;
+        //         $('#edit_rejected_quantity').val(difference);
+        //     }
+
+        //     // $('#edit_received_quantity, #edit_accepted_quantity').on('keyup', updateEditDifference);
+        // });
+        $(document).ready(function(){
+            $(document).on('keyup','#edit_received_quantity, #edit_accepted_quantity', function(){
+                console.log('Keyup event fired');
+                // Your updateEditDifference() function logic here
+                var received = parseInt($('#edit_received_quantity').val());
+                var accepted = parseInt($('#edit_accepted_quantity').val());
+                var difference = received - accepted;
+                $('#edit_rejected_quantity').val(difference);
+            });
+        });
+    </script> --}}
 @endpush

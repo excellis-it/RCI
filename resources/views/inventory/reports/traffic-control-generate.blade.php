@@ -71,79 +71,52 @@
                                     order No / Contract No. / Authority & Date</th>
                                 <th rowspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">Date
                                     of Collection of Stores</th>
+                                <th rowspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">No. of
+                                    Packages &
+                                    Gross
+                                    Weight</th>
+                                <th rowspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
+                                    Condition of Package
+                                </th>
+                                <th rowspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
+                                    Freight Pre Paid/ to
+                                    Pay (Amount)</th>
+
+                                <th rowspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
+                                    Remarks</th>
+
+                                <th rowspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">Name &
+                                    Sign. Of CRDS
+                                    Officer</th>
+
                             </tr>
 
                             <tr>
                                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">No</td>
                                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">Date</td>
                             </tr>
-                            <tr>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">2</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">3</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">4</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">5</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">6</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">7</td>
-                            </tr>
-
-                            <tr>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">13-08-2024</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">Vendor</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">Delhivery</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">0001/1111/13-08-2024</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">10-08-2024</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"
-                        style="margin-top: 5rem">
-                        <tbody>
-                            <tr>
-
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 10px;">No. of
-                                    Packages &
-                                    Gross
-                                    Weight</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 10px;">Condition of Package
-                                </th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 10px;">Freight Pre Paid/ to
-                                    Pay (Amount)</th>
-
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 10px;">Remarks</th>
-
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 10px;">Name & Sign. Of CRDS
-                                    Officer</th>
-
-                            </tr>
-
-
-                            <tr>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">8</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">9</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">10</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">11</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">12</td>
-
-
-
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">100 & 500kg</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">OK</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">Prepaid</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;">test</td>
-                                <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-
-
-
-                            </tr>
+                            @if (count($trafficControls) > 0)
+                                @foreach ($trafficControls as $key => $trafficControl)
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{ $trafficControl->tcr_number }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->lr_rr_awb_bl_app_rpp_number ?? 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->lr_rr_awb_bl_app_rpp_date ? date('d-m-Y', strtotime($trafficControl->lr_rr_awb_bl_app_rpp_date)) : 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{$trafficControl->vendor ? $trafficControl->vendor->name : 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{$trafficControl->transport ? $trafficControl->transport->name : 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">   {{$trafficControl->supplyOrder ? $trafficControl->supplyOrder->order_number : 'N/A'}} & {{ $trafficControl->supplyOrder ? date('d-m-Y', strtotime($trafficControl->supplyOrder->date)) : 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->date_of_collection_of_stores ? date('d-m-Y', strtotime($trafficControl->date_of_collection_of_stores)) : 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->no_of_package ?? 'N/A'}} & {{ $trafficControl->gross_weight ?? 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->condition_of_package ?? 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->amount ?? 'N/A'}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->remarks ?? 'N/A' }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="12" class="text-center">No Data Found</td>
+                                </tr>
+                                    @endif
                         </tbody>
                     </table>
                 </td>
