@@ -253,41 +253,148 @@
     <form action="{{ route('credit-vouchers.store') }}" method="POST" id="credit-vouchers-create-form">
         @csrf
         <div class="row">
-            <div class="form-group col-md-4 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Receipt & Inspection Note (RIN)</label>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Receipt & Inspection Note (RIN)</label>
+                            </div>
+                            <div class="col-md-12">
+                                    <select class="form-control rin" name="rin" id="rin1">
+                                        <option value="">Select</option>
+                                        @foreach ($rins as $key => $rin)
+                                            <option value="{{ $key }}">{{ $key }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                            <select class="form-control rin" name="rin[]" id="rin1">
-                                <option value="">Select</option>
-                                @foreach ($rins as $key => $rin)
-                                    <option value="{{ $key }}">{{ $key }}
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control" name="voucher_date" id="voucher_date_1"
+                                    max="{{ date('Y-m-d') }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Inventory Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="inv_no" id="inv_no">
+                                    <option value="">Select</option>
+                                    @foreach ($inventoryNumbers as $inventoryNumber)
+                                    <option value="{{ $inventoryNumber->id }}"
+                                        data-hidden-value="{{ $inventoryNumber->inventory_type }}">
+                                        {{ $inventoryNumber->number }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2 member_div" hidden id="member_div">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-md-12">
+                                <label>Inventory Holder Name</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="member_id[]" id="member_id">
+                                    <option value="">Select Name</option>
+                                    @foreach ($members as $member)
+                                    <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2 project_div" hidden id="project_div">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-md-12">
+                                <label>Inventory Project Name</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="project_id[]" id="project_id">
+                                    <option value="">Select Name</option>
+                                    @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">{{ $project->project_name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Order Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="order_type[]" id="order_type">
+                                    <option value="">Select</option>
+                                    <option value="rs">RS</option>
+                                    <option value="rv">RV</option>
+                                    <option value="crv">CRV</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Cost Debatable to Budget Head</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="cost_debatable[]" id="cost_debatable" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supply Order Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="supply_order_no[]" id="supply_order_no">
+                                    <option value="">Select</option>
+                                    @foreach ($supplyOrders as $supplyOrder)
+                                    <option value="{{ $supplyOrder->id }}">{{ $supplyOrder->order_number }}
                                     </option>
-                                @endforeach
-                            </select>
-                        <span class="text-danger"></span>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 count-class" id="receipt-and-inspection">
+                        @include('inventory.credit-vouchers.rin')
+                    
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-4 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Voucher Date</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="date" class="form-control" name="voucher_date" id="voucher_date_1"
-                            max="{{ date('Y-m-d') }}">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 count-class" id="receipt-and-inspection">
-                @include('inventory.credit-vouchers.rin')
-               
-            </div>
-            
-            <div class="col-md-2">
+
+                    
+            <div class="col-md-3">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Save</button>
                 </div>

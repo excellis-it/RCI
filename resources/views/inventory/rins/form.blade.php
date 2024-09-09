@@ -381,12 +381,8 @@
                                 <label>Supply Order No</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
-                                    <option value="">Select Supply Order No</option>
-                                    @foreach($supply_orders as $supply_order)
-                                        <option value="{{ $supply_order->order_number }}" >{{ $supply_order->order_number }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="supply_order_no[]" id="supply_order_no"  
+                                    placeholder="" readonly >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
