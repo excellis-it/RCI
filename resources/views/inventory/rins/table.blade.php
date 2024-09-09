@@ -20,7 +20,7 @@
             <td>{{ $rin->nc_status ?? 'N/A'}}</td>
             <td>{{ $rin->au_status ?? 'N/A'}}</td> --}}
             <td class="sepharate">
-                <a data-route="{{route('rins.edit', $rin->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+                {{-- <a data-route="{{route('rins.edit', $rin->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
                 <a href="{{ route('rins.report', $rin->id)}}" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $rin->id }}"><i class="fa fa-print"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('item-code-types.delete', $rin->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>

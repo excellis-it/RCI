@@ -50,7 +50,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    SIR NO: &nbsp; {{ $creditVoucher->id ?? 'N/A' }}
+                                    SIR NO: &nbsp; {{ $get_sir->sirNo->sir_no ?? 'N/A' }}
                                 </td>
                                 <td colspan="2"
                                     style="
@@ -78,7 +78,8 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    RIN NO: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['rin_no']   ?? 'N/A' }}
+                   
+                                    RIN NO: &nbsp;   {{ $singleData[$creditVoucher->voucher_no]['rin_no']  ?? 'N/A' }}
                                 </td>
                                 <td
                                     style="
@@ -92,7 +93,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    CRV NO: &nbsp; {{ $creditVoucher->voucher_no  ?? 'N/A' }}
+                                    CRV NO: &nbsp; 
                                 </td>
                             </tr>
                             <tr>
@@ -108,7 +109,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    SIR DATE: &nbsp; {{ date('d-m-Y') }}
+                                    SIR DATE: &nbsp; {{ $get_sir->sirNo->sir_date ?? 'N/A' }}
                                 </td>
                                 <td colspan="2"
                                     style="

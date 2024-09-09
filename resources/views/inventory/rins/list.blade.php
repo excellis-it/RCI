@@ -271,6 +271,23 @@
             });
         });
     </script>
+
+    <script>
+        $('#gst').change(function() {
+                var gst = parseFloat($(this).val()); // Get the GST value
+                var total_unit_cost = parseFloat($('#total_cost').val()); // Get the total cost
+
+                if (!isNaN(gst) && !isNaN(total_unit_cost)) {
+                    // Calculate the total amount
+                    var gst_amount = (total_unit_cost * gst / 100);
+                    var total_amount = total_unit_cost + (total_unit_cost * gst / 100);
+
+                    // Display the total amount (you can choose your target element)
+                    $('#total_amount').val(total_amount.toFixed(2));
+                    $('#gst_amount').val(gst_amount.toFixed(2));
+                }
+        });
+        </script>
     <script>
         $(document).ready(function(){
             // Function to update difference

@@ -959,6 +959,8 @@ Route::middleware('permssions')->group(function () {
 
             //rins routes
             Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');
+            
+            
 
             //gate pass report
             Route::get('/gate-pass-report/{id}', [InventoryReportController::class, 'gatePassReport'])->name('gate-passes.report');
@@ -1052,6 +1054,8 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [RinController::class, 'delete'])->name('rins.delete');
             });
             Route::post('/get-item-description', [RinController::class, 'getItemDescription'])->name('rins.get-item-description');
+
+            Route::post('/rins-total-reports/{id}', [RinController::class, 'rinsTotalValue'])->name('rins.get-total-amount');
 
             //supply-orders
             Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');

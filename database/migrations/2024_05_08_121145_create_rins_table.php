@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('rins', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('item_id')->nullable();
+            
+            $table->string('sir_no')->nullable();
+            $table->string('sir_date')->nullable();
+            $table->unsignedBigInteger('inventory_id')->nullable();
+            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->string('supply_order_no')->nullable();
             $table->string('rin_no')->nullable();
+            $table->unsignedBigInteger('item_id')->nullable();
             $table->string('description')->nullable();
             $table->string('received_quantity')->nullable();
             $table->string('accepted_quantity')->nullable();
@@ -24,8 +30,8 @@ return new class extends Migration
             $table->string('au_status')->nullable();
             $table->string('unit_cost')->nullable();
             $table->string('total_cost')->nullable();
-            $table->unsignedBigInteger('vendor_id')->nullable();
-            $table->string('supply_order_no')->nullable();
+            $table->string('gst')->nullable();
+            $table->string('gst_amount')->nullable();
             $table->timestamps();
         });
     }

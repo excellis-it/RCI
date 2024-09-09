@@ -18,4 +18,31 @@ class Rin extends Model
     {
         return $this->belongsTo(ItemCode::class, 'item_id');
     }
+
+    public function sirNo()
+    {
+        return $this->belongsTo(InventorySir::class, 'sir_no');
+    }
+
+    public function vendorDetail()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+    public function inventoryNo()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'inventory_id');
+    }
+
+    public function supplyOrder()
+    {
+        return $this->belongsTo(SupplyOrder::class, 'supply_order_no');
+    }
+
+    public function gst()
+    {
+        return $this->belongsTo(GstPercentage::class, 'gst');
+    }
+
+    // public function supply
 }

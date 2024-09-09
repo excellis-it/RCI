@@ -164,7 +164,7 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->price = $request->price[$key] ?? null;
                     $creditVoucherDetail->quantity = $request->quantity[$key] ?? null;
                     $creditVoucherDetail->supply_order_no = $request->supply_order_no[$key] ?? null;
-                    $creditVoucherDetail->rin = $request->rin[$key] ?? null;
+                    $creditVoucherDetail->rin = $request->rin ?? null;
                     $creditVoucherDetail->member_id = $request->member_id[$key] ?? null;
                     $creditVoucherDetail->order_type = $request->order_type[$key] ?? null;
                     $creditVoucherDetail->tax = $request->tax[$key] ?? null;

@@ -17,6 +17,7 @@ use App\Models\TransferVoucher;
 use App\Models\ConversionVoucher;
 use App\Models\GatePass;
 use App\Models\InventoryNumber;
+use App\Models\InventoryProject;
 use App\Models\ItemCode;
 use App\Models\SecurityGateStore;
 use App\Models\TrafficControl;
@@ -31,6 +32,8 @@ class ReportController extends Controller
         $creditVoucher = CreditVoucher::where('id', $request->id)->first();
         $creditVoucherDetails = CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('rins', 'inventoryProjects', 'members', 'itemCodes')->get();
 
+        $singleCreditVoucher =  CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('inventoryProjects', 'members', 'itemCodes')->first();
+        $get_sir = Rin::where('rin_no',$singleCreditVoucher->rin)->first();
         // result array to store the credit voucher details
         $result = [];
         $singleData = [];
@@ -72,8 +75,8 @@ class ReportController extends Controller
                 $total += (float)$totalCost;
 
             $singleData[$creditVoucher->voucher_no] = [
-                'rin_no' => $detail->rins->rin_no ?? 'N/A',
-                'rin_date' => $detail->rins->created_at ?? 'N/A',
+                'rin_no' => $detail->rin ?? 'N/A',
+                'rin_date' =>  $rin_date->created_at ?? 'N/A',
                 'consignor' => $detail->consigner ?? 'N/A',
                 'member_name' => $detail->members->name ?? 'N/A',
                 'cost_debatable' => $detail->cost_debatable ?? 'N/A',
@@ -82,13 +85,14 @@ class ReportController extends Controller
             ];
 
             $itemCount++;
+            }
         }
-    }
 
+        // return $singleData;
 
         // dd($itemCount);
 
-        $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount'));
+        $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount','singleCreditVoucher','get_sir'));
         return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
     }
 
@@ -236,7 +240,11 @@ class ReportController extends Controller
         $rin = Rin::findOrFail($id);
         $all_items = Rin::where('rin_no', $rin->rin_no)->get();
         $total_item = count($all_items);
-        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin', 'all_items', 'total_item'));
+        $inventory_no = InventoryNumber::where('id',$rin->inventory_id)->first();
+        $project = InventoryProject::where('id',$inventory_no->inventory_project_id)->first();
+        // $gst = GstPercentage::where('id',)
+
+        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin', 'all_items', 'total_item','project'));
         return $pdf->download('rin.pdf');
     }
 

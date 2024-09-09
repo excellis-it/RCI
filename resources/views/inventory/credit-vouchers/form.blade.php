@@ -259,7 +259,7 @@
                         <label>Receipt & Inspection Note (RIN)</label>
                     </div>
                     <div class="col-md-12">
-                            <select class="form-control rin" name="rin[]" id="rin1">
+                            <select class="form-control rin" name="rin" id="rin1">
                                 <option value="">Select</option>
                                 @foreach ($rins as $key => $rin)
                                     <option value="{{ $key }}">{{ $key }}

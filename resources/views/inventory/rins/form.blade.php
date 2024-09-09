@@ -405,6 +405,85 @@
 @else
     <form action="{{ route('rins.store') }}" method="POST" id="rins-create-form">
         @csrf
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>SIR No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="sir_no" >
+                                    <option value="">Select SIR No </option>
+                                    @foreach ($sir_nos as $sir_no)
+                                        <option value="{{ $sir_no->id }}">{{ $sir_no->sir_no }}</option>
+                                        
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Inventory No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="inventory_no" >
+                                    <option value="">Select Inventory No </option>
+                                    @foreach ($inventory_nos as $inventory_no)
+                                        <option value="{{ $inventory_no->id }}">{{ $inventory_no->number }}</option>
+                                        
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supplier Detail</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="vendor_id" id="vendor_id">
+                                    <option value="">Select Supplier</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}" >{{ $vendor->name }} ({{ $vendor->phone }})</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Supply Order No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="supply_order_no" id="supply_order_no">
+                                    <option value="">Select Supply Order No</option>
+                                    @foreach($supply_orders as $supply_order)
+                                        <option value="{{ $supply_order->id }}" >{{ $supply_order->order_number }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+        </div>
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
@@ -414,7 +493,7 @@
                                 <label>Item Code  </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_id[]" id="item_id">
+                                <select class="form-select" name="item_id[]" id="item_id" >
                                     <option value="">Select Item Code </option>
                                     @foreach ($items as $item)
                                         <option value="{{ $item->id }}">{{ $item->code }}</option> 
@@ -449,28 +528,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    {{-- <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Accepted Quantity</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control accepted_quantity" name="accepted_quantity[]" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Rejected Quantity</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control rejected_quantity" name="rejected_quantity[]" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div> --}}
+                    
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -499,7 +557,7 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Total Cost</label>
+                                <label>Total Unit Cost</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="total_cost[]" id="total_cost"  
@@ -508,6 +566,52 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="gst[]" id="gst">
+                                    <option value="">Select Gst</option>
+                                    @foreach($gsts as $gst)
+                                    <option value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Gst Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="gst_amount[]" id="gst_amount"  
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Total Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="total_amount[]" id="total_amount"  
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -524,9 +628,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    
+
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -542,39 +644,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supplier Detail</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="vendor_id[]" id="vendor_id">
-                                    <option value="">Select Supplier</option>
-                                    @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}" >{{ $vendor->name }} ({{ $vendor->phone }})</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supply Order No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
-                                    <option value="">Select Supply Order No</option>
-                                    @foreach($supply_orders as $supply_order)
-                                        <option value="{{ $supply_order->order_number }}" >{{ $supply_order->order_number }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="row">
+                    
                     <div class="col-md-2 ms-auto">
                         <div class="add-more form-group mt-4">
                             <a href="javascript:void(0);" class="listing_add add-more-rin"><i
@@ -646,28 +718,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    {{-- <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Accepted Quantity</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="accepted_quantity[]" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Rejected Quantity</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="rejected_quantity[]" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div> --}}
+                    
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -686,7 +737,7 @@
                                 <label>Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control unit_cost" name="unit_cost[]" id="unit_cost"  
+                                <input type="text" class="form-control" name="unit_cost[]" id="unit_cost"  
                                     placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
@@ -696,10 +747,53 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Total Cost</label>
+                                <label>Total Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control total_cost" name="total_cost[]" id="total_cost"  
+                                <input type="text" class="form-control" name="total_cost[]" id="total_cost"  
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="gst[]" id="gst">
+                                    <option value="">Select Gst</option>
+                                    @foreach($gsts as $gst)
+                                    <option value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Gst Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="gst_amount[]" id="gst_amount"  
+                                    placeholder="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Total Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="total_amount[]" id="total_amount"  
                                     placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
@@ -721,9 +815,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -739,41 +830,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supplier Detail</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="vendor_id[]" id="vendor_id">
-                                    <option value="">Select Supplier</option>
-                                    @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}" >{{ $vendor->name }} ({{ $vendor->phone }})</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supply Order No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="supply_order_no[]" id="supply_order_no">
-                                    <option value="">Select Supply Order No</option>
-                                    @foreach($supply_orders as $supply_order)
-                                        <option value="{{ $supply_order->order_number }}" >{{ $supply_order->order_number }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
+                </div>
+                <div class="row">
+                   
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
                         <button class="listing_add w-100 trash form-control"><i class="fa fa-times"></i></button>

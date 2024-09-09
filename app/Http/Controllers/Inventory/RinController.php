@@ -8,6 +8,9 @@ use App\Models\Rin;
 use App\Models\ItemCode;
 use App\Models\SupplyOrder;
 use App\Models\Vendor;
+use App\Models\InventoryNumber;
+use App\Models\InventorySir;
+use App\Models\GstPercentage;
 use DB;
 
 class RinController extends Controller
@@ -27,8 +30,16 @@ class RinController extends Controller
         $items = ItemCode::all();
         $vendors = Vendor::orderBy('id','desc')->get();
         $supply_orders = SupplyOrder::all();
+        $sir_nos = InventorySir::where('status', 1)->orderBy('id','desc')->get();
+        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id','desc')->get();
+        $gsts = GstPercentage::orderBy('id','desc')->get();
 
-        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders'));
+        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders','sir_nos','inventory_nos','gsts'));
+    }
+
+    public function rinsTotalValue()
+    {
+
     }
 
 
@@ -95,22 +106,30 @@ class RinController extends Controller
             $rin_id = 'RIN' . str_pad(1, 4, '0', STR_PAD_LEFT);
         }
 
+        $sir_detail = InventorySir::where('id',$request->sir_no)->first();
+
         if($request->item_id){
            foreach($request->item_id as $key => $item){
                 $rin = new Rin();
+                $rin->sir_no = $request->sir_no;
+                $rin->sir_date = $sir_detail->sir_date;
+                $rin->inventory_id = $request->inventory_no;
                 $rin->rin_no = $rin_id;
                 $rin->item_id = $item;
                 $rin->description = $request->description[$key];
                 $rin->received_quantity = $request->received_quantity[$key];
-                $rin->accepted_quantity = $request->accepted_quantity[$key];
-                $rin->rejected_quantity = $request->rejected_quantity[$key];
+                // $rin->accepted_quantity = $request->accepted_quantity[$key];
+                //$rin->rejected_quantity = $request->rejected_quantity[$key];
                 $rin->remarks = $request->remarks[$key];
-                $rin->unit_cost = $request->unit_cost [$key];
+                $rin->unit_cost = $request->unit_cost[$key];
                 $rin->total_cost = $request->total_cost[$key];
                 $rin->nc_status = $request->nc_status[$key];
                 $rin->au_status = $request->au_status[$key];
-                $rin->vendor_id = $request->vendor_id[$key];
-                $rin->supply_order_no = $request->supply_order_no[$key];
+                $rin->gst = $request->gst[$key];
+                $rin->gst_amount = $request->gst_amount[$key];
+                $rin->total_amount = $request->total_amount[$key];
+                $rin->vendor_id = $request->vendor_id;
+                $rin->supply_order_no = $request->supply_order_no;
                 $rin->save();
            }
         }
@@ -169,7 +188,7 @@ class RinController extends Controller
                     $rin->nc_status = $request->nc_status[$key];
                     $rin->au_status = $request->au_status[$key];
                     $rin->vendor_id = $request->vendor_id[$key];
-                    $rin->supply_order_no = $request->supply_order_no[$key];
+                    $rin->supply_order_no = $request->supply_order_no;
                     $rin->save();
                 }
             }
