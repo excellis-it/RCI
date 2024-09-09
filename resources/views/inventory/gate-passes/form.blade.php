@@ -90,7 +90,7 @@
                                 <select class="form-select search-select-box" name="consignee" id="consignee">
                                     <option value="">Select</option>
                                     @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                        <option value="{{ $vendor->id }}">{{ $vendor->user_name }}</option>
                                     @endforeach
                                     <option value="0">Other</option>
                                 </select>
