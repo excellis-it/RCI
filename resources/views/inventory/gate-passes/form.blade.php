@@ -134,6 +134,36 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Gate Pass Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                 <input type="date" class="form-control" name="pass_date" id="pass_date"  max="{{ date('Y-m-d') }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Gate Pass Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="pass_type" id="pass_type">
+                                    <option value="">Select Gate Pass Type</option>
+                                    <option value="returnable">Returnable</option>
+                                    <option value="non-returnable">Non-Returnable</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
                     {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

@@ -59,12 +59,30 @@ class GatePassController extends Controller
             'item_code_id' => 'required'
         ]);
 
+        if($request->consignee == '0')
+        {
+            $user = new User();
+            $user->user_name = $request->consignee_other_name;
+            $user->phone =  $request->consignee_other_number;
+            $user->save();
+
+            $user->assignRole('MATERIAL-MANAGER');
+
+        }
+
         $gatepass = new GatePass();
-        $gatepass->item_code_id = $request->item_code_id;
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
         $gatepass->gate_pass_type = $request->pass_type;
+        if($request->consignee == 0){
+            $gatepass->consignee_id = $user->id;
+        }else{
+            $gatepass->consignee_id = $request->consignee;
+        }
         $gatepass->save();
+
+        // gatepass items
+
 
         return redirect()->route('gate-passes.index')->with('success', 'Gate Pass created successfully.');
     }
