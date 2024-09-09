@@ -65,16 +65,16 @@ Credit Vouchers
                                     <thead class="text-white fs-4 bg_blue">
                                         <tr>
                                             <th>ID</th>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="code"
-                                                style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
+                                            {{-- <th class="sorting" data-sorting_type="desc" data-column_name="code"
+                                                style="cursor: pointer">Item Code <span id="code_icon"></span> </th> --}}
                                             <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
                                                 style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
                                                 style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
-                                                style="cursor: pointer">Inv. No.<span id="inv_no_icon"></span> </th>
+                                            {{-- <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
+                                                style="cursor: pointer">Rin No.<span id="inv_no_icon"></span> </th> --}}
 
                                             <th class="sorting" data-sorting_type="desc" data-column_name="price"
                                                 style="cursor: pointer">Price <span id="price_icon"><i
@@ -357,44 +357,50 @@ Credit Vouchers
 </script>
 
 <script>
-  function getInvDetail(getval) {
+    // function getInvDetail(getval) {
 
-    // alert(getval);
-    var selectedValue = $(getval).find(':selected');
-    var inv_type = selectedValue.data('hidden-value');
-    // Find the closest parent .row that wraps the form elements to limit the scope of searching
-    var $row = $(getval).closest('.row');
+    //     // alert(getval);
+    //     var selectedValue = $(getval).find(':selected');
+    //     var inv_type = selectedValue.data('hidden-value');
+    //     // Find the closest parent .row that wraps the form elements to limit the scope of searching
+    //     var $row = $(getval).closest('.row');
+        
+    //     // Select the divs with classes
+    //     var memberDiv = $row.find('.member_div');
+    //     var projectDiv = $row.find('.project_div');
     
-    // Select the divs with classes
-    var memberDiv = $row.find('.member_div');
-    var projectDiv = $row.find('.project_div');
-   
-    // Show or hide based on the selected inventory type
-    if (inv_type === 'Individual') {
-        memberDiv.prop('hidden', false); // Show member div
-        projectDiv.prop('hidden', true);  // Hide project div
-    } else if (inv_type === 'Project') {
-        memberDiv.prop('hidden', true);  // Hide member div
-        projectDiv.prop('hidden', false); // Show project div
-    } else {
-        memberDiv.prop('hidden', true);  // Hide both if neither condition is met
-        projectDiv.prop('hidden', true);
-    }
-}
+    //     // Show or hide based on the selected inventory type
+    //     if (inv_type === 'Individual') {
+    //         memberDiv.prop('hidden', false); // Show member div
+    //         projectDiv.prop('hidden', true);  // Hide project div
+    //     } else if (inv_type === 'Project') {
+    //         memberDiv.prop('hidden', true);  // Hide member div
+    //         projectDiv.prop('hidden', false); // Show project div
+    //     } else {
+    //         memberDiv.prop('hidden', true);  // Hide both if neither condition is met
+    //         projectDiv.prop('hidden', true);
+    //     }
+    // }
 
-        // $(document).ready(function () {
-        //     $('#inv_no').change(function(){
-        //         var selectedValue = $(this).find(':selected');
-        //         var inv_type = selectedValue.data('hidden-value');
-        //         var hiddenDiv = $('#member_div');
+        $(document).ready(function () {
+            $('#inv_no').change(function(){
+                var selectedValue = $(this).find(':selected');
+                var inv_type = selectedValue.data('hidden-value');
+                var memberDiv = $('#member_div');
+                var projectDiv = $('#project_div');
                 
-        //         if (inv_type === 'Individual') {
-        //             hiddenDiv.prop('hidden', false); // Show the div
-        //         } else {
-        //             hiddenDiv.prop('hidden', true); // Hide the div
-        //         }
-        //     });
-        // });
+                if (inv_type === 'Individual') {
+                    memberDiv.prop('hidden', false); // Show member div
+                    projectDiv.prop('hidden', true);  // Hide project div
+                } else if (inv_type === 'Project') {
+                    memberDiv.prop('hidden', true);  // Hide member div
+                    projectDiv.prop('hidden', false); // Show project div
+                } else {
+                    memberDiv.prop('hidden', true);  // Hide both if neither condition is met
+                    projectDiv.prop('hidden', true);
+                }
+            });
+        });
 </script>
 
 <script>
@@ -407,12 +413,12 @@ Credit Vouchers
                 // var total_price = price + (price * tax / 100);
                 // $('#total_price').val(total_price);
                 var price = parseInt($row.find('.price').val()) || 0;
-                var tax = parseInt($row.find('.tax').val()) || 0;
-                var tax_amt = price * tax / 100;
+                // var tax = parseInt($row.find('.tax').val()) || 0;
+                // var tax_amt = price * tax / 100;
                 var disc_percent = parseInt($row.find('.disc_percent').val()) || 0; 
                 var disc_amt = price * disc_percent / 100;
-                var gst_percent = parseInt($row.find('.gst_percent').val()) || 0;
-                var gst_amount = price * gst_percent / 100;
+                // var gst_percent = parseInt($row.find('.gst_percent').val()) || 0;
+                // var gst_amount = price * gst_percent / 100;
                 var actual_price = price + tax_amt;
                 var discounted_price = actual_price - disc_amt;
                 var actual_price_gst = actual_price + gst_amount;
@@ -429,7 +435,7 @@ Credit Vouchers
             }
         
             // Bind change event to input fields
-            $(document).on('keyup change', '.price, .tax, .disc_percent, .gst_percent', function() {
+            $(document).on('keyup change', '.price, .tax, .disc_percent', function() {
                 updateTotalPrice(this);
             });
 

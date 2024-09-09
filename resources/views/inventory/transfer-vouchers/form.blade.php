@@ -189,7 +189,7 @@
                                 <select class="form-control" name="item_code_id" id="item_code_id">
                                     <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
-                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
+                                        <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->item_code_id }}({{ $item->total_quantity }})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

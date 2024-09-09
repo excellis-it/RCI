@@ -11,7 +11,7 @@ class Rin extends Model
 
     public function creditVoucherDetail()
     {
-        return $this->hasOne(CreditVoucherDetail::class);
+        return $this->hasOne(CreditVoucherDetail::class, 'rin', 'rin_no');
     }
 
     public function itemCode()

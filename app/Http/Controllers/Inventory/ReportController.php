@@ -77,6 +77,7 @@ class ReportController extends Controller
             $singleData[$creditVoucher->voucher_no] = [
                 'rin_no' => $detail->rin ?? 'N/A',
                 'rin_date' =>  $rin_date->created_at ?? 'N/A',
+                'item_type' => $detail->item_type ?? 'N/A',
                 'consignor' => $detail->consigner ?? 'N/A',
                 'member_name' => $detail->members->name ?? 'N/A',
                 'cost_debatable' => $detail->cost_debatable ?? 'N/A',

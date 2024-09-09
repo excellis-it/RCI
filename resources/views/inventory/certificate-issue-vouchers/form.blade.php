@@ -179,9 +179,9 @@
                                     <option value="">Select Item Code </option>
                                     @foreach ($itemCodes as $item)
                                         @if ($item->total_quantity > 0)
-                                            <option value="{{ $item->item_code_id }}"
-                                                data-hidden-value="{{ $item->total_quantity }}">
-                                                {{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
+                                        <option value="{{ $item->item_code_id }}"
+                                            data-hidden-value="{{ $item->total_quantity }}">
+                                            {{ $item->item_code_id }}({{ $item->total_quantity }})</option>
                                         @endif
                                     @endforeach
                                 </select>

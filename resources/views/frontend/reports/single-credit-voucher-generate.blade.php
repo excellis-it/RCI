@@ -442,7 +442,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['nc_status']  ?? 'N/A' }}
+                                        {{  $creditDetail['item_type']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
