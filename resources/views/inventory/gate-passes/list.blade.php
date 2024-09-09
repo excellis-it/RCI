@@ -257,4 +257,22 @@
         search: true
     });
 </script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#consignee').change(function(){
+            var consignee = $('#consignee').val();
+            if(consignee == '0')
+            {
+                $('.consignee_other_name').show();
+                $('.consignee_other_number').show();
+            }else{
+                $('.consignee_other_name').hide();
+                $('.consignee_other_number').hide();
+            }    
+        });
+    });
+
+</script>
 @endpush

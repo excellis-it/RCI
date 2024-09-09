@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GatePass;
 use App\Models\ItemCode;
+use App\Models\User;
 
 class GatePassController extends Controller
 {
@@ -16,7 +17,8 @@ class GatePassController extends Controller
     {
         $gatePasses = GatePass::paginate(10);
         $itemCodes = ItemCode::orderBy('id','desc')->get();
-        return view('inventory.gate-passes.list', compact('gatePasses','itemCodes'));
+        $vendors = User::role('MATERIAL-MANAGER')->get();
+        return view('inventory.gate-passes.list', compact('gatePasses','itemCodes','vendors'));
     }
 
     public function fetchData(Request $request)
@@ -82,9 +84,10 @@ class GatePassController extends Controller
     {
         $gatepass = GatePass::findOrFail($id);
         $itemCodes = ItemCode::orderBy('id','desc')->get();
+        $vendors = User::role('MATERIAL-MANAGER')->get();
         $edit = true;
 
-        return response()->json(['view' => view('inventory.gate-passes.form', compact('gatepass', 'edit','itemCodes'))->render()]);
+        return response()->json(['view' => view('inventory.gate-passes.form', compact('gatepass', 'edit','itemCodes','vendors'))->render()]);
 
         // return view('inventory.gate-passes.form', compact('gatepass', 'edit'));
     }
