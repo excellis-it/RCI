@@ -44,5 +44,15 @@ class Rin extends Model
         return $this->belongsTo(GstPercentage::class, 'gst');
     }
 
+    public function authority()
+    {
+        return $this->belongsTo(User::class, 'authority_id');
+    }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'desig_id');
+    }
+
     // public function supply
 }
