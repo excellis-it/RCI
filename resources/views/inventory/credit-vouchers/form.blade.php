@@ -309,7 +309,7 @@
                                 <label>Inventory Holder Name</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="member_id[]" id="member_id">
+                                <select class="form-control" name="member_id" id="member_id">
                                     <option value="">Select Name</option>
                                     @foreach ($members as $member)
                                     <option value="{{ $member->id }}">{{ $member->name }}</option>
@@ -325,7 +325,7 @@
                                 <label>Inventory Project Name</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="project_id[]" id="project_id">
+                                <select class="form-control" name="project_id" id="project_id">
                                     <option value="">Select Name</option>
                                     @foreach ($projects as $project)
                                     <option value="{{ $project->id }}">{{ $project->project_name }}</option>
@@ -342,7 +342,7 @@
                                 <label>Order Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="order_type[]" id="order_type">
+                                <select class="form-control" name="order_type" id="order_type">
                                     <option value="">Select</option>
                                     <option value="rs">RS</option>
                                     <option value="rv">RV</option>
@@ -359,7 +359,7 @@
                                 <label>Cost Debatable to Budget Head</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="cost_debatable[]" id="cost_debatable" value=""
+                                <input type="text" class="form-control" name="cost_debatable" id="cost_debatable" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -372,7 +372,7 @@
                                 <label>Supply Order Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="supply_order_no[]" id="supply_order_no">
+                                <select class="form-control" name="supply_order_no" id="supply_order_no">
                                     <option value="">Select</option>
                                     @foreach ($supplyOrders as $supplyOrder)
                                     <option value="{{ $supplyOrder->id }}">{{ $supplyOrder->order_number }}
@@ -386,7 +386,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-12 count-class" id="receipt-and-inspection">
+                    <div class="col-md-12" id="receipt-and-inspection">
                         @include('inventory.credit-vouchers.rin')
                     
                     </div>

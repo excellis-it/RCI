@@ -43,6 +43,9 @@ class ReportController extends Controller
 
         $result['voucher_no'] = $creditVoucher->voucher_no;
         $result['voucher_date'] = $creditVoucher->voucher_date;
+        $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name;
+        $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address;
+        
 
         if ($creditVoucherDetails) {
 
@@ -55,7 +58,7 @@ class ReportController extends Controller
                 $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
                     'rin_no' => $detail->rin ?? 'N/A',
                     'rin_date' => $rin_date->created_at ?? 'N/A',
-                    'consigner' => $detail->consigner ?? 'N/A',
+                    'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
                     'cost_debatable' => $detail->cost_debatable ?? 'N/A',
                     'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
                     'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
@@ -67,7 +70,9 @@ class ReportController extends Controller
                     'nc_status' => $detail->rins->nc_status ?? 'N/A',
                     'au_status' => $detail->rins->au_status ?? 'N/A',
                     'rate' => $price ?? 'N/A',
-                    'tax' => $detail->tax ?? 'N/A',
+                    'tax' => $detail->rins->gst ?? 'N/A',
+                    'disc_percent' => $detail->disc_percent ?? 'N/A',
+                    'disc_amt' => $detail->disc_amt ?? 'N/A',
                     'total_cost' => $totalCost ?? 'N/A',
                 ];
 
@@ -91,7 +96,7 @@ class ReportController extends Controller
 
         // return $singleData;
 
-        // dd($itemCount);
+        // dd($result);
 
         $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount','singleCreditVoucher','get_sir'));
         return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');

@@ -11,7 +11,7 @@ class CreditVoucherDetail extends Model
 
     public function rins()
     {
-        return $this->belongsTo(Rin::class, 'rin');
+        return $this->belongsTo(Rin::class, 'rin', 'rin_no');
     }
 
     public function inventoryProjects()
