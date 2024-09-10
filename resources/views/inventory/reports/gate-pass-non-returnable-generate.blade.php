@@ -77,13 +77,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Consignee: ................................................................... <br>
-                                    ......................................................................................
-                                    <br>
-                                    ....................................................................................
-                                    <br>
-                                    ....................................................................................
-                                    <br>
+                                    Consignee:{{ $gatePass->consignee->user_name ?? '' }} 
 
 
                                 </td>
@@ -95,7 +89,7 @@
                                 padding: 0px 5px 30px 5px;
                                 margin: 0px 0px 30px 0px; ">
 
-                                    Pass No.:........(pre-printed) <br>
+                                    Pass No.:{{ $gatePass->gate_pass_no ?? '' }}  <br>
                                     Book No. :.......(pre-printed) <br>
                                     Date:. {{ $date ?? '' }}
                                 </td>
@@ -110,7 +104,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Probable Date of Return.........................
+                                    Probable Date of Return.{{ $gatePass->date_of_return ?? 'N/A' }} 
 
 
                                 </td>
@@ -139,7 +133,7 @@
                                 text-align: left;
                                 padding: 0px 0px 10px 0px;
                                 ">
-                                    ICC No.: ...................
+                                    ICC No.: {{ $gatePass->inventoryNumber->number ?? 'N/A' }}
                                 </td>
 
                             </tr>
@@ -172,14 +166,24 @@
                                 <th style=" border: 1px solid black; font-size: 12px;">A/U</th>
                                 <th style=" border: 1px solid black; font-size: 12px;">Qty.</th>
                             </tr>
+
+                            @php
+                            $total_item = 0;
+                            @endphp
+                            @foreach($gate_pass_items as $key => $gate_pass_item)
                             <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">1.</td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gatePass->itemCode->code ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;"></td>
-                            </tr>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $key + 1 }}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->itemDetail->item_name ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->description ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->au_status ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->quantity ?? ''}}</td>
+
+                            @php
+                                $total_item +=  $key;
+                            @endphp
                            
+                            </tr>
+                            @endforeach
 
                         </tbody>
                     </table>

@@ -275,4 +275,100 @@
     });
 
 </script>
+
+<script>
+    // add new row
+        $(document).ready(function() {
+            $(document).on('click', '.add-more-gate-pass', function() {
+                var tr = $('#gate_pass_new_html').html();
+                $('#credit_form_add_new_row').append(tr);
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+        });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#item_id').change(function() {
+            var item_code_id = $(this).val();
+            $.ajax({ 
+                url: "{{ route('rins.get-item-description')}}",
+                type: 'POST',
+                data: {
+                    id: item_code_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $('#description').val(response.description);
+                    $('#unit_cost').val(response.price);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).on('keyup', '#received_quantity, #unit_cost', function() {
+        let receivedQuantity = parseFloat($('#received_quantity').val()) || 0;
+        let unitCost = parseFloat($('#unit_cost').val()) || 0;
+        let total = receivedQuantity * unitCost;
+        $('#total_amount').val(total.toFixed(2));
+    });
+
+</script>
+
+<script>
+       
+    $(document).ready(function() {
+        function calculateTotalCost($row) {
+            var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
+            var unitCost = parseFloat($row.find('.unit_price').val()) || 0;
+            var totalCost = received * unitCost;
+            $row.find('.total_cost').val(totalCost.toFixed(2));
+        }
+
+        $(document).on('input', '.rcv_quantity, .unit_price', function() {
+            var $row = $(this).closest('.count-class'); 
+            calculateTotalCost($row); 
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $(document).on('change', '.item_id', function() {
+            var item_code_id = $(this).val();
+            var $this = $(this); 
+            var $row = $this.closest('.count-class');
+
+            $.ajax({
+                url: "{{ route('rins.get-item-description') }}",
+                type: 'POST',
+                data: {
+                    id: item_code_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    
+                    // Update the description in the same row
+                    $row.find('.description').val(response.description);
+                    $row.find('.unit_price').val(response.price);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+    });
+    </script>
 @endpush

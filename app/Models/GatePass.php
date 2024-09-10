@@ -14,4 +14,14 @@ class GatePass extends Model
     {
         return $this->belongsTo(ItemCode::class, 'item_code_id');
     }
+
+    public function consignee()
+    {
+        return $this->belongsTo(User::class, 'consignee_id');
+    }
+
+    public function inventoryNumber()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'invoice_no');
+    }
 }

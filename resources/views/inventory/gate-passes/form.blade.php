@@ -63,6 +63,8 @@
                             </div>
                         </div>
                     </div>
+
+                    
                 </div>
             </div>
             <div class="col-md-2">
@@ -81,6 +83,59 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Gate Pass No. </label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="pass_no" id="pass_no" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Gate Pass Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                 <input type="date" class="form-control" name="pass_date" id="pass_date"  max="{{ date('Y-m-d') }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Probable Date Of Return</label>
+                            </div>
+                            <div class="col-md-12">
+                                 <input type="date" class="form-control" name="date_of_return" id="date_of_return" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Invoice No.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="invoice_no" id="invoice_no">
+                                    <option value="">Select Invoice No</option>
+                                    @foreach($inventory_nos as $inventory_no)
+                                    <option value="{{ $inventory_no->id }}">{{ $inventory_no->number }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -123,31 +178,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Gate Pass No. </label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="pass_no" id="pass_no" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-5 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Gate Pass Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                 <input type="date" class="form-control" name="pass_date" id="pass_date"  max="{{ date('Y-m-d') }}">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Gate Pass Type</label>
@@ -162,29 +193,104 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
 
-
-                    {{-- <div class="form-group col-md-5 mb-2">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code</label>
+                                <label>Item Code  </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select search-select-box" name="item_code_id" id="item_code_id" >
-                                    <option value="">Select</option>
-                                    @foreach ($itemCodes as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->code }} ({{ $item->item_name }})</option>
+                                <select class="form-select item_id" name="item_id[]" id="item_id" >
+                                    <option value="">Select Item Code </option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}">{{ $item->code }}</option> 
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
-                   
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control description" name="description[]" id="description" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Unit Cost</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="unit_cost[]" id="unit_cost">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label> Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="received_quantity[]" id="received_quantity">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label> Total Cost</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="total_amount[]" id="total_amount">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>A/U Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status[]" id="au_status">
+                                    <option value="">Select A/U Status</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 ms-auto">
+                        <div class="add-more form-group mt-4">
+                            <a href="javascript:void(0);" class="listing_add add-more-gate-pass"><i
+                                    class="fas fa-plus-circle"></i> Add More</a>
+                        </div>
+                    </div>
                 </div>
+                <div id="credit_form_add_new_row"></div>
             </div>
+
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
@@ -195,4 +301,101 @@
             </div>
         </div>
     </form>
+
+    <div id="gate_pass_new_html" hidden>
+        <div class="new_html">
+            <hr />
+            <div class="col-md-12 count-class">
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code  </label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select item_id" name="item_id[]" id="" >
+                                    <option value="">Select Item Code </option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}">{{ $item->code }}</option> 
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control description" name="description[]" id="description" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Unit Cost</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control unit_price" name="unit_cost[]" id="" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control rcv_quantity" name="received_quantity[]" id="received_quantity" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label> Total Cost</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control total_cost" name="total_amount[]" id="total_cost" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>A/U Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status[]" id="au_status">
+                                    <option value="">Select A/U Status</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 ms-auto">
+                        <label>&nbsp;</label>
+                        <button type="button" class="listing_add w-100 trash form-control add-more">
+                            <i class="fa fa-cross">x</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
 @endif

@@ -224,7 +224,7 @@ class RinController extends Controller
     public function getItemDescription(Request $request)
     {
         $item = ItemCode::find($request->id);
-        return response()->json(['description' => $item->description]);
+        return response()->json(['description' => $item->description, 'price' => $item->item_price]);
     }
 
     

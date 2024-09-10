@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('gate_pass_id')->nullable();
             $table->unsignedInteger('item_id')->nullable();
-            $table->string('au_status')->nullable();
+            $table->string('description')->nullable();
+            $table->string('unit_cost')->nullable();
             $table->string('quantity')->nullable();
             $table->string('total_cost')->nullable();
+            $table->string('au_status')->nullable();
             $table->timestamps();
         });
     }

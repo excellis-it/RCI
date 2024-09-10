@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('gate_passes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('item_code_id')->unsigned()->nullable();
+            $table->bigInteger('invoice_no')->unsigned()->nullable();
             $table->string('gate_pass_no')->nullable();
             $table->date('gate_pass_date')->nullable();
+            $table->date('date_of_return')->nullable();
             $table->bigInteger('consignee_id')->unsigned()->nullable();
             $table->string('consignee_name')->nullable();
             $table->string('consignee_phone')->nullable();

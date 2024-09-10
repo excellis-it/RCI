@@ -5,7 +5,8 @@
             <td>{{ $gatePass->gate_pass_no ?? 'N/A'}}</td>
             <td>{{ $gatePass->gate_pass_date ?? 'N/A'}}</td>
             <td>{{ ucfirst($gatePass->gate_pass_type) ?? 'N/A'}}</td>
-            <td class="sepharate"><a data-route="{{route('gate-passes.edit', $gatePass->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+            <td class="sepharate">
+                {{-- <a data-route="{{route('gate-passes.edit', $gatePass->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
                 <a href="{{ route('gate-passes.report', $gatePass->id)}}" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $gatePass->id }}"><i class="fa fa-print"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('gate-passes.delete', $gatePass->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>

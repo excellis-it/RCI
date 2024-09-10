@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\GatePass;
 use App\Models\ItemCode;
 use App\Models\User;
+use App\Models\InventoryNumber;
+use App\Models\GatePassItem;
 
 class GatePassController extends Controller
 {
@@ -16,9 +18,11 @@ class GatePassController extends Controller
     public function index()
     {
         $gatePasses = GatePass::paginate(10);
-        $itemCodes = ItemCode::orderBy('id','desc')->get();
+        $items = ItemCode::orderBy('id','desc')->get();
         $vendors = User::role('MATERIAL-MANAGER')->get();
-        return view('inventory.gate-passes.list', compact('gatePasses','itemCodes','vendors'));
+        $inventory_nos = InventoryNumber::orderBy('id','desc')->get();
+
+        return view('inventory.gate-passes.list', compact('gatePasses','items','vendors','inventory_nos'));
     }
 
     public function fetchData(Request $request)
@@ -55,15 +59,15 @@ class GatePassController extends Controller
         $request->validate([
             'pass_no' => 'required|unique:gate_passes,gate_pass_no',
             'pass_date' => 'required',
-            'pass_type' => 'required',
-            'item_code_id' => 'required'
+            'pass_type' => 'required'
         ]);
 
         if($request->consignee == '0')
         {
             $user = new User();
-            $user->user_name = $request->consignee_other_name;
-            $user->phone =  $request->consignee_other_number;
+            $user->user_name = $request->other_consignee_name;
+            $user->phone =  $request->other_consignee_number;
+            $user->password =  '';
             $user->save();
 
             $user->assignRole('MATERIAL-MANAGER');
@@ -74,6 +78,8 @@ class GatePassController extends Controller
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
         $gatepass->gate_pass_type = $request->pass_type;
+        $gatepass->invoice_no = $request->invoice_no;
+        $gatepass->date_of_return = $request->date_of_return;
         if($request->consignee == 0){
             $gatepass->consignee_id = $user->id;
         }else{
@@ -82,9 +88,21 @@ class GatePassController extends Controller
         $gatepass->save();
 
         // gatepass items
+        foreach ($request->item_id as $key => $value) {
+                   
+            $get_pass_item = new GatePassItem();
+            $get_pass_item->gate_pass_id = $gatepass->id;
+            $get_pass_item->item_id = $value;
+            $get_pass_item->description = $request->description[$key];
+            $get_pass_item->unit_cost = $request->unit_cost[$key];
+            $get_pass_item->quantity = $request->received_quantity[$key];
+            $get_pass_item->total_cost = $request->total_amount[$key];
+            $get_pass_item->au_status = $request->au_status[$key];
+            $get_pass_item->save();
+        }
 
-
-        return redirect()->route('gate-passes.index')->with('success', 'Gate Pass created successfully.');
+        session()->flash('message', 'Gate Pass added successfully');
+        return response()->json(['success' => 'Gate Pass added successfully']);
     }
 
     /**
