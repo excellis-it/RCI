@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('inventory_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->string('supply_order_no')->nullable();
+            $table->unsignedBigInteger('authority_id')->nullable();
+            $table->unsignedBigInteger('desig_id')->nullable();
             $table->string('rin_no')->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
             $table->string('description')->nullable();

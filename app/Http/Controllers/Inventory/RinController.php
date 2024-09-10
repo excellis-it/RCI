@@ -11,6 +11,8 @@ use App\Models\Vendor;
 use App\Models\InventoryNumber;
 use App\Models\InventorySir;
 use App\Models\GstPercentage;
+use App\Models\User;
+use App\Models\Designation;
 use DB;
 
 class RinController extends Controller
@@ -33,8 +35,10 @@ class RinController extends Controller
         $sir_nos = InventorySir::where('status', 1)->orderBy('id','desc')->get();
         $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id','desc')->get();
         $gsts = GstPercentage::orderBy('id','desc')->get();
+        $authorities = User::role('MATERIAL-MANAGER')->get();
+        $designations = Designation::orderBy('id', 'desc')->paginate(10);
 
-        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders','sir_nos','inventory_nos','gsts'));
+        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders','sir_nos','inventory_nos','gsts','authorities','designations'));
     }
 
     public function rinsTotalValue()
@@ -114,6 +118,8 @@ class RinController extends Controller
                 $rin->sir_no = $request->sir_no;
                 $rin->sir_date = $sir_detail->sir_date;
                 $rin->inventory_id = $request->inventory_no;
+                $rin->authority_id = $request->authority_id;
+                $rin->desig_id = $request->authority_designation;
                 $rin->rin_no = $rin_id;
                 $rin->item_id = $item;
                 $rin->description = $request->description[$key];
