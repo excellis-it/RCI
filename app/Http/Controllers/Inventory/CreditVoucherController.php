@@ -157,16 +157,16 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail = new CreditVoucherDetail();
                     $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
                     $creditVoucherDetail->item_code_id = $value ?? null;
-                    $creditVoucherDetail->inv_no = $request->inv_no[$key] ?? null;
+                    $creditVoucherDetail->inv_no = $request->inv_no ?? null;
                     $creditVoucherDetail->description = $request->description[$key] ?? null;
                     $creditVoucherDetail->uom = $request->uom_id[$key] ?? null;
                     $creditVoucherDetail->item_type = $request->item_type[$key] ?? null;
                     $creditVoucherDetail->price = $request->price[$key] ?? null;
                     $creditVoucherDetail->quantity = $request->quantity[$key] ?? null;
-                    $creditVoucherDetail->supply_order_no = $request->supply_order_no[$key] ?? null;
+                    $creditVoucherDetail->supply_order_no = $request->supply_order_no ?? null;
                     $creditVoucherDetail->rin = $request->rin ?? null;
-                    $creditVoucherDetail->member_id = $request->member_id[$key] ?? null;
-                    $creditVoucherDetail->order_type = $request->order_type[$key] ?? null;
+                    $creditVoucherDetail->member_id = $request->member_id ?? null;
+                    $creditVoucherDetail->order_type = $request->order_type ?? null;
                     $creditVoucherDetail->tax = $request->tax[$key] ?? null;
                     $creditVoucherDetail->tax_amt = $request->tax_amt[$key] ?? null;
                     $creditVoucherDetail->disc_percent = $request->disc_percent[$key] ?? null;
@@ -175,6 +175,7 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->gst_amt = $request->gst_amt[$key] ?? null;
                     $creditVoucherDetail->total_price = $request->total_price[$key] ?? null;
                     $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
+                    $creditVoucherDetail->cost_debatable = $request->cost_debatable ?? null;
                     $creditVoucherDetail->save();
 
                    

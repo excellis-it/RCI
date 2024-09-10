@@ -93,7 +93,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    CRV NO: &nbsp; 
+                                    CRV NO: &nbsp; {{ $result['voucher_no'] ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
@@ -166,9 +166,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
-                    ">
+                    ">  
                                     Consignor's Name & address: M/S. &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['consignor']  ?? 'N/A' }}
+                                    {{ Str::ucfirst($result['consigner_name'])  ?? 'N/A' }} & {{ $result['consigner_Address']  ?? 'N/A' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -208,7 +208,7 @@
                                     Cost Debatable to Budget Head: &nbsp;
                                     {{ $singleData[$creditVoucher->voucher_no]['cost_debatable']  ?? 'N/A' }} <br />
                                 </td>
-                                <td colspan="3"
+                                <td colspan="5"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -341,6 +341,32 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
+                                    Disc %
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Disc Amt
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
                                     Total Cost <br />
                                     (Rs.)
                                 </td>
@@ -384,7 +410,7 @@
                                     Remarks
                                 </td>
                             </tr>
-                            @php $index = 1; @endphp
+                            @php $index = 1; $total_amt = 0; @endphp
                             @foreach ($result[$creditVoucher->voucher_no] as $key => $creditDetail)
                                 <tr>
                                     <td
@@ -399,9 +425,10 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                    @php $index++; @endphp
+                    
                                         {{ $index  ?? 'N/A' }}
                                     </td>
+                                    @php $index++; @endphp
                                     <td
                                         style="
                       font-size: 10px;
@@ -442,7 +469,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['item_type']  ?? 'N/A' }}
+                                        {{  $creditDetail['nc_status']  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -512,7 +539,42 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['total_cost']  ?? 'N/A' }}
+                                        {{ $creditDetail['disc_percent']  ?? 'N/A' }}%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['disc_amt']  ?? 'N/A' }}
+                                    </td>
+                                    @php 
+                                        if($creditDetail['disc_amt'] == 0) {
+                                            $totalCost = $creditDetail['rate'] * $creditDetail['quantity'];
+                                        } else {
+                                            $totalCost = $creditDetail['total_cost'] * $creditDetail['quantity'];
+                                        }
+                                    @endphp
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{  $totalCost  ?? 'N/A' }}
                                     </td>
                                     <td
                                         style="
@@ -557,6 +619,9 @@
                                         {{  $creditDetail['remarks']  ?? 'N/A' }}
                                     </td>
                                 </tr>
+                                @php 
+                                    $total_amt += $totalCost;
+                                @endphp
                             @endforeach
 
                             
@@ -575,7 +640,7 @@
                                     Total Number Number of Items:
                                     <span style="text-align: right">{{ $itemCount ?? 'N/A'  }}</span>
                                 </td>
-                                <td colspan="5"
+                                <td colspan="7"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -589,6 +654,7 @@
                                     Total Item Cost (Rs.)
                                     <span style="text-align: right">{{ $totalItemCost  ?? 'N/A' }}/-</span>
                                 </td>
+                                
                                 <td colspan="4"
                                     style="
                       font-size: 10px;
@@ -600,7 +666,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    {{ $total }}/-
+                                    {{ $total_amt }}/-
                                 </td>
                             </tr>
                             <tr>
@@ -625,9 +691,9 @@
                                 @php
                                       use App\Helpers\Helper;
 
-                                      $words = Helper::convert($total);
+                                      $words = Helper::convert($total_amt);
                                 @endphp
-                                <td colspan="5"
+                                <td colspan="7"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -652,7 +718,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    {{ $total  ?? 'N/A' }}/-
+                                    {{ $total_amt  ?? 'N/A' }}/-
                                 </td>
                                 <td
                                     style="
@@ -680,7 +746,7 @@
                       border-left: 1px solid #000;
                     ">
                                 </td>
-                                <td colspan="9"
+                                <td colspan="11"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -722,7 +788,7 @@
                     ">
                                     I/ c. Ledger
                                 </td>
-                                <td
+                                <td colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -733,7 +799,7 @@
                       margin: 0px 0px !important;
                       border-right: 1px solid #000;
                     ">
-                                    I/c. Ledger Accounting
+                                    I/c. Ledger <br>Accounting
                                 </td>
                             </tr>
                             <tr>
@@ -763,7 +829,7 @@
                       height: 10px;
                     ">
                                 </td>
-                                <td
+                                <td colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -804,7 +870,7 @@
                       height: 10px;
                     ">
                                 </td>
-                                <td
+                                <td  colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -844,7 +910,7 @@
                     ">
                                     SSO-II
                                 </td>
-                                <td
+                                <td colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -885,7 +951,7 @@
                       height: 10px;
                     ">
                                 </td>
-                                <td
+                                <td colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -926,7 +992,7 @@
                       height: 10px;
                     ">
                                 </td>
-                                <td
+                                <td colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -968,7 +1034,7 @@
                     ">
                                     Date:
                                 </td>
-                                <td
+                                <td colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;

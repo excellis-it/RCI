@@ -1,7 +1,7 @@
 @if (isset($set_rins))
 @if (count($rins) > 0)
 @foreach ($rins as $rin)
-<div class="row">
+<div class="row count-class">
     {{-- @dd($rin->itemCode) --}}
     <div class="form-group col-md-4 mb-2">
         <div class="row align-items-center">

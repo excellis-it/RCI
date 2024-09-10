@@ -234,7 +234,7 @@ Credit Vouchers
                     success: function(response) {
                        
                         //windows load with toastr message
-                        //window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                        
@@ -419,23 +419,23 @@ Credit Vouchers
                 var disc_amt = price * disc_percent / 100;
                 // var gst_percent = parseInt($row.find('.gst_percent').val()) || 0;
                 // var gst_amount = price * gst_percent / 100;
-                var actual_price = price + tax_amt;
-                var discounted_price = actual_price - disc_amt;
-                var actual_price_gst = actual_price + gst_amount;
-                var discounted_price_gst = discounted_price + gst_amount;
-                $row.find('.tax_amt').val(tax_amt);
-                $row.find('.gst_amt').val(gst_amount);
-                if(discounted_price == 0) {
+                // var actual_price = price + tax_amt;
+                var discounted_price = price - disc_amt;
+                // var actual_price_gst = actual_price + gst_amount;
+                // var discounted_price_gst = discounted_price + gst_amount;
+                // $row.find('.tax_amt').val(tax_amt);
+                // $row.find('.gst_amt').val(gst_amount);
+                if(disc_amt == 0) {
                     $row.find('.disc_amt').val(0);
-                    $row.find('.total_price').val(actual_price_gst);
+                    $row.find('.total_price').val(price);
                 } else {
                     $row.find('.disc_amt').val(disc_amt);
-                    $row.find('.total_price').val(discounted_price_gst);
+                    $row.find('.total_price').val(discounted_price);
                 }
             }
         
             // Bind change event to input fields
-            $(document).on('keyup change', '.price, .tax, .disc_percent', function() {
+            $(document).on('keyup', '.price, .disc_percent', function() {
                 updateTotalPrice(this);
             });
 
