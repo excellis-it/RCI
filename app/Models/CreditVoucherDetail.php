@@ -26,6 +26,6 @@ class CreditVoucherDetail extends Model
 
     public function itemCodes()
     {
-        return $this->belongsTo(ItemCode::class, 'item_code_id');
+        return $this->belongsTo(ItemCode::class, 'item_code');
     }
 }

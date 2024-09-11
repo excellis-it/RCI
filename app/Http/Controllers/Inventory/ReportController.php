@@ -104,7 +104,7 @@ class ReportController extends Controller
 
     public function debitVoucherGenerate(Request $request)
     {
-
+        
         // Fetch the debit voucher and associated details
         $debitVoucher = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->first();
         $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
@@ -128,7 +128,7 @@ class ReportController extends Controller
             // Find the matching credit detail
             $matchingCreditDetail = null;
             foreach ($creditVoucherDetails as $creditDetail) {
-                if ($detail->item_id == $creditDetail->item_code_id) { // Ensure the correct item code ID is being checked
+                if ($detail->item_id == $creditDetail->item_code) { // Ensure the correct item code ID is being checked
                     $matchingCreditDetail = $creditDetail;
                     break; // Stop the loop once we find a match
                 }

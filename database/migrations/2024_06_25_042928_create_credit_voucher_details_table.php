@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('credit_voucher_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('credit_voucher_id')->unsigned()->nullable();
+            $table->string('item_code')->nullable();
             $table->string('item_code_id')->nullable();
             $table->bigInteger('inv_no')->unsigned()->nullable();  
             $table->string('description')->nullable();

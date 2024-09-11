@@ -64,23 +64,17 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting"  data-column_name="code"
-                                                    style="cursor: pointer">Inv. No.<span id="code_icon"></span> </th>
-                                                <th class="sorting"  data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                    style="cursor: pointer">Quantity<span id="voucher_number_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
-                                                    style="cursor: pointer">Voucher Date<span id="quantity_icon"><i
+                                                style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="remarks" data-column_name="remarks"
-                                                    style="cursor: pointer">Remarks<span id="remarks_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
-                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
+                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_type"
+                                                    style="cursor: pointer">Voucher Type<span id="voucher_type_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting"  data-column_name="inv_no"
+                                                    style="cursor: pointer">Inv. No.<span id="inv_no_icon"></span> </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -409,7 +403,7 @@
                     });
                     
                     // Enable the item code input
-                    $('#item_code_id').prop('disabled', false);
+                   $('#item_code_id').prop('disabled', false);
 
                     // Make the AJAX call
                     $.ajax({
@@ -459,7 +453,7 @@
     <script>
         $(document).on('change', '#inv_no_1', function() {
             var inv_no = $(this).val();
-            $('#item_code_id_1').prop('disabled', false);
+           $('#item_code_id_1').prop('disabled', false);
             $('.inv_no').each(function() {
                 $(this).val(inv_no);
             });
@@ -481,7 +475,7 @@
                         console.log(creditVoucher);
                         var itemCode = creditVoucher.item_codes.code;
                         var itemName = creditVoucher.item_codes.item_name;
-                        var itemCodeId = creditVoucher.item_code_id;
+                        var itemCodeId = creditVoucher.item_code;
                         var totalQuantity = creditVoucher.total_quantity;
                         var itemType = creditVoucher.item_codes.item_type;
                         var itemDescription = creditVoucher.item_codes.description;

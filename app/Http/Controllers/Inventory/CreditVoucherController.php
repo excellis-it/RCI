@@ -156,6 +156,7 @@ class CreditVoucherController extends Controller
                    
                     $creditVoucherDetail = new CreditVoucherDetail();
                     $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
+                    $creditVoucherDetail->item_code = $request->item_code_id[$key] ?? null;
                     $creditVoucherDetail->item_code_id = $value ?? null;
                     $creditVoucherDetail->inv_no = $request->inv_no ?? null;
                     $creditVoucherDetail->description = $request->description[$key] ?? null;

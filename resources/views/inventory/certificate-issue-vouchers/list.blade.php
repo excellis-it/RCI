@@ -345,6 +345,114 @@
     });
 </script>
 
+<script>
+    // inventory no to get inventory holder name ajax 
+    $(document).ready(function() {
+        $('#inv_no').change(function() {
+            var inventory_no = $(this).val();
+            $.ajax({
+                url: "{{ route('certificate-issue-vouchers.get-inventory-holder') }}",
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    inventory_no: inventory_no
+                },
+                
+                success: function(response) {
+                    $('#inventory_holder').val(response.inventoryHolder.member.user_name);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+    });
+    </script>
+
+<script>
+    // add new row
+        $(document).ready(function() {
+            $(document).on('click', '.add-more-civ', function() {
+                var tr = $('#civ_new_html').html();
+                $('#credit_form_add_new_row').append(tr);
+
+                if($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+        });
+</script>
+
+<script>
+    $(document).ready(function() {
+            // Handle item code change event dynamically
+            $(document).on('change', '.item_id', function() {
+                var item_code_id = $(this).val();
+                var $this = $(this); // Reference to the selected item
+
+                // Get the row containing this item
+                var $row = $this.closest('.count-class');
+
+                $.ajax({
+                    url: "{{ route('rins.get-item-description') }}",
+                    type: 'POST',
+                    data: {
+                        id: item_code_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Update the description in the same row
+                        $row.find('.description').val(response.description);
+                        $row.find('.item_price').val(response.price);
+
+                        // quantity fetch
+                        var selectedValue = $(this).find(':selected');
+                        var quantity = selectedValue.data('hidden-value');
+                        // var quantityDiv = $('#quantity');
+                        
+                        var quantityDivSelectBox = [];
+                        quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+                        for (var i = 1; i <= quantity; i++) {
+                            quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+                        }
+
+                        $row.find('.quantity').empty();
+                        $row.find('.quantity').append(quantityDivSelectBox.join(''));
+                       
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle "Add More" functionality
+            $(document).on('click', '.add-more', function() {
+                // Clone the first row of fields
+                var $clone = $('#rins_new_html .new_html').first().clone();
+                $clone.find('input, select').val(''); // Clear input fields in the cloned row
+                $clone.appendTo('#rins_new_html').show(); // Append the new row to the form and display it
+            });
+            });
+
+</script>
+
 
   
 @endpush

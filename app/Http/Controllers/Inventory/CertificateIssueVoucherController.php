@@ -24,11 +24,18 @@ class CertificateIssueVoucherController extends Controller
         
         $members = User::role('MATERIAL-MANAGER')->get();
         $inventoryNumbers = InventoryNumber::all();
-        $itemCodes = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $itemCodes = CreditVoucherDetail::groupBy('item_code','item_code_id')->select('item_code','item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $certificateIssueVouchers = CertificateIssueVoucher::paginate(10);
 
         return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers','inventoryNumbers'));
 
+    }
+
+    public function getInventoryHolder(Request $request)
+    {
+       
+         $inventoryHolder = InventoryNumber::where('id', $request->inventory_no)->with('member')->latest()->first();
+        return response()->json(['inventoryHolder' => $inventoryHolder]);
     }
 
     public function fetchData(Request $request)
@@ -49,7 +56,7 @@ class CertificateIssueVoucherController extends Controller
             ->paginate(10);
 
             $members = Member::all();
-            $items = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $items = CreditVoucherDetail::groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity'))->get();
 
             return response()->json(['data' => view('inventory.certificate-issue-vouchers.table', compact('certificateIssueVouchers', 'members', 'items'))->render()]);
         }
@@ -106,7 +113,7 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher->save();
 
         // credit voucher quantity reduce
-        $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_id)->get();
+        $creditVoucher = CreditVoucherDetail::where('item_code', $request->item_id)->get();
 
         foreach ($creditVoucher as $credit) {
             if ($credit->quantity >= $request->quantity) {
@@ -142,7 +149,7 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher = CertificateIssueVoucher::findOrFail($id);
         $edit = true;
         $members = Member::all();
-        $items = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $items = CreditVoucherDetail::groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity'))->get();
 
         return response()->json(['view' => view('inventory.certificate-issue-vouchers.form', compact('certificateIssueVoucher', 'edit', 'members', 'items'))->render()]);
     }
@@ -171,8 +178,9 @@ class CertificateIssueVoucherController extends Controller
         return response()->json(['success' => 'Certificate Issue Voucher updated successfully']);
     }
 
-    public function getItemType(Request $request)
+    public function getItemDetail(Request $request)
     {
+    
         $item = ItemCode::findOrFail($request->item_id);
         return response()->json(['item_type' => $item->item_type, 'item_description' => $item->description, 'item_price' => $item->item_price]);
     }

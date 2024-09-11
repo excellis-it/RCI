@@ -76,12 +76,12 @@ Credit Vouchers
                                             {{-- <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
                                                 style="cursor: pointer">Rin No.<span id="inv_no_icon"></span> </th> --}}
 
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="price"
+                                            {{-- <th class="sorting" data-sorting_type="desc" data-column_name="price"
                                                 style="cursor: pointer">Price <span id="price_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
                                                 style="cursor: pointer">Quantity<span id="quantity_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                        class="fa fa-arrow-down"></i></span> </th> --}}
                                             {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"
                                                 style="cursor: pointer">Supply Order No. <span id="sono_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>

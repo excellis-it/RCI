@@ -12,6 +12,7 @@ use App\Models\InventoryType;
 use App\Models\InventoryNumber;
 use App\Models\DebitVoucherDetail;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DebitVoucherController extends Controller
 {
@@ -45,10 +46,10 @@ class DebitVoucherController extends Controller
                 $debitVoucherQuery->where(function($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
                     ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhereHas('itemCode', function ($q) use ($query) {
-                        $q->where('code', 'like', '%' . $query . '%');
-                    })
-                    ->orWhere('quantity', 'like', '%' . $query . '%');
+                   // inventory number
+                    ->orWhereHas('inventoryNumber', function($queryBuilder) use ($query) {
+                        $queryBuilder->where('inv_no', 'like', '%' . $query . '%');
+                    });
                 });
             }
 
@@ -82,17 +83,44 @@ class DebitVoucherController extends Controller
      */
     public function store(Request $request)
     {
+
         $itemQuantity = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         $request->validate([
-            'inv_no' => 'required',
-            'item_code_id' => 'required',
-            'voucher_no' => 'required|unique:debit_vouchers,voucher_no',
+            'inv_no' => 'required'
         ]);
-        // $creditVoucher = CreditVoucherDetail::whereIn('item_code_id', $request->item_code_id)->where('inv_no', $request->inv_no)->get();
+
+        //voucher no
+        $currentDate = date('Y-m-d');
+        $resetDate = date('Y') . '-04-01';
+        $resetDateTimestamp = Carbon::createFromFormat('Y-m-d', $resetDate)->subDay()->endOfDay();
+
+        // If the current date is before the reset date, get the reset date for the previous year
+        if ($currentDate < $resetDate) {
+            $resetDate = (date('Y') - 1) . '-04-01';
+            $resetDateTimestamp = Carbon::createFromFormat('Y-m-d', $resetDate)->subDay()->endOfDay();
+        }
+
+        // Get the last voucher number that was created before the reset date
+        $lastVoucher1 = DebitVoucher::where('created_at', '<', $resetDateTimestamp)
+            ->orderBy('voucher_no', 'desc')
+            ->first();
+
+        if ($lastVoucher1) {
+            $lastVoucher = $lastVoucher1;
+        } else {
+            $lastVoucher = DebitVoucher::latest()->first();
+        }
+
+        // If there are no vouchers yet, or if the last voucher was created before the reset date, start with 0001, otherwise increment the last voucher number
+        $voucherNo = $lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1;
+
+        // Pad the voucher number with leading zeros to ensure it's always 4 digits
+        $voucherNo = str_pad($voucherNo, 4, '0', STR_PAD_LEFT);
+        
 
         $debitVoucher = new DebitVoucher();
         $debitVoucher->inv_no = $request->inv_no;
-        $debitVoucher->voucher_no = $request->voucher_no;
+        $debitVoucher->voucher_no = $voucherNo;
         $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->voucher_type = $request->voucher_type;
 
@@ -112,13 +140,13 @@ class DebitVoucherController extends Controller
 
             // Process each group of items by item code
             foreach ($itemsByCode as $itemCode => $items) {
-                $creditVouchers = CreditVoucherDetail::where('item_code_id', $itemCode)
+                $creditVouchers = CreditVoucherDetail::where('item_code', $itemCode)
                     ->where('inv_no', $request->inv_no)
                     ->orderBy('id', 'asc') // Assuming you want to reduce from the oldest records first
                     ->get();
 
                 // Group credit vouchers by item code
-                $creditVouchersByCode = $creditVouchers->groupBy('item_code_id');
+                $creditVouchersByCode = $creditVouchers->groupBy('item_code');
 
                 foreach ($items as $item) {
                     // Create DebitVoucherDetail for each item
@@ -256,7 +284,9 @@ class DebitVoucherController extends Controller
 
     public function getItemsByInvNo(Request $request)
     {
-        $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->where('inv_no', $request->inv_no)->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->with('itemCodes')->get();
+
+        
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity'))->with('itemCodes')->get();
         // dd($creditVouchers);
         return response()->json(['creditVouchers' => $creditVouchers]);
     }

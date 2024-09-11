@@ -128,6 +128,34 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Voucher date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" name="voucher_date" class="form-control" value="{{ now()->format('Y-m-d') }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="voucher_type" id="voucher_type_1" onchange="getVoucherType(this)">
+                                    <option value="">Select</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="voucher">Voucher</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Inv. No.</label>
                             </div>
                             <div class="col-md-12">
@@ -141,6 +169,14 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -170,8 +206,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -184,34 +219,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no_1" value=""
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="voucher_date" id="voucher_date_1" value="{{ now()->format('Y-m-d') }}"
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                
                 <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -227,21 +236,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="voucher_type" id="voucher_type_1" onchange="getVoucherType(this)">
-                                    <option value="">Select</option>
-                                    <option value="transfer">Transfer</option>
-                                    <option value="voucher">Voucher</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -280,7 +275,7 @@
             <hr />
             <div class="col-md-12 count-class">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Inv. No.</label>
@@ -295,7 +290,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -316,6 +311,19 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Item Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_desc[]" id="item_desc" value=""
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Item Type</label>
                             </div>
                             <div class="col-md-12">
@@ -327,19 +335,8 @@
                     </div> 
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Desc</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="item_desc[]" id="item_desc" value=""
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
+                   
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Number</label>
@@ -350,10 +347,10 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                    
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Date</label>
@@ -364,7 +361,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
@@ -381,7 +378,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Type</label>
@@ -395,7 +392,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">

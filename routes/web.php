@@ -897,6 +897,9 @@ Route::middleware('permssions')->group(function () {
                 'security-gate-stores' => SecurityGateStoresController::class,
             ]);
 
+
+            Route::post('/inventory-holder', [CertificateIssueVoucherController::class, 'getInventoryHolder'])->name('certificate-issue-vouchers.get-inventory-holder');
+
             Route::get('/security-gate-stores-fetch-data', [SecurityGateStoresController::class, 'fetchData'])->name('security-gate-stores.fetch-data');
 
             Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
@@ -1083,7 +1086,7 @@ Route::middleware('permssions')->group(function () {
             Route::prefix('certificate-issue-vouchers')->group(function () {
                 Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
             });
-            Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemType'])->name('certificate-issue-vouchers.get-item-type');
+            Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemDetail'])->name('certificate-issue-vouchers.get-item-type');
 
             // uoms
             Route::get('/uom-fetch-data', [UomController::class, 'fetchData'])->name('uom.fetch-data');
