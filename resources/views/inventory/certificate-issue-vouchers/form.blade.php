@@ -11,6 +11,7 @@
                             <div class="col-md-12">
                                 <label>Person Name</label>
                             </div>
+
                             <div class="col-md-12">
                                 <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select Name </option>
@@ -19,6 +20,7 @@
                                             {{ $member->id == $certificateIssueVoucher->member_id ? 'selected' : '' }}>
                                             {{ $member->name }}</option>
                                     @endforeach
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -171,7 +173,7 @@
                                 <label>Item Code </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_id" id="item_id">
+                                <select class="form-select" name="item_id[]" id="item_id">
                                     <option value="">Select Item Code </option>
                                     @foreach ($itemCodes as $item)
                                         @if ($item->total_quantity > 0)
@@ -192,7 +194,7 @@
                                 <label>Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="price" id="item_price"
+                                <input type="text" class="form-control" name="price[]" id="item_price"
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -205,7 +207,7 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input class="form-control" name="description" id="description"  readonly>
+                                <input class="form-control" name="description[]" id="description"  readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -217,7 +219,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="quantity" id="quantity">
+                                <select class="form-control" name="quantity[]" id="quantity">
                                     <option value="">Select Quantity</option>
                                     
                                 </select>
@@ -231,7 +233,7 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_price" id="total_price" 
+                                <input type="text" class="form-control" name="total_price[]" id="total_price" 
                                     placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -244,7 +246,7 @@
                                 <label>A/U status</label>
                             </div>
                             <div class="col-md-12"> 
-                                <select class="form-select" name="au_status" id="au_status">
+                                <select class="form-select" name="au_status[]" id="au_status">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
@@ -260,7 +262,7 @@
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12"> 
-                                <textarea class="form-control" name="remarks" id="remarks" ></textarea>
+                                <textarea class="form-control" name="remarks[]" id="remarks" ></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -299,7 +301,7 @@
                                 <label>Item Code </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select item_id" name="item_id" id="">
+                                <select class="form-select item_id" name="item_id[]" id="">
                                     <option value="">Select Item Code </option>
                                     @foreach ($itemCodes as $item)
                                         @if ($item->total_quantity > 0)
@@ -320,7 +322,7 @@
                                 <label>Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item_price" name="price" id=""
+                                <input type="text" class="form-control item_price" name="price[]" id=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -333,7 +335,7 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input class="form-control description" name="description" id=""  readonly>
+                                <input class="form-control description" name="description[]" id=""  readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -345,7 +347,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control quantity" name="quantity" id="">
+                                <select class="form-control quantity" name="quantity[]" id="">
                                     <option value="">Select Quantity</option>
                                     
                                 </select>
@@ -359,7 +361,7 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_price" id="total_price" 
+                                <input type="text" class="form-control" name="total_price[]" id="total_price" 
                                     placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -372,7 +374,7 @@
                                 <label>A/U status</label>
                             </div>
                             <div class="col-md-12"> 
-                                <select class="form-select" name="au_status" id="au_status">
+                                <select class="form-select" name="au_status[]" id="au_status">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
@@ -388,7 +390,7 @@
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12"> 
-                                <textarea class="form-control" name="remarks" id="remarks" ></textarea>
+                                <textarea class="form-control" name="remarks[]" id="remarks" ></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
