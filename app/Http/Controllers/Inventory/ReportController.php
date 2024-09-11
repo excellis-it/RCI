@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\DebitVoucher;
-
+use App\Models\GatePassItem;
 use App\Models\Rin;
 use App\Models\DebitVoucherDetail;
 use App\Models\ExternalIssueVoucher;
@@ -232,11 +232,12 @@ class ReportController extends Controller
     {
         $date = Carbon::now();
         $gatePass = GatePass::findOrFail($id);
+        $gate_pass_items = GatePassItem::where('gate_pass_id',$id)->get();
         if ($gatePass->gate_pass_type == 'returnable') {
-            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate',compact('gatePass','date'));
+            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate',compact('gatePass','date', 'gate_pass_items'));
             return $pdf->download('returnable-gate-pass.pdf');
         } else {
-            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate',compact('gatePass','date'));
+            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate',compact('gatePass','date', 'gate_pass_items'));
             return $pdf->download('non-returnable-gate-pass.pdf');
         }
     }
@@ -257,16 +258,11 @@ class ReportController extends Controller
     public function trafficControlReport(Request $request)
     {
         $date = $request->date;
-
-        // Get data by date range created_at
         $explode = explode(' - ', $date);
         $from = Carbon::parse($explode[0])->format('Y-m-d');
         $to = Carbon::parse($explode[1])->format('Y-m-d');
 
         $trafficControls = TrafficControl::whereBetween('created_at', [$from, $to])->get();
-
-        // $pdf = PDF::loadView('inventory.reports.traffic-control-generate', compact('trafficControls', 'date'));
-        //landscape a3
         $pdf = PDF::loadView('inventory.reports.traffic-control-generate', compact('trafficControls', 'date'))->setPaper('a3', 'landscape');
 
         // Return the PDF directly for download

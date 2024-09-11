@@ -399,7 +399,8 @@
                                     <br><br>
                                     Inspection Authority/Division Officer
                                     <br>
-                                    Name <br>Designation: <br>
+                                    Name:  <span style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }} </span><br> 
+                                    Designation: <span style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
                                     Date: ____________
                                     <br><br>
                                 </td>
@@ -409,11 +410,11 @@
                                     <br><br><br><br><br><br>
                                     Inspection Authority/Division Officer
                                     <br>
-                                    Name <br> Designation: <br>
+                                    Name:  <span style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }} </span><br> 
+                                    Designation: <span style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
                                     Date: ____________
                                     <br><br>
                                 </td>
-
 
                             </tr>
                         </tbody>

@@ -1048,6 +1048,8 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
             });
 
+            
+
             //rins
             Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
             Route::prefix('rins')->group(function () {
