@@ -48,7 +48,7 @@
     <form action="{{ route('sections.store') }}" method="POST" id="sections-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row">
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
                 </div>

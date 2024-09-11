@@ -123,7 +123,7 @@
 @else
     <form action="{{ route('users.store') }}" method="POST" id="new-users-create-form">
         @csrf
-        <div class="row align-items-center">
+        <div class="row">
             <div class="col-md-10">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
