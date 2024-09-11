@@ -271,6 +271,7 @@ RIN List
                     success: function(response) {
                         // Update the description in the same row
                         $row.find('.description').val(response.description);
+                        $row.find('.units_cost').val(response.price);
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -392,12 +393,12 @@ RIN List
 <script>
     $(document).ready(function(){
         function getTotalCost() {
-            var received = parseInt($('#received_quantity').val());
-            var unit_cost = parseInt($('#unit_cost').val());
+            var received = parseInt($('#received_quantity').val()) || 0;
+            var unit_cost = parseInt($('#unit_cost').val()) || 0;
             var totalCost = received * unit_cost;
             $('#total_cost').val(totalCost);
         }
-        $('#unit_cost').keyup(getTotalCost);
+        $('#received_quantity').keyup(getTotalCost);
 
     });
 </script>
@@ -439,6 +440,7 @@ RIN List
                 },
                 success: function(response) {
                     $('#description').val(response.description);
+                    $('#unit_cost').val(response.price);
                 },
                 error: function(xhr) {
                     console.log(xhr);
