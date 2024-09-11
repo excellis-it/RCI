@@ -61,10 +61,10 @@
     <div class="form-group col-md-4 mb-2">
         <div class="row align-items-center">
             <div class="col-md-12">
-                <label>Price </label>
+                <label>Unit Price </label>
             </div>
             <div class="col-md-12">
-                <input type="text" class="form-control price" name="price[]" id="price" value="{{ $rin->itemCode->item_price }}"
+                <input type="text" class="form-control price" name="price[]" id="price" value="{{ $rin->unit_cost }}"
                     placeholder="">
                 <span class="text-danger"></span>
             </div>
@@ -101,7 +101,7 @@
     <div class="form-group col-md-4 mb-2">
         <div class="row align-items-center">
             <div class="col-md-12">
-                <label>Total Price</label>
+                <label>Total Unit Price</label>
             </div>
             <div class="col-md-12">
                 <input type="text" class="form-control total_price" name="total_price[]" id="total_price" value=""
