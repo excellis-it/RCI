@@ -94,11 +94,10 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <div class="row justify-content-end">
+                                        <label></label>
                                             <div class="form-group col-md-12 mb-2">
                                                 <button type="submit" class="listing_add">Generate</button>
                                             </div>
-                                        </div>
                                     </div>
 
                                 </div>

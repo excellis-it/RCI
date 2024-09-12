@@ -29,31 +29,38 @@
                             <div class="col-lg-12">
                                 @csrf
                                 <div class="row">
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label>Old Password</label>
-                                        <input type="password" class="form-control" value="{{old('old_password')}}" name="old_password" placeholder="">
-                                        @if ($errors->has('old_password'))
-                                            <span class="text-danger">{{ $errors->first('old_password') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label>New Password</label>
-                                        <input type="password" class="form-control" value="{{old('new_password')}}" name="new_password" placeholder="">
-                                        @if ($errors->has('new_password'))
-                                            <span class="text-danger">{{ $errors->first('new_password') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label>Confirm Password</label>
-                                        <input type="password" class="form-control" value="{{old('confirm_password')}}" name="confirm_password" placeholder="">
-                                        @if ($errors->has('confirm_password'))
-                                            <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="w-100 text-end">
-                                    <button class="print_btn" type="submit">Update</button>
-                                </div>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label>Old Password</label>
+                                                <input type="password" class="form-control" value="{{old('old_password')}}" name="old_password" placeholder="">
+                                                @if ($errors->has('old_password'))
+                                                    <span class="text-danger">{{ $errors->first('old_password') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label>New Password</label>
+                                                <input type="password" class="form-control" value="{{old('new_password')}}" name="new_password" placeholder="">
+                                                @if ($errors->has('new_password'))
+                                                    <span class="text-danger">{{ $errors->first('new_password') }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group col-md-4 mb-3">
+                                                <label>Confirm Password</label>
+                                                <input type="password" class="form-control" value="{{old('confirm_password')}}" name="confirm_password" placeholder="">
+                                                @if ($errors->has('confirm_password'))
+                                                    <span class="text-danger">{{ $errors->first('confirm_password') }}</span>
+                                                @endif
+                                           </div>
+                                          </div>
+                                      </div>
+                                     <div class="col-md-3">
+                                         <label></label>
+                                         <div class="w-100 text-end">
+                                            <button class="print_btn" type="submit">Update</button>
+                                        </div>    
+                                     </div>
+                                 </div>
 
                             </div>
                         </div>

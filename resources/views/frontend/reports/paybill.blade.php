@@ -118,21 +118,12 @@
                                             </div> 
                                         </div>
                                     </div>
-                                
-
                                     <div class="col-md-3">
-                                        <div class="row justify-content-end">
-                                            <div class="col-md-12">
-                                                <div class="row justify-content-end">
-                                                    <div class="form-group col-md-12 mb-2">
-                                                        <button type="submit" class="listing_add">Generate</button>
-                                                    </div>
-                                                    
-                                                    
-                                                </div>
-                                            </div>
+                                         <label></label> 
+                                        <div class="form-group mb-2">
+                                            <button type="submit" class="listing_add">Generate</button>
                                         </div>
-                                    </div>
+                                      </div>
                                 </div>  
                             </form>
                         </div>

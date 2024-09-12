@@ -3,7 +3,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-md-12 col-lg-6">
+            <div class="col-md-9">
                 <div class="row">
                     <div class="form-group col-md-6 mb-2">
                         <div class="row align-items-center">
@@ -36,20 +36,16 @@
 
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-12">
-                   <label>&nbsp;</label>
-                </div>
-                <div class="d-flex align-items-center">
-                    <div class="mb-1">
-                        <button type="submit" class="listing_add me-2">Update</button>
-                    </div>
-                    <div class="mb-1 ms-2">
-                        <a href="" class="listing_exit">Back</a>
-                    </div>
-                </div>
+            <div class="col-md-3">
+             <label></label>
+              <div class="mb-1">
+                 <button type="submit" class="listing_add me-2">Update</button>
+              </div>
+              <div class="mb-1">
+                <a href="" class="listing_exit">Back</a>
+              </div>
             </div>
-        </div>
+         </div>
     </form>
 @else
     <form action="{{ route('designation-types.store') }}" method="POST" id="designation-type-create-form">
@@ -89,20 +85,14 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="col-md-12">
-                                <label>&nbsp;</label>
+                <label></label>
+                <div class="mb-1">
+                    <button type="submit" class="listing_add me-2">Add</button>
                 </div>
-                <div class="d-flex align-items-center">
-                    <div class="mb-1">
-                        <button type="submit" class="listing_add me-2">Add</button>
-                    </div>
-                    <div class="mb-1 ms-2">
-                        <a href="" class="listing_exit">Back</a>
-                    </div>
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
                 </div>
-               
             </div>
-            
         </div>
     </form>
 @endif

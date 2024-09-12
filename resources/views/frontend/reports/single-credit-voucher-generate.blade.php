@@ -192,8 +192,7 @@
                       border: 1px solid #000;
                     ">
                                     Authority: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['member_name']  ?? 'N/A' }}<br />
-                                    Date: &nbsp;  {{ $creditVoucher->voucher_date ? date('d-m-Y', strtotime($creditVoucher->voucher_date)) : '' }}
-                                   
+                                    Date: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
                                 </td>
                                 <td colspan="6"
                                     style="

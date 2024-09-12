@@ -2,8 +2,8 @@
     <form action="{{ route('users.update', $user_detail->id) }}" method="POST" id="new-users-edit-form">
         @method('PUT')
         @csrf
-        <div class="row align-items-center">
-            <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-9">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -110,7 +110,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <label></label>
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
                 </div>
@@ -124,7 +125,7 @@
     <form action="{{ route('users.store') }}" method="POST" id="new-users-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -232,7 +233,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <label></label>
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
                 </div>
