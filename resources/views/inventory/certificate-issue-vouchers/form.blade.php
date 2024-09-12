@@ -11,6 +11,7 @@
                             <div class="col-md-12">
                                 <label>Person Name</label>
                             </div>
+
                             <div class="col-md-12">
                                 <select class="form-select" name="member_id" id="member_id">
                                     <option value="">Select Name </option>
@@ -19,6 +20,7 @@
                                             {{ $member->id == $certificateIssueVoucher->member_id ? 'selected' : '' }}>
                                             {{ $member->name }}</option>
                                     @endforeach
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
