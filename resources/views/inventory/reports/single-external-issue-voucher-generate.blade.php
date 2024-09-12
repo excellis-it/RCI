@@ -88,7 +88,7 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: left;">
-                                    Consignee: {{ $externalIssueVoucher->vendor->name ?? $externalIssueVoucher->other_consignee_name ?? 'N/A'}}
+                                    Consignee: {{ $externalIssueVoucher->vendor->name ?? $externalIssueVoucher->other_consignee_name ?? ''}}
                                 </td>
                                 <td style="font-size: 12px;
                                 line-height: 16px;
@@ -145,7 +145,7 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: right;">
-                                    EIV No.: {{ $externalIssueVoucher->voucher_no ?? 'N/A'}}
+                                    EIV No.: {{ $externalIssueVoucher->voucher_no ?? ''}}
                                 </td>
                                 <td style="font-size: 12px;
                                 line-height: 16px;
@@ -161,7 +161,7 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: right; padding-bottom: 30px;">
-                                    Authority of Issue:
+                                    Authority of Issue: {{ $externalIssueVoucher->authority_of_issue ?? ''}}
                                 </td>
                                 <td style="font-size: 12px;
                                 line-height: 16px;
@@ -187,13 +187,13 @@
                                 line-height: 16px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: left;">Non-Returnable Material Gate Pass No. {{ $gatepass->gate_pass_no ?? 'N/A'}}
+                                text-align: left;">Non-Returnable Material Gate Pass No. {{ $externalIssueVoucher->gatePass->gate_pass_no ?? ''}}
                                 </td>
                                 <td style="font-size: 12px;
                                 line-height: 16px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: left; padding-left: 10px;">Dt: {{ $externalIssueVoucher->voucher_date ? date('d-m-Y', strtotime($externalIssueVoucher->voucher_date)) : 'N/A' }}
+                                text-align: left; padding-left: 10px;">Dt: {{ $externalIssueVoucher->voucher_date ? date('d-m-Y', strtotime($externalIssueVoucher->voucher_date)) : '' }}
                                 </td>
                             </tr>
 
@@ -216,17 +216,26 @@
                                 <th style=" border: 1px solid black; font-size: 12px;">Cost</th>
                                 <th style=" border: 1px solid black; font-size: 12px;">Remarks</th>
                             </tr>
+                            @php
+                                $total_cost = 0
+                            @endphp
+                            @foreach($external_issue_voucher_details as $external_issue_voucher_detail)
                             <tr style="height: 250px;">
-                                <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">1.&nbsp;</td>
-                                <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">{{ $itemDesc->code ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $itemDesc->description ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->au_status ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->inventoryNumber->number ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->item_unit_price ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->quantity ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->total_price ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $externalIssueVoucher->remarks ?? ''}}</td>
+                                <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">{{ $loop->iteration }}</td>
+                                <td style=" border: 1px solid black;  padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->item->code ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->description ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->au_status ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->item->code ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->unit_price ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->quantity ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->total_cost ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 0px 5px 0px 5px; font-size: 12px;">{{ $external_issue_voucher_detail->remarks ?? ''}}</td>
                             </tr>
+
+                            @php
+                                $total_cost += $external_issue_voucher_detail->total_cost;
+                            @endphp
+                            @endforeach
 
                         </tbody>
                     </table>
@@ -249,7 +258,7 @@
                                 line-height: 16px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: left; padding-left: 10px;">Total Cost of Issue: {{ $externalIssueVoucher->total_price ?? ''}}
+                                text-align: left; padding-left: 10px;">Total Cost of Issue: {{ $total_cost ?? ''}}
                                 </td>
                             </tr>
 

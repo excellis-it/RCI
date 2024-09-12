@@ -9,6 +9,8 @@ use App\Models\ItemCode;
 use App\Models\User;
 use App\Models\InventoryNumber;
 use App\Models\GatePassItem;
+use App\Models\ExternalIssueVoucher;
+use App\Models\Vendor;
 
 class GatePassController extends Controller
 {
@@ -19,10 +21,11 @@ class GatePassController extends Controller
     {
         $gatePasses = GatePass::paginate(10);
         $items = ItemCode::orderBy('id','desc')->get();
-        $vendors = User::role('MATERIAL-MANAGER')->get();
+        $vendors = Vendor::orderBy('id','desc')->get();
         $inventory_nos = InventoryNumber::orderBy('id','desc')->get();
+        $external_issue_vouchers = ExternalIssueVoucher::orderBy('id','desc')->get();
 
-        return view('inventory.gate-passes.list', compact('gatePasses','items','vendors','inventory_nos'));
+        return view('inventory.gate-passes.list', compact('gatePasses','items','vendors','inventory_nos','external_issue_vouchers'));
     }
 
     public function fetchData(Request $request)
@@ -64,13 +67,10 @@ class GatePassController extends Controller
 
         if($request->consignee == '0')
         {
-            $user = new User();
-            $user->user_name = $request->other_consignee_name;
+            $user = new Vendor();
+            $user->name = $request->other_consignee_name;
             $user->phone =  $request->other_consignee_number;
-            $user->password =  '';
             $user->save();
-
-            $user->assignRole('MATERIAL-MANAGER');
 
         }
 
@@ -78,6 +78,7 @@ class GatePassController extends Controller
         $gatepass->gate_pass_no = $request->pass_no;
         $gatepass->gate_pass_date = $request->pass_date;
         $gatepass->gate_pass_type = $request->pass_type;
+        $gatepass->eiv_no_id = $request->eiv_no;
         $gatepass->invoice_no = $request->invoice_no;
         $gatepass->date_of_return = $request->date_of_return;
         if($request->consignee == 0){

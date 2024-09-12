@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('gate_passes', function (Blueprint $table) {
             $table->string('gate_pass_type')->nullable()->after('gate_pass_date');
+            $table->unsignedBigInteger('eiv_no_id')->nullable()->after('gate_pass_type');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('gate_passes', function (Blueprint $table) {
             $table->dropColumn('gate_pass_type');
+            $table->dropColumn('eiv_no');
         });
     }
 };

@@ -98,17 +98,17 @@
                             @if (count($trafficControls) > 0)
                                 @foreach ($trafficControls as $key => $trafficControl)
                                     <tr>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{ $trafficControl->tcr_number }}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->lr_rr_awb_bl_app_rpp_number ?? 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->lr_rr_awb_bl_app_rpp_date ? date('d-m-Y', strtotime($trafficControl->lr_rr_awb_bl_app_rpp_date)) : 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{$trafficControl->vendor ? $trafficControl->vendor->name : 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{$trafficControl->transport ? $trafficControl->transport->name : 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">   {{$trafficControl->supplyOrder ? $trafficControl->supplyOrder->order_number : 'N/A'}} & {{ $trafficControl->supplyOrder ? date('d-m-Y', strtotime($trafficControl->supplyOrder->date)) : 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->date_of_collection_of_stores ? date('d-m-Y', strtotime($trafficControl->date_of_collection_of_stores)) : 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->no_of_package ?? 'N/A'}} & {{ $trafficControl->gross_weight ?? 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->condition_of_package ?? 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->amount ?? 'N/A'}}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->remarks ?? 'N/A' }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{ $trafficControl->tcr_number ?? '' }}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->lr_rr_awb_bl_app_rpp_number ?? ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->lr_rr_awb_bl_app_rpp_date ? date('d-m-Y', strtotime($trafficControl->lr_rr_awb_bl_app_rpp_date)) : ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{$trafficControl->vendor ? $trafficControl->vendor->name : ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{$trafficControl->transport ? $trafficControl->transport->name : ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">   {{$trafficControl->supplyOrder ? $trafficControl->supplyOrder->order_number : ''}} & {{ $trafficControl->supplyOrder ? date('d-m-Y', strtotime($trafficControl->supplyOrder->date)) : ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->date_of_collection_of_stores ? date('d-m-Y', strtotime($trafficControl->date_of_collection_of_stores)) : ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->no_of_package ?? ''}} & {{ $trafficControl->gross_weight ?? ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->condition_of_package ?? ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->amount ?? ''}}</td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $trafficControl->remarks ?? '' }}</td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
                                     </tr>
                                 @endforeach

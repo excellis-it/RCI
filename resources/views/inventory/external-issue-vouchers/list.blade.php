@@ -72,12 +72,7 @@
                                                         class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="code"
                                                     >Inv. No.<span id="code_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
-                                                    style="cursor: pointer">Item Code <span id="code_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="gate_pass_no"
-                                                    style="cursor: pointer">Gate Pass No.<span id="gate_pass_no_icon"></span> </th>
-                                                
-                                                
+                                               
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -426,5 +421,33 @@
         });
     });
 
+</script>
+
+<script>
+    // add new row
+        $(document).ready(function() {
+            $(document).on('click', '.add-more-eiv', function() {
+                var tr = $('#eiv_new_html').html();
+                $('#credit_form_add_new_row').append(tr);
+
+                if($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+        });
 </script>
 @endpush

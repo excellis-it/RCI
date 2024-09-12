@@ -107,25 +107,25 @@
                  {{ $loop->iteration }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    {{ $certificateIssuevoucherDetail->item->code ?? 'N/A' }}
+                    {{ $certificateIssuevoucherDetail->item->code ?? '' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    {{ $certificateIssuevoucherDetail->item->description ?? 'N/A' }}
+                    {{ $certificateIssuevoucherDetail->item->description ?? '' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssuevoucherDetail->au_status ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->au_status ?? '' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssuevoucherDetail->quantity ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->quantity ?? '' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssuevoucherDetail->total_price ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->total_price ?? '' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssueVoucher->inventory->number ?? 'N/A' }}
+                  {{  $certificateIssueVoucher->inventory->number ?? '' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssuevoucherDetail->remarks ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->remarks ?? '' }}
                 </td>
 
               </tr>

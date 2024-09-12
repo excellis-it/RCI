@@ -64,8 +64,7 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Item Code  </th>
+                                                
                                                 <th class="sorting" data-sorting_type="voucher_number" data-column_name="voucher_number"
                                                     style="cursor: pointer">Voucher Number<span id="voucher_number_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -235,7 +234,7 @@
                     success: function(response) {
                        
                         //windows load with toastr message
-                        window.location.reload();
+                        // window.location.reload();
                     },
                     error: function(xhr) {
                         $('.text-danger').html('');

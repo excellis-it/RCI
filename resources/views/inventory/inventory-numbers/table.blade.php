@@ -3,7 +3,7 @@
         <tr>
             <td> {{ ($inventoryNumbers->currentPage()-1) * $inventoryNumbers->perPage() + $loop->index + 1 }}</td>
             <td>{{ $inventoryNumber->inventory_type ?? 'N/A'}}</td>
-            <td>{{ $inventoryNumber->user->user_name ?? 'N/A'}}</td>
+            <td>{{ $inventoryNumber->member->user_name ?? 'N/A'}}</td>
             <td>{{ $inventoryNumber->number ?? 'N/A'}}</td>
             <td><span class="{{ ($inventoryNumber->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($inventoryNumber->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('inventory-numbers.edit', $inventoryNumber->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>

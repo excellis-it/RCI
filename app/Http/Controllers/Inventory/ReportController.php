@@ -21,6 +21,7 @@ use App\Models\InventoryProject;
 use App\Models\ItemCode;
 use App\Models\SecurityGateStore;
 use App\Models\TrafficControl;
+use App\Models\ExternalIssueVoucherDetail;
 use PDF;
 use Carbon\Carbon;
 
@@ -200,10 +201,11 @@ class ReportController extends Controller
     {
         // dd($request->all());
         $externalIssueVoucher = ExternalIssueVoucher::where('id', $request->id)->first();
+        $external_issue_voucher_details = ExternalIssueVoucherDetail::where('external_issue_voucher_id', $externalIssueVoucher->id)->get();
         $itemDesc = ItemCode::where('id', $externalIssueVoucher->item_id)->first();
         $gatepass = GatePass::where('id', $externalIssueVoucher->gate_pass_id)->first();
 
-        $pdf = PDF::loadView('inventory.reports.single-external-issue-voucher-generate', compact('externalIssueVoucher', 'itemDesc', 'gatepass'));
+        $pdf = PDF::loadView('inventory.reports.single-external-issue-voucher-generate', compact('externalIssueVoucher', 'itemDesc', 'gatepass','external_issue_voucher_details'));
         return $pdf->download('external-issue-voucher.pdf');
     }
 

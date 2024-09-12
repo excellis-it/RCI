@@ -75,7 +75,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Consignee: {{ $gatePass->consignee->user_name ?? '' }} <br>
+                                    Consignee: <span style="font-weight: 400; !important"> {{ $gatePass->consignee->name ?? '' }} </span><br>
 
 
                                 </td>
@@ -87,9 +87,9 @@
                                 padding: 0px 5px 30px 5px;
                                 margin: 0px 0px 30px 0px; ">
 
-                                    Pass No.:{{ $gatePass->gate_pass_no ?? '' }} <br>
+                                    Pass No.: <span style="font-weight: 400; !important">{{ $gatePass->gate_pass_no ?? '' }}</span> <br>
                                     Book No. :.....................<br>
-                                    Date:. {{ $date ?? '' }} <br>
+                                    Date:. <span style="font-weight: 400; !important">{{ $date ?? '' }} </span><br>
                                 </td>
                             </tr>
 
@@ -101,7 +101,7 @@
                                 text-align: left;
                                 padding: 0px 0px 10px 0px;
                                 ">
-                                    Probable Date of Return. {{ $gatePass->date_of_return ?? 'N/A' }} 
+                                    Probable Date of Return. <span style="font-weight: 400; !important">{{ $gatePass->date_of_return ?? '' }} </span>
                                 </td>
                             </tr>
                             <tr>
@@ -124,7 +124,7 @@
                                 text-align: left;
                                 padding: 0px 0px 10px 0px;
                                 ">
-                                    ICC No.: {{ $gatePass->inventoryNumber->number ?? 'N/A' }}
+                                    ICC No.: <span style="font-weight: 400; !important">{{ $gatePass->inventoryNumber->number ?? '' }}</span>
 
                                 </td>
                             </tr>

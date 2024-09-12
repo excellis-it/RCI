@@ -17,11 +17,16 @@ class GatePass extends Model
 
     public function consignee()
     {
-        return $this->belongsTo(User::class, 'consignee_id');
+        return $this->belongsTo(Vendor::class, 'consignee_id');
     }
 
     public function inventoryNumber()
     {
         return $this->belongsTo(InventoryNumber::class, 'invoice_no');
+    }
+
+    public function eivNumber()
+    {
+        return $this->belongsTo(ExternalIssueVoucher::class, 'eiv_no_id');
     }
 }

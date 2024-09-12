@@ -165,7 +165,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <hr>
                 </div>
+
+                
+
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">

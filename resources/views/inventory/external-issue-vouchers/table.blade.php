@@ -13,27 +13,10 @@
             @else
                 <td>N/A</td>
             @endif
-            @if($externalIssueVoucher->item_id != null)
-                @foreach($itemCodes as $item)
-                    @if($item->id == $externalIssueVoucher->item_id)
-                        <td>{{ $item->code ?? 'N/A'}}</td>
-                    @endif
-                @endforeach
-            @else
-                <td>N/A</td>
-            @endif
-            @if($externalIssueVoucher->gate_pass_id != null)
-                @foreach($gatePasses as $gatePass)
-                    @if($gatePass->id == $externalIssueVoucher->gate_pass_id)
-                        <td>{{ $gatePass->gate_pass_no ?? 'N/A'}}</td>
-                        
-                    @endif
-                @endforeach
-            @else
-                <td>N/A</td>
-                
-            @endif
-            <td class="sepharate"><a data-route="{{route('external-issue-vouchers.edit', $externalIssueVoucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+           
+           
+            <td class="sepharate">
+                {{-- <a data-route="{{route('external-issue-vouchers.edit', $externalIssueVoucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
                 <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $externalIssueVoucher->id }}"><i class="fa fa-print"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('external-issue-vouchers.delete', $externalIssueVoucher->id)}}"><i class="ti ti-trash"></i></a> --}}
             </td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ExternalIssueVoucher;
+use App\Models\ExternalIssueVoucherDetail;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\InventoryNumber;
@@ -26,9 +27,9 @@ class ExternalIssueVoucherController extends Controller
         $externalIssueVouchers = ExternalIssueVoucher::paginate(10);
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
-        $gatePasses = GatePass::all();
+        $gatePasses = GatePass::where('gate_pass_type','non-returnable')->orderBy('id','desc')->get();
         $vendors = Vendor::orderBy('id','desc')->get();
-        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id','item_code')->select('item_code_id','item_code', DB::raw('SUM(quantity) as total_quantity'))->get();
         return view('inventory.external-issue-vouchers.list', compact('externalIssueVouchers', 'creditVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses','vendors'));
     }
 
@@ -68,7 +69,7 @@ class ExternalIssueVoucherController extends Controller
             $inventoryNumbers = InventoryNumber::all();
             $itemCodes = ItemCode::all();
             $gatePasses = GatePass::all();
-            $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+            $creditVouchers = CreditVoucherDetail::groupBy('item_code_id','item_code')->select('item_code_id','item_code', DB::raw('SUM(quantity) as total_quantity'))->get();
 
             return response()->json(['data' => view('inventory.external-issue-vouchers.table', compact('externalIssueVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses', 'creditVouchers'))->render()]);
         }
@@ -87,13 +88,14 @@ class ExternalIssueVoucherController extends Controller
      */
     public function store(Request $request)
     {
+
+      
         $request->validate([
             'voucher_date' => 'required',
             'inv_no' => 'required',
-            'item_code_id' => 'required',
+            'consignee' => 'required',
             'gate_pass_id' => 'required',
-            'quantity' => 'required',
-            'total_price' => 'required|numeric|min:1',
+            'authority_of_issue' => 'required',
         ]);
 
         $currentDate = Carbon::today();
@@ -123,20 +125,34 @@ class ExternalIssueVoucherController extends Controller
         }
 
         $externalIssueVoucher = new ExternalIssueVoucher();
-        $externalIssueVoucher->vendor_id = $request->consignee;
+        if($request->consignee == 0){
+            $externalIssueVoucher->vendor_id = $vendor->id;
+        }else{
+            $externalIssueVoucher->vendor_id = $request->consignee;
+        }
         $externalIssueVoucher->other_consignee_name = $request->other_consignee_name;
         $externalIssueVoucher->other_consignee_number = $request->other_consignee_number;
         $externalIssueVoucher->voucher_no = $voucherNo;
         $externalIssueVoucher->voucher_date = $request->voucher_date;
         $externalIssueVoucher->inv_no = $request->inv_no;
-        $externalIssueVoucher->item_id = $request->item_code_id;
-        $externalIssueVoucher->item_unit_price = $request->unit_price;
-        $externalIssueVoucher->quantity = $request->quantity;
-        $externalIssueVoucher->total_price = $request->total_price;
         $externalIssueVoucher->gate_pass_id = $request->gate_pass_id;
-        $externalIssueVoucher->au_status = $request->au_status ?? 'Yes';
-        $externalIssueVoucher->remarks = $request->remarks;
+        $externalIssueVoucher->authority_of_issue = $request->authority_of_issue;
         $externalIssueVoucher->save();
+
+
+        foreach($request->item_code_id as $key => $itemCode) {
+
+            $externalIssueVoucherDetail = new ExternalIssueVoucherDetail();
+            $externalIssueVoucherDetail->external_issue_voucher_id = $externalIssueVoucher->id;
+            $externalIssueVoucherDetail->item_id = $itemCode;
+            $externalIssueVoucherDetail->unit_price = $request->unit_price[$key];
+            $externalIssueVoucherDetail->description = $request->description[$key];
+            $externalIssueVoucherDetail->au_status = $request->au_status[$key];
+            $externalIssueVoucherDetail->quantity = $request->quantity[$key];
+            $externalIssueVoucherDetail->total_cost = $request->total_price[$key];
+            $externalIssueVoucherDetail->remarks = $request->remarks[$key];
+            $externalIssueVoucherDetail->save();
+        }
 
         session()->flash('message', 'External Issue Voucher added successfully');
         return response()->json(['success' => 'External Issue Voucher added successfully']);
@@ -160,7 +176,7 @@ class ExternalIssueVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::all();
         $vendors = Vendor::orderBy('id','desc')->get();
-        $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $creditVouchers = CreditVoucherDetail::groupBy('item_code','item_code_id')->select('item_code','item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $edit = true;
 
         return response()->json(['view' => view('inventory.external-issue-vouchers.form', compact('externalIssueVoucher', 'edit', 'itemCodes', 'gatePasses', 'creditVouchers', 'inventoryNumbers','vendors'))->render()]);

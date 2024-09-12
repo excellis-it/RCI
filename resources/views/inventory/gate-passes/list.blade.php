@@ -371,4 +371,18 @@
 
     });
     </script>
+
+    <script>
+    $(document).ready(function() {
+        $('#pass_type').change(function(){
+            var pass_type = $('#pass_type').val(); 
+            if(pass_type == 'non-returnable')
+            {
+                $('.eiv_div').show();
+            }else{
+                $('.eiv_div').hide();
+            }
+        });
+    });
+        </script>
 @endpush

@@ -54,7 +54,7 @@
                                 <label>Gate Pass Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="pass_type" id="pass_type">
+                                <select class="form-select" name="pass_type" id="">
                                     <option value="">Select Gate Pass Type</option>
                                     <option value="returnable" {{ ($gatepass->gate_pass_type == 'returnable') ? 'selected' : '' }}>Returnable</option>
                                     <option value="non-returnable" {{ ($gatepass->gate_pass_type == 'non-returnable') ? 'selected' : '' }}>Non-Returnable</option>
@@ -145,7 +145,7 @@
                                 <select class="form-select search-select-box" name="consignee" id="consignee">
                                     <option value="">Select</option>
                                     @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}">{{ $vendor->user_name }}</option>
+                                        <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                                     @endforeach
                                     <option value="0">Other</option>
                                 </select>
@@ -193,9 +193,30 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-4 mb-2 eiv_div" style="display:none;">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>EIV no</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="eiv_no" id="eiv_no">
+                                    <option value="">Select EIV No</option>
+                                    @foreach($external_issue_vouchers as $external_issue_voucher)
+                                    <option value="{{ $external_issue_voucher->id }}">{{ $external_issue_voucher->voucher_no }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <hr>
             </div>
         </div>
+
+       
 
         <div class="row">
             <div class="col-md-8">
@@ -388,9 +409,7 @@
 
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
-                        <button type="button" class="listing_add w-100 trash form-control add-more">
-                            <i class="fa fa-cross">x</i>
-                        </button>
+                        <button class="listing_add w-100 trash form-control"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
             </div>

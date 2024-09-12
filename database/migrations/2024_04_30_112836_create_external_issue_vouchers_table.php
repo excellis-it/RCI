@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('other_consignee_number')->nullable();
             $table->date('voucher_date')->nullable();
             $table->bigInteger('inv_no')->unsigned()->nullable();
+            $table->longText('authority_of_issue')->nullable();
             $table->bigInteger('item_id')->unsigned()->nullable();
             $table->string('item_unit_price')->nullable();
             $table->string('quantity')->nullable();

@@ -2,7 +2,6 @@
     @foreach ($conversionVouchers as $key => $conversionVoucher)
         <tr>
             <td>{{ ($conversionVouchers->currentPage()-1) * $conversionVouchers->perPage() + $loop->index + 1 }}</td>
-            <td>{{ $conversionVoucher->itemCode->code }}</td>
             <td>{{ $conversionVoucher->voucher_no }}</td>
             <td>{{ $conversionVoucher->voucher_date }}</td>
             <td>{{ $conversionVoucher->inventoryNumber->number }}</td>
@@ -15,7 +14,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="7" class="text-left">
+        <td colspan="6" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $conversionVouchers->firstItem() }} – {{ $conversionVouchers->lastItem() }} Conversion Vouchers of
@@ -27,6 +26,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="7" class="text-center">No Conversion Vouchers Found</td>
+        <td colspan="6" class="text-center">No Conversion Vouchers Found</td>
     </tr>
 @endif

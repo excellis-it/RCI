@@ -77,7 +77,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Consignee:{{ $gatePass->consignee->user_name ?? '' }} 
+                                    Consignee: <span style="font-weight: 400; !important">{{ $gatePass->consignee->name ?? '' }} </span>
 
 
                                 </td>
@@ -89,9 +89,9 @@
                                 padding: 0px 5px 30px 5px;
                                 margin: 0px 0px 30px 0px; ">
 
-                                    Pass No.:{{ $gatePass->gate_pass_no ?? '' }}  <br>
+                                    Pass No.: <span style="font-weight: 400; !important">{{ $gatePass->gate_pass_no ?? '' }}</span>  <br>
                                     Book No. :.......(pre-printed) <br>
-                                    Date:. {{ $date ?? '' }}
+                                    Date:. <span style="font-weight: 400; !important">{{ $date ?? '' }}</span>
                                 </td>
                             </tr>
 
@@ -104,7 +104,7 @@
                                 padding: 0px 0px 10px 0px;
                                 ">
 
-                                    Probable Date of Return.{{ $gatePass->date_of_return ?? 'N/A' }} 
+                                    Probable Date of Return. <span style="font-weight: 400; !important">{{ $gatePass->date_of_return ?? '' }} </span>
 
 
                                 </td>
@@ -133,7 +133,7 @@
                                 text-align: left;
                                 padding: 0px 0px 10px 0px;
                                 ">
-                                    ICC No.: {{ $gatePass->inventoryNumber->number ?? 'N/A' }}
+                                    ICC No.: <span style="font-weight: 400; !important">{{ $gatePass->inventoryNumber->number ?? '' }}</span>
                                 </td>
 
                             </tr>
@@ -145,7 +145,7 @@
                                 text-align: left;
                                 padding: 0px 0px 10px 0px;
                                 ">
-                                    EIV No. & Date.....................
+                                    EIV No. & Date: <span style="font-weight: 400; !important">{{ $gatePass->eivNumber->voucher_no ?? '' }} & {{ $gatePass->eivNumber->voucher_date ?? '' }} </span>
                                 </td>
 
                             </tr>
@@ -172,11 +172,11 @@
                             @endphp
                             @foreach($gate_pass_items as $key => $gate_pass_item)
                             <tr>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $key + 1 }}</td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->itemDetail->item_name ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->description ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->au_status ?? ''}}</td>
-                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;">{{ $gate_pass_item->quantity ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;font-size: 12px;">{{ $key + 1 }}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;font-size: 12px;">{{ $gate_pass_item->itemDetail->item_name ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;font-size: 12px;">{{ $gate_pass_item->description ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;font-size: 12px;">{{ $gate_pass_item->au_status ?? ''}}</td>
+                                <td style=" border: 1px solid black; padding: 10px 5px 10px 5px;font-size: 12px;">{{ $gate_pass_item->quantity ?? ''}}</td>
 
                             @php
                                 $total_item +=  $key;
