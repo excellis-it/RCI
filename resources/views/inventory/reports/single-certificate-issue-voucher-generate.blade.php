@@ -45,7 +45,7 @@
                         font-weight: 400;
                         color: #000; padding-bottom: 10px;
                         text-align: left;">Group/Division :......... <br> <br>
-                  Date: {{  $certificateIssueVoucher->voucher_date ?? '' }}
+                  Date: {{ $certificateIssueVoucher->voucher_date ? date('d-m-Y', strtotime($certificateIssueVoucher->voucher_date)) : '' }}
                 </td>
                 <td valign="top" style="font-size: 12px; width: 30%;
                         line-height: 16px; 
@@ -100,62 +100,37 @@
                 </th>
 
               </tr>
-
+              @foreach($certificateIssuevoucherDetails as $certificateIssuevoucherDetail)
               <tr>
 
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  1.
+                 {{ $loop->iteration }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    {{ $itemDesc->code ?? 'N/A' }}
+                    {{ $certificateIssuevoucherDetail->item->code ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                    {{ $itemDesc->description ?? 'N/A' }}
+                    {{ $certificateIssuevoucherDetail->item->description ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssueVoucher->au_status ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->au_status ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssueVoucher->quantity ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->quantity ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssueVoucher->total_price ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->total_price ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
                   {{  $certificateIssueVoucher->inventory->number ?? 'N/A' }}
                 </td>
                 <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
-                  {{  $certificateIssueVoucher->remarks ?? 'N/A' }}
+                  {{  $certificateIssuevoucherDetail->remarks ?? 'N/A' }}
                 </td>
 
               </tr>
-              {{-- <tr>
-
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; "> &nbsp;
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-
-                </td>
-
-              </tr> --}}
+              @endforeach
+              
             </tbody>
           </table>
         </td>

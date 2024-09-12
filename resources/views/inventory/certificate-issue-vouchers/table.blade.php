@@ -3,13 +3,10 @@
         <tr>
             <td> {{ ($certificateIssueVouchers->currentPage() - 1) * $certificateIssueVouchers->perPage() + $loop->index + 1 }}
             </td>
-
-            <td>{{ $certificateIssueVoucher->userDetail->user_name ?? 'N/A' }}</td>
             <td>{{ $certificateIssueVoucher->voucher_no ?? 'N/A' }}</td>
-            <td>{{ $certificateIssueVoucher->item->code ?? 'N/A' }}</td>
-            <td>{{ $certificateIssueVoucher->item_type ?? 'N/A' }}</td>
-            <td>{{ $certificateIssueVoucher->quantity ?? 'N/A' }}</td>
-            <td>{{ $certificateIssueVoucher->total_price ?? 'N/A' }}</td>
+            <td>{{ $certificateIssueVoucher->voucher_date ?? 'N/A' }}</td>
+            <td>{{ $certificateIssueVoucher->inv_no ?? 'N/A' }}</td>
+            <td>{{ $certificateIssueVoucher->inventory_holder ?? 'N/A' }}</td>
             
             <td class="sepharate">
                 <!--<a data-route="{{ route('certificate-issue-vouchers.edit', $certificateIssueVoucher->id) }}"-->

@@ -1,91 +1,86 @@
 @extends('inventory.layouts.master')
 @section('title')
-    Certificate Issue Voucher List
+Certificate Issue Voucher List
 @endsection
 
 @push('styles')
 @endpush
 
 @section('content')
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
-    <div class="container-fluid">
-        <div class="breadcome-list">
-            <div class="d-flex">
-                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
-                <div class="">
-                    <h3>Certificate Issue Voucher Listing</h3>
-                    <ul class="breadcome-menu mb-0">
-                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Certificate Issue Voucher Listing</span></li>
-                    </ul>
-                </div>
+<section id="loading">
+    <div id="loading-content"></div>
+</section>
+<div class="container-fluid">
+    <div class="breadcome-list">
+        <div class="d-flex">
+            <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+            <div class="">
+                <h3>Certificate Issue Voucher Listing</h3>
+                <ul class="breadcome-menu mb-0">
+                    <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                    <li><span class="bread-blod">Certificate Issue Voucher Listing</span></li>
+                </ul>
             </div>
         </div>
-        <!--  Row 1 -->
+    </div>
+    <!--  Row 1 -->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card w-100">
-                    <div class="card-body">
-                        <div id="form">
-                            @include('inventory.certificate-issue-vouchers.form')
-                        </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card w-100">
+                <div class="card-body">
+                    <div id="form">
+                        @include('inventory.certificate-issue-vouchers.form')
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4 mt-4">
+                            <div class="row justify-content-end">
+                                <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control search_table" value="" id="search"
+                                            placeholder="Search">
+                                        <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                     </div>
                                 </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
-                                                <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
-                                                    style="cursor: pointer">Person <span id="name_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
-                                                    style="cursor: pointer">Voucher No <span id="name_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_code" 
-                                                    style="cursor: pointer">Item Code <span id="item_code_icon"></span></th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_type">Item Type</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="quantity" 
-                                                    style="cursor: pointer">Quantity <span id="quantity_icon"></span></th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="price" 
-                                                    style="cursor: pointer">Total Price <span id="price_icon"></span></th>
-                                                
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('inventory.certificate-issue-vouchers.table')
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
-                                        value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div>
+                            </div>
+                            <div class="table-responsive rounded-2">
+                                <table class="table customize-table mb-0 align-middle bg_tbody">
+                                    <thead class="text-white fs-4 bg_blue">
+                                        <tr>
+                                            <th>SL No.</th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="item_code"
+                                                style="cursor: pointer">Voucher No <span id="item_code_icon"></span></th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="item_code"
+                                                style="cursor: pointer">Voucher Date <span id="item_code_icon"></span></th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
+                                                style="cursor: pointer">Inv No <span id="inv_no_icon"></span> </th>
+                                            <th class="sorting" data-sorting_type="desc" data-column_name="name"
+                                                style="cursor: pointer">Inv Holder Name <span id="name_icon"></span> </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_height_scroll">
+                                        @include('inventory.certificate-issue-vouchers.table')
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
+                                <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </form>
     </div>
+    </form>
+</div>
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
+<script>
+    $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
                     text: "To delete this Inventory Type",
@@ -105,9 +100,9 @@
                     }
                 })
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
@@ -173,9 +168,9 @@
             });
 
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $('#certificate-issue-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
@@ -202,9 +197,9 @@
                 });
             });
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
                 $('#loading').addClass('loading');
@@ -250,10 +245,10 @@
                 });
             });
         });
-    </script>
-    
-    <script>
-        $(document).on('change', '#item_id', function() {
+</script>
+
+<script>
+    $(document).on('change', '#item_id', function() {
             var item_id = $('#item_id').val();
             $.ajax({
                 url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
@@ -271,10 +266,10 @@
                 }
             });
         });
-    </script>
+</script>
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
             $('#item_id').change(function(){
                 var selectedValue = $(this).find(':selected');
                 var quantity = selectedValue.data('hidden-value');
@@ -291,7 +286,7 @@
                 
             });
         });
-    </script>
+</script>
 
 <script>
     $(document).ready(function() {
@@ -369,7 +364,7 @@
             });
         });
     });
-    </script>
+</script>
 
 <script>
     // add new row
@@ -401,58 +396,65 @@
 
 <script>
     $(document).ready(function() {
-            // Handle item code change event dynamically
-            $(document).on('change', '.item_id', function() {
-                var item_code_id = $(this).val();
-                var $this = $(this); // Reference to the selected item
+        // Handle item code change event dynamically
+        $(document).on('change', '.item_id', function() {
+            var item_code_id = $(this).val();
+            var $this = $(this); // Reference to the selected item
 
-                // Get the row containing this item
-                var $row = $this.closest('.count-class');
+            // Get the row containing this item
+            var $row = $this.closest('.count-class');
 
-                $.ajax({
-                    url: "{{ route('rins.get-item-description') }}",
-                    type: 'POST',
-                    data: {
-                        id: item_code_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        // Update the description in the same row
-                        $row.find('.description').val(response.description);
-                        $row.find('.item_price').val(response.price);
+            $.ajax({
+                url: "{{ route('rins.get-item-description') }}",
+                type: 'POST',
+                data: {
+                    id: item_code_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Update the description in the same row
+                    $row.find('.description').val(response.description);
+                    $row.find('.item_price').val(response.price);
 
-                        // quantity fetch
-                        var selectedValue = $(this).find(':selected');
-                        var quantity = selectedValue.data('hidden-value');
-                        // var quantityDiv = $('#quantity');
-                        
-                        var quantityDivSelectBox = [];
-                        quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                        for (var i = 1; i <= quantity; i++) {
-                            quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                        }
-
-                        $row.find('.quantity').empty();
-                        $row.find('.quantity').append(quantityDivSelectBox.join(''));
-                       
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
+                    var selectedOption = $this.find('option:selected');
+                    var quantity = selectedOption.data('hidden-value');
+                    var quantityOptions = [];
+                    quantityOptions.push('<option value="">Select Quantity</option>');
+                    for (var i = 1; i <= quantity; i++) {
+                        quantityOptions.push('<option value="' + i + '">' + i + '</option>');
                     }
-                });
+                    $row.find('.quantity').empty().append(quantityOptions.join(''));
+                    
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
             });
+        });
 
-            // Handle "Add More" functionality
-            $(document).on('click', '.add-more', function() {
+        // Handle "Add More" functionality
+        $(document).on('click', '.add-more', function() {
                 // Clone the first row of fields
                 var $clone = $('#rins_new_html .new_html').first().clone();
                 $clone.find('input, select').val(''); // Clear input fields in the cloned row
                 $clone.appendTo('#rins_new_html').show(); // Append the new row to the form and display it
             });
-            });
+        });
 
 </script>
 
+<script>
+    // quantity change event
+    $(document).ready(function() {
+        $(document).on('change', '.quantity', function() {
+            var quantity = $(this).val();
+            var item_price = $(this).closest('.count-class').find('.item_price').val();
+            var total_price = quantity * item_price;
+            $(this).closest('.count-class').find('.total_price').val(total_price);
+        });
+    });
+    </script>
 
-  
+
+
 @endpush

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use App\Models\CertificateIssueVoucher;
 use Illuminate\Http\Request;
-
+use App\Models\CertificateIssueVoucherDetail;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\DebitVoucher;
@@ -210,9 +210,10 @@ class ReportController extends Controller
     public function certificateIssueVoucherGenerate(Request $request)
     {
         $certificateIssueVoucher = CertificateIssueVoucher::where('id', $request->id)->first();
+        $certificateIssuevoucherDetails = CertificateIssueVoucherDetail::where('certicate_issue_voucher_id', $certificateIssueVoucher->id)->get();
         $itemDesc = ItemCode::where('id', $certificateIssueVoucher->item_id)->first();
 
-        $pdf = PDF::loadView('inventory.reports.single-certificate-issue-voucher-generate', compact('certificateIssueVoucher', 'itemDesc'));
+        $pdf = PDF::loadView('inventory.reports.single-certificate-issue-voucher-generate', compact('certificateIssueVoucher', 'itemDesc','certificateIssuevoucherDetails'));
         return $pdf->download('certificate-issue-voucher.pdf');
     }
 

@@ -9,6 +9,7 @@ use App\Models\CertificateIssueVoucher;
 use App\Models\ItemCode;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
+use App\Models\CertificateIssueVoucherDetail;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
@@ -75,13 +76,12 @@ class CertificateIssueVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'member_id' => 'required',
-            'item_id' => 'required',
-            'price' => 'required',
-            'item_type' => 'required',
-            'description' => 'required',
-        ]);
+       
+        // $request->validate([
+        //     'inv_no' => 'required',
+        //     'inventory_holder' => 'required',
+        //     'voucher_date' => 'required',
+        // ]);
 
         // voucher no generate
         $currentDate = Carbon::today();
@@ -99,34 +99,45 @@ class CertificateIssueVoucherController extends Controller
 
         $certificateIssueVoucher = new CertificateIssueVoucher();
         $certificateIssueVoucher->voucher_no = $voucherNo;
-        $certificateIssueVoucher->member_id = $request->member_id;
-        $certificateIssueVoucher->item_id = $request->item_id;
         $certificateIssueVoucher->voucher_date = $request->voucher_date;
-        $certificateIssueVoucher->price = $request->price;
-        $certificateIssueVoucher->item_type = $request->item_type;
-        $certificateIssueVoucher->description = $request->description;
         $certificateIssueVoucher->inv_no = $request->inv_no;
-        $certificateIssueVoucher->quantity = $request->quantity;
-        $certificateIssueVoucher->total_price = $request->total_price;
-        $certificateIssueVoucher->au_status = $request->au_status;
-        $certificateIssueVoucher->remarks = $request->remarks;
+        $certificateIssueVoucher->inventory_holder = $request->inventory_holder;
         $certificateIssueVoucher->save();
 
-        // credit voucher quantity reduce
-        $creditVoucher = CreditVoucherDetail::where('item_code', $request->item_id)->get();
+        // CertificateIssueVoucherDetail data add
+        foreach($request->item_id as $key => $itemCode) {
 
-        foreach ($creditVoucher as $credit) {
-            if ($credit->quantity >= $request->quantity) {
-                $credit->quantity -= $request->quantity;
-                $credit->save();
-                $request->quantity = 0; 
-                break; 
-            } else {
-                
-                $request->quantity -= $credit->quantity;
-                $credit->quantity = 0;
-                $credit->save();
-            }
+            $certificateIssueVoucherDetail = new CertificateIssueVoucherDetail();
+            $certificateIssueVoucherDetail->certicate_issue_voucher_id = $certificateIssueVoucher->id;
+            $certificateIssueVoucherDetail->item_code = $itemCode;
+            $certificateIssueVoucherDetail->price = $request->price[$key];
+            $certificateIssueVoucherDetail->description = $request->description[$key];
+            $certificateIssueVoucherDetail->quantity = $request->quantity[$key];
+            $certificateIssueVoucherDetail->total_price = $request->total_price[$key];
+            $certificateIssueVoucherDetail->au_status = $request->au_status[$key];
+            $certificateIssueVoucherDetail->remarks = $request->remarks[$key];
+            $certificateIssueVoucherDetail->save();
+
+            $creditVouchers = CreditVoucherDetail::where('item_code', $itemCode)
+                    ->where('inv_no', $request->inv_no)
+                    ->orderBy('id', 'asc') // Assuming you want to reduce from the oldest records first
+                    ->get();
+
+                    $remainingQuantity = $request->quantity[$key];
+
+                    // Iterate over the credit vouchers and reduce the quantity
+                    foreach ($creditVouchers as $credit) {
+                        if ($credit->quantity >= $remainingQuantity) {
+                            $credit->quantity -= $remainingQuantity;
+                            $credit->save();
+                            $remainingQuantity = 0;
+                            break; // Exit the loop once quantity is reduced
+                        } else {
+                            $remainingQuantity -= $credit->quantity;
+                            $credit->quantity = 0;
+                            $credit->save();
+                        }
+                    }
         }
 
         session()->flash('message', 'Certificate Issue Voucher created successfully');
