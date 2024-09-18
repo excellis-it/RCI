@@ -10,6 +10,7 @@ use App\Models\InventoryType;
 use App\Models\InventoryNumber;
 use App\Models\Member;
 use App\Models\SupplyOrder;
+use App\Models\User;
 use App\Models\CreditVoucherDetail;
 use App\Models\GstPercentage;
 use App\Models\Rin;
@@ -29,7 +30,7 @@ class CreditVoucherController extends Controller
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::paginate(10);
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();
         $rins = Rin::get()->groupBy('rin_no');
@@ -210,7 +211,7 @@ class CreditVoucherController extends Controller
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $supplyOrders = SupplyOrder::all();
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $rins = Rin::all();
         $projects = InventoryProject::all();
         $uoms = Uom::all();
@@ -286,7 +287,7 @@ class CreditVoucherController extends Controller
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::paginate(10);
-        $members = Member::all();
+        $members = User::role('MATERIAL-MANAGER')->get();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();
         $projects = InventoryProject::all();

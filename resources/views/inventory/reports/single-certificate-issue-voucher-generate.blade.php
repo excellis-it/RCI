@@ -103,28 +103,28 @@
               @foreach($certificateIssuevoucherDetails as $certificateIssuevoucherDetail)
               <tr>
 
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                  {{ $loop->iteration }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                     {{ $certificateIssuevoucherDetail->item->code ?? '' }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                     {{ $certificateIssuevoucherDetail->item->description ?? '' }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                   {{  $certificateIssuevoucherDetail->au_status ?? '' }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                   {{  $certificateIssuevoucherDetail->quantity ?? '' }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                   {{  $certificateIssuevoucherDetail->total_price ?? '' }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                   {{  $certificateIssueVoucher->inventory->number ?? '' }}
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; font-size: 12px;">
+                <td valign="top" style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
                   {{  $certificateIssuevoucherDetail->remarks ?? '' }}
                 </td>
 

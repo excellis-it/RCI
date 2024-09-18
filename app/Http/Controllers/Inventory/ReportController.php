@@ -74,6 +74,7 @@ class ReportController extends Controller
                     'tax' => $detail->rins->gst ?? 'N/A',
                     'disc_percent' => $detail->disc_percent ?? 'N/A',
                     'disc_amt' => $detail->disc_amt ?? 'N/A',
+                    'total_price' => $detail->total_price ?? 'N/A',
                     'total_cost' => $totalCost ?? 'N/A',
                 ];
 
@@ -99,7 +100,7 @@ class ReportController extends Controller
 
         // dd($result);
 
-        $pdf = PDF::loadView('frontend.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount','singleCreditVoucher','get_sir'));
+        $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('creditVoucher', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount','singleCreditVoucher','get_sir'));
         return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
     }
 
@@ -168,7 +169,7 @@ class ReportController extends Controller
 
         // dd($result, $totalItemCost, $total, $itemCodeCounts);
 
-        $pdf = PDF::loadView('frontend.reports.single-debit-voucher-generate', compact('debitVoucher', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
+        $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVoucher', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
         return $pdf->download('debit-voucher ' . date('d-m-Y') .'.pdf');
     }
 

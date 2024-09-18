@@ -230,7 +230,7 @@
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ $creditVoucher->member_id == $member->id ? 'selected' : '' }}>
-                                            {{ $member->name }}</option>
+                                            {{ $member->user_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -312,7 +312,7 @@
                                 <select class="form-control" name="member_id" id="member_id">
                                     <option value="">Select Name</option>
                                     @foreach ($members as $member)
-                                    <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                    <option value="{{ $member->id }}">{{ $member->user_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
