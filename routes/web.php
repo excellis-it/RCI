@@ -585,6 +585,7 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');
     Route::get('/members-expectation-edit/{id}',[MemberController::class,'memberExpectationEdit'])->name('members.expectation.edit');
     Route::post('/members-expectation-update',[MemberController::class,'memberExpectationUpdate'])->name('members.expectation.update');
+    Route::post('/members-get-rule-detail',[MemberController::class, 'memberExpRuleDetail'])->name('members.expectation.get-rule-detail');
     Route::delete('/members-expectation-delete/{id}',[MemberController::class, 'memberExpectationDelete'])->name('members.expectation-delete');
     //member core-info update
     Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');

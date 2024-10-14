@@ -3,7 +3,7 @@
         <tr>
             <td> {{ ($rules->currentPage()-1) * $rules->perPage() + $loop->index + 1 }}</td>
             <td>{{ $rule->rule_name ?? 'N/A'}}</td>
-            <td>{{ $rule->month ?: 'N/A' }}, {{ $rule->year ?: 'N/A' }}</td>
+            <td>{{ $rule->month ?? 'N/A' }}, {{ $rule->year ?: 'N/A' }}</td>
             <td>{{ $rule->f_basic ?? 'N/A'}}</td>
             <td>{{ $rule->t_basic ?? 'N/A'}}</td>
             <td>{{ $rule->percent ?? 'N/A'}}</td>

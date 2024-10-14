@@ -394,6 +394,24 @@
         });
         </script>
 
+
+<script>
+    // add new row
+        $(document).ready(function() {
+            $(document).on('click', '.add-more-conv', function() {
+                var tr = $('#conv_new_html').html();
+                $('#conv_form_add_new_row').append(tr);
+
+                return false;   
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+        });
+</script>
+
     
     
 @endpush

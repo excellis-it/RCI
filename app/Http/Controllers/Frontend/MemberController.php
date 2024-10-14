@@ -1123,9 +1123,13 @@ class MemberController extends Controller
             'amount' => 'required',
         ]);
 
+        $selectedValue = $request->rule_name; 
+        $data = explode(',', $selectedValue);
+        $rule_name = $data[0];
+
         $expectation_store = new MemberExpectation;
         $expectation_store->member_id = $request->member_id;
-        $expectation_store->rule_name = $request->rule_name;
+        $expectation_store->rule_name = $rule_name;
         $expectation_store->percent = $request->percent;
         $expectation_store->amount = $request->amount;
         $expectation_store->year = $request->year;
@@ -1139,24 +1143,28 @@ class MemberController extends Controller
     public function memberExpectationEdit($id)
     {
         $member_expectation = MemberExpectation::find($id);
+        $rules = Rule::orderBy('id','desc')->get() ?? '';
         $edit = true;
-        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit', 'member_expectation'))->render()]);
+        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit', 'member_expectation','rules'))->render()]);
     }
 
     public function memberExpectationUpdate(Request $request)
     {
+        // $validated = $request->validate([
+        //     'rule_name' => 'required',
+        //     'percent' => 'required',
+        //     'amount' => 'required',
+        // ]);
 
-        $validated = $request->validate([
-            'rule_name' => 'required',
-            'percent' => 'required',
-            'amount' => 'required',
-        ]);
+        $selectedValue = $request->rule_name; 
+        $data = explode(',', $selectedValue);
+        $rule_name = $data[0];
 
         if (!isset($request->member_expectation_id)) {
 
             $expectation_info = new MemberExpectation;
             $expectation_info->member_id = $request->member_id;
-            $expectation_info->rule_name = $request->rule_name;
+            $expectation_info->rule_name = $rule_name;
             $expectation_info->percent = $request->percent;
             $expectation_info->amount = $request->amount;
             $expectation_info->year = $request->year;
@@ -1168,7 +1176,6 @@ class MemberController extends Controller
         }
 
         $expectation_info = MemberExpectation::where('id', $request->member_expectation_id)->first();
-        $expectation_info->rule_name = $request->rule_name;
         $expectation_info->percent = $request->percent;
         $expectation_info->amount = $request->amount;
         $expectation_info->year = $request->year;
@@ -1350,6 +1357,7 @@ class MemberController extends Controller
         $cclDays = 0;
         $result = [];
         $total_deduction = 0;
+        $cclDeduction = 0;
         
         foreach ($member_leaves as $leave) {
             $result[$leave->leave_type_id]['leave_name'] = $leave->leaveType->leave_type_abbr;
@@ -1445,6 +1453,12 @@ class MemberController extends Controller
     {
         $get_ifsc = Bank::where('id', $request->bank_id)->first();
         return response()->json(['ifsc' => $get_ifsc]);
+    }
+
+    public function memberExpRuleDetail(Request $request)
+    {
+        $get_rule_detail = Rule::where('id',$request->rule_id)->first();
+        return response()->json(['data' => $get_rule_detail]);
     }
 
   

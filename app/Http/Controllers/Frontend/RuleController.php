@@ -114,7 +114,38 @@ class RuleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'rule_name' => 'required|max:255',
+            'month' => 'required',
+            'year' => 'required',
+            'f_basic' => 'required',
+            't_basic' => 'required',
+            'percent' => 'required',
+            'amount' => 'required',
+            'f_gross' => 'required',
+            't_gross' => 'required',
+            'f_scale' => 'required',
+            't_scale' => 'required',
+        ]);
+        
+
+        $rule_edit = Rule::where('id',$request->rule_id)->first();
+        $rule_edit->rule_name = $request->rule_name;
+        $rule_edit->month =  $request->month;
+        $rule_edit->year = $request->year;
+        $rule_edit->f_basic = $request->f_basic;
+        $rule_edit->t_basic = $request->t_basic;
+        $rule_edit->percent = $request->percent;
+        $rule_edit->amount = $request->amount;
+        $rule_edit->f_gross = $request->f_gross;
+        $rule_edit->t_gross = $request->t_gross;
+        $rule_edit->f_scale = $request->f_scale;
+        $rule_edit->t_scale = $request->t_scale;
+        $rule_edit->more_info = $request->more_info;
+        $rule_edit->update();
+
+        session()->flash('message', 'Rule updated successfully');
+        return response()->json(['success' => 'Rule updated successfully']);
     }
 
     /**

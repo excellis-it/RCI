@@ -1355,6 +1355,45 @@
 
     <script>
         $(document).ready(function() {
+            $('.exp_rule_create').change(function() {
+                var rule_data = $(this).val();
+                var rule_id = rule_data.split(',')[1].trim();
+                
+                $.ajax({
+                    url: "{{ route('members.expectation.get-rule-detail') }}",
+                    type: 'POST',
+                    data: {
+                        rule_id: rule_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#exp_percent').val(response.data.percent); 
+                        $('#exp_amount').val(response.data.amount);
+                        $('#exp_year').val(response.data.year);
+                        $('#exp_month').val(response.data.month);
+                    }
+                });
+            });
+
+            
+        });
+        
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#exp_rule_edit').change(function(){
+               alert();
+
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
             $(document).on('click', '.edit-route-expectation', function() {
                 var route = $(this).data('route');
 
@@ -1561,7 +1600,6 @@
     </script>
     {{-- original recovery script end --}}
 
-
     {{-- <script>
         $(document).ready(function() {
             $('#i_tax').change(function() {
@@ -1584,7 +1622,6 @@
             });
         });
     </script> --}}
-
 
     <script>
         $(document).ready(function() {
@@ -1620,7 +1657,6 @@
             });
         });
     </script>
-
 
     {{-- call ajax  to check if credit is not add in current month debit tab will open with toaster message --}}
     <script>

@@ -8,6 +8,7 @@ use App\Models\ItemCode;
 use App\Models\InventoryNumber;
 use App\Models\ConversionVoucher;
 use App\Models\CreditVoucher;
+use  App\Models\TransferVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\InventoryType;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,8 @@ class ConversionVoucherController extends Controller
         $itemCodes = CreditVoucherDetail::groupBy('item_code','item_code_id')->select('item_code','item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $inventoryNumbers = InventoryNumber::all();
         $conversionVouchers = ConversionVoucher::paginate(10);
-        return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers'));
+        $transferVouchers = TransferVoucher::orderBy('id','desc')->get();
+        return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers','transferVouchers'));
     }
 
     public function fetchData(Request $request)
@@ -169,9 +171,10 @@ class ConversionVoucherController extends Controller
         $conversionVoucher = ConversionVoucher::find($id);
         $itemCodes = ItemCode::all();
         $inventoryNumbers = InventoryNumber::all();
+        $transferVouchers = TransferVoucher::orderBy('id','desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('inventory.conversion-vouchers.form', compact('conversionVoucher','itemCodes','inventoryNumbers','edit'))->render()]);
+        return response()->json(['view' => view('inventory.conversion-vouchers.form', compact('conversionVoucher','itemCodes','inventoryNumbers','edit','transferVouchers'))->render()]);
 
     }
 
@@ -180,7 +183,6 @@ class ConversionVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         
         $conversionVoucherUpdate =  ConversionVoucher::where('id', $id)->first();
         $conversionVoucherUpdate->remarks = $request->remark;
         $conversionVoucherUpdate->update();

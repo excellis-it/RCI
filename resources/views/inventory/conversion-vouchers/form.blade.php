@@ -2,9 +2,21 @@
     <form action="{{ route('conversion-vouchers.update', $conversionVoucher->id) }}" method="POST" id="conversion-vouchers-edit-form">
         @method('PUT')
         @csrf
-        <div class="row">
-            <div class="col-md-8">
+        <div class="row justify-content-end">
+            <div class="col-md-12">
                 <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Voucher Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value="{{ $conversionVoucher->voucher_no ?? '' }}"
+                                    placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -22,18 +34,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value="{{ $conversionVoucher->voucher_no ?? '' }}"
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -79,19 +80,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_type" id="voucher_type" value="{{ $conversionVoucher->voucher_type ?? '' }}"
-                                    placeholder="" readonly>
-                                <span class="text-danger"></span>
-                                <div class="text-danger" id="voucher_type"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="row">
                     
@@ -124,27 +113,10 @@
 @else
     <form action="{{ route('conversion-vouchers.store') }}" method="POST" id="conversion-vouchers-create-form">
         @csrf
-        <div class="row">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Code</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="item_code_id" id="item_code_id">
-                                    <option value="">Select</option>
-                                    @foreach($itemCodes as $item)
-                                        <option value="{{ $item->item_code }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->item_code_id }}({{ $item->total_quantity }})</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
+        <div class="row justify-content-end">
+            <div class="col-md-12">
+                <div class="row mb-4">
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Number</label>
@@ -156,45 +128,116 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Type of voucher</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="voucher_type" id="voucher_type">
+                                    <option value="">Select</option>
+                                    <option value="one-to-one">One to One</option>
+                                    <option value="many-to-one">Many to One</option>
+                                    <option value="one-to-many">One to Many</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="voucher_date" id="voucher_date" value="{{ date('Y-m-d') }}"
-                                    placeholder="" readonly>
+                                <input type="date" class="form-control" name="voucher_date" id="voucher_date" value=""
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Inventory Number</label>
+                                <label>Transfer Voucher Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="inv_no" id="inv_no">
+                                <select class="form-select" name="transfer_voucher_number" id="transfer_voucher_number">
                                     <option value="">Select</option>
-                                    @foreach($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
+                                    @foreach($transferVouchers as $transferVoucher)
+                                    <option value="{{ $transferVoucher->voucher_no }}">{{ $transferVoucher->voucher_no }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                <hr>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <h5>Strike Off</h5>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="strike_item_code[]" >
+                                    <option value="">Select</option>
+                                    @foreach($itemCodes as $itemCode)
+                                        <option value="{{ $itemCode->id }}">{{ $itemCode->item_code_id }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Ledger No.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="strike_ledger[]" id="" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="strike_description[]" id="" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>C/NC/NCF</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="strike_c_nc[]" id="strike_c_nc" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="quantity" id="quantity">
+                                <select class="form-control" name="strike_quantity[]" id="strike_quantity">
 
                                 </select>
                                 <span class="text-danger"></span>
@@ -202,47 +245,333 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Voucher Type</label>
+                                <label>Rate</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="voucher_type" id="voucher_type">
-                                    <option value="">Select</option>
-                                    <option value="1">One to ONe</option>
-                                    <option value="2">Many to One</option>
-                                    <option value="3">One to Many</option>
-                                </select>
+                                <input type="text" class="form-control" name="strike_rate[]" id="" value=""
+                                    placeholder="">
                                 <span class="text-danger"></span>
-                                <div class="text-danger" id="voucher_type"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-8 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Remarks</label>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="remark" id="remark" value=""
-                                    placeholder=""></textarea>
-                                <span class="text-danger"></span>
-                                <div class="text-danger" id="quantity_no"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <h5>Brought on change</h5>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="brought_item_code[]" id="" value="" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Ledgar No.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="brought_ledger[]" id="" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Desc</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="brought_description[]" id="" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>C/NC/NCF</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="brought_c_nc[]" id="" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-control" name="brought_quantity[]" id="quantity">
+
+                                </select>
+                                <span class="text-danger"></span>
+                                <div class="text-danger" id="quantity_no"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Rate</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="brought_rate[]" id="" value=""
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="col-md-12">
+                            <h5>Reason For Conversion</h5>
+                        </div>
+                        <div class="form-group col-md-12 mb-2">
+                            <div class="row align-items-center">
+                            
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="reason[]" id="remark" value=""
+                                        placeholder=""></textarea>
+                                    <span class="text-danger"></span>
+                                    <div class="text-danger" id="reason"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ms-auto">
+                        <div class="add-more form-group mt-4">
+                            <a href="javascript:void(0);" class="listing_add add-more-conv"><i
+                                    class="fas fa-plus-circle"></i> Add More</a>
+                        </div>
+                    </div>  
+                    
+                    <div id="conv_form_add_new_row"></div>
+                </div>
             </div>
-            <div class="col-md-2">
+
+           
+
+            <div class="col-md-6 col-xl-2 col-lg-3">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Save</button>
                 </div>
+            </div>
+            <div class="col-md-6 col-xl-2 col-lg-3">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
     </form>
+    
+    {{-- conv add more div --}}
+
+    <div id="conv_new_html" hidden>
+        <div class="new_html">
+            <hr />
+            <div class="col-md-12 count-class">
+                <div class="row">
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h5>Strike Off</h5>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Item Code</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-select" name="strike_item_code[]" >
+                                        @foreach($itemCodes as $itemCode)
+                                            <option value="{{ $itemCode->id }}">{{ $itemCode->code }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Ledger No.</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="strike_ledger[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Desc</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="strike_description[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>C/NC/NCF</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-select" name="strike_c_nc[]" id="strike_c_nc" >
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Quantity</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-control" name="strike_quantity[]" id="strike_quantity">
+    
+                                    </select>
+                                    <span class="text-danger"></span>
+                                    <div class="text-danger" id="quantity_no"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Rate</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="strike_rate[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h5>Brought on change</h5>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Item Code</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="brought_item_code[]" id="" value="" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Ledgar No.</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="brought_ledger[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Desc</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="brought_description[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>C/NC/NCF</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="brought_c_nc[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Quantity</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-control" name="brought_quantity[]" id="quantity">
+    
+                                    </select>
+                                    <span class="text-danger"></span>
+                                    <div class="text-danger" id="quantity_no"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Rate</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="brought_rate[]" id="" value=""
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="col-md-12">
+                                <h5>Reason For Conversion</h5>
+                            </div>
+                            <div class="form-group col-md-12 mb-2">
+                                <div class="row align-items-center">
+                                
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" name="reason[]" id="remark" value=""
+                                            placeholder=""></textarea>
+                                        <span class="text-danger"></span>
+                                        <div class="text-danger" id="quantity_no"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 ms-auto">
+                            <label>&nbsp;</label>
+                            <button class="listing_add w-100 trash form-control"><i class="fa fa-times"></i></button>
+                            </button>
+                        </div>    
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
 @endif

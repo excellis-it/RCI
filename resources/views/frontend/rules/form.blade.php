@@ -4,6 +4,7 @@
         @csrf
         <div class="row">
             <div class="col-md-9">
+                <input type="hidden" class="form-control" name="rule_id" id="rule_id" value="{{ $rule->id}}"> 
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -23,18 +24,18 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="month" id="month">
-                                    <option value="Jan"  {{ $rule->month == 'Jan' ? 'selected':''}}>January</option>
-                                    <option value="Feb" {{ $rule->month == 'jan' ? 'selected':''}}>February</option>
-                                    <option value="Mar" {{ $rule->month == 'jan' ? 'selected':''}}>March</option>
-                                    <option value="Apr" {{ $rule->month == 'jan' ? 'selected':''}}>April</option>
-                                    <option value="May" {{ $rule->month == 'jan' ? 'selected':''}}>May</option>
-                                    <option value="June" {{ $rule->month == 'jan' ? 'selected':''}}>June</option>
-                                    <option value="July" {{ $rule->month == 'jan' ? 'selected':''}}>July</option>
-                                    <option value="Aug" {{ $rule->month == 'jan' ? 'selected':''}}>August</option>
-                                    <option value="Sep" {{ $rule->month == 'jan' ? 'selected':''}}>September</option>
-                                    <option value="Oct" {{ $rule->month == 'jan' ? 'selected':''}}>October</option>
-                                    <option value="Nov" {{ $rule->month == 'jan' ? 'selected':''}}>November</option>
-                                    <option value="Dec" {{ $rule->month == 'jan' ? 'selected':''}}>December</option>
+                                    <option value="Jan"  {{ $rule->month == 'Jan' ? 'selected': ''}}>January</option>
+                                    <option value="Feb" {{ $rule->month == 'Feb' ? 'selected': ''}}>February</option>
+                                    <option value="Mar" {{ $rule->month == 'Mar' ? 'selected': ''}}>March</option>
+                                    <option value="Apr" {{ $rule->month == 'Apr' ? 'selected': ''}}>April</option>
+                                    <option value="May" {{ $rule->month == 'May' ? 'selected': ''}}>May</option>
+                                    <option value="June" {{ $rule->month == 'June' ? 'selected': ''}}>June</option>
+                                    <option value="July" {{ $rule->month == 'July' ? 'selected': ''}}>July</option>
+                                    <option value="Aug" {{ $rule->month == 'Aug' ? 'selected': ''}}>August</option>
+                                    <option value="Sep" {{ $rule->month == 'Sep' ? 'selected': ''}}>September</option>
+                                    <option value="Oct" {{ $rule->month == 'Oct' ? 'selected': ''}}>October</option>
+                                    <option value="Nov" {{ $rule->month == 'Nov' ? 'selected': ''}}>November</option>
+                                    <option value="Dec" {{ $rule->month == 'Dec' ? 'selected': ''}}>December</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -48,7 +49,6 @@
                             </div>
                             <div class="col-md-12">
                                 <select name="year" class="form-select" id="year">
-                                    <option value="">Select Year</option>
                                     @for ($i = date('Y'); $i >= 1950; $i--)
                                         <option value="{{ $i }}" {{ $rule->year == $i}}>
                                             {{ $i }}</option>
@@ -65,7 +65,7 @@
                                 <label>From Basic</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="f_basic" id="f_basic" >
+                                <input type="text" class="form-control" name="f_basic" id="f_basic" value="{{ $rule->f_basic }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 <label>To Basic</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="t_basic" id="t_basic" >
+                                <input type="text" class="form-control" name="t_basic" id="t_basic" value="{{ $rule->t_basic }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                 <label>Percent</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="percent" id="percent" >
+                                <input type="text" class="form-control" name="percent" id="percent"  value="{{ $rule->percent }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="amount" id="amount" >
+                                <input type="text" class="form-control" name="amount" id="amount" value="{{ $rule->amount }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                 <label>From Gross</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="f_gross" id="f_gross" >
+                                <input type="text" class="form-control" name="f_gross" id="f_gross" value="{{ $rule->f_gross }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                                 <label>To Gross</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="t_gross" id="t_gross" >
+                                <input type="text" class="form-control" name="t_gross" id="t_gross" value="{{ $rule->t_gross }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                 <label>From Scale</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="f_scale" id="f_scale" >
+                                <input type="text" class="form-control" name="f_scale" id="f_scale"  value="{{ $rule->f_scale }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                                 <label>To Scale</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="t_scale" id="t_scale" >
+                                <input type="text" class="form-control" name="t_scale" id="t_scale" value="{{ $rule->t_scale }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                                 <label>More Info</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="more_info" id="more_info" >
+                                <input type="text" class="form-control" name="more_info" id="more_info" value="{{ $rule->more_info }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
