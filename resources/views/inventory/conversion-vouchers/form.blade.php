@@ -26,7 +26,7 @@
                                 <select class="form-select" name="item_code_id" id="edit_item_code" disabled>
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $conversionVoucher->item_id ? 'selected' : '' }}>{{ $item->code }}</option>
+                                        <option value="{{ $item->item_code_id }}" {{ $item->id == $conversionVoucher->item_id ? 'selected' : '' }}>{{ $item->code }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -122,7 +122,7 @@
                                 <label>Voucher Number</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" value=""
+                                <input type="text" class="form-control" name="voucher_no" id="voucher_no" 
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -186,10 +186,10 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="strike_item_code[]" >
+                                <select class="form-select" name="strike_item_code[]" id="strike_item_code">
                                     <option value="">Select</option>
                                     @foreach($itemCodes as $itemCode)
-                                        <option value="{{ $itemCode->id }}">{{ $itemCode->item_code_id }}</option>
+                                        <option value="{{ $itemCode->item_code_id }}">{{ $itemCode->item_code_id }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -214,7 +214,7 @@
                                 <label>Desc</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="strike_description[]" id="" value=""
+                                <input type="text" class="form-control strike_description" name="strike_description[]" id="" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -226,7 +226,7 @@
                                 <label>C/NC/NCF</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="strike_c_nc[]" id="strike_c_nc" >
+                                <input type="text" class="form-control strike_c_nc" name="strike_c_nc[]" id="strike_c_nc" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -237,9 +237,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="strike_quantity[]" id="strike_quantity">
-
-                                </select>
+                                <input type="text" class="form-control strike_quantity" name="strike_quantity[]" id="strike_quantity">
                                 <span class="text-danger"></span>
                                 <div class="text-danger" id="quantity_no"></div>
                             </div>
@@ -251,7 +249,7 @@
                                 <label>Rate</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="strike_rate[]" id="" value=""
+                                <input type="text" class="form-control strike_rate" name="strike_rate[]" id="" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -268,7 +266,12 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="brought_item_code[]" id="" value="" placeholder="">
+                                <select class="form-select brought_item_code" name="brought_item_code[]" >
+                                    <option value="">Select</option>
+                                    @foreach($itemCodes as $itemCode)
+                                        <option value="{{ $itemCode->item_code_id }}">{{ $itemCode->item_code_id }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -291,7 +294,7 @@
                                 <label>Desc</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="brought_description[]" id="" value=""
+                                <input type="text" class="form-control brought_description" name="brought_description[]" id="" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -303,7 +306,7 @@
                                 <label>C/NC/NCF</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="brought_c_nc[]" id="" value=""
+                                <input type="text" class="form-control brought_c_nc" name="brought_c_nc[]" id="" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -315,9 +318,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="brought_quantity[]" id="quantity">
-
-                                </select>
+                                <input type="text" class="form-control brought_quantity" name="brought_quantity[]" id="quantity">
                                 <span class="text-danger"></span>
                                 <div class="text-danger" id="quantity_no"></div>
                             </div>
@@ -329,7 +330,7 @@
                                 <label>Rate</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="brought_rate[]" id="" value=""
+                                <input type="text" class="form-control brought_rate" name="brought_rate[]" id="" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -364,8 +365,6 @@
                 </div>
             </div>
 
-           
-
             <div class="col-md-6 col-xl-2 col-lg-3">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Save</button>
@@ -397,8 +396,9 @@
                                 </div>
                                 <div class="col-md-12">
                                     <select class="form-select" name="strike_item_code[]" >
+                                        <option value="">Select</option>
                                         @foreach($itemCodes as $itemCode)
-                                            <option value="{{ $itemCode->id }}">{{ $itemCode->code }}</option>
+                                            <option value="{{ $itemCode->item_code_id }}">{{ $itemCode->item_code_id }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger"></span>
@@ -423,7 +423,7 @@
                                     <label>Desc</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="strike_description[]" id="" value=""
+                                    <input type="text" class="form-control " name="strike_description[]" id="" value=""
                                         placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
@@ -435,7 +435,7 @@
                                     <label>C/NC/NCF</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <select class="form-select" name="strike_c_nc[]" id="strike_c_nc" >
+                                    <input type="text" class="form-control " name="strike_c_nc[]" id="strike_c_nc" >
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -446,11 +446,8 @@
                                     <label>Quantity</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <select class="form-control" name="strike_quantity[]" id="strike_quantity">
-    
-                                    </select>
+                                    <input type="text" class="form-control " name="strike_quantity[]" id="strike_quantity">
                                     <span class="text-danger"></span>
-                                    <div class="text-danger" id="quantity_no"></div>
                                 </div>
                             </div>
                         </div>
@@ -460,7 +457,7 @@
                                     <label>Rate</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="strike_rate[]" id="" value=""
+                                    <input type="text" class="form-control " name="strike_rate[]" id="" value=""
                                         placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
@@ -477,7 +474,12 @@
                                     <label>Item Code</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="brought_item_code[]" id="" value="" placeholder="">
+                                    <select class="form-select" name="brought_item_code[]" >
+                                        <option value="">Select</option>
+                                        @foreach($itemCodes as $itemCode)
+                                            <option value="{{ $itemCode->item_code_id }}">{{ $itemCode->item_code_id }}</option>
+                                        @endforeach
+                                    </select>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>

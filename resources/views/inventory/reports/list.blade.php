@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-    Inventory Report Generate
+Inventory Report Generate
 @endsection
 
 @push('styles')
@@ -29,7 +29,7 @@
     <!--  Row 1 -->
 
 
-<div class="">
+    <div class="">
 
         <div class="card-wrap">
             <div class="row justify-content-center">

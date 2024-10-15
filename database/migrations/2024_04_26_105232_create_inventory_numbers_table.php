@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('inventory_project_id')->unsigned()->nullable(); 
             $table->string('number')->nullable();
             $table->boolean('status')->default(1)->comment('0=Inactive, 1=Active');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

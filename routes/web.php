@@ -100,6 +100,7 @@ use App\Http\Controllers\Inventory\DashbaordController as InventoryDashbaordCont
 use App\Http\Controllers\Inventory\ReportController as InventoryReportController;
 use App\Http\Controllers\Inventory\GstController;
 use App\Http\Controllers\Inventory\InventorySirController;
+use App\Http\Controllers\Inventory\InventoryLoanController;
 
 // imprest
 use App\Http\Controllers\Imprest\CdaReceiptDetailController;
@@ -877,6 +878,7 @@ Route::middleware('permssions')->group(function () {
                 'inventory-types' => InventoryTypeController::class,
                 'inventory-projects' => InventoryProjectController::class,
                 'inventory-numbers' => InventoryNumberController::class,
+                'inventory-loans' => InventoryLoanController::class,
                 'credit-vouchers' => CreditVoucherController::class,
                 'debit-vouchers' => DebitVoucherController::class,
                 'reset-codes' => ResetItemCodeController::class,
@@ -898,13 +900,12 @@ Route::middleware('permssions')->group(function () {
                 'security-gate-stores' => SecurityGateStoresController::class,
             ]);
 
+            Route::get('/inventory-loan-fetch-data', [InventoryLoanController::class, 'inventoryLoanFetchData'])->name('inventory-loans.fetch-data');
 
+            Route::get('/conversion-get-item-details', [ConversionVoucherController::class, 'conversionGetItemDetails'])->name('conversions.item.details');
             Route::post('/inventory-holder', [CertificateIssueVoucherController::class, 'getInventoryHolder'])->name('certificate-issue-vouchers.get-inventory-holder');
-
             Route::get('/security-gate-stores-fetch-data', [SecurityGateStoresController::class, 'fetchData'])->name('security-gate-stores.fetch-data');
-
             Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
-
             Route::get('/traffic-control-reports',[InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
             Route::get('/reports-security-gate-store',[InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
             Route::get('/reports-store-inward',[InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');

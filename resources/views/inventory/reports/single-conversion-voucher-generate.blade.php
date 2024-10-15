@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <title>RCI</title>
@@ -14,21 +13,21 @@
               <tr>
                 <td></td>
 
-                <td style="font-size: 10px; text-align: right; font-weight: bold;">DRDO.SM.27
+                <td style="font-size: 14px; text-align: right; font-weight: bold;">DRDO.SM.27
                 </td>
               </tr>
               <tr>
-                <td style="font-size: 10px"></td>
+                <td style="font-size: 14px"></td>
                 <td style="
                       text-align: center;
                       font-weight: bold;
-                      font-size: 10px;
+                      font-size: 14px;
                       width: 100%;
                     ">
-                  CENTER FOR HIGH ENERGY SYSTEM & SCIENCES<br />
-                  CONVERSION VOUCHER
+                  (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES) <br>
+                  Conversion Voucher 
                 </td>
-                <td style="font-size: 10px; text-align: right"></td>
+                <td style="font-size: 14px; text-align: right"></td>
               </tr>
 
             </tbody>
@@ -40,21 +39,20 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;  width: 70%;
+                <td style="font-size: 10px;  width: 70%;
                         line-height: 18px;
                         font-weight: 400;
                         color: #000;
                         text-align: left;">Group/ Division: <br> <br>
-                  Type of Voucher: One to One / Many to One / One to Many &nbsp;&nbsp;&nbsp; Date: <br> <br>
-                  ICC No.: {{ $inv_no->number }} 
+                  Type of Voucher: {{ $conversionVoucher->voucher_type ?? '' }} &nbsp;&nbsp;&nbsp; Date: {{ $conversionVoucher->voucher_date ? date('d-m-Y', strtotime($conversionVoucher->voucher_date)) : '' }}<br> <br>
+                  ICC No.
                 </td>
-                <td valign="top" style="font-size: 16px; width: 30%;
+                <td valign="top" style="font-size: 10px; width: 30%;
                         line-height: 18px; 
                         font-weight: 400;
                         color: #000;
                         text-align: left; padding-left: 10px;">
-                  Voucher No: {{ $conversionVoucher->voucher_no }} <br> <br>
-                  Voucher Date: {{ \Carbon\Carbon::parse($conversionVoucher->voucher_date)->format('d-m-Y') }}
+                  Voucher No: {{ $conversionVoucher->voucher_no ?? '' }}
                 </td>
               </tr>
             </tbody>
@@ -68,151 +66,113 @@
             <tbody>
               <tr>
                 <th valign="top" rowspan="2"
-                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">
                   SL.N <br>
                   O.
                 </th>
                 <th valign="top" colspan="6"
-                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">
                   Strike Off
                 </th>
                 <th valign="top" colspan="6"
-                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">
                   Brought on Charge
                 </th>
                 <th valign="middle" rowspan="2"
-                  style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center; font-weight: 600;">
+                  style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">
                   Reasons for <br> Conversion
                 </th>
               </tr>
 
               <tr>
 
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
                   Item <br> Code
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Ledger <br> No/Page <br> No/
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Description <br> of Item to <br> be Struck <br> off Charge
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   C/ <br> NC/ <br> NCF
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Q <br>ty
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
                   Rate <br> per <br> Unit
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
                   Item <br> Code
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Ledger <br> No/<br>Page No<br>/
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Description <br> of Items <br> Brought on <br> Charge
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   C/ <br> NC/ <br> NCF
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Qty
                 </td>
-                <td valign="top" style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
+                <td valign="top" style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600;font-size: 10px; ">
                   Rate per <br> Unit
                 </td>
+
+
+
               </tr>
+              @foreach($conversionDetails as $key => $value)
               <tr>
-
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  1</td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  2
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  1
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  3
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->strike_item_code ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->strike_ledger ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  4
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->strike_description ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  5
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->strike_c_nc ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  6
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->strike_quantity ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  7
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->strike_rate ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  8
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->brought_item_code ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  9
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->brought_ledger ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  10
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->brought_description ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  11
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->brought_c_nc ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  12
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->brought_quantity ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  13
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->brought_rate ?? '' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  14
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;  font-weight: 600; font-size: 10px;">
+                  {{ $value->reason ?? '' }}
                 </td>
+               
               </tr>
-              <tr style="height: 60px;">
-
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                 1. &nbsp;</td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $itemDesc->code }}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  0001
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $itemDesc->description }}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $itemDesc->item_type }}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  {{ $conversionVoucher->quantity ?? 0}}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                  50
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $itemDesc->code }}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    0001
-                </td>   
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $itemDesc->description }}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $itemDesc->item_type }}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    {{ $conversionVoucher->quantity ?? 0}}
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    50
-                </td>
-                <td style="border: 1px solid #000; padding: 5px; font-size: 10px; text-align: center;  font-weight: 600; ">
-                    test
-                </td>
-              </tr>
+              @endforeach
+              
             </tbody>
           </table>
         </td>
@@ -224,7 +184,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 100%;
                         font-weight: 600;
                         color: #000;
@@ -240,7 +200,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 50%;
                         font-weight: 400;
                         color: #000;
@@ -258,7 +218,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-top: 20px;">
             <tbody>
               <tr>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                         line-height: 18px; width: 80%;
                         font-weight: 600;
                         color: #000;
@@ -266,7 +226,7 @@
                   (Name & Designation.)<br>
                   Date:
                 </td>
-                <td style="font-size: 16px;
+                <td style="font-size: 10px;
                 line-height: 18px; width: 20%;
                 font-weight: 600;
                 color: #000;

@@ -1,107 +1,108 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Conversion Vouchers
+Conversion Vouchers
 @endsection
 
 @push('styles')
 @endpush
 
 @section('content')
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
-    <div class="container-fluid">
-        <div class="breadcome-list">
-            <div class="d-flex">
-                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
-                <div class="">
-                    <h3>Conversion Vouchers</h3>
-                    <ul class="breadcome-menu mb-0">
-                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Conversion Vouchers</span></li>
-                    </ul>
-                </div>
+<section id="loading">
+    <div id="loading-content"></div>
+</section>
+<div class="container-fluid">
+    <div class="breadcome-list">
+        <div class="d-flex">
+            <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+            <div class="">
+                <h3>Conversion Vouchers</h3>
+                <ul class="breadcome-menu mb-0">
+                    <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                    <li><span class="bread-blod">Conversion Vouchers</span></li>
+                </ul>
             </div>
         </div>
-        <!--  Row 1 -->
+    </div>
+    <!--  Row 1 -->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card w-100">
-                    <div class="card-body">
-                        <div id="form">
-                            @include('inventory.conversion-vouchers.form')
-                        </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card w-100">
+                <div class="card-body">
+                    <div id="form">
+                        @include('inventory.conversion-vouchers.form')
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="date" class="form-control search_table ps-3 date-entry"
-                                                id="">
+                    <div class="row">
+                        <div class="col-md-12 mb-4 mt-4">
+                            <div class="row justify-content-end">
+                                <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                    <div class="position-relative">
+                                        <input type="date" class="form-control search_table ps-3 date-entry" id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control search_table" value=""
+                                                    id="search" placeholder="Search">
+                                                <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="refresh-btn">
+                                                <a href=""><span><i class="fa fa-refresh"
+                                                            aria-hidden="true"></i></span></a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <div class="position-relative">
-                                                    <input type="text" class="form-control search_table" value=""
-                                                        id="search" placeholder="Search">
-                                                    <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="refresh-btn">
-                                                    <a href=""><span><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> 
                                 </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
-                                                <th>ID</th>
-                                                
-                                                <th class="sorting" data-sorting_type="voucher_number" data-column_name="voucher_number"
-                                                    style="cursor: pointer">Voucher Number<span id="voucher_number_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="vdate" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="code" data-column_name="code"
-                                                    style="cursor: pointer">Inv. No. </th>
-                                                <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
-                                                    style="cursor: pointer">Quantity<span id="quantity_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('inventory.conversion-vouchers.table')
-                                        </tbody>
-                                        {{-- <tbody></tbody> --}}
-                                    </table>
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
-                                        value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div>
+                            </div>
+                            <div class="table-responsive rounded-2">
+                                <table class="table customize-table mb-0 align-middle bg_tbody">
+                                    <thead class="text-white fs-4 bg_blue">
+                                        <tr>
+                                            <th>ID</th>
+
+                                            <th class="sorting" data-sorting_type="voucher_number"
+                                                data-column_name="voucher_number" style="cursor: pointer">Voucher
+                                                Number<span id="voucher_number_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                            <th class="sorting" data-sorting_type="vdate"
+                                                data-column_name="voucher_date" style="cursor: pointer">Voucher
+                                                Date<span id="voucher_date_icon"><i class="fa fa-arrow-down"></i></span>
+                                            </th>
+                                            <th class="sorting" data-sorting_type="code" data-column_name="code"
+                                                style="cursor: pointer">Inv. No. </th>
+                                            <th class="sorting" data-sorting_type="quantity" data-column_name="quantity"
+                                                style="cursor: pointer">Quantity<span id="quantity_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody_height_scroll">
+                                        @include('inventory.conversion-vouchers.table')
+                                    </tbody>
+                                    {{-- <tbody></tbody> --}}
+                                </table>
+                                <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
+                                <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </form>
     </div>
+    </form>
+</div>
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).on('click', '#delete', function(e) {
+<script>
+    $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
                     text: "To delete this Conversion Voucher!",
@@ -121,9 +122,9 @@
                     }
                 })
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query, date_entry) {
                 $.ajax({
@@ -219,9 +220,9 @@
             });
 
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $('#conversion-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
@@ -254,9 +255,9 @@
                 });
             });
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
                 $('#loading').addClass('loading');
@@ -303,9 +304,9 @@
                 });
             });
         });
-    </script>
-    <script>
-        $(document).ready(function () {
+</script>
+<script>
+    $(document).ready(function () {
             $('#item_code_id').change(function(){
                 var selectedValue = $(this).find(':selected');
                 var quantity = selectedValue.data('hidden-value');
@@ -322,10 +323,10 @@
                 
             });
         });
-    </script>
+</script>
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             $('.print-route').on('click', function() {
                 var id = $(this).data('id');
 
@@ -355,10 +356,10 @@
                 });
             });
         });
-    </script>
+</script>
 
-    <script>
-        $(document).on('change', '#inv_no_1', function() {
+<script>
+    $(document).on('change', '#inv_no_1', function() {
             var inv_no = $(this).val();
             $('#item_code_id').prop('disabled', false);
             $('.inv_no').each(function() {
@@ -392,7 +393,7 @@
                 }
             });
         });
-        </script>
+</script>
 
 
 <script>
@@ -412,6 +413,51 @@
         });
 </script>
 
-    
-    
+<script>
+    $(document).ready(function() {
+    // Change event for strike_item_code dropdown
+        $(document).on('change', '#strike_item_code', function() {
+            var itemCode = $('#strike_item_code').val(); 
+        
+            if (itemCode !== '') {
+                var currentRow = $(this).closest('.row');
+
+                $.ajax({
+                    url: "{{ route('conversions.item.details') }}", // Your route to fetch item details
+                    type: 'GET',
+                    data: {
+                        item_code: itemCode
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Update the current row with the response data
+                            currentRow.find('.strike_description').val(response.description);
+                            currentRow.find('.strike_rate').val(response.rate);
+                            currentRow.find('.strike_c_nc').val(response.c_nc);
+
+                            // Populate the quantity dropdown
+                            var quantityDropdown = currentRow.find('.strike_quantity');
+                            quantityDropdown.empty(); // Clear existing options
+
+                            $.each(response.quantities, function(key, value) {
+                                quantityDropdown.append('<option value="'+ value +'">'+ value +'</option>');
+                            });
+                        } else {
+                            alert('Failed to fetch item details.');
+                        }
+                    },
+                    error: function() {
+                        alert('Error in fetching data.');
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
+
+
+
+
 @endpush

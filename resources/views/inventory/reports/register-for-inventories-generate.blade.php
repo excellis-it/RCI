@@ -4,7 +4,15 @@
 <title>RCI</title>
 <meta charset="utf-8" />
 
+<style>
+      .page-break {
+            page-break-before: always;
+        }
+    </style>
+
 <body style="background: #fff">
+
+    @foreach($groupedData as $key => $inventoryNumbers)
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
@@ -68,56 +76,21 @@
                                 <th style=" border: 1px solid black; padding: 5px;">Signature of O i/c Ledger Section</th>
                                 <th style=" border: 1px solid black; padding: 5px;">Remarks</th>
                             </tr>
+                            @foreach($inventoryNumbers as $keyval => $inventoryNumber)
                             <tr>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
+                                <td style=" border: 1px solid black; padding: 5px;">{{ $keyval + 1 }}</td>
+                                <td style=" border: 1px solid black; padding: 5px;">{{ $inventoryNumber['number'] ?? '' }}</td>
+                                <td style=" border: 1px solid black; padding: 5px;">{{ $inventoryNumber['created_at'] ?? '' }}</td>
+                                <td style=" border: 1px solid black; padding: 5px;">{{ $inventoryNumber['member']['user_name'] ?? '' }}</td>
+                                <td style=" border: 1px solid black; padding: 5px;"></td>
+                                <td style=" border: 1px solid black; padding: 5px;"></td>
+                                <td style=" border: 1px solid black; padding: 5px;"></td>
+                                <td style=" border: 1px solid black; padding: 5px;">{{ $inventoryNumber['remarks'] ?? '' }}</td>
                             </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                                <td style=" border: 1px solid black; padding: 5px;">&nbsp;</td>
-                            </tr>
+
+                            
+                            @endforeach
+                            
                         </tbody>
                     </table>
                 </td>
@@ -131,6 +104,12 @@
         </tbody>
 
     </table>
+
+    @if (!$loop->last)
+        <div class="page-break"></div>
+    @endif
+
+    @endforeach
 
 </body>
 

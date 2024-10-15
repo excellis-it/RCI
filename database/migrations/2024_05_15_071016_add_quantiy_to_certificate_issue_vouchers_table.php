@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('certificate_issue_vouchers', function (Blueprint $table) {
-            $table->string('quantity')->after('item_id')->nullable();
+            $table->string('quantity')->nullable();
             $table->string('total_price')->after('quantity')->nullable();
             $table->string('au_status')->after('total_price')->nullable();
         });

@@ -11,6 +11,7 @@ use App\Models\CreditVoucher;
 use  App\Models\TransferVoucher;
 use App\Models\CreditVoucherDetail;
 use App\Models\InventoryType;
+use App\Models\ConversionVoucherDetail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -66,6 +67,11 @@ class ConversionVoucherController extends Controller
         }
     }
 
+    public function conversionGetItemDetails(Request $request)
+    {
+        return $request;
+    }
+
     public function getItemQuantity(Request $request)
     {
         $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
@@ -102,12 +108,12 @@ class ConversionVoucherController extends Controller
 
         $sumQuant = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->sum('quantity');
         
-        $request->validate([
-            'voucher_date' => 'required',
-            'quantity' => ['required', 'numeric', 'min:1', 'available_quantity'],
-        ], [
-            'quantity.available_quantity' => 'Quantity is less than or equal to '.$sumQuant.'',
-        ]);
+        // $request->validate([
+        //     'voucher_date' => 'required',
+        //     'quantity' => ['required', 'numeric', 'min:1', 'available_quantity'],
+        // ], [
+        //     'quantity.available_quantity' => 'Quantity is less than or equal to '.$sumQuant.'',
+        // ]);
 
 
         // voucher no generate
@@ -127,29 +133,47 @@ class ConversionVoucherController extends Controller
 
 
         $conversionVoucher = new ConversionVoucher();
-        $conversionVoucher->item_id = $request->item_code_id;
-        $conversionVoucher->inv_no = $request->inv_no;
-        $conversionVoucher->quantity = $request->quantity;
         $conversionVoucher->voucher_no = $voucherNo;
+        $conversionVoucher->voucher_type = $request->voucher_type;
         $conversionVoucher->voucher_date = $request->voucher_date;
-        $conversionVoucher->remarks = $request->remark;
+        $conversionVoucher->transfer_voucher_number = $request->transfer_voucher_number;
         $conversionVoucher->save();
 
-        // credit voucher quantity reduce
+        foreach($request->strike_item_code as $key => $val) {
+            $conversionVoucherDetail = new ConversionVoucherDetail;
+            $conversionVoucherDetail->conversion_voucher_id = $conversionVoucher->id;
+            $conversionVoucherDetail->strike_item_code = $val ?? null;
+            $conversionVoucherDetail->strike_ledger = $request->strike_ledger[$key] ?? null;
+            $conversionVoucherDetail->strike_description = $request->strike_description[$key] ?? null;
+            $conversionVoucherDetail->strike_c_nc = $request->strike_c_nc[$key] ?? null;
+            $conversionVoucherDetail->strike_quantity = $request->strike_quantity[$key] ?? null;
+            $conversionVoucherDetail->strike_rate = $request->strike_rate[$key] ?? null;
+            $conversionVoucherDetail->brought_item_code = $request->brought_item_code[$key] ?? null;
+            $conversionVoucherDetail->brought_ledger = $request->brought_ledger[$key] ?? null;
+            $conversionVoucherDetail->brought_description = $request->brought_description[$key] ?? null;
+            $conversionVoucherDetail->brought_c_nc = $request->brought_c_nc[$key] ?? null;
+            $conversionVoucherDetail->brought_quantity = $request->brought_quantity[$key] ?? null;
+            $conversionVoucherDetail->brought_rate = $request->brought_rate[$key] ?? null;
+            $conversionVoucherDetail->reason = $request->reason[$key] ?? null;
+            $conversionVoucherDetail->save();
 
-        $creditVouchers = CreditVoucherDetail::where('item_code', $request->item_code_id)->where('quantity', '!=', 0)->get();
-        $quantity = $request->quantity;
-        foreach ($creditVouchers as $creditVoucher) {
-            $deductedQuantity = min($creditVoucher->quantity, $quantity);
-            $creditVoucher->quantity -= $deductedQuantity;
-            $creditVoucher->save();
-            
-            $quantity -= $deductedQuantity;
-            
-            if ($quantity <= 0) {
-                break;
+            $creditVouchers = CreditVoucherDetail::where('item_code', $val)->where('quantity', '!=', 0)->get();
+            $quantity = $request->quantity;
+            foreach ($creditVouchers as $creditVoucher) {
+                $deductedQuantity = min($creditVoucher->quantity, $quantity);
+                $creditVoucher->quantity -= $deductedQuantity;
+                $creditVoucher->save();
+                
+                $quantity -= $deductedQuantity;
+                
+                if ($quantity <= 0) {
+                    break;
+                }
             }
         }
+        
+        // credit voucher quantity reduce
+       
       
         session()->flash('message', 'Conversion Voucher added successfully');
         return response()->json(['success' => 'Conversion Voucher added successfully']);

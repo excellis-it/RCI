@@ -70,6 +70,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('inventory-loans.index') }}">Inventory Loans</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gate-passes.index') }}">Gate Passes</a>
                             </li>
                             <li class="mb-2">

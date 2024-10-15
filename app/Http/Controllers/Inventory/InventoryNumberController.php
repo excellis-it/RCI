@@ -90,6 +90,7 @@ class InventoryNumberController extends Controller
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
         $inventoryNumber->number = $inv_number;
         $inventoryNumber->status = $request->status;
+        $inventoryNumber->remarks = $request->remarks; 
         $inventoryNumber->save();
 
         session()->flash('message', 'Inventory Number added successfully');
@@ -136,6 +137,7 @@ class InventoryNumberController extends Controller
         $inventoryNumber->group_id = $request->group_id;
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
         $inventoryNumber->status = $request->status;
+        $inventoryNumber->remarks = $request->remarks; 
         $inventoryNumber->update();
 
         session()->flash('message', 'Inventory Number updated successfully');

@@ -15,6 +15,7 @@ use App\Models\DebitVoucherDetail;
 use App\Models\ExternalIssueVoucher;
 use App\Models\TransferVoucher;
 use App\Models\ConversionVoucher;
+use App\Models\ConversionVoucherDetail;
 use App\Models\GatePass;
 use App\Models\InventoryNumber;
 use App\Models\InventoryProject;
@@ -191,10 +192,11 @@ class ReportController extends Controller
     public function conversionVoucherGenerate(Request $request)
     {
         $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
+        $conversionDetails = ConversionVoucherDetail::where('conversion_voucher_id',$conversionVoucher->id)->get();
         $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
         $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
 
-        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc', 'inv_no'));
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc', 'inv_no','conversionDetails'));
         return $pdf->download('conversion-voucher.pdf');
     }
 
@@ -326,7 +328,10 @@ class ReportController extends Controller
 
     public function registerForInventories()
     {
-        $pdf = PDF::loadView('inventory.reports.register-for-inventories-generate');
+        $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->get();
+        $groupedData = collect($inventoryNumbers)->chunk(8); 
+
+        $pdf = PDF::loadView('inventory.reports.register-for-inventories-generate',compact('inventoryNumbers','groupedData'));
         return $pdf->download('register-for-inventories.pdf');
     }
 

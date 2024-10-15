@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('car_adv_prin_instl')->nullable()->after('car_adv');
             $table->integer('car_adv_total_instl')->nullable()->after('car_adv_prin_instl');
             $table->integer('scot_adv_prin_instl')->nullable()->after('sco_adv');
-            $table->integer('scot_adv_total_instl')->nullable()->after('scot_adv_prin_instl');
+            $table->integer('scot_adv_total_instl')->nullable();
             $table->integer('sco_adv_int_curr_instl')->nullable()->after('sco_int');
             $table->integer('sco_adv_int_total_instl')->nullable()->after('sco_adv_int_curr_instl');
             $table->integer('comp_prin_curr_instl')->nullable()->after('comp_adv');
