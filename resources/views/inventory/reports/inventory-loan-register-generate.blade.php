@@ -4,6 +4,12 @@
 <title>RCI</title>
 <meta charset="utf-8" />
 
+<style>
+  @page {
+      size: 29.7cm 42cm
+  }
+</style>
+
 <body style="background: #fff">
   <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
     <tbody>
@@ -58,22 +64,23 @@
 
               </tr>
 
-
+              @foreach($inventory_loans as $key => $inventory_loan)
               <tr>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">2</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">3</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">4</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">5</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">6</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $key+1 }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->date_of_issue ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->itemCode->code ?? ''}}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->inventory->number ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->nomenclature ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->quantity_issue ?? '' }}</td>
 
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">7</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">8</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">9</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">10</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">11</td>
-                <td style="border: 1px solid #000; padding: 5px; text-align: center;">12</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->cost ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->name_of_borrower ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->date_of_return ?? '' }}</td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $inventory_loan->remarks ?? '' }}</td>
               </tr>
+              @endforeach
             </tbody>
           </table>
         </td>

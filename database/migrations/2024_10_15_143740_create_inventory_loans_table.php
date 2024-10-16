@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('icc_no')->nullable();
             $table->string('item_code')->nullable();
             $table->string('nomenclature')->nullable();
+            $table->string('unit_price')->nullable();
             $table->string('quantity_issue')->nullable();
             $table->string('cost')->nullable();
             $table->string('name_of_borrower')->nullable();

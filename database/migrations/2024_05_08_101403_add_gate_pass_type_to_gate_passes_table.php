@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('gate_passes', function (Blueprint $table) {
             $table->dropColumn('gate_pass_type');
-            $table->dropColumn('eiv_no');
+            $table->dropColumn('eiv_no_id');
         });
     }
 };

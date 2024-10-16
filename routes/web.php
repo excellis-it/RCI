@@ -901,6 +901,7 @@ Route::middleware('permssions')->group(function () {
             ]);
 
             Route::get('/inventory-loan-fetch-data', [InventoryLoanController::class, 'inventoryLoanFetchData'])->name('inventory-loans.fetch-data');
+            Route::post('/inventory-loans-get-data',[InventoryLoanController::class, 'inventoryLoanItemData'])->name('inventory-loans.get-item-detail');
 
             Route::get('/conversion-get-item-details', [ConversionVoucherController::class, 'conversionGetItemDetails'])->name('conversions.item.details');
             Route::post('/inventory-holder', [CertificateIssueVoucherController::class, 'getInventoryHolder'])->name('certificate-issue-vouchers.get-inventory-holder');

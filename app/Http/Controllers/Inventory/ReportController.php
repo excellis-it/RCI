@@ -22,6 +22,7 @@ use App\Models\InventoryProject;
 use App\Models\ItemCode;
 use App\Models\SecurityGateStore;
 use App\Models\TrafficControl;
+use App\Models\InventoryLoan;
 use App\Models\ExternalIssueVoucherDetail;
 use PDF;
 use Carbon\Carbon;
@@ -253,8 +254,8 @@ class ReportController extends Controller
         $rin = Rin::findOrFail($id);
         $all_items = Rin::where('rin_no', $rin->rin_no)->get();
         $total_item = count($all_items);
-        $inventory_no = InventoryNumber::where('id',$rin->inventory_id)->first();
-        $project = InventoryProject::where('id',$inventory_no->inventory_project_id)->first();
+       return $inventory_no = InventoryNumber::where('id',$rin->inventory_id)->first() ?? '';
+        $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
         // $gst = GstPercentage::where('id',)
 
         $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin', 'all_items', 'total_item','project'));
@@ -343,7 +344,10 @@ class ReportController extends Controller
 
     public function inventoryLoanRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.inventory-loan-register-generate');
+
+        $inventory_loans = InventoryLoan::orderBy('id','desc')->get();
+
+        $pdf = PDF::loadView('inventory.reports.inventory-loan-register-generate',compact('inventory_loans'));
         return $pdf->download('inventory-loan-register.pdf');
     }
 
