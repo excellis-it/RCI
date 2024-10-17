@@ -429,11 +429,13 @@ Conversion Vouchers
                         item_code: itemCode
                     },
                     success: function(response) {
-                        if (response.success) {
+
+                        if (response.success == true) {
+                            alert();
                             // Update the current row with the response data
-                            currentRow.find('.strike_description').val(response.description);
-                            currentRow.find('.strike_rate').val(response.rate);
-                            currentRow.find('.strike_c_nc').val(response.c_nc);
+                            currentRow.find('.strike_description').val(.description);
+                            currentRow.find('.strike_c_nc').val(response.detail.item_type);
+                            currentRow.find('.strike_rate').val(response.detail.item_price)
 
                             // Populate the quantity dropdown
                             var quantityDropdown = currentRow.find('.strike_quantity');

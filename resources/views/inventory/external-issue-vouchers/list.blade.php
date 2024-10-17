@@ -450,4 +450,65 @@
             });
         });
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Handle item code change event dynamically
+        $(document).on('change', '.item_id', function() {
+            var item_code_id = $(this).val();
+            var $this = $(this); // Reference to the selected item
+
+            // Get the row containing this item
+            var $row = $this.closest('.count-class');
+
+            $.ajax({
+                url: "{{ route('rins.get-item-description') }}",
+                type: 'POST',
+                data: {
+                    id: item_code_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Update the description in the same row
+                    $row.find('.description').val(response.description);
+                    $row.find('.item_price').val(response.price);
+
+                    var selectedOption = $this.find('option:selected');
+                    var quantity = selectedOption.data('hidden-value');
+                    var quantityOptions = [];
+                    quantityOptions.push('<option value="">Select Quantity</option>');
+                    for (var i = 1; i <= quantity; i++) {
+                        quantityOptions.push('<option value="' + i + '">' + i + '</option>');
+                    }
+                    $row.find('.quantity').empty().append(quantityOptions.join(''));
+                    
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        });
+
+        // Handle "Add More" functionality
+        $(document).on('click', '.add-more', function() {
+                // Clone the first row of fields
+                var $clone = $('#rins_new_html .new_html').first().clone();
+                $clone.find('input, select').val(''); // Clear input fields in the cloned row
+                $clone.appendTo('#rins_new_html').show(); // Append the new row to the form and display it
+            });
+        });
+
+</script>
+
+<script>
+    // quantity change event
+    $(document).ready(function() {
+        $(document).on('change', '.quantity', function() {
+            var quantity = $(this).val();
+            var item_price = $(this).closest('.count-class').find('.item_price').val();
+            var total_price = quantity * item_price;
+            $(this).closest('.count-class').find('.total_price').val(total_price);
+        });
+    });
+    </script>
 @endpush

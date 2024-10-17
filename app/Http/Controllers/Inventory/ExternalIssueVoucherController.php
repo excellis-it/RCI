@@ -94,7 +94,7 @@ class ExternalIssueVoucherController extends Controller
             'voucher_date' => 'required',
             'inv_no' => 'required',
             'consignee' => 'required',
-            'gate_pass_id' => 'required',
+            // 'gate_pass_id' => 'required',
             'authority_of_issue' => 'required',
         ]);
 

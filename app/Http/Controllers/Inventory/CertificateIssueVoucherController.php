@@ -191,7 +191,6 @@ class CertificateIssueVoucherController extends Controller
 
     public function getItemDetail(Request $request)
     {
-    
         $item = ItemCode::findOrFail($request->item_id);
         return response()->json(['item_type' => $item->item_type, 'item_description' => $item->description, 'item_price' => $item->item_price]);
     }

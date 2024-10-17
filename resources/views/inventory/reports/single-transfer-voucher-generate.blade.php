@@ -116,10 +116,10 @@
                     0001
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $itemDesc->description }}
+                    {{ $itemDesc->description ?? ''}}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $transferVoucher->quantity }}
+                    {{ $transferVoucher->quantity ?? ''}}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
                     50
@@ -128,10 +128,10 @@
                     0001
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $itemDesc->description }}
+                    {{ $itemDesc->description ?? ''}}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $transferVoucher->quantity }}
+                    {{ $transferVoucher->quantity ?? ''}}
                 </td>
 
               </tr>

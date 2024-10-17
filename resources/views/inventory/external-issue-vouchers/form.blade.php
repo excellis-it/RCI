@@ -365,7 +365,7 @@
                             <label>Description</label>
                         </div>
                         <div class="col-md-12">
-                            <input class="form-control description" name="description[]" id="" >
+                            <input class="form-control description" name="description[]" id="description" >
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -378,7 +378,7 @@
                             <label>Unit Price</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="unit_price[]" id="item_unit_price"
+                            <input type="text" class="form-control item_price" name="unit_price[]" id="item_unit_price"
                                 placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -473,7 +473,7 @@
                             <label>Item List(Quantity)</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="item_code_id[]" id="item_code_id">
+                            <select class="form-select item_id" name="item_code_id[]" id="item_code_id">
                                 <option value="">Select</option>
                                 @foreach($creditVouchers as $item)
                                 @if ($item->total_quantity > 0)
@@ -507,7 +507,7 @@
                             <label>Unit Price</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="unit_price[]" id="item_unit_price"
+                            <input type="text" class="form-control item_price" name="unit_price[]" id="item_unit_price"
                                 placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -519,9 +519,7 @@
                             <label>Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="quantity[]" id="quantity">
-                                <option value="">Select Quantity</option>
-
+                            <select class="form-select quantity" name="quantity[]" id="">
                             </select>
                             <span class="text-danger"></span>
                         </div>
@@ -535,7 +533,7 @@
                             <label>Price</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="total_price[]" id="total_price" placeholder="">
+                            <input type="text" class="form-control total_price" name="total_price[]" id="" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>

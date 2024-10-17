@@ -69,7 +69,8 @@ class ConversionVoucherController extends Controller
 
     public function conversionGetItemDetails(Request $request)
     {
-        return $request;
+       $get_item_detail = ItemCode::where('code',$request->item_code)->first();
+       return response()->json(['success' => true, 'detail' => $get_item_detail]); 
     }
 
     public function getItemQuantity(Request $request)

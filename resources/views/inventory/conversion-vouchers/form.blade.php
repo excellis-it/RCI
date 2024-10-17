@@ -234,6 +234,17 @@
                     <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Unit Rate</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control strike_rate" name="strike_c_nc[]" id="strike_c_nc" >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
@@ -249,7 +260,7 @@
                                 <label>Rate</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control strike_rate" name="strike_rate[]" id="" value=""
+                                <input type="text" class="form-control" name="strike_rate[]" id="" value=""
                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>

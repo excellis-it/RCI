@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('voucher_date')->nullable();
             $table->string('from_inv_number')->nullable();
             $table->string('to_inv_number')->nullable();
-            $table->bigInteger('item_id')->unsigned()->nullable(); 
+            $table->string('item_id')->nullable(); 
             $table->string('quantity')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
