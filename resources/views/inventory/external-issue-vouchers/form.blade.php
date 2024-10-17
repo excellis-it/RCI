@@ -1,5 +1,5 @@
 @if (isset($edit))
-<form action="{{ route('external-issue-vouchers.update', $externalIssueVoucher->id) }}" method="POST"
+{{-- <form action="{{ route('external-issue-vouchers.update', $externalIssueVoucher->id) }}" method="POST"
     id="externel-issue-vouchers-edit-form">
     @method('PUT')
     @csrf
@@ -164,7 +164,7 @@
                             <label>Gate Pass No.(Date)</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-control" name="gate_pass_id" id="gate_pass_id" disabled>
+                            <select class="form-control" name="" id="" >
                                 <option value="">Select</option>
 
                                 @foreach($gatePasses as $gatePass)
@@ -174,7 +174,7 @@
                                     }}({{ $gatePass->gate_pass_date }})</option>
                                 @endforeach
                             </select>
-                            {{-- <div class="text-danger" id="quantity_no"></div> --}}
+                            
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -224,7 +224,7 @@
             </div>
         </div>
     </div>
-</form>
+</form> --}}
 @else
 <form action="{{ route('external-issue-vouchers.store') }}" method="POST" id="externel-issue-vouchers-create-form">
     @csrf
@@ -309,7 +309,7 @@
                             <label>Non-Returnable Material Gate Pass No.(Date)</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="gate_pass_id" id="gate_pass_id">
+                            <select class="form-select" name="gate_pass_id" id="">
                                 <option value="">Select</option>
                                 @foreach($gatePasses as $gatePass)
                                 <option value="{{ $gatePass->id }}">{{ $gatePass->gate_pass_no }}({{
