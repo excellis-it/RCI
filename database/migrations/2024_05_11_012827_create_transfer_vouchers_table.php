@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('to_inv_number')->nullable();
             $table->string('item_id')->nullable(); 
             $table->string('quantity')->nullable();
+            $table->string('issuing_division')->nullable();
+            $table->string('issuing_icc_no')->nullable();
+            $table->string('receiving_division')->nullable();
+            $table->string('receiving_icc_no')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

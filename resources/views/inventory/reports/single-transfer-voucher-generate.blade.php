@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <title>RCI</title>
@@ -110,28 +109,28 @@
               </tr>
               <tr>
 
-                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; "> 1.&nbsp;
+                <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; "> &nbsp;
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    0001
+
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $itemDesc->description ?? ''}}
+
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $transferVoucher->quantity ?? ''}}
+
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    50
+
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    0001
+
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $itemDesc->description ?? ''}}
+
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                    {{ $transferVoucher->quantity ?? ''}}
+
                 </td>
 
               </tr>
