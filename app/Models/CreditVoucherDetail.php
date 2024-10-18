@@ -28,4 +28,9 @@ class CreditVoucherDetail extends Model
     {
         return $this->belongsTo(ItemCode::class, 'item_code');
     }
+
+    public function inventoryNumber()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'inv_no');
+    }
 }

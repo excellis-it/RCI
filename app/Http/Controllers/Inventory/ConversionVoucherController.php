@@ -69,8 +69,12 @@ class ConversionVoucherController extends Controller
 
     public function conversionGetItemDetails(Request $request)
     {
-       $get_item_detail = ItemCode::where('code',$request->item_code)->first();
-       return response()->json(['success' => true, 'detail' => $get_item_detail]); 
+     
+        $item_quantity = CreditVoucherDetail::where('item_code_id', $request->item_id)->sum('quantity');
+        $item_details = ItemCode::where('code',$request->item_id)->first();
+        $inventory_number = CreditVoucherDetail::where('item_code_id',$request->item_id)->with('inventoryNumber')->first();
+
+        return response()->json(['success' => true, 'quantity' => $item_quantity, 'item_details' => $item_details, 'inventory_number' => $inventory_number]); 
     }
 
     public function getItemQuantity(Request $request)
@@ -173,9 +177,6 @@ class ConversionVoucherController extends Controller
             }
         }
         
-        // credit voucher quantity reduce
-       
-      
         session()->flash('message', 'Conversion Voucher added successfully');
         return response()->json(['success' => 'Conversion Voucher added successfully']);
     }
