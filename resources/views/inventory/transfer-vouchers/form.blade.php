@@ -198,9 +198,7 @@
                             <label>Nomenclature</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-control" name="strike_nomenclature[]">
-
-                            </select>
+                            <input type="text" class="form-control" name="strike_nomenclature[]">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -241,9 +239,7 @@
                             <label>Ledger Number</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-control" name="brought_ledger_no[]">
-
-                            </select>
+                            <input type="text" class="form-control" name="brought_ledger_no[]">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -326,9 +322,7 @@
                                 <label>Nomenclature</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="strike_nomenclature[]" >
-    
-                                </select>
+                                <input type="text" class="form-control" name="strike_nomenclature[]" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -369,9 +363,7 @@
                                 <label>Ledger Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="brought_ledger_no[]" >
-    
-                                </select>
+                                <input type="text" class="form-control" name="brought_ledger_no[]" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
