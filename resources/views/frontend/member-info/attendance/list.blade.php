@@ -40,10 +40,7 @@
                             <div class="col-md-3 col-lg-2">
                               <select class="form-control" aria-label="Year" id="year_search">
                                 @foreach ($years as $year)
-                                    <option value="{{ $year }}" @if ($year == $currentYear)
-                                        selected
-                                        
-                                    @endif>{{ $year }}</option>
+                                    <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
                                 @endforeach
                               </select>
                             </div>
