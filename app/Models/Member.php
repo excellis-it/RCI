@@ -109,7 +109,7 @@ class Member extends Model
         return $this->hasOne(MemberCredit::class, 'member_id')->orderBy('id', 'desc');
     }
 
-    
+
 
     public function memberDebit()
     {
@@ -127,7 +127,7 @@ class Member extends Model
         return $this->hasOne(MemberRecovery::class, 'member_id')->latest();
     }
 
-    
+
     public function memberRecovery()
     {
         return $this->hasMany(MemberRecovery::class, 'member_id')->latest();
@@ -163,10 +163,13 @@ class Member extends Model
         return $this->hasMany(MemberRetirementInfo::class, 'member_id');
     }
 
-    
-    
+    public function receiptMembers()
+    {
+        return $this->hasMany(ReceiptMember::class);
+    }
 
-    
+
+
 
 
 

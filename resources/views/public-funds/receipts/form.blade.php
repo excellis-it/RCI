@@ -161,7 +161,7 @@
                             </div>
                         </div>
                     </div>
-             
+
                     <div class="form-group mb-2 col-md-4 cheque-chq-no" >
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
 
                     <div class="form-group mb-2 col-md-4 cheque-date-no" >
                         <div class="row align-items-center">
@@ -186,7 +186,7 @@
                             </div>
                         </div>
                     </div>
-               
+
                     <div class="form-group mb-2 col-md-4 cheque-narration" >
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -199,7 +199,7 @@
                         </div>
                     </div>
                     @endif
-              
+
 
                     <div class="row justify-content-between">
                         <div class="col-xl-8">
@@ -225,7 +225,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-xl-4">
                             <div class="row justify-content-end">
                                 <div class="form-group col-md-6 mb-2">
@@ -249,7 +249,7 @@
         <div class="row align-items-center">
             <div class="col-md-10">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Mode</label>
@@ -260,6 +260,18 @@
                                     <option value="cash">Cash</option>
                                     <option value="cheque">Cheque</option>
                                 </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> --}}
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Vr. No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="vr_no" id="vr_no" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -280,10 +292,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Amount</label>
+                                <label>DV No.</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="amount" id="amount">
+                                <input type="text" class="form-control" name="dv_no" id="dv_no" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -325,71 +337,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vendor</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="vendor_id" id="vendor_id">
-                                    <option value="">Select</option>
-                                    @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}">{{ $vendor->f_name }} {{ $vendor->l_name }} ({{ $vendor->phone }})</option>
-                                    @endforeach
-                                    <option value="Other">Other</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group col-md-4 mb-2 cheque-vendor-name" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vendor Name</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="vendor_name" id="vendor_name">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-vendor-desig" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Desig.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="desig" id="desig">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-bill-ref" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Bill ref.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="bill_ref" id="bill_ref" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-bank-acc" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Bank Acc</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="bank_acc" id="bank_acc">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="form-group mb-2 col-md-4 cheque-dv-no" style="display:none;">
                         <div class="row align-items-center">
@@ -403,7 +351,7 @@
                             </div>
                         </div>
                     </div>
-             
+
 
                     <div class="form-group mb-2 col-md-4 cheque-chq-no" style="display:none;">
                         <div class="row align-items-center">
@@ -416,7 +364,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
 
                     <div class="form-group mb-2 col-md-4 cheque-date-no" style="display:none;">
                         <div class="row align-items-center">
@@ -429,19 +377,111 @@
                             </div>
                         </div>
                     </div>
-               
-                    <div class="form-group mb-2 col-md-4 cheque-narration" style="display:none;">
+
+
+
+                    <div class="form-group col-md-12 mb-4">
+                        <label for="dynamic-fields">Add Members</label>
+                        <div id="dynamic-fields">
+                            <div class="dynamic-section row mb-3">
+                                <div class="col-md-2">
+                                    <label>Sr No.</label>
+                                    <input type="text" class="form-control sr-no" name="sr_no[]" readonly value="1">
+                                </div>
+                                <div class="form-group col-md-2 mb-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12">
+                                            <label>Member</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <select class="js-example-basic-singleabc form-control vendor_id"  name="vendor_id">
+                                                <option value="">Select</option>
+                                                @foreach($members as $member)
+                                                    <option value="{{ $member->id }}">{{ $member->name }} </option>
+                                                @endforeach
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4 mb-2 cheque-vendor-name" >
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12">
+                                            <label>Member Name</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control member_name" name="member_name" id="member_name">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4 mb-2 cheque-vendor-desig">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12">
+                                            <label>Desig.</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control desig" name="desig" id="desig">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group col-md-4 mb-2 cheque-bank-acc">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12">
+                                            <label>Bank Acc</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="bank_acc" id="bank_acc">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>Amount</label>
+                                    <input type="text" class="form-control" name="amount[]" placeholder="Enter amount">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Bill reference</label>
+                                    <input type="text" class="form-control" name="desig[]" placeholder="Enter designation">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Cheque No.</label>
+                                    <input type="text" class="form-control" name="cheq_no[]" placeholder="Enter cheque number">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Cheque Date</label>
+                                    <input type="date" class="form-control" name="cheq_date[]">
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger remove-section mt-4">Remove</button>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-primary" id="add-section">Add More</button>
+                    </div>
+
+                    <div class="form-group mb-2 col-md-4 cheque-narration">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Narration</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="narration" id="narration">
+                                <textarea type="text" class="form-control" name="narration" id="narration"></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-              
 
                     <div class="row justify-content-between">
                         <div class="col-xl-8">
@@ -478,6 +518,8 @@
                             </div>
                         </div>
                     </div>
+
+
 
                 </div>
             </div>

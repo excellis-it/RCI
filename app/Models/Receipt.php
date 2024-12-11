@@ -19,4 +19,13 @@ class Receipt extends Model
     {
         return $this->belongsTo(PaymentCategory::class, 'category_id');
     }
+
+    public function member(){
+        return $this->belongsTo(Member::class, 'member_id');
+    }
+
+    public function receiptMembers()
+    {
+        return $this->hasMany(ReceiptMember::class);
+    }
 }

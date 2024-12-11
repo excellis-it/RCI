@@ -1,9 +1,10 @@
 @extends('frontend.public-fund.layouts.master')
 @section('title')
-   Receipts List
+    Receipts List
 @endsection
 
 @push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @php
@@ -33,7 +34,7 @@
                 <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
-               <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
+                <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
             </div>
         </div>
         <!--  Row 1 -->
@@ -66,17 +67,17 @@
                                                     style="cursor: pointer">Receipt No.<span id="receipt_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="receipt_type"
-                                                            style="cursor: pointer">Mode <span id="receipt_type_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
+                                                    style="cursor: pointer">Mode <span id="receipt_type_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                            style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
+                                                    style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                            style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
-                                               
+                                                    style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                    style="cursor: pointer">Amount  <span id="amount_icon"><i
+                                                    style="cursor: pointer">Amount <span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th></th>
                                             </tr>
@@ -101,7 +102,6 @@
 @endsection
 
 @push('scripts')
-   
     <script>
         $(document).ready(function() {
 
@@ -175,19 +175,19 @@
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -276,7 +276,7 @@
                 $('.cheque-chq-no').hide();
                 $('.cheque-date-no').hide();
                 $('.cheque-narration').hide();
-            } else{
+            } else {
                 $('.cash-form').hide();
                 $('.cash-details').hide();
                 $('.cheque-sr-no').hide();
@@ -291,42 +291,175 @@
         });
     </script>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
-        $('#vendor_id').change(function() {
-            var vendor_id = $(this).val();
-            
-            if(vendor_id == 'Other')
-            {
-                $('.cheque-vendor-name').show();
-            }else{
-                $('.cheque-vendor-name').hide();
-            }
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+
+            $('#vendor_id').change(function() {
+                var vendor_id = $(this).val();
+
+                if (vendor_id != '') {
+                    $('.cheque-vendor-name').show();
+                    $('.cheque-vendor-desig').show();
+                    $('.cheque-bank-acc').show();
+                }
+
+
+                // if(vendor_id == 'Other')
+                // {
+                //     $('.cheque-vendor-desig').show();
+                // }else{
+                //     $('.cheque-vendor-desig').hide();
+                // }
+            });
         });
     </script>
 
-    <script>
-        $('#vendor_id').change(function() {
+<script>
+    $(document).ready(function() {
+        let sectionIndex = 1;
+
+        // Add new section
+        $('#add-section').on('click', function() {
+            sectionIndex++;
+            let newSection = `
+            <div class="dynamic-section row mb-3">
+                <div class="col-md-2">
+                    <label>Sr No.</label>
+                    <input type="text" class="form-control sr-no" name="sr_no[]" readonly value="${sectionIndex}">
+                </div>
+
+                <div class="form-group col-md-2 mb-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12">
+                                            <label>Member</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <select class="js-example-basic-singleabc form-control vendor_id" name="vendor_id">
+                                                <option value="">Select</option>
+                                                @foreach($members as $member)
+                                                    <option value="{{ $member->id }}">{{ $member->name }} </option>
+                                                @endforeach
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                <div class="form-group col-md-4 mb-2 cheque-vendor-name">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Member Name</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control member_name" name="member_name" id="member_name">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2 cheque-vendor-desig">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Desig.</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control desig" name="desig" id="desig">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2 cheque-bank-acc">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Bank Acc</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="bank_acc" id="bank_acc">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Amount</label>
+                    <input type="text" class="form-control" name="amount[]" placeholder="Enter amount">
+                </div>
+                <div class="col-md-2">
+                    <label>Bill reference</label>
+                    <input type="text" class="form-control" name="desig[]" placeholder="Enter designation">
+                </div>
+                <div class="col-md-2">
+                    <label>Cheque No.</label>
+                    <input type="text" class="form-control" name="cheq_no[]" placeholder="Enter cheque number">
+                </div>
+                <div class="col-md-2">
+                    <label>Cheque Date</label>
+                    <input type="date" class="form-control" name="cheq_date[]">
+                </div>
+            </div>
+            `;
+            $('#dynamic-fields').append(newSection);
+        });
+
+        // Remove last section only
+        $(document).on('click', '.remove-section', function() {
+            let sections = $('.dynamic-section');
+            if (sections.length > 1) {
+                sections.last().remove();
+                updateSerialNumbers();
+            }
+        });
+
+        // Update Sr No
+        function updateSerialNumbers() {
+            $('.sr-no').each(function(index) {
+                $(this).val(index + 1);
+            });
+        }
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $(document).on('change', '.vendor_id', function() {
             var vendor_id = $(this).val();
-            var mode = $('#mode').val();
-            if(!isNaN(vendor_id) && vendor_id !== '')
-            {
-                //call ajax
+           // alert(vendor_id);
+            var row = $(this).closest('.dynamic-section'); // Target the specific row
+            var mode = $('#mode').val(); // If mode is needed, you can handle it dynamically
+
+            if (!isNaN(vendor_id) && vendor_id !== '') {
+                // Call AJAX
                 $.ajax({
                     url: "{{ route('receipts.get-vendor-desig') }}",
                     type: 'GET',
-                    data: {vendor_id: vendor_id},
+                    data: {
+                        member_id: vendor_id
+                    },
                     success: function(response) {
-                        $('#desig').val(response.data.desig);
+                        // Update fields within the specific row
+                        row.find('.member_name').val(response.data.name);
+                        row.find('.desig').val(response.data.desig);
                     },
                     error: function(xhr) {
                         // Handle errors
                         console.log(xhr);
                     }
                 });
-            }else{
-                $('#desig').val('');
+            } else {
+                // Clear fields within the specific row
+                row.find('.member-name').val('');
+                row.find('.desig').val('');
             }
-           
         });
-        </script>
+    });
+</script>
+
 @endpush

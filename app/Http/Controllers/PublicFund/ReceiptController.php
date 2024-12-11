@@ -5,6 +5,7 @@ namespace App\Http\Controllers\PublicFund;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Receipt;
+use App\Models\Member;
 use App\Models\PaymentCategory;
 use App\Models\PublicFundVendor;
 use App\Models\ResetVoucher;
@@ -19,8 +20,8 @@ class ReceiptController extends Controller
     {
         $receipts = Receipt::orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $vendors = PublicFundVendor::where('status', 1)->orderBy('id', 'desc')->get();
-        return view('public-funds.receipts.list', compact('receipts','paymentCategories','vendors'));
+        $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
+        return view('public-funds.receipts.list', compact('receipts','paymentCategories','members'));
     }
 
     public function fetchData(Request $request)
@@ -40,16 +41,27 @@ class ReceiptController extends Controller
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
-        
+
             return response()->json(['data' => view('public-funds.receipts.table', compact('receipts'))->render()]);
         }
     }
 
     public function getVendorDesig(Request $request)
     {
-        
-        $vendor = PublicFundVendor::where('id', $request->vendor_id)->first();
-        return response()->json(['data' => view('public-funds.receipts.details', compact('receipts'))->render()]);
+
+        $member = Member::where('id', $request->member_id)->first();
+
+        if ($member) {
+            return response()->json([
+                'data' => [
+                    'name' => $member->name,
+                    'desig' => $member->designation->designation_type,
+                   // 'bank_account' => $vendor->bank_acc_no,
+                ]
+            ]);
+        } else {
+            return response()->json(['error' => 'Vendor not found'], 404);
+        }
     }
 
     /**
@@ -65,7 +77,7 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        // validation 
+        // validation
         $request->validate([
             'mode' => 'required',
             'vr_date' => 'required',
