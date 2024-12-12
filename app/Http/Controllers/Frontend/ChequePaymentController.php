@@ -23,17 +23,18 @@ class ChequePaymentController extends Controller
         $cheque_receipt_nos = Receipt::where('receipt_type', 'cheque')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $members = Member::orderBy('id', 'desc')->get();
-        return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories','members','receipt_nos'));
+
+        $lastPayment = ChequePayment::orderBy('id', 'desc')->first();
+        return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment'));
     }
 
     public function getReceiptNoDetail(Request $request)
     {
         $rct_no = $request->rcpt_no;
         $detail = true;
-        $receipt = Receipt::where('id', $rct_no)->with('fundVendor','category')->first();
-        if($receipt)
-        {
-            return response()->json(['view' => view('frontend.public-fund.cheque-payment.details', compact('receipt','detail'))->render()]);
+        $receipt = Receipt::where('id', $rct_no)->with('fundVendor', 'category')->first();
+        if ($receipt) {
+            return response()->json(['view' => view('frontend.public-fund.cheque-payment.details', compact('receipt', 'detail'))->render()]);
         } else {
             return response()->json(['error' => 'Receipt not found']);
         }
@@ -55,12 +56,12 @@ class ChequePaymentController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $chequePayments = ChequePayment::where(function($queryBuilder) use ($query) {
+            $chequePayments = ChequePayment::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('vr_no', 'like', '%' . $query . '%')
                     ->orWhere('vr_date', 'like', '%' . $query . '%')
                     ->orWhere('amount', 'like', '%' . $query . '%')
                     ->orWhere('sr_no', 'like', '%' . $query . '%')
-                    ->orWhereHas('member', function($q) use ($query) {
+                    ->orWhereHas('member', function ($q) use ($query) {
                         $q->where('name', 'like', '%' . $query . '%');
                     })
                     ->orWhere('designation', 'like', '%' . $query . '%')
@@ -72,8 +73,8 @@ class ChequePaymentController extends Controller
                     ->orWhere('narration', 'like', '%' . $query . '%')
                     ->orWhere('category', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('chequePayments'))->render()]);
         }
@@ -86,7 +87,7 @@ class ChequePaymentController extends Controller
     {
 
         $rct_no = $request->rcpt_no;
-        foreach($request->amount as $key => $amount) {
+        foreach ($request->amount as $key => $amount) {
             $chequePayment = new ChequePayment();
             $chequePayment->rct_no = $rct_no;
             $chequePayment->amount = $amount;
@@ -97,7 +98,6 @@ class ChequePaymentController extends Controller
 
         session()->flash('message', 'Cheque Payment added successfully');
         return response()->json(['success' => 'Cheque Payment added successfully']);
-        
     }
 
     public function fetchMemberDesig(Request $request)
@@ -121,15 +121,14 @@ class ChequePaymentController extends Controller
      */
     public function edit(string $id)
     {
-       
+
         $receipt_nos = Receipt::where('receipt_type', 'cheque')->get();
         $receipt = Receipt::where('id', $id)->first();
         $chequePayments = ChequePayment::where('rct_no', $id)->get();
         $members = Member::orderBy('id', 'desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'receipt_nos', 'receipt','chequePayments','members'))->render()]);
-        
+        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'receipt_nos', 'receipt', 'chequePayments', 'members'))->render()]);
     }
 
     /**
