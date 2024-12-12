@@ -30,10 +30,11 @@
 
         <div class="row">
             <div class="col-md-6 text-start mb-3">
-                <h5>Last Payment - {{ !empty($lastPayment->vr_no) ? $lastPayment->vr_no : '' }}</h5>
+                <h5>Last Payment - {{ !empty($lastPayment->id) ? $lastPayment->id : '' }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
-                <h5>Last Payment Date - {{ !empty($lastPayment->vr_date) != null ? $lastPayment->vr_date : '' }}</h5>
+                <h5>Last Payment Date -
+                    {{ !empty($lastPayment->created_at) != null ? $lastPayment->created_at->format('Y-m-d') : '' }}</h5>
             </div>
         </div>
         <!--  Row 1 -->
@@ -62,17 +63,34 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="sr_no"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="receipt_no"
                                                     style="cursor: pointer">RCT No<span id="sr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                    style="cursor: pointer">Amount<span id="vr_no_icon"><i
+                                                    style="cursor: pointer">Vr No<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
-                                                    style="cursor: pointer">SR No.<span id="vr_date_icon"><i
+                                                    style="cursor: pointer">Vr Date<span id="vr_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                    style="cursor: pointer">Vendor<span id="amount_icon"><i
+                                                    style="cursor: pointer">Amount<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="bill_ref"
+                                                    style="cursor: pointer">Bill Ref<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="cheq_no"
+                                                    style="cursor: pointer">Cheque No.<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
+
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="cheq_date"
+                                                    style="cursor: pointer">Cheque Date<span id="amount_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="created_at"
+                                                    style="cursor: pointer">Created On<span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th></th>
                                             </tr>
@@ -187,6 +205,57 @@
         });
     </script>
 
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('submit', '#search_receipt_form', function(e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                var vr_no = $("#vr_no").val();
+                var vr_date = $("#vr_date").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('cheque-payments.get-receipt') }}",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+
+                        if (response.view) {
+
+                            toastr.success('Receipt Found!');
+
+                            $("#receipt_data").html(response.view);
+                            $("#create_receipt_no").val(response.receipt_data.receipt_no);
+                            $("#create_vr_no").val(response.receipt_data.vr_no);
+                            $("#create_vr_date").val(response.receipt_data.vr_date);
+                            $("#pay_amount").val(response.receipt_data.amount);
+                        } else {
+                            toastr.error('Receipt Not Found!');
+                        }
+
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        if (xhr.status === 500) {
+                            const response = JSON.parse(xhr.responseText);
+                            alert(response.error || 'An error occurred');
+                        } else {
+                            alert(`Unexpected Error: ${status}`);
+                        }
+                        console.error('Error Details:', xhr, status, error);
+                    }
+
+                });
+
+            });
+        });
+    </script>
+
+
     <script>
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
@@ -267,54 +336,6 @@
                     }
                 });
             });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $(document).on('change', '#vendor', function() {
-                var member = $(this).val();
-                $.ajax({
-                    url: "{{ route('cheque-payments.get-member-desig') }}",
-                    type: 'POST',
-                    data: {
-                        member: member
-                    },
-                    headers: { // Corrected from 'header' to 'headers'
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        $('#designation').val(response.designation.designation);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script>
-        $(document).on('click', '#add_more', function() {
-
-            function getOrdinal(n) {
-                var s = ["th", "st", "nd", "rd"],
-                    v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            }
-
-            var html = '';
-            // count rows
-            var rowCount = $('#cheque_payment_amount .child1').length + 2;
-            html +=
-                '<div class="row child1 mb-2"><div class="col-lg-3"><div class="form-group"><label>Amount</label><input type="text" class="form-control" name="amount[]" id="amount" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-3"><div class="form-group"><label>Date</label><input type="date" class="form-control" name="date[]" id="date" placeholder="" /><span class="text-danger"></span></div></div><div class="col-lg-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-child">✖</button></div></div>';
-
-            $('#cheque_payment_amount').append(html);
-        });
-
-        // Handle removing rows
-        $(document).on('click', '.remove-child', function() {
-            $(this).closest('.child1').remove();
         });
     </script>
 @endpush

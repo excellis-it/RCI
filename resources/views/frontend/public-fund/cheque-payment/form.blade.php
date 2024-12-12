@@ -1,71 +1,95 @@
-@if (isset($edit))
-    <form action="" method="POST" id="cheque-payment-edit-form">
+<form id="search_receipt_form" method="POST">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
 
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Receipt No</label>
-                        </div>
-                        <div class="col-md-12">
-
-                           
-                            <select name="rcpt_no" id="rcpt_no" class="form-select" disabled>
-                                <option value="">Select No</option>
-                                @foreach ($receipt_nos as $receipt_no)
-                                    <option value="{{ $receipt_no->id }}" {{ $receipt_no->id == $receipt->id ? 'selected' : '' }} >{{ $receipt_no->receipt_no }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
+                    @csrf
+                    <div class="col-md-4">
+                        <label for="">Vr. No</label>
+                        <input type="number" class="form-control" name="vr_no" id="vr_no"
+                            placeholder="Enter Vr. No" required>
+                        <span class="text-danger"></span>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="cash-payment-details">
-            @include('frontend.public-fund.cheque-payment.edit-details')
-        </div>
-    </form>
-@else
-    <form action="{{ route('cheque-payments.store') }}" method="POST" id="cheque-payment-create-form">
-        @csrf
-
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Receipt No</label>
-                        </div>
-                        <div class="col-md-12">
-                            <select name="rcpt_no" id="rcpt_no" class="form-select" >
-                                <option value="">Select No</option>
-                                @foreach ($receipt_nos as $receipt_no)
-                                    <option value="{{ $receipt_no->id }}" >{{ $receipt_no->receipt_no }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
+                    <div class="col-md-4">
+                        <label for="">Vr. Date</label>
+                        <input type="date" class="form-control" name="vr_date" id="vr_date"
+                            placeholder="Enter Vr. Date" required>
+                        <span class="text-danger"></span>
                     </div>
+                    <div class="col-md-4">
+                        <label for="">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary" id="search_vr">
+                            Search
+                        </button>
+
+                    </div>
+
                 </div>
             </div>
         </div>
-        
-        <div class="cheque-payment-details">
-            @include('frontend.public-fund.cheque-payment.details')
-        </div>
-       
-        <div class="row">
-            <div class="col-md-2 ml-auto">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
+    </div>
+</form>
+
+<div id="receipt_data">
+
+</div>
+
+<form action="{{ route('cheque-payments.store') }}" method="POST" id="cheque-payment-create-form">
+    @csrf
+
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+
+                    @csrf
+
+                    <input type="hidden" value="" name="receipt_no" id="create_receipt_no">
+                    <input type="hidden" value="" name="vr_no" id="create_vr_no">
+                    <input type="hidden" value="" name="vr_date" id="create_vr_date">
+                    <div class="col-md-3">
+                        <label for="">Amount</label>
+                        <input type="number" id="pay_amount" class="form-control" name="amount" required readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Bill Ref</label>
+                        <input type="number" class="form-control" name="bill_ref" placeholder="Enter Bill Ref"
+                            required>
+                        <span class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="">Cheque No.</label>
+                        <input type="number" class="form-control" name="cheq_no" placeholder="Enter Cheque No."
+                            required>
+                        <span class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="">Cheque Date</label>
+                        <input type="date" class="form-control" name="cheq_date" placeholder="Enter Cheque Date"
+                            required>
+                        <span class="text-danger"></span>
+                    </div>
+
+
                 </div>
             </div>
         </div>
-    </form>
-@endif
+    </div>
+
+
+    <br>
+    <div class="row">
+        <div class="col-md-2 ml-auto">
+            <div class="mb-1">
+                <button type="submit" class="listing_add">Add</button>
+            </div>
+            <div class="mb-1">
+                <a href="" class="listing_exit">Back</a>
+            </div>
+        </div>
+    </div>
+</form>
