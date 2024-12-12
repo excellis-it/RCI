@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReceiptMember extends Model
 {
-    protected $fillable = ['receipt_id', 'vr_no', 'member_id', 'serial_no'];
+    protected $fillable = ['receipt_id', 'vr_no', 'member_id', 'serial_no', 'amount', 'bill_ref', 'cheq_no', 'cheq_date'];
 
     public function receipt()
     {

@@ -1,529 +1,193 @@
-@if (isset($edit))
-    <form action="{{ route('receipts.update', $receipt_edit->id) }}" method="POST" id="public-vendor-edit-form">
-        @method('PUT')
-        @csrf
-        <div class="row align-items-center">
-            <div class="col-md-10">
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Mode</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="mode" id="mode"  disabled>
-                                    <option value="cash" {{ $receipt_edit->receipt_type == 'cash' ? 'selected' : ''}}>Cash</option>
-                                    <option value="cheque" {{ $receipt_edit->receipt_type == 'cheque' ? 'selected' : ''}}>Cheque</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
+<form action="{{ route('receipts.store') }}" method="POST" id="receipts-create-form">
+    @csrf
+    <div class="row align-items-center">
+        <div class="col-md-10">
+            <div class="row">
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Vr. No</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="vr_no" id="vr_no"
+                                value="{{ $vrNo }}" readonly>
+                            <span class="text-danger"></span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vr. Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="vr_date" id="vr_date" value="{{ $receipt_edit->vr_date ?? ''}}" >
-                                <span class="text-danger"></span>
-                            </div>
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Vr. Date</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="date" class="form-control" name="vr_date" id="vr_date">
+                            <span class="text-danger"></span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>DV No.</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="dv_no" id="dv_no">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 mb-4">
+                    <label for="dynamic-fields">Add Members</label>
+                    <div id="dynamic-fields">
+                        <div class="dynamic-section row mb-3">
+                            <div class="col-md-2">
+                                <label>Sr No.</label>
+                                <input type="text" class="form-control sr-no" name="sr_no[]" readonly value="1">
+                            </div>
+                            <div class="form-group col-md-2 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Member</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="js-example-basic-single form-control member_id"
+                                            name="member_id[]">
+                                            <option value="">Select</option>
+                                            @foreach ($members as $member)
+                                                <option value="{{ $member->id }}">{{ $member->name }} </option>
+                                            @endforeach
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2 cheque-member-name">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Member Name</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control member_name">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2 cheque-member-desig">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Desig.</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control desig">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group col-md-4 mb-2 cheque-bank-acc">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Bank Acc</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control bank_acc">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
                                 <label>Amount</label>
+                                <input type="text" class="form-control" name="member_amount[]"
+                                    placeholder="Enter amount">
                             </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="amount" id="amount" value="{{ $receipt_edit->amount ?? ''}}">
-                                <span class="text-danger"></span>
+                            <div class="col-md-2">
+                                <label>Bill reference</label>
+                                <input type="text" class="form-control" name="bill_ref[]"
+                                    placeholder="Enter Bill reference">
                             </div>
+                            <div class="col-md-2">
+                                <label>Cheque No.</label>
+                                <input type="text" class="form-control" name="cheq_no[]"
+                                    placeholder="Enter cheque number">
+                            </div>
+                            <div class="col-md-2">
+                                <label>Cheque Date</label>
+                                <input type="date" class="form-control" name="cheq_date[]">
+                            </div>
+
+
                         </div>
                     </div>
-
-                    @if($receipt_edit->receipt_type == 'cash')
-                    <div class="form-group col-md-4 mb-2 cash-form">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Form</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="form" id="form" value="{{ $receipt_edit->form ?? ''}}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger remove-section mt-4">Remove</button>
                     </div>
-
-                    <div class="form-group col-md-4 mb-2 cash-details" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Details</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="details" id="details" value="{{ $receipt_edit->details ?? ''}}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vendor</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="vendor_id" id="vendor_id" disabled>
-                                    <option value="">Select</option>
-                                    @foreach($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}" {{ $receipt_edit->fund_vendors_id == $vendor->id ? 'selected' : '' }}>{{ $vendor->f_name }} {{ $vendor->l_name }} ({{ $vendor->phone }})</option>
-                                    @endforeach
-                                    <option value="Other">Other</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    @if($receipt_edit->receipt_type == 'cheque')
-                    <div class="form-group col-md-4 mb-2 cheque-sr-no" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Sr no.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="sr_no" id="sr_no" value="{{ $receipt_edit->sr_no ?? ''}}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-vendor-name" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vendor Name</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="vendor_name" id="vendor_name" value="{{ $receipt_edit->vendor_name ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-vendor-desig" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Desig.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="desig" id="desig" value="{{ $receipt_edit->desig ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-bill-ref" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Bill ref.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="bill_ref" id="bill_ref" value="{{ $receipt_edit->bill_ref ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-bank-acc" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Bank Acc</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="bank_acc" id="bank_acc" value="{{ $receipt_edit->bank_acc_no ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-2 col-md-4 cheque-dv-no" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>DV No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="dv_no" id="dv_no"
-                                    placeholder="" value="{{ $receipt_edit->dv_no ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-2 col-md-4 cheque-chq-no" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="cheque_no" id="cheque_no" value="{{ $receipt_edit->cheque_no ?? '' }}">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group mb-2 col-md-4 cheque-date-no" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="cheque_date" id="cheque_date" value="{{ $receipt_edit->cheque_date ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-2 col-md-4 cheque-narration" >
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Narration</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="narration" id="narration"  value="{{ $receipt_edit->narration ?? '' }}" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
-
-                    <div class="row justify-content-between">
-                        <div class="col-xl-8">
-                            <div class="form-group">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <label>Category</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-inline">
-                                            @foreach ($paymentCategories as $key => $paymentCategory)
-                                                <div class="form-check form-check-inline ml-2">
-                                                    <input class="form-check-input" type="radio" name="category"
-                                                           id="inlineRadio{{ $key }}"
-                                                           value="{{ $paymentCategory->id }}"
-                                                           {{ $receipt_edit->category_id == $paymentCategory->id ? 'checked' : '' }}>
-                                                    <label class="form-check-label"
-                                                           for="inlineRadio{{ $key }}">{{ $paymentCategory->name }}</label>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4">
-                            <div class="row justify-content-end">
-                                <div class="form-group col-md-6 mb-2">
-                                    <button type="submit" class="listing_add">Update</button>
-                                </div>
-                                <div class="form-group col-md-6 mb-2">
-                                    <button type="reset" class="listing_exit">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <br>
+                    <button type="button" class="btn btn-primary" id="add-section">Add More</button>
                 </div>
-            </div>
 
-        </div>
-    </form>
-@else
-    <form action="{{ route('receipts.store') }}" method="POST" id="receipts-create-form">
-        @csrf
-        <div class="row align-items-center">
-            <div class="col-md-10">
-                <div class="row">
-                    {{-- <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Mode</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="mode" id="mode">
-                                    <option value="">Select</option>
-                                    <option value="cash">Cash</option>
-                                    <option value="cheque">Cheque</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
+                <div class="form-group mb-2 col-md-4 cheque-narration">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Narration</label>
                         </div>
-                    </div> --}}
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vr. No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="vr_no" id="vr_no" >
-                                <span class="text-danger"></span>
-                            </div>
+                        <div class="col-md-12">
+                            <textarea type="text" class="form-control" name="narration" id="narration"></textarea>
+                            <span class="text-danger"></span>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Vr. Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="vr_date" id="vr_date" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>DV No.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="dv_no" id="dv_no" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cash-form" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Form</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="form" id="form">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cash-details" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Details</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="details" id="details">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2 cheque-sr-no" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Sr no.</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="sr_no" id="sr_no">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="form-group mb-2 col-md-4 cheque-dv-no" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>DV No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="dv_no" id="dv_no"
-                                    value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group mb-2 col-md-4 cheque-chq-no" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="cheque_no" id="cheque_no" >
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group mb-2 col-md-4 cheque-date-no" style="display:none;">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Chq Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control" name="cheque_date" id="cheque_date">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="form-group col-md-12 mb-4">
-                        <label for="dynamic-fields">Add Members</label>
-                        <div id="dynamic-fields">
-                            <div class="dynamic-section row mb-3">
-                                <div class="col-md-2">
-                                    <label>Sr No.</label>
-                                    <input type="text" class="form-control sr-no" name="sr_no[]" readonly value="1">
-                                </div>
-                                <div class="form-group col-md-2 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Member</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <select class="js-example-basic-singleabc form-control vendor_id"  name="vendor_id">
-                                                <option value="">Select</option>
-                                                @foreach($members as $member)
-                                                    <option value="{{ $member->id }}">{{ $member->name }} </option>
-                                                @endforeach
-                                                <option value="Other">Other</option>
-                                            </select>
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2 cheque-vendor-name" >
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Member Name</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control member_name" name="member_name" id="member_name">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2 cheque-vendor-desig">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Desig.</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control desig" name="desig" id="desig">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form-group col-md-4 mb-2 cheque-bank-acc">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Bank Acc</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control" name="bank_acc" id="bank_acc">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <label>Amount</label>
-                                    <input type="text" class="form-control" name="amount[]" placeholder="Enter amount">
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Bill reference</label>
-                                    <input type="text" class="form-control" name="desig[]" placeholder="Enter designation">
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Cheque No.</label>
-                                    <input type="text" class="form-control" name="cheq_no[]" placeholder="Enter cheque number">
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Cheque Date</label>
-                                    <input type="date" class="form-control" name="cheq_date[]">
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-danger remove-section mt-4">Remove</button>
-                        </div>
-                        <br>
-                        <button type="button" class="btn btn-primary" id="add-section">Add More</button>
-                    </div>
-
-                    <div class="form-group mb-2 col-md-4 cheque-narration">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Narration</label>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea type="text" class="form-control" name="narration" id="narration"></textarea>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-between">
-                        <div class="col-xl-8">
-                            <div class="form-group">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <label>Category</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-inline">
-                                            @foreach ($paymentCategories as $key => $paymentCategory)
-                                                <div class="form-check form-check-inline ml-2">
-                                                    <input class="form-check-input" type="radio" name="category"
-                                                        id="inlineRadio{{ $key }}"
-                                                        value="{{ $paymentCategory->id }}">
-                                                    <label class="form-check-label"
-                                                        for="inlineRadio{{ $key }}">{{ $paymentCategory->name }}</label>
-                                                </div>
-                                            @endforeach
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4">
-                            <div class="row justify-content-end">
-                                <div class="form-group col-md-6 mb-2">
-                                    <button type="submit" class="listing_add">Add</button>
-                                </div>
-                                <div class="form-group col-md-6 mb-2">
-                                    <button type="reset" class="listing_exit">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
                 </div>
-            </div>
 
+                <div class="row justify-content-between">
+                    <div class="col-xl-8">
+                        <div class="form-group">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Category</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        @foreach ($paymentCategories as $key => $paymentCategory)
+                                            <div class="form-check form-check-inline ml-2">
+                                                <input class="form-check-input" type="radio" name="category"
+                                                    id="inlineRadio{{ $key }}"
+                                                    value="{{ $paymentCategory->id }}">
+                                                <label class="form-check-label"
+                                                    for="inlineRadio{{ $key }}">{{ $paymentCategory->name }}</label>
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="row justify-content-end">
+                            <div class="form-group col-md-6 mb-2">
+                                <button type="submit" class="listing_add">Add</button>
+                            </div>
+                            <div class="form-group col-md-6 mb-2">
+                                <button type="reset" class="listing_exit">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
         </div>
-    </form>
-@endif
+
+    </div>
+</form>

@@ -200,7 +200,7 @@ Route::middleware('permssions')->group(function () {
         'grade-pays' => GradePayController::class,
         'tptas' => TptaController::class,
         'income-taxes' => IncomeTaxController::class,
-        'gpfs'=> GpfController::class,
+        'gpfs' => GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
         'rules' => RuleController::class,
@@ -245,13 +245,16 @@ Route::middleware('permssions')->group(function () {
         'receipts' => ReceiptController::class
     ]);
 
-    Route::get('/receipts-vendor-desig', [ReceiptController::class, 'getVendorDesig'])->name('receipts.get-vendor-desig');
+    Route::get('/receipts-member-desig', [ReceiptController::class, 'getVendorDesig'])->name('receipts.get-member-desig');
 
     Route::get('/receipts-fetch-data', [ReceiptController::class, 'fetchData'])->name('receipts.fetch-data');
 
+    Route::get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])->name('receipts.edit');
+    Route::put('/receipts/{id}', [ReceiptController::class, 'update'])->name('receipts.update');
+
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
-    Route::get('/bag-purse-allowance',[BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
+    Route::get('/bag-purse-allowance', [BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
 
     //ltc routes
     Route::get('/reports-ltc-advance', [ReportController::class, 'ltcAdvance'])->name('reports.ltc-advance');
@@ -280,39 +283,39 @@ Route::middleware('permssions')->group(function () {
     Route::get('/generate-payslip', [ReportController::class, 'downloadPayslip'])->name('reports.download-payslip');
 
     // cgegis reports
-    Route::get('/reports-cgegis',[ReportController::class, 'cgegisReport'])->name('reports.cgegis');
-    route::post('/reports-cgegis-generate',[ReportController::class, 'cgegisReportGenerate'])->name('reports.cgegis-report-generate');
+    Route::get('/reports-cgegis', [ReportController::class, 'cgegisReport'])->name('reports.cgegis');
+    route::post('/reports-cgegis-generate', [ReportController::class, 'cgegisReportGenerate'])->name('reports.cgegis-report-generate');
 
     //cghs reports
-    Route::get('/reports-cghs',[ReportController::class, 'cghsReport'])->name('reports.cghs');
-    route::post('/reports-cghs-generate',[ReportController::class, 'cghsReportGenerate'])->name('reports.cghs-report-generate');
+    Route::get('/reports-cghs', [ReportController::class, 'cghsReport'])->name('reports.cghs');
+    route::post('/reports-cghs-generate', [ReportController::class, 'cghsReportGenerate'])->name('reports.cghs-report-generate');
 
     // hba reports
-    Route::get('/reports-hba',[ReportController::class, 'hbaReport'])->name('reports.hba');
-    Route::post('/reports-hba-generate',[ReportController::class, 'hbaReportGenerate'])->name('reports.hba-report-generate');
+    Route::get('/reports-hba', [ReportController::class, 'hbaReport'])->name('reports.hba');
+    Route::post('/reports-hba-generate', [ReportController::class, 'hbaReportGenerate'])->name('reports.hba-report-generate');
 
     //i-tax reports
-    Route::get('/reports-i-tax',[ReportController::class, 'iTaxRecovery'])->name('reports.i-tax');
-    Route::post('/reports-i-tax-generate',[ReportController::class, 'iTaxReportGenerate'])->name('reports.i-tax-report-generate');
+    Route::get('/reports-i-tax', [ReportController::class, 'iTaxRecovery'])->name('reports.i-tax');
+    Route::post('/reports-i-tax-generate', [ReportController::class, 'iTaxReportGenerate'])->name('reports.i-tax-report-generate');
 
-    Route::get('/reports-nps',[ReportController::class, 'npsReport'])->name('reports.nps');
-    Route::post('/reports-nps-generate',[ReportController::class, 'npsReportGenerate'])->name('reports.nps-report-generate');
-    Route::get('/get-da-percent-nps',[ReportController::class, 'getDaPercentNps'])->name('reports.get-da-percent-nps');
+    Route::get('/reports-nps', [ReportController::class, 'npsReport'])->name('reports.nps');
+    Route::post('/reports-nps-generate', [ReportController::class, 'npsReportGenerate'])->name('reports.nps-report-generate');
+    Route::get('/get-da-percent-nps', [ReportController::class, 'getDaPercentNps'])->name('reports.get-da-percent-nps');
 
     // lf reports
-    Route::get('/reports-lf-changes',[ReportController::class, 'lfChanges'])->name('reports.lf-changes');
-    Route::post('/reports-lf-generate',[ReportController::class, 'lfReportGenerate'])->name('reports.lf-report-generate');
+    Route::get('/reports-lf-changes', [ReportController::class, 'lfChanges'])->name('reports.lf-changes');
+    Route::post('/reports-lf-generate', [ReportController::class, 'lfReportGenerate'])->name('reports.lf-report-generate');
 
     // misc reports
-    Route::get('/reports-misc',[ReportController::class, 'miscReport'])->name('reports.misc');
-    Route::post('/reports-misc-generate',[ReportController::class, 'miscReportGenerate'])->name('reports.msc-report-generate');
-       // annual income tax report
+    Route::get('/reports-misc', [ReportController::class, 'miscReport'])->name('reports.misc');
+    Route::post('/reports-misc-generate', [ReportController::class, 'miscReportGenerate'])->name('reports.msc-report-generate');
+    // annual income tax report
     Route::get('/annual-income-tax-report', [ReportController::class, 'annualIncomeTaxReport'])->name('reports.annual-income-tax-report');
     Route::post('/annual-income-tax-report-generate', [ReportController::class, 'annualIncomeTaxReportGenerate'])->name('reports.annual-income-tax-report-generate');
 
     Route::get('/bag-purse-allowance-report', [ReportController::class, 'bagPurseAllowanceReport'])->name('reports.bag-purse-allowance');
     Route::post('/bag-purse-allowance-report-generate', [ReportController::class, 'bagPurseAllowanceReportGenerate'])->name('reports.bag-allowance-generate');
-       // paybill
+    // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
 
@@ -322,28 +325,28 @@ Route::middleware('permssions')->group(function () {
     Route::get('/generate-group-children-allowance', [ReportController::class, 'groupChildrenAllowance'])->name('reports.group-children-allowance');
     Route::post('/reports-group-children-allowanc-generate', [ReportController::class, 'groupChildrenAllowanceGenerate'])->name('reports.group-children-allowance-generate');
 
-    Route::get('/reports-newspaper', [ReportController::class,'newspaperAllowance'])->name('reports.newspaper-allowance');
-    Route::post('/generate-newspaper-report',[ReportController::class, 'newspaperReportGenerate'])->name('reports.newspaper-allowance-generate');
-    Route::post('get-member-newspaper-allocation',[ReportController::class, 'getMemberNewspaperAllocation'])->name('reports.member-newspaper-allocation');
+    Route::get('/reports-newspaper', [ReportController::class, 'newspaperAllowance'])->name('reports.newspaper-allowance');
+    Route::post('/generate-newspaper-report', [ReportController::class, 'newspaperReportGenerate'])->name('reports.newspaper-allowance-generate');
+    Route::post('get-member-newspaper-allocation', [ReportController::class, 'getMemberNewspaperAllocation'])->name('reports.member-newspaper-allocation');
 
-    Route::get('/group-newspaper-report',[ReportController::class, 'groupNewspaperAllocation'])->name('reports.group-newspaper-allowance');
-    Route::post('/group-newspaper-report-generate',[ReportController::class, 'groupNewspaperReportGenerate'])->name('reports.group-newspaper-allowance-generate');
+    Route::get('/group-newspaper-report', [ReportController::class, 'groupNewspaperAllocation'])->name('reports.group-newspaper-allowance');
+    Route::post('/group-newspaper-report-generate', [ReportController::class, 'groupNewspaperReportGenerate'])->name('reports.group-newspaper-allowance-generate');
 
-    Route::get('/reports-landline',[ReportController::class, 'landlineAllocation'])->name('reports.landline-mobile-allowance');
-    Route::post('/generate-landline-report',[ReportController::class, 'landlineReportGenerate'])->name('reports.landline-allowance-generate');
+    Route::get('/reports-landline', [ReportController::class, 'landlineAllocation'])->name('reports.landline-mobile-allowance');
+    Route::post('/generate-landline-report', [ReportController::class, 'landlineReportGenerate'])->name('reports.landline-allowance-generate');
 
     Route::post('/get-member-children', [ReportController::class, 'getMemberChildren'])->name('reports.get-member-children');
 
     //payroll
     Route::get('/reports-payroll', [ReportController::class, 'payroll'])->name('reports.payroll');
     Route::post('/reports-payroll-generate', [ReportController::class, 'payrollGenerate'])->name('reports.payroll-generate');
-       // salary certificate
+    // salary certificate
     Route::get('/reports-salary-certificate', [ReportController::class, 'salaryCertificate'])->name('reports.salary-certificate');
     Route::post('/reports-salary-certificate-generate', [ReportController::class, 'salaryCertificateGenerate'])->name('reports.salary-certificate-generate');
-        // bonus schedule
+    // bonus schedule
     Route::get('/reports-bonus-schedule', [ReportController::class, 'bonusSchedule'])->name('reports.bonus-schedule');
     Route::post('/reports-bonus-schedule-generate', [ReportController::class, 'bonusScheduleGenerate'])->name('reports.bonus-schedule-generate');
-        // last pay certificate
+    // last pay certificate
     Route::get('/reports-last-pay-certificate', [ReportController::class, 'lastPayCertificate'])->name('reports.last-pay-certificate');
     Route::post('/reports-last-pay-certificate-generate', [ReportController::class, 'lastPayCertificateGenerate'])->name('reports.last-pay-certificate-generate');
 
@@ -352,39 +355,39 @@ Route::middleware('permssions')->group(function () {
     Route::post('/get-nps-member-info', [ReportController::class, 'getNpsMemberInfo'])->name('reports.get-nps-members');
     Route::post('/get-member-gpf', [ReportController::class, 'getMemberGpf'])->name('reports.get-all-gpf-members');
 
-        // professional Update allowance
+    // professional Update allowance
     Route::get('/reports-professional-update-allowance', [ReportController::class, 'professionalUpdateAllowance'])->name('reports.professional-update-allowance');
     Route::post('/reports-professional-update-allowance-generate', [ReportController::class, 'professionalUpdateAllowanceGenerate'])->name('reports.professional-update-allowance-generate');
 
-        // gpf withdrawal report
+    // gpf withdrawal report
     Route::get('/reports-gpf-withdrawal', [ReportController::class, 'gpfWithdrawal'])->name('reports.gpf-withdrawal');
     Route::post('/reports-gpf-withdrawal-generate', [ReportController::class, 'gpfWithdrawalGenerate'])->name('reports.gpf-withdrawal-generate');
 
-        // gpf subscription report
+    // gpf subscription report
     Route::get('/reports-gpf-subscription', [ReportController::class, 'gpfSubscription'])->name('reports.gpf-subscription');
     Route::post('/reports-gpf-subscription-generate', [ReportController::class, 'gpfSubscriptionGenerate'])->name('reports.gpf-subscription-generate');
 
-        // terminal benefits report
+    // terminal benefits report
     Route::get('reports-terminal-benefits', [ReportController::class, 'terminalBenefits'])->name('reports.terminal-benefits');
     Route::post('reports-terminal-benefits-generate', [ReportController::class, 'terminalBenefitsGenerate'])->name('reports.terminal-benefits-generate');
 
-        // form 16 b
+    // form 16 b
     Route::get('reports-form-16b', [ReportController::class, 'formSixteenB'])->name('reports.form-16b');
     Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');
 
-        // form 16
+    // form 16
     Route::get('reports-form-16', [ReportController::class, 'formSixteen'])->name('reports.form-16');
     Route::post('reports-form-16-generate', [ReportController::class, 'formSixteenGenerate'])->name('reports.form-16-generate');
 
-        // form 16 a
+    // form 16 a
     Route::get('reports-form-16a', [ReportController::class, 'formSixteenA'])->name('reports.form-16a');
     Route::post('reports-form-16a-generate', [ReportController::class, 'formSixteenAGenerate'])->name('reports.form-16a-generate');
 
-        // da arrears report
+    // da arrears report
     Route::get('reports-da-arrears', [ReportController::class, 'daArrears'])->name('reports.da-arrears');
     Route::post('reports-da-arrears-generate', [ReportController::class, 'daArrearsGenerate'])->name('reports.da-arrears-generate');
 
-        // pay fixation arrears report
+    // pay fixation arrears report
     Route::get('reports-pay-fixation-arrears', [ReportController::class, 'payFixationArrears'])->name('reports.pay-fixation-arrears');
     Route::post('reports-pay-fixation-arrears-generate', [ReportController::class, 'payFixationArrearsGenerate'])->name('reports.pay-fixation-arrears-generate');
 
@@ -545,7 +548,7 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('policy')->group(function () {
         Route::get('/policy-delete/{id}', [PolicyController::class, 'deletePolicy'])->name('policy.delete');
     });
-    Route::get('/policy-fetch-data',[PolicyController::class, 'fetchData'])->name('policy.fetch-data');
+    Route::get('/policy-fetch-data', [PolicyController::class, 'fetchData'])->name('policy.fetch-data');
 
     //city routes
     Route::prefix('cities')->group(function () {
@@ -559,58 +562,58 @@ Route::middleware('permssions')->group(function () {
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
     //member credit update
-    Route::post('/members-credit-update',[MemberController::class,'memberCreditUpdate'])->name('members.credit.update');
-    Route::post('/members-credit-da-percentage',[MemberController::class,'memberCreditDaPercentage'])->name('members.credit.da-percentage');
+    Route::post('/members-credit-update', [MemberController::class, 'memberCreditUpdate'])->name('members.credit.update');
+    Route::post('/members-credit-da-percentage', [MemberController::class, 'memberCreditDaPercentage'])->name('members.credit.da-percentage');
     //member debit update
-    Route::post('/members-debit-update',[MemberController::class,'memberDebitUpdate'])->name('members.debit.update');
-    Route::post('/members-debit-edu-cess',[MemberController::class,'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
+    Route::post('/members-debit-update', [MemberController::class, 'memberDebitUpdate'])->name('members.debit.update');
+    Route::post('/members-debit-edu-cess', [MemberController::class, 'memberDebitEducationCess'])->name('members.debit.get-edu-cess');
     Route::post('/eol-hpl', [MemberController::class, 'checkEolHplCcl'])->name('members.eol-hpl');
     //member recovery update
-    Route::post('/members-recovery-update',[MemberController::class,'memberRecoveryUpdate'])->name('members.recovery.update');
-    Route::delete('/members-recovery-delete/{id}',[MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
+    Route::post('/members-recovery-update', [MemberController::class, 'memberRecoveryUpdate'])->name('members.recovery.update');
+    Route::delete('/members-recovery-delete/{id}', [MemberController::class, 'memberRecoveryDelete'])->name('members.recovery-delete');
 
-    Route::get('/member-loans-emi-info',[MemberController::class,'memberLoanEmiInfo'])->name('members-loan.emi-info');
-    Route::post('/members-loan-list',[MemberController::class,'memberLoanList'])->name('members.get-loan-from-member');
-    Route::post('/members-loan-emi-submit',[MemberController::class,'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
+    Route::get('/member-loans-emi-info', [MemberController::class, 'memberLoanEmiInfo'])->name('members-loan.emi-info');
+    Route::post('/members-loan-list', [MemberController::class, 'memberLoanList'])->name('members.get-loan-from-member');
+    Route::post('/members-loan-emi-submit', [MemberController::class, 'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
     Route::post('/loan-emi-list', [MemberController::class, 'fetchEmiList'])->name('members.loan-emi-list');
 
 
     //member check credit availability
-    Route::post('/members-check-credit-availability',[MemberController::class,'memberCheckCreditAvailability'])->name('members.check-credit-available');
+    Route::post('/members-check-credit-availability', [MemberController::class, 'memberCheckCreditAvailability'])->name('members.check-credit-available');
 
     //member recovery original route
-    Route::post('/members-recovery-original-update',[MemberController::class,'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
+    Route::post('/members-recovery-original-update', [MemberController::class, 'memberRecoveryOriginalUpdate'])->name('members.recovery-original.update');
     // members.loan.get-loan
 
     //member expectation route
-    Route::post('/members-expectation-store',[MemberController::class,'memberExpectationStore'])->name('members.expectation.store');
-    Route::get('/members-expectation-edit/{id}',[MemberController::class,'memberExpectationEdit'])->name('members.expectation.edit');
-    Route::post('/members-expectation-update',[MemberController::class,'memberExpectationUpdate'])->name('members.expectation.update');
-    Route::post('/members-get-rule-detail',[MemberController::class, 'memberExpRuleDetail'])->name('members.expectation.get-rule-detail');
-    Route::delete('/members-expectation-delete/{id}',[MemberController::class, 'memberExpectationDelete'])->name('members.expectation-delete');
+    Route::post('/members-expectation-store', [MemberController::class, 'memberExpectationStore'])->name('members.expectation.store');
+    Route::get('/members-expectation-edit/{id}', [MemberController::class, 'memberExpectationEdit'])->name('members.expectation.edit');
+    Route::post('/members-expectation-update', [MemberController::class, 'memberExpectationUpdate'])->name('members.expectation.update');
+    Route::post('/members-get-rule-detail', [MemberController::class, 'memberExpRuleDetail'])->name('members.expectation.get-rule-detail');
+    Route::delete('/members-expectation-delete/{id}', [MemberController::class, 'memberExpectationDelete'])->name('members.expectation-delete');
     //member core-info update
-    Route::post('/members-core-info-update',[MemberController::class,'memberCoreInfoUpdate'])->name('members.core-info.update');
-    Route::post('/members-core-info-ifsc',[MemberController::class,'memberBankIfsc'])->name('members.core-info.get-ifsc');
+    Route::post('/members-core-info-update', [MemberController::class, 'memberCoreInfoUpdate'])->name('members.core-info.update');
+    Route::post('/members-core-info-ifsc', [MemberController::class, 'memberBankIfsc'])->name('members.core-info.get-ifsc');
 
-    Route::post('/get-members-grade-pay',[MemberController::class,'getMemberGradePay'])->name('members.grade-pay');
-    Route::post('/get-members-cgegis-value',[MemberController::class,'getmemberCgegisvalue'])->name('members.get-cgegis-value');
-    Route::post('/get-members-category-value',[MemberController::class,'getmemberCategoryValue'])->name('members.get-category-value');
+    Route::post('/get-members-grade-pay', [MemberController::class, 'getMemberGradePay'])->name('members.grade-pay');
+    Route::post('/get-members-cgegis-value', [MemberController::class, 'getmemberCgegisvalue'])->name('members.get-cgegis-value');
+    Route::post('/get-members-category-value', [MemberController::class, 'getmemberCategoryValue'])->name('members.get-category-value');
 
 
     //member loan info
-    Route::post('/members-loan-info-store',[MemberController::class,'memberLoanInfoStore'])->name('members.loan.store');
+    Route::post('/members-loan-info-store', [MemberController::class, 'memberLoanInfoStore'])->name('members.loan.store');
     //member loan edit
-    Route::get('/members-loan-edit/{id}',[MemberController::class,'memberLoanEdit'])->name('members.loan.edit');
+    Route::get('/members-loan-edit/{id}', [MemberController::class, 'memberLoanEdit'])->name('members.loan.edit');
 
     //member personal info
-    Route::post('/members-policy-info-store',[MemberController::class,'memberPolicyInfoStore'])->name('members.policy-info.submit');
-    Route::get('/members-policy-info-edit/{id}',[MemberController::class,'memberPolicyInfoEdit'])->name('members.policy-info.edit');
-    Route::post('/members-policy-info-update',[MemberController::class,'memberPolicyInfoUpdate'])->name('members.policy-info.update');
-    Route::delete('/members-policy-info-delete/{id}',[MemberController::class, 'memberPolicyInfoDelete'])->name('members.policy-info.delete');
+    Route::post('/members-policy-info-store', [MemberController::class, 'memberPolicyInfoStore'])->name('members.policy-info.submit');
+    Route::get('/members-policy-info-edit/{id}', [MemberController::class, 'memberPolicyInfoEdit'])->name('members.policy-info.edit');
+    Route::post('/members-policy-info-update', [MemberController::class, 'memberPolicyInfoUpdate'])->name('members.policy-info.update');
+    Route::delete('/members-policy-info-delete/{id}', [MemberController::class, 'memberPolicyInfoDelete'])->name('members.policy-info.delete');
     //member personal update
-    Route::post('/members-loan-update',[MemberController::class,'memberLoanUpdate'])->name('members.loan.update');
-    Route::delete('/members-loan-delete/{id}',[MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
-    Route::post('/members-personal-update',[MemberController::class,'memberPersonalUpdate'])->name('members.personal.update');
+    Route::post('/members-loan-update', [MemberController::class, 'memberLoanUpdate'])->name('members.loan.update');
+    Route::delete('/members-loan-delete/{id}', [MemberController::class, 'memberLoanDelete'])->name('members.loan.delete');
+    Route::post('/members-personal-update', [MemberController::class, 'memberPersonalUpdate'])->name('members.personal.update');
 
     //member income tax
     Route::prefix('member-income-taxes')->group(function () {
@@ -664,7 +667,6 @@ Route::middleware('permssions')->group(function () {
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
         Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
-
     });
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
     Route::post('/cheque-payments-member-desig', [ChequePaymentController::class, 'fetchMemberDesig'])->name('cheque-payments.get-member-desig');
@@ -676,11 +678,11 @@ Route::middleware('permssions')->group(function () {
     });
 
     Route::get('/reset-voucher-fetch-data', [ResetVoucherController::class, 'fetchData'])->name('reset-voucher.fetch-data');
-    Route::get('/edit-member',[MemberController::class,'editMember'])->name('edit.member');
+    Route::get('/edit-member', [MemberController::class, 'editMember'])->name('edit.member');
     // Route::get('/income-tax',[IncomeTaxController::class,'index'])->name('income-tax');
 
-     // manik routes
-     Route::prefix('tada')->group(function () {
+    // manik routes
+    Route::prefix('tada')->group(function () {
         Route::get('/tada-delete/{id}', [TaDaController::class, 'delete'])->name('tada.delete');
     });
     Route::get('/tada-fetch-data', [TaDaController::class, 'fetchData'])->name('tada.fetch-data');
@@ -722,9 +724,9 @@ Route::middleware('permssions')->group(function () {
             'member-bag-allowance' => MemberBagAllowanceController::class,
         ]);
 
-        Route::get('/member-newspaper-fetch',[MemberNewspaperAllowanceController::class,'fetchData'])->name('member-newspaper-allowance.fetch-data');
-        Route::get('/member-bag-fetch',[MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');
-        Route::post('/member-bag-allotment-fetch',[MemberBagAllowanceController::class, 'fetchBagAllotment'])->name('get-member-bag-allowance');
+        Route::get('/member-newspaper-fetch', [MemberNewspaperAllowanceController::class, 'fetchData'])->name('member-newspaper-allowance.fetch-data');
+        Route::get('/member-bag-fetch', [MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');
+        Route::post('/member-bag-allotment-fetch', [MemberBagAllowanceController::class, 'fetchBagAllotment'])->name('get-member-bag-allowance');
         // leave type
         Route::prefix('leave-type')->group(function () {
             Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');
@@ -767,7 +769,6 @@ Route::middleware('permssions')->group(function () {
 
         // retirement
         Route::get('/member-retirement-fetch-data', [MemberRetirementController::class, 'fetchData'])->name('member-retirement.fetch-data');
-
     });
 
     // Income Tax
@@ -863,7 +864,6 @@ Route::middleware('permssions')->group(function () {
         Route::post('/advance-settlement-bill-update', [AdvanceSettlementController::class, 'updateAdvanceSettleBill'])->name('advance-settle-bills.update');
         //delete advance settylement
         Route::get('/advance-settlement-bill-delete/{id}', [AdvanceSettlementController::class, 'deleteAdvanceSettleBill'])->name('advance-settle-bills.delete');
-
     });
 
     //grade pay routes
@@ -901,90 +901,90 @@ Route::middleware('permssions')->group(function () {
             ]);
 
             Route::get('/inventory-loan-fetch-data', [InventoryLoanController::class, 'inventoryLoanFetchData'])->name('inventory-loans.fetch-data');
-            Route::post('/inventory-loans-get-data',[InventoryLoanController::class, 'inventoryLoanItemData'])->name('inventory-loans.get-item-detail');
+            Route::post('/inventory-loans-get-data', [InventoryLoanController::class, 'inventoryLoanItemData'])->name('inventory-loans.get-item-detail');
 
             Route::get('/conversion-get-item-details', [ConversionVoucherController::class, 'conversionGetItemDetails'])->name('conversions.item.details');
             Route::post('/inventory-holder', [CertificateIssueVoucherController::class, 'getInventoryHolder'])->name('certificate-issue-vouchers.get-inventory-holder');
             Route::get('/security-gate-stores-fetch-data', [SecurityGateStoresController::class, 'fetchData'])->name('security-gate-stores.fetch-data');
-            Route::get('/report-generate',[InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
-            Route::get('/traffic-control-reports',[InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
-            Route::get('/reports-security-gate-store',[InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
-            Route::get('/reports-store-inward',[InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
-            Route::get('/reports-rin-controller',[InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
-            Route::get('/reports-certificate-receipt',[InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
+            Route::get('/report-generate', [InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
+            Route::get('/traffic-control-reports', [InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
+            Route::get('/reports-security-gate-store', [InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
+            Route::get('/reports-store-inward', [InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
+            Route::get('/reports-rin-controller', [InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
+            Route::get('/reports-certificate-receipt', [InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
 
             // Ledger Sheet Report
-            Route::get('/ledger-sheet-report',[InventoryReportController::class, 'ledgerSheetReport'])->name('reports.ledger-sheet');
+            Route::get('/ledger-sheet-report', [InventoryReportController::class, 'ledgerSheetReport'])->name('reports.ledger-sheet');
             // Bin Card Report
-            Route::get('/bin-card-report',[InventoryReportController::class, 'binCardReport'])->name('reports.bin-card');
+            Route::get('/bin-card-report', [InventoryReportController::class, 'binCardReport'])->name('reports.bin-card');
             //Register for inventories report
-            Route::get('/register-for-inventories',[InventoryReportController::class, 'registerForInventories'])->name('reports.register-for-inventories');
+            Route::get('/register-for-inventories', [InventoryReportController::class, 'registerForInventories'])->name('reports.register-for-inventories');
             //Stock sheet
-            Route::get('/reports-stock-sheet',[InventoryReportController::class, 'stockSheetReport'])->name('reports.stock-sheet');
+            Route::get('/reports-stock-sheet', [InventoryReportController::class, 'stockSheetReport'])->name('reports.stock-sheet');
             //Inventory Loan register report
-            Route::get('/inventory-loan-register',[InventoryReportController::class, 'inventoryLoanRegister'])->name('reports.inventory-loan-register');
+            Route::get('/inventory-loan-register', [InventoryReportController::class, 'inventoryLoanRegister'])->name('reports.inventory-loan-register');
             //Discrepancy report
-            Route::get('/discrepancy-report',[InventoryReportController::class, 'discrepancyReport'])->name('reports.discrepancy-report');
+            Route::get('/discrepancy-report', [InventoryReportController::class, 'discrepancyReport'])->name('reports.discrepancy-report');
             //Internal demand & issue voucher report
-            Route::get('/internal-demand-issue-voucher',[InventoryReportController::class, 'internalDemandIssueVoucher'])->name('reports.internal-demand-issue-voucher');
+            Route::get('/internal-demand-issue-voucher', [InventoryReportController::class, 'internalDemandIssueVoucher'])->name('reports.internal-demand-issue-voucher');
             // Internal return & receipt voucher report
-            Route::get('/internal-return-receipt-voucher',[InventoryReportController::class, 'internalReturnReceiptVoucher'])->name('reports.internal-return-receipt-voucher');
+            Route::get('/internal-return-receipt-voucher', [InventoryReportController::class, 'internalReturnReceiptVoucher'])->name('reports.internal-return-receipt-voucher');
             // Trial store gate pass report
-            Route::get('/trial-store-gate-pass',[InventoryReportController::class, 'trialStoreGatePass'])->name('reports.trial-store-gate-pass');
+            Route::get('/trial-store-gate-pass', [InventoryReportController::class, 'trialStoreGatePass'])->name('reports.trial-store-gate-pass');
             //Armaments and Ammunition register report
-            Route::get('/armaments-ammunition-register',[InventoryReportController::class, 'armamentsAmmunitionRegister'])->name('reports.armaments-ammunition-register');
+            Route::get('/armaments-ammunition-register', [InventoryReportController::class, 'armamentsAmmunitionRegister'])->name('reports.armaments-ammunition-register');
             //Disposal Item report
-            Route::get('/disposal-item-report',[InventoryReportController::class, 'disposalItemReport'])->name('reports.disposal-item-report');
+            Route::get('/disposal-item-report', [InventoryReportController::class, 'disposalItemReport'])->name('reports.disposal-item-report');
             //Statement of damaged report
-            Route::get('/statement-of-damaged',[InventoryReportController::class, 'statementOfDamaged'])->name('reports.statement-of-damaged');
+            Route::get('/statement-of-damaged', [InventoryReportController::class, 'statementOfDamaged'])->name('reports.statement-of-damaged');
             //Cash purchase control register report
-            Route::get('/cash-purchase-control-register',[InventoryReportController::class, 'cashPurchaseControlRegister'])->name('reports.cash-purchase-control-register');
+            Route::get('/cash-purchase-control-register', [InventoryReportController::class, 'cashPurchaseControlRegister'])->name('reports.cash-purchase-control-register');
             //Stores outward register report
-            Route::get('/stores-outward-register',[InventoryReportController::class, 'storesOutwardRegister'])->name('reports.stores-outward-register');
+            Route::get('/stores-outward-register', [InventoryReportController::class, 'storesOutwardRegister'])->name('reports.stores-outward-register');
             // Record of transaction report
-            Route::get('/record-of-transaction',[InventoryReportController::class, 'recordOfTransaction'])->name('reports.record-of-transaction');
+            Route::get('/record-of-transaction', [InventoryReportController::class, 'recordOfTransaction'])->name('reports.record-of-transaction');
             //Loan out ledger register report
-            Route::get('/loan-out-ledger-register',[InventoryReportController::class, 'loanOutLedgerRegister'])->name('reports.loan-out-ledger-register');
+            Route::get('/loan-out-ledger-register', [InventoryReportController::class, 'loanOutLedgerRegister'])->name('reports.loan-out-ledger-register');
             //Loan in ledger register report
-            Route::get('/loan-in-ledger-register',[InventoryReportController::class, 'loanInLedgerRegister'])->name('reports.loan-in-ledger-register');
+            Route::get('/loan-in-ledger-register', [InventoryReportController::class, 'loanInLedgerRegister'])->name('reports.loan-in-ledger-register');
             //CPRV control register
-            Route::get('/cprv-control-register',[InventoryReportController::class, 'cprvControlRegister'])->name('reports.cprv-control-register');
+            Route::get('/cprv-control-register', [InventoryReportController::class, 'cprvControlRegister'])->name('reports.cprv-control-register');
             // CPIV control register report
-            Route::get('/cpiv-control-register',[InventoryReportController::class, 'cpivControlRegister'])->name('reports.cpiv-control-register');
+            Route::get('/cpiv-control-register', [InventoryReportController::class, 'cpivControlRegister'])->name('reports.cpiv-control-register');
             //Contingent bill report
-            Route::get('/contingent-bill',[InventoryReportController::class, 'contingentBill'])->name('reports.contingent-bill');
+            Route::get('/contingent-bill', [InventoryReportController::class, 'contingentBill'])->name('reports.contingent-bill');
             // Contractor's bill report
-            Route::get('/contractors-bill',[InventoryReportController::class, 'contractorsBill'])->name('reports.contractors-bill');
+            Route::get('/contractors-bill', [InventoryReportController::class, 'contractorsBill'])->name('reports.contractors-bill');
             // Certified issue voucher report
-            Route::get('/certified-issue-voucher',[InventoryReportController::class, 'certifiedIssueVoucher'])->name('reports.certified-issue-voucher');
+            Route::get('/certified-issue-voucher', [InventoryReportController::class, 'certifiedIssueVoucher'])->name('reports.certified-issue-voucher');
             //Expendable store issue voucher report
-            Route::get('/expendable-store-issue-voucher',[InventoryReportController::class, 'expendableStoreIssueVoucher'])->name('reports.expendable-store-issue-voucher');
+            Route::get('/expendable-store-issue-voucher', [InventoryReportController::class, 'expendableStoreIssueVoucher'])->name('reports.expendable-store-issue-voucher');
             //Fitment Voucher report
-            Route::get('/fitment-voucher',[InventoryReportController::class, 'fitmentVoucher'])->name('reports.fitment-voucher');
+            Route::get('/fitment-voucher', [InventoryReportController::class, 'fitmentVoucher'])->name('reports.fitment-voucher');
 
 
             //rins routes
             Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');
-            
-            
+
+
 
             //gate pass report
             Route::get('/gate-pass-report/{id}', [InventoryReportController::class, 'gatePassReport'])->name('gate-passes.report');
 
             // report routes
-                // credit voucher
+            // credit voucher
             Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
-                // debit voucher
+            // debit voucher
             Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
-                // transfer voucher
+            // transfer voucher
             Route::post('/reports-transfer-voucher', [InventoryReportController::class, 'transferVoucherGenerate'])->name('reports.transfer-voucher');
-                // conversion voucher
+            // conversion voucher
             Route::post('/reports-conversion-voucher', [InventoryReportController::class, 'conversionVoucherGenerate'])->name('reports.conversion-voucher');
-                // external issue voucher
+            // external issue voucher
             Route::post('/reports-external-issue-voucher', [InventoryReportController::class, 'externalIssueVoucherGenerate'])->name('reports.external-issue-voucher');
-                // certificate issue voucher
+            // certificate issue voucher
             Route::post('/reports-certificate-issue-voucher', [InventoryReportController::class, 'certificateIssueVoucherGenerate'])->name('reports.certificate-issue-voucher');
-                // lvp list
+            // lvp list
             Route::get('/reports-lvp-list', [InventoryReportController::class, 'lvpList'])->name('reports.lvp-list');
             Route::post('/reports-lvp-list-generate', [InventoryReportController::class, 'lvpListGenerate'])->name('reports.lvp-list-generate');
 
@@ -1001,7 +1001,7 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
             });
 
-            Route::get('/inventory-types-fetch-data',[InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
+            Route::get('/inventory-types-fetch-data', [InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
             Route::prefix('inventory-types')->group(function () {
                 Route::get('/delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
             });
@@ -1054,7 +1054,7 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
             });
 
-            
+
 
             //rins
             Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
@@ -1106,7 +1106,5 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [GstController::class, 'delete'])->name('gst.delete');
             });
         });
-
     });
-
 });
