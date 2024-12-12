@@ -1,33 +1,11 @@
-@extends('frontend.public-fund.layouts.master')
-@section('title')
-    Receipts Edit
-@endsection
 
-@push('styles')
-@endpush
 
 @php
     use App\Helpers\Helper;
 @endphp
 
-@section('content')
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
-    <div class="container-fluid">
-        <div class="breadcome-list">
-            <div class="d-flex">
-                <div class="arrow_left"><a href="{{ route('receipts.index') }}" class="text-white"><i
-                            class="ti ti-arrow-left"></i></a></div>
-                <div class="">
-                    <h3> Edit</h3>
-                    <ul class="breadcome-menu mb-0">
-                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Receipts </span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+
+
 
 
         <!--  Row 1 -->
@@ -35,7 +13,7 @@
 
 
             <div class="container">
-                <form action="{{ route('receipts.update', $receipt->id) }}" method="POST" id="receipts-edit-form">
+                <form action="{{ route('receipts.update', $receipt->id) }}" method="POST" id="receipts_edit_form">
                     @csrf
                     @method('PUT')
                     <div class="row align-items-center">
@@ -132,4 +110,4 @@
                 </form>
             </div>
         </div>
-    @endsection
+

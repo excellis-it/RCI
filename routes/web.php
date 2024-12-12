@@ -218,7 +218,7 @@ Route::middleware('permssions')->group(function () {
         'tada-advance' => TadaAdvanceController::class,
         'tada' => TaDaController::class,
         'tada-plus' => TadaPlusClaimController::class,
-        'tada-journey' => TadaJourneyDetailController::class
+        'tada-journey' => TadaJourneyDetailController::class,
 
     ]);
 
@@ -247,10 +247,13 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/receipts-member-desig', [ReceiptController::class, 'getVendorDesig'])->name('receipts.get-member-desig');
 
+    Route::post('/receipts/getedit', [ReceiptController::class, 'getedit'])->name('receipts.get-edit-receipt');
+
     Route::get('/receipts-fetch-data', [ReceiptController::class, 'fetchData'])->name('receipts.fetch-data');
 
     Route::get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])->name('receipts.edit');
     Route::put('/receipts/{id}', [ReceiptController::class, 'update'])->name('receipts.update');
+    Route::get('/receipts/{id}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
 
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);

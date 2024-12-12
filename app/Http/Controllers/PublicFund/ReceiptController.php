@@ -284,13 +284,17 @@ class ReceiptController extends Controller
     // }
 
 
-    public function edit($id)
+    public function getedit(Request $request)
     {
+        $id = $request->receipt_id;
+       // return $id;
         $receipt = Receipt::with('receiptMembers')->findOrFail($id);
         $members = Member::all(); // Assuming you have a Member model for the dropdown
         $paymentCategories = PaymentCategory::all(); // Assuming payment categories are needed
 
-        return view('public-funds.receipts.edit', compact('receipt', 'members', 'paymentCategories'));
+        $view = view('public-funds.receipts.edit', compact('receipt', 'members', 'paymentCategories'))->render();
+
+        return response()->json(['view' => $view]);
     }
 
     public function update(Request $request, $id)
@@ -320,6 +324,7 @@ class ReceiptController extends Controller
                 'narration' => $request->narration,
                 'category_id' => $request->category,
                 'amount' => array_sum($request->member_amount),
+
             ]);
 
             // Update receipt members
@@ -356,6 +361,27 @@ class ReceiptController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+    }
+
+    public function delete(string $id)
+    {
+        try {
+            // Find the receipt
+            $receipt = Receipt::findOrFail($id);
+            // Delete associated receipt members
+            ReceiptMember::where('receipt_id', $receipt->id)->delete();
+
+            // Delete the receipt
+            $receipt->delete();
+
+            DB::commit();
+            session()->flash('message', 'Receipt deleted successfully');
+            return redirect()->route('receipts.index')->with('success', 'Receipt deleted successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'Error deleting receipt: ' . $e->getMessage());
+        }
     }
 }

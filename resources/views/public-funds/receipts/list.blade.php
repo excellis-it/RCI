@@ -95,8 +95,8 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="receipt_no"
                                                     style="cursor: pointer">Receipt No.<span id="receipt_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="receipt_type"
-                                                    style="cursor: pointer">Mode <span id="receipt_type_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="category_id"
+                                                    style="cursor: pointer">Category <span id="category_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
                                                     style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
@@ -471,10 +471,6 @@
         });
     </script>
 
-
-
-
-
     <script>
         $(document).ready(function() {
             $(document).on('change', '.member_id', function() {
@@ -509,5 +505,34 @@
                 }
             });
         });
+    </script>
+
+    <script>
+       function getEditForm(id){
+        $.ajax({
+                    url: "{{ route('receipts.get-edit-receipt') }}",
+                    type: 'post',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        receipt_id : id,
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                       // window.location.reload();
+                       $("#create_form").hide();
+                       $("#edit_form").show();
+                       $("#edit_form").html(response.view);
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
+       }
     </script>
 @endpush
