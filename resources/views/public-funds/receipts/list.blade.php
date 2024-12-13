@@ -108,7 +108,8 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">Amount <span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th></th>
+                                                <th>Actions</th>
+
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
@@ -221,13 +222,9 @@
                         //clear any old errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
-                        console.log(errors);
+                        //console.log(errors);
                         $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                            toastr.error(key + ' : ' + value[
-                                0]);
+                            $('[name="' + key + '"]').next('.text-danger').html(value[0]);
                         });
 
 

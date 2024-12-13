@@ -159,48 +159,46 @@ class ChequePaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function getedit(Request $request)
     {
+        $vr_no=$request->vr_no;
+        $vr_date=$request->vr_date;
+        $chequePayment = ChequePayment::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+        $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+        $members = Member::all();
 
-        $receipt_nos = Receipt::where('receipt_type', 'cheque')->get();
-        $receipt = Receipt::where('id', $id)->first();
-        $chequePayments = ChequePayment::where('rct_no', $id)->get();
-        $members = Member::orderBy('id', 'desc')->get();
-        $edit = true;
+       // dd($chequePayment);
 
-        return response()->json(['view' => view('frontend.public-fund.cheque-payment.form', compact('edit', 'receipt_nos', 'receipt', 'chequePayments', 'members'))->render()]);
+        $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment','receipt_data2', 'members'))->render();
+
+        return response()->json(['view' => $view]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
+        $id = $request->chid;
+
+      //  return $id;
+
         $request->validate([
-            'vr_date' => 'required',
-            'sr_no' => 'required',
-            'amount' => 'required|numeric',
-            'member_id' => 'required',
+            'bill_ref' => 'required',
+            'cheq_no' => 'required',
+            'cheq_date' => 'required',
         ]);
 
         $chequePayment = ChequePayment::findOrFail($id);
-        $chequePayment->vr_no = $request->vr_no;
-        $chequePayment->vr_date = $request->vr_date;
-        $chequePayment->sr_no = $request->sr_no;
-        $chequePayment->amount = $request->amount;
-        $chequePayment->member_id = $request->member_id;
-        $chequePayment->designation = $request->designation;
+
         $chequePayment->bill_ref = $request->bill_ref;
-        $chequePayment->bank_account = $request->bank_account;
-        $chequePayment->dv_no = $request->dv_no;
-        $chequePayment->cheque_no = $request->cheque_no;
-        $chequePayment->cheque_date = $request->cheque_date;
-        $chequePayment->narration = $request->narration;
-        $chequePayment->category = $request->category;
+        $chequePayment->cheq_no = $request->cheq_no;
+        $chequePayment->cheq_date = $request->cheq_date;
+
         $chequePayment->save();
 
         session()->flash('message', 'Cheque Payment updated successfully');
-        return response()->json(['success' => 'Cheque Payment updated successfully']);
+        return redirect()->back()->with('success', 'Cheque Payment updated successfully.');
     }
 
     /**
@@ -211,12 +209,17 @@ class ChequePaymentController extends Controller
         //
     }
 
-    public function delete(string $id)
-    {
-        $chequePayment = ChequePayment::findOrFail($id);
-        $chequePayment->delete();
-        return redirect()->route('cheque-payments.index')->with('message', 'Cheque Payment deleted successfully.');
-    }
+    // public function delete($vr_no,$vr_date)
+    // {
+    //     $chequePayment = ChequePayment::where('vr_no', $vr_no)
+    //         ->where('vr_date', $vr_date)
+    //         ->firstOrFail();
+
+    //     $chequePayment->delete();
+
+    //     return redirect()->route('cheque-payments.index')->with('message', 'Cheque Payment deleted successfully.');
+    // }
+
 
 
     public function getReceiptReport(Request $request, $vr_no, $vr_date)

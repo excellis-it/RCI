@@ -14,6 +14,7 @@ use App\Models\MemberCoreInfo;
 use App\Models\MemberPersonalInfo;
 use App\Models\Bank;
 use App\Models\ReceiptMember;
+use App\Models\ChequePayment;
 use Illuminate\Support\Facades\DB;
 
 class ReceiptController extends Controller
@@ -305,7 +306,7 @@ class ReceiptController extends Controller
             // Validate input
             $request->validate([
                 'vr_date' => 'required|date',
-                'dv_no' => 'nullable|string|max:255',
+                'dv_no' => 'required|string|max:255',
                 'narration' => 'nullable|string|max:1000',
                 'category' => 'required|exists:categories,id',
                 'sr_no.*' => 'required|numeric',
@@ -361,26 +362,39 @@ class ReceiptController extends Controller
      */
     public function destroy(string $id) {}
 
-    public function delete(string $id)
+    public function delete($vr_no, $vr_date)
     {
+        DB::beginTransaction(); // Begin a database transaction
         try {
-            // Find the receipt
-            $receipt = Receipt::findOrFail($id);
+            // Find the receipt based on vr_no and vr_date
+            $receipt = Receipt::where('vr_no', $vr_no)
+                              ->where('vr_date', $vr_date)
+                              ->firstOrFail();
+
             // Delete associated receipt members
             ReceiptMember::where('receipt_id', $receipt->id)->delete();
+
+            // Delete all matching chequepayment records
+            ChequePayment::where('vr_no', $vr_no)
+                         ->where('vr_date', $vr_date)
+                         ->delete();
 
             // Delete the receipt
             $receipt->delete();
 
-            DB::commit();
+            DB::commit(); // Commit the transaction
+
+            // Flash success message and redirect
             session()->flash('message', 'Receipt deleted successfully');
             return redirect()->route('receipts.index')->with('success', 'Receipt deleted successfully.');
         } catch (\Exception $e) {
-            DB::rollBack();
+            DB::rollBack(); // Rollback the transaction in case of error
 
+            // Redirect back with error message
             return redirect()->back()->with('error', 'Error deleting receipt: ' . $e->getMessage());
         }
     }
+
 
 
     public function receiptReport()
@@ -468,4 +482,5 @@ class ReceiptController extends Controller
 
 
     //
+
 }

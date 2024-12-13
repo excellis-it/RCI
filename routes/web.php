@@ -253,7 +253,7 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])->name('receipts.edit');
     Route::put('/receipts/{id}', [ReceiptController::class, 'update'])->name('receipts.update');
-    Route::get('/receipts/{id}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
+    Route::get('/receipts/{vr_no}/{vr_date}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
 
     Route::get('/receipts-report', [ReceiptController::class, 'receiptReport'])->name('receipts.report');
     Route::post('/receipts-report-generate', [ReceiptController::class, 'receiptReportGenerate'])->name('receipts.report.generate');
@@ -675,10 +675,17 @@ Route::middleware('permssions')->group(function () {
     Route::get('/cash-payments-get-details', [CashPaymentController::class, 'getRctNoDetail'])->name('cash-payments.get-details');
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
-        Route::get('/cheque-payments-delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
+        Route::get('/delete/{vr_no}/{vr_date}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
 
         Route::post('/get-receipt', [ChequePaymentController::class, 'getReceipt'])->name('cheque-payments.get-receipt');
     });
+
+    Route::post('/cheque-payments-update', [ChequePaymentController::class, 'update'])->name('cheque-payments.update');
+    Route::post('/cheque-payments/getedit', [ChequePaymentController::class, 'getedit'])->name('cheque-payments.get-edit-payment');
+    Route::get('/cheque-payments/{id}/edit', [ChequePaymentController::class, 'edit'])->name('cheque-payments.edit');
+
+
+
     Route::get('/cheque-payments-fetch-data', [ChequePaymentController::class, 'fetchData'])->name('cheque-payments.fetch-data');
     Route::post('/cheque-payments-member-desig', [ChequePaymentController::class, 'fetchMemberDesig'])->name('cheque-payments.get-member-desig');
     Route::get('/cheque-payments-rct-details', [ChequePaymentController::class, 'getReceiptNoDetail'])->name('cheque-payments.get-rct-details');

@@ -9,7 +9,7 @@
             <td>{{ $receipt->amount ?? 'N/A' }}</td>
             <td class="sepharate"><a data-route="{{ route('receipts.edit', $receipt->id) }}"
                     href="#" onclick="getEditForm({{$receipt->id}})" class="edit_pencil"><i class="ti ti-pencil"></i></a>
-                    <a href="{{route('receipts.delete', $receipt->id)}}" id="delete" class="delete" data-route="{{route('receipts.delete', $receipt->id)}}"><i class="ti ti-trash"></i></a>
+                    <a href="{{route('receipts.delete', ['vr_no' => $receipt->vr_no, 'vr_date' => $receipt->vr_date])}}" id="delete" class="delete" data-route="{{route('receipts.delete', ['vr_no' => $receipt->vr_no, 'vr_date' => $receipt->vr_date])}}"><i class="ti ti-trash"></i></a>
             </td>
         </tr>
     @endforeach
