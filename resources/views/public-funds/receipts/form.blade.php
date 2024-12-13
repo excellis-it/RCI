@@ -110,18 +110,18 @@
 
                                 <div class="col-md-2">
                                     <label>Amount</label>
-                                    <input type="text" class="form-control" name="member_amount[]"
-                                        placeholder="Enter amount">
+                                    <input type="text" class="form-control" name="member_amount[]">
+
                                 </div>
                                 <div class="col-md-2">
                                     <label>Bill reference</label>
-                                    <input type="text" class="form-control" name="bill_ref[]"
-                                        placeholder="Enter Bill reference">
+                                    <input type="text" class="form-control" name="bill_ref[]">
+
                                 </div>
                                 <div class="col-md-2">
                                     <label>Cheque No.</label>
-                                    <input type="text" class="form-control" name="cheq_no[]"
-                                        placeholder="Enter cheque number">
+                                    <input type="text" class="form-control" name="cheq_no[]">
+
                                 </div>
                                 <div class="col-md-2">
                                     <label>Cheque Date</label>

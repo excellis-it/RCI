@@ -13,10 +13,15 @@
             {{-- <td class="sepharate"><a data-route="{{ route('cheque-payments.edit', $payments->id) }}"
                     class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
             {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('cash-payments.delete', $cashPayment->id)}}"><i class="ti ti-trash"></i></a> --}}
-            <td class="sepharate"><a
+            {{-- <td class="sepharate"><a
                     href="{{ route('cheque-payments.get-receipt-report', ['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date]) }}"
                     class="edit_pencil "><i class="ti ti-file text-danger"></i></a>
-            </td>
+            </td> --}}
+            <td class="sepharate"><a data-route="{{ route('cheque-payments.edit', $payments->id) }}"
+                href="#" onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}')" class="edit_pencil"><i class="ti ti-pencil"></i></a>
+
+                {{-- <a href="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}" id="delete" class="delete" data-route="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}"><i class="ti ti-trash"></i></a> --}}
+        </td>
         </tr>
     @endforeach
     <tr class="toxic">

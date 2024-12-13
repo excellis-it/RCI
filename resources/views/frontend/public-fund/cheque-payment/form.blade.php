@@ -1,3 +1,5 @@
+
+
 <form id="search_receipt_form" method="POST">
     <div class="row">
         <div class="col-lg-6">
@@ -8,13 +10,13 @@
                     <div class="col-md-4">
                         <label for="">Vr. No</label>
                         <input type="number" class="form-control" name="vr_no" id="vr_no"
-                            placeholder="Enter Vr. No" required>
+                            placeholder="Enter Vr. No">
                         <span class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label for="">Vr. Date</label>
                         <input type="date" class="form-control" name="vr_date" id="vr_date"
-                            placeholder="Enter Vr. Date" required>
+                            placeholder="Enter Vr. Date">
                         <span class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -55,22 +57,22 @@
                     </div>
                     <div class="col-md-3">
                         <label for="">Bill Ref</label>
-                        <input type="text" class="form-control" name="bill_ref" placeholder="Enter Bill Ref"
-                            required>
+                        <input type="text" class="form-control" name="bill_ref"
+                            >
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3">
                         <label for="">Cheque No.</label>
-                        <input type="number" class="form-control" name="cheq_no" placeholder="Enter Cheque No."
-                            required>
+                        <input type="number" class="form-control" name="cheq_no"
+                            >
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3">
                         <label for="">Cheque Date</label>
-                        <input type="date" class="form-control" name="cheq_date" placeholder="Enter Cheque Date"
-                            required>
+                        <input type="date" class="form-control" name="cheq_date"
+                            >
                         <span class="text-danger"></span>
                     </div>
 
@@ -93,3 +95,9 @@
         </div>
     </div>
 </form>
+
+
+
+
+
+
