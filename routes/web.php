@@ -255,6 +255,12 @@ Route::middleware('permssions')->group(function () {
     Route::put('/receipts/{id}', [ReceiptController::class, 'update'])->name('receipts.update');
     Route::get('/receipts/{vr_no}/{vr_date}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
 
+    Route::get('/receipts-report', [ReceiptController::class, 'receiptReport'])->name('receipts.report');
+    Route::post('/receipts-report-generate', [ReceiptController::class, 'receiptReportGenerate'])->name('receipts.report.generate');
+
+    Route::get('/cheque-payment-report', [ChequePaymentController::class, 'paymentReport'])->name('cheque-payment.report');
+    Route::post('/cheque-payment-report-generate', [ChequePaymentController::class, 'paymentReportGenerate'])->name('cheque-payment.report.generate');
+
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
     Route::get('/bag-purse-allowance', [BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');
