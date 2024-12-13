@@ -1,5 +1,5 @@
 @if ($receipt_data)
-    <div class="container mt-2">
+    <div class=" mt-2">
         <table class="table table-responsive">
             <thead>
                 <tr>
@@ -31,9 +31,9 @@
 
 
         <div id="dynamic-fields-members" style="display: none">
-            <table class="table table-bordered">
+            <table class="table table-responsive">
 
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Sr No.</th>
                         <th>Member</th>

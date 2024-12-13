@@ -53,7 +53,19 @@ class ChequePaymentController extends Controller
         $members = Member::all();
         if ($receipt_data) {
 
-            return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data]);
+            $paymentsCount = ChequePayment::where('vr_no', $vr_no)
+                ->where('vr_date', $vr_date)
+                ->count();
+
+            if ($paymentsCount > 0) {
+                $paydone = 1;
+            } else {
+                // No records found matching the condition
+                $paydone = 0;
+            }
+
+
+            return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data, 'paydone' => $paydone]);
             //  return $receipt;
         } else {
             return response()->json(['error' => 'Receipt not found'], 201);
@@ -161,15 +173,15 @@ class ChequePaymentController extends Controller
      */
     public function getedit(Request $request)
     {
-        $vr_no=$request->vr_no;
-        $vr_date=$request->vr_date;
+        $vr_no = $request->vr_no;
+        $vr_date = $request->vr_date;
         $chequePayment = ChequePayment::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
         $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
         $members = Member::all();
 
-       // dd($chequePayment);
+        // dd($chequePayment);
 
-        $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment','receipt_data2', 'members'))->render();
+        $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment', 'receipt_data2', 'members'))->render();
 
         return response()->json(['view' => $view]);
     }
@@ -181,7 +193,7 @@ class ChequePaymentController extends Controller
     {
         $id = $request->chid;
 
-      //  return $id;
+        //  return $id;
 
         $request->validate([
             'bill_ref' => 'required',

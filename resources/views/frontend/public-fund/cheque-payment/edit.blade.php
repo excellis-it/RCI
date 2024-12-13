@@ -1,7 +1,5 @@
-
-
 @if ($receipt_data2)
-    <div class="container mt-2">
+    <div class=" mt-2">
         <table class="table table-responsive">
             <thead>
                 <tr>
@@ -33,9 +31,9 @@
 
 
         <div id="dynamic-fields-members2" style="display: none">
-            <table class="table table-bordered">
+            <table class="table table-responsive">
 
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>Sr No.</th>
                         <th>Member</th>
@@ -109,31 +107,32 @@
                 <div class="row align-items-center">
 
                     @csrf
-<input type="hidden" value="{{$chequePayment->id}}" name="chid">
+                    <input type="hidden" value="{{ $chequePayment->id }}" name="chid">
 
                     <div class="col-md-3">
                         <label for="">Amount</label>
-                        <input type="number" class="form-control" value="{{$chequePayment->amount}}" required readonly>
+                        <input type="number" class="form-control" value="{{ $chequePayment->amount }}" required
+                            readonly>
                         <span class="text-danger"></span>
                     </div>
                     <div class="col-md-3">
                         <label for="">Bill Ref</label>
-                        <input type="text" class="form-control" name="bill_ref" value="{{$chequePayment->bill_ref ?? ''}}"
-                            required>
+                        <input type="text" class="form-control" name="bill_ref"
+                            value="{{ $chequePayment->bill_ref ?? '' }}" required>
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3">
                         <label for="">Cheque No.</label>
-                        <input type="number" class="form-control" name="cheq_no" value="{{$chequePayment->cheq_no ?? ''}}"
-                            required>
+                        <input type="number" class="form-control" name="cheq_no"
+                            value="{{ $chequePayment->cheq_no ?? '' }}" required>
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3">
                         <label for="">Cheque Date</label>
-                        <input type="date" class="form-control" name="cheq_date" value="{{$chequePayment->cheq_date ?? ''}}"
-                            required>
+                        <input type="date" class="form-control" name="cheq_date"
+                            value="{{ $chequePayment->cheq_date ?? '' }}" required>
                         <span class="text-danger"></span>
                     </div>
 

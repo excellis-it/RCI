@@ -236,6 +236,23 @@
                             $("#create_vr_no").val(response.receipt_data.vr_no);
                             $("#create_vr_date").val(response.receipt_data.vr_date);
                             $("#pay_amount").val(response.receipt_data.amount);
+
+                            if (response.paydone == 1) {
+                                $('.cheq_pay_add').prop('disabled', true)
+                                    .text('Paid')
+                                    .addClass('btn-danger')
+                                    .removeClass(
+                                        'btn-primary'
+                                        ); // If you want to remove the previous class, e.g., 'btn-primary'
+                            } else {
+                                $('.cheq_pay_add').prop('disabled', false)
+                                    .text('Add')
+                                    .removeClass('btn-danger')
+                                    .addClass(
+                                        'btn-primary'
+                                        ); // Optional, add back another class (like 'btn-primary')
+                            }
+
                         } else {
                             toastr.error('Receipt Not Found!');
                         }
@@ -328,91 +345,90 @@
                     },
                     error: function(xhr) {
 
-                            // Handle errors (e.g., display validation errors)
-                            //clear any old errors
-                            $('.text-danger').html('');
-                            var errors = xhr.responseJSON.errors;
-                            //console.log(errors);
-                            $.each(errors, function(key, value) {
-                                $('[name="' + key + '"]').next('.text-danger').html(value[0]);
-                            });
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        //console.log(errors);
+                        $.each(errors, function(key, value) {
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
 
 
-                            }
+                    }
                 });
             });
         });
     </script>
 
-<script>
-//    function getEditForm(id) {
-//     $.ajax({
-//         url: "{{ route('cheque-payments.get-edit-payment') }}",
-//         type: 'post',
-//         data: {
-//             _token: "{{ csrf_token() }}",
-//             vr_no: id,
-//         },
-//         dataType: 'json',
-//         success: function(response) {
-//             $("#create_form").hide();
-//             $("#edit_form").show();
-//             $("#edit_form").html(response.view); // Inject the view in the edit form
+    <script>
+        //    function getEditForm(id) {
+        //     $.ajax({
+        //         url: "{{ route('cheque-payments.get-edit-payment') }}",
+        //         type: 'post',
+        //         data: {
+        //             _token: "{{ csrf_token() }}",
+        //             vr_no: id,
+        //         },
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             $("#create_form").hide();
+        //             $("#edit_form").show();
+        //             $("#edit_form").html(response.view); // Inject the view in the edit form
 
-//             $("#receipt_data").html(response.view);
-//             $("#create_receipt_no").val(response.receipt_data.receipt_no);
-//             $("#create_vr_no").val(response.receipt_data.vr_no);
-//             $("#create_vr_date").val(response.receipt_data.vr_date);
-//             $("#pay_amount").val(response.receipt_data.amount);
-//         },
-//         error: function(xhr) {
-//             var errors = xhr.responseJSON.errors;
-//             $.each(errors, function(key, value) {
-//                 $('[name="' + key + '"]').next('.text-danger').html(value[0]);
-//             });
-//         }
-//     });
-// }
+        //             $("#receipt_data").html(response.view);
+        //             $("#create_receipt_no").val(response.receipt_data.receipt_no);
+        //             $("#create_vr_no").val(response.receipt_data.vr_no);
+        //             $("#create_vr_date").val(response.receipt_data.vr_date);
+        //             $("#pay_amount").val(response.receipt_data.amount);
+        //         },
+        //         error: function(xhr) {
+        //             var errors = xhr.responseJSON.errors;
+        //             $.each(errors, function(key, value) {
+        //                 $('[name="' + key + '"]').next('.text-danger').html(value[0]);
+        //             });
+        //         }
+        //     });
+        // }
 
-function getEditForm(vr_no, date) {
-    // Serialize form data for search_receipt_form functionality
-    var formData = $('#search_receipt_form').serialize();
+        function getEditForm(vr_no, date) {
+            // Serialize form data for search_receipt_form functionality
+            var formData = $('#search_receipt_form').serialize();
 
-    $.ajax({
-        url: "{{ route('cheque-payments.get-edit-payment') }}",
-        type: 'post',
-        data: {
-            _token: "{{ csrf_token() }}",
-            vr_no: vr_no,
-            vr_date :date,
+            $.ajax({
+                url: "{{ route('cheque-payments.get-edit-payment') }}",
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    vr_no: vr_no,
+                    vr_date: date,
 
-        },
-        dataType: 'json',
-        success: function(response) {
-
-
-
-                if (response.view) {
- // Populate the edit form
- $("#create_form").hide();
-                $("#edit_form").show();
-                $("#edit_form").html(response.view); // Inject the view into the edit form
+                },
+                dataType: 'json',
+                success: function(response) {
 
 
-} else {
 
-}
+                    if (response.view) {
+                        // Populate the edit form
+                        $("#create_form").hide();
+                        $("#edit_form").show();
+                        $("#edit_form").html(response.view); // Inject the view into the edit form
 
-        },
-        error: function(xhr) {
-            var errors = xhr.responseJSON.errors;
-            $.each(errors, function(key, value) {
-                $('[name="' + key + '"]').next('.text-danger').html(value[0]);
+
+                    } else {
+
+                    }
+
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        $('[name="' + key + '"]').next('.text-danger').html(value[0]);
+                    });
+                }
             });
         }
-    });
-}
-
-
- </script>
+    </script>
 @endpush
