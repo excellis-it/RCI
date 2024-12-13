@@ -10,6 +10,7 @@ use App\Models\ResetVoucher;
 use Illuminate\Support\Str;
 use App\Models\Member;
 use App\Models\Receipt;
+use App\Models\ReceiptMember;
 use App\Models\Designation;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -223,14 +224,47 @@ class ChequePaymentController extends Controller
         // return "hello";
         // die;
         // Raw SQL query to fetch receipts with category names and amount against each category
+        // $receipts = DB::table('receipts')
+        //     ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
+        //     ->select(
+        //         'receipts.vr_date',
+        //         'receipts.vr_no',
+        //         'receipts.narration',
+        //         'receipts.amount',
+        //         'payment_categories.name as category_name',
+        //         'receipts.member_name',
+        //         'receipts.category_id'
+        //     )
+        //     ->where('receipts.vr_no', $vr_no)
+        //     ->where('receipts.vr_date', $vr_date)
+        //     ->get();
+
+        // $receipts = Receipt::with(['receiptMembers', 'category'])
+        //     ->select(
+        //         'vr_date',
+        //         'vr_no',
+        //         'narration',
+        //         'amount',
+        //         'member_name',
+        //         'category_id',
+        //         DB::raw('(SELECT name FROM payment_categories WHERE payment_categories.id = category_id) as category_name')
+        //     )
+        //     ->where('vr_no', $vr_no)
+        //     ->where('vr_date', $vr_date)
+        //     ->get();
+
+        $members = Member::orderBy('id', 'desc')->get();
+
         $receipts = DB::table('receipts')
             ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
             ->select(
+                'receipts.id',
                 'receipts.vr_date',
                 'receipts.vr_no',
                 'receipts.narration',
                 'receipts.amount',
                 'payment_categories.name as category_name',
+                'receipts.dv_no',
                 'receipts.member_name',
                 'receipts.category_id'
             )
@@ -238,15 +272,31 @@ class ChequePaymentController extends Controller
             ->where('receipts.vr_date', $vr_date)
             ->get();
 
-        //  return view('frontend.public-fund.cheque-payment.receipt_report', compact('receipts'));
+        // Fetch related rows from receipt_members for each receipt
+        foreach ($receipts as $receipt) {
+            $receipt->receiptMembers = DB::table('receipt_members')
+                ->where('receipt_id', $receipt->id)
+                ->select(
+                    'id',
+                    'receipt_id',
+                    'vr_no',
+                    'serial_no',
+                    'member_id',
+                    'amount',
+                    'bill_ref',
+                    'cheq_no',
+                    'cheq_date',
+                    'created_at',
+                    'updated_at'
+                )
+                ->get();
+        }
 
 
+        // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
 
 
-
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date'))->setPaper('a3', 'landscape');
-
-        // Return the PDF directly for download
-        return $pdf->download('receipt-report.pdf');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members'))->setPaper('a3', 'landscape');
+        return $pdf->download('receipt-report-' . $vr_no . '-' . $vr_date . '.pdf');
     }
 }

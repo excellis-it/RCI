@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="">Bill Ref</label>
-                        <input type="number" class="form-control" name="bill_ref" placeholder="Enter Bill Ref"
+                        <input type="text" class="form-control" name="bill_ref" placeholder="Enter Bill Ref"
                             required>
                         <span class="text-danger"></span>
                     </div>
