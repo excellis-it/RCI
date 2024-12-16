@@ -97,7 +97,7 @@
 
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="dv_no"
                                                     style="cursor: pointer">DV No.<span id="dv_no_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="category_id"
                                                     style="cursor: pointer">Category <span id="category_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -206,45 +206,76 @@
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
 
-                $('.form-group').each(function () {
-                    const $input = $(this).find('input'); // Find the input in the current group
-                    const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
+                // let hasErrors = false;
 
-                    // Only perform validation if the input exists
-                    if ($input.length > 0) {
-                        if ($input.val().trim() == '') {
-                            $errorSpan.show(); // Show the error if input is empty
-                        } else {
-                            $errorSpan.hide(); // Hide the error if input is not empty
+                // $('.form-group').each(function() {
+                //     const $input = $(this).find('input, textarea'); // Include inputs and textareas
+                //     const $radioGroup = $(this).find(
+                //         'input[type="radio"]'); // Find radio buttons in the group
+                //     const $errorSpan = $(this).find(
+                //         '.text-danger'); // Find the corresponding error span
+
+                //     // Check if the group contains text inputs or textareas
+                //     if ($input.length > 0 && !$radioGroup.length) {
+                //         // Validate text inputs and textareas
+                //         if ($input.val().trim() === '') {
+                //             $errorSpan.show(); // Show the error if empty
+                //             hasErrors = true; // Set the error flag
+                //             //  return false;
+                //         } else {
+                //             $errorSpan.hide(); // Hide the error if not empty
+                //         }
+                //     }
+
+                //     // Check if the group contains radio buttons
+                //     if ($radioGroup.length > 0) {
+                //         // Validate radio button selection
+                //         if ($radioGroup.filter(':checked').length === 0) {
+                //             $errorSpan.show(); // Show the error if no radio is selected
+                //             //   return false;
+                //             hasErrors = true; // Set the error flag
+                //         } else {
+                //             $errorSpan.hide(); // Hide the error if one is selected
+                //         }
+                //     }
+                // });
+
+
+                // if (hasErrors) {
+                //     return; // Exit the function and do not submit AJAX
+                // }
+
+
+                if (validateDynamicFields()) {
+
+                    var formData = $(this).serialize();
+
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: formData,
+                        success: function(response) {
+                            //windows load with toastr message
+                            $('.text-danger').html('');
+                            window.location.reload();
+                        },
+                        error: function(xhr) {
+
+                            // Handle errors (e.g., display validation errors)
+                            //clear any old errors
+
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                // Assuming you have a div with class "text-danger" next to each input
+                                $('[name="' + key + '"]').next('.text-danger').html(
+                                    value[
+                                        0]);
+                            });
                         }
-                    }
-                });
+                    });
 
-
-                var formData = $(this).serialize();
-
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                        //windows load with toastr message
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
+                }
             });
         });
     </script>
@@ -341,6 +372,69 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+        function validateDynamicFields() {
+            let hasErrors = false; // Flag to track validation errors
+
+            // Validate all inputs and textareas
+            $('#create_form input, textarea').each(function() {
+                const $input = $(this);
+                const $errorSpan = $input.closest('.form-group').find('.text-danger');
+
+                if ($input.attr('type') === 'date' || $input.attr('type') === 'text' || $input.attr('type') ===
+                    'number' || $input.is('textarea')) {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.text('This field is required').show(); // Show error
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide(); // Hide error
+                    }
+                }
+            });
+
+            $('#dynamic-fields .form-group').each(function() {
+                const $input = $(this).find('input, textarea'); // Include inputs and textareas
+                const $errorSpan = $(this).find('.text-danger'); // Error message span
+
+                // Validate text and date inputs or textareas
+                if ($input.attr('type') === 'date' || $input.attr('type') === 'text' || $input.attr('type') ===
+                    'number' || $input.is('textarea')) {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.text('This field is required').show(); // Show error
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide(); // Hide error
+                    }
+                }
+            });
+
+            // Validate radio button groups
+            $('#create_form .form-group').each(function() {
+                const $radioGroup = $(this).find('input[type="radio"]');
+                const $errorSpan = $(this).find('.text-danger');
+
+                if ($radioGroup.length > 0) {
+                    if ($radioGroup.filter(':checked').length === 0) {
+                        $errorSpan.text('Please select an option').show(); // Show error
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide(); // Hide error
+                    }
+                }
+            });
+
+            //    alert(hasErrors);
+
+            return !hasErrors; // Return true if no errors
+        }
+
+        // Add dynamic field validation
+        function bindDynamicValidation() {
+            // Validate newly added inputs dynamically
+            $('#dynamic-fields').find('input, textarea').on('blur', function() {
+                validateDynamicFields();
+            });
+        }
+
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
 
@@ -463,6 +557,8 @@
                 $('.js-example-basic-single').select2();
             });
 
+
+
             // Remove last section only
             $(document).on('click', '.remove-section', function() {
                 $(this).closest('.dynamic-section').remove();
@@ -483,21 +579,23 @@
                 $('.dynamic-section').last().find('.remove-section').show(); // Show only for the last section
             }
 
-            $('.form-group').each(function () {
-            const $input = $(this).find('input'); // Find the input in the current group
-            const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
+            //     $('.form-group').each(function () {
+            //     const $input = $(this).find('input'); // Find the input in the current group
+            //     const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
 
-            // Only perform validation if the input exists
-            if ($input.length > 0) {
-                if ($input.val().trim() == '') {
-                    $errorSpan.show(); // Show the error if input is empty
-                } else {
-                    $errorSpan.hide(); // Hide the error if input is not empty
-                }
-            }
-        });
+            //     // Only perform validation if the input exists
+            //     if ($input.length > 0) {
+            //         if ($input.val().trim() == '') {
+            //             $errorSpan.show(); // Show the error if input is empty
+            //         } else {
+            //             $errorSpan.hide(); // Hide the error if input is not empty
+            //         }
+            //     }
+            // });
             // Initial setup
             updateRemoveButtonVisibility();
+
+            bindDynamicValidation();
 
         });
     </script>
