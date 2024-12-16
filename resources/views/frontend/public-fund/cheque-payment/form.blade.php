@@ -57,21 +57,21 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="">Bill Ref</label>
-                        <input type="text" class="form-control" name="bill_ref"
+                        <input type="text" class="form-control" name="bill_ref" id="bill_ref"
                             >
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="form-group col-md-3">
                         <label for="">Cheque No.</label>
-                        <input type="number" class="form-control" name="cheq_no"
+                        <input type="number" class="form-control" name="cheq_no" id="cheq_no"
                             >
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="form-group col-md-3">
                         <label for="">Cheque Date</label>
-                        <input type="date" class="form-control" name="cheq_date"
+                        <input type="date" class="form-control" name="cheq_date" id="cheq_date"
                             >
                         <span class="text-danger"></span>
                     </div>
