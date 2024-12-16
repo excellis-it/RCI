@@ -215,10 +215,26 @@
             $(document).on('submit', '#search_receipt_form', function(e) {
                 e.preventDefault();
 
+
+
                 var formData = $(this).serialize();
+
+                $('.form-group').each(function() {
+                    const $input = $(this).find('input','date'); // Find the input in the current group
+                    const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
+
+                    if ($input.val().trim() === '') {
+                        $errorSpan.show(); // Show the error if input is empty
+                    } else {
+                        $errorSpan.hide(); // Hide the error if input is not empty
+                    }
+                });
 
                 var vr_no = $("#vr_no").val();
                 var vr_date = $("#vr_date").val();
+
+
+
 
                 $.ajax({
                     type: "POST",
@@ -328,18 +344,17 @@
     </script> --}}
 
     <script>
-        $(document).ready(function() {
+         $(document).ready(function() {
             $('#cheque-payment-create-form').submit(function(e) {
                 e.preventDefault();
-                var formData = $(this).serialize();
 
+                var formData = $(this).serialize();
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-
                         //windows load with toastr message
                         window.location.reload();
                     },
@@ -349,13 +364,11 @@
                         //clear any old errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
-                        //console.log(errors);
                         $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
                         });
-
-
                     }
                 });
             });

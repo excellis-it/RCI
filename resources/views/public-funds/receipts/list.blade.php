@@ -91,16 +91,17 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="receipt_no"
-                                                    style="cursor: pointer">Receipt No.<span id="receipt_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="category_id"
-                                                    style="cursor: pointer">Category <span id="category_id_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
                                                     style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="dv_no"
+                                                    style="cursor: pointer">DV No.<span id="dv_no_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="category_id"
+                                                    style="cursor: pointer">Category <span id="category_id_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
                                                     style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -204,6 +205,22 @@
         $(document).ready(function() {
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
+
+                $('.form-group').each(function () {
+                    const $input = $(this).find('input'); // Find the input in the current group
+                    const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
+
+                    // Only perform validation if the input exists
+                    if ($input.length > 0) {
+                        if ($input.val().trim() == '') {
+                            $errorSpan.show(); // Show the error if input is empty
+                        } else {
+                            $errorSpan.hide(); // Hide the error if input is not empty
+                        }
+                    }
+                });
+
+
                 var formData = $(this).serialize();
 
 
@@ -212,7 +229,6 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-
                         //windows load with toastr message
                         window.location.reload();
                     },
@@ -222,13 +238,11 @@
                         //clear any old errors
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
-                        //console.log(errors);
                         $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
                         });
-
-
                     }
                 });
             });
@@ -374,7 +388,7 @@
                                 @foreach ($members as $member)
                                     <option value="{{ $member->id }}">{{ $member->name }}</option>
                                 @endforeach
-                                <option value="Other">Other</option>
+                                // <option value="Other">Other</option>
                             </select>
                             <span class="text-danger"></span>
                         </div>
@@ -417,25 +431,29 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="form-group col-md-2">
                     <label>Amount</label>
-                    <input type="number" class="form-control" name="member_amount[]" placeholder="Enter amount">
+                    <input type="number" class="form-control" name="member_amount[]">
+                    <span class="text-danger"></span>
                 </div>
-                <div class="col-md-2">
+                <div class="form-group col-md-2">
                     <label>Bill reference</label>
-                    <input type="text" class="form-control" name="bill_ref[]" placeholder="Enter Bill reference">
+                    <input type="text" class="form-control" name="bill_ref[]">
+                    <span class="text-danger"></span>
                 </div>
-                <div class="col-md-2">
+                <div class="form-group col-md-2">
                     <label>Cheque No.</label>
-                    <input type="text" class="form-control" name="cheq_no[]" placeholder="Enter cheque number">
+                    <input type="text" class="form-control" name="cheq_no[]">
+                    <span class="text-danger"></span>
                 </div>
-                <div class="col-md-2">
+                <div class="form-group col-md-2">
                     <label>Cheque Date</label>
-                    <input type="date" class="form-control" name="cheq_date[]">
+                    <input type="date" class="form-control" name="cheq_date[]">.
+                    <span class="text-danger"></span>
                 </div>
                     <button type="button" class="btn btn-danger remove-section remove_trash"><i
                                     class="ti ti-trash"></i></button>
-              
+
              </div>
             </div>
             `;
@@ -465,8 +483,22 @@
                 $('.dynamic-section').last().find('.remove-section').show(); // Show only for the last section
             }
 
+            $('.form-group').each(function () {
+            const $input = $(this).find('input'); // Find the input in the current group
+            const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
+
+            // Only perform validation if the input exists
+            if ($input.length > 0) {
+                if ($input.val().trim() == '') {
+                    $errorSpan.show(); // Show the error if input is empty
+                } else {
+                    $errorSpan.hide(); // Hide the error if input is not empty
+                }
+            }
+        });
             // Initial setup
             updateRemoveButtonVisibility();
+
         });
     </script>
 

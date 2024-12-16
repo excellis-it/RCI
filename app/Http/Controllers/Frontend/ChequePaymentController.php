@@ -126,9 +126,9 @@ class ChequePaymentController extends Controller
                 'vr_no' => 'required',
                 'vr_date' => 'required|date',
                 'amount' => 'required|numeric|min:0',
-                'bill_ref' => 'nullable|string|max:255',
-                'cheq_no' => 'nullable|string|max:255',
-                'cheq_date' => 'nullable|date',
+                'bill_ref' => 'required|string|max:255',
+                'cheq_no' => 'required|string|max:255',
+                'cheq_date' => 'required|date',
             ]);
 
             $chequePayment = new ChequePayment();
