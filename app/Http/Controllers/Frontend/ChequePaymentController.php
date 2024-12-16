@@ -408,10 +408,10 @@ class ChequePaymentController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
 
 
-        //  $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members'))->setPaper('a3', 'landscape');
-        //   return $pdf->download('receipt-report-' . $vr_no . '-' . $vr_date . '.pdf');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'))->setPaper('a3', 'landscape');
+        return $pdf->download('payment-report-' . $vr_date . '.pdf');
 
-        return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
+        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
     }
 
 

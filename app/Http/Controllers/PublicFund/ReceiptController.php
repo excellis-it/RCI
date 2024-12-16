@@ -16,6 +16,7 @@ use App\Models\Bank;
 use App\Models\ReceiptMember;
 use App\Models\ChequePayment;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class ReceiptController extends Controller
 {
@@ -32,7 +33,7 @@ class ReceiptController extends Controller
             ->latest('receipt_no') // Order by receipt_no descending
             ->first();
 
-        $lastReceiptNo = $lastReceipt ? $lastReceipt->receipt_no : 1;
+        $lastReceiptNo = $lastReceipt ? $lastReceipt->receipt_no : 0;
         $receiptNo = $lastReceiptNo + 1;
         $vrNo = $receiptNo;
         return view('public-funds.receipts.list', compact('receipts', 'paymentCategories', 'members', 'vrNo'));
@@ -483,10 +484,10 @@ class ReceiptController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
 
 
-        //  $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members'))->setPaper('a3', 'landscape');
-        //   return $pdf->download('receipt-report-' . $vr_no . '-' . $vr_date . '.pdf');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'))->setPaper('a3', 'landscape');
+        return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
-        return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
+        // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
     }
 
 
