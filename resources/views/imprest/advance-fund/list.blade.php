@@ -34,6 +34,10 @@
             height: 32px;
             width: 28px;
         }
+
+        span.text-danger {
+            font-size: 13px !important;
+        }
     </style>
 @endpush
 

@@ -35,10 +35,10 @@
             height: 32px;
             width: 28px;
         }
-    .swal2-warning.swal2-icon-show .swal2-icon-content{
-        font-size:0.75em !important;
-    }
 
+        .swal2-warning.swal2-icon-show .swal2-icon-content {
+            font-size: 0.75em !important;
+        }
     </style>
 @endpush
 
@@ -389,7 +389,7 @@
                 if ($input.attr('type') === 'date' || $input.attr('type') === 'text' || $input.attr('type') ===
                     'number' || $input.is('textarea')) {
                     if ($input.val().trim() === '') {
-                        $errorSpan.text('This field is required').show(); // Show error
+                        $errorSpan.show(); // Show error
                         hasErrors = true;
                     } else {
                         $errorSpan.hide(); // Hide error
@@ -405,7 +405,7 @@
                 if ($input.attr('type') === 'date' || $input.attr('type') === 'text' || $input.attr('type') ===
                     'number' || $input.is('textarea')) {
                     if ($input.val().trim() === '') {
-                        $errorSpan.text('This field is required').show(); // Show error
+                        $errorSpan.show(); // Show error
                         hasErrors = true;
                     } else {
                         $errorSpan.hide(); // Hide error
