@@ -178,15 +178,15 @@ class ReceiptController extends Controller
 
         $request->validate([
             'vr_date' => 'required|date',
-            'dv_no' => 'nullable|string|max:255',
+            'dv_no' => 'required|string|max:255',
             'narration' => 'nullable|string|max:1000',
             'category' => 'required|exists:categories,id',
             'sr_no.*' => 'required|numeric',
             'member_id.*' => 'required|exists:members,id',
             'amount.*' => 'required|numeric|min:0',
-            'bill_ref.*' => 'nullable|string|max:255',
-            'cheq_no.*' => 'nullable|string|max:255',
-            'cheq_date.*' => 'nullable|date',
+            'bill_ref.*' => 'required|string|max:255',
+            'cheq_no.*' => 'required|string|max:255',
+            'cheq_date.*' => 'required|date',
         ]);
 
         try {

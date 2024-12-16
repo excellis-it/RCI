@@ -149,9 +149,9 @@
             <div class="mb-1">
                 <button type="submit" class="listing_add">Update</button>
             </div>
-            <div class="mb-1">
+            {{-- <div class="mb-1">
                 <a href="" class="listing_exit">Back</a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </form>
