@@ -1,14 +1,45 @@
 @extends('imprest.layouts.master')
 @section('title')
-Advance Fund List
+    Advance Fund List
 @endsection
 
 @push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            width: 100%;
+            height: 36px;
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #1e1e1e;
+            background-color: #EDF4FA;
+            background-clip: padding-box;
+            border: 1px solid #C4C4C4;
+            appearance: none;
+            border-radius: 7px;
+            box-shadow: unset;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #444;
+            line-height: 20px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 32px;
+            width: 28px;
+        }
+    </style>
 @endpush
 
 @php
-use App\Helpers\Helper;
-    
+    use App\Helpers\Helper;
+
 @endphp
 
 
@@ -24,7 +55,7 @@ use App\Helpers\Helper;
                     <h3>Provide Advance Fund To Employee</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Advance Fund  Listing</span></li>
+                        <li><span class="bread-blod">Advance Fund Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -32,12 +63,12 @@ use App\Helpers\Helper;
         <!--  Row 1 -->
 
         <div class="row">
-            <div class="col-md-6 text-start mb-3">
+            {{-- <div class="col-md-6 text-start mb-3">
                 <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
-               <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
-            </div>
+                <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
+            </div> --}}
         </div>
 
         <div class="row">
@@ -45,7 +76,19 @@ use App\Helpers\Helper;
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('imprest.advance-fund.form')
+
+
+                            <div id="create_form">
+                                @include('imprest.advance-fund.form')
+                            </div>
+
+                            <div id="edit_form">
+
+                            </div>
+
+
+
+
                         </div>
 
                         <div class="row">
@@ -63,7 +106,12 @@ use App\Helpers\Helper;
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
+                                                    style="cursor: pointer">EMP ID.<span id="adv_eid_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="name"
+                                                    style="cursor: pointer">Name<span id="adv_ename_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="adv_no"
                                                     style="cursor: pointer">ADV NO.<span id="adv_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -72,22 +120,22 @@ use App\Helpers\Helper;
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="adv_amount"
                                                     style="cursor: pointer">ADV AMT<span id="adv_amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>                                          
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name=""
                                                     style="cursor: pointer">PROJECT </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="chq_no"
                                                     style="cursor: pointer">CHQ NO. <span id="chq_no_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="chq_date"
                                                     style="cursor: pointer">CHQ DATE <span id="chq_date_icon"><i
-                                                        class="fa fa-arrow-down"></i></span></th>
+                                                            class="fa fa-arrow-down"></i></span></th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name=""
                                                     style="cursor: pointer">VARIABLE TYPE </th>
-                                                
+
                                                 <th></th>
                                             </tr>
                                         </thead>
-                                        <tbody class="tbody_height_scroll">
+                                        <tbody class="tbody_height_scroll allfunds">
                                             @include('imprest.advance-fund.table')
                                         </tbody>
                                     </table>
@@ -101,67 +149,143 @@ use App\Helpers\Helper;
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#advance-funds-create-form').submit(function(e) {
-            
-            e.preventDefault();
-            var formData = $(this).serialize();
-        
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                   
-                    //windows load with toastr message
-                    window.location.reload();
-                },
-                error: function(xhr) {
-                   
-                    // Handle errors (e.g., display validation errors)
-                    //clear any old errors
-                    $('.text-danger').html('');
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a div with class "text-danger" next to each input
-                        $('[name="' + key + '"]').next('.text-danger').html(value[
-                            0]);
-                    });
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+
+            $('#member_id').change(function() {
+                var member_id = $(this).val();
+
+                if (member_id != '') {
+                    // $('.cheque-member-name').show();
+                    // $('.cheque-member-desig').show();
+                    // $('.cheque-bank-acc').show();
                 }
             });
         });
-    });
-</script>
+    </script>
 
-<script>
-    
-    $(document).ready(function() {
-        $('#emp_id').change(function() {
-            var memb_id = $(this).val();
-            if (memb_id != '') {
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.member_id', function() {
+                var member_id = $(this).val();
+                // alert(member_id);
+                var row = $(this).closest('.member-section'); // Target the specific row
+                var mode = $('#mode').val(); // If mode is needed, you can handle it dynamically
+
+                if (!isNaN(member_id) && member_id !== '') {
+                    // Call AJAX
+                    $.ajax({
+                        url: "{{ route('advance-funds.get-member-details') }}",
+                        type: 'GET',
+                        data: {
+                            member_id: member_id
+                        },
+                        success: function(response) {
+                            // Update fields within the specific row
+                            // row.find('.member_name').val(response.data.name);
+                            // row.find('.bank_acc').val(response.data.bank_account.bank_acc_no);
+                            // row.find('.member_id').val(response.data.member_data.id);
+                            row.find('.emp_id').val(response.data.member_data.emp_id);
+                            row.find('.member_name').val(response.data.name);
+                            row.find('.pers_no').val(response.data.member_data.pers_no);
+                            row.find('.desig').val(response.data.member_data.designation
+                                .designation_type);
+                            row.find('.basic').val(response.data.member_data.basic);
+                            row.find('.groups').val(response.data.groups.value);
+                            row.find('.divisions').val(response.data.divisions.value);
+
+
+                            $.ajax({
+                                type: "get",
+                                url: "{{ route('advance-funds.get-member-details-funds') }}",
+                                data: {
+                                    member_id: member_id
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    $("#memeber-funds-table").html(response
+                                        .view);
+                                }
+                            });
+
+
+                        },
+                        error: function(xhr) {
+                            // Handle errors
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    // Clear fields within the specific row
+                    row.find('.member-name').val('');
+                    row.find('.desig').val('');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#advance-funds-create-form').submit(function(e) {
+
+                e.preventDefault();
+                var formData = $(this).serialize();
+
+
                 $.ajax({
-                    url: "{{ route('advance-funds.fetch-employee') }}",
-                    type: "GET",
-                    data: {
-                        memb_id: memb_id
-                    },
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
                     success: function(response) {
-                        $('#mem_name').val(response.data.name);
-                        $('#mem_desig').val(response.data.designation);
-                        $('#mem_group').val(response.data.group);
-                        $('#mem_division').val(response.data.division);
+
+                        //windows load with toastr message
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
                     }
                 });
-            }
+            });
         });
-    });
+    </script>
+
+    <script>
+        // $(document).ready(function() {
+        //     $('#emp_id').change(function() {
+        //         var memb_id = $(this).val();
+        //         if (memb_id != '') {
+        //             $.ajax({
+        //                 url: "{{ route('advance-funds.fetch-employee') }}",
+        //                 type: "GET",
+        //                 data: {
+        //                     memb_id: memb_id
+        //                 },
+        //                 success: function(response) {
+        //                     $('#mem_name').val(response.data.name);
+        //                     $('#mem_desig').val(response.data.designation);
+        //                     $('#mem_group').val(response.data.group);
+        //                     $('#mem_division').val(response.data.division);
+        //                 }
+        //             });
+        //         }
+        //     });
+        // });
     </script>
 
     <script>
@@ -199,7 +323,7 @@ use App\Helpers\Helper;
                         query: query
                     },
                     success: function(data) {
-                        $('tbody').html(data.data);
+                        $('.allfunds').html(data.data);
                     }
                 });
             }
@@ -258,20 +382,24 @@ use App\Helpers\Helper;
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
-                
+
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                        $('#form').html(response.view);
+                        $('#create_form').hide();
+                        $('#edit_form').show();
+                        $('#edit_form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         // $('#offcanvasEdit').offcanvas('show');
                     },
                     error: function(xhr) {
                         // Handle errors
+                        $('#create_form').show();
+                        $('#edit_form').hide();
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         console.log(xhr);

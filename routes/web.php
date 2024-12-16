@@ -871,6 +871,9 @@ Route::middleware('permssions')->group(function () {
         });
         Route::get('/advance-funds-fetch-data', [AdvanceFundController::class, 'fetchData'])->name('advance-funds.fetch-data');
         Route::get('/advance-funds-employee', [AdvanceFundController::class, 'fetchEmployeeData'])->name('advance-funds.fetch-employee');
+        Route::get('/advance-funds-fetch-member', [AdvanceFundController::class, 'getMemberDetails'])->name('advance-funds.get-member-details');
+        Route::get('/advance-funds-fetch-member-funds', [AdvanceFundController::class, 'getMemberFunds'])->name('advance-funds.get-member-details-funds');
+        // Route::get('/advance-funds-edit', [AdvanceFundController::class, 'edit'])->name('advance-funds.fund-edit');
 
         //advance settlement
         Route::prefix('advance-settlement')->group(function () {
