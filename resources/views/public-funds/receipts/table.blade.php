@@ -2,7 +2,7 @@
     @foreach ($receipts as $key => $receipt)
         <tr>
             <td>{{ $receipt->vr_no ?? 'N/A' }}</td>
-            <td>{{ $receipt->receipt_no ?? 'N/A' }}</td>
+            <td>{{ $receipt->dv_no ?? 'N/A' }}</td>
             <td>{{ $receipt->category->name ?? 'N/A' }}</td>
             <td>{{ $receipt->vr_date ?? 'N/A' }}</td>
             <td>{{ $receipt->amount ?? 'N/A' }}</td>

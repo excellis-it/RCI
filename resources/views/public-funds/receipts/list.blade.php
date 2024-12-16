@@ -91,10 +91,13 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
                                                     style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="dv_no"
+                                                    style="cursor: pointer">DV No.<span id="dv_no_icon"><i
+                                                        class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="category_id"
                                                     style="cursor: pointer">Category <span id="category_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -202,7 +205,7 @@
         $(document).ready(function() {
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
-                
+
                 $('.form-group').each(function () {
                     const $input = $(this).find('input'); // Find the input in the current group
                     const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
