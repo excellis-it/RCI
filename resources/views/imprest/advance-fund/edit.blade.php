@@ -13,7 +13,7 @@
                             <label>Member</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="js-example-basic-single form-control member_id" name="member_id" readonly>
+                            <select class=" form-control" name="member_id" readonly>
 
 
                                 <option value="{{ $advance_fund->member_id }}" selected>
@@ -162,7 +162,7 @@
                             <label>Adv Amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="adv_amount"
+                            <input type="number" class="form-control" name="adv_amount"
                                 value="{{ $advance_fund->adv_amount }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>

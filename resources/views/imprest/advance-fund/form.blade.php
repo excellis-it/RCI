@@ -153,7 +153,7 @@
                             <label>Adv Amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="adv_amount" id="adv_amount"
+                            <input type="number" class="form-control" name="adv_amount" id="adv_amount"
                                 placeholder="">
                             <span class="text-danger"></span>
                         </div>
