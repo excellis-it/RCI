@@ -26,7 +26,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="vr_date" id="vr_date">
-                                <span class="text-danger" style="display:none; color:red;">This Vr. Date field is required</span>
+                                <span class="text-danger" style="display:none; color:red;">Vr. Date field is
+                                    required</span>
                             </div>
                         </div>
                     </div>
@@ -38,7 +39,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="dv_no" id="dv_no">
-                                <span class="text-danger" style="display:none; color:red;">This DV No. field is required</span>
+                                <span class="text-danger" style="display:none; color:red;">DV No. field is
+                                    required</span>
                             </div>
                         </div>
                     </div>
@@ -68,7 +70,8 @@
                                                     @endforeach
                                                     {{-- <option value="Other">Other</option> --}}
                                                 </select>
-                                                <span class="text-danger" style="display:none; color:red;">This Member field is
+                                                <span class="text-danger" style="display:none; color:red;">Member
+                                                    field is
                                                     required</span>
                                             </div>
                                         </div>
@@ -81,7 +84,8 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control member_name" readonly>
-                                                <span class="text-danger" style="display:none; color:red;">This Member Name field is
+                                                <span class="text-danger" style="display:none; color:red;">Member
+                                                    Name field is
                                                     required</span>
                                             </div>
                                         </div>
@@ -94,7 +98,8 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control desig" readonly>
-                                                <span class="text-danger" style="display:none; color:red;">This Desig. field is
+                                                <span class="text-danger" style="display:none; color:red;">Desig.
+                                                    field is
                                                     required</span>
                                             </div>
                                         </div>
@@ -109,7 +114,8 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control bank_acc" readonly>
-                                                <span class="text-danger" style="display:none; color:red;">This Bank Acc field is
+                                                <span class="text-danger" style="display:none; color:red;">Bank Acc
+                                                    field is
                                                     required</span>
                                             </div>
                                         </div>
@@ -118,28 +124,31 @@
                                     <div class=" form-group col-md-2">
                                         <label>Amount</label>
                                         <input type="number" class="form-control" name="member_amount[]">
-                                        <span class="text-danger" style="display:none; color:red;">This Amount field is
+                                        <span class="text-danger" style="display:none; color:red;">Amount field is
                                             required</span>
 
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Bill reference</label>
                                         <input type="text" class="form-control" name="bill_ref[]">
-                                        <span class="text-danger" style="display:none; color:red;">This Bill ref. field is
+                                        <span class="text-danger" style="display:none; color:red;">Bill ref. field
+                                            is
                                             required</span>
 
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Cheque No.</label>
                                         <input type="text" class="form-control" name="cheq_no[]">
-                                        <span class="text-danger" style="display:none; color:red;">This Cheque No. field is
+                                        <span class="text-danger" style="display:none; color:red;">Cheque No. field
+                                            is
                                             required</span>
 
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Cheque Date</label>
                                         <input type="date" class="form-control" name="cheq_date[]">
-                                        <span class="text-danger" style="display:none; color:red;">This Cheque Date field is
+                                        <span class="text-danger" style="display:none; color:red;">Cheque Date
+                                            field is
                                             required</span>
                                     </div>
 
@@ -163,7 +172,8 @@
                             </div>
                             <div class="col-md-12">
                                 <textarea type="text" class="form-control" name="narration" id="narration"></textarea>
-                                <span class="text-danger"></span>
+                                <span class="text-danger" style="display:none; color:red;">Narration field is
+                                    required</span>
                             </div>
                         </div>
                     </div>
@@ -188,6 +198,8 @@
                                             @endforeach
 
                                         </div>
+                                        <span class="text-danger" style="display:none; color:red;">Category field is
+                                            required</span>
                                     </div>
                                 </div>
                             </div>
@@ -217,4 +229,3 @@
 <div id="edit_form" style="display: none;">
 
 </div>
-
