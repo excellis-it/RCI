@@ -1,4 +1,3 @@
-
 @extends('frontend.layouts.master')
 @section('title')
     Dashboard
@@ -27,12 +26,12 @@
         <!--  Row 1 -->
 
 
-    <div class="">
+        <div class="">
 
             <div class="card-wrap">
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{route('receipts.index')}}">
+                        <a href="{{ route('receipts.index') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Public Fund</h5>
@@ -41,7 +40,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{route('cda-receipts.index')}}">
+                        <a href="{{ route('advance-funds.index') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Imprest</h5>
@@ -59,7 +58,7 @@
                         </a>
                     </div> --}}
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{route('arrears.index')}}">
+                        <a href="{{ route('arrears.index') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Income tax</h5>
@@ -74,5 +73,4 @@
         </div>
 
     </div>
-
 @endsection
