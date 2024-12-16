@@ -5,6 +5,8 @@
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
     <style>
         .select2-container--default .select2-selection--single {
             width: 100%;
@@ -33,6 +35,10 @@
             height: 32px;
             width: 28px;
         }
+    .swal2-warning.swal2-icon-show .swal2-icon-content{
+        font-size:0.75em !important;
+    }
+
     </style>
 @endpush
 

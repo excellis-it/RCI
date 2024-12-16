@@ -215,20 +215,32 @@
             $(document).on('submit', '#search_receipt_form', function(e) {
                 e.preventDefault();
 
+                $(".error-message").remove();
 
+                var isValid = true; // Flag to check form validity
+
+                // Validate `vr_no`
+                var vr_no = $("#vr_no").val().trim();
+                if (!vr_no) {
+                    isValid = false;
+                    $("#vr_no").after(
+                        "<span class='error-message' style='color: #fa896b;'>VR Number is required.</span>");
+                }
+
+                // Validate `vr_date`
+                var vr_date = $("#vr_date").val().trim();
+                if (!vr_date) {
+                    isValid = false;
+                    $("#vr_date").after(
+                        "<span class='error-message' style='color: #fa896b;'>VR Date is required.</span>");
+                }
+
+                // If validation fails, stop further processing
+                if (!isValid) {
+                    return;
+                }
 
                 var formData = $(this).serialize();
-
-                $('.form-group').each(function() {
-                    const $input = $(this).find('input','date'); // Find the input in the current group
-                    const $errorSpan = $(this).find('.text-danger'); // Find the corresponding error span
-
-                    if ($input.val().trim() === '') {
-                        $errorSpan.show(); // Show the error if input is empty
-                    } else {
-                        $errorSpan.hide(); // Hide the error if input is not empty
-                    }
-                });
 
                 var vr_no = $("#vr_no").val();
                 var vr_date = $("#vr_date").val();
@@ -259,14 +271,14 @@
                                     .addClass('btn-danger')
                                     .removeClass(
                                         'btn-primary'
-                                        ); // If you want to remove the previous class, e.g., 'btn-primary'
+                                    ); // If you want to remove the previous class, e.g., 'btn-primary'
                             } else {
                                 $('.cheq_pay_add').prop('disabled', false)
                                     .text('Add')
                                     .removeClass('btn-danger')
                                     .addClass(
                                         'btn-primary'
-                                        ); // Optional, add back another class (like 'btn-primary')
+                                    ); // Optional, add back another class (like 'btn-primary')
                             }
 
                         } else {
@@ -288,6 +300,77 @@
 
                 });
 
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Validate Amount
+            function validateAmount() {
+                const amountField = $('#pay_amount');
+                const errorSpan = amountField.next('.text-danger');
+                if (!amountField.val() || isNaN(amountField.val()) || Number(amountField.val()) <= 0) {
+                    errorSpan.text('Amount is required');
+                    return false;
+                } else {
+                    errorSpan.text('');
+                    return true;
+                }
+            }
+
+            // Validate Bill Ref
+            function validateBillRef() {
+                const billRefField = $('#bill_ref');
+                const errorSpan = billRefField.next('.text-danger');
+                if (!billRefField.val().trim()) {
+                    errorSpan.text('Bill Reference is required');
+                    return false;
+                } else {
+                    errorSpan.text('');
+                    return true;
+                }
+            }
+
+            // Validate Cheque No.
+            function validateChequeNo() {
+                const amountField = $('#cheq_no');
+                const errorSpan = amountField.next('.text-danger');
+                if (!amountField.val() || isNaN(amountField.val()) || Number(amountField.val()) <= 0) {
+                    errorSpan.text('Cheque No. is required');
+                    return false;
+                } else {
+                    errorSpan.text('');
+                    return true;
+                }
+            }
+
+            // Validate Cheque Date
+            function validateChequeDate() {
+                const chequeDateField = $('#cheq_date');
+                const errorSpan = chequeDateField.next('.text-danger');
+                if (!chequeDateField.val()) {
+                    errorSpan.text('Cheque Date is required');
+                    return false;
+                } else {
+                    errorSpan.text('');
+                    return true;
+                }
+            }
+
+            // Attach validation on input events for real-time feedback
+            $('#pay_amount').on('input', validateAmount);
+            $('#bill_ref').on('input', validateBillRef);
+            $('#cheq_no').on('input', validateChequeNo);
+            $('#cheq_date').on('input', validateChequeDate);
+
+            // Validate on form submission
+            $('#cheque-payment-create-form').on('submit', function(e) {
+                const isValid = validateAmount() & validateBillRef() & validateChequeNo() &
+                    validateChequeDate();
+                if (!isValid) {
+                    e.preventDefault();
+                }
             });
         });
     </script>
@@ -344,7 +427,7 @@
     </script> --}}
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             $('#cheque-payment-create-form').submit(function(e) {
                 e.preventDefault();
 
@@ -356,13 +439,14 @@
                     data: formData,
                     success: function(response) {
                         //windows load with toastr message
+                        $('.text-danger').html('');
                         window.location.reload();
                     },
                     error: function(xhr) {
 
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
-                        $('.text-danger').html('');
+
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a div with class "text-danger" next to each input
