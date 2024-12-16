@@ -62,21 +62,21 @@ class CdaBillAuditTeamController extends Controller
      */
     public function store(Request $request)
     {
-        
-        // $request->validate([
-        //     'pc_no' => 'required',
-        //     'project_id' => 'required',
-        //     'adv_no' => 'required|numeric',
-        //     'adv_date' => 'required',
-        //     'adv_amount' => 'required',
-        //     'var_date' => 'required|numeric',
-        //     'var_amount' => 'required',
-        //     'crv_no' => 'required',
-        //     'firm_name' => 'required',
-        //     'cda_bill_no' => 'required',
-        //     'cda_bill_date' => 'required',
-        //     'cda_bill_amount' => 'required',
-        // ]);
+
+        $request->validate([
+            // 'pc_no' => 'required',
+            // 'project_id' => 'required',
+            // 'adv_no' => 'required|numeric',
+            // 'adv_date' => 'required',
+            // 'adv_amount' => 'required',
+            // 'var_date' => 'required|numeric',
+            // 'var_amount' => 'required',
+            // 'crv_no' => 'required',
+            // 'firm_name' => 'required',
+            'cda_bill_no' => 'required',
+            'cda_bill_date' => 'required',
+            // 'cda_bill_amount' => 'required',
+        ]);
 
         $voucherText = ImprestResetVoucher::where('status', 1)->first();
         $cdaBill = CdaBillAuditTeam::latest()->first();
@@ -90,25 +90,25 @@ class CdaBillAuditTeamController extends Controller
         } else {
             $counter = 1;
         }
-        
+
         $cda_bill = new CdaBillAuditTeam();
-        $cda_bill->pc_no = $request->pc_no;
-        $cda_bill->project_id = $request->project_id;
-        $cda_bill->adv_no = $request->adv_no;
-        $cda_bill->adv_date = $request->adv_date;
-        $cda_bill->adv_amount = $request->adv_amount;
-        $cda_bill->var_no = $constantString . $counter;
-        $cda_bill->var_date = $request->var_date;
-        $cda_bill->var_amount = $request->var_amount;
-        $cda_bill->crv_no = $request->crv_no;
-        $cda_bill->firm_name = $request->firm_name;
+        // $cda_bill->pc_no = $request->pc_no;
+        // $cda_bill->project_id = $request->project_id;
+        // $cda_bill->adv_no = $request->adv_no;
+        // $cda_bill->adv_date = $request->adv_date;
+        // $cda_bill->adv_amount = $request->adv_amount;
+        // $cda_bill->var_no = $constantString . $counter;
+        // $cda_bill->var_date = $request->var_date;
+        // $cda_bill->var_amount = $request->var_amount;
+        // $cda_bill->crv_no = $request->crv_no;
+        // $cda_bill->firm_name = $request->firm_name;
         $cda_bill->cda_bill_no = $request->cda_bill_no;
         $cda_bill->cda_bill_date = $request->cda_bill_date;
-        $cda_bill->cda_bill_amount = $request->cda_bill_amount;
+        // $cda_bill->cda_bill_amount = $request->cda_bill_amount;
         $cda_bill->save();
 
-        session()->flash('message', 'CDA bill updated successfully');
-        return response()->json(['success' => 'CDA bill updated successfully']);
+        session()->flash('message', 'CDA bill added successfully');
+        return response()->json(['success' => 'CDA bill added successfully']);
     }
 
     /**
@@ -128,7 +128,7 @@ class CdaBillAuditTeamController extends Controller
         $projects = Project::orderBy('id', 'desc')->get();
         $variable_types = VariableType::orderBy('id','desc')->get();
         $edit = true;
-       
+
         return response()->json(['view' => view('imprest.cda-bills.form', compact('edit','cdaBill','projects','variable_types'))->render()]);
     }
 
