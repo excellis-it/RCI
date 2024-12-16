@@ -887,6 +887,8 @@ Route::middleware('permssions')->group(function () {
         Route::post('/advance-settlement-bill-update', [AdvanceSettlementController::class, 'updateAdvanceSettleBill'])->name('advance-settle-bills.update');
         //delete advance settylement
         Route::get('/advance-settlement-bill-delete/{id}', [AdvanceSettlementController::class, 'deleteAdvanceSettleBill'])->name('advance-settle-bills.delete');
+
+        Route::post('/advance-settlement-get-adv', [AdvanceSettlementController::class, 'getAdv'])->name('advance-settle-bills.get-adv');
     });
 
     //grade pay routes

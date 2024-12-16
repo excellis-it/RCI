@@ -8,6 +8,7 @@ use App\Models\AdvanceSettlement;
 use App\Models\Project;
 use App\Models\VariableType;
 use App\Models\AdvanceSettlementBill;
+use App\Models\AdvanceFundToEmployee;
 
 class AdvanceSettlementController extends Controller
 {
@@ -17,8 +18,18 @@ class AdvanceSettlementController extends Controller
     public function index()
     {
         $advance_settlements = AdvanceSettlement::orderBy('id', 'desc')->paginate(10);
-        $projects = Project::orderBy('id','desc')->get();
-        return view('imprest.advance-settlement.list', compact('advance_settlements','projects'));
+        $projects = Project::orderBy('id', 'desc')->get();
+        return view('imprest.advance-settlement.list', compact('advance_settlements', 'projects'));
+    }
+
+    public function getAdv(Request $request)
+    {
+        $adv_no = $request->adv_no;
+        $adv_date = $request->adv_date;
+
+        $advance_funds = AdvanceFundToEmployee::where('adv_no', $adv_no)->where('adv_date', $adv_date)->first();
+
+        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds'))->render()]);
     }
 
     /**
@@ -26,13 +37,13 @@ class AdvanceSettlementController extends Controller
      */
     public function fetchData(Request $request)
     {
-       
+
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $advance_settlements = AdvanceSettlement::where(function($queryBuilder) use ($query) {
+            $advance_settlements = AdvanceSettlement::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('adv_no', 'like', '%' . $query . '%')
                     ->orWhere('adv_date', 'like', '%' . $query . '%')
                     ->orWhere('adv_amount', 'like', '%' . $query . '%')
@@ -42,20 +53,19 @@ class AdvanceSettlementController extends Controller
                     ->orWhere('chq_no', 'like', '%' . $query . '%')
                     ->orWhere('chq_date', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('imprest.advance-settlement.table', compact('advance_settlements'))->render()]);
-            
         }
     }
 
     public function create()
     {
-        $projects = Project::orderBy('id','desc')->get();
-        $variable_types = VariableType::orderBy('id','desc')->get();
+        $projects = Project::orderBy('id', 'desc')->get();
+        $variable_types = VariableType::orderBy('id', 'desc')->get();
 
-        return view('imprest.advance-settlement.form',compact('projects','variable_types'));
+        return view('imprest.advance-settlement.form', compact('projects', 'variable_types'));
     }
 
     /**
@@ -63,7 +73,7 @@ class AdvanceSettlementController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $request->validate([
             'adv_no' => 'required',
             'adv_date' => 'required',
@@ -75,9 +85,10 @@ class AdvanceSettlementController extends Controller
             'var_type_id' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
+            'bill_amount' => 'required',
         ]);
 
-       
+
         $advance_settlement = new AdvanceSettlement();
         $advance_settlement->adv_no = $request->adv_no;
         $advance_settlement->adv_date = $request->adv_date;
@@ -89,6 +100,7 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->var_type_id = $request->var_type_id;
         $advance_settlement->chq_no = $request->chq_no;
         $advance_settlement->chq_date = $request->chq_date;
+        $advance_settlement->bill_amount = $request->bill_amount;
         $advance_settlement->save();
 
         session()->flash('message', 'Advance Settlement added successfully');
@@ -109,10 +121,10 @@ class AdvanceSettlementController extends Controller
     public function edit(string $id)
     {
         $advance_settlement = AdvanceSettlement::find($id);
-        $projects = Project::orderBy('id','desc')->get();
-        $variable_types = VariableType::orderBy('id','desc')->get();
-        $advance_settlement_bills = AdvanceSettlementBill::where('advance_settlement_id',$id)->paginate(10);
-        return view('imprest.advance-settlement.edit', compact('advance_settlement','projects','variable_types','advance_settlement_bills'));
+        $projects = Project::orderBy('id', 'desc')->get();
+        $variable_types = VariableType::orderBy('id', 'desc')->get();
+        $advance_settlement_bills = AdvanceSettlementBill::where('advance_settlement_id', $id)->paginate(10);
+        return view('imprest.advance-settlement.edit', compact('advance_settlement', 'projects', 'variable_types', 'advance_settlement_bills'));
     }
 
     public function storeAdvanceSettleBill(Request $request)
@@ -137,12 +149,12 @@ class AdvanceSettlementController extends Controller
     {
         $advance_settlement_bill = AdvanceSettlementBill::find($id);
         $edit = true;
-        return response()->json(['view' => view('imprest.advance-settlement.bill-form', compact('edit','advance_settlement_bill'))->render()]);
+        return response()->json(['view' => view('imprest.advance-settlement.bill-form', compact('edit', 'advance_settlement_bill'))->render()]);
     }
 
     public function updateAdvanceSettleBill(Request $request)
     {
-        
+
         $request->validate([
             'firm' => 'required',
             'bill_amount' => 'required|numeric',
@@ -160,14 +172,14 @@ class AdvanceSettlementController extends Controller
 
     public function deleteAdvanceSettleBill($id)
     {
-       
+
         $adv_stlmnt_bill_delete = AdvanceSettlementBill::find($id);
         $adv_stlmnt_bill_delete->delete();
 
         session()->flash('message', 'Advance settlement bill deleted successfully');
         return response()->json(['message' => 'Advance settlement bill deleted successfully']);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -187,7 +199,7 @@ class AdvanceSettlementController extends Controller
             'chq_date' => 'required',
         ]);
 
-       
+
         $advance_settlement = AdvanceSettlement::find($id);
         $advance_settlement->adv_no = $request->adv_no;
         $advance_settlement->adv_date = $request->adv_date;
@@ -218,6 +230,6 @@ class AdvanceSettlementController extends Controller
         $advance_settlement = AdvanceSettlement::find($id);
         $advance_settlement->delete();
 
-       return redirect()->route('advance-settlement.index')->with('message', 'Advance Settlement deleted successfully');
+        return redirect()->route('advance-settlement.index')->with('message', 'Advance Settlement deleted successfully');
     }
 }
