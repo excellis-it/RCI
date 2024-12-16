@@ -87,7 +87,7 @@
     <div class="row">
         <div class="col-md-2 ml-auto">
             <div class="mb-1">
-                <button type="submit" class="listing_add">Add</button>
+                <button type="submit" class="listing_add cheq_pay_add">Add</button>
             </div>
             <div class="mb-1">
                 <a href="" class="listing_exit">Back</a>

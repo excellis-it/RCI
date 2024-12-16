@@ -16,6 +16,7 @@ use App\Models\Bank;
 use App\Models\ReceiptMember;
 use App\Models\ChequePayment;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class ReceiptController extends Controller
 {
@@ -27,10 +28,13 @@ class ReceiptController extends Controller
         $receipts = Receipt::orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
-        $receiptCount = Receipt::whereYear('created_at', now()->year)
+        $lastReceipt = Receipt::whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
-            ->count();
-        $receiptNo = $receiptCount + 1;
+            ->latest('receipt_no') // Order by receipt_no descending
+            ->first();
+
+        $lastReceiptNo = $lastReceipt ? $lastReceipt->receipt_no : 0;
+        $receiptNo = $lastReceiptNo + 1;
         $vrNo = $receiptNo;
         return view('public-funds.receipts.list', compact('receipts', 'paymentCategories', 'members', 'vrNo'));
     }
@@ -188,12 +192,21 @@ class ReceiptController extends Controller
         try {
             // Generate receipt_no and vr_no with monthly reset
             $currentMonth = now()->format('Y-m');
-            $receiptCount = Receipt::whereYear('created_at', now()->year)
-                ->whereMonth('created_at', now()->month)
-                ->count();
+            // $receiptCount = Receipt::whereYear('created_at', now()->year)
+            //     ->whereMonth('created_at', now()->month)
+            //     ->count();
 
-            $receiptNo = $receiptCount + 1; // Next receipt number
-            $formattedReceiptNo = "$receiptNo";
+            // $receiptNo = $receiptCount + 1; // Next receipt number
+            // $formattedReceiptNo = "$receiptNo";
+
+            $lastReceipt = Receipt::whereYear('created_at', now()->year)
+                ->whereMonth('created_at', now()->month)
+                ->latest('receipt_no') // Order by receipt_no descending
+                ->first();
+
+            $lastReceiptNo = $lastReceipt ? $lastReceipt->receipt_no : 0;
+            $receiptNo = $lastReceiptNo + 1;
+            $formattedReceiptNo = $receiptNo;
 
             // Create Receipt
             $receipt = Receipt::create([
@@ -368,16 +381,16 @@ class ReceiptController extends Controller
         try {
             // Find the receipt based on vr_no and vr_date
             $receipt = Receipt::where('vr_no', $vr_no)
-                              ->where('vr_date', $vr_date)
-                              ->firstOrFail();
+                ->where('vr_date', $vr_date)
+                ->firstOrFail();
 
             // Delete associated receipt members
             ReceiptMember::where('receipt_id', $receipt->id)->delete();
 
             // Delete all matching chequepayment records
             ChequePayment::where('vr_no', $vr_no)
-                         ->where('vr_date', $vr_date)
-                         ->delete();
+                ->where('vr_date', $vr_date)
+                ->delete();
 
             // Delete the receipt
             $receipt->delete();
@@ -471,10 +484,10 @@ class ReceiptController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
 
 
-        //  $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members'))->setPaper('a3', 'landscape');
-        //   return $pdf->download('receipt-report-' . $vr_no . '-' . $vr_date . '.pdf');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'))->setPaper('a3', 'landscape');
+        return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
-        return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
+        // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
     }
 
 

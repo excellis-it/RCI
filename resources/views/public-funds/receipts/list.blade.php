@@ -224,7 +224,8 @@
                         var errors = xhr.responseJSON.errors;
                         //console.log(errors);
                         $.each(errors, function(key, value) {
-                            $('[name="' + key + '"]').next('.text-danger').html(value[0]);
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
 
 
@@ -355,7 +356,8 @@
             $('#add-section').on('click', function() {
                 const nextSrNo = $('.dynamic-section').length + 1;
                 let newSection = `
-            <div class="dynamic-section row mb-3">
+           <div class="dynamic-section dynamic-fields">
+                                <div class="row mb-3">
                 <div class="col-md-2">
                     <label>Sr No.</label>
                     <input type="text" class="form-control sr-no" name="sr_no[]" readonly value="${nextSrNo}">
@@ -385,7 +387,7 @@
                             <label>Member Name</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control member_name">
+                            <input type="text" class="form-control member_name" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -397,7 +399,7 @@
                             <label>Desig.</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control desig">
+                            <input type="text" class="form-control desig" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -409,7 +411,7 @@
                             <label>Bank Acc</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control bank_acc">
+                            <input type="text" class="form-control bank_acc" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -417,7 +419,7 @@
 
                 <div class="col-md-2">
                     <label>Amount</label>
-                    <input type="text" class="form-control" name="member_amount[]" placeholder="Enter amount">
+                    <input type="number" class="form-control" name="member_amount[]" placeholder="Enter amount">
                 </div>
                 <div class="col-md-2">
                     <label>Bill reference</label>
@@ -431,10 +433,10 @@
                     <label>Cheque Date</label>
                     <input type="date" class="form-control" name="cheq_date[]">
                 </div>
-
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-danger remove-section">Remove</button>
-                </div>
+                    <button type="button" class="btn btn-danger remove-section remove_trash"><i
+                                    class="ti ti-trash"></i></button>
+              
+             </div>
             </div>
             `;
                 $('#dynamic-fields').append(newSection);
@@ -505,31 +507,31 @@
     </script>
 
     <script>
-       function getEditForm(id){
-        $.ajax({
-                    url: "{{ route('receipts.get-edit-receipt') }}",
-                    type: 'post',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        receipt_id : id,
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                       // window.location.reload();
-                       $("#create_form").hide();
-                       $("#edit_form").show();
-                       $("#edit_form").html(response.view);
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-       }
+        function getEditForm(id) {
+            $.ajax({
+                url: "{{ route('receipts.get-edit-receipt') }}",
+                type: 'post',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    receipt_id: id,
+                },
+                dataType: 'json',
+                success: function(response) {
+                    // window.location.reload();
+                    $("#create_form").hide();
+                    $("#edit_form").show();
+                    $("#edit_form").html(response.view);
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        }
     </script>
 @endpush
