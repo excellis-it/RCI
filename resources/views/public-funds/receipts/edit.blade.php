@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="form-group col-md-2 mb-2">
                                             <label>Member</label>
-                                            <select class="form-control vendor_id" name="member_id[]">
+                                            {{-- <select class="form-control vendor_id" name="member_id[]">
                                                 <option value="">Select</option>
                                                 @foreach ($members as $memberOption)
                                                     <option value="{{ $memberOption->id }}"
@@ -50,6 +50,14 @@
                                                         {{ $memberOption->name }}
                                                     </option>
                                                 @endforeach
+                                            </select> --}}
+
+                                            <select class="form-control vendor_id" name="member_id[]">
+
+                                                <option value="{{ $member->member_id }}" selected>
+                                                    {{ $member->member->name }}
+                                                </option>
+
                                             </select>
                                             <span class="text-danger"></span>
                                         </div>

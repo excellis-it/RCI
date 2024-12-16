@@ -302,7 +302,7 @@ class ReceiptController extends Controller
     {
         $id = $request->receipt_id;
         // return $id;
-        $receipt = Receipt::with('receiptMembers')->findOrFail($id);
+        $receipt = Receipt::with('receiptMembers.member')->findOrFail($id);
         $members = Member::all(); // Assuming you have a Member model for the dropdown
         $paymentCategories = PaymentCategory::all(); // Assuming payment categories are needed
 
