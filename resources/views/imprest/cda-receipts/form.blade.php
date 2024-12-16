@@ -11,12 +11,26 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
+                                    <label>RCt Vr. No</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control"
+                                        name="rct_no" id="rct_no" value="{{ $cdaReceipt->rct_no }}" placeholder="">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
                                     <label>Rct Vr. Date</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="date" class="form-control" 
-                                        name="voucher_date" id="voucher_date" value="{{ $cdaReceipt->voucher_date }}" placeholder="">
-                                    
+                                    <input type="date" class="form-control"
+                                        name="rct_date" id="rct_date" value="{{ $cdaReceipt->rct_date }}" placeholder="">
+
                                 </div>
                             </div>
                         </div>
@@ -25,12 +39,12 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Cheque No</label>
+                                    <label>Dv No</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" 
-                                        name="chq_no" id="chq_no" value="{{ $cdaReceipt->cheq_no }}" placeholder="">
-                                    
+                                    <input type="text" class="form-control"
+                                        name="dv_no" id="dv_no" value="{{ $cdaReceipt->dv_no }}" placeholder="">
+
                                 </div>
                             </div>
                         </div>
@@ -39,11 +53,11 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Chq Date</label>
+                                    <label>Dv Date</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="date" class="form-control" 
-                                        name="cheq_date" id="cheq_date" value="{{ $cdaReceipt->cheq_date }}" placeholder="">
+                                    <input type="date" class="form-control"
+                                        name="dv_date" id="dv_date" value="{{ $cdaReceipt->dv_date }}" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -60,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-6">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -84,9 +98,9 @@
                     <div class="mb-1">
                         <button type="submit" class="listing_add">Update</button>
                     </div>
-                    <div class="mb-1">
+                    {{-- <div class="mb-1">
                         <a href="" class="listing_exit">Back</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -103,11 +117,26 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
+                                    <label>Rct Vr. No</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control"
+                                        name="rct_no" id="rct_no"  placeholder="">
+                                        <span class="text-danger"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
                                     <label>Rct Vr. Date</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="date" class="form-control" 
-                                        name="voucher_date" id="voucher_date" placeholder="">
+                                    <input type="date" class="form-control"
+                                        name="rct_date" id="rct_date" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -117,12 +146,12 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Chq No</label>
+                                    <label>Vr No</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" 
-                                        name="chq_no" id="chq_no"  placeholder="">
-                                    
+                                    <input type="text" class="form-control"
+                                        name="vr_no" id="vr_no"  placeholder="">
+                                        <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -131,17 +160,17 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Chq Date</label>
+                                    <label>Vr Date</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="date" class="form-control" 
-                                        name="cheq_date" id="cheq_date" placeholder="">
+                                    <input type="date" class="form-control"
+                                        name="vr_date" id="vr_date" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Rct Vr. Amt</label>
@@ -153,7 +182,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Details</label>
@@ -173,14 +202,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
-                <div class="col-md-6">
+            <div class="row justify-content-left mt-3">
+                <div class="col-md-2">
                     <div class="mb-1">
                         <button type="submit" class="listing_add">Add</button>
                     </div>
-                    <div class="mb-1">
+                    {{-- <div class="mb-1">
                         <a href="" class="listing_exit">Back</a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

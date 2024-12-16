@@ -131,25 +131,19 @@
                                     <div class="form-group col-md-2">
                                         <label>Bill reference</label>
                                         <input type="text" class="form-control" name="bill_ref[]">
-                                        <span class="text-danger" style="display:none; color:red;">Bill ref. field
-                                            is
-                                            required</span>
+                                       
 
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Cheque No.</label>
                                         <input type="text" class="form-control" name="cheq_no[]">
-                                        <span class="text-danger" style="display:none; color:red;">Cheque No. field
-                                            is
-                                            required</span>
+
 
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Cheque Date</label>
                                         <input type="date" class="form-control" name="cheq_date[]">
-                                        <span class="text-danger" style="display:none; color:red;">Cheque Date
-                                            field is
-                                            required</span>
+
                                     </div>
 
                                 </div>

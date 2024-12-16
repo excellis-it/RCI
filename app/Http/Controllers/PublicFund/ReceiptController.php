@@ -184,9 +184,9 @@ class ReceiptController extends Controller
             'sr_no.*' => 'required|numeric',
             'member_id.*' => 'required|exists:members,id',
             'amount.*' => 'required|numeric|min:0',
-            'bill_ref.*' => 'required|string|max:255',
-            'cheq_no.*' => 'required|string|max:255',
-            'cheq_date.*' => 'required|date',
+            'bill_ref.*' => 'nullable|string|max:255',
+            'cheq_no.*' => 'nullable|string|max:255',
+            'cheq_date.*' => 'nullable|date',
         ]);
 
         try {
