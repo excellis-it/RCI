@@ -196,6 +196,8 @@ class AdvanceFundController extends Controller
             'adv_amount' => 'required|numeric',
             'project_id' => 'required',
             'var_type_id' => 'required',
+            'chq_no' => 'required',
+            'chq_date' => 'required',
         ]);
 
 
@@ -212,6 +214,8 @@ class AdvanceFundController extends Controller
         $advance_fund->adv_amount = $request->adv_amount;
         $advance_fund->project_id = $request->project_id;
         $advance_fund->var_type_id = $request->var_type_id;
+        $advance_fund->chq_no = $request->chq_no;
+        $advance_fund->chq_date = $request->chq_date;
         $advance_fund->update();
 
         session()->flash('message', 'Advance fund updated successfully');
