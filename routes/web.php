@@ -122,6 +122,7 @@ use App\Http\Controllers\Inventory\TransportController;
 use App\Http\Controllers\PublicFund\PublicFundVendorController;
 use App\Http\Controllers\PublicFund\ReceiptController;
 use App\Http\Controllers\PublicFund\PublicFundBankController;
+use App\Http\Controllers\PublicFund\SettingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -219,6 +220,10 @@ Route::middleware('permssions')->group(function () {
         'tada' => TaDaController::class,
         'tada-plus' => TadaPlusClaimController::class,
         'tada-journey' => TadaJourneyDetailController::class,
+
+        'settings' =>SettingController::class,
+
+
 
     ]);
 
