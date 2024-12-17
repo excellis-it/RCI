@@ -26,32 +26,37 @@ class AdvanceSettlementController extends Controller
     {
         $adv_no = $request->adv_no;
         $adv_date = $request->adv_date;
+        $balance = 0;
+        $isdata = 0;
 
         $advance_funds = AdvanceFundToEmployee::where('adv_no', $adv_no)->where('adv_date', $adv_date)->first();
         $advance_settels = AdvanceSettlement::where('adv_no', $adv_no)->where('adv_date', $adv_date)->get();
 
 
-        $balance = 0;
+        if ($advance_funds) {
 
-        $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $request->adv_no)
-            ->where('adv_date', $request->adv_date)
-            ->orderBy('id', 'desc')->first();
-
-        if ($existingBalance) {
-            $existingBalanceAmount = $existingBalance->balance;
-
-
-            $balance = $existingBalanceAmount;
-        } else {
-
-            $advanceFund = AdvanceFundToEmployee::where('adv_no', $request->adv_no)
+            $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $request->adv_no)
                 ->where('adv_date', $request->adv_date)
-                ->first();
+                ->orderBy('id', 'desc')->first();
 
-            $balance = $advanceFund->adv_amount;
+            if ($existingBalance) {
+                $existingBalanceAmount = $existingBalance->balance;
+
+
+                $balance = $existingBalanceAmount;
+            } else {
+
+                $advanceFund = AdvanceFundToEmployee::where('adv_no', $request->adv_no)
+                    ->where('adv_date', $request->adv_date)
+                    ->first();
+
+                $balance = $advanceFund->adv_amount;
+            }
+
+            $isdata = 1;
         }
 
-        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds', 'advance_settels', 'balance'))->render()]);
+        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds', 'advance_settels', 'balance'))->render(), 'isdata' => $isdata]);
     }
 
     /**
@@ -154,6 +159,7 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->firm = $request->firm;
         $advance_settlement->balance = $newBalance;
         $advance_settlement->member_id = $request->member_id;
+        $advance_settlement->bill_status = 1;
         $advance_settlement->save();
 
         session()->flash('message', 'Advance Settlement added successfully');

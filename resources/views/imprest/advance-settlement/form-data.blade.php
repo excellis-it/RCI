@@ -40,7 +40,7 @@
 
                 <th>Advance No</th>
                 <th>Advance Date</th>
-                <th>Name</th>
+                <th>Member Name</th>
                 <th>Advance Amount</th>
                 <th>Bill Amount</th>
                 <th>Balance</th>
@@ -260,11 +260,12 @@
                 <div class="row justify-content-end">
                     <div class="col-md-3">
                         <div class="row">
+
                             <div class="form-group col-md-6 mb-2">
-                                <button type="submit" class="listing_add">Save</button>
+                                {{-- <button type="reset" class="listing_exit">Cancel</button> --}}
                             </div>
                             <div class="form-group col-md-6 mb-2">
-                                <button type="reset" class="listing_exit">Cancel</button>
+                                <button type="submit" class="listing_add">Save</button>
                             </div>
                         </div>
                     </div>
@@ -292,8 +293,9 @@
 
                     //windows load with toastr message
                     //  window.location.reload();
-                    //   toastr.success('Advance Settlement added successfully');
+                    toastr.success('Advance Settlement added successfully');
                     //  window.history.back();
+                    $("#searchAdv-form").submit();
                 },
                 error: function(xhr) {
 
