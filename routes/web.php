@@ -858,6 +858,7 @@ Route::middleware('permssions')->group(function () {
         });
         Route::get('/cda-bills-fetch-data', [CdaBillAuditTeamController::class, 'fetchData'])->name('cda-bills.fetch-data');
 
+        Route::post('/cda-bills-get-cda', [CdaBillAuditTeamController::class, 'getCda'])->name('cda-bills.get-cda');
         //cash withdrawal
         Route::prefix('cash-withdrawals')->group(function () {
             Route::get('/cash-withdrawals-delete/{id}', [CashWithdrawalController::class, 'delete'])->name('cash-withdrawals.delete');

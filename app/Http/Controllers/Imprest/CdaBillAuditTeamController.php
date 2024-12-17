@@ -8,6 +8,8 @@ use App\Models\CdaBillAuditTeam;
 use App\Models\ImprestResetVoucher;
 use App\Models\Project;
 use App\Models\VariableType;
+use App\Models\AdvanceFundToEmployee;
+use App\Models\AdvanceSettlement;
 use Illuminate\Support\Str;
 
 class CdaBillAuditTeamController extends Controller
@@ -21,6 +23,38 @@ class CdaBillAuditTeamController extends Controller
         $projects = Project::orderBy('id', 'desc')->where('status',1)->get();
         $variable_types = VariableType::orderBy('id','desc')->where('status',1)->get();
         return view('imprest.cda-bills.list', compact('cdaBills','projects','variable_types'));
+    }
+
+    public function getCda(Request $request)
+    {
+        $adv_no = $request->adv_no;
+        $adv_date = $request->adv_date;
+
+        $advance_funds = AdvanceFundToEmployee::where('adv_no', $adv_no)->where('adv_date', $adv_date)->first();
+        $advance_settels = AdvanceSettlement::where('adv_no', $adv_no)->where('adv_date', $adv_date)->get();
+
+
+        $balance = 0;
+
+        $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $request->adv_no)
+            ->where('adv_date', $request->adv_date)
+            ->orderBy('id', 'desc')->first();
+
+        if ($existingBalance) {
+            $existingBalanceAmount = $existingBalance->balance;
+
+
+            $balance = $existingBalanceAmount;
+        } else {
+
+            $advanceFund = AdvanceFundToEmployee::where('adv_no', $request->adv_no)
+                ->where('adv_date', $request->adv_date)
+                ->first();
+
+            $balance = $advanceFund->adv_amount;
+        }
+
+        return response()->json(['view' => view('imprest.cda-bills.form-data', compact('advance_funds', 'advance_settels', 'balance'))->render()]);
     }
 
     public function fetchData(Request $request)
