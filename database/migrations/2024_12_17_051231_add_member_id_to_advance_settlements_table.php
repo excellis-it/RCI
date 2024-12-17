@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('member_id')->nullable()->after('id');
             $table->decimal('balance', 10, 2)->nullable()->after('bill_amount');
             $table->string('firm')->nullable()->after('balance');
+            $table->integer('bill_status')->nullable()->after('firm');
         });
     }
 
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->dropColumn('member_id');   // Remove the column
             $table->dropColumn('balance');   // Remove the column
             $table->dropColumn('firm');
+            $table->dropColumn('bill_status');
         });
     }
 };
