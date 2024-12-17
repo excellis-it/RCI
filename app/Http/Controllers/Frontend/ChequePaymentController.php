@@ -308,11 +308,11 @@ class ChequePaymentController extends Controller
                 ->get();
         }
 
-
+        $settings = Setting::orderBy('id','desc')->first();
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
 
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members','settings'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_no . '-' . $vr_date . '.pdf');
     }
 

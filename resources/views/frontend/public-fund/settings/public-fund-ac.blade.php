@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('settings.store') }}" method="POST">
+                            <form action="{{ route('settings.store') }}" method="POST" id="public_bank_account_form">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-3">
@@ -41,10 +41,12 @@
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
-                                                        <label>Bank Ac No.</label>
+                                                        <label>Bank Account No.</label>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <input type="text" class="form-control" name="public_bank_ac">
+                                                        <input type="text" class="form-control" name="public_bank_ac"
+                                                            id="public_bank_ac">
+                                                        <span class="text-danger"></span>
 
                                                     </div>
                                                 </div>
@@ -54,11 +56,11 @@
                                     <div class="col-md-3">
                                         <label></label>
                                         <div class="row">
-                                        <div class="form-group col-md-8 mb-2">
-                                            <button type="submit" class="listing_add">Save</button>
+                                            <div class="form-group col-md-8 mb-2">
+                                                <button type="submit" class="listing_add">Save</button>
+                                            </div>
+
                                         </div>
-                                       
-                                    </div>
 
 
 
@@ -74,5 +76,34 @@
     @endsection
 
     @push('scripts')
-        <script></script>
+        <script>
+            $(document).ready(function() {
+                $('#public_bank_account_form').submit(function(e) {
+                    e.preventDefault();
+
+                    var formData = $(this).serialize();
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: formData,
+                        success: function(response) {
+                            //windows load with toastr message
+                            window.location.reload();
+                        },
+                        error: function(xhr) {
+                            // Handle errors (e.g., display validation errors)
+                            //clear any old errors
+                            $('.text-danger').html('');
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                // Assuming you have a div with class "text-danger" next to each input
+                                $('[name="' + key + '"]').next('.text-danger').html(value[
+                                    0]);
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
     @endpush
