@@ -14,8 +14,8 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings = Setting::orderBy('id','desc')->first();
-        return view('frontend.public-fund.settings.public-fund-ac',compact('settings'));
+        $settings = Setting::orderBy('id', 'desc')->first();
+        return view('frontend.public-fund.settings.public-fund-ac', compact('settings'));
     }
 
     /**
@@ -35,8 +35,11 @@ class SettingController extends Controller
             'public_bank_ac' => 'required',
         ]);
 
-        $settings=new Setting;
-        $settings->public_bank_ac=$request->public_bank_ac;
+        // $settings=new Setting;
+
+        $settings = Setting::orderBy('id', 'desc')->first();
+
+        $settings->public_bank_ac = $request->public_bank_ac;
         $settings->save();
 
         session()->flash('message', 'Public Bank Account No. added successfully');

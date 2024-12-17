@@ -66,7 +66,7 @@
                                     <div class="form-group col-md-3 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
-                                                <label>Adv dt</label>
+                                                <label>Adv Date</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="date" class="form-control" name="adv_date"

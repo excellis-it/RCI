@@ -44,7 +44,7 @@
                                                         <label>Date</label>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <input type="date" class="form-control" name="date">
+                                                        <input type="date" class="form-control" name="date" required>
 
                                                     </div>
                                                 </div>
