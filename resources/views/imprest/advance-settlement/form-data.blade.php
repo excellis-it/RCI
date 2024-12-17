@@ -72,7 +72,7 @@
                 @endforeach
             @else
                 <tr>
-                    <td colspan="11" class="text-center">No Advance Funds Found</td>
+                    <td colspan="11" class="text-center">No Advance Settlement Found</td>
                 </tr>
             @endif
         </tbody>
@@ -265,7 +265,7 @@
                                 {{-- <button type="reset" class="listing_exit">Cancel</button> --}}
                             </div>
                             <div class="form-group col-md-6 mb-2">
-                                <button type="submit" class="listing_add">Save</button>
+                                <button type="submit" class="listing_add" id="save_settle_btn">Save</button>
                             </div>
                         </div>
                     </div>
@@ -278,7 +278,18 @@
 
 
 <script>
+    function checkBalance() {
+
+        var baln = $("#balance").val();
+        if (baln <= 0) {
+            $("#save_settle_btn").hide();
+        } else {
+            $("#save_settle_btn").show();
+        }
+    }
+
     $(document).ready(function() {
+        checkBalance();
         $('#advance-settlement-create-form').submit(function(e) {
             // alert("hello")
             e.preventDefault();
@@ -296,6 +307,7 @@
                     toastr.success('Advance Settlement added successfully');
                     //  window.history.back();
                     $("#searchAdv-form").submit();
+                    checkBalance();
                 },
                 error: function(xhr) {
 

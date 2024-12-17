@@ -1,6 +1,6 @@
 @extends('imprest.layouts.master')
 @section('title')
-CDA Receipt List
+    CDA Receipt List
 @endsection
 
 @push('styles')
@@ -26,11 +26,12 @@ CDA Receipt List
 
         <div class="row">
             <div class="col-md-6 text-start mb-3">
-                <h5>Last Vr No. - {{ !empty($lastPayment->id) ? $lastPayment->id : '' }}</h5>
+                <h5>Last Vr No. - {{ !empty($lastcdaReceipt->rct_vr_no) ? $lastcdaReceipt->rct_vr_no : '' }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
                 <h5>Last Vr Date -
-                    {{ !empty($lastPayment->created_at) != null ? $lastPayment->created_at->format('Y-m-d') : '' }}</h5>
+                    {{ !empty($lastcdaReceipt->created_at) != null ? $lastcdaReceipt->created_at->format('Y-m-d') : '' }}
+                </h5>
             </div>
         </div>
         <!--  Row 1 -->
@@ -43,95 +44,115 @@ CDA Receipt List
                             @include('imprest.cda-receipts.form')
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                    style="cursor: pointer">VR NO.<span id="voucher_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                    style="cursor: pointer">VR DATE.<span id="voucher_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="cheq_no"
-                                                    style="cursor: pointer">CHQ NO.<span id="cheq_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="cheq_date"
-                                                    style="cursor: pointer">CHQ DATE.<span id="cheq_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                    style="cursor: pointer">AMT<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                    style="cursor: pointer">DETAIL </th>
 
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('imprest.cda-receipts.table')
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
-                                        value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card w-100">
+                    <div class="card-body">
+
+
+                        <table class="table customize-table mb-0 align-middle bg_tbody">
+                            <thead class="text-white fs-4 bg_blue">
+                                <tr>
+
+                                    <th>Rct Vr. No</th>
+                                    <th>Rct Vr. Date</th>
+                                    <th>DV No</th>
+                                    <th>DV Date</th>
+                                    <th>Rct Vr. Amount</th>
+                                    <th>Details</th>
+
+
+                                    {{-- <th>Project</th>
+                                    <th>Cheque No</th>
+                                    <th>Cheque Date</th>
+                                    <th>Variable Type</th> --}}
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (count($receipt_bills) > 0)
+                                    @foreach ($receipt_bills as $key => $receipt_bill)
+                                        <tr>
+                                            <td>{{ $receipt_bill->rct_vr_no }}</td>
+                                            <td>{{ $receipt_bill->rct_vr_date }}</td>
+
+                                            <td>{{ $receipt_bill->dv_no ?? 'N/A' }}</td>
+                                            <td>{{ $receipt_bill->dv_date ?? 'N/A' }}</td>
+                                            <td>{{ $receipt_bill->rct_vr_amount ?? 'N/A' }}</td>
+                                            <td>{{ $receipt_bill->remark ?? 'N/A' }}</td>
+
+
+                                            {{-- <td>{{ $receipt_bill->project->name ?? 'N/A' }}</td>
+                                            <td>{{ $receipt_bill->chq_no ?? 'N/A' }}</td>
+                                            <td>{{ $receipt_bill->chq_date ?? 'N/A' }}</td>
+                                            <td>{{ $receipt_bill->variableType->name ?? 'N/A' }}</td> --}}
+
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="11" class="text-center">No Bills Found
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#cda-receipt-create-form').submit(function(e) {
+    <script>
+        $(document).ready(function() {
+            $('#cda-receipt-create-form').submit(function(e) {
 
-            e.preventDefault();
-            var formData = $(this).serialize();
+                e.preventDefault();
+                var formData = $(this).serialize();
 
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
 
-                    //windows load with toastr message
-                    window.location.reload();
-                },
-                error: function(xhr) {
+                        //windows load with toastr message
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
 
-                    // Handle errors (e.g., display validation errors)
-                    //clear any old errors
-                    $('.text-danger').html('');
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a div with class "text-danger" next to each input
-                        $('[name="' + key + '"]').next('.text-danger').html(value[
-                            0]);
-                    });
-                }
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({

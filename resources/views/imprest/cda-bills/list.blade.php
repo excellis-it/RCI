@@ -1,6 +1,6 @@
 @extends('imprest.layouts.master')
 @section('title')
-CDA Bill List
+    CDA Bill List
 @endsection
 
 @push('styles')
@@ -29,105 +29,123 @@ CDA Bill List
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
+
+
+                        <div id="bill_table">
+                            @include('imprest.cda-bills.table')
+
+                        </div>
+
+
                         <div id="form">
                             @include('imprest.cda-bills.form')
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12 mb-4 mt-4">
-                                <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
-                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
-                                                
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="adv_no"
-                                                    style="cursor: pointer">ADV NO.<span id="adv_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="adv_date"
-                                                    style="cursor: pointer">ADV DATE.<span id="adv_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="adv_amount"
-                                                    style="cursor: pointer">ADV AMT<span id="adv_amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>                                          
-                                                <th class="sorting" data-sorting_type="desc" data-column_name=""
-                                                    style="cursor: pointer">PROJECT </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="var_no"
-                                                    style="cursor: pointer">VR NO.<span id="var_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="var_date"
-                                                    style="cursor: pointer">VR DATE.<span id="var_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="var_amount"
-                                                    style="cursor: pointer">VR AMT<span id="var_amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> 
-                                                            <th class="sorting" data-sorting_type="desc" data-column_name="crv_no"
-                                                    style="cursor: pointer">CRV<span id="crv_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>        
-                                                
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @include('imprest.cda-bills.table')
-                                        </tbody>
-                                    </table>
-                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
-                                        value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card w-100">
+                    <div class="card-body">
+
+
+                        <table class="table customize-table mb-0 align-middle bg_tbody">
+                            <thead class="text-white fs-4 bg_blue">
+                                <tr>
+
+                                    <th>CDA Bill No</th>
+                                    <th>CDA Bill Date</th>
+                                    <th>Adv No</th>
+                                    <th>Adv Date</th>
+                                    <th>Member Name</th>
+                                    <th>Amount</th>
+
+
+                                    <th>Project</th>
+                                    <th>Cheque No</th>
+                                    <th>Cheque Date</th>
+                                    <th>Variable Type</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (count($advance_bills) > 0)
+                                    @foreach ($advance_bills as $key => $advance_bill)
+                                        <tr>
+                                            <td>{{ $advance_bill->cda_bill_no }}</td>
+                                            <td>{{ $advance_bill->cda_bill_date }}</td>
+
+                                            <td>{{ $advance_bill->adv_no ?? 'N/A' }}</td>
+                                            <td>{{ $advance_bill->adv_date ?? 'N/A' }}</td>
+                                            <td>{{ $advance_bill->member->name ?? 'N/A' }}</td>
+                                            <td>{{ $advance_bill->adv_amount ?? 'N/A' }}</td>
+
+
+                                            <td>{{ $advance_bill->project->name ?? 'N/A' }}</td>
+                                            <td>{{ $advance_bill->chq_no ?? 'N/A' }}</td>
+                                            <td>{{ $advance_bill->chq_date ?? 'N/A' }}</td>
+                                            <td>{{ $advance_bill->variableType->name ?? 'N/A' }}</td>
+
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="11" class="text-center">No Advance Settlement Found</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#cda-bills-create-form').submit(function(e) {
-            
-            e.preventDefault();
-            var formData = $(this).serialize();
-        
+    <script>
+        $(document).ready(function() {
+            $('#cda-bills-create-form').submit(function(e) {
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                   
-                    //windows load with toastr message
-                    window.location.reload();
-                },
-                error: function(xhr) {
-                   
-                    // Handle errors (e.g., display validation errors)
-                    //clear any old errors
-                    $('.text-danger').html('');
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a div with class "text-danger" next to each input
-                        $('[name="' + key + '"]').next('.text-danger').html(value[
-                            0]);
-                    });
-                }
+                e.preventDefault();
+                var formData = $(this).serialize();
+
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+
+                        //windows load with toastr message
+                        window.location.reload();
+                        toastr.success('CDA Bill Submitted Success')
+                    },
+                    error: function(xhr) {
+
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
@@ -222,7 +240,7 @@ CDA Bill List
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
-                
+
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
