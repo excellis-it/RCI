@@ -1,4 +1,5 @@
 @if ($advance_funds)
+    <p>Advance Fund:</p>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -31,13 +32,63 @@
     </table>
 
 
+    <p>Advance Settlement History:</p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+
+
+                <th>Advance No</th>
+                <th>Advance Date</th>
+                <th>Member Name</th>
+                <th>Advance Amount</th>
+                <th>Bill Amount</th>
+                <th>Balance</th>
+                <th>Project</th>
+                <th>Cheque No</th>
+                <th>Cheque Date</th>
+                <th>Variable Type</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (count($advance_settels) > 0)
+                @foreach ($advance_settels as $key => $advance_settel)
+                    <tr>
+
+
+                        <td>{{ $advance_settel->adv_no ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->adv_date ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->member->name ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->adv_amount ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->bill_amount ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->balance ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->project->name ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->chq_no ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->chq_date ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->variableType->name ?? 'N/A' }}</td>
+
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="11" class="text-center">No Advance Funds Found</td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
+
+
 
     <form action="{{ route('advance-settlement.store') }}" method="POST" id="advance-settlement-create-form">
         @csrf
         <div class="row">
 
-            <input type="hidden" class="form-control" name="adv_no" value="{{ $advance_funds->adv_no }}" placeholder=""
-                required>
+            <input type="hidden" class="form-control" name="member_id" value="{{ $advance_funds->member_id }}"
+                placeholder="" required>
+
+            <input type="hidden" class="form-control" name="adv_no" value="{{ $advance_funds->adv_no }}"
+                placeholder="" required>
 
             <input type="hidden" class="form-control" name="adv_date" value="{{ $advance_funds->adv_date }}"
                 placeholder="" required>
@@ -154,6 +205,19 @@
                 </div>
             </div>
 
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Firm</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="firm" id="firm"
+                            value="{{ old('firm') ?? '' }}" placeholder="" required>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
@@ -163,6 +227,19 @@
                     <div class="col-md-12">
                         <input type="number" class="form-control" name="bill_amount" id="bill_amount"
                             value="{{ old('bill_amount') ?? '' }}" placeholder="" required>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Balance</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" class="form-control" name="balance" id="balance"
+                            value="{{ $balance }}" placeholder="" required readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -183,11 +260,12 @@
                 <div class="row justify-content-end">
                     <div class="col-md-3">
                         <div class="row">
+
                             <div class="form-group col-md-6 mb-2">
-                                <button type="submit" class="listing_add">Save</button>
+                                {{-- <button type="reset" class="listing_exit">Cancel</button> --}}
                             </div>
                             <div class="form-group col-md-6 mb-2">
-                                <button type="reset" class="listing_exit">Cancel</button>
+                                <button type="submit" class="listing_add">Save</button>
                             </div>
                         </div>
                     </div>
@@ -216,7 +294,8 @@
                     //windows load with toastr message
                     //  window.location.reload();
                     toastr.success('Advance Settlement added successfully');
-                    window.history.back();
+                    //  window.history.back();
+                    $("#searchAdv-form").submit();
                 },
                 error: function(xhr) {
 

@@ -56,7 +56,7 @@
                                                 <label>Adv No</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="text" class="form-control" name="adv_no" 
+                                                <input type="text" class="form-control" name="adv_no"
                                                     value="{{ old('adv_no') ?? '' }}" placeholder="" required>
                                                 <span class="text-danger"></span>
                                             </div>
@@ -110,6 +110,11 @@
         </div>
 
 
+        <div class="row">
+
+        </div>
+
+
 
     </div>
 @endsection
@@ -128,7 +133,7 @@
                     data: formData,
                     dataType: "json",
                     success: function(response) {
-                        if (response.view && response.view.trim() !== '') {
+                        if (response.isdata == 1) {
 
                             $("#advDataDiv").html(response.view);
                         } else {
@@ -145,7 +150,7 @@
 
 
 
-            
+
         });
     </script>
 @endpush
