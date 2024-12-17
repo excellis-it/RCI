@@ -80,7 +80,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (count($receipt_bills) > 0)
+                                @if (isset($receipt_bills) && count($receipt_bills) > 0)
                                     @foreach ($receipt_bills as $key => $receipt_bill)
                                         <tr>
                                             <td>{{ $receipt_bill->rct_vr_no }}</td>

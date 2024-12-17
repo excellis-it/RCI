@@ -1,4 +1,4 @@
-@if (count($advance_bills) > 0)
+@if (isset($advance_bills) && count($advance_bills) > 0)
     <form action="{{ route('cda-receipts.store') }}" method="POST" id="cda-receipt-create-form">
         @csrf
 
