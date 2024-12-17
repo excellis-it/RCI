@@ -11,6 +11,16 @@ class CDAReceipt extends Model
 
     protected $table = 'cda_receipts';
 
+    protected $fillable = [
+        'bill_id',
+        'rct_vr_no',
+        'rct_vr_date',
+        'dv_no',
+        'dv_date',
+        'rct_vr_amount',
+        'remark'
+    ];
+
 
     public function cdaReceiptDetails()
     {

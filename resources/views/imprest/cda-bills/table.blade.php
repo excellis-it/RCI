@@ -1,32 +1,46 @@
-@if (count($cdaBills) > 0)
-    @foreach ($cdaBills as $key => $cdaBill)
+@if (count($advance_settels) > 0)
+<table class="table table-bordered">
+    <thead>
         <tr>
-            <td>{{ $cdaBill->adv_no ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->adv_date ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->adv_amount ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->project->name ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->var_no ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->var_date ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->var_amount ?? 'N/A'}}</td>
-            <td>{{ $cdaBill->crv_no ?? 'N/A'}}</td>
-            <td class="sepharate"><a data-route="{{route('cda-bills.edit', $cdaBill->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('cda-bills.delete', $cdaBill->id)}}"><i class="ti ti-trash"></i></a> --}}
-            </td>
+
+
+            <th>Adv No</th>
+            <th>Adv Date</th>
+            <th>Member Name</th>
+            <th>Adv Amount</th>
+            <th>Bill Amount</th>
+            <th>Adv Settlement Balance</th>
+            <th>Project</th>
+            <th>Cheque No</th>
+            <th>Cheque Date</th>
+            <th>Variable Type</th>
+
         </tr>
-    @endforeach
-    <tr class="toxic">
-        <td colspan="9" class="text-left">
-            <div class="d-flex justify-content-between">
-                <div class="">
-                     (Showing {{ $cdaBills->firstItem() }} – {{ $cdaBills->lastItem() }} CDA Bills of
-                    {{$cdaBills->total() }} CDA Bills)
-                </div>
-                <div>{!! $cdaBills->links() !!}</div>
-            </div>
-        </td>
-    </tr>
-@else
-    <tr>
-        <td colspan="9" class="text-center">No CDA Bills Found</td>
-    </tr>
+    </thead>
+    <tbody>
+        @if (count($advance_settels) > 0)
+            @foreach ($advance_settels as $key => $advance_settel)
+                <tr>
+
+
+                    <td>{{ $advance_settel->adv_no ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->adv_date ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->member->name ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->adv_amount ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->bill_amount ?? 'N/A' }}</td>
+                    <td>Settled</td>
+                    <td>{{ $advance_settel->project->name ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->chq_no ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->chq_date ?? 'N/A' }}</td>
+                    <td>{{ $advance_settel->variableType->name ?? 'N/A' }}</td>
+
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <td colspan="11" class="text-center">No Advance Settlement Found</td>
+            </tr>
+        @endif
+    </tbody>
+</table>
 @endif

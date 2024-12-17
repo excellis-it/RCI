@@ -159,7 +159,8 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->firm = $request->firm;
         $advance_settlement->balance = $newBalance;
         $advance_settlement->member_id = $request->member_id;
-        $advance_settlement->bill_status = 1;
+        $advance_settlement->bill_status = 0;
+        $advance_settlement->receipt_status = 0;
         $advance_settlement->save();
 
         session()->flash('message', 'Advance Settlement added successfully');
