@@ -28,8 +28,30 @@ class AdvanceSettlementController extends Controller
         $adv_date = $request->adv_date;
 
         $advance_funds = AdvanceFundToEmployee::where('adv_no', $adv_no)->where('adv_date', $adv_date)->first();
+        $advance_settels = AdvanceSettlement::where('adv_no', $adv_no)->where('adv_date', $adv_date)->get();
 
-        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds'))->render()]);
+
+        $balance = 0;
+
+        $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $request->adv_no)
+            ->where('adv_date', $request->adv_date)
+            ->orderBy('id', 'desc')->first();
+
+        if ($existingBalance) {
+            $existingBalanceAmount = $existingBalance->balance;
+
+
+            $balance = $existingBalanceAmount;
+        } else {
+
+            $advanceFund = AdvanceFundToEmployee::where('adv_no', $request->adv_no)
+                ->where('adv_date', $request->adv_date)
+                ->first();
+
+            $balance = $advanceFund->adv_amount;
+        }
+
+        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds', 'advance_settels', 'balance'))->render()]);
     }
 
     /**
@@ -86,7 +108,35 @@ class AdvanceSettlementController extends Controller
             'chq_no' => 'required',
             'chq_date' => 'required',
             'bill_amount' => 'required',
+            'firm' => 'required',
+            'balance' => 'required',
+            'member_id' => 'required'
         ]);
+
+        $newBalance = 0;
+
+        $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $request->adv_no)
+            ->where('adv_date', $request->adv_date)
+            ->orderBy('id', 'desc')->first();
+
+        if ($existingBalance) {
+            $existingBalanceAmount = $existingBalance->balance;
+
+
+            $newBalance = $existingBalanceAmount - $request->bill_amount;
+        } else {
+
+            $advanceFund = AdvanceFundToEmployee::where('adv_no', $request->adv_no)
+                ->where('adv_date', $request->adv_date)
+                ->first();
+
+            $newBalance = $advanceFund->adv_amount - $request->bill_amount;
+        }
+
+
+        // New balance calculation
+
+
 
 
         $advance_settlement = new AdvanceSettlement();
@@ -101,6 +151,9 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->chq_no = $request->chq_no;
         $advance_settlement->chq_date = $request->chq_date;
         $advance_settlement->bill_amount = $request->bill_amount;
+        $advance_settlement->firm = $request->firm;
+        $advance_settlement->balance = $newBalance;
+        $advance_settlement->member_id = $request->member_id;
         $advance_settlement->save();
 
         session()->flash('message', 'Advance Settlement added successfully');
