@@ -212,39 +212,39 @@
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
 
-                // let hasErrors = false;
+                let hasErrors = false;
 
-                // $('.form-group').each(function() {
-                //     const $input = $(this).find('input, textarea'); // Include inputs and textareas
-                //     const $radioGroup = $(this).find(
-                //         'input[type="radio"]'); // Find radio buttons in the group
-                //     const $errorSpan = $(this).find(
-                //         '.text-danger'); // Find the corresponding error span
+                $('.form-group').each(function() {
+                    const $input = $(this).find('input, textarea'); // Include inputs and textareas
+                    const $radioGroup = $(this).find(
+                        'input[type="radio"]'); // Find radio buttons in the group
+                    const $errorSpan = $(this).find(
+                        '.text-danger'); // Find the corresponding error span
 
-                //     // Check if the group contains text inputs or textareas
-                //     if ($input.length > 0 && !$radioGroup.length) {
-                //         // Validate text inputs and textareas
-                //         if ($input.val().trim() === '') {
-                //             $errorSpan.show(); // Show the error if empty
-                //             hasErrors = true; // Set the error flag
-                //             //  return false;
-                //         } else {
-                //             $errorSpan.hide(); // Hide the error if not empty
-                //         }
-                //     }
+                    // Check if the group contains text inputs or textareas
+                    if ($input.length > 0 && !$radioGroup.length) {
+                        // Validate text inputs and textareas
+                        if ($input.val().trim() === '') {
+                            $errorSpan.show(); // Show the error if empty
+                            hasErrors = true; // Set the error flag
+                            //  return false;
+                        } else {
+                            $errorSpan.hide(); // Hide the error if not empty
+                        }
+                    }
 
-                //     // Check if the group contains radio buttons
-                //     if ($radioGroup.length > 0) {
-                //         // Validate radio button selection
-                //         if ($radioGroup.filter(':checked').length === 0) {
-                //             $errorSpan.show(); // Show the error if no radio is selected
-                //             //   return false;
-                //             hasErrors = true; // Set the error flag
-                //         } else {
-                //             $errorSpan.hide(); // Hide the error if one is selected
-                //         }
-                //     }
-                // });
+                    // Check if the group contains radio buttons
+                    if ($radioGroup.length > 0) {
+                        // Validate radio button selection
+                        if ($radioGroup.filter(':checked').length === 0) {
+                            $errorSpan.show(); // Show the error if no radio is selected
+                            //   return false;
+                            hasErrors = true; // Set the error flag
+                        } else {
+                            $errorSpan.hide(); // Hide the error if one is selected
+                        }
+                    }
+                });
 
 
                 // if (hasErrors) {
@@ -385,33 +385,123 @@
             $('#create_form input, textarea').each(function() {
                 const $input = $(this);
                 const $errorSpan = $input.closest('.form-group').find('.text-danger');
+                const inputName = $input.attr('name'); // Get the input field name
 
-                if ($input.attr('type') === 'date' || $input.attr('type') === 'text' || $input.attr('type') ===
-                    'number' || $input.is('textarea')) {
+                if ($input.attr('type') === 'date' && inputName === 'vr_date') {
                     if ($input.val().trim() === '') {
-                        $errorSpan.show(); // Show error
+                        $errorSpan.html('VR Date is required').show();
                         hasErrors = true;
                     } else {
-                        $errorSpan.hide(); // Hide error
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'dv_no') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('DV No is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'member_name') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Member Name is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'designation') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Desig is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'bank_acc') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Bank Acc is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'number' && inputName === 'amount') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Amount is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
                     }
                 }
             });
 
+            // Validate dynamic fields
             $('#dynamic-fields .form-group').each(function() {
-                const $input = $(this).find('input, textarea'); // Include inputs and textareas
-                const $errorSpan = $(this).find('.text-danger'); // Error message span
+                const $input = $(this);
+                const $errorSpan = $input.closest('.form-group').find('.text-danger');
+                const inputName = $input.attr('name'); // Get the input field name
 
-                // Validate text and date inputs or textareas
-                if ($input.attr('type') === 'date' || $input.attr('type') === 'text' || $input.attr('type') ===
-                    'number' || $input.is('textarea')) {
+                if ($input.attr('type') === 'date' && inputName === 'vr_date') {
                     if ($input.val().trim() === '') {
-                        $errorSpan.show(); // Show error
+                        $errorSpan.html('VR Date is required').show();
                         hasErrors = true;
                     } else {
-                        $errorSpan.hide(); // Hide error
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'dv_no') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('DV No is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'member_name') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Member Name is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'designation') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Desig is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'text' && inputName === 'bank_acc') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Bank Acc is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                } else if ($input.attr('type') === 'number' && inputName === 'amount') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Amount is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
                     }
                 }
             });
+
+
+
+
+            //validate for textarea group
+
+            $('#create_form .form-group').each(function() {
+                const $textarea = $(this).find('textarea');
+                const $errorSpan = $(this).find('.text-danger');
+
+                if ($textarea.length > 0) {
+                    if ($textarea.val().trim() === '') {
+                        $errorSpan.text('Narration is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                }
+            });
+
 
             // Validate radio button groups
             $('#create_form .form-group').each(function() {
@@ -420,26 +510,22 @@
 
                 if ($radioGroup.length > 0) {
                     if ($radioGroup.filter(':checked').length === 0) {
-                        $errorSpan.text('Please select an option').show(); // Show error
+                        $errorSpan.text('Please select a category').show();
                         hasErrors = true;
                     } else {
-                        $errorSpan.hide(); // Hide error
+                        $errorSpan.hide();
                     }
                 }
             });
 
-            //    alert(hasErrors);
-
             return !hasErrors; // Return true if no errors
         }
 
-        // Add dynamic field validation
-        function bindDynamicValidation() {
-            // Validate newly added inputs dynamically
-            $('#dynamic-fields').find('input, textarea').on('blur', function() {
-                validateDynamicFields();
-            });
-        }
+        // Use event delegation for dynamic fields
+        $('#dynamic-fields').on('blur', 'input, textarea', function() {
+            validateDynamicFields();
+        });
+
 
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
@@ -490,7 +576,7 @@
                                 @endforeach
                                 // <option value="Other">Other</option>
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger"  style="display:none;"></span>
                         </div>
                     </div>
                 </div>
@@ -502,7 +588,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control member_name" readonly>
-                            <span class="text-danger"></span>
+                            <span class="text-danger"  style="display:none;">Member name is required</span>
                         </div>
                     </div>
                 </div>
@@ -514,7 +600,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control desig" readonly>
-                            <span class="text-danger"></span>
+                            <span class="text-danger"  style="display:none;">Desig is required</span>
                         </div>
                     </div>
                 </div>
@@ -526,7 +612,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control bank_acc" readonly>
-                            <span class="text-danger"></span>
+                            <span class="text-danger"  style="display:none;">Bank Acc is required</span>
                         </div>
                     </div>
                 </div>
@@ -534,7 +620,7 @@
                 <div class="form-group col-md-2">
                     <label>Amount</label>
                     <input type="number" class="form-control" name="member_amount[]">
-                    <span class="text-danger"></span>
+                    <span class="text-danger"  style="display:none;">Amount is required</span>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Bill reference</label>

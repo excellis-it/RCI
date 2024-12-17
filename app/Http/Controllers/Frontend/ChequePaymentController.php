@@ -12,6 +12,7 @@ use App\Models\Member;
 use App\Models\Receipt;
 use App\Models\ReceiptMember;
 use App\Models\Designation;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -406,9 +407,9 @@ class ChequePaymentController extends Controller
         }
 
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
+        $settings = Setting::orderBy('id','desc')->first();
 
-
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts','settings'))->setPaper('a3', 'landscape');
         return $pdf->download('payment-report-' . $vr_date . '.pdf');
 
         // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));

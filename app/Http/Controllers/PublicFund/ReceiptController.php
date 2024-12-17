@@ -15,6 +15,7 @@ use App\Models\MemberPersonalInfo;
 use App\Models\Bank;
 use App\Models\ReceiptMember;
 use App\Models\ChequePayment;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -320,7 +321,7 @@ class ReceiptController extends Controller
             $request->validate([
                 'vr_date' => 'required|date',
                 'dv_no' => 'required|string|max:255',
-                'narration' => 'nullable|string|max:1000',
+                'narration' => 'required|string|max:1000',
                 'category' => 'required|exists:categories,id',
                 'sr_no.*' => 'required|numeric',
                 'member_id.*' => 'required|exists:members,id',
@@ -482,9 +483,9 @@ class ReceiptController extends Controller
 
 
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
+        $settings = Setting::orderBy('id','desc')->first();
 
-
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance','settings'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
         // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));

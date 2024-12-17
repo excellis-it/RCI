@@ -73,7 +73,7 @@
                                         style="font-size: 10px;
                   line-height: 14px;
                   font-weight: 400;">PUBLIC
-                                        FUND A/c No - 32924542255 CASH BOOK</span>
+                                        FUND A/c No - {{$settings->public_bank_ac ?? ''}} CASH BOOK</span>
                                 </td>
                             </tr>
                         </tbody>
