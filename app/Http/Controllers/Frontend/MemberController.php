@@ -57,7 +57,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id', 'desc')->with('designation')->paginate(10);
+        $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(10);
         return view('frontend.members.list', compact('members'));
     }
 
@@ -120,7 +120,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -248,7 +248,7 @@ class MemberController extends Controller
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $rules = Rule::orderBy('id','desc')->get() ?? '';
+        $rules = Rule::orderBy('id', 'desc')->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->latest()->first() ?? '';
@@ -257,7 +257,7 @@ class MemberController extends Controller
 
         $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery','member_cghs','memberGpf', 'daPercentage', 'check_hba', 'member_var_info','rules'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules'));
     }
 
     public function memberCreditUpdate(Request $request)
@@ -312,7 +312,7 @@ class MemberController extends Controller
             ->get();
 
         if (count($check_credit_member) > 0) {
-            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
+            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
             $update_credit_member->pay = $request->pay;
             $update_credit_member->da = $request->da;
             $update_credit_member->tpt = $request->tpt;
@@ -344,7 +344,7 @@ class MemberController extends Controller
             $update_credit_member->update();
 
 
-           
+
             // session()->flash('message', 'Member credit updated successfully');
             return response()->json(['message' => 'Member credit updated successfully']);
         } else {
@@ -396,7 +396,7 @@ class MemberController extends Controller
         }
     }
 
-    
+
 
     public function memberDebitUpdate(Request $request)
     {
@@ -453,7 +453,7 @@ class MemberController extends Controller
 
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_debit_member) > 0) {
-            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
+            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
             $update_debit_member->gpa_sub = $request->gpa_sub;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->ccl = $request->ccl;
@@ -620,10 +620,10 @@ class MemberController extends Controller
 
     public function memberRecoveryOriginalUpdate(Request $request)
     {
-        
+
         $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_original_recovery_member) > 0) {
-            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at',now()->year)->first();
+            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
             $update_recovery_org_member->ccs_sub = $request->ccs_sub;
             $update_recovery_org_member->mess = $request->mess;
             $update_recovery_org_member->security = $request->security;
@@ -957,19 +957,19 @@ class MemberController extends Controller
         $endDate = new \DateTime($request->end_date);
         $interval = $startDate->diff($endDate);
         $totalMonths = ($interval->y * 12) + $interval->m;
-        
+
         // Creating a monthly interval
         $monthInterval = new \DateInterval('P1M');
         $endDate->modify('+1 day'); // To include the end date in the period
         $period = new \DatePeriod($startDate, $monthInterval, $endDate);
-        
+
         $totalAmount = $request->total_amount; // Principal amount
         $annualRate = $request->inst_rate; // Annual interest rate
         $monthlyRate = $annualRate / 12 / 100; // Monthly interest rate
-        
+
         // EMI Calculation using the corrected monthly interest rate
         $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
-        
+
         // Monthly interest for the first month
         $monthlyInterest = $totalAmount * $monthlyRate;
         foreach ($period as $date) {
@@ -984,7 +984,7 @@ class MemberController extends Controller
             $loanInstallment->penal_interest = ''; // Handle penal interest logic if needed
             $loanInstallment->save();
         }
-        
+
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
     }
 
@@ -1123,7 +1123,7 @@ class MemberController extends Controller
             'amount' => 'required',
         ]);
 
-        $selectedValue = $request->rule_name; 
+        $selectedValue = $request->rule_name;
         $data = explode(',', $selectedValue);
         $rule_name = $data[0];
 
@@ -1143,9 +1143,9 @@ class MemberController extends Controller
     public function memberExpectationEdit($id)
     {
         $member_expectation = MemberExpectation::find($id);
-        $rules = Rule::orderBy('id','desc')->get() ?? '';
+        $rules = Rule::orderBy('id', 'desc')->get() ?? '';
         $edit = true;
-        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit', 'member_expectation','rules'))->render()]);
+        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit', 'member_expectation', 'rules'))->render()]);
     }
 
     public function memberExpectationUpdate(Request $request)
@@ -1156,7 +1156,7 @@ class MemberController extends Controller
         //     'amount' => 'required',
         // ]);
 
-        $selectedValue = $request->rule_name; 
+        $selectedValue = $request->rule_name;
         $data = explode(',', $selectedValue);
         $rule_name = $data[0];
 
@@ -1199,13 +1199,13 @@ class MemberController extends Controller
     {
         $members = Member::orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
-        return view('frontend.members.loan.emi-info',compact('loans','members'));
+        return view('frontend.members.loan.emi-info', compact('loans', 'members'));
     }
 
     public function memberLoanList(Request $request)
     {
-        
-        $members_loans_info = MemberLoanInfo::where('member_id',$request->member_id)->orderBy('id', 'desc')->get();
+
+        $members_loans_info = MemberLoanInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->get();
         $loans = Loan::where('status', 1)->get();
 
         return response()->json(['message' => 'Member loan found successfully', 'data' => $members_loans_info]);
@@ -1213,7 +1213,7 @@ class MemberController extends Controller
 
     public function memberLoanEmiSubmit(Request $request)
     {
-    
+
         $validated = $request->validate([
             'member_id' => 'required',
             'loan_id' => 'required',
@@ -1223,12 +1223,12 @@ class MemberController extends Controller
         $loan_emi_list = MemberLoan::where('member_id', $request->member_id)->where('loan_id', $request->loan_id)->paginate(10);
         $emiInfo = true;
 
-        return response()->json(['view' => view('frontend.members.loan.emi-info-table', compact('members', 'loans', 'loan_emi_list','emiInfo'))->render()]);
+        return response()->json(['view' => view('frontend.members.loan.emi-info-table', compact('members', 'loans', 'loan_emi_list', 'emiInfo'))->render()]);
     }
 
     public function fetchEmiList(Request $request)
     {
-       
+
         $loanEmiQuery = MemberLoan::query();
         if ($request->member_id) {
             $loanEmiQuery->where('member_id', $request->member_id);
@@ -1245,10 +1245,9 @@ class MemberController extends Controller
         // Return the partial view with the data
         if ($request->ajax()) {
             return response()->json([
-                'view' => view('frontend.members.loan.emi-info-table', compact('loan_emi_list','members','loans','emiInfo'))->render()
+                'view' => view('frontend.members.loan.emi-info-table', compact('loan_emi_list', 'members', 'loans', 'emiInfo'))->render()
             ]);
         }
-        
     }
 
     /**
@@ -1280,15 +1279,15 @@ class MemberController extends Controller
     public function getMemberGradePay(Request $request)
     {
         $grade_pay = GradePay::where('pay_level', $request->pm_level)->where('status', 1)->first() ?? '';
-        $basic_pays = PayMatrixBasic::where('pm_level_id',$request->pm_level)->where('status',1)->get() ?? '';
+        $basic_pays = PayMatrixBasic::where('pm_level_id', $request->pm_level)->where('status', 1)->get() ?? '';
         $quarter = '';
-        if($grade_pay != null) {
+        if ($grade_pay != null) {
             $quarter = Quater::where('grade_pay_id', $grade_pay->id)->first() ?? '';
         }
-        $payBand = PmLevel::where('id',$request->pm_level)->where('status',1)->orderBy('id','desc')->with('payBand')->first() ?? '';
-        $pm_index = PmIndex::where('pm_level_id',$request->pm_level)->where('status',1)->first();
+        $payBand = PmLevel::where('id', $request->pm_level)->where('status', 1)->orderBy('id', 'desc')->with('payBand')->first() ?? '';
+        $pm_index = PmIndex::where('pm_level_id', $request->pm_level)->where('status', 1)->first();
 
-        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->where('status',1)->first() ?? '';
+        $quarter = Quater::where('grade_pay_id', $grade_pay->id)->where('status', 1)->first() ?? '';
 
         return response()->json(['grade_pay' => $grade_pay, 'quarter' => $quarter, 'basic_pays' => $basic_pays, 'pm_index' => $pm_index, 'payBand' => $payBand]);
     }
@@ -1300,7 +1299,7 @@ class MemberController extends Controller
         return response()->json(['cgegis_value' => $cgegis_value, 'desigs' => $designations]);
     }
 
-   
+
 
     public function getmemberCategoryValue(Request $request)
     {
@@ -1327,7 +1326,7 @@ class MemberController extends Controller
         return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
     }
 
-    
+
 
     public function memberDebitEducationCess(Request $request)
     {
@@ -1343,7 +1342,7 @@ class MemberController extends Controller
         return response()->json(['edu_cal' => $edu_cal]);
     }
 
-    public function checkEolHplCcl(Request $request) 
+    public function checkEolHplCcl(Request $request)
     {
         // dd($request->all());
 
@@ -1358,7 +1357,7 @@ class MemberController extends Controller
         $result = [];
         $total_deduction = 0;
         $cclDeduction = 0;
-        
+
         foreach ($member_leaves as $leave) {
             $result[$leave->leave_type_id]['leave_name'] = $leave->leaveType->leave_type_abbr;
 
@@ -1372,7 +1371,7 @@ class MemberController extends Controller
                 $hasCCL = true;
                 $cclDays += $leave->no_of_days;
             }
-            if(($hasEOL) || ($hasHPL)) {
+            if (($hasEOL) || ($hasHPL)) {
                 // check if member has nps
                 $coreInfo = MemberCoreInfo::where('member_id', $request->memberID)->first();
                 $nps = $coreInfo->pran_no ?? null;
@@ -1400,7 +1399,7 @@ class MemberController extends Controller
 
                     $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)((($basic + $da) * $result[$leave->leave_type_id]['no_of_days']) / $result[$leave->leave_type_id]['daysInMonth']), 2);
 
-                    if($nps != null) {
+                    if ($nps != null) {
                         $npsDeductionown = ($result[$leave->leave_type_id]['eolHplDeduction'] * 10) / 100;
                         $npsDeductionGovt = ($result[$leave->leave_type_id]['eolHplDeduction'] * 14) / 100;
                         $result[$leave->leave_type_id]['npsDeductionown'] = $npsDeductionown;
@@ -1414,7 +1413,7 @@ class MemberController extends Controller
                     $result[$leave->leave_type_id]['daysInEndMonth'] = cal_days_in_month(CAL_GREGORIAN, $endMonth, $endYear);
 
                     // calculate leave days per month according to the start and end date and no of days if 30 or 31
-                    
+
                     $result[$leave->leave_type_id]['leaveDaysInStartMonth'] = $result[$leave->leave_type_id]['daysInStartMonth'] - $result[$leave->leave_type_id]['startDay'] + 1;
                     $result[$leave->leave_type_id]['leaveDaysInEndMonth'] = $result[$leave->leave_type_id]['endDay'];
 
@@ -1426,8 +1425,6 @@ class MemberController extends Controller
                     $endmonthDeduction = (($basic + $da) * $result[$leave->leave_type_id]['leaveDaysInEndMonth']) / $result[$leave->leave_type_id]['daysInEndMonth'];
 
                     $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)($startmonthDeduction + $endmonthDeduction), 2);
-                    
-                    
                 }
                 $total_deduction += floatval(str_replace(',', '', $result[$leave->leave_type_id]['eolHplDeduction']));
             } elseif ($hasCCL) {
@@ -1440,11 +1437,11 @@ class MemberController extends Controller
                     // $salary = $basic + $da;
                     $cclDeduction = number_format((float)($basic * 0.20), 2);
                     // $total_deduction += floatval(str_replace(',', '', $cclDeduction));
-                } 
+                }
             }
             // dd($total_deduction);
         }
-        
+
 
         return response()->json(['result' => $result, 'total_deduction' => $total_deduction, 'ccldeduction' => $cclDeduction]);
     }
@@ -1457,9 +1454,7 @@ class MemberController extends Controller
 
     public function memberExpRuleDetail(Request $request)
     {
-        $get_rule_detail = Rule::where('id',$request->rule_id)->first();
+        $get_rule_detail = Rule::where('id', $request->rule_id)->first();
         return response()->json(['data' => $get_rule_detail]);
     }
-
-  
 }

@@ -31,10 +31,14 @@ class ReceiptController extends Controller
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
         $lastReceipt = Receipt::whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
-            ->latest('receipt_no') // Order by receipt_no descending
+            ->orderBy('id', 'desc')
+            ->lockForUpdate()
             ->first();
 
         $lastReceiptNo = $lastReceipt ? $lastReceipt->receipt_no : 0;
+
+        // dd($lastReceiptNo);
+        // die;
         $receiptNo = $lastReceiptNo + 1;
         $vrNo = $receiptNo;
         return view('public-funds.receipts.list', compact('receipts', 'paymentCategories', 'members', 'vrNo'));
@@ -202,7 +206,8 @@ class ReceiptController extends Controller
 
             $lastReceipt = Receipt::whereYear('created_at', now()->year)
                 ->whereMonth('created_at', now()->month)
-                ->latest('receipt_no') // Order by receipt_no descending
+                ->orderBy('id', 'desc')
+                ->lockForUpdate()
                 ->first();
 
             $lastReceiptNo = $lastReceipt ? $lastReceipt->receipt_no : 0;
@@ -483,9 +488,9 @@ class ReceiptController extends Controller
 
 
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
-        $settings = Setting::orderBy('id','desc')->first();
+        $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance','settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'settings'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
         // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
