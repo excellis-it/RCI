@@ -21,7 +21,14 @@
                 href="#" onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}')" class="edit_pencil"><i class="ti ti-pencil"></i></a>
 
                 {{-- <a href="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}" id="delete" class="delete" data-route="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}"><i class="ti ti-trash"></i></a> --}}
-        </td>
+
+                <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2"
+                    data-delete-url="{{ route('cheque-payments.delete', ['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date]) }}">
+                    <i class="ti ti-trash"></i>
+                </a>
+
+           
+            </td>
         </tr>
     @endforeach
     <tr class="toxic">

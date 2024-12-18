@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control" name="rct_vr_no" id="rct_vr_no"
-                                        placeholder="" required>
+                                        placeholder="" >
                                     <span class="text-danger"></span>
 
                                 </div>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" name="rct_vr_date" id="rct_vr_date"
-                                        placeholder="" required>
+                                        placeholder="" >
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" name="dv_date" id="dv_date"
-                                        placeholder="" required>
+                                        placeholder="" >
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="number" class="form-control" name="rct_vr_amount" id="rct_vr_amount"
-                                    placeholder="" required>
+                                    placeholder="" >
                                 <span class="text-danger"></span>
                             </div>
                         </div>
