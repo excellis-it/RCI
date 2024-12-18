@@ -4,12 +4,11 @@
 @endsection
 
 @push('styles')
-<style>
-.swal2-warning.swal2-icon-show .swal2-icon-content {
-    font-size: 0.75em !important;
-}
-</style>
-
+    <style>
+        .swal2-warning.swal2-icon-show .swal2-icon-content {
+            font-size: 0.75em !important;
+        }
+    </style>
 @endpush
 
 @php
@@ -36,11 +35,11 @@
 
         <div class="row">
             <div class="col-md-6 text-start mb-3">
-                <h5>Last Payment - {{ !empty($lastPayment->id) ? $lastPayment->id : '' }}</h5>
+                <h5>Last Payment - {{ !empty($lastPayment->vr_no) ? $lastPayment->vr_no : '' }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
                 <h5>Last Payment Date -
-                    {{ !empty($lastPayment->created_at) != null ? $lastPayment->created_at->format('Y-m-d') : '' }}</h5>
+                    {{ !empty($lastPayment->vr_date) != null ? $lastPayment->vr_date : '' }}</h5>
             </div>
         </div>
         <!--  Row 1 -->
@@ -380,6 +379,18 @@
                 }
             }
 
+            function validatebillAmount() {
+                const amountBillField = $('#bill_amount');
+                const errorSpan = amountBillField.next('.text-danger');
+                if (!amountBillField.val() || isNaN(amountBillField.val()) || Number(amountBillField.val()) <= 0) {
+                    errorSpan.text('Bill Amount is required');
+                    return false;
+                } else {
+                    errorSpan.text('');
+                    return true;
+                }
+            }
+
             // Validate Bill Ref
             function validateBillRef() {
                 const billRefField = $('#bill_ref');
@@ -421,6 +432,7 @@
 
             // Attach validation on input events for real-time feedback
             $('#pay_amount').on('input', validateAmount);
+            $('#bill_amount').on('input', validatebillAmount);
             $('#bill_ref').on('input', validateBillRef);
             $('#cheq_no').on('input', validateChequeNo);
             $('#cheq_date').on('input', validateChequeDate);
@@ -428,7 +440,7 @@
             // Validate on form submission
             $('#cheque-payment-create-form').on('submit', function(e) {
                 const isValid = validateAmount() & validateBillRef() & validateChequeNo() &
-                    validateChequeDate();
+                    validateChequeDate() & validatebillAmount();
                 if (!isValid) {
                     e.preventDefault();
                 }
@@ -590,29 +602,29 @@
         }
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.delete-cheque').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const deleteUrl = this.dataset.deleteUrl;
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-cheque').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const deleteUrl = this.dataset.deleteUrl;
 
-                Swal.fire({
-                    title: 'Are you sure want to delete?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirect to the delete URL
-                        window.location.href = deleteUrl;
-                    }
+                    Swal.fire({
+                        title: 'Are you sure want to delete?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to the delete URL
+                            window.location.href = deleteUrl;
+                        }
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>
 @endpush
