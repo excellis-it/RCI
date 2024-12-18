@@ -238,6 +238,8 @@
                         <label>Balance</label>
                     </div>
                     <div class="col-md-12">
+                        <input type="hidden" id="main_amount" class="form-control" name="main_amount"
+                            value="{{ $balance }}">
                         <input type="number" class="form-control" name="balance" id="balance"
                             value="{{ $balance }}" placeholder="" required readonly>
                         <span class="text-danger"></span>
@@ -323,6 +325,54 @@
                     });
                 }
             });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+
+        $("#bill_amount").on("keyup", function() {
+            let initialBalanceMain = parseFloat($("#main_amount").val());
+            let payAmount = parseFloat($("#balance").val()); // Pay amount from response
+            let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
+            let billAmount = $(this).val(); // Get the bill amount entered
+
+            // Check if the input is empty
+            if (billAmount.trim() === "") {
+                // Reset balance to the pay amount
+                $("#balance").val(initialBalanceMain.toFixed(2));
+                return;
+            }
+
+            // Convert bill amount to float
+            billAmount = parseFloat(billAmount);
+
+            // Validate the bill amount
+            if (isNaN(billAmount)) {
+                billAmount = 0; // Handle invalid input
+            }
+
+            // Check if bill amount exceeds the pay amount
+            if (billAmount > initialBalanceMain) {
+                // Display error message
+                // alert("The bill amount cannot be greater than the pay amount.");
+                toastr.error('The bill amount cannot be greater than the balance amount');
+                billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
+                $(this).val(''); // Update the input field with the corrected value
+                $("#balance").val(initialBalanceMain);
+            } else {
+
+                // Calculate the new balance
+                let newBalance = initialBalanceMain - billAmount;
+
+                // Update the balance field
+                $("#balance").val(newBalance.toFixed(2));
+
+            }
+
+
         });
     });
 </script>

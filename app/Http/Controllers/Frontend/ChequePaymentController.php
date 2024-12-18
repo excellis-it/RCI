@@ -54,19 +54,36 @@ class ChequePaymentController extends Controller
         $members = Member::all();
         if ($receipt_data) {
 
-            $paymentsCount = ChequePayment::where('vr_no', $vr_no)
-                ->where('vr_date', $vr_date)
-                ->count();
+            $rc_amount = $receipt_data->amount;
 
-            if ($paymentsCount > 0) {
-                $paydone = 1;
+
+            $paymentsData = ChequePayment::where('vr_no', $vr_no)
+                ->where('vr_date', $vr_date)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if ($paymentsData) {
+
+                $paymentsDataBal = ChequePayment::where('vr_no', $vr_no)
+                    ->where('vr_date', $vr_date)
+                    ->orderBy('id', 'desc')
+                    ->sum('amount');
+
+                $balance = $rc_amount - $paymentsDataBal;
+
+                if ($balance <= 0) {
+                    $paydone = 1;
+                } else {
+                    $paydone = 0;
+                }
             } else {
                 // No records found matching the condition
                 $paydone = 0;
+                $balance = $rc_amount;
             }
 
 
-            return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data, 'paydone' => $paydone]);
+            return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data, 'paydone' => $paydone, 'balance' => $balance]);
             //  return $receipt;
         } else {
             return response()->json(['error' => 'Receipt not found'], 201);
@@ -308,11 +325,11 @@ class ChequePaymentController extends Controller
                 ->get();
         }
 
-        $settings = Setting::orderBy('id','desc')->first();
+        $settings = Setting::orderBy('id', 'desc')->first();
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
 
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members','settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.receipt_report', compact('receipts', 'vr_date', 'members', 'settings'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_no . '-' . $vr_date . '.pdf');
     }
 
@@ -407,9 +424,9 @@ class ChequePaymentController extends Controller
         }
 
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
-        $settings = Setting::orderBy('id','desc')->first();
+        $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts','settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts', 'settings'))->setPaper('a3', 'landscape');
         return $pdf->download('payment-report-' . $vr_date . '.pdf');
 
         // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));

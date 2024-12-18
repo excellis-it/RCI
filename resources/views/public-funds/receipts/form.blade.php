@@ -128,10 +128,11 @@
                                             required</span>
 
                                     </div>
+
                                     <div class="form-group col-md-2">
                                         <label>Bill reference</label>
                                         <input type="text" class="form-control" name="bill_ref[]">
-                                       
+
 
                                     </div>
                                     <div class="form-group col-md-2">
