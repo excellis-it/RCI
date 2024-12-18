@@ -32,7 +32,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('receipts.report.generate') }}" method="POST">
+                            <form action="{{ route('receipts.report.generate') }}" method="POST" id="receiptForm">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-3">
@@ -44,7 +44,10 @@
                                                         <label>Date</label>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <input type="date" class="form-control" name="date" required>
+                                                        <input type="date" class="form-control" name="date"
+                                                            id="date">
+                                                        <div id="dateError" class="text-danger" style="display:none;">Please
+                                                            select a date.</div>
 
                                                     </div>
                                                 </div>
@@ -70,5 +73,22 @@
     @endsection
 
     @push('scripts')
-        <script></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#receiptForm').on('submit', function(event) {
+                    var date = $('#date').val();
+
+                    // Reset previous error message
+                    $('#dateError').hide();
+
+                    // Check if the date field is empty
+                    if (!date) {
+                        event.preventDefault(); // Prevent form submission
+                        $('#dateError').show(); // Display error message under the input field
+                        return false;
+                    }
+                });
+            });
+        </script>
     @endpush

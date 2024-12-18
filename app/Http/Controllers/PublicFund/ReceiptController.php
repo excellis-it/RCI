@@ -388,10 +388,6 @@ class ReceiptController extends Controller
             // Delete associated receipt members
             ReceiptMember::where('receipt_id', $receipt->id)->delete();
 
-            // Delete all matching chequepayment records
-            ChequePayment::where('vr_no', $vr_no)
-                ->where('vr_date', $vr_date)
-                ->delete();
 
             // Delete the receipt
             $receipt->delete();

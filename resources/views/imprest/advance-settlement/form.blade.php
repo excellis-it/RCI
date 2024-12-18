@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control" name="adv_no"
-                                                    value="{{ old('adv_no') ?? '' }}" placeholder="" required>
+                                                    value="{{ old('adv_no') ?? '' }}" placeholder="">
                                                 <span class="text-danger"></span>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="date" class="form-control" name="adv_date"
-                                                    value="{{ old('adv_date') ?? '' }}" placeholder="" required>
+                                                    value="{{ old('adv_date') ?? '' }}" placeholder="">
                                                 <span class="text-danger"></span>
                                             </div>
                                         </div>
@@ -122,35 +122,42 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+    $("#searchAdv-form").submit(function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
 
-            $("#searchAdv-form").submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
+        $.ajax({
+            type: "post",
+            url: "{{ route('advance-settle-bills.get-adv') }}",
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                // Clear previous error messages
+                $(".text-danger").text("");
 
-                $.ajax({
-                    type: "post",
-                    url: "{{ route('advance-settle-bills.get-adv') }}",
-                    data: formData,
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.isdata == 1) {
+                if (response.isdata == 1) {
+                    $("#advDataDiv").html(response.view);
+                } else {
+                    // If no data found, display an error below the Adv No field
+                    $("input[name='adv_no']").next(".text-danger").text("Adv No Not found");
+                    $("input[name='adv_date']").next(".text-danger").text("Adv Date Not found");
+                }
+            },
+            error: function(xhr) {
+                // Handle server-side validation errors
+                $(".text-danger").text(""); // Clear previous error messages
 
-                            $("#advDataDiv").html(response.view);
-                        } else {
-                            toastr.error('Adv Not found');
-                        }
-                    }
-                });
-
-            });
-
-
-
-
-
-
-
-
+                var errors = xhr.responseJSON.errors;
+                if (errors) {
+                    $.each(errors, function(key, value) {
+                        // Display errors below respective fields
+                        $("input[name='" + key + "']").next(".text-danger").text(value[0]);
+                    });
+                }
+            }
         });
-    </script>
+    });
+});
+
+</script>
 @endpush

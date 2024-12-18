@@ -263,13 +263,13 @@
                         data: formData,
                         success: function(response) {
                             //windows load with toastr message
-                            $('.text-danger').html('');
                             window.location.reload();
                         },
                         error: function(xhr) {
 
                             // Handle errors (e.g., display validation errors)
                             //clear any old errors
+                            $('.text-danger').html('');
 
                             var errors = xhr.responseJSON.errors;
                             $.each(errors, function(key, value) {
@@ -408,7 +408,7 @@
                     } else {
                         $errorSpan.hide();
                     }
-                } else if ($input.attr('type') === 'text' && inputName === 'designation') {
+                } else if ($input.attr('type') === 'text' && inputName === 'desig') {
                     if ($input.val().trim() === '') {
                         $errorSpan.html('Desig is required').show();
                         hasErrors = true;
@@ -425,6 +425,13 @@
                 } else if ($input.attr('type') === 'number' && inputName === 'amount') {
                     if ($input.val().trim() === '') {
                         $errorSpan.html('Amount is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
+                }else if ($input.attr('type') === 'text' && inputName === 'narration') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Narration is required').show();
                         hasErrors = true;
                     } else {
                         $errorSpan.hide();
@@ -459,7 +466,7 @@
                     } else {
                         $errorSpan.hide();
                     }
-                } else if ($input.attr('type') === 'text' && inputName === 'designation') {
+                } else if ($input.attr('type') === 'text' && inputName === 'desig') {
                     if ($input.val().trim() === '') {
                         $errorSpan.html('Desig is required').show();
                         hasErrors = true;
@@ -480,6 +487,13 @@
                     } else {
                         $errorSpan.hide();
                     }
+                }else if ($input.attr('type') === 'text' && inputName === 'narration') {
+                    if ($input.val().trim() === '') {
+                        $errorSpan.html('Narration is required').show();
+                        hasErrors = true;
+                    } else {
+                        $errorSpan.hide();
+                    }
                 }
             });
 
@@ -488,7 +502,7 @@
 
             //validate for textarea group
 
-            $('#create_form .form-group').each(function() {
+         /*   $('#create_form .form-group').each(function() {
                 const $textarea = $(this).find('textarea');
                 const $errorSpan = $(this).find('.text-danger');
 
@@ -500,7 +514,7 @@
                         $errorSpan.hide();
                     }
                 }
-            });
+            });*/
 
 
             // Validate radio button groups
@@ -756,4 +770,30 @@
             });
         }
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.delete-receipt').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const deleteUrl = this.dataset.deleteUrl;
+
+                Swal.fire({
+                    title: 'Are you sure want to delete?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the delete URL
+                        window.location.href = deleteUrl;
+                    }
+                });
+            });
+        });
+    });
+</script>
 @endpush

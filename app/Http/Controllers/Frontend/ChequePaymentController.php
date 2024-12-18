@@ -221,17 +221,18 @@ class ChequePaymentController extends Controller
     {
         //
     }
+   
 
-    // public function delete($vr_no,$vr_date)
-    // {
-    //     $chequePayment = ChequePayment::where('vr_no', $vr_no)
-    //         ->where('vr_date', $vr_date)
-    //         ->firstOrFail();
+    public function delete($vr_no,$vr_date)
+    {
+        $chequePayment = ChequePayment::where('vr_no', $vr_no)
+            ->where('vr_date', $vr_date)
+            ->firstOrFail();
 
-    //     $chequePayment->delete();
+        $chequePayment->delete();
 
-    //     return redirect()->route('cheque-payments.index')->with('message', 'Cheque Payment deleted successfully.');
-    // }
+        return redirect()->route('cheque-payments.index')->with('message', 'Cheque Payment deleted successfully.');
+    }
 
 
 
