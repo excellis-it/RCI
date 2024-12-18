@@ -46,32 +46,35 @@ class CdaReceiptController extends Controller
 
         $receipt_bills = CDAReceipt::orderBy('id', 'desc')->get();
 
+        $billIds = $receipt_bills->pluck('bill_id')->toArray();
+
         // foreach ($receipt_bills as $receipt_bill) {
+        //     $receipt_bill->bill_id = 
 
         // }
 
-        // $receipt_bills = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->where('receipt_status', 1)->get();
+        $receipt_bills_details = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->where('receipt_status', 1)->get();
 
-        // foreach ($receipt_bills as $receipt_bill) {
-        //     // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
-        //     $cda_bill = CDAReceipt::where('adv_no', $receipt_bill->adv_no)
-        //         ->where('adv_date', $receipt_bill->adv_date)
-        //         ->first();  // Use first() to get a single match
+        foreach ($receipt_bills_details as $receipt_bills_detail) {
+            // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
+            $cda_bill = CdaBillAuditTeam::where('adv_no', $receipt_bills_detail->adv_no)
+                ->where('adv_date', $receipt_bills_detail->adv_date)
+                ->first();  // Use first() to get a single match
 
-        //     // If a matching CdaBillAuditTeam is found, assign its values to the advance_bill object
-        //     if ($cda_bill) {
-        //         $receipt_bill->cda_bill_id = $cda_bill->id;
-        //         $receipt_bill->cda_bill_no = $cda_bill->cda_bill_no;
-        //         $receipt_bill->cda_bill_date = $cda_bill->cda_bill_date;
-        //     } else {
-        //         // If no matching CdaBillAuditTeam is found, set to 'N/A' or any default value
-        //         $receipt_bill->cda_bill_no = 'N/A';
-        //         $receipt_bill->cda_bill_date = 'N/A';
-        //     }
-        // }
+            // If a matching CdaBillAuditTeam is found, assign its values to the advance_bill object
+            if ($cda_bill) {
+                $receipt_bills_detail->cda_bill_id = $cda_bill->id;
+                $receipt_bills_detail->cda_bill_no = $cda_bill->cda_bill_no;
+                $receipt_bills_detail->cda_bill_date = $cda_bill->cda_bill_date;
+            } else {
+                // If no matching CdaBillAuditTeam is found, set to 'N/A' or any default value
+                $receipt_bills_detail->cda_bill_no = 'N/A';
+                $receipt_bills_detail->cda_bill_date = 'N/A';
+            }
+        }
 
 
-        return view('imprest.cda-receipts.list', compact('cdaReceipts', 'cdaReceiptDetails', 'advance_bills', 'receipt_bills', 'lastcdaReceipt'));
+        return view('imprest.cda-receipts.list', compact('cdaReceipts', 'cdaReceiptDetails', 'advance_bills', 'receipt_bills', 'lastcdaReceipt', 'receipt_bills_details'));
     }
 
     public function fetchData(Request $request)
