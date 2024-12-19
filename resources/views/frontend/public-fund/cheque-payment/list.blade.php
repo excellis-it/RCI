@@ -215,238 +215,7 @@
     </script>
 
 
-    <script>
-        $(document).ready(function() {
-            $(document).on('submit', '#search_receipt_form', function(e) {
-                e.preventDefault();
 
-                $(".error-message").remove();
-
-                var isValid = true; // Flag to check form validity
-
-                // Validate `vr_no`
-                var vr_no = $("#vr_no").val().trim();
-                if (!vr_no) {
-                    isValid = false;
-                    $("#vr_no").after(
-                        "<span class='error-message' style='color: #fa896b;'>VR Number is required.</span>"
-                    );
-                }
-
-                // Validate `vr_date`
-                var vr_date = $("#vr_date").val().trim();
-                if (!vr_date) {
-                    isValid = false;
-                    $("#vr_date").after(
-                        "<span class='error-message' style='color: #fa896b;'>VR Date is required.</span>"
-                    );
-                }
-
-                // If validation fails, stop further processing
-                if (!isValid) {
-                    return;
-                }
-
-                var formData = $(this).serialize();
-
-                var vr_no = $("#vr_no").val();
-                var vr_date = $("#vr_date").val();
-
-
-
-
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('cheque-payments.get-receipt') }}",
-                    data: formData,
-                    dataType: "json",
-                    success: function(response) {
-
-                        if (response.view) {
-
-                            toastr.success('Receipt Found!');
-
-                            $("#receipt_data").html(response.view);
-                            $("#create_receipt_no").val(response.receipt_data.receipt_no);
-                            $("#create_vr_no").val(response.receipt_data.vr_no);
-                            $("#create_vr_date").val(response.receipt_data.vr_date);
-                            $("#pay_amount").val(response.receipt_data.amount);
-
-                            $("#pay_amount").val(response.receipt_data.amount);
-
-                            $("#balance").val(response.balance);
-                            $("#main_amount").val(response.balance);
-
-                            if (response.paydone == 1) {
-                                $('.cheq_pay_add').prop('disabled', true)
-                                    .text('Paid')
-                                    .addClass('btn-danger')
-                                    .removeClass(
-                                        'btn-primary'
-                                    ); // If you want to remove the previous class, e.g., 'btn-primary'
-                            } else {
-                                $('.cheq_pay_add').prop('disabled', false)
-                                    .text('Add')
-                                    .removeClass('btn-danger')
-                                    .addClass(
-                                        'btn-primary'
-                                    ); // Optional, add back another class (like 'btn-primary')
-                            }
-
-                        } else {
-                            toastr.error('Receipt Not Found!');
-                        }
-
-
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle errors
-                        if (xhr.status === 500) {
-                            const response = JSON.parse(xhr.responseText);
-                            alert(response.error || 'An error occurred');
-                        } else {
-                            alert(`Unexpected Error: ${status}`);
-                        }
-                        console.error('Error Details:', xhr, status, error);
-                    }
-
-                });
-
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-
-            $("#bill_amount").on("keyup", function() {
-                let initialBalanceMain = parseFloat($("#main_amount").val());
-                let payAmount = parseFloat($("#balance").val()); // Pay amount from response
-                let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
-                let billAmount = $(this).val(); // Get the bill amount entered
-
-                // Check if the input is empty
-                if (billAmount.trim() === "") {
-                    // Reset balance to the pay amount
-                    $("#balance").val(initialBalanceMain.toFixed(2));
-                    return;
-                }
-
-                // Convert bill amount to float
-                billAmount = parseFloat(billAmount);
-
-                // Validate the bill amount
-                if (isNaN(billAmount)) {
-                    billAmount = 0; // Handle invalid input
-                }
-
-                // Check if bill amount exceeds the pay amount
-                if (billAmount > initialBalanceMain) {
-                    // Display error message
-                    // alert("The bill amount cannot be greater than the pay amount.");
-                    toastr.error('The bill amount cannot be greater than the balance amount');
-                    billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
-                    $(this).val(''); // Update the input field with the corrected value
-                    $("#balance").val(initialBalanceMain);
-                } else {
-
-                    // Calculate the new balance
-                    let newBalance = initialBalanceMain - billAmount;
-
-                    // Update the balance field
-                    $("#balance").val(newBalance.toFixed(2));
-
-                }
-
-
-            });
-        });
-    </script>
-
-
-    <script>
-        $(document).ready(function() {
-            // Validate Amount
-            function validateAmount() {
-                const amountField = $('#pay_amount');
-                const errorSpan = amountField.next('.text-danger');
-                if (!amountField.val() || isNaN(amountField.val()) || Number(amountField.val()) <= 0) {
-                    errorSpan.text('Amount is required');
-                    return false;
-                } else {
-                    errorSpan.text('');
-                    return true;
-                }
-            }
-
-            function validatebillAmount() {
-                const amountBillField = $('#bill_amount');
-                const errorSpan = amountBillField.next('.text-danger');
-                if (!amountBillField.val() || isNaN(amountBillField.val()) || Number(amountBillField.val()) <= 0) {
-                    errorSpan.text('Bill Amount is required');
-                    return false;
-                } else {
-                    errorSpan.text('');
-                    return true;
-                }
-            }
-
-            // Validate Bill Ref
-            function validateBillRef() {
-                const billRefField = $('#bill_ref');
-                const errorSpan = billRefField.next('.text-danger');
-                if (!billRefField.val().trim()) {
-                    errorSpan.text('Bill Reference is required');
-                    return false;
-                } else {
-                    errorSpan.text('');
-                    return true;
-                }
-            }
-
-            // Validate Cheque No.
-            function validateChequeNo() {
-                const amountField = $('#cheq_no');
-                const errorSpan = amountField.next('.text-danger');
-                if (!amountField.val() || isNaN(amountField.val()) || Number(amountField.val()) <= 0) {
-                    errorSpan.text('Cheque No. is required');
-                    return false;
-                } else {
-                    errorSpan.text('');
-                    return true;
-                }
-            }
-
-            // Validate Cheque Date
-            function validateChequeDate() {
-                const chequeDateField = $('#cheq_date');
-                const errorSpan = chequeDateField.next('.text-danger');
-                if (!chequeDateField.val()) {
-                    errorSpan.text('Cheque Date is required');
-                    return false;
-                } else {
-                    errorSpan.text('');
-                    return true;
-                }
-            }
-
-            // Attach validation on input events for real-time feedback
-            $('#pay_amount').on('input', validateAmount);
-            $('#bill_amount').on('input', validatebillAmount);
-            $('#bill_ref').on('input', validateBillRef);
-            $('#cheq_no').on('input', validateChequeNo);
-            $('#cheq_date').on('input', validateChequeDate);
-
-            // Validate on form submission
-            $('#cheque-payment-create-form').on('submit', function(e) {
-                const isValid = validateAmount() & validateBillRef() & validateChequeNo() &
-                    validateChequeDate() & validatebillAmount();
-                if (!isValid) {
-                    e.preventDefault();
-                }
-            });
-        });
-    </script>
 
 
     {{-- <script>
@@ -499,38 +268,7 @@
         // });
     </script> --}}
 
-    <script>
-        $(document).ready(function() {
-            $('#cheque-payment-create-form').submit(function(e) {
-                e.preventDefault();
 
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                        //windows load with toastr message
-                        $('.text-danger').html('');
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 
     <script>
         //    function getEditForm(id) {
@@ -623,6 +361,370 @@
                             window.location.href = deleteUrl;
                         }
                     });
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+    {{-- //////// --}}
+
+
+    <script>
+        $(document).ready(function() {
+
+
+            $(document).on('submit', '#search_receipt_form', function(e) {
+
+                e.preventDefault();
+
+                $(".error-message").remove();
+
+                var isValid = true; // Flag to check form validity
+
+                // Validate `vr_no`
+                var vr_no = $("#vr_no").val();
+                if (!vr_no) {
+                    isValid = false;
+                    $("#vr_no").after(
+                        "<span class='error-message' style='color: #fa896b;'>VR Number is required.</span>"
+                    );
+                }
+
+                // Validate `vr_date`
+                var vr_date = $("#vr_date").val();
+                if (!vr_date) {
+                    isValid = false;
+                    $("#vr_date").after(
+                        "<span class='error-message' style='color: #fa896b;'>VR Date is required.</span>"
+                    );
+                }
+
+                // If validation fails, stop further processing
+                if (!isValid) {
+                    return;
+                }
+
+                var formData = $(this).serialize();
+
+                var vr_no = $("#vr_no").val();
+                var vr_date = $("#vr_date").val();
+
+                var cheq_no = $("#cheq_no").val();
+                var cheq_date = $("#cheq_date").val();
+
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('cheque-payments.get-receipt') }}",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+
+                        if (response.view) {
+
+
+
+                            var data_id = response.rct_id; // Example ID
+                            var elementId = 'rcpt_div_' + data_id;
+
+                            // Check if an element with the specific ID exists within the class container
+                            if (!$('.fnd_receipts[id="' + elementId + '"]').length) {
+
+                                $(".cheq_pay_add").show();
+
+                                toastr.success('Receipt Found!');
+                                // If it doesn't exist, append the response view
+                                $("#receipt_data").append(response.view);
+
+                                $("#cheq_no_" + data_id).val(cheq_no);
+                                $("#cheq_date_" + data_id).val(cheq_date);
+
+                                //  $("#receipt_data").append(response.view);
+                                $("#create_receipt_no_" + data_id).val(response.receipt_data
+                                    .receipt_no);
+                                $("#create_vr_no_" + data_id).val(response.receipt_data.vr_no);
+                                $("#create_vr_date_" + data_id).val(response.receipt_data
+                                    .vr_date);
+                                $("#pay_amount_" + data_id).val(response.receipt_data.amount);
+
+                                //    $("#pay_amount_"+data_id).val(response.receipt_data.amount);
+
+                                $("#balance_" + data_id).val(response.balance);
+                                $("#main_amount_" + data_id).val(response.balance);
+
+                                if (response.paydone == 1) {
+                                    // $('.cheq_pay_add').prop('disabled', true)
+                                    //     .text('Paid')
+                                    //     .addClass('btn-danger')
+                                    //     .removeClass(
+                                    //         'btn-primary'
+                                    //     ); // If you want to remove the previous class, e.g., 'btn-primary'
+                                    // $("#rct_input_div_" + data_id).hide();
+                                    $("#rct_input_div_" + data_id).html(
+                                        '<center> <p class="text-danger">PAID</p></center>');
+                                    $("#create_ispaid_" + data_id).val(response.paydone);
+                                } else {
+                                    // $('.cheq_pay_add').prop('disabled', false)
+                                    //     .text('Save')
+                                    //     .removeClass('btn-danger')
+                                    //     .addClass(
+                                    //         'btn-primary'
+                                    //     ); // Optional, add back another class (like 'btn-primary')
+                                    $("#create_ispaid_" + data_id).val(response.paydone);
+                                }
+
+
+                                /////
+
+                                $("#bill_amount_" + data_id).on("keyup", function() {
+                                    let initialBalanceMain = parseFloat($(
+                                        "#main_amount_" + data_id).val());
+                                    let payAmount = parseFloat($("#balance_" + data_id)
+                                        .val()); // Pay amount from response
+                                    let initialBalance = parseFloat($("#balance_" +
+                                            data_id)
+                                        .val()); // Initial balance from response
+                                    let billAmount = $(this)
+                                        .val(); // Get the bill amount entered
+
+                                    // Check if the input is empty
+                                    if (billAmount.trim() === "") {
+                                        // Reset balance to the pay amount
+                                        $("#balance_" + data_id).val(initialBalanceMain
+                                            .toFixed(
+                                                2));
+                                        return;
+                                    }
+
+                                    // Convert bill amount to float
+                                    billAmount = parseFloat(billAmount);
+
+                                    // Validate the bill amount
+                                    if (isNaN(billAmount)) {
+                                        billAmount = 0; // Handle invalid input
+                                    }
+
+                                    // Check if bill amount exceeds the pay amount
+                                    if (billAmount > initialBalanceMain) {
+                                        // Display error message
+                                        // alert("The bill amount cannot be greater than the pay amount.");
+                                        toastr.error(
+                                            'The bill amount cannot be greater than the balance amount'
+                                        );
+                                        billAmount =
+                                            initialBalanceMain; // Reset bill amount to the maximum allowable value
+                                        $(this).val(
+                                            ''
+                                        ); // Update the input field with the corrected value
+                                        $("#balance_" + data_id).val(
+                                            initialBalanceMain);
+                                    } else {
+
+                                        // Calculate the new balance
+                                        let newBalance = initialBalanceMain -
+                                            billAmount;
+
+                                        // Update the balance field
+                                        $("#balance_" + data_id).val(newBalance.toFixed(
+                                            2));
+
+                                    }
+
+
+                                });
+
+
+                                ////
+
+                                $("#vr_no").val('');
+                                $("#vr_date").val('');
+
+                                $(document).on('keyup', '.rct-chqno', function() {
+                                    let value = $(this)
+                                        .val(); // Get the value of the input
+                                    $('.rct-chqno-in').val(
+                                        value
+                                    ); // Set the value to all target-class inputs
+                                });
+
+                                $(document).on('change', '.rct-chqdt', function() {
+                                    let value = $(this)
+                                        .val(); // Get the value of the input
+                                    $('.rct-chqdt-in').val(
+                                        value
+                                    ); // Set the value to all target-class inputs
+                                });
+
+
+                            } else {
+                                console.log('Element with ID "' + elementId +
+                                    '" already exists in the class. Skipping append.');
+                                toastr.success('Receipt Already Added!');
+                            }
+
+                        } else {
+                            toastr.error('Receipt Not Found!');
+                        }
+
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        if (xhr.status === 500) {
+                            const response = JSON.parse(xhr.responseText);
+                            alert(response.error || 'An error occurred');
+                        } else {
+                            alert(`Unexpected Error: ${status}`);
+                        }
+                        console.error('Error Details:', xhr, status, error);
+                    }
+
+                });
+
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $("#bill_amount").on("keyup", function() {
+                let initialBalanceMain = parseFloat($("#main_amount").val());
+                let payAmount = parseFloat($("#balance").val()); // Pay amount from response
+                let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
+                let billAmount = $(this).val(); // Get the bill amount entered
+
+                // Check if the input is empty
+                if (billAmount.trim() === "") {
+                    // Reset balance to the pay amount
+                    $("#balance").val(initialBalanceMain.toFixed(2));
+                    return;
+                }
+
+                // Convert bill amount to float
+                billAmount = parseFloat(billAmount);
+
+                // Validate the bill amount
+                if (isNaN(billAmount)) {
+                    billAmount = 0; // Handle invalid input
+                }
+
+                // Check if bill amount exceeds the pay amount
+                if (billAmount > initialBalanceMain) {
+                    // Display error message
+                    // alert("The bill amount cannot be greater than the pay amount.");
+                    toastr.error('The bill amount cannot be greater than the balance amount');
+                    billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
+                    $(this).val(''); // Update the input field with the corrected value
+                    $("#balance").val(initialBalanceMain);
+                } else {
+
+                    // Calculate the new balance
+                    let newBalance = initialBalanceMain - billAmount;
+
+                    // Update the balance field
+                    $("#balance").val(newBalance.toFixed(2));
+
+                }
+
+
+            });
+        });
+    </script>
+
+
+    <script>
+        // $(document).ready(function() {
+        // Common validation function
+        function validateField(field, errorMessage, condition) {
+            const errorSpan = field.siblings('.text-danger');
+            errorSpan.text(condition() ? errorMessage : '');
+            return !condition();
+        }
+
+        // Dynamic validations based on classes
+        function validateRow(row) {
+
+
+            const billAmountValid = validateField(
+                row.find('.bill-amount'),
+                'Bill Amount is required',
+                () => !row.find('.bill-amount').val() || isNaN(row.find('.bill-amount').val()) || Number(row
+                    .find('.bill-amount').val()) <= 0
+            );
+
+            const chequeNoValid = validateField(
+                $('.rct-chqno'),
+                'Cheque No. is required',
+                () => $('.rct-chqno').val()
+            );
+
+            const chequeDateValid = validateField(
+                $('.rct-chqdt'),
+                'Cheque Date is required',
+                () => $('.rct-chqdt').val()
+            );
+
+            return billAmountValid && chequeNoValid && chequeDateValid;
+        }
+
+        // Attach validation to dynamically added rows
+        $('.fnd_receipts').on('input', '.bill-amount, .rct-chqno, .rct-chqdt',
+            function() {
+                const row = $(this).closest('.fnd_receipts');
+                validateRow(row);
+            });
+
+
+        //  });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#cheque-payment-create-form').submit(function(e) {
+                e.preventDefault();
+
+                let allValid = true;
+
+                $('.fnd_receipts').each(function() {
+                    if (!validateRow($(this))) {
+                        allValid = false;
+                    }
+                });
+
+                if (!allValid) e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                        //windows load with toastr message
+                        $('.text-danger').html('');
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
                 });
             });
         });
