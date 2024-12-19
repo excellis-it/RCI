@@ -5,7 +5,7 @@
 
 @push('styles')
     <style>
-         .swal2-warning.swal2-icon-show .swal2-icon-content {
+        .swal2-warning.swal2-icon-show .swal2-icon-content {
             font-size: 0.75em !important;
         }
     </style>
@@ -31,9 +31,13 @@
         <!--  Row 1 -->
 
         <div class="row">
-            <div class="col-md-12 text-end mb-3">
+            @include('imprest.advance-settlement.form')
+        </div>
+
+        <div class="row">
+            {{-- <div class="col-md-12 text-end mb-3">
                 <a class="print_btn" href="{{ route('advance-settlement.create') }}">Add Advance Settlement</a>
-            </div>
+            </div> --}}
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
@@ -237,4 +241,46 @@
     </script>
 
 
+    <script>
+        $(document).ready(function() {
+            $("#searchAdv-form").submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('advance-settle-bills.get-adv') }}",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+                        // Clear previous error messages
+                        $(".text-danger").text("");
+
+                        if (response.isdata == 1) {
+                            $("#advDataDiv").html(response.view);
+                        } else {
+                            // If no data found, display an error below the Adv No field
+                            $("input[name='adv_no']").next(".text-danger").text(
+                                "Adv No Not found");
+                            $("input[name='adv_date']").next(".text-danger").text(
+                                "Adv Date Not found");
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle server-side validation errors
+                        $(".text-danger").text(""); // Clear previous error messages
+
+                        var errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            $.each(errors, function(key, value) {
+                                // Display errors below respective fields
+                                $("input[name='" + key + "']").next(".text-danger")
+                                    .text(value[0]);
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

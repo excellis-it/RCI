@@ -1,4 +1,4 @@
-@if ($advance_funds)
+@if ($advance_settels)
 
     <p>CDA Bill:</p>
     <table class="table table-bordered">
@@ -50,18 +50,18 @@
 @endif
 
 <form action="">
-<div class="row">
-    <div class="col-md-1">
-        <div class="row justify-content-end">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="form-group col-md-12 mb-2">
-                        <button type="submit" class="listing_add">Save</button>
+    <div class="row">
+        <div class="col-md-1">
+            <div class="row justify-content-end">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-2">
+                            <button type="submit" class="listing_add">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </form>

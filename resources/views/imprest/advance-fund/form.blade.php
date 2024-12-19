@@ -124,24 +124,26 @@
     <div class="row align-items-end">
         <div class="col-md-12">
             <div class="row align-items-end">
-                {{-- <div class="form-group col-md-3 mb-2">
+                <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Adv No</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="adv_no" id="adv_no" placeholder="">
+                            <input type="text" class="form-control" name="adv_no" id="adv_no" placeholder=""
+                                value="{{ $advNo }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
-                </div> --}}
+                </div>
                 <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Adv Dt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="date" class="form-control" name="adv_date" id="adv_date" placeholder="">
+                            <input type="date" class="form-control" name="adv_date" id="adv_date" placeholder=""
+                                value="{{ date('Y-m-d') }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -150,7 +152,7 @@
                 <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Adv Amt</label>
+                            <label>Adv Amt<span class="text-danger">*</span></label>
                         </div>
                         <div class="col-md-12">
                             <input type="number" class="form-control" name="adv_amount" id="adv_amount"
@@ -162,7 +164,7 @@
                 <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Project</label>
+                            <label>Project<span class="text-danger">*</span></label>
                         </div>
                         <div class="col-md-12">
                             <select name="project_id" id="project_id" class="form-control">
@@ -188,7 +190,7 @@
                                     <option value="{{ $variable_type->id }}">{{ $variable_type->name }}</option>
                                 @endforeach
                             </select>
-                            <span class="text-danger"></span>
+
                         </div>
                     </div>
                 </div>
@@ -201,7 +203,7 @@
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="chq_no" id="chq_no"
                                 placeholder="">
-                            <span class="text-danger"></span>
+
                         </div>
                     </div>
                 </div>
@@ -214,7 +216,7 @@
                         <div class="col-md-12">
                             <input type="date" class="form-control" name="chq_date" id="chq_date"
                                 placeholder="">
-                            <span class="text-danger"></span>
+
                         </div>
                     </div>
                 </div>

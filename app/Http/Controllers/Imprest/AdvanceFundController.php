@@ -34,7 +34,19 @@ class AdvanceFundController extends Controller
         $employees = Member::orderBy('id', 'desc')->get();
         $members = Member::where('member_status', 1)->orderBy('name', 'asc')->get();
 
-        return view('imprest.advance-fund.list', compact('advance_funds', 'variable_types', 'projects', 'designations', 'groups', 'divisions', 'employees', 'members'));
+        $lastAdv = AdvanceFundToEmployee::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->orderBy('id', 'desc')
+            ->lockForUpdate()
+            ->first();
+
+        $lastAdvNo = $lastAdv ? $lastAdv->adv_no : 0;
+
+        // dd($lastReceiptNo);
+        // die;
+        $advNo = $lastAdvNo + 1;
+
+        return view('imprest.advance-fund.list', compact('advance_funds', 'variable_types', 'projects', 'designations', 'groups', 'divisions', 'employees', 'members', 'advNo'));
     }
 
     public function fetchData(Request $request)
@@ -115,7 +127,7 @@ class AdvanceFundController extends Controller
     {
 
         $request->validate([
-            //  'pc_no' => 'required',
+            'adv_no' => 'required',
             'member_id' => 'required',
             'emp_id' => 'required',
             // 'name' => 'required',
@@ -126,23 +138,11 @@ class AdvanceFundController extends Controller
             'adv_date' => 'required',
             'adv_amount' => 'required|numeric|min:1',
             'project_id' => 'required',
-            'var_type_id' => 'required',
-            'chq_no' => 'required',
-            'chq_date' => 'required',
+            // 'var_type_id' => 'required',
+            // 'chq_no' => 'required',
+            // 'chq_date' => 'required',
         ]);
 
-
-        // Create the advance fund record using mass assignment
-        // Get the current month and year
-        $currentMonth = now()->format('Y-m');
-
-        // Find the highest `adv_no` for the current month
-        $lastAdvNo = AdvanceFundToEmployee::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
-            ->max('adv_no');
-
-        // Generate a new `adv_no` by incrementing the last `adv_no` found or starting from 1
-        $newAdvNo = $lastAdvNo ? $lastAdvNo + 1 : 1;
 
         // Create the new record
         $advance_fund = AdvanceFundToEmployee::create([
@@ -154,7 +154,7 @@ class AdvanceFundController extends Controller
             'var_type_id' => $request->var_type_id,
             'chq_no' => $request->chq_no,
             'chq_date' => $request->chq_date,
-            'adv_no' => $newAdvNo, // Assign the unique monthly `adv_no`
+            'adv_no' => $request->adv_no,
         ]);
 
         session()->flash('message', 'Advance fund added successfully');
@@ -203,9 +203,9 @@ class AdvanceFundController extends Controller
             'adv_date' => 'required',
             'adv_amount' => 'required|numeric|min:1',
             'project_id' => 'required',
-            'var_type_id' => 'required',
-            'chq_no' => 'required',
-            'chq_date' => 'required',
+            //  'var_type_id' => 'required',
+            //  'chq_no' => 'required',
+            //  'chq_date' => 'required',
         ]);
 
 

@@ -24,7 +24,7 @@ class CdaReceiptController extends Controller
 
         $lastcdaReceipt = CDAReceipt::orderBy('id', 'desc')->first();
 
-        $advance_bills = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->where('receipt_status', 0)->orderBy('id', 'desc')->get();
+        $advance_bills = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 0)->orderBy('id', 'desc')->get();
 
         foreach ($advance_bills as $advance_bill) {
             // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
@@ -53,7 +53,7 @@ class CdaReceiptController extends Controller
 
         // }
 
-        $receipt_bills_details = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->where('receipt_status', 1)->get();
+        $receipt_bills_details = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 1)->get();
 
         foreach ($receipt_bills_details as $receipt_bills_detail) {
             // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
