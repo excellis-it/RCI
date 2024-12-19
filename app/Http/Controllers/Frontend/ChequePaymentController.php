@@ -54,6 +54,8 @@ class ChequePaymentController extends Controller
         $members = Member::all();
         if ($receipt_data) {
 
+            $rct_id = $receipt_data->id;
+
             $rc_amount = $receipt_data->amount;
 
 
@@ -83,7 +85,7 @@ class ChequePaymentController extends Controller
             }
 
 
-            return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data, 'paydone' => $paydone, 'balance' => $balance]);
+            return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data, 'paydone' => $paydone, 'balance' => $balance, 'rct_id' => $rct_id]);
             //  return $receipt;
         } else {
             return response()->json(['error' => 'Receipt not found'], 201);
@@ -135,40 +137,77 @@ class ChequePaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     try {
+
+
+    //         $request->validate([
+    //             'vr_no' => 'required',
+    //             'vr_date' => 'required|date',
+    //             'amount' => 'required|numeric|min:0',
+    //             'bill_ref' => 'required|string|max:255',
+    //             'cheq_no' => 'required|string|max:255',
+    //             'cheq_date' => 'required|date',
+    //         ]);
+
+    //         $chequePayment = new ChequePayment();
+    //         $chequePayment->receipt_no = $request->receipt_no;
+    //         $chequePayment->vr_no = $request->vr_no;
+    //         $chequePayment->vr_date = $request->vr_date;
+    //         $chequePayment->amount = $request->amount;
+    //         $chequePayment->bill_ref = $request->bill_ref;
+    //         $chequePayment->cheq_no = $request->cheq_no;
+    //         $chequePayment->cheq_date = $request->cheq_date;
+
+
+    //         $chequePayment->status = 'pending';
+    //         $chequePayment->save();
+
+
+    //         session()->flash('message', 'Cheque Payment added successfully');
+    //         return response()->json(['success' => 'Cheque Payment added successfully']);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], 500); // General server error
+    //     }
+    // }
+
     public function store(Request $request)
     {
         try {
-
-
             $request->validate([
-                'vr_no' => 'required',
-                'vr_date' => 'required|date',
-                'amount' => 'required|numeric|min:0',
-                'bill_ref' => 'required|string|max:255',
-                'cheq_no' => 'required|string|max:255',
-                'cheq_date' => 'required|date',
+                'vr_no.*' => 'required',
+                'vr_date.*' => 'required|date',
+                'amount.*' => 'required|numeric|min:0',
+                // 'bill_ref.*' => 'required|string|max:255',
+                'cheq_no.*' => 'required|string|max:255',
+                'cheq_date.*' => 'required|date',
+                // 'is_paid.*' => 'required|boolean',
             ]);
 
-            $chequePayment = new ChequePayment();
-            $chequePayment->receipt_no = $request->receipt_no;
-            $chequePayment->vr_no = $request->vr_no;
-            $chequePayment->vr_date = $request->vr_date;
-            $chequePayment->amount = $request->amount;
-            $chequePayment->bill_ref = $request->bill_ref;
-            $chequePayment->cheq_no = $request->cheq_no;
-            $chequePayment->cheq_date = $request->cheq_date;
+            foreach ($request->vr_no as $index => $vr_no) {
+                if ($request->is_paid[$index] == 0) {
+                    $chequePayment = new ChequePayment();
+                    $chequePayment->receipt_no = $request->receipt_no[$index];
+                    $chequePayment->vr_no = $vr_no;
+                    $chequePayment->vr_date = $request->vr_date[$index];
+                    $chequePayment->amount = $request->amount[$index];
+                    $chequePayment->bill_ref = $request->bill_ref[$index];
+                    $chequePayment->cheq_no = $request->cheq_no[$index];
+                    $chequePayment->cheq_date = $request->cheq_date[$index];
+                    $chequePayment->status = 'pending';
+                    $chequePayment->save();
+                }
+            }
 
 
-            $chequePayment->status = 'pending';
-            $chequePayment->save();
-
-
-            session()->flash('message', 'Cheque Payment added successfully');
-            return response()->json(['success' => 'Cheque Payment added successfully']);
+            return response()->json(['success' => 'Cheque Payments added successfully'], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500); // General server error
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
 
     public function fetchMemberDesig(Request $request)
     {
@@ -238,9 +277,9 @@ class ChequePaymentController extends Controller
     {
         //
     }
-   
 
-    public function delete($vr_no,$vr_date)
+
+    public function delete($vr_no, $vr_date)
     {
         $chequePayment = ChequePayment::where('vr_no', $vr_no)
             ->where('vr_date', $vr_date)
