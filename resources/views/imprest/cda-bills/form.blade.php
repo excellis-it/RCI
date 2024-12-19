@@ -8,7 +8,7 @@
                         @csrf
                         <div class="form-group col-md-4">
                             <label for="">CDA Bill No</label>
-                            <input type="number" class="form-control" name="cda_bill_no" id="cda_bill_no">
+                            <input type="text" class="form-control" name="cda_bill_no" id="cda_bill_no">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
