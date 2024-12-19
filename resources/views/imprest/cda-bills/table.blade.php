@@ -32,6 +32,7 @@
                         <td>{{ $advance_settel->chq_no ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->chq_date ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->variableType->name ?? 'N/A' }}</td>
+                        
 
                     </tr>
                 @endforeach

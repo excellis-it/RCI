@@ -12,10 +12,12 @@
             <td>{{ $advance_settlement->chq_no ?? 'N/A' }}</td>
             <td>{{ $advance_settlement->chq_date ?? 'N/A' }}</td>
             <td>{{ $advance_settlement->variableType->name ?? 'N/A' }}</td>
-            {{-- <td class="sepharate">
-                {{-- <a  href="{{route('advance-settlement.edit', $advance_settlement->id)}}" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> 
-                {{-- <a href="javascript:void(0);" id="advance-sttl-delete" class="delete" data-route="{{ route('advance-settlement.delete', $advance_settlement->id)}}"><i class="ti ti-trash"></i></a> 
-            </td> --}}
+            <td>
+                <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2" id="advance-sttl-delete"
+                    data-route="{{ route('advance-settlement.delete',$advance_settlement->id) }}">
+                <i class="ti ti-trash"></i>
+            </td>
+        </a>
         </tr>
     @endforeach
     <tr class="toxic">

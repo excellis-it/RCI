@@ -4,6 +4,11 @@
 @endsection
 
 @push('styles')
+<style>
+     .swal2-warning.swal2-icon-show .swal2-icon-content {
+            font-size: 0.75em !important;
+        }
+</style>
 @endpush
 
 @section('content')
@@ -70,6 +75,7 @@
                                     <th>Cheque No</th>
                                     <th>Cheque Date</th>
                                     <th>Variable Type</th>
+                                   
 
                                 </tr>
                             </thead>
@@ -90,6 +96,7 @@
                                             <td>{{ $advance_bill->chq_no ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->chq_date ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->variableType->name ?? 'N/A' }}</td>
+
 
                                         </tr>
                                     @endforeach
@@ -286,4 +293,6 @@
             });
         });
     </script>
+
+
 @endpush

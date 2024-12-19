@@ -49,7 +49,7 @@ class CdaReceiptController extends Controller
         $billIds = $receipt_bills->pluck('bill_id')->toArray();
 
         // foreach ($receipt_bills as $receipt_bill) {
-        //     $receipt_bill->bill_id = 
+        //     $receipt_bill->bill_id =
 
         // }
 
@@ -253,12 +253,12 @@ class CdaReceiptController extends Controller
     /**
      * Delete record
      */
-    public function delete($id)
-    {
+    // public function delete($bill_id)
+    // {
 
-        $cdaReceipt = CDAReceipt::findOrFail($id);
-        $cdaReceipt->delete();
+    //     $cdaReceipt = CDAReceipt::findOrFail($bill_id);
+    //     $cdaReceipt->delete();
 
-        return redirect()->back()->with('message', 'CDA Receipt deleted successfully.');
-    }
+    //     return redirect()->back()->with('message', 'CDA Receipt deleted successfully.');
+    // }
 }

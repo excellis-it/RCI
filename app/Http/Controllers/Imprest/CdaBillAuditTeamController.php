@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\VariableType;
 use App\Models\AdvanceFundToEmployee;
 use App\Models\AdvanceSettlement;
+use App\Models\CDAReceipt;
 use Illuminate\Support\Str;
 
 class CdaBillAuditTeamController extends Controller
@@ -34,10 +35,12 @@ class CdaBillAuditTeamController extends Controller
 
             // If a matching CdaBillAuditTeam is found, assign its values to the advance_bill object
             if ($cda_bill) {
+                $advance_bill->cda_bill_id = $cda_bill->id;
                 $advance_bill->cda_bill_no = $cda_bill->cda_bill_no;
                 $advance_bill->cda_bill_date = $cda_bill->cda_bill_date;
             } else {
                 // If no matching CdaBillAuditTeam is found, set to 'N/A' or any default value
+                $advance_bill->cda_bill_id = 0;
                 $advance_bill->cda_bill_no = 'N/A';
                 $advance_bill->cda_bill_date = 'N/A';
             }
@@ -202,13 +205,19 @@ class CdaBillAuditTeamController extends Controller
         return response()->json(['success' => 'CDA bill updated successfully']);
     }
 
-    public function delete(string $id)
-    {
-        $cdaBill = CdaBillAuditTeam::find($id);
-        $cdaBill->delete();
+    // public function delete($id)
+    // {
 
-        return redirect()->back()->with('message', 'CDA bill deleted successfully');
-    }
+    //     $cda_bill =  CdaBillAuditTeam::findOrFail($id);
+    //     CDAReceipt::where('bill_id', $id)->delete();
+    //     AdvanceSettlement::where('id', $id)
+    //     ->update(['bill_status'=>0,'receipt_status'=>0]);
+    //     $cda_bill->delete();
+
+    //     return redirect()->back()->with('message', 'CDA bill deleted successfully');
+    // }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -217,4 +226,5 @@ class CdaBillAuditTeamController extends Controller
     {
         //
     }
+
 }

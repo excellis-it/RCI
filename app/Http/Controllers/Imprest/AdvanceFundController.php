@@ -14,6 +14,9 @@ use App\Models\Member;
 use App\Models\MemberCoreInfo;
 use App\Models\MemberPersonalInfo;
 use App\Models\Bank;
+use App\Models\AdvanceSettlement;
+use App\Models\CdaBillAuditTeam;
+use App\Models\CDAReceipt;
 
 class AdvanceFundController extends Controller
 {
@@ -120,9 +123,8 @@ class AdvanceFundController extends Controller
             // 'basic' => 'required',
             // 'group' => 'required',
             // 'division' => 'required',
-            'adv_no' => 'required',
             'adv_date' => 'required',
-            'adv_amount' => 'required|numeric',
+            'adv_amount' => 'required|numeric|min:1',
             'project_id' => 'required',
             'var_type_id' => 'required',
             'chq_no' => 'required',
@@ -130,23 +132,30 @@ class AdvanceFundController extends Controller
         ]);
 
 
-        $advance_fund = new AdvanceFundToEmployee();
-        // $advance_fund->pc_no = $request->pc_no;
-        $advance_fund->member_id = $request->member_id;
-        $advance_fund->emp_id = $request->emp_id;
-        // $advance_fund->name = $request->name;
-        // $advance_fund->desig = $request->desig;
-        // $advance_fund->basic = $request->basic;
-        // $advance_fund->group = $request->group;
-        // $advance_fund->division = $request->division;
-        $advance_fund->adv_no = $request->adv_no;
-        $advance_fund->adv_date = $request->adv_date;
-        $advance_fund->adv_amount = $request->adv_amount;
-        $advance_fund->project_id = $request->project_id;
-        $advance_fund->var_type_id = $request->var_type_id;
-        $advance_fund->chq_no = $request->chq_no;
-        $advance_fund->chq_date = $request->chq_date;
-        $advance_fund->save();
+        // Create the advance fund record using mass assignment
+        // Get the current month and year
+        $currentMonth = now()->format('Y-m');
+
+        // Find the highest `adv_no` for the current month
+        $lastAdvNo = AdvanceFundToEmployee::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->max('adv_no');
+
+        // Generate a new `adv_no` by incrementing the last `adv_no` found or starting from 1
+        $newAdvNo = $lastAdvNo ? $lastAdvNo + 1 : 1;
+
+        // Create the new record
+        $advance_fund = AdvanceFundToEmployee::create([
+            'member_id' => $request->member_id,
+            'emp_id' => $request->emp_id,
+            'adv_date' => $request->adv_date,
+            'adv_amount' => $request->adv_amount,
+            'project_id' => $request->project_id,
+            'var_type_id' => $request->var_type_id,
+            'chq_no' => $request->chq_no,
+            'chq_date' => $request->chq_date,
+            'adv_no' => $newAdvNo, // Assign the unique monthly `adv_no`
+        ]);
 
         session()->flash('message', 'Advance fund added successfully');
         return response()->json(['success' => 'Advance fund added successfully']);
@@ -191,9 +200,8 @@ class AdvanceFundController extends Controller
             // 'basic' => 'required',
             // 'group' => 'required',
             // 'division' => 'required',
-            'adv_no' => 'required',
             'adv_date' => 'required',
-            'adv_amount' => 'required|numeric',
+            'adv_amount' => 'required|numeric|min:1',
             'project_id' => 'required',
             'var_type_id' => 'required',
             'chq_no' => 'required',
@@ -209,7 +217,7 @@ class AdvanceFundController extends Controller
         // $advance_fund->basic = $request->basic;
         // $advance_fund->group = $request->group;
         // $advance_fund->division = $request->division;
-        $advance_fund->adv_no = $request->adv_no;
+        // $advance_fund->adv_no = $request->adv_no;
         $advance_fund->adv_date = $request->adv_date;
         $advance_fund->adv_amount = $request->adv_amount;
         $advance_fund->project_id = $request->project_id;
@@ -242,11 +250,27 @@ class AdvanceFundController extends Controller
         }
     }
 
+
+
     public function delete($id)
     {
-        $advance_fund = AdvanceFundToEmployee::findOrFail($id);
-        $advance_fund->delete();
+        try {
+            // Fetch and delete the advance fund record
+            $advance_fund = AdvanceFundToEmployee::where('id', $id)
+                ->firstOrFail();
 
-        return redirect()->back()->with('message', 'Advance fund deleted successfully.');
+            AdvanceSettlement::where('adv_no', $advance_fund->adv_no)->where('adv_date', $advance_fund->adv_date)->delete();
+            $bill = CdaBillAuditTeam::where('adv_no', $advance_fund->adv_no)->where('adv_date', $advance_fund->adv_date)->first();
+            if ($bill) {
+                CDAReceipt::where('bill_id', $bill->id)->delete();
+                $bill->delete();
+            }
+            $advance_fund->delete();
+
+            session()->flash('message', 'Advance fund and associated records deleted successfully.');
+            return redirect()->route('advance-settlement.index')->with('success', 'Advance fund deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error deleting Advance fund: ' . $e->getMessage());
+        }
     }
 }
