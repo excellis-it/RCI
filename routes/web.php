@@ -853,7 +853,7 @@ Route::middleware('permssions')->group(function () {
 
         // cda receipt
         Route::prefix('cda-receipts')->group(function () {
-            Route::get('/cda-receipts-delete/{id}', [CdaReceiptController::class, 'delete'])->name('cda-receipts.delete');
+            Route::get('/cda-receipts-delete/{bill_id}', [CdaReceiptController::class, 'delete'])->name('cda-receipts.delete');
         });
         Route::get('/cda-receipts-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipts.fetch-data');
 

@@ -4,6 +4,11 @@
 @endsection
 
 @push('styles')
+    <style>
+         .swal2-warning.swal2-icon-show .swal2-icon-content {
+            font-size: 0.75em !important;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -78,6 +83,7 @@
                                                     style="cursor: pointer">Cheque Date <span id="pers_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Variable Type </th>
+                                                <th>Actions</th>
 
                                                 {{-- <th></th> --}}
                                             </tr>
@@ -229,4 +235,6 @@
                 })
         });
     </script>
+
+
 @endpush

@@ -4,6 +4,13 @@
 @endsection
 
 @push('styles')
+<style>
+
+.swal2-warning.swal2-icon-show .swal2-icon-content {
+            font-size: 0.75em !important;
+        }
+</style>
+
 @endpush
 
 @section('content')
@@ -70,6 +77,7 @@
                                     <th>DV Date</th>
                                     <th>Rct Vr. Amount</th>
                                     <th>Details</th>
+                                    
 
 
                                     {{-- <th>Project</th>
@@ -293,4 +301,6 @@
             });
         });
     </script>
+
+
 @endpush

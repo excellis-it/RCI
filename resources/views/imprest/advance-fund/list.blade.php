@@ -293,7 +293,7 @@
     </script>
 
     <script>
-        $(document).on('click', '#delete', function(e) {
+        $(document).on('click', '#delete-advance-funds', function(e) {
             swal({
                     title: "Are you sure?",
                     text: "To delete this Advance Fund!",

@@ -9,6 +9,9 @@ use App\Models\Project;
 use App\Models\VariableType;
 use App\Models\AdvanceSettlementBill;
 use App\Models\AdvanceFundToEmployee;
+use App\Models\CdaBillAuditTeam;
+use App\Models\CDAReceipt;
+use Illuminate\Support\Facades\DB;
 
 class AdvanceSettlementController extends Controller
 {
@@ -286,10 +289,31 @@ class AdvanceSettlementController extends Controller
     }
 
     public function delete($id)
-    {
-        $advance_settlement = AdvanceSettlement::find($id);
+{
+    try {
+        $advance_settlement = AdvanceSettlement::findOrFail($id);
+        // $advance_settlement->bill_status = 0;
+        // $advance_settlement->receipt_status = 0;
+        // $advance_settlement->save();
+
+
+        $bill = CdaBillAuditTeam::where('adv_no', $advance_settlement->adv_no)->where('adv_date', $advance_settlement->adv_date)->first();
+        if ($bill) {
+            CDAReceipt::where('bill_id', $bill->id)->delete();
+            $bill->delete();
+        }
         $advance_settlement->delete();
 
-        return redirect()->route('advance-settlement.index')->with('message', 'Advance Settlement deleted successfully');
+
+
+        session()->flash('message', 'Advance Settlement deleted successfully.');
+        return redirect()->route('advance-settlement.index')->with('success', 'Advance Settlement deleted successfully.');
+    } catch (\Exception $e) {
+
+
+        return redirect()->back()->with('error', 'Error deleting Advance Settlement: ' . $e->getMessage());
     }
+}
+
+
 }
