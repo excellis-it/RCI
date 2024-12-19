@@ -32,11 +32,22 @@ class AdvanceSettlementController extends Controller
         $balance = 0;
         $isdata = 0;
 
+        $lastvr = AdvanceSettlement::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->orderBy('id', 'desc')
+            ->lockForUpdate()
+            ->first();
+
+        $lastVarNo = $lastvr ? $lastvr->var_no : 0;
+        $varNo = $lastVarNo + 1;
+
         $advance_funds = AdvanceFundToEmployee::where('adv_no', $adv_no)->where('adv_date', $adv_date)->first();
         $advance_settels = AdvanceSettlement::where('adv_no', $adv_no)->where('adv_date', $adv_date)->get();
 
 
         if ($advance_funds) {
+
+
 
             $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $request->adv_no)
                 ->where('adv_date', $request->adv_date)
@@ -59,7 +70,10 @@ class AdvanceSettlementController extends Controller
             $isdata = 1;
         }
 
-        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds', 'advance_settels', 'balance'))->render(), 'isdata' => $isdata]);
+        // dd($advance_settels);
+        // die;
+
+        return response()->json(['view' => view('imprest.advance-settlement.form-data', compact('advance_funds', 'advance_settels', 'balance', 'varNo'))->render(), 'isdata' => $isdata]);
     }
 
     /**
@@ -112,7 +126,7 @@ class AdvanceSettlementController extends Controller
             'var_no' => 'required',
             'var_date' => 'required',
             'var_amount' => 'required',
-            'var_type_id' => 'required',
+            //   'var_type_id' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
             'bill_amount' => 'required',
@@ -289,31 +303,29 @@ class AdvanceSettlementController extends Controller
     }
 
     public function delete($id)
-{
-    try {
-        $advance_settlement = AdvanceSettlement::findOrFail($id);
-        // $advance_settlement->bill_status = 0;
-        // $advance_settlement->receipt_status = 0;
-        // $advance_settlement->save();
+    {
+        try {
+            $advance_settlement = AdvanceSettlement::findOrFail($id);
+            // $advance_settlement->bill_status = 0;
+            // $advance_settlement->receipt_status = 0;
+            // $advance_settlement->save();
 
 
-        $bill = CdaBillAuditTeam::where('adv_no', $advance_settlement->adv_no)->where('adv_date', $advance_settlement->adv_date)->first();
-        if ($bill) {
-            CDAReceipt::where('bill_id', $bill->id)->delete();
-            $bill->delete();
+            $bill = CdaBillAuditTeam::where('adv_no', $advance_settlement->adv_no)->where('adv_date', $advance_settlement->adv_date)->first();
+            if ($bill) {
+                CDAReceipt::where('bill_id', $bill->id)->delete();
+                $bill->delete();
+            }
+            $advance_settlement->delete();
+
+
+
+            session()->flash('message', 'Advance Settlement deleted successfully.');
+            return redirect()->route('advance-settlement.index')->with('success', 'Advance Settlement deleted successfully.');
+        } catch (\Exception $e) {
+
+
+            return redirect()->back()->with('error', 'Error deleting Advance Settlement: ' . $e->getMessage());
         }
-        $advance_settlement->delete();
-
-
-
-        session()->flash('message', 'Advance Settlement deleted successfully.');
-        return redirect()->route('advance-settlement.index')->with('success', 'Advance Settlement deleted successfully.');
-    } catch (\Exception $e) {
-
-
-        return redirect()->back()->with('error', 'Error deleting Advance Settlement: ' . $e->getMessage());
     }
-}
-
-
 }

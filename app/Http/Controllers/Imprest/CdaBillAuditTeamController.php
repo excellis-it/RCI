@@ -23,9 +23,9 @@ class CdaBillAuditTeamController extends Controller
         // $cdaBills = CdaBillAuditTeam::orderBy('id', 'desc')->with('project','variableType')->paginate(10);
         $projects = Project::orderBy('id', 'desc')->where('status', 1)->get();
         $variable_types = VariableType::orderBy('id', 'desc')->where('status', 1)->get();
-        $advance_settels = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 0)->get();
+        $advance_settels = AdvanceSettlement::where('bill_status', 0)->orderBy('id', 'desc')->get();
 
-        $advance_bills = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->orderBy('id', 'desc')->get();
+        $advance_bills = AdvanceSettlement::where('bill_status', 1)->orderBy('id', 'desc')->get();
 
         foreach ($advance_bills as $advance_bill) {
             // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
@@ -226,5 +226,4 @@ class CdaBillAuditTeamController extends Controller
     {
         //
     }
-
 }

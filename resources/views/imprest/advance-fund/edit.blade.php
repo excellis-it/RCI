@@ -133,12 +133,12 @@
             <div class="row align-items-end">
                 <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
-                        {{-- <div class="col-md-12">
+                        <div class="col-md-12">
                             <label>Adv No</label>
-                        </div> --}}
+                        </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="adv_no"
-                                value="{{ $advance_fund->adv_no }}" placeholder="">
+                                value="{{ $advance_fund->adv_no }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="date" class="form-control" name="adv_date"
-                                value="{{ $advance_fund->adv_date }}" placeholder="">
+                                value="{{ $advance_fund->adv_date }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>

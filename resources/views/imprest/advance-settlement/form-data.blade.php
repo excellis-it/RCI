@@ -25,7 +25,7 @@
                 <td>{{ $advance_funds->project->name ?? 'N/A' }}</td>
                 <td>{{ $advance_funds->chq_no ?? 'N/A' }}</td>
                 <td>{{ $advance_funds->chq_date ?? 'N/A' }}</td>
-                <td>{{ $advance_funds->variableType->name ?? 'N/A' }}</td>
+                <td>{{ isset($advance_funds->variableType) ? $advance_funds->variableType->name : 'N/A' }}</td>
 
             </tr>
         </tbody>
@@ -66,7 +66,8 @@
                         <td>{{ $advance_settel->project->name ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->chq_no ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->chq_date ?? 'N/A' }}</td>
-                        <td>{{ $advance_settel->variableType->name ?? 'N/A' }}</td>
+                        <td>{{ isset($advance_settel->variableType) ? $advance_settel->variableType->name : 'N/A' }}
+                        </td>
 
                     </tr>
                 @endforeach
@@ -129,7 +130,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="var_no" id="var_no"
-                            value="{{ old('var_no') ?? '' }}" placeholder="" >
+                            value="{{ $varNo }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -142,7 +143,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="date" class="form-control" name="var_date" id="var_date"
-                            value="{{ old('var_date') ?? '' }}" placeholder="" >
+                            value="{{ old('var_date') ?? date('Y-m-d') }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -155,7 +156,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="var_amount" id="var_amount"
-                            value="{{ old('var_amount') ?? '' }}" placeholder="" >
+                            value="{{ old('var_amount') ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -168,12 +169,14 @@
                     </div>
                     <div class="col-md-12">
                         <select name="var_type_id" id="var_type_id" class="form-control" readonly>
-                            <option value="{{ $advance_funds->variableType->id }}" >
-                                {{ $advance_funds->variableType->name }}
+
+                            <option
+                                value="{{ isset($advance_funds->variableType) ? $advance_funds->variableType->id : '' }}">
+                                {{ isset($advance_funds->variableType) ? $advance_funds->variableType->name : '' }}
                             </option>
 
                         </select>
-                        <span class="text-danger"></span>
+
                     </div>
                 </div>
             </div>
@@ -186,7 +189,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="chq_no" id="chq_no"
-                            value="{{ old('chq_no') ?? '' }}" placeholder="" >
+                            value="{{ old('chq_no') ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -199,7 +202,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="date" class="form-control" name="chq_date" id="chq_date"
-                            value="{{ old('chq_date') ?? '' }}" placeholder="" >
+                            value="{{ date('Y-m-d') }} }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -212,7 +215,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="firm" id="firm"
-                            value="{{ old('firm') ?? '' }}" placeholder="" >
+                            value="{{ old('firm') ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -226,7 +229,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="number" class="form-control" name="bill_amount" id="bill_amount"
-                            value="{{ old('bill_amount') ?? '' }}" placeholder="" >
+                            value="{{ old('bill_amount') ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

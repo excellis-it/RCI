@@ -8,7 +8,7 @@
                 <th>Adv Date</th>
                 <th>Member Name</th>
                 <th>Amount</th>
-                <th>Adv Settlement Balance</th>
+                <th>Bill Amount</th>
                 <th>Project</th>
                 <th>Cheque No</th>
                 <th>Cheque Date</th>
@@ -26,13 +26,13 @@
                         <td>{{ $advance_settel->adv_date ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->member->name ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->adv_amount ?? 'N/A' }}</td>
+                        <td>{{ $advance_settel->bill_amount ?? 'N/A' }}</td>
 
-                        <td>Settled</td>
                         <td>{{ $advance_settel->project->name ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->chq_no ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->chq_date ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->variableType->name ?? 'N/A' }}</td>
-                        
+
 
                     </tr>
                 @endforeach
