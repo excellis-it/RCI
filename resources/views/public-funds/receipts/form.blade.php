@@ -115,9 +115,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control bank_acc" readonly>
-                                                <span class="text-danger" style="display:none; color:red;">Bank Acc
-                                                    field is
-                                                    required</span>
+
                                             </div>
                                         </div>
                                     </div>
