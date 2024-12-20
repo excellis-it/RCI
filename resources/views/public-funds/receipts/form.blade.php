@@ -25,7 +25,8 @@
                                 <label>Vr. Date</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date" class="form-control" name="vr_date" id="vr_date">
+                                <input type="date" class="form-control" name="vr_date" id="vr_date"
+                                    value="{{ date('Y-m-d') }}" readonly>
                                 <span class="text-danger" style="display:none; color:red;">Vr. Date field is
                                     required</span>
                             </div>
@@ -114,9 +115,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control bank_acc" readonly>
-                                                <span class="text-danger" style="display:none; color:red;">Bank Acc
-                                                    field is
-                                                    required</span>
+
                                             </div>
                                         </div>
                                     </div>

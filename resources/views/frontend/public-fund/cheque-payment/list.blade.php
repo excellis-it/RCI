@@ -703,6 +703,14 @@
 
                 if (!allValid) e.preventDefault();
 
+                let difference = calculateBillAmountSum();
+
+                // If the difference is not zero, prevent form submission
+                if (difference !== 0) {
+                    e.preventDefault(); // Prevent form submission
+                    toastr.error('Cheque amount is different');
+                }
+
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -728,6 +736,34 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        // Function to calculate the sum of all bill amounts
+        function calculateBillAmountSum() {
+            let totalAmount = 0;
+
+            // Loop through each bill amount input field and sum the values
+            $('.bill-amount').each(function() {
+                let billAmount = parseFloat($(this).val()) || 0; // Get value and default to 0 if not a valid number
+                totalAmount += billAmount;
+            });
+
+            // Get main amount value
+            let mainAmount = parseFloat($('#main_cheq_amount').val()) || 0;
+            let difference = mainAmount - totalAmount; // Calculate the difference
+
+            // Optionally, you can display the sum and difference in a specific element
+            $('#total_amount').text('Total Bill Amount: ' + totalAmount);
+            $('#difference_amount').text('Difference: ' + difference);
+
+            return difference; // Return the difference
+        }
+
+        // Trigger the calculation whenever a bill amount input changes
+        $('.bill-amount').on('input', function() {
+            calculateBillAmountSum();
         });
     </script>
 @endpush

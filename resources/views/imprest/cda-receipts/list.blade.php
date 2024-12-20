@@ -4,13 +4,11 @@
 @endsection
 
 @push('styles')
-<style>
-
-.swal2-warning.swal2-icon-show .swal2-icon-content {
+    <style>
+        .swal2-warning.swal2-icon-show .swal2-icon-content {
             font-size: 0.75em !important;
         }
-</style>
-
+    </style>
 @endpush
 
 @section('content')
@@ -76,8 +74,8 @@
                                     <th>DV No</th>
                                     <th>DV Date</th>
                                     <th>Rct Vr. Amount</th>
-                                    <th>Details</th>
-                                    
+                                    {{-- <th>Details</th> --}}
+
 
 
                                     {{-- <th>Project</th>
@@ -97,7 +95,7 @@
                                             <td>{{ $receipt_bill->dv_no ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->dv_date ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->rct_vr_amount ?? 'N/A' }}</td>
-                                            <td>{{ $receipt_bill->remark ?? 'N/A' }}</td>
+                                            {{-- <td>{{ $receipt_bill->remark ?? 'N/A' }}</td> --}}
 
 
                                             {{-- <td>{{ $receipt_bill->project->name ?? 'N/A' }}</td>
@@ -301,6 +299,4 @@
             });
         });
     </script>
-
-
 @endpush
