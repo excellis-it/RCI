@@ -381,33 +381,15 @@ class ReceiptController extends Controller
      */
     public function destroy(string $id) {}
 
-    public function delete($vr_no, $vr_date)
+    
+    public function delete($id)
     {
-        DB::beginTransaction(); // Begin a database transaction
-        try {
-            // Find the receipt based on vr_no and vr_date
-            $receipt = Receipt::where('vr_no', $vr_no)
-                ->where('vr_date', $vr_date)
-                ->firstOrFail();
+        $receipt = Receipt::findOrFail($id);
+        ReceiptMember::where('receipt_id', $receipt->id)->delete();
 
-            // Delete associated receipt members
-            ReceiptMember::where('receipt_id', $receipt->id)->delete();
+        $receipt->delete();
 
-
-            // Delete the receipt
-            $receipt->delete();
-
-            DB::commit(); // Commit the transaction
-
-            // Flash success message and redirect
-            session()->flash('message', 'Receipt deleted successfully');
-            return redirect()->route('receipts.index')->with('success', 'Receipt deleted successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack(); // Rollback the transaction in case of error
-
-            // Redirect back with error message
-            return redirect()->back()->with('error', 'Error deleting receipt: ' . $e->getMessage());
-        }
+        return redirect()->back()->with('message', 'Receipt deleted successfully.');
     }
 
 

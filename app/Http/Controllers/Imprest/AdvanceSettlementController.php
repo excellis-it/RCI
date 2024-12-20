@@ -321,7 +321,7 @@ class AdvanceSettlementController extends Controller
 
 
             session()->flash('message', 'Advance Settlement deleted successfully.');
-            return redirect()->route('advance-settlement.index')->with('success', 'Advance Settlement deleted successfully.');
+            return redirect()->back()->with('success', 'Advance Settlement deleted successfully.');
         } catch (\Exception $e) {
 
 

@@ -6,18 +6,18 @@
                 <div class="row justify-content-end">
 
                     <div class="form-group col-md-4">
-                        <label for="">Cheque Amount</label>
-                        <input type="number" class="form-control " name="" id="">
+                        <label for="">Main Amount</label>
+                        <input type="text" class="form-control" name="main_amt" id="main_amt">
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Cheque No.</label>
-                        <input type="number" class="form-control rct-chqno" name="cheq_no" id="cheq_no" required>
+                        <input type="text" class="form-control rct-chqno" name="cheq_no" id="cheq_no">
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Cheque Date</label>
-                        <input type="date" class="form-control rct-chqdt" name="cheq_date" id="cheq_date" required>
+                        <input type="date" class="form-control rct-chqdt" name="cheq_date" id="cheq_date">
                         <span class="text-danger"></span>
                     </div>
 
@@ -39,12 +39,12 @@
 
                         <div class="form-group col-md-4">
                             <label for="">Vr. No</label>
-                            <input type="number" class="form-control" name="vr_no" id="vr_no" required>
+                            <input type="number" class="form-control" name="vr_no" id="vr_no">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Vr. Date</label>
-                            <input type="date" class="form-control" name="vr_date" id="vr_date" required>
+                            <input type="date" class="form-control" name="vr_date" id="vr_date">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">

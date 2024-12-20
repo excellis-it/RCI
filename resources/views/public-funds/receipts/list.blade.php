@@ -771,29 +771,29 @@
         }
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.delete-receipt').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const deleteUrl = this.dataset.deleteUrl;
+     $(document).on('click', '#delete', function() {
+            //swal alert then call ajax
+            var route = $(this).data('route');
 
-                Swal.fire({
-                    title: 'Are you sure want to delete?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirect to the delete URL
-                        window.location.href = deleteUrl;
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this Receipt!",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
                     }
-                });
-            });
+                })
         });
-    });
 </script>
 @endpush

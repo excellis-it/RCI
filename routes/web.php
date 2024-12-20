@@ -258,7 +258,7 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])->name('receipts.edit');
     Route::put('/receipts/{id}', [ReceiptController::class, 'update'])->name('receipts.update');
-    Route::get('/receipts/{vr_no}/{vr_date}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
+    Route::get('/receipts/{id}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
 
     Route::get('/receipts-report', [ReceiptController::class, 'receiptReport'])->name('receipts.report');
     Route::post('/receipts-report-generate', [ReceiptController::class, 'receiptReportGenerate'])->name('receipts.report.generate');
@@ -680,7 +680,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/cash-payments-get-details', [CashPaymentController::class, 'getRctNoDetail'])->name('cash-payments.get-details');
     //cheque payment
     Route::prefix('cheque-payments')->group(function () {
-        Route::get('/delete/{vr_no}/{vr_date}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
+        Route::get('/delete/{id}', [ChequePaymentController::class, 'delete'])->name('cheque-payments.delete');
 
         Route::post('/get-receipt', [ChequePaymentController::class, 'getReceipt'])->name('cheque-payments.get-receipt');
     });
