@@ -188,6 +188,7 @@ class ChequePaymentController extends Controller
             foreach ($request->vr_no as $index => $vr_no) {
                 if ($request->is_paid[$index] == 0) {
                     $chequePayment = new ChequePayment();
+                    $chequePayment->receipt_id = $request->receipt_id[$index];
                     $chequePayment->receipt_no = $request->receipt_no[$index];
                     $chequePayment->vr_no = $vr_no;
                     $chequePayment->vr_date = $request->vr_date[$index];

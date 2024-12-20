@@ -415,13 +415,6 @@
                     } else {
                         $errorSpan.hide();
                     }
-                } else if ($input.attr('type') === 'text' && inputName === 'bank_acc') {
-                    if ($input.val().trim() === '') {
-                        $errorSpan.html('Bank Acc is required').show();
-                        hasErrors = true;
-                    } else {
-                        $errorSpan.hide();
-                    }
                 } else if ($input.attr('type') === 'number' && inputName === 'amount') {
                     if ($input.val().trim() === '') {
                         $errorSpan.html('Amount is required').show();
@@ -474,13 +467,7 @@
                     } else {
                         $errorSpan.hide();
                     }
-                } else if ($input.attr('type') === 'text' && inputName === 'bank_acc') {
-                    if ($input.val().trim() === '') {
-                        $errorSpan.html('Bank Acc is required').show();
-                        hasErrors = true;
-                    } else {
-                        $errorSpan.hide();
-                    }
+
                 } else if ($input.attr('type') === 'number' && inputName === 'amount') {
                     if ($input.val().trim() === '') {
                         $errorSpan.html('Amount is required').show();
@@ -504,19 +491,19 @@
 
             //validate for textarea group
 
-         /*   $('#create_form .form-group').each(function() {
-                const $textarea = $(this).find('textarea');
-                const $errorSpan = $(this).find('.text-danger');
+            /*   $('#create_form .form-group').each(function() {
+                   const $textarea = $(this).find('textarea');
+                   const $errorSpan = $(this).find('.text-danger');
 
-                if ($textarea.length > 0) {
-                    if ($textarea.val().trim() === '') {
-                        $errorSpan.text('Narration is required').show();
-                        hasErrors = true;
-                    } else {
-                        $errorSpan.hide();
-                    }
-                }
-            });*/
+                   if ($textarea.length > 0) {
+                       if ($textarea.val().trim() === '') {
+                           $errorSpan.text('Narration is required').show();
+                           hasErrors = true;
+                       } else {
+                           $errorSpan.hide();
+                       }
+                   }
+               });*/
 
 
             // Validate radio button groups
@@ -628,7 +615,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control bank_acc" readonly>
-                            <span class="text-danger"  style="display:none;">Bank Acc is required</span>
+                            
                         </div>
                     </div>
                 </div>
@@ -773,29 +760,29 @@
         }
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.delete-receipt').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const deleteUrl = this.dataset.deleteUrl;
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-receipt').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const deleteUrl = this.dataset.deleteUrl;
 
-                Swal.fire({
-                    title: 'Are you sure want to delete?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirect to the delete URL
-                        window.location.href = deleteUrl;
-                    }
+                    Swal.fire({
+                        title: 'Are you sure want to delete?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to the delete URL
+                            window.location.href = deleteUrl;
+                        }
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>
 @endpush

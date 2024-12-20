@@ -1,35 +1,35 @@
 <div class="pay_form">
 
     <div class="row">
+
+    </div>
+
+
+    <div class="row">
         <div class="col-lg-6">
             <div class="form-group mb-2">
                 <div class="row justify-content-end">
 
                     <div class="form-group col-md-4">
                         <label for="">Cheque Amount</label>
-                        <input type="number" class="form-control " name="" id="">
-                        <span class="text-danger"></span>
+                        <input type="number" class="form-control " name="" id="main_cheq_amount">
+                        <span class="text-danger" style="display: none">Cheque Amount Required</span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Cheque No.</label>
-                        <input type="number" class="form-control rct-chqno" name="cheq_no" id="cheq_no" required>
-                        <span class="text-danger"></span>
+                        <input type="number" class="form-control rct-chqno" id="cheq_no" required>
+                        <span class="text-danger" style="display: none">Cheque No Required</span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Cheque Date</label>
-                        <input type="date" class="form-control rct-chqdt" name="cheq_date" id="cheq_date" required>
-                        <span class="text-danger"></span>
+                        <input type="date" class="form-control rct-chqdt" id="cheq_date" required>
+                        <span class="text-danger" style="display: none">Cheque Date Required</span>
                     </div>
-
 
                 </div>
             </div>
         </div>
 
-    </div>
-
-
-    <div class="row">
         <div class="col-lg-6">
             <form id="search_receipt_form" method="POST">
                 @csrf
@@ -39,12 +39,12 @@
 
                         <div class="form-group col-md-4">
                             <label for="">Vr. No</label>
-                            <input type="number" class="form-control" name="vr_no" id="vr_no" required>
+                            <input type="number" class="form-control" name="vr_no" id="vr_no">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Vr. Date</label>
-                            <input type="date" class="form-control" name="vr_date" id="vr_date" required>
+                            <input type="date" class="form-control" name="vr_date" id="vr_date">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
