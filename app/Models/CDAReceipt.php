@@ -26,4 +26,9 @@ class CDAReceipt extends Model
     {
         return $this->belongsTo(CdaReceiptDetail::class, 'details');
     }
+
+    public function cdaBill()
+    {
+        return $this->belongsTo(CdaBillAuditTeam::class, 'bill_id');
+    }
 }

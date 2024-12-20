@@ -385,13 +385,16 @@ class ChequePaymentController extends Controller
 
         $vr_date = $request->date;
 
+        $chq_date = $request->date;
+
         $members = Member::orderBy('id', 'desc')->get();
 
         $category = PaymentCategory::orderBy('id', 'asc')->get();
 
         // return $category;
 
-        $payments = DB::table('cheque_payments')->where('vr_date', $vr_date)->get();
+        // $payments = DB::table('cheque_payments')->where('vr_date', $vr_date)->get();
+        $payments = DB::table('cheque_payments')->where('cheq_date', $vr_date)->get();
 
         //  return $payments;
 
@@ -466,10 +469,10 @@ class ChequePaymentController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts', 'settings'))->setPaper('a3', 'landscape');
-        return $pdf->download('payment-report-' . $vr_date . '.pdf');
+        //  $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts', 'settings'))->setPaper('a3', 'landscape');
+        //   return $pdf->download('payment-report-' . $vr_date . '.pdf');
 
-        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
+        return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
     }
 
 

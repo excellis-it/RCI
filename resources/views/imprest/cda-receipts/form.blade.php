@@ -4,7 +4,7 @@
 
 
 
-        <table class="table ">
+        {{-- <table class="table">
             <thead class="">
                 <tr>
 
@@ -50,7 +50,7 @@
                     </tr>
                 @endif
             </tbody>
-        </table>
+        </table> --}}
 
         <div class="row">
             <div class="col-12">
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control" name="rct_vr_no" id="rct_vr_no"
-                                        placeholder="" >
+                                        value="{{ $rctNo }}" placeholder="" readonly>
                                     <span class="text-danger"></span>
 
                                 </div>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" name="rct_vr_date" id="rct_vr_date"
-                                        placeholder="" >
+                                        placeholder="" value="{{ date('Y-m-d') }}" readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>DV No</label>
+                                    <label>DV No<span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control" name="dv_no" id="dv_no"
@@ -102,46 +102,64 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>DV Date</label>
+                                    <label>DV Date<span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" name="dv_date" id="dv_date"
-                                        placeholder="" >
+                                        placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Rct Vr. Amount</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="number" class="form-control" name="rct_vr_amount" id="rct_vr_amount"
-                                    placeholder="" >
-                                <span class="text-danger"></span>
+                        <div class="form-group mb-2">
+
+
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Rct Vr. Amount<span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="number" class="form-control" name="rct_vr_amount" id="rct_vr_amount"
+                                        placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Details</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="remark" id="remark" placeholder="">
+                        <div class="form-group mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Bill No.<span class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
 
-                                <span class="text-danger"></span>
+                                        <select name="bill_id" id="bill_id" class="form-control" readonly required>
+                                            <option value="">Select</option>
+                                            @foreach ($advance_bills as $advance_bill)
+                                                <option value="{{ $advance_bill->id }}">{{ $advance_bill->cda_bill_no }}
+                                                </option>
+                                            @endforeach
+
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-left mt-3">
+            <div class="row justify-content-end mt-3">
                 <div class="col-md-2">
                     <div class="mb-1">
-                        <button type="submit" class="listing_add">Add</button>
+                        <button type="submit" class="listing_add">Save</button>
                     </div>
                     {{-- <div class="mb-1">
                         <a href="" class="listing_exit">Back</a>
