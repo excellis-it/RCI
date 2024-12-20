@@ -1,11 +1,24 @@
 @if ($receipt_data)
-    <input type="hidden" value="" name="receipt_no[]" id="create_receipt_no_{{ $receipt_data->id }}">
-    <input type="hidden" value="" name="vr_no[]" id="create_vr_no_{{ $receipt_data->id }}">
-    <input type="hidden" value="" name="vr_date[]" id="create_vr_date_{{ $receipt_data->id }}">
-    <input type="hidden" class="form-control rct-chqno-in" name="cheq_no[]" id="cheq_no_{{ $receipt_data->id }}">
-    <input type="hidden" class="form-control rct-chqdt-in" name="cheq_date[]" id="cheq_date_{{ $receipt_data->id }}">
-    <input type="hidden" name="is_paid[]" id="create_ispaid_{{ $receipt_data->id }}">
-    <div id="rcpt_div_{{ $receipt_data->id }}" class="border border-1 border-dark p-2 mb-2 fnd_receipts">
+
+    <div id="rcpt_div_{{ $receipt_data->id }}" class=" mb-2 fnd_receipts dynamic-fields">
+
+        <input type="hidden" value="" name="receipt_no[]" id="create_receipt_no_{{ $receipt_data->id }}">
+        <input type="hidden" value="" name="vr_no[]" id="create_vr_no_{{ $receipt_data->id }}">
+        <input type="hidden" value="" name="vr_date[]" id="create_vr_date_{{ $receipt_data->id }}">
+        <input type="hidden" class="form-control rct-chqno-in" name="cheq_no[]" id="cheq_no_{{ $receipt_data->id }}">
+        <input type="hidden" class="form-control rct-chqdt-in" name="cheq_date[]"
+            id="cheq_date_{{ $receipt_data->id }}">
+        <input type="hidden" name="is_paid[]" id="create_ispaid_{{ $receipt_data->id }}">
+
+        <button type="button" class="btn btn-danger remove-section remove_trash mt-4"
+            onclick="removeRcv({{ $receipt_data->id }})"><i class="ti ti-trash"></i></button>
+
+        <script>
+            function removeRcv(id) {
+                $("#rcpt_div_" + id).remove();
+            }
+        </script>
+
         <div class=" mt-2">
             <table class="table table-responsive mb-0 pb-0">
                 <thead>
@@ -53,7 +66,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="number" id="receipt_id_{{ $receipt_data->id }}" class="form-control"
+                                <input type="hidden" id="receipt_id_{{ $receipt_data->id }}" class="form-control"
                                     name="receipt_id[]" required readonly value="{{ $receipt_data->id }}">
                                 <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
                                     name="rc_amount[]" required readonly>

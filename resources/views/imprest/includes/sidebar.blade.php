@@ -40,7 +40,7 @@
                         <span>
                             <i class="ti ti-package"></i>
                         </span>
-                        <span class="hide-menu">Advance Fund</span>
+                        <span class="hide-menu">Advance</span>
                     </a>
                 </li>
 

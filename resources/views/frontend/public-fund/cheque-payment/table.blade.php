@@ -1,3 +1,12 @@
+@push('styles')
+    <style>
+        .no-border-bottom {
+            border-top: transparent !important;
+            border-bottom: transparent !important;
+        }
+    </style>
+@endpush
+
 @if (count($AllPayments) > 0)
     @foreach ($AllPayments as $key => $payments)
         <tr>
@@ -17,8 +26,9 @@
                     href="{{ route('cheque-payments.get-receipt-report', ['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date]) }}"
                     class="edit_pencil "><i class="ti ti-file text-danger"></i></a>
             </td> --}}
-            <td class="sepharate"><a data-route="{{ route('cheque-payments.edit', $payments->id) }}"
-                href="#" onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}')" class="edit_pencil"><i class="ti ti-pencil"></i></a>
+            <td class="sepharate"><a data-route="{{ route('cheque-payments.edit', $payments->id) }}" href="#"
+                    onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}')" class="edit_pencil"><i
+                        class="ti ti-pencil"></i></a>
 
                 {{-- <a href="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}" id="delete" class="delete" data-route="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}"><i class="ti ti-trash"></i></a> --}}
 
@@ -27,12 +37,12 @@
                     <i class="ti ti-trash"></i>
                 </a>
 
-           
+
             </td>
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="5" class="text-left">
+        <td colspan="9" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                     (Showing {{ $AllPayments->firstItem() }} – {{ $AllPayments->lastItem() }} Payments No
