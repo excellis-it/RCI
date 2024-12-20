@@ -448,6 +448,7 @@
                                 $("#cheq_date_" + data_id).val(cheq_date);
 
                                 //  $("#receipt_data").append(response.view);
+                                $("#receipt_id_" + data_id).val(data_id);
                                 $("#create_receipt_no_" + data_id).val(response.receipt_data
                                     .receipt_no);
                                 $("#create_vr_no_" + data_id).val(response.receipt_data.vr_no);
@@ -561,6 +562,10 @@
                                     $('.rct-chqdt-in').val(
                                         value
                                     ); // Set the value to all target-class inputs
+                                });
+
+                                $('.bill-amount').on('keyup', function() {
+                                    calculateBillAmountSum();
                                 });
 
 
@@ -700,14 +705,22 @@
                     }
                 });
 
-                if (!allValid) e.preventDefault();
+                if (!allValid) {
+                    //  toastr.error('Please fill required fields');
+                    // return; // Exit the function, prevent submission.
+                }
 
                 let difference = calculateBillAmountSum();
 
                 // If the difference is not zero, prevent form submission
                 if (difference !== 0) {
-                    e.preventDefault(); // Prevent form submission
+                    //   e.preventDefault(); // Prevent form submission
                     toastr.error('Cheque amount is different');
+                    console.log('diff balance');
+                    return;
+                } else {
+                    console.log('same balance');
+
                 }
 
                 var formData = $(this).serialize();

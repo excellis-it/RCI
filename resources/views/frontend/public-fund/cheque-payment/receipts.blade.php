@@ -52,8 +52,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td> <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
-                                    name="rc_amount[]" required readonly></td>
+                            <td>
+                                <input type="number" id="receipt_id_{{ $receipt_data->id }}" class="form-control"
+                                    name="receipt_id[]" required readonly value="{{ $receipt_data->id }}">
+                                <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
+                                    name="rc_amount[]" required readonly>
+                            </td>
                             <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
                                     class="form-control bill-amount" name="amount[]">
 
