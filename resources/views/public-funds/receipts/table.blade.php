@@ -13,12 +13,12 @@
                     data-bs-target="#deleteModal-{{ $receipt->vr_no }}">
 
                 </a> --}}
-                <a href="javascript:void(0);" class="delete-receipt edit_pencil text-danger ms-2"
-                    data-delete-url="{{ route('receipts.delete', ['vr_no' => $receipt->vr_no, 'vr_date' => $receipt->vr_date]) }}">
+                <a href="javascript:void(0);" class="delete-receipt edit_pencil text-danger ms-2" id="delete"
+                    data-route="{{ route('receipts.delete', $receipt->id) }}">
                     <i class="ti ti-trash"></i>
                 </a>
 
-                
+
             </td>
         </tr>
     @endforeach

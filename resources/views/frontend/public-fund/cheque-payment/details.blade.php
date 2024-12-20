@@ -8,7 +8,7 @@
                     <label>Vr. No</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="" id="vr_no"  value="{{ $receipt->vr_no ?? '' }}" 
+                    <input type="text" class="form-control"  name="" id="vr_no"  value="{{ $receipt->vr_no ?? '' }}"
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -23,7 +23,7 @@
                     <label>Vr. Date</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="date" class="form-control"  name="" id="vr_date"  value="{{ $receipt->vr_date ?? '' }}" 
+                    <input type="date" class="form-control"  name="" id="vr_date"  value="{{ $receipt->vr_date ?? '' }}"
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -38,7 +38,7 @@
                     <label>Net Amount</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="" id="net_amount"  value="{{ $receipt->amount ?? '' }}"   
+                    <input type="text" class="form-control"  name="" id="net_amount"  value="{{ $receipt->amount ?? '' }}"
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -53,7 +53,7 @@
                     <label>Sr no</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="" id="form-detail"  value="{{ $receipt->sr_no ?? '' }}"   
+                    <input type="text" class="form-control"  name="" id="form-detail"  value="{{ $receipt->sr_no ?? '' }}"
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="col-lg-3">
         <div class="form-group mb-2">
@@ -115,7 +115,9 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+
+
 
     <div class="col-lg-3">
         <div class="form-group mb-2">
@@ -129,7 +131,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="col-lg-3">
         <div class="form-group mb-2">
@@ -144,7 +146,7 @@
             </div>
         </div>
     </div>
-       
+
     <div class="col-lg-3">
         <div class="form-group mb-2">
             <div class="row align-items-center">
@@ -166,13 +168,13 @@
                     <label>Category</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  value="{{ $receipt->category->name ?? '' }}"  
+                    <input type="text" class="form-control"  value="{{ $receipt->category->name ?? '' }}"
                         placeholder="" readonly>
                     <span class="text-danger"></span>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 
 <div class="row add-more-section">
@@ -183,7 +185,7 @@
                     <label>Amount</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control"  name="amount[]" id="amount"  
+                    <input type="text" class="form-control"  name="amount[]" id="amount"
                         placeholder="">
                     <span class="text-danger"></span>
                 </div>
@@ -198,13 +200,13 @@
                     <label>Date</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="date" class="form-control"  name="date[]" id="date"  
+                    <input type="date" class="form-control"  name="date[]" id="date"
                         placeholder="">
                     <span class="text-danger"></span>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="col-lg-2">
         <div class="form-group mb-2">
@@ -217,7 +219,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="row" >
         <div id="cheque_payment_amount">

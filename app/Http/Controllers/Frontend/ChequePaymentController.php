@@ -48,6 +48,8 @@ class ChequePaymentController extends Controller
 
     public function getReceipt(Request $request)
     {
+
+
         $vr_no = $request->vr_no;
         $vr_date = $request->vr_date;
         $receipt_data = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
@@ -180,8 +182,8 @@ class ChequePaymentController extends Controller
                 'vr_date.*' => 'required|date',
                 'amount.*' => 'required|numeric|min:0',
                 // 'bill_ref.*' => 'required|string|max:255',
-                'cheq_no.*' => 'required|string|max:255',
-                'cheq_date.*' => 'required|date',
+                // 'cheq_no' => 'required|string|max:255',
+                // 'cheq_date' => 'required|date',
                 // 'is_paid.*' => 'required|boolean',
             ]);
 
@@ -280,15 +282,13 @@ class ChequePaymentController extends Controller
     }
 
 
-    public function delete($vr_no, $vr_date)
+    public function delete($id)
     {
-        $chequePayment = ChequePayment::where('vr_no', $vr_no)
-            ->where('vr_date', $vr_date)
-            ->firstOrFail();
+        $chequePayment = ChequePayment::findOrFail($id);
 
         $chequePayment->delete();
 
-        return redirect()->route('cheque-payments.index')->with('message', 'Cheque Payment deleted successfully.');
+        return redirect()->back()->with('message', 'Cheque Payment deleted successfully.');
     }
 
 

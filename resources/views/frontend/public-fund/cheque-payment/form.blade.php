@@ -6,7 +6,9 @@
                 <div class="row justify-content-end">
 
                     <div class="form-group col-md-4">
+
                         <label for="">Cheque Amount</label>
+
                         <input type="number" class="form-control vinput" name="" id="main_cheq_amount">
                         <span class="text-danger emsg" style="display: none">Cheque Amount Required</span>
                     </div>
@@ -19,6 +21,7 @@
                         <label for="">Cheque Date</label>
                         <input type="date" class="form-control vinput rct-chqdt" id="cheq_date" required>
                         <span class="text-danger emsg" style="display: none">Cheque Date Required</span>
+
                     </div>
 
                 </div>

@@ -268,7 +268,7 @@ class AdvanceFundController extends Controller
             $advance_fund->delete();
 
             session()->flash('message', 'Advance fund and associated records deleted successfully.');
-            return redirect()->route('advance-settlement.index')->with('success', 'Advance fund deleted successfully.');
+            return redirect()->back()->with('success', 'Advance fund deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error deleting Advance fund: ' . $e->getMessage());
         }
