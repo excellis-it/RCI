@@ -384,7 +384,7 @@ class ChequePaymentController extends Controller
     public function paymentReportGenerate(Request $request)
     {
 
-        $vr_date = $request->date;
+        // $vr_date = $request->date;
 
         $chq_date = $request->date;
 
@@ -395,85 +395,15 @@ class ChequePaymentController extends Controller
         // return $category;
 
         // $payments = DB::table('cheque_payments')->where('vr_date', $vr_date)->get();
-        $payments = DB::table('cheque_payments')->where('cheq_date', $vr_date)->get();
+        $payments = ChequePayment::where('cheq_date', $chq_date)->get()->groupBy('cheq_no');
 
-        //  return $payments;
+        // dd($payments);
 
-        $vrNos = $payments->pluck('vr_no')->toArray();
-        $vrDates = $payments->pluck('vr_date')->toArray();
 
-        $balanceCarriedForward = [];
-        foreach ($category as $cat) {
-            $balanceCarriedForward[$cat->id] = DB::table('receipts')
-                ->where('vr_date', $vr_date)
-                ->where('category_id', $cat->id)
-                ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
-                ->sum('amount');
-        }
+         $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('category',  'payments', 'chq_date'))->setPaper('a3', 'landscape');
+          return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
-        $totalReceipts = [];
-        foreach ($category as $cat) {
-            $totalReceipts[$cat->id] = DB::table('receipts')
-                ->where('vr_date', $vr_date)
-                ->where('category_id', $cat->id)
-                ->sum('amount');
-        }
-
-        // Sum of amounts from receipts not in cheque payments (excluding matches)
-        // $balanceCarriedForward = DB::table('receipts')
-        //     ->where('vr_date', $vr_date)
-        //     ->whereNotIn('vr_no', $vrNos)
-        //     ->sum('amount');
-
-        // Sum of all amounts from receipts that match vr_date
-        // $totalReceipts = DB::table('receipts')
-        //     ->where('vr_date', $vr_date)
-        //     ->sum('amount');
-
-        $receipts = DB::table('receipts')
-            ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
-            ->select(
-                'receipts.id',
-                'receipts.vr_date',
-                'receipts.vr_no',
-                'receipts.narration',
-                'receipts.amount',
-                'payment_categories.name as category_name',
-                'receipts.dv_no',
-                'receipts.member_name',
-                'receipts.category_id'
-            )
-            ->whereIn('receipts.vr_no', $vrNos) // Match vr_no
-            ->whereIn('receipts.vr_date', $vrDates) // Match vr_date
-            ->get();
-
-        // Fetch related rows from receipt_members for each receipt
-        foreach ($receipts as $receipt) {
-            $receipt->receiptMembers = DB::table('receipt_members')
-                ->where('receipt_id', $receipt->id)
-                ->select(
-                    'id',
-                    'receipt_id',
-                    'vr_no',
-                    'serial_no',
-                    'member_id',
-                    'amount',
-                    'bill_ref',
-                    'cheq_no',
-                    'cheq_date',
-                    'created_at',
-                    'updated_at'
-                )
-                ->get();
-        }
-
-        // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
-        $settings = Setting::orderBy('id', 'desc')->first();
-
-        //  $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts', 'settings'))->setPaper('a3', 'landscape');
-        //   return $pdf->download('payment-report-' . $vr_date . '.pdf');
-
-        return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
+        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
     }
 
 

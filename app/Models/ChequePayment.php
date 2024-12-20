@@ -13,4 +13,9 @@ class ChequePayment extends Model
     {
         return $this->belongsTo(Member::class);
     }
+
+    public function reciepts()
+    {
+        return $this->belongsTo(Receipt::class, 'receipt_id');
+    }
 }

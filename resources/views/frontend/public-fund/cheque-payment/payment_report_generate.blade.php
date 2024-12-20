@@ -43,7 +43,7 @@
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                     ">
-                                    Payments FOR {{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}
+                                    Payments FOR {{ \Carbon\Carbon::parse($chq_date)->format('d/m/Y') }}
                                 </td>
                             </tr>
                         </tbody>
@@ -73,7 +73,7 @@
                                         style="font-size: 10px;
                   line-height: 14px;
                   font-weight: 400;">PUBLIC
-                                        FUND A/c No - {{$settings->public_bank_ac ?? ''}} CASH BOOK</span>
+                                        FUND A/c No - {{ $settings->public_bank_ac ?? '' }} CASH BOOK</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -92,6 +92,7 @@
                 <th>DATE</th>
                 <th>CBRV</th>
                 <th>DETAILS</th>
+                <th>Cheque No</th>
                 @foreach ($category as $cat)
                     <th>{{ strtoupper($cat->name) }}</th>
                 @endforeach
@@ -100,84 +101,103 @@
         </thead>
         <tbody>
             @php
-                $categoryAmounts = [];
+                // Initialize totals and processed receipt IDs
+                $categoryTotals = [];
+                $balanceCarriedForward = [];
+                $totalReceipts = [];
+                $processedReceipts = []; // To track processed receipt IDs
+
                 foreach ($category as $cat) {
-                    $categoryAmounts[$cat->id] = 0;
+                    $categoryTotals[$cat->id] = 0;
+                    $balanceCarriedForward[$cat->id] = 0;
+                    $totalReceipts[$cat->id] = 0;
                 }
             @endphp
 
-            @foreach ($receipts as $receipt)
-                @php
-                    if (isset($categoryAmounts[$receipt->category_id])) {
-                        $categoryAmounts[$receipt->category_id] += $receipt->amount;
-                    }
-                @endphp
+            @foreach ($payments as $key => $payment)
                 <tr>
-                    <td>{{ \Carbon\Carbon::parse($receipt->vr_date)->format('d/m/Y') }}</td>
-                    <td>{{ $receipt->vr_no }}</td>
+                    <td>{{ \Carbon\Carbon::parse($payment->first()->created_at)->format('d/m/Y') }}</td>
                     <td>
-                        <span>{{ $receipt->narration }} DV No.- {{ $receipt->dv_no }}</span><br>
-
-                        @if (isset($receipt->receiptMembers) && $receipt->receiptMembers->count() > 0)
-                            @foreach ($receipt->receiptMembers as $index => $member)
-                                @php
-                                    $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
-                                    $memberDesign =
-                                        $members->firstWhere('id', $member->member_id)->designation->designation_type ??
-                                        'N/A';
-                                @endphp
-
-                                <span>{{ $member->serial_no }}. {{ $memberName }} - {{ $memberDesign }}</span><br>
-                            @endforeach
-                        @endif
+                        @foreach ($payment as $vr_no_print)
+                            {{ $vr_no_print->vr_no }}
+                            <br>
+                        @endforeach
                     </td>
-
+                    <td>
+                        <span>Cheque No.- {{ $key ?? '-' }}</span><br>
+                        @foreach ($payment as $new => $item)
+                            @if (isset($item->reciepts) && $item->reciepts->count() > 0)
+                                <span>
+                                    ({{ $new + 1 }})
+                                    @if (isset($item->reciepts->receiptMembers) && $item->reciepts->receiptMembers->count() > 0)
+                                        @foreach ($item->reciepts->receiptMembers as $member)
+                                            ({{ $member->member->pers_no ?? '' }}. {{ $member->member->name ?? '' }})
+                                        @endforeach
+                                    @endif
+                                </span><br>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>{{ $key ?? '-' }}</td>
                     @foreach ($category as $cat)
-                        <td>{{ $receipt->category_id == $cat->id ? $receipt->amount : '' }}</td>
+                        <td>
+                            @php
+                                $categoryAmount = 0;
+                            @endphp
+
+                            @foreach ($payment as $index => $item)
+                                @if (isset($item->reciepts) && $item->reciepts->category_id == $cat->id)
+                                    @php
+                                        $categoryAmount += $item->amount;
+                                        $categoryTotals[$cat->id] += $item->amount;
+                                        // Skip if this receipt has already been processed
+                                        if (!in_array($item->reciepts->id, $processedReceipts)) {
+                                            $totalReceipts[$cat->id] += $item->reciepts->amount;
+                                            $processedReceipts[] = $item->reciepts->id; // Mark as processed
+                                        }
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            {{ $categoryAmount > 0 ? $categoryAmount : '' }}
+                        </td>
                     @endforeach
                     <td></td>
                 </tr>
             @endforeach
 
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="4">Total Payments</td>
                 @foreach ($category as $cat)
-                    <td></td>
+                    <td>{{ $categoryTotals[$cat->id] }}</td>
                 @endforeach
                 <td></td>
             </tr>
 
             <tr>
-                <td></td>
-                <td></td>
-                <td>Total Payments</td>
+                <td colspan="4">Balance Carried Forward</td>
                 @foreach ($category as $cat)
-                    <td>{{ $categoryAmounts[$cat->id] }}</td>
+                    <td>
+                        @php
+                            $balanceCarriedForward[$cat->id] = $totalReceipts[$cat->id] - $categoryTotals[$cat->id];
+                        @endphp
+                        {{ $balanceCarriedForward[$cat->id] }}
+                    </td>
                 @endforeach
                 <td></td>
             </tr>
+
             <tr>
-                <td></td>
-                <td></td>
-                <td>Balance Carried Forward</td>
+                <td colspan="4">Total Receipts</td>
                 @foreach ($category as $cat)
-                    <td>{{ $balanceCarriedForward[$cat->id] ?? '' }}</td>
-                @endforeach
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Total Receipts</td>
-                @foreach ($category as $cat)
-                    <td>{{ $totalReceipts[$cat->id] ?? '' }}</td>
+                    <td>{{ $totalReceipts[$cat->id] }}</td>
                 @endforeach
                 <td></td>
             </tr>
         </tbody>
+
     </table>
+
 
 
     {{-- <h3>Summary</h3>
