@@ -1,5 +1,5 @@
 @if (count($advance_settels) > 0)
-    <form action="{{ route('cda-bills.store') }}" method="POST" id="cda-bills-create-form">
+    
         <div class="row mt-2">
             <div class="col-lg-8">
                 <div class="form-group mb-2">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-    </form>
+   
 @else
     <center>
         <p>No Advance Settlement Found</p>

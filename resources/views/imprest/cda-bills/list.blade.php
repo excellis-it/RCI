@@ -4,11 +4,11 @@
 @endsection
 
 @push('styles')
-<style>
-     .swal2-warning.swal2-icon-show .swal2-icon-content {
+    <style>
+        .swal2-warning.swal2-icon-show .swal2-icon-content {
             font-size: 0.75em !important;
         }
-</style>
+    </style>
 @endpush
 
 @section('content')
@@ -34,19 +34,21 @@
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
+                        <form action="{{ route('cda-bills.store') }}" method="POST" id="cda-bills-create-form">
+
+                            <div id="form">
+                                @include('imprest.cda-bills.form')
+                            </div>
+
+                            <div id="bill_table">
+                                @include('imprest.cda-bills.table')
+
+                            </div>
 
 
-                        <div id="bill_table">
-                            @include('imprest.cda-bills.table')
-
-                        </div>
 
 
-                        <div id="form">
-                            @include('imprest.cda-bills.form')
-                        </div>
-
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -75,7 +77,7 @@
                                     <th>Cheque No</th>
                                     <th>Cheque Date</th>
                                     <th>Variable Type</th>
-                                   
+
 
                                 </tr>
                             </thead>
@@ -293,6 +295,4 @@
             });
         });
     </script>
-
-
 @endpush

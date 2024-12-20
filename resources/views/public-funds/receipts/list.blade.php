@@ -429,14 +429,15 @@
                     } else {
                         $errorSpan.hide();
                     }
-                }else if ($input.attr('type') === 'text' && inputName === 'narration') {
-                    if ($input.val().trim() === '') {
-                        $errorSpan.html('Narration is required').show();
-                        hasErrors = true;
-                    } else {
-                        $errorSpan.hide();
-                    }
                 }
+                // else if ($input.attr('type') === 'text' && inputName === 'narration') {
+                //     if ($input.val().trim() === '') {
+                //         $errorSpan.html('Narration is required').show();
+                //         hasErrors = true;
+                //     } else {
+                //         $errorSpan.hide();
+                //     }
+                // }
             });
 
             // Validate dynamic fields
@@ -487,14 +488,15 @@
                     } else {
                         $errorSpan.hide();
                     }
-                }else if ($input.attr('type') === 'text' && inputName === 'narration') {
-                    if ($input.val().trim() === '') {
-                        $errorSpan.html('Narration is required').show();
-                        hasErrors = true;
-                    } else {
-                        $errorSpan.hide();
-                    }
                 }
+                // else if ($input.attr('type') === 'text' && inputName === 'narration') {
+                //     if ($input.val().trim() === '') {
+                //         $errorSpan.html('Narration is required').show();
+                //         hasErrors = true;
+                //     } else {
+                //         $errorSpan.hide();
+                //     }
+                // }
             });
 
 

@@ -25,26 +25,26 @@ class CdaBillAuditTeamController extends Controller
         $variable_types = VariableType::orderBy('id', 'desc')->where('status', 1)->get();
         $advance_settels = AdvanceSettlement::where('bill_status', 0)->orderBy('id', 'desc')->get();
 
-        $advance_bills = AdvanceSettlement::where('bill_status', 1)->orderBy('id', 'desc')->get();
+        $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')->get();
 
-        foreach ($advance_bills as $advance_bill) {
-            // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
-            $cda_bill = CdaBillAuditTeam::where('adv_no', $advance_bill->adv_no)
-                ->where('adv_date', $advance_bill->adv_date)
-                ->first();  // Use first() to get a single match
+        // foreach ($advance_bills as $advance_bill) {
+        //     // Fetch the related CdaBillAuditTeam based on adv_no and adv_date
+        //     $cda_bill = CdaBillAuditTeam::where('adv_no', $advance_bill->adv_no)
+        //         ->where('adv_date', $advance_bill->adv_date)
+        //         ->first();  // Use first() to get a single match
 
-            // If a matching CdaBillAuditTeam is found, assign its values to the advance_bill object
-            if ($cda_bill) {
-                $advance_bill->cda_bill_id = $cda_bill->id;
-                $advance_bill->cda_bill_no = $cda_bill->cda_bill_no;
-                $advance_bill->cda_bill_date = $cda_bill->cda_bill_date;
-            } else {
-                // If no matching CdaBillAuditTeam is found, set to 'N/A' or any default value
-                $advance_bill->cda_bill_id = 0;
-                $advance_bill->cda_bill_no = 'N/A';
-                $advance_bill->cda_bill_date = 'N/A';
-            }
-        }
+        //     // If a matching CdaBillAuditTeam is found, assign its values to the advance_bill object
+        //     if ($cda_bill) {
+        //         $advance_bill->cda_bill_id = $cda_bill->id;
+        //         $advance_bill->cda_bill_no = $cda_bill->cda_bill_no;
+        //         $advance_bill->cda_bill_date = $cda_bill->cda_bill_date;
+        //     } else {
+        //         // If no matching CdaBillAuditTeam is found, set to 'N/A' or any default value
+        //         $advance_bill->cda_bill_id = 0;
+        //         $advance_bill->cda_bill_no = 'N/A';
+        //         $advance_bill->cda_bill_date = 'N/A';
+        //     }
+        // }
 
 
 
@@ -123,25 +123,59 @@ class CdaBillAuditTeamController extends Controller
     public function store(Request $request)
     {
 
+
+        // Validate input
         $request->validate([
-            'cda_bill_no' => 'required',
-            'cda_bill_date' => 'required',
+            'bills' => 'required|array',
+            'bills.*' => 'integer', // Only validate selected rows
+            'settle_id' => 'required|array',
+            'adv_no' => 'required|array',
+            'adv_date' => 'required|array',
+            'member_id' => 'required|array',
+            'adv_amount' => 'required|array',
+            'bill_amount' => 'required|array',
+            'project_id' => 'required|array',
+            'chq_no' => 'required|array',
+            'chq_date' => 'required|array',
+            'variable_id' => 'required|array',
+            'cda_bill_no' => 'required|string',
+            'cda_bill_date' => 'required|date',
         ]);
 
-        $advanceSettlements = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 0)->get();
+        // Process only the selected rows from the `bills[]` array
+        foreach ($request->bills as $billId) {
+            // Find the index of the selected bill in the settle_id array
+            $index = array_search($billId, $request->settle_id);
 
-        foreach ($advanceSettlements as $advanceSettlement) {
-            // Create a new CdaBillAuditTeam record
-            $cdaBill = new CdaBillAuditTeam();
-            $cdaBill->adv_no = $advanceSettlement->adv_no;
-            $cdaBill->adv_date = $advanceSettlement->adv_date;
-            $cdaBill->cda_bill_no = $request->cda_bill_no;
-            $cdaBill->cda_bill_date = $request->cda_bill_date;
-            $cdaBill->save();
+            if ($index !== false) {
+                $receiptPayment = new CdaBillAuditTeam();
+                $receiptPayment->settle_id = $request->settle_id[$index];
+                $receiptPayment->adv_no = $request->adv_no[$index];
+                $receiptPayment->adv_date = $request->adv_date[$index];
+                $receiptPayment->member_id = $request->member_id[$index];
+                $receiptPayment->adv_amount = $request->adv_amount[$index];
+                $receiptPayment->bill_amount = $request->bill_amount[$index];
+                $receiptPayment->project_id = $request->project_id[$index];
+                $receiptPayment->chq_no = $request->chq_no[$index];
+                $receiptPayment->chq_date = $request->chq_date[$index];
+                $receiptPayment->variable_id = $request->variable_id[$index];
+                $receiptPayment->cda_bill_no = $request->cda_bill_no;
+                $receiptPayment->cda_bill_date = $request->cda_bill_date;
 
-            $advanceSettlement->bill_status = 1;
-            $advanceSettlement->save();
+                $receiptPayment->save();
+
+                // Update bill status in AdvanceSettlement
+                $advSettlement = AdvanceSettlement::find($request->settle_id[$index]);
+                if ($advSettlement) {
+                    $advSettlement->bill_status = 1;
+                    $advSettlement->save();
+                }
+            }
         }
+
+
+
+
 
         session()->flash('message', 'CDA bill added successfully');
         return response()->json(['success' => 'CDA bill added successfully']);

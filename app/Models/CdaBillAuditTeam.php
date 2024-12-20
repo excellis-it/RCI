@@ -11,11 +11,16 @@ class CdaBillAuditTeam extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id', 'id');
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function variableType()
     {
-        return $this->belongsTo(VariableType::class, 'var_type_id', 'id');
+        return $this->belongsTo(VariableType::class, 'variable_id');
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id');
     }
 }
