@@ -85,7 +85,7 @@ class Member extends Model
 
     public function desigs()
     {
-        return $this->belongsTo(Designation::class, 'desig');
+        return $this->belongsTo(Designation::class, 'desig', 'id');
     }
 
     public function leaveAlloted()

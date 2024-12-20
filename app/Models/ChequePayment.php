@@ -16,6 +16,6 @@ class ChequePayment extends Model
 
     public function reciepts()
     {
-        return $this->belongsTo(Receipt::class, 'receipt_no', 'id');
+        return $this->belongsTo(Receipt::class, 'receipt_id');
     }
 }

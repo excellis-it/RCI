@@ -101,18 +101,20 @@
         </thead>
         <tbody>
             @php
-                $categoryAmounts = [];
+                // Initialize totals and processed receipt IDs
+                $categoryTotals = [];
+                $balanceCarriedForward = [];
+                $totalReceipts = [];
+                $processedReceipts = []; // To track processed receipt IDs
+
                 foreach ($category as $cat) {
-                    $categoryAmounts[$cat->id] = 0;
+                    $categoryTotals[$cat->id] = 0;
+                    $balanceCarriedForward[$cat->id] = 0;
+                    $totalReceipts[$cat->id] = 0;
                 }
             @endphp
 
             @foreach ($payments as $key => $payment)
-                {{-- @php
-                    if (isset($categoryAmounts[$receipt->category_id])) {
-                        $categoryAmounts[$receipt->category_id] += $receipt->amount;
-                    }
-                @endphp --}}
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($payment->first()->created_at)->format('d/m/Y') }}</td>
                     <td>
@@ -121,29 +123,43 @@
                             <br>
                         @endforeach
                     </td>
-
                     <td>
-                        {{-- <span>{{ $receipt->narration }} DV No.- {{ $receipt->dv_no }}</span><br> --}}
-                        @foreach ($payment as $item)
-                        @dd($item->reciepts)
-                        @if (isset($item->reciepts) && $item->reciepts->count() > 0)
-                            @foreach ($receipt->reciepts as $index => $reciept)
+                        <span>Cheque No.- {{ $key ?? '-' }}</span><br>
+                        @foreach ($payment as $new => $item)
+                            @if (isset($item->reciepts) && $item->reciepts->count() > 0)
                                 <span>
-                                    @if (isset($reciept->member) && $reciept->member->count() > 0)
-                                        @foreach ($reciept->member as $member)
-                                            {{ $member->pers_no }}. {{ $member->name }} -
-                                            {{ $member->desigs->designation ?? '-' }}
+                                    ({{ $new + 1 }})
+                                    @if (isset($item->reciepts->receiptMembers) && $item->reciepts->receiptMembers->count() > 0)
+                                        @foreach ($item->reciepts->receiptMembers as $member)
+                                            ({{ $member->member->pers_no ?? '' }}. {{ $member->member->name ?? '' }})
                                         @endforeach
                                     @endif
                                 </span><br>
-                            @endforeach
-                        @endif
+                            @endif
                         @endforeach
                     </td>
                     <td>{{ $key ?? '-' }}</td>
                     @foreach ($category as $cat)
                         <td>
-                            {{-- {{ $receipt->category_id == $cat->id ? $receipt->amount : '' }} --}}
+                            @php
+                                $categoryAmount = 0;
+                            @endphp
+
+                            @foreach ($payment as $index => $item)
+                                @if (isset($item->reciepts) && $item->reciepts->category_id == $cat->id)
+                                    @php
+                                        $categoryAmount += $item->amount;
+                                        $categoryTotals[$cat->id] += $item->amount;
+                                        // Skip if this receipt has already been processed
+                                        if (!in_array($item->reciepts->id, $processedReceipts)) {
+                                            $totalReceipts[$cat->id] += $item->reciepts->amount;
+                                            $processedReceipts[] = $item->reciepts->id; // Mark as processed
+                                        }
+                                    @endphp
+                                @endif
+                            @endforeach
+
+                            {{ $categoryAmount > 0 ? $categoryAmount : '' }}
                         </td>
                     @endforeach
                     <td></td>
@@ -151,48 +167,37 @@
             @endforeach
 
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="4">Total Payments</td>
                 @foreach ($category as $cat)
-                    <td></td>
+                    <td>{{ $categoryTotals[$cat->id] }}</td>
                 @endforeach
                 <td></td>
             </tr>
 
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Total Payments</td>
+                <td colspan="4">Balance Carried Forward</td>
                 @foreach ($category as $cat)
-                    <td>{{ $categoryAmounts[$cat->id] }}</td>
+                    <td>
+                        @php
+                            $balanceCarriedForward[$cat->id] = $totalReceipts[$cat->id] - $categoryTotals[$cat->id];
+                        @endphp
+                        {{ $balanceCarriedForward[$cat->id] }}
+                    </td>
                 @endforeach
                 <td></td>
             </tr>
+
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Balance Carried Forward</td>
+                <td colspan="4">Total Receipts</td>
                 @foreach ($category as $cat)
-                    <td>{{ $balanceCarriedForward[$cat->id] ?? '' }}</td>
-                @endforeach
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Total Receipts</td>
-                @foreach ($category as $cat)
-                    <td>{{ $totalReceipts[$cat->id] ?? '' }}</td>
+                    <td>{{ $totalReceipts[$cat->id] }}</td>
                 @endforeach
                 <td></td>
             </tr>
         </tbody>
+
     </table>
+
 
 
     {{-- <h3>Summary</h3>
