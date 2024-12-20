@@ -1,4 +1,4 @@
-<div class=" mt-3">
+<div class=" mt-3" hidden>
     <p>Advance Fund History:</p>
     <table class="table table-responsive">
         <thead>

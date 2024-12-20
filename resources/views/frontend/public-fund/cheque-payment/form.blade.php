@@ -1,38 +1,39 @@
 <div class="pay_form">
 
     <div class="row">
-
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="form-group mb-2">
                 <div class="row justify-content-end">
 
                     <div class="form-group col-md-4">
 
                         <label for="">Cheque Amount</label>
-                        <input type="number" class="form-control " name="" id="main_cheq_amount">
 
-                        <span class="text-danger"></span>
+                        <input type="number" class="form-control vinput" name="" id="main_cheq_amount">
+                        <span class="text-danger emsg" style="display: none">Cheque Amount Required</span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Cheque No.</label>
-                        <input type="text" class="form-control rct-chqno" name="cheq_no" id="cheq_no">
-                        <span class="text-danger"></span>
+                        <input type="number" class="form-control vinput rct-chqno" id="cheq_no" required>
+                        <span class="text-danger emsg" style="display: none">Cheque No Required</span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">Cheque Date</label>
-                        <input type="date" class="form-control rct-chqdt" name="cheq_date" id="cheq_date">
-                        <span class="text-danger"></span>
+                        <input type="date" class="form-control vinput rct-chqdt" id="cheq_date" required>
+                        <span class="text-danger emsg" style="display: none">Cheque Date Required</span>
+
                     </div>
 
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-lg-6">
+
+    <div class="row">
+
+
+        <div class="col-lg-12">
             <form id="search_receipt_form" method="POST">
                 @csrf
                 <div class="form-group mb-2">

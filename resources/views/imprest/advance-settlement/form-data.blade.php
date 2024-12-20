@@ -143,7 +143,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="date" class="form-control" name="var_date" id="var_date"
-                            value="{{ old('var_date') ?? date('Y-m-d') }}" placeholder="" readonly>
+                            value="{{ date('Y-m-d') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="date" class="form-control" name="chq_date" id="chq_date"
-                            value="{{ date('Y-m-d') }} }}" placeholder="">
+                            value="{{ date('Y-m-d') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

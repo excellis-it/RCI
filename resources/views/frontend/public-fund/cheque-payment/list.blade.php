@@ -67,8 +67,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                <div class="table-responsive rounded-2 listmain">
+                                    <table class="table  mb-0 align-middle">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
 
@@ -386,6 +386,9 @@
 
                 $(".error-message").remove();
 
+
+
+
                 var isValid = true; // Flag to check form validity
 
                 // Validate `vr_no`
@@ -407,9 +410,13 @@
                 }
 
                 // If validation fails, stop further processing
-                if (!isValid) {
+                if (!isValid && !vForm()) {
+                    toastr.error('Please fill required fields');
                     return;
                 }
+
+
+
 
                 var formData = $(this).serialize();
 
@@ -431,7 +438,7 @@
 
                         if (response.view) {
 
-
+                            $('.emsg').hide();
 
                             var data_id = response.rct_id; // Example ID
                             var elementId = 'rcpt_div_' + data_id;
@@ -449,6 +456,7 @@
                                 $("#cheq_date_" + data_id).val(cheq_date);
 
                                 //  $("#receipt_data").append(response.view);
+                                $("#receipt_id_" + data_id).val(data_id);
                                 $("#create_receipt_no_" + data_id).val(response.receipt_data
                                     .receipt_no);
                                 $("#create_vr_no_" + data_id).val(response.receipt_data.vr_no);
@@ -562,6 +570,10 @@
                                     $('.rct-chqdt-in').val(
                                         value
                                     ); // Set the value to all target-class inputs
+                                });
+
+                                $('.bill-amount').on('keyup', function() {
+                                    calculateBillAmountSum();
                                 });
 
 
@@ -689,7 +701,27 @@
     </script>
 
     <script>
-         $(document).ready(function() {
+
+        function vForm() {
+            let isValid = true;
+
+            // Validate inputs with the class "validate-input"
+            $('.vinput').each(function() {
+                const inputVal = $(this).val().trim();
+                const errorSpan = $(this).next('.emsg');
+
+                if (inputVal === '') {
+                    errorSpan.text('This field is required').show(); // Show error message
+                    isValid = false;
+                } else {
+                    errorSpan.hide(); // Clear error message
+                }
+            });
+
+            return isValid;
+        }
+        $(document).ready(function() {
+
             $('#cheque-payment-create-form').submit(function(e) {
                 e.preventDefault();
 
@@ -701,14 +733,27 @@
                     }
                 });
 
-                if (!allValid) e.preventDefault();
+                if (!allValid) {
+                    //  toastr.error('Please fill required fields');
+                    // return; // Exit the function, prevent submission.
+                }
+
+                if (!vForm()) {
+                    toastr.error('Please fill required fields');
+                    return;
+                }
 
                 let difference = calculateBillAmountSum();
 
                 // If the difference is not zero, prevent form submission
                 if (difference !== 0) {
-                    e.preventDefault(); // Prevent form submission
+                    //   e.preventDefault(); // Prevent form submission
                     toastr.error('Cheque amount is different');
+                    console.log('diff balance');
+                    return;
+                } else {
+                    console.log('same balance');
+
                 }
 
                 var formData = $(this).serialize();
@@ -719,8 +764,14 @@
                     data: formData,
                     success: function(response) {
                         //windows load with toastr message
-                        $('.text-danger').html('');
-                        window.location.reload();
+                        $('.emsg').hide();
+                        $('.text-danger').hide();
+
+                        toastr.success('Payment Added');
+
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 800);
                     },
                     error: function(xhr) {
 
@@ -764,6 +815,34 @@
         // Trigger the calculation whenever a bill amount input changes
         $('.bill-amount').on('input', function() {
             calculateBillAmountSum();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var groupedRows = {};
+
+            // Loop through each row in the table body
+            $('table tbody tr').each(function() {
+                var chequeNo = $(this).find('td:eq(5)').text().trim(); // Get the Cheque No. (6th column)
+
+                // If this Cheque No. is already in the groupedRows object
+                if (groupedRows[chequeNo]) {
+                    // Append the necessary columns from this row into the grouped row
+                    var newData = $(this).find('td:eq(3), td:eq(4), td:eq(6), td:eq(7)').html();
+                    groupedRows[chequeNo].find('td:eq(3)').append('<br>' +
+                        newData); // Append to the Amount, Bill Ref, Cheque Date, and Created On columns
+                    $(this).remove(); // Remove the current row from the table
+                } else {
+                    // If this is the first row with this Cheque No., store the entire row
+                    groupedRows[chequeNo] = $(this);
+                }
+            });
+
+            // After processing, append all the grouped rows back to the table
+            for (var chequeNo in groupedRows) {
+                $('table tbody').append(groupedRows[chequeNo]);
+            }
         });
     </script>
 @endpush
