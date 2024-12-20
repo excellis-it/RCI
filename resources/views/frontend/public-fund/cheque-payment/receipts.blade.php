@@ -30,7 +30,8 @@
                         <td>{{ $receipt_data->category->name ?? 'N/A' }}</td>
                         <td>{{ $receipt_data->narration ?? 'N/A' }}</td>
 
-                        <td><button data-bs-toggle="modal" data-bs-target="#rcpt_modal_{{ $receipt_data->id }}"
+                        <td><button type="button" data-bs-toggle="modal"
+                                data-bs-target="#rcpt_modal_{{ $receipt_data->id }}"
                                 class="btn btn-primary mb-3 btn-sm">Show Details</button></td>
                     </tr>
                 </tbody>
@@ -53,8 +54,8 @@
                         <tr>
                             <td> <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
                                     name="rc_amount[]" required readonly></td>
-                            <td><input type="number" id="bill_amount_{{ $receipt_data->id }}" class="form-control bill-amount"
-                                    name="amount[]">
+                            <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
+                                    class="form-control bill-amount" name="amount[]">
 
                                 <span class="text-danger"></span>
                             </td>
