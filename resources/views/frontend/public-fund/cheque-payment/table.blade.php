@@ -22,12 +22,12 @@
 
                 {{-- <a href="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}" id="delete" class="delete" data-route="{{route('cheque-payments.delete',['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date])}}"><i class="ti ti-trash"></i></a> --}}
 
-                <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2"
-                    data-delete-url="{{ route('cheque-payments.delete', ['vr_no' => $payments->vr_no, 'vr_date' => $payments->vr_date]) }}">
+                <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2" id="delete"
+                    data-route="{{ route('cheque-payments.delete', $payments->id) }}">
                     <i class="ti ti-trash"></i>
                 </a>
 
-           
+
             </td>
         </tr>
     @endforeach

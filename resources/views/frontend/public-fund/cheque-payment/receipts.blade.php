@@ -102,6 +102,7 @@
                                             <th>Bill Reference</th>
                                             <th>Cheque No.</th>
                                             <th>Cheque Date</th>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,6 +130,7 @@
                                                 <td>{{ $member->bill_ref }}</td>
                                                 <td>{{ $member->cheq_no }}</td>
                                                 <td>{{ $member->cheq_date }}</td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
