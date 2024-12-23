@@ -20,7 +20,7 @@ class CashWithdrawalController extends Controller
     {
         $cashWithdrawals = CashWithdrawal::orderBy('id', 'desc')->paginate(10);
 
-       // $bank=CashInBank::orderBy('id', 'desc')->first();
+        // $bank=CashInBank::orderBy('id', 'desc')->first();
 
         $bank_credit = CashInBank::orderBy('id', 'desc')->sum('credit');
         $bank_debit = CashInBank::orderBy('id', 'desc')->sum('debit');
@@ -35,7 +35,7 @@ class CashWithdrawalController extends Controller
         $cash_balance = $cash_credit - $cash_debit;
 
 
-        return view('imprest.cash-withdrawals.list', compact('cashWithdrawals','bank_balance','cash_balance'));
+        return view('imprest.cash-withdrawals.list', compact('cashWithdrawals', 'bank_balance', 'cash_balance'));
     }
 
     public function fetchData(Request $request)
@@ -46,18 +46,17 @@ class CashWithdrawalController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $cashWithdrawals = CashWithdrawal::where(function($queryBuilder) use ($query) {
+            $cashWithdrawals = CashWithdrawal::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('vr_no', 'like', '%' . $query . '%')
                     ->orWhere('vr_date', 'like', '%' . $query . '%')
                     ->orWhere('chq_no', 'like', '%' . $query . '%')
                     ->orWhere('chq_date', 'like', '%' . $query . '%')
                     ->orWhere('amount', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('imprest.cash-withdrawals.table', compact('cashWithdrawals'))->render()]);
-
         }
     }
 
@@ -86,8 +85,7 @@ class CashWithdrawalController extends Controller
         $cashwithdrawal = CashWithdrawal::latest()->first();
 
         $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-IMPRESS-';
-        if(isset($cashwithdrawal))
-        {
+        if (isset($cashwithdrawal)) {
             $serial_no = Str::substr($cashwithdrawal->vr_no, -1);
             $counter = $serial_no + 1;
             // dd($serial_no);
@@ -104,9 +102,9 @@ class CashWithdrawalController extends Controller
         $cashwithdrawal->amount = $request->amount;
         $cashwithdrawal->save();
 
-        $cashInBank = new CashInHand();
-        $cashInBank->credit = $request->amount;
-        $cashInBank->save();
+        $cashInHand = new CashInHand();
+        $cashInHand->credit = $request->amount;
+        $cashInHand->save();
 
         $cashInBank = new CashInBank();
         $cashInBank->debit = $request->amount;
@@ -146,7 +144,7 @@ class CashWithdrawalController extends Controller
         $cashwithdrawal = CashWithdrawal::find($id);
         $edit = true;
 
-        return response()->json(['view' => view('imprest.cash-withdrawals.form', compact('edit','cashwithdrawal'))->render()]);
+        return response()->json(['view' => view('imprest.cash-withdrawals.form', compact('edit', 'cashwithdrawal'))->render()]);
     }
 
     /**
@@ -182,7 +180,7 @@ class CashWithdrawalController extends Controller
         //
     }
 
-    public function delete( string $id)
+    public function delete(string $id)
     {
         $cashwithdrawal = CashWithdrawal::find($id);
         $cashwithdrawal->delete();

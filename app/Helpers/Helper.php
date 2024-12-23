@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+
 use App\Models\CashPayment;
 use App\Models\ChequePayment;
 use App\Models\MemberCoreInfo;
@@ -10,14 +11,17 @@ use App\Models\MemberLoan;
 use App\Models\MemberLoanInfo;
 use App\Models\SiteLogo;
 use App\Models\Pension;
+use App\Models\CashInBank;
+use App\Models\CashInHand;
 
-class Helper {
+class Helper
+{
 
     public static function cashPayments()
     {
         // totakl amount of cash payments
         $cash_payments = CashPayment::sum('amount');
-        if(isset($cash_payments) == null){
+        if (isset($cash_payments) == null) {
             return $cash_payments = 00.00;
         }
         return $cash_payments;
@@ -26,11 +30,27 @@ class Helper {
     public static function bankPayments()
     {
         $bank_payments = ChequePayment::sum('amount');
-        if(isset($bank_payments) == null){
+        if (isset($bank_payments) == null) {
             return $bank_payments = 00.00;
         }
         return $bank_payments;
     }
+
+    public static function getBankBalance()
+    {
+        $bank_credit = CashInBank::sum('credit');
+        $bank_debit = CashInBank::sum('debit');
+        return $bank_credit - $bank_debit;
+    }
+
+
+    public static function getCashBalance()
+    {
+        $cash_credit = CashInHand::sum('credit');
+        $cash_debit = CashInHand::sum('debit');
+        return $cash_credit - $cash_debit;
+    }
+
 
     public static function logo()
     {
@@ -200,10 +220,10 @@ class Helper {
     public static function getMemberCoreInfo($member_id, $month, $year)
     {
         $coreInfo = MemberCoreInfo::where('member_id', $member_id)
-        ->whereMonth('created_at', $month)
-        ->whereYear('created_at', $year)
-        ->orderBy('id', 'desc')
-        ->first();
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
 
         return $coreInfo;
     }
@@ -230,6 +250,4 @@ class Helper {
 
         return $loan;
     }
-
-
 }

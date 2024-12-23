@@ -157,7 +157,7 @@
                         <div class="col-md-12">
                             <input type="number" class="form-control" name="adv_amount" id="adv_amount"
                                 placeholder="">
-                            <span class="text-danger"></span>
+                            <span class="text-danger advamnt_msg"></span>
                         </div>
                     </div>
                 </div>
@@ -236,7 +236,7 @@
         <div class="row justify-content-end">
             <div class="col-md-2">
                 <div class="mb-2">
-                    <button type="submit" class="listing_add">Save</button>
+                    <button type="submit" class="listing_add" id="advfund_save_btn">Save</button>
                 </div>
             </div>
 
