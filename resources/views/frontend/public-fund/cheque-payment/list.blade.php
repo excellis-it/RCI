@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="table-responsive rounded-2 listmain">
                                     <table class="table  mb-0 align-middle">
-                                        <thead class="text-white fs-4 bg_blue">
+                                        {{-- <thead class="text-white fs-4 bg_blue">
                                             <tr>
 
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="receipt_no"
@@ -103,7 +103,7 @@
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Action</th>
                                             </tr>
-                                        </thead>
+                                        </thead> --}}
                                         <tbody class="tbody_height_scroll">
                                             @include('frontend.public-fund.cheque-payment.table')
                                         </tbody>
@@ -342,7 +342,7 @@
 
 
     <script>
-         $(document).on('click', '#delete', function() {
+        $(document).on('click', '#delete', function() {
             //swal alert then call ajax
             var route = $(this).data('route');
 
@@ -457,6 +457,8 @@
 
                                 //  $("#receipt_data").append(response.view);
                                 $("#receipt_id_" + data_id).val(data_id);
+                                // $("#category_id_" + data_id).val(response.receipt_data
+                                //     .category_id_);
                                 $("#create_receipt_no_" + data_id).val(response.receipt_data
                                     .receipt_no);
                                 $("#create_vr_no_" + data_id).val(response.receipt_data.vr_no);
@@ -701,7 +703,6 @@
     </script>
 
     <script>
-
         function vForm() {
             let isValid = true;
 
@@ -819,30 +820,30 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            var groupedRows = {};
+        // $(document).ready(function() {
+        //     var groupedRows = {};
 
-            // Loop through each row in the table body
-            $('table tbody tr').each(function() {
-                var chequeNo = $(this).find('td:eq(5)').text().trim(); // Get the Cheque No. (6th column)
+        //     // Loop through each row in the table body
+        //     $('table tbody tr').each(function() {
+        //         var chequeNo = $(this).find('td:eq(5)').text().trim(); // Get the Cheque No. (6th column)
 
-                // If this Cheque No. is already in the groupedRows object
-                if (groupedRows[chequeNo]) {
-                    // Append the necessary columns from this row into the grouped row
-                    var newData = $(this).find('td:eq(3), td:eq(4), td:eq(6), td:eq(7)').html();
-                    groupedRows[chequeNo].find('td:eq(3)').append('<br>' +
-                        newData); // Append to the Amount, Bill Ref, Cheque Date, and Created On columns
-                    $(this).remove(); // Remove the current row from the table
-                } else {
-                    // If this is the first row with this Cheque No., store the entire row
-                    groupedRows[chequeNo] = $(this);
-                }
-            });
+        //         // If this Cheque No. is already in the groupedRows object
+        //         if (groupedRows[chequeNo]) {
+        //             // Append the necessary columns from this row into the grouped row
+        //             var newData = $(this).find('td:eq(3), td:eq(4), td:eq(6), td:eq(7)').html();
+        //             groupedRows[chequeNo].find('td:eq(3)').append('<br>' +
+        //                 newData); // Append to the Amount, Bill Ref, Cheque Date, and Created On columns
+        //             $(this).remove(); // Remove the current row from the table
+        //         } else {
+        //             // If this is the first row with this Cheque No., store the entire row
+        //             groupedRows[chequeNo] = $(this);
+        //         }
+        //     });
 
-            // After processing, append all the grouped rows back to the table
-            for (var chequeNo in groupedRows) {
-                $('table tbody').append(groupedRows[chequeNo]);
-            }
-        });
+        //     // After processing, append all the grouped rows back to the table
+        //     for (var chequeNo in groupedRows) {
+        //         $('table tbody').append(groupedRows[chequeNo]);
+        //     }
+        // });
     </script>
 @endpush

@@ -41,10 +41,11 @@
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
-                                                        <label>Date</label>
+                                                        <label>Cheque Date</label>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <input type="date" class="form-control" name="date" id="date">
+                                                        <input type="date" class="form-control" name="date"
+                                                            id="date">
                                                         <div id="dateError" class="text-danger" style="display:none;">Please
                                                             select a date.</div>
 
@@ -72,22 +73,22 @@
     @endsection
 
     @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#paymentForm').on('submit', function(event) {
-                var date = $('#date').val();
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#paymentForm').on('submit', function(event) {
+                    var date = $('#date').val();
 
-                // Reset previous error message
-                $('#dateError').hide();
+                    // Reset previous error message
+                    $('#dateError').hide();
 
-                // Check if the date field is empty
-                if (!date) {
-                    event.preventDefault(); // Prevent form submission
-                    $('#dateError').show(); // Display error message under the input field
-                    return false;
-                }
+                    // Check if the date field is empty
+                    if (!date) {
+                        event.preventDefault(); // Prevent form submission
+                        $('#dateError').show(); // Display error message under the input field
+                        return false;
+                    }
+                });
             });
-        });
-    </script>
+        </script>
     @endpush

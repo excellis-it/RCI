@@ -68,6 +68,11 @@
                             <td>
                                 <input type="hidden" id="receipt_id_{{ $receipt_data->id }}" class="form-control"
                                     name="receipt_id[]" required readonly value="{{ $receipt_data->id }}">
+
+                                <input type="hidden" value="{{ $receipt_data->category_id }}"
+                                    id="category_id_{{ $receipt_data->id }}" class="form-control" name="category_id[]"
+                                    required readonly>
+
                                 <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
                                     name="rc_amount[]" required readonly>
                             </td>
@@ -119,7 +124,7 @@
                                             <th>Bill Reference</th>
                                             <th>Cheque No.</th>
                                             <th>Cheque Date</th>
-                                           
+
                                         </tr>
                                     </thead>
                                     <tbody>
