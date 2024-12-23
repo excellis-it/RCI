@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\CashWithdrawal;
 use App\Models\ImprestResetVoucher;
 use App\Models\ChequePayment;
+use App\Models\CashInBank;
+use App\Models\CashInHand;
 use Illuminate\Support\Str;
 
 class CashWithdrawalController extends Controller
@@ -17,7 +19,23 @@ class CashWithdrawalController extends Controller
     public function index()
     {
         $cashWithdrawals = CashWithdrawal::orderBy('id', 'desc')->paginate(10);
-        return view('imprest.cash-withdrawals.list', compact('cashWithdrawals'));
+
+       // $bank=CashInBank::orderBy('id', 'desc')->first();
+
+        $bank_credit = CashInBank::orderBy('id', 'desc')->sum('credit');
+        $bank_debit = CashInBank::orderBy('id', 'desc')->sum('debit');
+
+        $bank_balance = $bank_credit - $bank_debit;
+
+
+
+        $cash_credit = CashInHand::orderBy('id', 'desc')->sum('credit');
+        $cash_debit = CashInHand::orderBy('id', 'desc')->sum('debit');
+
+        $cash_balance = $cash_credit - $cash_debit;
+
+
+        return view('imprest.cash-withdrawals.list', compact('cashWithdrawals','bank_balance','cash_balance'));
     }
 
     public function fetchData(Request $request)
@@ -39,7 +57,7 @@ class CashWithdrawalController extends Controller
             ->paginate(10);
 
             return response()->json(['data' => view('imprest.cash-withdrawals.table', compact('cashWithdrawals'))->render()]);
-           
+
         }
     }
 
@@ -57,6 +75,7 @@ class CashWithdrawalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'vr_no' => 'required',
             'vr_date' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
@@ -75,37 +94,37 @@ class CashWithdrawalController extends Controller
         } else {
             $counter = 1;
         }
-        
+
         $cashwithdrawal = new CashWithdrawal();
-        $cashwithdrawal->vr_no = $constantString . $counter;
+        // $cashwithdrawal->vr_no = $constantString . $counter;
+        $cashwithdrawal->vr_no = $request->vr_no;
         $cashwithdrawal->vr_date = $request->vr_date;
         $cashwithdrawal->chq_no = $request->chq_no;
         $cashwithdrawal->chq_date = $request->chq_date;
         $cashwithdrawal->amount = $request->amount;
         $cashwithdrawal->save();
 
-        // deduction of cash from cheque total
-        // $chequeTotal = ChequePayment::get()->sum('amount');
-        $cheques = ChequePayment::all();
+        $cashInBank = new CashInHand();
+        $cashInBank->credit = $request->amount;
+        $cashInBank->save();
 
-        foreach ($cheques as $cheque) {
-            // $cheque->amount = $cheque->amount - $request->amount;
-            // $cheque->update();
+        $cashInBank = new CashInBank();
+        $cashInBank->debit = $request->amount;
+        $cashInBank->save();
 
-            if ($cheque->amount >= $request->amount) {
-                $cheque->amount -= $request->amount;
-                $cheque->save();
-                $request->amount = 0; // Optionally set to 0, if you want to stop further reductions
-                break; // Exit the loop once a single cheque voucher's amount is reduced
-            } else {
-                
-                $request->amount -= $cheque->amount;
-                $cheque->amount = 0;
-                $cheque->save();
-            }
-        }
+        // $cashInBank = CashInBank::first();
+        // if ($cashInBank) {
+        //     $cashInBank->credit -= $request->amount; // Deduct from the bank
+        //     $cashInBank->save();
+        // } else {
+        //     return response()->json([
+        //         'error' => 'Insufficient balance in Cash In Bank to process this withdrawal.'
+        //     ], 400);
+        // }
 
-        
+
+
+
 
         session()->flash('message', 'Cash Withdrawal updated successfully');
         return response()->json(['success' => 'Cash Withdrawal updated successfully']);
@@ -126,7 +145,7 @@ class CashWithdrawalController extends Controller
     {
         $cashwithdrawal = CashWithdrawal::find($id);
         $edit = true;
-       
+
         return response()->json(['view' => view('imprest.cash-withdrawals.form', compact('edit','cashwithdrawal'))->render()]);
     }
 
@@ -136,6 +155,7 @@ class CashWithdrawalController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'vr_no' => 'required',
             'vr_date' => 'required',
             'chq_no' => 'required',
             'chq_date' => 'required',
@@ -143,6 +163,7 @@ class CashWithdrawalController extends Controller
         ]);
 
         $cashwithdrawal = CashWithdrawal::findOrFail($id);
+        $cashwithdrawal->vr_no = $request->vr_no;
         $cashwithdrawal->vr_date = $request->vr_date;
         $cashwithdrawal->chq_no = $request->chq_no;
         $cashwithdrawal->chq_date = $request->chq_date;
@@ -165,7 +186,7 @@ class CashWithdrawalController extends Controller
     {
         $cashwithdrawal = CashWithdrawal::find($id);
         $cashwithdrawal->delete();
-        
+
         return redirect()->back()->with('message', 'Cash Withdrawal deleted successfully');
     }
 }

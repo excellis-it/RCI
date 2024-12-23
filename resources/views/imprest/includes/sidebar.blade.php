@@ -34,6 +34,8 @@
                     </a>
                 </li>
 
+
+
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('imprest/advance-funds*') ? 'active' : '' }}"
                         href="{{ route('advance-funds.index') }}">
@@ -44,14 +46,14 @@
                     </a>
                 </li>
 
-                {{-- <li class="sidebar-item">
+                <li class="sidebar-item">
                         <a class="sidebar-link {{ Request::is('imprest/cash-withdrawals*') ? 'active' : '' }}"  href="{{ route('cash-withdrawals.index') }}" >
                             <span>
                                 <i class="ti ti-currency-rupee"></i>
                             </span>
                             <span class="hide-menu">Cash Withdrawal</span>
                         </a>
-                    </li> --}}
+                    </li>
 
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('imprest/advance-settlement*') ? 'active' : '' }}"

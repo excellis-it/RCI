@@ -113,6 +113,7 @@ use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
 use App\Http\Controllers\Imprest\AdvanceFundController;
 use App\Http\Controllers\Imprest\ImprestReportController;
+use App\Http\Controllers\Imprest\AmountController;
 
 use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
@@ -822,6 +823,7 @@ Route::middleware('permssions')->group(function () {
             'cash-withdrawals' => CashWithdrawalController::class,
             'advance-settlement' => AdvanceSettlementController::class,
             'advance-funds' => AdvanceFundController::class,
+            'amount'=> AmountController::class,
         ]);
 
         Route::get('/report-imprest', [ImprestReportController::class, 'imprestReport'])->name('imprest-report');

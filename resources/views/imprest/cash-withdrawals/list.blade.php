@@ -31,10 +31,10 @@ use App\Helpers\Helper;
 
         <div class="row">
             <div class="col-md-6 text-start mb-3">
-                <h5>Cash In Bank - {{ Helper::bankPayments() }}</h5>
+                <h5>Cash In Bank - {{ $bank_balance ?? 0 }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
-               <h5> Cash In hand - {{ Helper::cashPayments() }}</h5>
+               <h5> Cash In hand - {{ $cash_balance ?? 0 }}</h5>
             </div>
         </div>
 
@@ -61,7 +61,7 @@ use App\Helpers\Helper;
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                
+
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
                                                     style="cursor: pointer">VR NO.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -70,14 +70,14 @@ use App\Helpers\Helper;
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="chq_no"
                                                     style="cursor: pointer">CHQ NO.<span id="chq_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> 
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="chq_date"
                                                     style="cursor: pointer">CHQ DATE.<span id="chq_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> 
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                             <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">AMOUNT<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>        
-                                                
+                                                            class="fa fa-arrow-down"></i></span> </th>
+
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -95,7 +95,7 @@ use App\Helpers\Helper;
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 @endsection
 
@@ -103,22 +103,22 @@ use App\Helpers\Helper;
 <script>
     $(document).ready(function() {
         $('#cash-withdrawals-create-form').submit(function(e) {
-            
+
             e.preventDefault();
             var formData = $(this).serialize();
-        
+
 
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 data: formData,
                 success: function(response) {
-                   
+
                     //windows load with toastr message
                     window.location.reload();
                 },
                 error: function(xhr) {
-                   
+
                     // Handle errors (e.g., display validation errors)
                     //clear any old errors
                     $('.text-danger').html('');
@@ -227,7 +227,7 @@ use App\Helpers\Helper;
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
-                
+
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
