@@ -8,7 +8,7 @@
                 </a>
             </li>
         </ul>
-        
+
         <ul class="navbar-nav quick-links d-none d-lg-flex">
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Payment Category<span
@@ -40,9 +40,16 @@
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('project.index') ? 'active' : '' }}" href="{{ route('project.index') }}">Projects</a>
             </li>
+
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <a class="nav-link" href="{{ route('amount.index') }}">Amount</a>
+            </li>
+
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="{{ route('imprest-report') }}">Report</a>
             </li>
+
+
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pay & Allowance<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
@@ -63,19 +70,21 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Income Tax</a>                             
+                                    href="#">Income Tax</a>
                             </li>
                             <li>
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('members.index') }}">Member Managemnet</a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </div>
             </li> --}}
         </ul>
+
         
+
         <div class="d-block d-lg-none">
             <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
         </div>

@@ -3,6 +3,20 @@
         @method('PUT')
         @csrf
         <div class="row">
+
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Vr No</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="vr_no" id="vr_no"
+                            placeholder="" value="{{ $cashwithdrawal->vr_no }}" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -56,7 +70,7 @@
             </div>
 
         </div>
-        
+
         <div class="row d-flex justify-content-end">
             <div class="col-md-2">
                 <button type="submit" class="listing_add">Update</button>
@@ -69,8 +83,22 @@
 @else
     <form action="{{ route('cash-withdrawals.store') }}" method="POST" id="cash-withdrawals-create-form">
         @csrf
-        
+
         <div class="row">
+
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Vr No</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="vr_no" id="vr_no"
+                            placeholder="" >
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -124,7 +152,7 @@
             </div>
 
         </div>
-        
+
             <div class="row d-flex justify-content-end">
                 <div class="col-md-2">
                     <button type="submit" class="listing_add">Save</button>
