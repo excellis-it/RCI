@@ -162,6 +162,7 @@ class AdvanceSettlementController extends Controller
 
 
         $advance_settlement = new AdvanceSettlement();
+        $advance_settlement->af_id = $request->af_id;
         $advance_settlement->adv_no = $request->adv_no;
         $advance_settlement->adv_date = $request->adv_date;
         $advance_settlement->adv_amount = $request->adv_amount;
@@ -178,6 +179,7 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->member_id = $request->member_id;
         $advance_settlement->bill_status = 0;
         $advance_settlement->receipt_status = 0;
+        $advance_settlement->created_by = auth()->id();
         $advance_settlement->save();
 
         session()->flash('message', 'Advance Settlement added successfully');

@@ -3,8 +3,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Employee ID</th>
-                <th>Name</th>
+                {{-- <th>Employee ID</th>
+                <th>Name</th> --}}
                 <th>Advance No</th>
                 <th>Advance Date</th>
                 <th>Advance Amount</th>
@@ -17,8 +17,8 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ $advance_funds->emp_id ?? 'N/A' }}</td>
-                <td>{{ $advance_funds->member->name ?? 'N/A' }}</td>
+                {{-- <td>{{ $advance_funds->emp_id ?? 'N/A' }}</td>
+                <td>{{ $advance_funds->member->name ?? 'N/A' }}</td> --}}
                 <td>{{ $advance_funds->adv_no ?? 'N/A' }}</td>
                 <td>{{ $advance_funds->adv_date ?? 'N/A' }}</td>
                 <td>{{ $advance_funds->adv_amount ?? 'N/A' }}</td>
@@ -40,7 +40,7 @@
 
                 <th>Advance No</th>
                 <th>Advance Date</th>
-                <th>Member Name</th>
+                {{-- <th>Member Name</th> --}}
                 <th>Advance Amount</th>
                 <th>Bill Amount</th>
                 <th>Balance</th>
@@ -59,7 +59,7 @@
 
                         <td>{{ $advance_settel->adv_no ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->adv_date ?? 'N/A' }}</td>
-                        <td>{{ $advance_settel->member->name ?? 'N/A' }}</td>
+                        {{-- <td>{{ $advance_settel->member->name ?? 'N/A' }}</td> --}}
                         <td>{{ $advance_settel->adv_amount ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->bill_amount ?? 'N/A' }}</td>
                         <td>{{ $advance_settel->balance ?? 'N/A' }}</td>
@@ -93,6 +93,9 @@
 
             <input type="hidden" class="form-control" name="adv_date" value="{{ $advance_funds->adv_date }}"
                 placeholder="" required>
+
+            <input type="hidden" class="form-control" name="af_id" value="{{ $advance_funds->id }}" placeholder=""
+                required>
 
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
@@ -311,8 +314,11 @@
                     //  window.location.reload();
                     toastr.success('Advance Settlement added successfully');
                     //  window.history.back();
-                    $("#searchAdv-form").submit();
-                    checkBalance();
+                    // $("#searchAdv-form").submit();
+                    //  checkBalance();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 800);
                 },
                 error: function(xhr) {
 

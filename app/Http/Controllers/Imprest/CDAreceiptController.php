@@ -24,7 +24,15 @@ class CdaReceiptController extends Controller
 
         $lastcdaReceipt = CDAReceipt::orderBy('id', 'desc')->first();
 
-        $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')->get();
+        // $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')->get();
+
+        $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')
+            ->whereDoesntHave('advanceSettlement', function ($query) {
+                $query->where('bill_status', 1)->Where('receipt_status', 1);
+            })
+            ->get();
+
+
 
         // return dd($advance_bills);
 
@@ -185,6 +193,7 @@ class CdaReceiptController extends Controller
             'dv_date' => $request->dv_date,
             'rct_vr_amount' => $request->rct_vr_amount,
             'remark' => $request->remark,
+            'created_by' => auth()->id(),
         ]);
 
 

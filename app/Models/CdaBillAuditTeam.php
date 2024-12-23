@@ -23,4 +23,9 @@ class CdaBillAuditTeam extends Model
     {
         return $this->belongsTo(Member::class, 'member_id');
     }
+
+    public function advanceSettlement()
+    {
+        return $this->belongsTo(AdvanceSettlement::class, 'settle_id');
+    }
 }

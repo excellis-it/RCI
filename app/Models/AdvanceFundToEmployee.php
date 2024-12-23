@@ -10,7 +10,16 @@ class AdvanceFundToEmployee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'member_id', 'emp_id', 'adv_date', 'adv_amount', 'project_id', 'var_type_id', 'chq_no', 'chq_date', 'adv_no'
+        'member_id',
+        'emp_id',
+        'adv_date',
+        'adv_amount',
+        'project_id',
+        'var_type_id',
+        'chq_no',
+        'chq_date',
+        'adv_no',
+        'created_by'
     ];
 
 
@@ -28,5 +37,10 @@ class AdvanceFundToEmployee extends Model
     public function member()
     {
         return $this->belongsTo(Member::class, 'member_id');
+    }
+
+    public function advanceSettlements()
+    {
+        return $this->hasMany(AdvanceSettlement::class, 'af_id');
     }
 }
