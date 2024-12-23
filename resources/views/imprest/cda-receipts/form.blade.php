@@ -122,7 +122,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="number" class="form-control" name="rct_vr_amount" id="rct_vr_amount"
-                                        placeholder="">
+                                        placeholder="" readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -140,7 +140,9 @@
                                         <select name="bill_id" id="bill_id" class="form-control" readonly required>
                                             <option value="">Select</option>
                                             @foreach ($advance_bills as $advance_bill)
-                                                <option value="{{ $advance_bill->id }}">{{ $advance_bill->cda_bill_no }}
+                                                <option value="{{ $advance_bill->id }}"
+                                                    data-billamount="{{ $advance_bill->bill_amount }}">
+                                                    {{ $advance_bill->cda_bill_no }}
                                                 </option>
                                             @endforeach
 

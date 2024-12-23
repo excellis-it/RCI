@@ -25,6 +25,7 @@ class AdvanceFundController extends Controller
      */
     public function index()
     {
+
         $advance_funds = AdvanceFundToEmployee::orderBy('id', 'desc')->paginate(10);
         $variable_types = VariableType::orderBy('id', 'desc')->get();
         $projects = Project::orderBy('id', 'desc')->get();
@@ -155,6 +156,7 @@ class AdvanceFundController extends Controller
             'chq_no' => $request->chq_no,
             'chq_date' => $request->chq_date,
             'adv_no' => $request->adv_no,
+            'created_by' => auth()->id(),
         ]);
 
         session()->flash('message', 'Advance fund added successfully');

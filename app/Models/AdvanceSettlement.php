@@ -9,10 +9,10 @@ class AdvanceSettlement extends Model
 {
     use HasFactory;
 
-   
+
     public function project()
     {
-        return $this->belongsTo(Project::class , 'project_id');
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function variableType()
@@ -23,5 +23,10 @@ class AdvanceSettlement extends Model
     public function member()
     {
         return $this->belongsTo(Member::class, 'member_id');
+    }
+
+    public function advanceFund()
+    {
+        return $this->belongsTo(AdvanceFundToEmployee::class, 'af_id');
     }
 }

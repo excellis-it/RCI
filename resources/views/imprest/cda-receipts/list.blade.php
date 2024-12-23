@@ -299,4 +299,17 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $("#bill_id").change(function(e) {
+                e.preventDefault();
+                var selectedOption = $(this).find(":selected");
+                // Retrieve the data-billamount attribute
+                var the_bill_amount = selectedOption.data('billamount');
+                // alert(the_bill_amount);
+                $("#rct_vr_amount").val(the_bill_amount);
+
+            });
+        });
+    </script>
 @endpush

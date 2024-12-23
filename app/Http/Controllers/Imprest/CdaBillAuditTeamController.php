@@ -161,6 +161,7 @@ class CdaBillAuditTeamController extends Controller
                 $receiptPayment->variable_id = $request->variable_id[$index];
                 $receiptPayment->cda_bill_no = $request->cda_bill_no;
                 $receiptPayment->cda_bill_date = $request->cda_bill_date;
+                $receiptPayment->created_by = auth()->id();
 
                 $receiptPayment->save();
 

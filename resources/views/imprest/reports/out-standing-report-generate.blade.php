@@ -9,15 +9,16 @@
 </style>
 
 <body style="background: #fff">
-  <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-    style="border-radius: 0px; margin: 0 auto">
-    <tbody>
-      <tr>
-        <td style="padding: 0 0px">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-            <tbody>
-              <tr>
-                <td style="
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 600;
@@ -27,19 +28,20 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                Outstanding Bills	as on 17/01/2024
+                                    Outstanding Bills as on {{ $report_date }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr> 
-      <tr>
-        <td style="padding: 0 0px">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-            <thead>
-              <tr>
-                <td style="
+            </tr>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -50,9 +52,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                    Sr No
-                </td>
-                <td style="
+                                    Sr No
+                                </td>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -63,9 +66,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                    PC No
-                </td>
-                <td style="
+                                    PC No
+                                </td>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -76,9 +80,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   Project
-                </td>
-                <td style="
+                                    Project
+                                </td>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -89,9 +94,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                    ADV No
-                </td>
-                <td style="
+                                    ADV No
+                                </td>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -102,9 +108,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   ADV Date
-                </td>
-                <td style="
+                                    ADV Date
+                                </td>
+                                <td
+                                    style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -115,13 +122,17 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   ADV Amt
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="
+                                    ADV Amt
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if ($advanceFunds)
+                                @foreach ($advanceFunds as $index => $advanceFund)
+                                    <tr>
+                                        <td
+                                            style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -132,9 +143,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   1
-                </td>
-                <td style="
+                                            {{ $index + 1 }}
+                                        </td>
+                                        <td
+                                            style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -145,9 +157,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                    CH0026
-                </td>
-                <td style="
+                                            {{ $advanceFund->pc_no }}
+                                        </td>
+                                        <td
+                                            style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -158,9 +171,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   BuildUp
-                </td>
-                <td style="
+                                            {{ $advanceFund->project->name }}
+                                        </td>
+                                        <td
+                                            style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -171,9 +185,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   125
-                </td>
-                <td style="
+                                            {{ $advanceFund->adv_no }}
+                                        </td>
+                                        <td
+                                            style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -184,9 +199,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                   10/01/2024
-                </td>
-                <td style="
+                                            {{ $advanceFund->adv_date }}
+                                        </td>
+                                        <td
+                                            style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -197,172 +213,104 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                  5000
+                                            {{ $advanceFund->adv_amount }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
+
+                            <tr>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+                text-transform: uppercase;
+              ">
+                                    TOTAL
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+                                    {{ $totalAmount }}
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
                 </td>
-              </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                   2
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                    CH0026
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                   BuildUp
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                   125
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                   10/01/2024
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                  5000
-                </td>
-              </tr>
-              <tr>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                      text-transform: uppercase;
-                    ">
-                   TOTAL
-                </td>
-                <td style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
-                  10000
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            </tr>
+        </tbody>
+    </table>
 </body>
 
 </html>

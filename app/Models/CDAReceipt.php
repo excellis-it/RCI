@@ -18,7 +18,8 @@ class CDAReceipt extends Model
         'dv_no',
         'dv_date',
         'rct_vr_amount',
-        'remark'
+        'remark',
+        'created_by',
     ];
 
 
