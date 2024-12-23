@@ -12,6 +12,8 @@ use App\Models\AdvanceFundToEmployee;
 use App\Models\CdaBillAuditTeam;
 use App\Models\CDAReceipt;
 use Illuminate\Support\Facades\DB;
+use App\Models\CashInBank;
+use App\Models\CashInHand;
 
 class AdvanceSettlementController extends Controller
 {
@@ -181,6 +183,13 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->receipt_status = 0;
         $advance_settlement->created_by = auth()->id();
         $advance_settlement->save();
+
+
+        $cashInHand = new CashInHand();
+        $cashInHand->debit = $request->bill_amount;
+        $cashInHand->cheque_no = $request->chq_no;
+        $cashInHand->cheque_date = $request->chq_date;
+        $cashInHand->save();
 
         session()->flash('message', 'Advance Settlement added successfully');
         return response()->json(['success' => 'Advance Settlement added successfully']);

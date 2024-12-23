@@ -233,7 +233,7 @@
                     <div class="col-md-12">
                         <input type="number" class="form-control" name="bill_amount" id="bill_amount"
                             value="{{ old('bill_amount') ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+                        <span class="text-danger advamnt_msg"></span>
                     </div>
                 </div>
             </div>
@@ -379,6 +379,19 @@
                 // Update the balance field
                 $("#balance").val(newBalance.toFixed(2));
 
+            }
+
+
+            var this_adv_amount = parseFloat($(this).val()) || 0;
+            var main_cashinhand = parseFloat($("#main_cashinhand_balance").val()) || 0;
+
+            if (this_adv_amount > main_cashinhand) {
+                toastr.error('Cash In Hand Balance is Low');
+                $("#save_settle_btn").attr('disabled', true);
+                $(".advamnt_msg").text('Cash In Hand Balance is Low');
+            } else {
+                $("#save_settle_btn").removeAttr('disabled');
+                $(".advamnt_msg").text('');
             }
 
 

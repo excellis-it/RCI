@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\Models\AdvanceFundToEmployee;
 use App\Models\AdvanceSettlement;
 use App\Models\CdaBillAuditTeam;
+use App\Models\CashInBank;
+use App\Models\CashInHand;
 
 class CdaReceiptController extends Controller
 {
@@ -210,6 +212,13 @@ class CdaReceiptController extends Controller
             $advSettlement->receipt_status = 1;
             $advSettlement->save();
         }
+
+
+        $cashInBank = new CashInBank();
+        $cashInBank->credit = $request->rct_vr_amount;
+        // $cashInBank->cheque_no = $request->chq_no;
+        // $cashInBank->cheque_date = $request->chq_date;
+        $cashInBank->save();
 
         // Redirect back or to a specific route with a success message
         // return redirect()->route('cda-receipts.index')->with('success', 'CDA Receipt(s) added successfully.');

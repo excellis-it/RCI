@@ -68,7 +68,7 @@
                         <table class="table customize-table mb-0 align-middle bg_tbody">
                             <thead class="text-white fs-4 bg_blue">
                                 <tr>
-
+                                    <th>CDA Bill No</th>
                                     <th>Rct Vr. No</th>
                                     <th>Rct Vr. Date</th>
                                     <th>DV No</th>
@@ -89,6 +89,7 @@
                                 @if (isset($receipt_bills) && count($receipt_bills) > 0)
                                     @foreach ($receipt_bills as $key => $receipt_bill)
                                         <tr>
+                                            <td>{{ $receipt_bill->cdaBill->cda_bill_no }}</td>
                                             <td>{{ $receipt_bill->rct_vr_no }}</td>
                                             <td>{{ $receipt_bill->rct_vr_date }}</td>
 

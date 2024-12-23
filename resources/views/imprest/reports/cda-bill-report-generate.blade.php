@@ -4,6 +4,10 @@
 <meta charset="utf-8" />
 
 <body style="background: #fff">
+    <div>
+        <img src="https://excellis.co.in/rci//public/storage/logo/mJzAtluGFNXqKGhAfsw0riQ8ijlyvS29v56TAP2y.png"
+            alt="App Logo" style="max-width: 50px;">
+    </div>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
         <tbody>

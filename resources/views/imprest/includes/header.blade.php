@@ -1,9 +1,12 @@
+@php
+    use App\Helpers\Helper;
+@endphp
+
 <header class="app-header">
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse"
-                    href="javascript:void(0)">
+                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
@@ -29,16 +32,20 @@
                 </div>
             </li> --}}
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link {{ Route::is('cda-receipt-details.index') ? 'active' : '' }}" href="{{ route('cda-receipt-details.index') }}"> CDA Receipt Details</a>
+                <a class="nav-link {{ Route::is('cda-receipt-details.index') ? 'active' : '' }}"
+                    href="{{ route('cda-receipt-details.index') }}"> CDA Receipt Details</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link {{ Route::is('imprest-reset-voucher.index') ? 'active' : '' }}" href="{{ route('imprest-reset-voucher.index') }}">Reset Voucher</a>
+                <a class="nav-link {{ Route::is('imprest-reset-voucher.index') ? 'active' : '' }}"
+                    href="{{ route('imprest-reset-voucher.index') }}">Reset Voucher</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link {{ Route::is('variable-type.index') ? 'active' : '' }}" href="{{ route('variable-type.index') }}">Variable Type</a>
+                <a class="nav-link {{ Route::is('variable-type.index') ? 'active' : '' }}"
+                    href="{{ route('variable-type.index') }}">Variable Type</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <a class="nav-link {{ Route::is('project.index') ? 'active' : '' }}" href="{{ route('project.index') }}">Projects</a>
+                <a class="nav-link {{ Route::is('project.index') ? 'active' : '' }}"
+                    href="{{ route('project.index') }}">Projects</a>
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block">
@@ -47,6 +54,16 @@
 
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="{{ route('imprest-report') }}">Report</a>
+            </li>
+
+            <li class="nav-item dropdown-hover d-none d-lg-block ms-5">
+                <span class="nav-link text-primary">Cash In Bank : {{ Helper::getBankBalance() }}</span>
+                <input type="hidden" id="main_cashinbank_balance" value="{{ Helper::getBankBalance() }}">
+            </li>
+
+            <li class="nav-item dropdown-hover d-none d-lg-block">
+                <span class="nav-link text-primary">Cash In Hand : {{ Helper::getCashBalance() }}</span>
+                <input type="hidden" id="main_cashinhand_balance" value="{{ Helper::getCashBalance() }}">
             </li>
 
 
@@ -83,10 +100,10 @@
             </li> --}}
         </ul>
 
-        
+
 
         <div class="d-block d-lg-none">
-            <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
+            <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" width="" alt="">
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
@@ -98,7 +115,7 @@
             </li> --}}
             <li class="nav-item">
                 <a class="fw-semibold bg-hover-primary text-decoration-none text-deger ps-3 d-none d-md-block"
-                    href="{{route('logout')}}">
+                    href="{{ route('logout') }}">
                     <i class="ti ti-logout fs-4"></i> Logout
                 </a>
             </li>
@@ -253,7 +270,7 @@
                             <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                                 <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                     <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
-                                    width="24" height="24">
+                                        width="24" height="24">
                                 </span>
                                 <div class="w-75 d-inline-block v-middle ps-3">
                                     <h6 class="mb-1 bg-hover-primary fw-semibold"> Change Logo </h6>

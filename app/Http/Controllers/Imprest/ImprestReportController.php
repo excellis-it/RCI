@@ -13,6 +13,7 @@ use App\Models\AdvanceSettlement;
 use App\Models\CDAReceipt;
 use DateTime;
 use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class ImprestReportController extends Controller
 {
@@ -42,7 +43,14 @@ class ImprestReportController extends Controller
         $report_date = $date->format('d/m/y');
 
         if ($request->bill_type == 'cash_book') {
-            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date'));
+
+            $cashin_bank = Helper::getBankBalance();
+            $cashin_hand = Helper::getCashBalance();
+
+            $total = $cashin_bank + $cashin_hand;
+
+
+            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'cashin_bank', 'cashin_hand', 'total'));
             return $pdf->download('cash-book-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'out_standing') {
 
