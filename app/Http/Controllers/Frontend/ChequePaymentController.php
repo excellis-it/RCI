@@ -30,7 +30,7 @@ class ChequePaymentController extends Controller
 
         $allReceipts = Receipt::get();
         $lastPayment = ChequePayment::orderBy('id', 'desc')->first();
-        $AllPayments = ChequePayment::orderBy('id', 'desc')->paginate(10);
+        $AllPayments = ChequePayment::orderBy('id', 'desc')->paginate(100);
         return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments'));
     }
 
@@ -194,6 +194,7 @@ class ChequePaymentController extends Controller
                     $chequePayment->receipt_no = $request->receipt_no[$index];
                     $chequePayment->vr_no = $vr_no;
                     $chequePayment->vr_date = $request->vr_date[$index];
+                    $chequePayment->category_id = $request->category_id[$index];
                     $chequePayment->amount = $request->amount[$index];
                     $chequePayment->bill_ref = $request->bill_ref[$index];
                     $chequePayment->cheq_no = $request->cheq_no[$index];
@@ -256,7 +257,7 @@ class ChequePaymentController extends Controller
         //  return $id;
 
         $request->validate([
-            'bill_ref' => 'required',
+
             'cheq_no' => 'required',
             'cheq_date' => 'required',
         ]);
@@ -400,8 +401,8 @@ class ChequePaymentController extends Controller
         // dd($payments);
 
 
-         $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('category',  'payments', 'chq_date'))->setPaper('a3', 'landscape');
-          return $pdf->download('payment-report-' . $chq_date . '.pdf');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('category',  'payments', 'chq_date'))->setPaper('a3', 'landscape');
+        return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
         // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
     }

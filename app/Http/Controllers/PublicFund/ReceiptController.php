@@ -381,7 +381,7 @@ class ReceiptController extends Controller
      */
     public function destroy(string $id) {}
 
-    
+
     public function delete($id)
     {
         $receipt = Receipt::findOrFail($id);
@@ -405,6 +405,10 @@ class ReceiptController extends Controller
 
         $vr_date = $request->date;
 
+        $pre_vr_date = date('Y-m-d', strtotime($vr_date . ' -1 day'));
+
+        // return dd($pre_vr_date);
+
         $members = Member::orderBy('id', 'desc')->get();
 
         $category = PaymentCategory::orderBy('id', 'asc')->get();
@@ -414,19 +418,33 @@ class ReceiptController extends Controller
         $payments = DB::table('cheque_payments')->where('vr_date', '<=', $vr_date)->get();
 
         // Prepare arrays for vr_no and vr_date from cheque payments
-        $vrNos = $payments->pluck('vr_no')->toArray();
+        // $vrNos = $payments->pluck('vr_no')->toArray();
 
         // Calculate opening balance for each category for past dates
+        $openingBalance1 = [];
+        $openingBalance2 = [];
         $openingBalance = [];
+
         foreach ($category as $cat) {
-            $openingBalance[$cat->id] = DB::table('receipts')
-                ->where('vr_date', '<', $vr_date) // Filter by past dates
+            $openingBalance1[$cat->id] = DB::table('receipts')
+                ->where('vr_date', '<=', $vr_date) // Filter by past dates
                 ->where('category_id', $cat->id) // Match category
-                ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
+                //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
                 ->sum('amount'); // Sum amounts
+
+            $openingBalance2[$cat->id] = DB::table('cheque_payments')
+                ->where('vr_date', '<=', $vr_date) // Filter by past dates
+                ->where('category_id', $cat->id) // Match category
+                //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
+                ->sum('amount'); // Sum amounts
+
+            $openingBalance[$cat->id] = $openingBalance1[$cat->id] - $openingBalance2[$cat->id];
         }
 
-        // return $category;
+
+
+
+        //  return $openingBalanceFinal;
 
         $receipts = DB::table('receipts')
             ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')

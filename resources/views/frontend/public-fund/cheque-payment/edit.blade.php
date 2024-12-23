@@ -110,27 +110,27 @@
                     <input type="hidden" value="{{ $chequePayment->id }}" name="chid">
 
                     <div class="col-md-3">
-                        <label for="">Amount</label>
+                        <label for="">Bill Amount</label>
                         <input type="number" class="form-control" value="{{ $chequePayment->amount }}" required
                             readonly>
                         <span class="text-danger"></span>
                     </div>
                     <div class="col-md-3">
-                        <label for="">Bill Ref</label>
+                        <label for="">Bill Ref<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="bill_ref"
-                            value="{{ $chequePayment->bill_ref ?? '' }}" required>
+                            value="{{ $chequePayment->bill_ref ?? '' }}">
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3">
-                        <label for="">Cheque No.</label>
+                        <label for="">Cheque No.<span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="cheq_no"
                             value="{{ $chequePayment->cheq_no ?? '' }}" required>
                         <span class="text-danger"></span>
                     </div>
 
                     <div class="col-md-3">
-                        <label for="">Cheque Date</label>
+                        <label for="">Cheque Date<span class="text-danger">*</span></label>
                         <input type="date" class="form-control" name="cheq_date"
                             value="{{ $chequePayment->cheq_date ?? '' }}" required>
                         <span class="text-danger"></span>

@@ -41,7 +41,7 @@
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
-                                                        <label>Date</label>
+                                                        <label>Vr Date</label>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="date" class="form-control" name="date"
