@@ -494,9 +494,6 @@ class ReceiptController extends Controller
     }
 
 
-
-
-
     //
 
 }
