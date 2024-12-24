@@ -70,8 +70,8 @@
                                     <th>Adv No</th>
                                     <th>Adv Date</th>
                                     <th>Member Name</th>
-                                    <th>Amount</th>
-
+                                    <th>Adv Amount</th>
+                                    <th>Bill Amount</th>
 
                                     <th>Project</th>
                                     <th>Cheque No</th>
@@ -93,6 +93,7 @@
                                             <td>{{ $advance_bill->member->name ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->adv_amount ?? 'N/A' }}</td>
 
+                                            <td>{{ $advance_bill->bill_amount ?? 'N/A' }}</td>
 
                                             <td>{{ $advance_bill->project->name ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->chq_no ?? 'N/A' }}</td>

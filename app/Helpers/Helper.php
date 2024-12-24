@@ -13,6 +13,8 @@ use App\Models\SiteLogo;
 use App\Models\Pension;
 use App\Models\CashInBank;
 use App\Models\CashInHand;
+use App\Models\ReceiptMember;
+use App\Models\ChequePaymentMember;
 
 class Helper
 {
@@ -41,6 +43,19 @@ class Helper
         $bank_credit = CashInBank::sum('credit');
         $bank_debit = CashInBank::sum('debit');
         return $bank_credit - $bank_debit;
+    }
+
+    public static function getCheqpaymentMemberBalance($receipt_id, $member_id)
+    {
+        $balance = 0;
+        $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
+        $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
+        if($payment_amount){
+            $balance = $payment_amount - $receipt_amount;
+        } else {
+            $balance = $receipt_amount;
+        }
+        return $balance;
     }
 
 

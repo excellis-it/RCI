@@ -579,6 +579,68 @@
                                 });
 
 
+
+                                $('.receipt_member_data_form').each(function() {
+                                    let $table = $(this);
+
+                                    // Listen for changes in bill amount inputs
+                                    $table.on('input', '.bill-amount', function() {
+                                        let $billAmountInput = $(this);
+                                        let $row = $billAmountInput.closest(
+                                            'tr');
+                                        let $mainpayAmountInput = $row.find(
+                                            'input[name="main_pay_amount[][]"]'
+                                        );
+                                        let $payAmountInput = $row.find(
+                                            'input[name="rc_amount[][]"]');
+                                        let $balanceInput = $row.find(
+                                            'input[name="balance[][]"]');
+                                        let $errorSpan = $billAmountInput
+                                            .siblings('.text-danger');
+                                        let $upperBillAmount = $table.find(
+                                            '.upper-bill-amount');
+
+                                        // Get values
+                                        let payAmount = parseFloat(
+                                            $mainpayAmountInput.val()) || 0;
+                                        let billAmount = parseFloat(
+                                            $billAmountInput.val()) || 0;
+
+                                        // Check if bill amount is greater than pay amount
+                                        if (billAmount > payAmount) {
+                                            // Show error message
+                                            $errorSpan.text(
+                                                'Bill amount cannot exceed pay amount.'
+                                            );
+                                            $balanceInput.val(payAmount);
+                                            $billAmountInput.val('');
+                                        } else {
+                                            // Clear error message and update balance
+                                            $errorSpan.text('');
+                                            let balance = payAmount -
+                                                billAmount;
+                                            $balanceInput.val(balance.toFixed(
+                                                2));
+                                        }
+
+                                        // Calculate total bill amount for the table
+                                        let totalBillAmount = 0;
+                                        $table.find('.bill-amount-lower').each(
+                                            function() {
+                                                let value = parseFloat($(
+                                                    this).val()) || 0;
+                                                totalBillAmount += value;
+                                            });
+
+                                        console.log(totalBillAmount);
+
+                                        // Update the upper-bill-amount value
+                                        $upperBillAmount.val(totalBillAmount
+                                            .toFixed(2));
+                                    });
+                                });
+
+
                             } else {
                                 console.log('Element with ID "' + elementId +
                                     '" already exists in the class. Skipping append.');
@@ -797,7 +859,7 @@
             let totalAmount = 0;
 
             // Loop through each bill amount input field and sum the values
-            $('.bill-amount').each(function() {
+            $('.upper-bill-amount').each(function() {
                 let billAmount = parseFloat($(this).val()) || 0; // Get value and default to 0 if not a valid number
                 totalAmount += billAmount;
             });
@@ -814,7 +876,7 @@
         }
 
         // Trigger the calculation whenever a bill amount input changes
-        $('.bill-amount').on('input', function() {
+        $('.upper-bill-amount').on('input', function() {
             calculateBillAmountSum();
         });
     </script>
@@ -845,5 +907,12 @@
         //         $('table tbody').append(groupedRows[chequeNo]);
         //     }
         // });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Attach event handler to all .receipt_member_data_form tables
+
+        });
     </script>
 @endpush

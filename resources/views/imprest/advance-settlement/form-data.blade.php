@@ -394,6 +394,8 @@
                 $(".advamnt_msg").text('');
             }
 
+            $("#var_amount").val(billAmount);
+
 
         });
     });

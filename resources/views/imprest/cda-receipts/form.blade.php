@@ -137,11 +137,11 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
 
-                                        <select name="bill_id" id="bill_id" class="form-control" readonly required>
+                                        <select name="bill_no" id="bill_no" class="form-control" readonly required>
                                             <option value="">Select</option>
                                             @foreach ($advance_bills as $advance_bill)
-                                                <option value="{{ $advance_bill->id }}"
-                                                    data-billamount="{{ $advance_bill->bill_amount }}">
+                                                <option value="{{ $advance_bill->cda_bill_no }}"
+                                                    data-billamount="{{ $advance_bill->total_bill_amount }}">
                                                     {{ $advance_bill->cda_bill_no }}
                                                 </option>
                                             @endforeach

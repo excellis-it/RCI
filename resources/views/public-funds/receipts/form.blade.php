@@ -166,8 +166,7 @@
                             </div>
                             <div class="col-md-12">
                                 <textarea type="text" class="form-control" name="narration" id="narration"></textarea>
-                                <span class="text-danger" style="display:none; color:red;">Narration field is
-                                    required</span>
+
                             </div>
                         </div>
                     </div>

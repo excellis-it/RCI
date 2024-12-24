@@ -27,7 +27,7 @@ class ReceiptController extends Controller
     public function index()
     {
         $receipts = Receipt::orderBy('id', 'desc')->paginate(10);
-        $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
+        $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
         $lastReceipt = Receipt::whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
@@ -310,7 +310,7 @@ class ReceiptController extends Controller
         // return $id;
         $receipt = Receipt::with('receiptMembers.member')->findOrFail($id);
         $members = Member::all(); // Assuming you have a Member model for the dropdown
-        $paymentCategories = PaymentCategory::all(); // Assuming payment categories are needed
+        $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
 
         $view = view('public-funds.receipts.edit', compact('receipt', 'members', 'paymentCategories'))->render();
 
@@ -492,6 +492,8 @@ class ReceiptController extends Controller
 
         // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
     }
+
+
 
 
     //
