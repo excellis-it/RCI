@@ -302,7 +302,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $("#bill_id").change(function(e) {
+            $("#bill_no").change(function(e) {
                 e.preventDefault();
                 var selectedOption = $(this).find(":selected");
                 // Retrieve the data-billamount attribute

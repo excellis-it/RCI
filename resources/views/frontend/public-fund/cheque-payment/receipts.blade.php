@@ -1,3 +1,6 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 @if ($receipt_data)
 
     <div id="rcpt_div_{{ $receipt_data->id }}" class=" mb-2 fnd_receipts dynamic-fields">
@@ -50,11 +53,9 @@
                 </tbody>
             </table>
 
-            <div id="rct_input_div_{{ $receipt_data->id }}">
+            <div id="rct_input_div_{{ $receipt_data->id }}" class="receipt_member_data_form">
 
-
-
-                <table class="table table-responsive mt-0 pt-0">
+                <table class="table table-responsive mt-0 pt-0 ">
                     <thead>
                         <tr>
                             <th>Amount</th>
@@ -77,7 +78,7 @@
                                     name="rc_amount[]" required readonly>
                             </td>
                             <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
-                                    class="form-control bill-amount" name="amount[]">
+                                    class="form-control bill-amount upper-bill-amount" name="amount[]">
 
                                 <span class="text-danger"></span>
                             </td>
@@ -88,8 +89,67 @@
                                     name="balance[]" required readonly>
                             </td>
                             <td><input type="text" class="form-control" name="bill_ref[]"
-                                    id="bill_ref_{{ $receipt_data->id }}"></td>
+                                    id="bill_ref_{{ $receipt_data->id }}" value=""></td>
                         </tr>
+                    </tbody>
+                </table>
+
+
+
+                <table class="table table-responsive mt-0 pt-0 ">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Member</th>
+                            <th>Designation</th>
+                            <th>Amount</th>
+                            <th>Bill Amount<span class="text-danger">*</span></th>
+                            <th>Balance</th>
+                            <th>Bill Ref</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($receipt_data->receiptMembers as $index => $member)
+                            @php
+                                $memberCoreInfo = \App\Models\MemberCoreInfo::where('member_id', $member->member_id)
+                                    ->orderBy('id', 'desc')
+                                    ->first();
+                                $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
+                                $memberDesign =
+                                    $members->firstWhere('id', $member->member_id)->designation->designation_type ??
+                                    'N/A';
+                                $bankAccountNo = $memberCoreInfo ? $memberCoreInfo->bank_acc_no : 'N/A';
+                            @endphp
+                            <tr>
+                                <td>{{ $member->serial_no }}</td>
+                                <td>{{ $memberName }}</td>
+                                <td>{{ $memberDesign }}</td>
+                                <td>
+                                    <input type="hidden" id="member_id_{{ $receipt_data->id }}" class="form-control"
+                                        name="member_id[][]" required readonly value="{{ $member->member_id }}">
+
+
+                                    <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
+                                        name="rc_amount[][]" value="{{ $member->amount }}" required readonly>
+                                </td>
+                                <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
+                                        class="form-control bill-amount bill-amount-lower" name="amount[][]">
+
+                                    <span class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <input type="hidden" id="main_pay_amount_{{ $receipt_data->id }}"
+                                        class="form-control" name="main_pay_amount[][]" required
+                                        value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id) }}">
+                                    <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
+                                        name="balance[][]"
+                                        value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id) }}"
+                                        required readonly>
+                                </td>
+                                <td><input type="text" class="form-control" name="bill_ref[][]"
+                                        id="bill_ref_{{ $receipt_data->id }}" value="{{ $member->bill_ref }}"></td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
 
@@ -97,8 +157,9 @@
 
 
 
-            <div class="modal fade" id="rcpt_modal_{{ $receipt_data->id }}" tabindex="-1" data-bs-backdrop="static"
-                data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+            <div class="modal fade" id="rcpt_modal_{{ $receipt_data->id }}" tabindex="-1"
+                data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId"
+                aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

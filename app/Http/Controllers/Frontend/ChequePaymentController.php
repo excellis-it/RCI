@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Member;
 use App\Models\Receipt;
 use App\Models\ReceiptMember;
+use App\Models\ChequePaymentMember;
 use App\Models\Designation;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
@@ -176,36 +177,48 @@ class ChequePaymentController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'vr_no.*' => 'required',
-                'vr_date.*' => 'required|date',
-                'amount.*' => 'required|numeric|min:0',
-                // 'bill_ref.*' => 'required|string|max:255',
-                // 'cheq_no' => 'required|string|max:255',
-                // 'cheq_date' => 'required|date',
-                // 'is_paid.*' => 'required|boolean',
-            ]);
+        DB::beginTransaction();
 
-            foreach ($request->vr_no as $index => $vr_no) {
-                if ($request->is_paid[$index] == 0) {
-                    $chequePayment = new ChequePayment();
-                    $chequePayment->receipt_id = $request->receipt_id[$index];
-                    $chequePayment->receipt_no = $request->receipt_no[$index];
-                    $chequePayment->vr_no = $vr_no;
-                    $chequePayment->vr_date = $request->vr_date[$index];
-                    $chequePayment->category_id = $request->category_id[$index];
-                    $chequePayment->amount = $request->amount[$index];
-                    $chequePayment->bill_ref = $request->bill_ref[$index];
-                    $chequePayment->cheq_no = $request->cheq_no[$index];
-                    $chequePayment->cheq_date = $request->cheq_date[$index];
-                    $chequePayment->status = 'pending';
-                    $chequePayment->save();
+        try {
+            // Loop through each receipt
+            foreach ($request->receipt_id as $index => $receiptId) {
+                // Create the main cheque payment using the model
+                $chequePayment = new ChequePayment();
+                $chequePayment->receipt_id = $receiptId;
+                $chequePayment->receipt_no = $request['receipt_no'][$index] ?? null;
+                $chequePayment->vr_no = $request['vr_no'][$index] ?? null;
+                $chequePayment->vr_date = $request['vr_date'][$index] ?? null;
+                $chequePayment->category_id = $request['category_id'][$index] ?? null;
+                $chequePayment->amount = $request['amount'][$index] ?? 0;
+                $chequePayment->bill_ref = $request['bill_ref'][$index] ?? null;
+                $chequePayment->cheq_no = $request['cheq_no'][$index] ?? null;
+                $chequePayment->cheq_date = $request['cheq_date'][$index] ?? null;
+                $chequePayment->status = 'pending';
+                $chequePayment->save(); // Save the record to the database
+
+                dd($request->member_id[$index]);
+
+                // If there are members for this receipt, process them
+                if (isset($request->member_id[$index])) {
+
+                    foreach ($request->member_id[$index] as $memberIndex => $memberId) {
+                        // Insert member-specific cheque payment details
+                        $chequePaymentMember = new ChequePaymentMember();
+                        $chequePaymentMember->cheque_payments_id = $chequePayment['id'];
+                        $chequePaymentMember->member_id = $memberId;
+                        //  $chequePaymentMember->rc_amount = $request->rc_amount[$index][$memberIndex] ?? 0;
+                        $chequePaymentMember->amount = $request['amount'][$index][$memberIndex] ?? 0;
+                        //   $chequePaymentMember->main_pay_amount = $request->main_pay_amount[$index][$memberIndex] ?? 0;
+                        //   $chequePaymentMember->balance = $request->balance[$index][$memberIndex] ?? 0;
+                        $chequePaymentMember->bill_ref = $request['bill_ref'][$index][$memberIndex] ?? null;
+                        $chequePaymentMember->save(); // Save the record to the database
+                    }
                 }
             }
+            DB::commit();
 
 
-            return response()->json(['success' => 'Cheque Payments added successfully'], 200);
+            return response()->json(['success' => 'Cheque Payments added successfully'], 202);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

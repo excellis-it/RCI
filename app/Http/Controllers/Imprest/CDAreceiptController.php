@@ -13,6 +13,7 @@ use App\Models\AdvanceSettlement;
 use App\Models\CdaBillAuditTeam;
 use App\Models\CashInBank;
 use App\Models\CashInHand;
+use Illuminate\Support\Facades\DB;
 
 class CdaReceiptController extends Controller
 {
@@ -28,10 +29,17 @@ class CdaReceiptController extends Controller
 
         // $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')->get();
 
-        $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')
-            ->whereDoesntHave('advanceSettlement', function ($query) {
-                $query->where('bill_status', 1)->Where('receipt_status', 1);
-            })
+        // $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')
+        //     ->whereDoesntHave('advanceSettlement', function ($query) {
+        //         $query->where('bill_status', 1)->Where('receipt_status', 1);
+        //     })
+        //     ->get();
+        $advance_bills = CdaBillAuditTeam::whereDoesntHave('advanceSettlement', function ($query) {
+            $query->where('bill_status', 1)->where('receipt_status', 1);
+        })
+            ->select('cda_bill_no', DB::raw('SUM(bill_amount) as total_bill_amount'))
+            ->groupBy('cda_bill_no')
+            ->orderBy('id', 'desc')
             ->get();
 
 
@@ -182,43 +190,63 @@ class CdaReceiptController extends Controller
             'dv_date' => 'required|date',
             'rct_vr_amount' => 'required|numeric',
             'remark' => 'nullable|string|max:255',
-            'bill_id' => 'required',
+            'bill_no' => 'required',
         ]);
 
 
 
-        CDAReceipt::create([
-            'bill_id' => $request->bill_id,
-            'rct_vr_no' => $request->rct_vr_no,
-            'rct_vr_date' => $request->rct_vr_date,
-            'dv_no' => $request->dv_no,
-            'dv_date' => $request->dv_date,
-            'rct_vr_amount' => $request->rct_vr_amount,
-            'remark' => $request->remark,
-            'created_by' => auth()->id(),
-        ]);
-
-
-        // $advanceSettlements = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->get();
-
-        // foreach ($advanceSettlements as $advanceSettlement) {
-
-        //     $advanceSettlement->receipt_status = 1;
-        //     $advanceSettlement->save();
+        // CDAReceipt::create([
+        //     'bill_id' => $request->bill_id,
+        //     'rct_vr_no' => $request->rct_vr_no,
+        //     'rct_vr_date' => $request->rct_vr_date,
+        //     'dv_no' => $request->dv_no,
+        //     'dv_date' => $request->dv_date,
+        //     'rct_vr_amount' => $request->rct_vr_amount,
+        //     'remark' => $request->remark,
+        //     'created_by' => auth()->id(),
+        // ]);
+        // $advbill = CdaBillAuditTeam::find($request->bill_id);
+        // $advSettlement = AdvanceSettlement::find($advbill->settle_id);
+        // if ($advSettlement) {
+        //     $advSettlement->receipt_status = 1;
+        //     $advSettlement->save();
         // }
-        $advbill = CdaBillAuditTeam::find($request->bill_id);
-        $advSettlement = AdvanceSettlement::find($advbill->settle_id);
-        if ($advSettlement) {
-            $advSettlement->receipt_status = 1;
-            $advSettlement->save();
+
+
+        // $cashInBank = new CashInBank();
+        // $cashInBank->credit = $request->rct_vr_amount;
+        // $cashInBank->save();
+
+        // Insert new records into CDAReceipt based on cda_bill_no
+        $advBills = CdaBillAuditTeam::where('cda_bill_no', $request->bill_no)->get();
+
+        foreach ($advBills as $advBill) {
+            CDAReceipt::create([
+                'bill_id' => $advBill->id, // Use the current bill ID from CdaBillAuditTeam
+                'rct_vr_no' => $request->rct_vr_no,
+                'rct_vr_date' => $request->rct_vr_date,
+                'dv_no' => $request->dv_no,
+                'dv_date' => $request->dv_date,
+                'rct_vr_amount' => $advBill->bill_amount,
+                'remark' => $request->remark,
+                'created_by' => auth()->id(),
+            ]);
+
+            // Update related AdvanceSettlement
+            $advSettlement = AdvanceSettlement::find($advBill->settle_id);
+            if ($advSettlement) {
+                $advSettlement->receipt_status = 1;
+                $advSettlement->save();
+            }
+
+            // Insert into CashInBank
+            $cashInBank = new CashInBank();
+            $cashInBank->credit = $advBill->bill_amount;
+            $cashInBank->save();
         }
 
 
-        $cashInBank = new CashInBank();
-        $cashInBank->credit = $request->rct_vr_amount;
-        // $cashInBank->cheque_no = $request->chq_no;
-        // $cashInBank->cheque_date = $request->chq_date;
-        $cashInBank->save();
+
 
         // Redirect back or to a specific route with a success message
         // return redirect()->route('cda-receipts.index')->with('success', 'CDA Receipt(s) added successfully.');
