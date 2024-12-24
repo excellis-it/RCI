@@ -184,7 +184,7 @@ class ReceiptController extends Controller
         $request->validate([
             'vr_date' => 'required|date',
             'dv_no' => 'required|string|max:255',
-            'narration' => 'nullable|string|max:1000',
+            'narration' => 'nullable|string',
             'category' => 'required|exists:categories,id',
             'sr_no.*' => 'required|numeric',
             'member_id.*' => 'required|exists:members,id',
@@ -326,7 +326,7 @@ class ReceiptController extends Controller
             $request->validate([
                 'vr_date' => 'required|date',
                 'dv_no' => 'required|string|max:255',
-                'narration' => 'required|string|max:1000',
+                //  'narration' => 'required|string|max:1000',
                 'category' => 'required|exists:categories,id',
                 'sr_no.*' => 'required|numeric',
                 'member_id.*' => 'required|exists:members,id',
@@ -415,7 +415,7 @@ class ReceiptController extends Controller
 
 
         // Fetch cheque payments up to the requested date
-        $payments = DB::table('cheque_payments')->where('vr_date', '<=', $vr_date)->get();
+        $payments = DB::table('cheque_payments')->where('vr_date', '<=', $pre_vr_date)->get();
 
         // Prepare arrays for vr_no and vr_date from cheque payments
         // $vrNos = $payments->pluck('vr_no')->toArray();
@@ -427,13 +427,13 @@ class ReceiptController extends Controller
 
         foreach ($category as $cat) {
             $openingBalance1[$cat->id] = DB::table('receipts')
-                ->where('vr_date', '<=', $vr_date) // Filter by past dates
+                ->where('vr_date', '<=', $pre_vr_date) // Filter by past dates
                 ->where('category_id', $cat->id) // Match category
                 //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
                 ->sum('amount'); // Sum amounts
 
             $openingBalance2[$cat->id] = DB::table('cheque_payments')
-                ->where('vr_date', '<=', $vr_date) // Filter by past dates
+                ->where('vr_date', '<=', $pre_vr_date) // Filter by past dates
                 ->where('category_id', $cat->id) // Match category
                 //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
                 ->sum('amount'); // Sum amounts
@@ -488,6 +488,7 @@ class ReceiptController extends Controller
 
         $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'settings'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
+
 
         // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
     }

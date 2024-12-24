@@ -90,7 +90,7 @@
                         <div class="form-group mb-2 col-md-4">
                             <label>Narration</label>
                             <textarea type="text" class="form-control" name="narration">{{ $receipt->narration }}</textarea>
-                            <span class="text-danger"></span>
+                            
                         </div>
 
                         {{-- <div class="form-group mb-2 col-md-4">

@@ -41,7 +41,7 @@
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
-                                                        <label>Vr Date</label>
+                                                        <label>Date</label>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="date" class="form-control" name="date"
@@ -65,6 +65,48 @@
                                 </div>
 
                             </form>
+
+
+                            <div hidden>
+                                <form action="{{ route('cheque-payment.report.generate') }}" method="POST"
+                                    id="paymentForm">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="row">
+
+                                                <div class="form-group col-md-12 mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>Cheque Date</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="date" class="form-control" name="date"
+                                                                id="date2">
+                                                            <div id="dateError" class="text-danger" style="display:none;">
+                                                                Please
+                                                                select a date.</div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label></label>
+                                            <div class="form-group col-md-12 mb-2">
+                                                <button type="submit" class="listing_add payadd2">Generate</button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -78,6 +120,7 @@
             $(document).ready(function() {
                 $('#receiptForm').on('submit', function(event) {
                     var date = $('#date').val();
+                    $("#date2").val(date);
 
                     // Reset previous error message
                     $('#dateError').hide();
@@ -88,6 +131,13 @@
                         $('#dateError').show(); // Display error message under the input field
                         return false;
                     }
+
+
+                    setTimeout(() => {
+                        console.log('send 2');
+                        $("#paymentForm").submit();
+
+                    }, 800);
                 });
             });
         </script>
