@@ -336,42 +336,42 @@
     </script>
 
     <script>
-        $('#mode').change(function() {
-            if ($(this).val() == 'cheque') {
-                $('.cash-form').hide();
-                $('.cash-details').hide();
-                $('.cheque-sr-no').show();
-                $('.cheque-member-desig').show();
-                $('.cheque-bill-ref').show();
-                $('.cheque-bank-acc').show();
-                $('.cheque-dv-no').show();
-                $('.cheque-chq-no').show();
-                $('.cheque-date-no').show();
-                $('.cheque-narration').show();
-            } else if ($(this).val() == 'cash') {
-                $('.cash-form').show();
-                $('.cash-details').show();
-                $('.cheque-sr-no').hide();
-                $('.cheque-member-desig').hide();
-                $('.cheque-bill-ref').hide();
-                $('.cheque-bank-acc').hide();
-                $('.cheque-dv-no').hide();
-                $('.cheque-chq-no').hide();
-                $('.cheque-date-no').hide();
-                $('.cheque-narration').hide();
-            } else {
-                $('.cash-form').hide();
-                $('.cash-details').hide();
-                $('.cheque-sr-no').hide();
-                $('.cheque-member-desig').hide();
-                $('.cheque-bill-ref').hide();
-                $('.cheque-bank-acc').hide();
-                $('.cheque-dv-no').hide();
-                $('.cheque-chq-no').hide();
-                $('.cheque-date-no').hide();
-                $('.cheque-narration').hide();
-            }
-        });
+        // $('#mode').change(function() {
+        //     if ($(this).val() == 'cheque') {
+        //         $('.cash-form').hide();
+        //         $('.cash-details').hide();
+        //         $('.cheque-sr-no').show();
+        //         $('.cheque-member-desig').show();
+        //         $('.cheque-bill-ref').show();
+        //         $('.cheque-bank-acc').show();
+        //         $('.cheque-dv-no').show();
+        //         $('.cheque-chq-no').show();
+        //         $('.cheque-date-no').show();
+        //         $('.cheque-narration').show();
+        //     } else if ($(this).val() == 'cash') {
+        //         $('.cash-form').show();
+        //         $('.cash-details').show();
+        //         $('.cheque-sr-no').hide();
+        //         $('.cheque-member-desig').hide();
+        //         $('.cheque-bill-ref').hide();
+        //         $('.cheque-bank-acc').hide();
+        //         $('.cheque-dv-no').hide();
+        //         $('.cheque-chq-no').hide();
+        //         $('.cheque-date-no').hide();
+        //         $('.cheque-narration').hide();
+        //     } else {
+        //         $('.cash-form').hide();
+        //         $('.cash-details').hide();
+        //         $('.cheque-sr-no').hide();
+        //         $('.cheque-member-desig').hide();
+        //         $('.cheque-bill-ref').hide();
+        //         $('.cheque-bank-acc').hide();
+        //         $('.cheque-dv-no').hide();
+        //         $('.cheque-chq-no').hide();
+        //         $('.cheque-date-no').hide();
+        //         $('.cheque-narration').hide();
+        //     }
+        // });
     </script>
 
 
@@ -761,8 +761,8 @@
     </script>
 
 
-<script>
-     $(document).on('click', '#delete', function() {
+    <script>
+        $(document).on('click', '#delete', function() {
             //swal alert then call ajax
             var route = $(this).data('route');
 
@@ -785,6 +785,5 @@
                     }
                 })
         });
-</script>
-
+    </script>
 @endpush
