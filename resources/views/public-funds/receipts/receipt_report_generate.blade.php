@@ -101,8 +101,12 @@
         <tbody>
             @php
                 $categoryAmounts = [];
+                $balanceCarriedForward = [];
+                $totalPayments = [];
                 foreach ($category as $cat) {
                     $categoryAmounts[$cat->id] = 0;
+                    $balanceCarriedForward[$cat->id] = 0;
+                    $totalPayments[$cat->id] = 0;
                 }
             @endphp
 
@@ -150,7 +154,7 @@
                 </tr>
             @endforeach
 
-            <tr>
+            {{-- <tr>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -158,7 +162,36 @@
                     <td>{{ $categoryAmounts[$cat->id] }}</td>
                 @endforeach
                 <td></td>
+            </tr> --}}
+
+            <tr>
+                <td colspan="3">Total Receipts</td>
+                @foreach ($category as $cat)
+                    <td>{{ $categoryAmounts[$cat->id] }}</td>
+                @endforeach
+                <td></td>
             </tr>
+
+            <tr>
+                <td colspan="3">Total Payments</td>
+                @foreach ($category as $cat)
+                    <td>{{ $totalPayments[$cat->id] }}</td>
+                @endforeach
+                <td></td>
+            </tr>
+
+            <tr>
+                <td colspan="3">Balance Carried Forward</td>
+                @foreach ($category as $cat)
+                    <td>
+
+                        {{ $balanceCarriedForward[$cat->id] }}
+                    </td>
+                @endforeach
+                <td></td>
+            </tr>
+
+
         </tbody>
     </table>
 

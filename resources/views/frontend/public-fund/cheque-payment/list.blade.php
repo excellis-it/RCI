@@ -580,6 +580,66 @@
 
 
 
+                                // $('.receipt_member_data_form').each(function() {
+                                //     let $table = $(this);
+
+                                //     // Listen for changes in bill amount inputs
+                                //     $table.on('input', '.bill-amount', function() {
+                                //         let $billAmountInput = $(this);
+                                //         let $row = $billAmountInput.closest(
+                                //             'tr');
+                                //         let $mainpayAmountInput = $row.find(
+                                //             'input[name="main_pay_amount['+data_id+'][]"]'
+                                //         );
+                                //         let $payAmountInput = $row.find(
+                                //             'input[name="rc_amount['+data_id+'][]"]');
+                                //         let $balanceInput = $row.find(
+                                //             'input[name="balance['+data_id+'][]"]');
+                                //         let $errorSpan = $billAmountInput
+                                //             .siblings('.text-danger');
+                                //         let $upperBillAmount = $table.find(
+                                //             '.upper-bill-amount');
+
+                                //         // Get values
+                                //         let payAmount = parseFloat(
+                                //             $mainpayAmountInput.val()) || 0;
+                                //         let billAmount = parseFloat(
+                                //             $billAmountInput.val()) || 0;
+
+                                //         // Check if bill amount is greater than pay amount
+                                //         if (billAmount > payAmount) {
+                                //             // Show error message
+                                //             $errorSpan.text(
+                                //                 'Bill amount cannot exceed pay amount.'
+                                //             );
+                                //             $balanceInput.val(payAmount);
+                                //             $billAmountInput.val('');
+                                //         } else {
+                                //             // Clear error message and update balance
+                                //             $errorSpan.text('');
+                                //             let balance = payAmount -
+                                //                 billAmount;
+                                //             $balanceInput.val(balance.toFixed(
+                                //                 2));
+                                //         }
+
+                                //         // Calculate total bill amount for the table
+                                //         let totalBillAmount = 0;
+                                //         $table.find('.bill-amount-lower').each(
+                                //             function() {
+                                //                 let value = parseFloat($(
+                                //                     this).val()) || 0;
+                                //                 totalBillAmount += value;
+                                //             });
+
+                                //         console.log(totalBillAmount);
+
+                                //         // Update the upper-bill-amount value
+                                //         $upperBillAmount.val(totalBillAmount
+                                //             .toFixed(2));
+                                //     });
+                                // });
+
                                 $('.receipt_member_data_form').each(function() {
                                     let $table = $(this);
 
@@ -588,57 +648,58 @@
                                         let $billAmountInput = $(this);
                                         let $row = $billAmountInput.closest(
                                             'tr');
-                                        let $mainpayAmountInput = $row.find(
-                                            'input[name="main_pay_amount[][]"]'
-                                        );
+
+                                        // Get inputs and error message container in the current row
+                                        let $mainPayAmountInput = $row.find(
+                                            'input[name^="main_pay_amount["]'
+                                            );
                                         let $payAmountInput = $row.find(
-                                            'input[name="rc_amount[][]"]');
+                                            'input[name^="rc_amount["]');
                                         let $balanceInput = $row.find(
-                                            'input[name="balance[][]"]');
+                                            'input[name^="balance["]');
                                         let $errorSpan = $billAmountInput
                                             .siblings('.text-danger');
                                         let $upperBillAmount = $table.find(
                                             '.upper-bill-amount');
 
-                                        // Get values
-                                        let payAmount = parseFloat(
-                                            $mainpayAmountInput.val()) || 0;
+                                        // Get numeric values
+                                        let mainPayAmount = parseFloat(
+                                            $mainPayAmountInput.val()) || 0;
                                         let billAmount = parseFloat(
                                             $billAmountInput.val()) || 0;
 
-                                        // Check if bill amount is greater than pay amount
-                                        if (billAmount > payAmount) {
-                                            // Show error message
+                                        // Validation: Bill amount cannot exceed the main pay amount
+                                        if (billAmount > mainPayAmount) {
+                                            // Show error message and reset bill amount
                                             $errorSpan.text(
                                                 'Bill amount cannot exceed pay amount.'
-                                            );
-                                            $balanceInput.val(payAmount);
+                                                );
+                                            $balanceInput.val(mainPayAmount);
                                             $billAmountInput.val('');
                                         } else {
-                                            // Clear error message and update balance
+                                            // Clear error message and calculate the balance
                                             $errorSpan.text('');
-                                            let balance = payAmount -
+                                            let balance = mainPayAmount -
                                                 billAmount;
                                             $balanceInput.val(balance.toFixed(
                                                 2));
                                         }
 
-                                        // Calculate total bill amount for the table
+                                        // Calculate the total bill amount for the table
                                         let totalBillAmount = 0;
                                         $table.find('.bill-amount-lower').each(
                                             function() {
-                                                let value = parseFloat($(
-                                                    this).val()) || 0;
-                                                totalBillAmount += value;
+                                                totalBillAmount +=
+                                                    parseFloat($(this)
+                                                    .val()) || 0;
                                             });
-
-                                        console.log(totalBillAmount);
 
                                         // Update the upper-bill-amount value
                                         $upperBillAmount.val(totalBillAmount
                                             .toFixed(2));
                                     });
                                 });
+
 
 
                             } else {

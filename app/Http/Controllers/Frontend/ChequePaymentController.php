@@ -177,6 +177,7 @@ class ChequePaymentController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -189,28 +190,28 @@ class ChequePaymentController extends Controller
                 $chequePayment->vr_no = $request['vr_no'][$index] ?? null;
                 $chequePayment->vr_date = $request['vr_date'][$index] ?? null;
                 $chequePayment->category_id = $request['category_id'][$index] ?? null;
-                $chequePayment->amount = $request['amount'][$index] ?? 0;
-                $chequePayment->bill_ref = $request['bill_ref'][$index] ?? null;
+                $chequePayment->amount = $request['amount1'][$index] ?? 0;
+                $chequePayment->bill_ref = $request['bill_ref1'][$index] ?? null;
                 $chequePayment->cheq_no = $request['cheq_no'][$index] ?? null;
                 $chequePayment->cheq_date = $request['cheq_date'][$index] ?? null;
                 $chequePayment->status = 'pending';
                 $chequePayment->save(); // Save the record to the database
 
-                dd($request->member_id[$index]);
+
 
                 // If there are members for this receipt, process them
-                if (isset($request->member_id[$index])) {
+                if (isset($request->member_id[$receiptId])) {
 
-                    foreach ($request->member_id[$index] as $memberIndex => $memberId) {
+                    foreach ($request->member_id[$receiptId] as $memberIndex => $memberId) {
                         // Insert member-specific cheque payment details
                         $chequePaymentMember = new ChequePaymentMember();
                         $chequePaymentMember->cheque_payments_id = $chequePayment['id'];
                         $chequePaymentMember->member_id = $memberId;
-                        //  $chequePaymentMember->rc_amount = $request->rc_amount[$index][$memberIndex] ?? 0;
-                        $chequePaymentMember->amount = $request['amount'][$index][$memberIndex] ?? 0;
-                        //   $chequePaymentMember->main_pay_amount = $request->main_pay_amount[$index][$memberIndex] ?? 0;
-                        //   $chequePaymentMember->balance = $request->balance[$index][$memberIndex] ?? 0;
-                        $chequePaymentMember->bill_ref = $request['bill_ref'][$index][$memberIndex] ?? null;
+                         $chequePaymentMember->receipt_id = $receiptId ?? 0;
+                        $chequePaymentMember->amount = $request['amount'][$receiptId][$memberIndex] ?? 0;
+                          $chequePaymentMember->cheq_no =$request['cheq_no'][$index] ?? null;
+                          $chequePaymentMember->cheq_date = $request['cheq_date'][$index] ?? null;
+                        $chequePaymentMember->bill_ref = $request['bill_ref'][$receiptId][$memberIndex] ?? null;
                         $chequePaymentMember->save(); // Save the record to the database
                     }
                 }

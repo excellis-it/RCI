@@ -51,7 +51,7 @@ class Helper
         $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
         $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
         if($payment_amount){
-            $balance = $payment_amount - $receipt_amount;
+            $balance = $receipt_amount - $payment_amount;
         } else {
             $balance = $receipt_amount;
         }

@@ -126,14 +126,12 @@
                     <td>
                         <span>Cheque No.- {{ $key ?? '-' }}</span><br>
                         @foreach ($payment as $new => $item)
-                            @if (isset($item->reciepts) && $item->reciepts->count() > 0)
+                            @if (isset($item->chequePaymentMembers) && $item->chequePaymentMembers->count() > 0)
                                 <span>
-                                    ({{ $new + 1 }})
-                                    @if (isset($item->reciepts->receiptMembers) && $item->reciepts->receiptMembers->count() > 0)
-                                        @foreach ($item->reciepts->receiptMembers as $member)
-                                            ({{ $member->member->pers_no ?? '' }}. {{ $member->member->name ?? '' }})
-                                        @endforeach
-                                    @endif
+                                    @foreach ($item->chequePaymentMembers as $count => $member)
+                                        ({{ $count + 1 }})
+                                        ({{ $member->member->pers_no ?? '' }}. {{ $member->member->name ?? '' }}) <br>
+                                    @endforeach
                                 </span><br>
                             @endif
                         @endforeach
@@ -141,25 +139,26 @@
                     <td>{{ $key ?? '-' }}</td>
                     @foreach ($category as $cat)
                         <td>
-                            @php
-                                $categoryAmount = 0;
-                            @endphp
+
 
                             @foreach ($payment as $index => $item)
-                                @if (isset($item->reciepts) && $item->reciepts->category_id == $cat->id)
-                                    @php
-                                        $categoryAmount += $item->amount;
-                                        $categoryTotals[$cat->id] += $item->amount;
-                                        // Skip if this receipt has already been processed
-                                        if (!in_array($item->reciepts->id, $processedReceipts)) {
-                                            $totalReceipts[$cat->id] += $item->reciepts->amount;
-                                            $processedReceipts[] = $item->reciepts->id; // Mark as processed
-                                        }
-                                    @endphp
+                                @if (isset($item->chequePaymentMembers))
+                                    @foreach ($item->chequePaymentMembers as $chequePaymentMember)
+                                        @if (isset($chequePaymentMember->reciepts) && $chequePaymentMember->reciepts->category_id == $cat->id)
+                                            {{ $chequePaymentMember->amount ? $chequePaymentMember->amount : 0 }} <br>
+                                            @php
+                                              
+                                                $categoryTotals[$cat->id] += $chequePaymentMember->amount;
+                                                // Skip if this receipt has already been processed
+                                                if (!in_array($item->reciepts->id, $processedReceipts)) {
+                                                    $totalReceipts[$cat->id] += $item->reciepts->amount;
+                                                    $processedReceipts[] = $item->reciepts->id; // Mark as processed
+                                                }
+                                            @endphp
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
-
-                            {{ $categoryAmount > 0 ? $categoryAmount : '' }}
                         </td>
                     @endforeach
                     <td></td>

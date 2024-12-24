@@ -55,7 +55,7 @@
 
             <div id="rct_input_div_{{ $receipt_data->id }}" class="receipt_member_data_form">
 
-                <table class="table table-responsive mt-0 pt-0 ">
+                <table class="table table-responsive mt-0 pt-0" hidden>
                     <thead>
                         <tr>
                             <th>Amount</th>
@@ -75,20 +75,20 @@
                                     required readonly>
 
                                 <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
-                                    name="rc_amount[]" required readonly>
+                                    name="rc_amount1[]" required readonly>
                             </td>
                             <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
-                                    class="form-control bill-amount upper-bill-amount" name="amount[]">
+                                    class="form-control bill-amount upper-bill-amount" name="amount1[]">
 
                                 <span class="text-danger"></span>
                             </td>
                             <td>
                                 <input type="hidden" id="main_amount_{{ $receipt_data->id }}" class="form-control"
-                                    name="main_amount[]" required>
+                                    name="main_amount1[]" required>
                                 <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
-                                    name="balance[]" required readonly>
+                                    name="balance1[]" required readonly>
                             </td>
-                            <td><input type="text" class="form-control" name="bill_ref[]"
+                            <td><input type="text" class="form-control" name="bill_ref1[]"
                                     id="bill_ref_{{ $receipt_data->id }}" value=""></td>
                         </tr>
                     </tbody>
@@ -126,27 +126,27 @@
                                 <td>{{ $memberDesign }}</td>
                                 <td>
                                     <input type="hidden" id="member_id_{{ $receipt_data->id }}" class="form-control"
-                                        name="member_id[][]" required readonly value="{{ $member->member_id }}">
+                                        name="member_id[{{$receipt_data->id}}][]" required readonly value="{{ $member->member_id }}">
 
 
                                     <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
-                                        name="rc_amount[][]" value="{{ $member->amount }}" required readonly>
+                                        name="rc_amount[{{$receipt_data->id}}][]" value="{{ $member->amount }}" required readonly>
                                 </td>
                                 <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
-                                        class="form-control bill-amount bill-amount-lower" name="amount[][]">
+                                        class="form-control bill-amount bill-amount-lower" name="amount[{{$receipt_data->id}}][]">
 
                                     <span class="text-danger"></span>
                                 </td>
                                 <td>
                                     <input type="hidden" id="main_pay_amount_{{ $receipt_data->id }}"
-                                        class="form-control" name="main_pay_amount[][]" required
+                                        class="form-control" name="main_pay_amount[{{$receipt_data->id}}][]" required
                                         value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id) }}">
                                     <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
-                                        name="balance[][]"
+                                        name="balance[{{$receipt_data->id}}][]"
                                         value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id) }}"
                                         required readonly>
                                 </td>
-                                <td><input type="text" class="form-control" name="bill_ref[][]"
+                                <td><input type="text" class="form-control" name="bill_ref[{{$receipt_data->id}}][]"
                                         id="bill_ref_{{ $receipt_data->id }}" value="{{ $member->bill_ref }}"></td>
                             </tr>
                         @endforeach
