@@ -400,8 +400,10 @@ class ChequePaymentController extends Controller
 
         // dd($payments);
 
+        $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('category',  'payments', 'chq_date'))->setPaper('a3', 'landscape');
+
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('category',  'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
         // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));

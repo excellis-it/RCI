@@ -48,12 +48,12 @@
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('receipts.report') }}">Receipt Report</a>
+                                    href="{{ route('receipts.report') }}">Report Generate</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('cheque-payment.report') }}">Cheque Payment Report</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
