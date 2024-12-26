@@ -11,6 +11,7 @@ use App\Models\CdaBillAuditTeam;
 use App\Models\AdvanceFundToEmployee;
 use App\Models\AdvanceSettlement;
 use App\Models\CDAReceipt;
+use App\Models\CashWithdrawal;
 use DateTime;
 use Carbon\Carbon;
 use App\Helpers\Helper;
@@ -49,8 +50,78 @@ class ImprestReportController extends Controller
 
             $total = $cashin_bank + $cashin_hand;
 
+            $cash_withdraws =  CashWithdrawal::get();
 
-            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'cashin_bank', 'cashin_hand', 'total'));
+            $total_cashin_hand = $cashin_hand;
+
+            if ($cash_withdraws) {
+                foreach ($cash_withdraws as $cash_withdraw) {
+                    $total_cashin_hand += $cash_withdraw->amount;
+                }
+            }
+
+            // $cda_bills = CdaBillAuditTeam::get();
+
+            // $total_paybills = 0;
+
+            // $grand_total_cashin_hand = $cashin_hand;
+            // if ($cda_bills) {
+            //     foreach ($cda_bills as $cda_bill) {
+            //         //  $grand_total_cashin_hand += $cda_bill->bill_amount;
+            //         $total_paybills += $cda_bill->bill_amount;
+            //     }
+            //     $grand_total_cashin_hand = $total_paybills + $cashin_hand;
+            // }
+
+            $cda_bills = CDAReceipt::get();
+            $total_paybills = 0;
+            $grand_total_cashin_hand = $cashin_hand;
+            if ($cda_bills) {
+                foreach ($cda_bills as $cda_bill) {
+                    $settle_id = $cda_bill->cdaBill->settle_id;
+                    $settleBills = AdvanceSettlement::find($settle_id);
+
+                    $cda_bill->cda_bill_date = $cda_bill->cdaBill->cda_bill_date;
+                    $cda_bill->settle_firm = $settleBills->firm;
+                    $cda_bill->var_type = $settleBills->variableType->name;
+                    $cda_bill->chq_no = $settleBills->chq_no;
+                    $cda_bill->cda_bill_amount = $cda_bill->cdaBill->bill_amount;
+                    $cda_bill->varno = $settleBills->adv_no;
+                    $total_paybills += $cda_bill->cdaBill->bill_amount;
+                }
+
+                $grand_total_cashin_hand = $total_paybills + $cashin_hand;
+            }
+
+            // $bills_to_cda = CDAReceipt::sum('cdaBill.bill_amount');
+            $bills_to_cda = CDAReceipt::with('cdaBill')
+                ->get()
+                ->sum(function ($receipt) {
+                    return $receipt->cdaBill->bill_amount ?? 0; // Use 0 if no related bill is found
+                });
+
+
+            $bills_on_hand = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 0)->sum('bill_amount');
+
+
+            $advanceFunds = AdvanceFundToEmployee::whereDoesntHave('advanceSettlements', function ($query) {
+                $query->where('bill_status', 1)->Where('receipt_status', 1);
+            })
+                ->orWhereHas('advanceSettlements', function ($query) {
+                    $query->whereColumn('af_id', 'id');
+                })
+                ->get();
+
+
+
+            $advance_amount_total_outstanding = $advanceFunds->sum('adv_amount');
+
+            $advance_amount_total = AdvanceFundToEmployee::sum('adv_amount');
+
+            $bill_reff_total = ($cashin_bank + $advance_amount_total + $cashin_hand + $bills_to_cda) - $advance_amount_total_outstanding;
+
+
+            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'cashin_bank', 'cashin_hand', 'total', 'cash_withdraws', 'total_cashin_hand', 'cda_bills', 'grand_total_cashin_hand', 'total_paybills', 'bills_to_cda', 'bills_on_hand', 'advance_amount_total_outstanding', 'advance_amount_total', 'bill_reff_total'));
             return $pdf->download('cash-book-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'out_standing') {
 
