@@ -123,8 +123,25 @@
 
             @foreach ($receipts as $receipt)
                 @php
+
                     if (isset($categoryAmounts[$receipt->category_id])) {
                         $categoryAmounts[$receipt->category_id] += $receipt->amount;
+                    }
+
+                    // Group member amounts by category_id from the receipt
+                    $categoryMemberAmounts = [];
+
+                    if (isset($receipt->receiptMembers)) {
+                        foreach ($receipt->receiptMembers as $member) {
+                            $categoryId = $receipt->category_id;
+
+                            if (!isset($categoryMemberAmounts[$categoryId])) {
+                                $categoryMemberAmounts[$categoryId] = [];
+                            }
+
+                            // Add the member's amount to the corresponding category
+                            $categoryMemberAmounts[$categoryId][] = $member->amount;
+                        }
                     }
                 @endphp
                 <tr>
@@ -148,11 +165,23 @@
                     </td>
 
                     @foreach ($category as $cat)
-                        <td>{{ $receipt->category_id == $cat->id ? $receipt->amount : '' }}</td>
+                        <td>
+                            @if ($receipt->category_id == $cat->id)
+                                @if (isset($categoryMemberAmounts[$cat->id]))
+                                    @foreach ($categoryMemberAmounts[$cat->id] as $amount)
+                                        <div>{{ $amount }}</div>
+                                    @endforeach
+                                @else
+                                    <div>Receipt Amount: {{ $receipt->amount }}</div>
+                                @endif
+                            @endif
+                        </td>
                     @endforeach
                     <td></td>
                 </tr>
             @endforeach
+
+
 
             {{-- <tr>
                 <td></td>
@@ -185,7 +214,8 @@
                 @foreach ($category as $cat)
                     <td>
 
-                        {{ $categoryAmounts[$cat->id] - $totalPayments[$cat->id] }}
+                        {{-- {{ $categoryAmounts[$cat->id] - $totalPayments[$cat->id] }} --}}
+                        0
                     </td>
                 @endforeach
                 <td></td>

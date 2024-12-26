@@ -62,7 +62,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
-                                    {{ date('d/m/Y') }}<br>
+                                    {{ $report_date }}<br>
                                     Page No 1
                                 </td>
                             </tr>
@@ -406,7 +406,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_hand }}
+                                    {{ $cashin_hand_predate }}
                                 </td>
                                 <td
                                     style="
@@ -420,7 +420,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_bank }}
+                                    {{ $cashin_bank_predate }}
                                 </td>
                                 <td
                                     style="
@@ -697,7 +697,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                     ">
-                                    {{ date('d/m/Y') }}<br>
+                                    {{ $report_date }}<br>
                                     Page No 2
                                 </td>
                             </tr>
@@ -1310,7 +1310,7 @@
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                     ">
-                                    {{ date('d/m/Y') }}<br>
+                                    {{ $report_date }}<br>
                                     Page No 3
                                 </td>
                             </tr>
@@ -1615,7 +1615,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($advance_amount_total_outstanding, 2) }}
+                                    {{ number_format($advance_settle_total_outstand, 2) }}
                                 </td>
                             </tr>
 

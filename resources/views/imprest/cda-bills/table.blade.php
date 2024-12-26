@@ -6,7 +6,7 @@
 
                 <th>Adv No</th>
                 <th>Adv Date</th>
-                <th>Member Name</th>
+                <th hidden>Member Name</th>
                 <th>Amount</th>
                 <th>Bill Amount</th>
                 <th>Project</th>
@@ -31,7 +31,7 @@
                             <input type="hidden" name="adv_date[]" value="{{ $advance_settel->adv_date }}">
                         </td>
 
-                        <td>{{ $advance_settel->member->name ?? 'N/A' }}
+                        <td hidden>{{ $advance_settel->member->name ?? 'N/A' }}
                             <input type="hidden" name="member_id[]" value="{{ $advance_settel->member_id }}">
                         </td>
                         <td>{{ $advance_settel->adv_amount ?? 'N/A' }}

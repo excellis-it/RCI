@@ -38,11 +38,42 @@ class Helper
         return $bank_payments;
     }
 
-    public static function getBankBalance()
+    public static function getBankBalance($date = null)
     {
-        $bank_credit = CashInBank::sum('credit');
-        $bank_debit = CashInBank::sum('debit');
-        return $bank_credit - $bank_debit;
+        try {
+            $query = CashInBank::query();
+
+            if ($date) {
+                $query->whereDate('created_at', $date);
+            }
+
+            $bank_credit = $query->sum('credit');
+            $bank_debit = $query->sum('debit');
+
+            return $bank_credit - $bank_debit;
+        } catch (\Exception $e) {
+            // Handle the exception and log it if necessary
+            return 0; // Return 0 or another default value in case of an error
+        }
+    }
+
+    public static function getCashBalance($date = null)
+    {
+        try {
+            $query = CashInHand::query();
+
+            if ($date) {
+                $query->whereDate('created_at', $date);
+            }
+
+            $cash_credit = $query->sum('credit');
+            $cash_debit = $query->sum('debit');
+
+            return $cash_credit - $cash_debit;
+        } catch (\Exception $e) {
+            // Handle the exception and log it if necessary
+            return 0; // Return 0 or another default value in case of an error
+        }
     }
 
     public static function getCheqpaymentMemberBalance($receipt_id, $member_id)
@@ -50,7 +81,7 @@ class Helper
         $balance = 0;
         $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
         $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
-        if($payment_amount){
+        if ($payment_amount) {
             $balance = $receipt_amount - $payment_amount;
         } else {
             $balance = $receipt_amount;
@@ -59,12 +90,7 @@ class Helper
     }
 
 
-    public static function getCashBalance()
-    {
-        $cash_credit = CashInHand::sum('credit');
-        $cash_debit = CashInHand::sum('debit');
-        return $cash_credit - $cash_debit;
-    }
+
 
 
     public static function logo()
