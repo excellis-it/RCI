@@ -142,6 +142,65 @@
         </div>
     </div>
 
+    <table class="table table-responsive mt-0 pt-0 ">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Member</th>
+                <th>Designation</th>
+                <th>Amount</th>
+                <th>Bill Amount<span class="text-danger">*</span></th>
+                <th>Balance</th>
+                <th>Bill Ref</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($chequePayment->chequePaymentMembers as $index => $member)
+                @php
+                    $memberCoreInfo = \App\Models\MemberCoreInfo::where('member_id', $member->member_id)
+                        ->orderBy('id', 'desc')
+                        ->first();
+                    $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
+                    $memberDesign =
+                        $members->firstWhere('id', $member->member_id)->designation->designation_type ?? 'N/A';
+                    $bankAccountNo = $memberCoreInfo ? $memberCoreInfo->bank_acc_no : 'N/A';
+                @endphp
+                <tr>
+                    <td>{{ $member->serial_no }}</td>
+                    <td>{{ $memberName }}</td>
+                    <td>{{ $memberDesign }}</td>
+                    <td>
+                        <input type="hidden" id="member_id_{{ $chequePayment->id }}" class="form-control"
+                            name="member_id[{{ $chequePayment->id }}][]" required readonly
+                            value="{{ $member->member_id }}">
+
+
+                        <input type="number" id="pay_amount_{{ $chequePayment->id }}" class="form-control"
+                            name="rc_amount[{{ $chequePayment->id }}][]" value="{{ $member->amount }}" required
+                            readonly>
+                    </td>
+                    <td><input type="number" id="bill_amount_{{ $chequePayment->id }}"
+                            class="form-control bill-amount bill-amount-lower"
+                            name="amount[{{ $chequePayment->id }}][]">
+
+                        <span class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input type="hidden" id="main_pay_amount_{{ $chequePayment->id }}" class="form-control"
+                            name="main_pay_amount[{{ $chequePayment->id }}][]" required
+                            value="{{ Helper::getCheqpaymentMemberBalance($chequePayment->id, $member->member_id) }}">
+                        <input type="number" id="balance_{{ $chequePayment->id }}" class="form-control"
+                            name="balance[{{ $chequePayment->id }}][]"
+                            value="{{ Helper::getCheqpaymentMemberBalance($chequePayment->id, $member->member_id) }}"
+                            required readonly>
+                    </td>
+                    <td><input type="text" class="form-control" name="bill_ref[{{ $chequePayment->id }}][]"
+                            id="bill_ref_{{ $chequePayment->id }}" value="{{ $member->bill_ref }}"></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
 
     <br>
     <div class="row">

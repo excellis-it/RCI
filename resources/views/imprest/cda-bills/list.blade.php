@@ -69,7 +69,7 @@
                                     <th>CDA Bill Date</th>
                                     <th>Adv No</th>
                                     <th>Adv Date</th>
-                                    <th>Member Name</th>
+                                    {{-- <th>Member Name</th> --}}
                                     <th>Adv Amount</th>
                                     <th>Bill Amount</th>
 
@@ -90,7 +90,7 @@
 
                                             <td>{{ $advance_bill->adv_no ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->adv_date ?? 'N/A' }}</td>
-                                            <td>{{ $advance_bill->member->name ?? 'N/A' }}</td>
+                                            {{-- <td>{{ $advance_bill->member->name ?? 'N/A' }}</td> --}}
                                             <td>{{ $advance_bill->adv_amount ?? 'N/A' }}</td>
 
                                             <td>{{ $advance_bill->bill_amount ?? 'N/A' }}</td>

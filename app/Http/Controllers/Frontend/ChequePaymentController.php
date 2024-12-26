@@ -88,6 +88,8 @@ class ChequePaymentController extends Controller
             }
 
 
+
+
             return response()->json(['view' => view('frontend.public-fund.cheque-payment.receipts', compact('receipt_data', 'members'))->render(), 'receipt_data' => $receipt_data, 'paydone' => $paydone, 'balance' => $balance, 'rct_id' => $rct_id]);
             //  return $receipt;
         } else {
@@ -207,10 +209,10 @@ class ChequePaymentController extends Controller
                         $chequePaymentMember = new ChequePaymentMember();
                         $chequePaymentMember->cheque_payments_id = $chequePayment['id'];
                         $chequePaymentMember->member_id = $memberId;
-                         $chequePaymentMember->receipt_id = $receiptId ?? 0;
+                        $chequePaymentMember->receipt_id = $receiptId ?? 0;
                         $chequePaymentMember->amount = $request['amount'][$receiptId][$memberIndex] ?? 0;
-                          $chequePaymentMember->cheq_no =$request['cheq_no'][$index] ?? null;
-                          $chequePaymentMember->cheq_date = $request['cheq_date'][$index] ?? null;
+                        $chequePaymentMember->cheq_no = $request['cheq_no'][$index] ?? null;
+                        $chequePaymentMember->cheq_date = $request['cheq_date'][$index] ?? null;
                         $chequePaymentMember->bill_ref = $request['bill_ref'][$receiptId][$memberIndex] ?? null;
                         $chequePaymentMember->save(); // Save the record to the database
                     }
@@ -250,11 +252,15 @@ class ChequePaymentController extends Controller
     {
         $vr_no = $request->vr_no;
         $vr_date = $request->vr_date;
-        $chequePayment = ChequePayment::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+        $chequePayment = ChequePayment::with('chequePaymentMembers')->where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
         $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
         $members = Member::all();
 
-        // dd($chequePayment);
+        dd($chequePayment);
+
+        $chequePaymentMembers = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)->get();
+
+        dd($chequePaymentMembers);
 
         $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment', 'receipt_data2', 'members'))->render();
 
