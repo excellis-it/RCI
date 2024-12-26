@@ -13,9 +13,9 @@ class SupplyOrderController extends Controller
      */
     public function index()
     {
-        $supplyOrders = SupplyOrder::orderBy('id','desc')->paginate(10);
+        $supplyOrders = SupplyOrder::orderBy('id', 'desc')->paginate(10);
 
-        return view('inventory.supply-orders.list',compact('supplyOrders'));
+        return view('inventory.supply-orders.list', compact('supplyOrders'));
     }
 
     public function fetchData(Request $request)
@@ -25,13 +25,13 @@ class SupplyOrderController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $supplyOrders = SupplyOrder::where(function($queryBuilder) use ($query) {
+            $supplyOrders = SupplyOrder::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('order_number', 'like', '%' . $query . '%')
                     ->orWhere('status', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('inventory.supply-orders.table', compact('supplyOrders'))->render()]);
         }
@@ -118,5 +118,23 @@ class SupplyOrderController extends Controller
 
         session()->flash('message', 'Supply Order Deleted successfully');
         return response()->json(['success' => 'Supply Order Deleted successfully']);
+    }
+
+
+    public function modelStore(Request $request)
+    {
+        $request->validate([
+            'order_number' => 'required',
+            'date' => 'required',
+        ]);
+
+        $supplyOrder = new SupplyOrder();
+        $supplyOrder->order_number = $request->order_number;
+        $supplyOrder->date = $request->date;
+        $supplyOrder->status = 1;
+        $supplyOrder->save();
+
+
+        return response()->json(['success' => true, 'supply_order' => $supplyOrder]);
     }
 }

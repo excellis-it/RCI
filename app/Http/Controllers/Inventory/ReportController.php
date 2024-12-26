@@ -48,7 +48,7 @@ class ReportController extends Controller
         $result['voucher_date'] = $creditVoucher->voucher_date;
         $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name;
         $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address;
-        
+
 
         if ($creditVoucherDetails) {
 
@@ -108,7 +108,7 @@ class ReportController extends Controller
 
     public function debitVoucherGenerate(Request $request)
     {
-        
+
         // Fetch the debit voucher and associated details
         $debitVoucher = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->first();
         $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
@@ -254,7 +254,7 @@ class ReportController extends Controller
         $rin = Rin::findOrFail($id);
         $all_items = Rin::where('rin_no', $rin->rin_no)->get();
         $total_item = count($all_items);
-       return $inventory_no = InventoryNumber::where('id',$rin->inventory_id)->first() ?? '';
+        $inventory_no = InventoryNumber::where('id',$rin->inventory_id)->first() ?? '';
         $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
         // $gst = GstPercentage::where('id',)
 
@@ -330,7 +330,7 @@ class ReportController extends Controller
     public function registerForInventories()
     {
         $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->get();
-        $groupedData = collect($inventoryNumbers)->chunk(8); 
+        $groupedData = collect($inventoryNumbers)->chunk(8);
 
         $pdf = PDF::loadView('inventory.reports.register-for-inventories-generate',compact('inventoryNumbers','groupedData'));
         return $pdf->download('register-for-inventories.pdf');

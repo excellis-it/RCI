@@ -41,10 +41,10 @@ class CreditVoucherController extends Controller
         return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
     }
 
-    
+
     public function  rinDetail()
     {
-        
+
     }
 
     public function fetchData(Request $request)
@@ -107,13 +107,16 @@ class CreditVoucherController extends Controller
      */
     public function store(Request $request)
     {
-       
-        // $request->validate([
-        //     'item_code' => 'required',
-        //     'inv_no' => 'required',
-        //     'supply_order_no' => 'required',
-        //     'order_type' => 'required',
-        // ]);
+
+        $request->validate([
+            'rin' => 'required',
+            'item_code' => 'required',
+            'inv_no' => 'required',
+            'supply_order_no' => 'required',
+            'order_type' => 'required',
+            'invoice_no' => 'required',
+            'invoice_date' => 'required',
+        ]);
 
         //auto increment 4 digit voucher number
         // Get the current date
@@ -146,15 +149,17 @@ class CreditVoucherController extends Controller
 
 
         $creditVoucher = new CreditVoucher();
-        $creditVoucher->voucher_no = $voucherNo;
+        $creditVoucher->voucher_no = strtoupper($request->order_type).''.$voucherNo;
         $creditVoucher->voucher_date = $request->voucher_date;
+        $creditVoucher->invoice_no = $request->invoice_no;
+        $creditVoucher->invoice_date = $request->invoice_date;
         if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
-            
+
             if (count($request->item_code) > 0) {
-                
+
                 foreach ($request->item_code as $key => $value) {
-                   
+
                     $creditVoucherDetail = new CreditVoucherDetail();
                     $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
                     $creditVoucherDetail->item_code = $request->item_code_id[$key] ?? null;
@@ -180,7 +185,7 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->cost_debatable = $request->cost_debatable ?? null;
                     $creditVoucherDetail->save();
 
-                   
+
                 }
             }
         }

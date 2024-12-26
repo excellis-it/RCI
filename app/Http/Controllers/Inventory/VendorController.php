@@ -24,7 +24,7 @@ class VendorController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $vendors = Vendor::where(function($queryBuilder) use ($query) {
+            $vendors = Vendor::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('email', 'like', '%' . $query . '%')
@@ -32,8 +32,8 @@ class VendorController extends Controller
                     ->orWhere('address', 'like', '%' . $query . '%')
                     ->orWhere('status', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('inventory.vendors.table', compact('vendors'))->render()]);
         }
@@ -114,5 +114,25 @@ class VendorController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function modelStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:vendors,email',
+            'phone' => 'required|string|max:15|unique:vendors,phone',
+            'address' => 'required|string|max:255'
+        ]);
+
+        $vendor = new Vendor();
+        $vendor->name = $request->name;
+        $vendor->email = $request->email;
+        $vendor->phone = $request->phone;
+        $vendor->address = $request->address;
+        $vendor->status = 1;
+        $vendor->save();
+
+        return response()->json(['success' => true, 'vendor' => $vendor]);
     }
 }

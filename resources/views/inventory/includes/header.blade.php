@@ -98,6 +98,14 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('nc-status.index') }}">NC Status</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('au-status.index') }}">AU Status</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gst.index') }}">GSTs</a>
                             </li>
                             <li class="mb-2">

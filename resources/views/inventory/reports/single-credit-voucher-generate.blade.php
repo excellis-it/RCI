@@ -50,7 +50,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    SIR NO: &nbsp; {{ $get_sir->sirNo->sir_no ?? 'N/A' }}
+                                    SIR NO: &nbsp; {{ $get_sir->sirNo->sir_no ?? '-' }}
                                 </td>
                                 <td colspan="2"
                                     style="
@@ -64,7 +64,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->voucher_no ?? 'N/A' }}
+                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->voucher_no ?? '-' }}
                                 </td>
                                 <td
                                     style="
@@ -78,8 +78,8 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                   
-                                    RIN NO: &nbsp;   {{ $singleData[$creditVoucher->voucher_no]['rin_no']  ?? 'N/A' }}
+
+                                    RIN NO: &nbsp;   {{ $singleData[$creditVoucher->voucher_no]['rin_no']  ?? '-' }}
                                 </td>
                                 <td
                                     style="
@@ -93,7 +93,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    CRV NO: &nbsp; {{ $result['voucher_no'] ?? 'N/A' }}
+                                    CRV NO: &nbsp; {{ $result['voucher_no'] ?? '-' }}
                                 </td>
                             </tr>
                             <tr>
@@ -109,7 +109,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    SIR DATE: &nbsp; {{ $get_sir->sirNo->sir_date ?? 'N/A' }}
+                                    SIR DATE: &nbsp; {{ $get_sir->sirNo->sir_date ?? '-' }}
                                 </td>
                                 <td colspan="2"
                                     style="
@@ -123,7 +123,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
+                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? '-' }}
                                 </td>
                                 <td
                                     style="
@@ -138,7 +138,7 @@
                       border: 1px solid #000;
                     ">
                                     RIN DATE: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['rin_date']  ?? 'N/A' }}
+                                    {{ $singleData[$creditVoucher->voucher_no]['rin_date']  ?? '-' }}
                                 </td>
                                 <td
                                     style="
@@ -152,7 +152,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    CRV DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
+                                    CRV DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? '-' }}
                                 </td>
                             </tr>
                             <tr>
@@ -166,9 +166,9 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
-                    ">  
+                    ">
                                     Consignor's Name & address: M/S. &nbsp;
-                                    {{ Str::ucfirst($result['consigner_name'])  ?? 'N/A' }} & {{ $result['consigner_Address']  ?? 'N/A' }}
+                                    {{ Str::ucfirst($result['consigner_name'])  ?? '-' }} & {{ $result['consigner_Address']  ?? '-' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -191,8 +191,8 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    Authority: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['member_name']  ?? 'N/A' }}<br />
-                                    Date: &nbsp; {{ $creditVoucher->voucher_date  ?? 'N/A' }}
+                                    Authority: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['member_name']  ?? '-' }}<br />
+                                    Date: &nbsp; {{ $creditVoucher->voucher_date  ?? '-' }}
                                 </td>
                                 <td colspan="6"
                                     style="
@@ -206,7 +206,7 @@
                       border: 1px solid #000;
                     ">
                                     Cost Debatable to Budget Head: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['cost_debatable']  ?? 'N/A' }} <br />
+                                    {{ $singleData[$creditVoucher->voucher_no]['cost_debatable']  ?? '-' }} <br />
                                 </td>
                                 <td colspan="5"
                                     style="
@@ -220,8 +220,8 @@
                       border: 1px solid #000;
                     ">
                                     Project No.: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['project_no']  ?? 'N/A' }}<br />
-                                    Project Code: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['project_code']  ?? 'N/A' }}
+                                    {{ $singleData[$creditVoucher->voucher_no]['project_no']  ?? '-' }}<br />
+                                    Project Code: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['project_code']  ?? '-' }}
                                 </td>
                             </tr>
                             <tr>
@@ -425,8 +425,8 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                    
-                                        {{ $index  ?? 'N/A' }}
+
+                                        {{ $index  ?? '-' }}
                                     </td>
                                     @php $index++; @endphp
                                     <td
@@ -441,7 +441,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['item_code']  ?? 'N/A' }}
+                                        {{  $creditDetail['item_code']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -455,7 +455,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['description']  ?? 'N/A' }}
+                                        {{ $creditDetail['description']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -469,7 +469,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['nc_status']  ?? 'N/A' }}
+                                        {{  $creditDetail['nc_status']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -483,7 +483,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['au_status']  ?? 'N/A' }}
+                                        {{ $creditDetail['au_status']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -497,7 +497,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['quantity']  ?? 'N/A' }}
+                                        {{ $creditDetail['quantity']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -511,7 +511,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['rate']  ?? 'N/A' }}
+                                        {{ $creditDetail['rate']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -525,7 +525,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['tax']  ?? 'N/A' }}%
+                                        {{ $creditDetail['tax']  ?? '-' }}%
                                     </td>
                                     <td
                                         style="
@@ -539,7 +539,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['disc_percent']  ?? 'N/A' }}%
+                                        {{ $creditDetail['disc_percent']  ?? '-' }}%
                                     </td>
                                     <td
                                         style="
@@ -553,9 +553,9 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['disc_amt']  ?? 'N/A' }}
+                                        {{ $creditDetail['disc_amt']  ?? '-' }}
                                     </td>
-                                    @php 
+                                    @php
                                         if($creditDetail['disc_amt'] == 0) {
                                             $totalCost = $creditDetail['rate'] * $creditDetail['quantity'];
                                         } else {
@@ -574,7 +574,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{ $creditDetail['total_price']  ?? 'N/A' }}
+                                        {{ $creditDetail['total_price']  ?? '-' }}
                                     </td>
                                     <td
                                         style="
@@ -588,7 +588,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        
+
                                     </td>
                                     <td
                                         style="
@@ -602,7 +602,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        
+
                                     </td>
                                     <td
                                         style="
@@ -616,15 +616,15 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        {{  $creditDetail['remarks']  ?? 'N/A' }}
+                                        {{  $creditDetail['remarks']  ?? '-' }}
                                     </td>
                                 </tr>
-                                @php 
-                                    $total_amt += $totalCost;
+                                @php
+                                    (float)$total_amt += (float)$totalCost;
                                 @endphp
                             @endforeach
 
-                            
+
                             <tr>
                                 <td colspan="3"
                                     style="
@@ -638,7 +638,7 @@
                       border: 1px solid #000;
                     ">
                                     Total Number Number of Items:
-                                    <span style="text-align: right">{{ $itemCount ?? 'N/A'  }}</span>
+                                    <span style="text-align: right">{{ $itemCount ?? '-'  }}</span>
                                 </td>
                                 <td colspan="7"
                                     style="
@@ -652,9 +652,9 @@
                       border: 1px solid #000;
                     ">
                                     Total Item Cost (Rs.)
-                                    <span style="text-align: right">{{ $totalItemCost  ?? 'N/A' }}/-</span>
+                                    <span style="text-align: right">{{ $totalItemCost  ?? '-' }}/-</span>
                                 </td>
-                                
+
                                 <td colspan="4"
                                     style="
                       font-size: 10px;
@@ -705,7 +705,7 @@
                       border: 1px solid #000;
                     ">
                                     Inclusive of taxes TOTAL COST (Rs.)<br />
-                                    In words: {{ $words  ?? 'N/A' }}
+                                    In words: {{ $words  ?? '-' }}
                                 </td>
                                 <td colspan="3"
                                     style="
@@ -718,7 +718,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    {{ $total_amt  ?? 'N/A' }}/-
+                                    {{ $total_amt  ?? '-' }}/-
                                 </td>
                                 <td
                                     style="

@@ -117,6 +117,8 @@ use App\Http\Controllers\Imprest\AmountController;
 
 use App\Http\Controllers\IncomeTax\ArrearsController;
 use App\Http\Controllers\IncomeTax\RentController;
+use App\Http\Controllers\Inventory\AuStatusController;
+use App\Http\Controllers\Inventory\NcStatusController;
 use App\Http\Controllers\Inventory\SecurityGateStoresController;
 use App\Http\Controllers\Inventory\TrafficControlController;
 use App\Http\Controllers\Inventory\TransportController;
@@ -931,7 +933,22 @@ Route::middleware('permssions')->group(function () {
                 'sirs' => InventorySirController::class,
                 'traffic-controls' => TrafficControlController::class,
                 'security-gate-stores' => SecurityGateStoresController::class,
+                'nc-status' => NcStatusController::class,
+                'au-status' => AuStatusController::class,
             ]);
+
+            // nc-status.fetch-data
+            Route::get('/nc-status-fetch-data', [NcStatusController::class, 'fetchData'])->name('nc-status.fetch-data');
+            // nc-status.delete', $nc_status->id
+            Route::get('/nc-status-delete/{id}', [NcStatusController::class, 'deleteNcStatus'])->name('nc-status.delete');
+
+            Route::get('/au-status-fetch-data', [AuStatusController::class, 'fetchData'])->name('au-status.fetch-data');
+            // nc-status.delete', $nc_status->id
+            Route::get('/au-status-delete/{id}', [AuStatusController::class, 'deleteNcStatus'])->name('au-status.delete');
+
+            Route::post('/vendors/model-store', [VendorController::class, 'modelStore'])->name('vendors.model-store');
+            Route::post('/supply_orders/model-store', [SupplyOrderController::class, 'modelStore'])->name('supply_orders.model-store');
+
 
             Route::get('/inventory-loan-fetch-data', [InventoryLoanController::class, 'inventoryLoanFetchData'])->name('inventory-loans.fetch-data');
             Route::post('/inventory-loans-get-data', [InventoryLoanController::class, 'inventoryLoanItemData'])->name('inventory-loans.get-item-detail');

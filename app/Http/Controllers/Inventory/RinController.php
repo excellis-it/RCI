@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuStatus;
 use Illuminate\Http\Request;
 use App\Models\Rin;
 use App\Models\ItemCode;
@@ -13,6 +14,7 @@ use App\Models\InventorySir;
 use App\Models\GstPercentage;
 use App\Models\User;
 use App\Models\Designation;
+use App\Models\NcStatus;
 use DB;
 
 class RinController extends Controller
@@ -28,7 +30,7 @@ class RinController extends Controller
                 })
                 ->orderBy('rins.id', 'desc')
                 ->paginate(10);
-  
+
         $items = ItemCode::all();
         $vendors = Vendor::orderBy('id','desc')->get();
         $supply_orders = SupplyOrder::all();
@@ -37,8 +39,9 @@ class RinController extends Controller
         $gsts = GstPercentage::orderBy('id','desc')->get();
         $authorities = User::role('MATERIAL-MANAGER')->get();
         $designations = Designation::orderBy('id', 'desc')->paginate(10);
-
-        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders','sir_nos','inventory_nos','gsts','authorities','designations'));
+        $nc_statuses = NcStatus::orderBy('status','asc')->get();
+        $au_statuses = AuStatus::orderBy('status','asc')->get();
+        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders','sir_nos','inventory_nos','gsts','authorities','designations', 'nc_statuses', 'au_statuses'));
     }
 
     public function rinsTotalValue()
@@ -90,11 +93,15 @@ class RinController extends Controller
 
         $request->validate([
             'item_id.*' => 'required',
-            // 'received_quantity' => 'required',
+            'received_quantity.*' => 'required',
             // 'accepted_quantity' => 'required',
             // 'rejected_quantity' => 'required',
             // 'nc_status' => 'required',
             // 'au_status' => 'required',
+            'sir_no' => 'required',
+            'inventory_no' => 'required',
+            'vendor_id' => 'required',
+            'supply_order_no' => 'required',
         ]);
         // auto generate rin id
         $lastRin = Rin::orderBy('id', 'desc')->first();
@@ -102,7 +109,7 @@ class RinController extends Controller
         if ($lastRin) {
             // Extract the numeric part of rin_no
             $lastNumber = (int) filter_var($lastRin->rin_no, FILTER_SANITIZE_NUMBER_INT);
-        
+
             // Increment the numeric part and format it with leading zeros
             $rin_id = 'RIN' . str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
         } else {
@@ -127,6 +134,10 @@ class RinController extends Controller
                 // $rin->accepted_quantity = $request->accepted_quantity[$key];
                 //$rin->rejected_quantity = $request->rejected_quantity[$key];
                 $rin->remarks = $request->remarks[$key];
+                 $rin->discount = $request->disc_percent[$key];
+                 $rin->discount_amount = $request->discount_amount[$key];
+                 $rin->discount_type = $request->discount_type[$key];
+
                 $rin->unit_cost = $request->unit_cost[$key];
                 $rin->total_cost = $request->total_cost[$key];
                 $rin->nc_status = $request->nc_status[$key];
@@ -139,7 +150,7 @@ class RinController extends Controller
                 $rin->save();
            }
         }
-        
+
         session()->flash('message', 'RIN Created successfully');
         return response()->json(['success' => 'RIN Created successfully']);
     }
@@ -227,6 +238,6 @@ class RinController extends Controller
         return response()->json(['description' => $item->description, 'price' => $item->item_price]);
     }
 
-    
-    
+
+
 }
