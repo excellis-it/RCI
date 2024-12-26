@@ -193,7 +193,7 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="chq_no" id="chq_no"
                             value="{{ old('chq_no') ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+
                     </div>
                 </div>
             </div>
@@ -206,7 +206,7 @@
                     <div class="col-md-12">
                         <input type="date" class="form-control" name="chq_date" id="chq_date"
                             value="{{ date('Y-m-d') }}" placeholder="">
-                        <span class="text-danger"></span>
+
                     </div>
                 </div>
             </div>
@@ -370,6 +370,7 @@
                 toastr.error('The bill amount cannot be greater than the balance amount');
                 billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
                 $(this).val(''); // Update the input field with the corrected value
+                $("#var_amount").val('');
                 $("#balance").val(initialBalanceMain);
             } else {
 
@@ -378,6 +379,7 @@
 
                 // Update the balance field
                 $("#balance").val(newBalance.toFixed(2));
+                $("#var_amount").val(billAmount);
 
             }
 
@@ -394,9 +396,72 @@
                 $(".advamnt_msg").text('');
             }
 
-            $("#var_amount").val(billAmount);
+
 
 
         });
+
+
+        $("#var_amount").on("keyup", function() {
+            let initialBalanceMain = parseFloat($("#main_amount").val());
+            let payAmount = parseFloat($("#balance").val()); // Pay amount from response
+            let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
+            let billAmount = $(this).val(); // Get the bill amount entered
+
+            // Check if the input is empty
+            if (billAmount.trim() === "") {
+                // Reset balance to the pay amount
+                $("#balance").val(initialBalanceMain.toFixed(2));
+                return;
+            }
+
+            // Convert bill amount to float
+            billAmount = parseFloat(billAmount);
+
+            // Validate the bill amount
+            if (isNaN(billAmount)) {
+                billAmount = 0; // Handle invalid input
+            }
+
+            // Check if bill amount exceeds the pay amount
+            if (billAmount > initialBalanceMain) {
+                // Display error message
+                // alert("The bill amount cannot be greater than the pay amount.");
+                toastr.error('The bill amount cannot be greater than the balance amount');
+                billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
+                $(this).val(''); // Update the input field with the corrected value
+                $("#bill_amount").val('');
+                $("#balance").val(initialBalanceMain);
+            } else {
+
+                // Calculate the new balance
+                let newBalance = initialBalanceMain - billAmount;
+
+                // Update the balance field
+                $("#balance").val(newBalance.toFixed(2));
+                $("#bill_amount").val(billAmount);
+
+            }
+
+
+            var this_adv_amount = parseFloat($(this).val()) || 0;
+            var main_cashinhand = parseFloat($("#main_cashinhand_balance").val()) || 0;
+
+            if (this_adv_amount > main_cashinhand) {
+                toastr.error('Cash In Hand Balance is Low');
+                $("#save_settle_btn").attr('disabled', true);
+                $(".advamnt_msg").text('Cash In Hand Balance is Low');
+            } else {
+                $("#save_settle_btn").removeAttr('disabled');
+                $(".advamnt_msg").text('');
+            }
+
+
+
+
+        });
+
+
+
     });
 </script>

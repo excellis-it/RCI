@@ -4,7 +4,7 @@
 
             <td>{{ $advance_settlement->adv_no }}</td>
             <td>{{ $advance_settlement->adv_date }}</td>
-            <td>{{ $advance_settlement->member->name ?? 'N/A' }}</td>
+            {{-- <td>{{ $advance_settlement->member->name ?? 'N/A' }}</td> --}}
             <td>{{ $advance_settlement->adv_amount }}</td>
             <td>{{ $advance_settlement->bill_amount ?? 'N/A' }}</td>
             <td>{{ $advance_settlement->balance ?? 'N/A' }}</td>
@@ -13,11 +13,12 @@
             <td>{{ $advance_settlement->chq_date ?? 'N/A' }}</td>
             <td>{{ $advance_settlement->variableType->name ?? 'N/A' }}</td>
             <td>
-                <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2" id="advance-sttl-delete"
-                    data-route="{{ route('advance-settlement.delete',$advance_settlement->id) }}">
-                <i class="ti ti-trash"></i>
+                <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2"
+                    id="advance-sttl-delete"
+                    data-route="{{ route('advance-settlement.delete', $advance_settlement->id) }}">
+                    <i class="ti ti-trash"></i>
             </td>
-        </a>
+            </a>
         </tr>
     @endforeach
     <tr class="toxic">

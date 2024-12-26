@@ -62,9 +62,9 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
                                                     style="cursor: pointer">Adv Date<span id="emp_id_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="member_id"
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="member_id"
                                                     style="cursor: pointer">Member Name<span id="emp_id_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="adv_amount"
                                                     style="cursor: pointer">Adv Amount <span id="gender_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>

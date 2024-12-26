@@ -438,6 +438,11 @@ class ReceiptController extends Controller
                 //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
                 ->sum('amount'); // Sum amounts
 
+            $totalPayments[$cat->id] = DB::table('cheque_payments')
+                ->where('vr_date', '<=', $vr_date)
+                ->where('category_id', $cat->id)
+                ->sum('amount');
+
             $openingBalance[$cat->id] = $openingBalance1[$cat->id] - $openingBalance2[$cat->id];
         }
 
@@ -486,7 +491,7 @@ class ReceiptController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 
