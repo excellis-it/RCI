@@ -256,13 +256,13 @@ class ChequePaymentController extends Controller
         $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
         $members = Member::all();
 
-        dd($chequePayment);
+        //  dd($chequePayment);
 
         $chequePaymentMembers = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)->get();
 
-        dd($chequePaymentMembers);
+        // dd($chequePaymentMembers);
 
-        $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment', 'receipt_data2', 'members'))->render();
+        $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment', 'receipt_data2', 'members',))->render();
 
         return response()->json(['view' => $view]);
     }
@@ -270,29 +270,71 @@ class ChequePaymentController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(Request $request)
+    // {
+    //     $id = $request->chid;
+
+    //     //  return $id;
+
+    //     $request->validate([
+
+    //         'cheq_no' => 'required',
+    //         'cheq_date' => 'required',
+    //     ]);
+
+    //     $chequePayment = ChequePayment::findOrFail($id);
+
+    //     $chequePayment->bill_ref = $request->bill_ref;
+    //     $chequePayment->cheq_no = $request->cheq_no;
+    //     $chequePayment->cheq_date = $request->cheq_date;
+
+    //     $chequePayment->save();
+
+    //     session()->flash('message', 'Cheque Payment updated successfully');
+    //     return redirect()->back()->with('success', 'Cheque Payment updated successfully.');
+    // }
+
     public function update(Request $request)
     {
-        $id = $request->chid;
 
-        //  return $id;
 
-        $request->validate([
+        DB::beginTransaction();
 
-            'cheq_no' => 'required',
-            'cheq_date' => 'required',
-        ]);
+        try {
+            // Update the main ChequePayment record
+            $chequePayment = ChequePayment::findOrFail($request->chid);
 
-        $chequePayment = ChequePayment::findOrFail($id);
+            if (isset($request->amount1)) {
+                $chequePayment->amount = array_sum($request->amount1);
+            }
 
-        $chequePayment->bill_ref = $request->bill_ref;
-        $chequePayment->cheq_no = $request->cheq_no;
-        $chequePayment->cheq_date = $request->cheq_date;
+            $chequePayment->save();
 
-        $chequePayment->save();
+            // Update associated ChequePaymentMember records
+            if (isset($request->member_id[$chequePayment->id])) {
+                foreach ($request->member_id[$chequePayment->id] as $index => $memberId) {
+                    $memberData = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)
+                        ->where('member_id', $memberId)
+                        ->first();
 
-        session()->flash('message', 'Cheque Payment updated successfully');
-        return redirect()->back()->with('success', 'Cheque Payment updated successfully.');
+                    if ($memberData) {
+                        $memberData->amount = $request->amount[$chequePayment->id][$index] ?? 0;
+                        $memberData->bill_ref = $request->bill_ref[$chequePayment->id][$index] ?? null;
+                        $memberData->save();
+                    }
+                }
+            }
+
+            DB::commit();
+
+            session()->flash('message', 'Cheque Payment updated successfully');
+            return redirect()->back()->with('success', 'Cheque Payment updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error updating Cheque Payment: ' . $e->getMessage());
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
