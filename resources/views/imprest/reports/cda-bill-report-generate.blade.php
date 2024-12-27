@@ -380,7 +380,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->rct_vr_no ?? '' }}
+                                            {{ $cdaReceipt->settle_vr_no ?? '' }}
                                         </td>
                                         <td
                                             style="
