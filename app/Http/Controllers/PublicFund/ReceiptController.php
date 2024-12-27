@@ -491,7 +491,7 @@ class ReceiptController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 

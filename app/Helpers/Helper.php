@@ -19,9 +19,39 @@ use App\Models\CDAReceipt;
 use App\Models\CashWithdrawal;
 use App\Models\AdvanceSettlement;
 use App\Models\AdvanceFundToEmployee;
+use Illuminate\Support\Facades\DB;
+
 
 class Helper
 {
+
+    public static function get_openings_balance($cat_id, $pre_vr_date)
+    {
+        $total_reciept = DB::table('receipts')
+            ->where('vr_date', '<=', $pre_vr_date) // Filter by past dates
+            ->where('category_id', $cat_id) // Match category
+            //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
+            ->sum('amount');
+
+        $total_payment = DB::table('cheque_payments')
+            ->where('cheq_date', '<=', $pre_vr_date) // Filter by past dates
+            ->where('category_id', $cat_id) // Match category
+            //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
+            ->sum('amount');
+
+        return $total_reciept - $total_payment;
+    }
+
+    public static function total_payment_today($cat_id, $vr_date)
+    {
+        $total_payment = DB::table('cheque_payments')
+            ->where('cheq_date', '=', $vr_date) // Filter by past dates
+            ->where('category_id', $cat_id) // Match category
+            //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
+            ->sum('amount');
+
+        return $total_payment;
+    }
 
     public static function cashPayments()
     {

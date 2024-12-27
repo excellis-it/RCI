@@ -24,7 +24,7 @@ class InventoryNumberController extends Controller
         $members = User::role('MATERIAL-MANAGER')->get();
         $groups = Group::orderBy('id','desc')->get();
         $invProjects = InventoryProject::orderBy('id','desc')->where('status', 1)->get();
-        
+
         return view('inventory.inventory-numbers.list', compact('inventoryNumbers','itemTypes','members','invProjects','groups'));
     }
 
@@ -62,10 +62,11 @@ class InventoryNumberController extends Controller
     public function store(Request $request)
     {
         // validation
-        
+
         $request->validate([
             'inventory_type' => 'required',
             'holder_id' => 'required',
+            'division' => 'required',
             'status' => 'required',
         ]);
 
@@ -80,17 +81,18 @@ class InventoryNumberController extends Controller
         }
 
         $inv_number = str_pad($counter, 4, '0', STR_PAD_LEFT);
-       
+
 
         // store data
         $inventoryNumber = new InventoryNumber();
         $inventoryNumber->inventory_type = $request->inventory_type;
         $inventoryNumber->holder_id = $request->holder_id;
         $inventoryNumber->group_id = $request->group_id;
+        $inventoryNumber->division = $request->division;
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
         $inventoryNumber->number = $inv_number;
         $inventoryNumber->status = $request->status;
-        $inventoryNumber->remarks = $request->remarks; 
+        $inventoryNumber->remarks = $request->remarks;
         $inventoryNumber->save();
 
         session()->flash('message', 'Inventory Number added successfully');
@@ -111,7 +113,7 @@ class InventoryNumberController extends Controller
      */
     public function edit(string $id)
     {
-        
+
         $inventory_number = InventoryNumber::find($id);
         $members = User::role('MATERIAL-MANAGER')->get();
         $groups = Group::orderBy('id','desc')->get();
@@ -129,15 +131,17 @@ class InventoryNumberController extends Controller
         $request->validate([
             'holder_id' => 'required',
             'status' => 'required',
+            'division' => 'required',
         ]);
 
         $inventoryNumber = InventoryNumber::find($id);
         // $inventoryNumber->inventory_type = $request->inventory_type;
+        $inventoryNumber->division = $request->division;
         $inventoryNumber->holder_id = $request->holder_id;
         $inventoryNumber->group_id = $request->group_id;
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
         $inventoryNumber->status = $request->status;
-        $inventoryNumber->remarks = $request->remarks; 
+        $inventoryNumber->remarks = $request->remarks;
         $inventoryNumber->update();
 
         session()->flash('message', 'Inventory Number updated successfully');
@@ -156,8 +160,8 @@ class InventoryNumberController extends Controller
     {
         $inventoryNumber = InventoryNumber::findOrFail($id);
         $inventoryNumber->delete();
-        
-        
+
+
         return redirect()->route('inventory-numbers.index')->with('message', 'Inventory Number deleted successfully');
     }
 }

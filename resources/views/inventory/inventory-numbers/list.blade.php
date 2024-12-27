@@ -53,8 +53,8 @@
                                                 <th>Holder Name </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="number"
                                                 style="cursor: pointer">Number <span id="number_icon"><i
-                                                    class="fa fa-arrow-down"></i></span></th> 
-                                                <th>Status</th>                                  
+                                                    class="fa fa-arrow-down"></i></span></th>
+                                                <th>Status</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -236,10 +236,14 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });
@@ -260,11 +264,11 @@
                     $('.project-div').show();
                     $('.group-div').hide();
                     $('#group_id').val('');
-                    
+
                 } else {
                     $('.holder-div').show();
                     $('.group-div').show();
-                    $('.project-div').hide(); 
+                    $('.project-div').hide();
                     $('#inventory_project_id').val('');
                 }
             });

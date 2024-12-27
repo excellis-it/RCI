@@ -1,118 +1,120 @@
 @extends('inventory.layouts.master')
 @section('title')
-Credit Vouchers
+    Credit Vouchers
 @endsection
 
 @push('styles')
 @endpush
 
 @section('content')
-<section id="loading">
-    <div id="loading-content"></div>
-</section>
-<div class="container-fluid">
-    <div class="breadcome-list">
-        <div class="d-flex">
-            <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
-            <div class="">
-                <h3>Credit Vouchers</h3>
-                <ul class="breadcome-menu mb-0">
-                    <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                    <li><span class="bread-blod">Credit Vouchers</span></li>
-                </ul>
+    <section id="loading">
+        <div id="loading-content"></div>
+    </section>
+    <div class="container-fluid">
+        <div class="breadcome-list">
+            <div class="d-flex">
+                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+                <div class="">
+                    <h3>Credit Vouchers</h3>
+                    <ul class="breadcome-menu mb-0">
+                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                        <li><span class="bread-blod">Credit Vouchers</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <!--  Row 1 -->
+        <!--  Row 1 -->
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card w-100">
-                <div class="card-body">
-                    <div id="form">
-                        @include('inventory.credit-vouchers.form')
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-12 mb-4 mt-4">
-                            <div class="row justify-content-end">
-                                <div class="col-md-5 col-lg-2 mb-2 mt-4">
-                                    <div class="position-relative">
-                                        <input type="date" class="form-control search_table ps-3 date-entry" id="">
-                                    </div>
-                                </div>
-                                <div class="col-md-5 col-lg-3 mb-2 mt-4">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <div class="position-relative">
-                                                <input type="text" class="form-control search_table" value=""
-                                                    id="search" placeholder="Search">
-                                                <span class="table_search_icon"><i class="fa fa-search"></i></span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="refresh-btn">
-                                                <a href=""><span><i class="fa fa-refresh"
-                                                            aria-hidden="true"></i></span></a>
-                                            </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div id="form">
+                            @include('inventory.credit-vouchers.form')
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12 mb-4 mt-4">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-5 col-lg-2 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="date" class="form-control search_table ps-3 date-entry"
+                                                id="">
                                         </div>
                                     </div>
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control search_table" value=""
+                                                        id="search" placeholder="Search">
+                                                    <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="refresh-btn">
+                                                    <a href=""><span><i class="fa fa-refresh"
+                                                                aria-hidden="true"></i></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="table-responsive rounded-2">
-                                <table class="table customize-table mb-0 align-middle bg_tbody">
-                                    <thead class="text-white fs-4 bg_blue">
-                                        <tr>
-                                            <th>ID</th>
-                                            {{-- <th class="sorting" data-sorting_type="desc" data-column_name="code"
+                                <div class="table-responsive rounded-2">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                        <thead class="text-white fs-4 bg_blue">
+                                            <tr>
+                                                <th>ID</th>
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="code"
                                                 style="cursor: pointer">Item Code <span id="code_icon"></span> </th> --}}
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                            <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                            {{-- <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
+                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
                                                 style="cursor: pointer">Rin No.<span id="inv_no_icon"></span> </th> --}}
 
-                                            {{-- <th class="sorting" data-sorting_type="desc" data-column_name="price"
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="price"
                                                 style="cursor: pointer">Price <span id="price_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
                                                 style="cursor: pointer">Quantity<span id="quantity_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th> --}}
-                                            {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"
+                                                {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"
                                                 style="cursor: pointer">Supply Order No. <span id="sono_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="rin" data-column_name="rin"
                                                 style="cursor: pointer">Receipt & Inspection Note<span id="rin_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th> --}}
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="tbody_height_scroll">
-                                        @include('inventory.credit-vouchers.table')
-                                    </tbody>
-                                    {{-- <tbody></tbody> --}}
-                                </table>
-                                <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
-                                <input type="hidden" name="hidden_column_name" id="hidden_column_name" value="id" />
-                                <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_height_scroll">
+                                            @include('inventory.credit-vouchers.table')
+                                        </tbody>
+                                        {{-- <tbody></tbody> --}}
+                                    </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
+                                        value="id" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
-    </form>
-</div>
 @endsection
 
 @push('scripts')
-<script>
-    $(document).on('click', '#delete', function(e) {
+    <script>
+        $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
                     text: "To delete this Items!",
@@ -132,9 +134,9 @@ Credit Vouchers
                     }
                 })
         });
-</script>
-<script>
-    $(document).ready(function() {
+    </script>
+    <script>
+        $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query, date_entry) {
                 $.ajax({
@@ -219,25 +221,25 @@ Credit Vouchers
             });
 
         });
-</script>
-<script>
-    $(document).ready(function() {
+    </script>
+    <script>
+        $(document).ready(function() {
             $('#credit-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -251,9 +253,9 @@ Credit Vouchers
                 });
             });
         });
-</script>
-<script>
-    $(document).ready(function() {
+    </script>
+    <script>
+        $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
                 $('#loading').addClass('loading');
@@ -300,14 +302,14 @@ Credit Vouchers
                 });
             });
         });
-</script>
-<script>
-    function getItemDetails(getval) {
+    </script>
+    <script>
+        function getItemDetails(getval) {
             var item_code_id = $(getval).val();
             // alert(item_code_id);
 
-            $.ajax({ 
-                url: "{{ route('credit-vouchers.get-item-type')}}",
+            $.ajax({
+                url: "{{ route('credit-vouchers.get-item-type') }}",
                 type: 'POST',
                 data: {
                     item_code_id: item_code_id,
@@ -335,8 +337,8 @@ Credit Vouchers
         //     $('.item-code').change(function() {
         //         var item_code_id = $(this).val();
         //         alert(item_code_id);
-        //         $.ajax({ 
-        //             url: "{{ route('credit-vouchers.get-item-type')}}",
+        //         $.ajax({
+        //             url: "{{ route('credit-vouchers.get-item-type') }}",
         //             type: 'POST',
         //             data: {
         //                 item_code_id: item_code_id,
@@ -352,59 +354,39 @@ Credit Vouchers
         //             }
         //         });
         //     });
-            
+
         // });
-</script>
+    </script>
 
-<script>
-    // function getInvDetail(getval) {
+    <script>
+        // function getInvDetail(getval) {
 
-    //     // alert(getval);
-    //     var selectedValue = $(getval).find(':selected');
-    //     var inv_type = selectedValue.data('hidden-value');
-    //     // Find the closest parent .row that wraps the form elements to limit the scope of searching
-    //     var $row = $(getval).closest('.row');
-        
-    //     // Select the divs with classes
-    //     var memberDiv = $row.find('.member_div');
-    //     var projectDiv = $row.find('.project_div');
-    
-    //     // Show or hide based on the selected inventory type
-    //     if (inv_type === 'Individual') {
-    //         memberDiv.prop('hidden', false); // Show member div
-    //         projectDiv.prop('hidden', true);  // Hide project div
-    //     } else if (inv_type === 'Project') {
-    //         memberDiv.prop('hidden', true);  // Hide member div
-    //         projectDiv.prop('hidden', false); // Show project div
-    //     } else {
-    //         memberDiv.prop('hidden', true);  // Hide both if neither condition is met
-    //         projectDiv.prop('hidden', true);
-    //     }
-    // }
+        //     // alert(getval);
+        //     var selectedValue = $(getval).find(':selected');
+        //     var inv_type = selectedValue.data('hidden-value');
+        //     // Find the closest parent .row that wraps the form elements to limit the scope of searching
+        //     var $row = $(getval).closest('.row');
 
-        $(document).ready(function () {
-            $('#inv_no').change(function(){
-                var selectedValue = $(this).find(':selected');
-                var inv_type = selectedValue.data('hidden-value');
-                var memberDiv = $('#member_div');
-                var projectDiv = $('#project_div');
-                
-                if (inv_type === 'Individual') {
-                    memberDiv.prop('hidden', false); // Show member div
-                    projectDiv.prop('hidden', true);  // Hide project div
-                } else if (inv_type === 'Project') {
-                    memberDiv.prop('hidden', true);  // Hide member div
-                    projectDiv.prop('hidden', false); // Show project div
-                } else {
-                    memberDiv.prop('hidden', true);  // Hide both if neither condition is met
-                    projectDiv.prop('hidden', true);
-                }
-            });
-        });
-</script>
+        //     // Select the divs with classes
+        //     var memberDiv = $row.find('.member_div');
+        //     var projectDiv = $row.find('.project_div');
 
-<script>
-    $(document).ready(function(){
+        //     // Show or hide based on the selected inventory type
+        //     if (inv_type === 'Individual') {
+        //         memberDiv.prop('hidden', false); // Show member div
+        //         projectDiv.prop('hidden', true);  // Hide project div
+        //     } else if (inv_type === 'Project') {
+        //         memberDiv.prop('hidden', true);  // Hide member div
+        //         projectDiv.prop('hidden', false); // Show project div
+        //     } else {
+        //         memberDiv.prop('hidden', true);  // Hide both if neither condition is met
+        //         projectDiv.prop('hidden', true);
+        //     }
+        // }
+    </script>
+
+    <script>
+        $(document).ready(function() {
             // Function to update difference
             function updateTotalPrice(inputElement) {
                 var $row = $(inputElement).closest('.count-class');
@@ -415,7 +397,7 @@ Credit Vouchers
                 var price = parseInt($row.find('.price').val()) || 0;
                 // var tax = parseInt($row.find('.tax').val()) || 0;
                 // var tax_amt = price * tax / 100;
-                var disc_percent = parseInt($row.find('.disc_percent').val()) || 0; 
+                var disc_percent = parseInt($row.find('.disc_percent').val()) || 0;
                 var disc_amt = price * disc_percent / 100;
                 // var gst_percent = parseInt($row.find('.gst_percent').val()) || 0;
                 // var gst_amount = price * gst_percent / 100;
@@ -425,7 +407,7 @@ Credit Vouchers
                 // var discounted_price_gst = discounted_price + gst_amount;
                 // $row.find('.tax_amt').val(tax_amt);
                 // $row.find('.gst_amt').val(gst_amount);
-                if(disc_amt == 0) {
+                if (disc_amt == 0) {
                     $row.find('.disc_amt').val(0);
                     $row.find('.total_price').val(price);
                 } else {
@@ -433,18 +415,18 @@ Credit Vouchers
                     $row.find('.total_price').val(discounted_price);
                 }
             }
-        
+
             // Bind change event to input fields
             $(document).on('keyup', '.price, .disc_percent', function() {
                 updateTotalPrice(this);
             });
 
         });
-</script>
+    </script>
 
-<script>
-    $(document).ready(function(){
-            $(document).on('keyup','#edit_tax, #edit_price', function(){
+    <script>
+        $(document).ready(function() {
+            $(document).on('keyup', '#edit_tax, #edit_price', function() {
                 console.log('Keyup event fired');
                 // Your updateEditDifference() function logic here
                 var price = parseInt($('#edit_price').val());
@@ -453,26 +435,26 @@ Credit Vouchers
                 $('#edit_total_price').val(total_price);
             });
         });
-</script>
-<script>
-    // add new row
+    </script>
+    <script>
+        // add new row
         $(document).ready(function() {
             $(document).on('click', '#add-row', function() {
                 var tr = $('#credit_new_html').html();
                 $('#credit_form_add_new_row').append(tr);
 
-                if($('#voucher_date_1').val() != '') {
+                if ($('#voucher_date_1').val() != '') {
                     $('.voucher-date').each(function() {
                         $(this).val($('#voucher_date_1').val());
                     });
                 }
 
-                if($('#rin1').val() != '') {
+                if ($('#rin1').val() != '') {
                     $('.rin').each(function() {
                         $(this).val($('#rin1').val());
                     });
                 }
-                return false;   
+                return false;
             });
 
             $(document).on('click', '.trash', function() {
@@ -480,32 +462,32 @@ Credit Vouchers
                 return false;
             });
         });
-</script>
-<script>
-    $(document).on('change', '#voucher_date_1', function() {
+    </script>
+    <script>
+        $(document).on('change', '#voucher_date_1', function() {
             var voucher_date = $(this).val();
             // alert(voucher_date);
             $('.voucher-date').each(function() {
                 $(this).val(voucher_date);
             });
-        })    
-</script>
-<script>
-    $(document).on('change', '#rin1', function() {
+        })
+    </script>
+    <script>
+        $(document).on('change', '#rin1', function() {
             var rin = $(this).val();
             // alert(voucher_date);
             $('.rin').each(function() {
                 $(this).val(rin);
             });
-        })    
-</script>
-<script>
-    $(document).ready(function() {
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
             $('.print-route').on('click', function() {
                 var id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('reports.credit-voucher')}}",
+                    url: "{{ route('reports.credit-voucher') }}",
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -519,7 +501,7 @@ Credit Vouchers
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
                         a.href = url;
-                        a.download = 'credit-voucher-' + id + '.pdf'; 
+                        a.download = 'credit-voucher-' + id + '.pdf';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
@@ -530,21 +512,21 @@ Credit Vouchers
                 });
             });
         });
-</script>
-<script>
-    // rin[] onchange event
+    </script>
+    <script>
+        // rin[] onchange event
         $(document).on('change', '.rin', function() {
             var rin = $(this).val();
             var $row = $(this).closest('.count-class');
             $.ajax({
-                url: "{{ route('credit-vouchers.get-rin-details')}}",
+                url: "{{ route('credit-vouchers.get-rin-details') }}",
                 type: 'POST',
                 data: {
                     rin: rin,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                  $('#receipt-and-inspection').html(response.view);
+                    $('#receipt-and-inspection').html(response.view);
 
                 },
                 error: function(xhr) {
@@ -552,5 +534,64 @@ Credit Vouchers
                 }
             });
         });
-</script>
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#inv_no').change(function() {
+                var selectedValue = $(this).find(':selected');
+                var inv_type = selectedValue.data('hidden-value');
+                var memberDiv = $('#member_div');
+                var projectDiv = $('#project_div');
+
+                if (inv_type === 'Individual') {
+                    memberDiv.prop('hidden', false); // Show member div
+                    projectDiv.prop('hidden', true); // Hide project div
+                } else if (inv_type === 'Project') {
+                    memberDiv.prop('hidden', true); // Hide member div
+                    projectDiv.prop('hidden', false); // Show project div
+                } else {
+                    memberDiv.prop('hidden', true); // Hide both if neither condition is met
+                    projectDiv.prop('hidden', true);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#inv_no').on('change', function() {
+                let selectedOption = $(this).find(':selected');
+                let inventoryId = selectedOption.val();
+
+                // Hide both divs initially
+                $('#member_div, #project_div').hide();
+
+                if (inventoryId) {
+                    $.ajax({
+                        url: '{{route("get.inventory-number")}}', // Update with your route
+                        type: 'POST',
+                        data: {
+                            id: inventoryId,
+                            _token: $('meta[name="csrf-token"]').attr(
+                                'content') // Include CSRF token for security
+                        },
+                        success: function(response) {
+                            let inventoryType = response.inventoryNumber.inventory_type;
+
+                            // Show the relevant dropdown based on inventory type
+                            if (inventoryType === 'member') {
+                                $('#member_div').show();
+                            } else if (inventoryType === 'project') {
+                                $('#project_div').show();
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Error fetching inventory details:', xhr
+                            .responseText);
+                            alert('Could not fetch inventory details. Please try again.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endpush

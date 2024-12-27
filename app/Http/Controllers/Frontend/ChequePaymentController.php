@@ -450,6 +450,7 @@ class ChequePaymentController extends Controller
         // $vr_date = $request->date;
 
         $chq_date = $request->date;
+        $pre_vr_date = date('Y-m-d', strtotime($chq_date . ' -1 day'));
 
         $members = Member::orderBy('id', 'desc')->get();
 
@@ -463,7 +464,23 @@ class ChequePaymentController extends Controller
         // dd($payments);
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('category',  'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
+        $receipts = DB::table('receipts')
+            ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
+            ->select(
+                'receipts.id',
+                'receipts.vr_date',
+                'receipts.vr_no',
+                'receipts.narration',
+                'receipts.amount',
+                'payment_categories.name as category_name',
+                'receipts.dv_no',
+                'receipts.member_name',
+                'receipts.category_id'
+            )
+            ->where('receipts.vr_date', $chq_date)
+            ->get();
+
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('receipts','category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 

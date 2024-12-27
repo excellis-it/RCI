@@ -42,10 +42,7 @@ class CreditVoucherController extends Controller
     }
 
 
-    public function  rinDetail()
-    {
-
-    }
+    public function  rinDetail() {}
 
     public function fetchData(Request $request)
     {
@@ -149,7 +146,7 @@ class CreditVoucherController extends Controller
 
 
         $creditVoucher = new CreditVoucher();
-        $creditVoucher->voucher_no = strtoupper($request->order_type).''.$voucherNo;
+        $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
         $creditVoucher->voucher_date = $request->voucher_date;
         $creditVoucher->invoice_no = $request->invoice_no;
         $creditVoucher->invoice_date = $request->invoice_date;
@@ -184,8 +181,6 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
                     $creditVoucherDetail->cost_debatable = $request->cost_debatable ?? null;
                     $creditVoucherDetail->save();
-
-
                 }
             }
         }
@@ -300,6 +295,23 @@ class CreditVoucherController extends Controller
         $gstPercentages = GstPercentage::all();
         $vendors = Vendor::all();
         // return response()->json($rin);
-        return response()->json(['view' => view('inventory.credit-vouchers.rin', compact('rins', 'set_rins', 'inventoryNumbers', 'gstPercentages' , 'itemCodes', 'inventoryTypes', 'creditVouchers', 'members', 'lastVoucher', 'supplyOrders', 'projects', 'uoms', 'vendors'))->render()]);
+        return response()->json(['view' => view('inventory.credit-vouchers.rin', compact('rins', 'set_rins', 'inventoryNumbers', 'gstPercentages', 'itemCodes', 'inventoryTypes', 'creditVouchers', 'members', 'lastVoucher', 'supplyOrders', 'projects', 'uoms', 'vendors'))->render()]);
     }
+
+
+    public function getInventoryDetails(Request $request)
+{
+    $id = $request->input('id'); // Retrieve the inventory ID from the POST data
+
+    $inventoryNumber = InventoryNumber::find($id);
+
+    if ($inventoryNumber) {
+        return response()->json([
+            'inventoryNumber' => $inventoryNumber
+        ]);
+    }
+
+    return response()->json(['message' => 'Inventory not found'], 404);
+}
+
 }

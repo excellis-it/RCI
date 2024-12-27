@@ -1070,6 +1070,8 @@ Route::middleware('permssions')->group(function () {
             Route::get('/credit-vouchers-fetch-data', [CreditVoucherController::class, 'fetchData'])->name('credit-vouchers.fetch-data');
             Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
             Route::post('/get-item-type', [CreditVoucherController::class, 'getItemType'])->name('credit-vouchers.get-item-type');
+            Route::post('/inventory-number', [CreditVoucherController::class, 'getInventoryDetails'])->name('get.inventory-number');
+
 
             // credit-vouchers.get-rin-details
             Route::post('/credit-vouchers.get-rin-details', [CreditVoucherController::class, 'getRinDetails'])->name('credit-vouchers.get-rin-details');

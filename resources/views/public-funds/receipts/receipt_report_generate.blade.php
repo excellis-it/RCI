@@ -22,7 +22,9 @@
 </head>
 
 <body>
-
+@php
+    use App\Helpers\Helper;
+@endphp
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center; border-color: inherit;">
         <tbody>
@@ -115,7 +117,10 @@
                 <td></td>
                 <td>Opening Balance</td>
                 @foreach ($category as $cat)
-                    <td>{{ $openingBalance[$cat->id] ?? '' }}</td>
+                    <td>
+                        {{ Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                        {{-- {{ $openingBalance[$cat->id] ?? '' }} --}}
+                    </td>
                 @endforeach
                 <td></td>
 
@@ -196,7 +201,7 @@
             <tr>
                 <td colspan="3">Total Receipts</td>
                 @foreach ($category as $cat)
-                    <td>{{ $categoryAmounts[$cat->id] }}</td>
+                    <td>{{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}</td>
                 @endforeach
                 <td></td>
             </tr>
@@ -204,7 +209,10 @@
             <tr>
                 <td colspan="3">Total Payments</td>
                 @foreach ($category as $cat)
-                    <td>{{ $totalPayments[$cat->id] }}</td>
+                    <td>
+                        {{ Helper::total_payment_today($cat->id, $vr_date) }}
+                        {{-- {{ $totalPayments[$cat->id] }} --}}
+                    </td>
                 @endforeach
                 <td></td>
             </tr>
@@ -213,9 +221,9 @@
                 <td colspan="3">Balance Carried Forward</td>
                 @foreach ($category as $cat)
                     <td>
-
+                        {{ ($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) - ( Helper::total_payment_today($cat->id, $vr_date)) }}
                         {{-- {{ $categoryAmounts[$cat->id] - $totalPayments[$cat->id] }} --}}
-                        0
+
                     </td>
                 @endforeach
                 <td></td>
