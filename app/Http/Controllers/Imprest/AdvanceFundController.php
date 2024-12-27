@@ -258,16 +258,42 @@ class AdvanceFundController extends Controller
     {
         try {
             // Fetch and delete the advance fund record
-            $advance_fund = AdvanceFundToEmployee::where('id', $id)
-                ->firstOrFail();
+            // $advance_fund = AdvanceFundToEmployee::where('id', $id)
+            //     ->firstOrFail();
 
-            AdvanceSettlement::where('adv_no', $advance_fund->adv_no)->where('adv_date', $advance_fund->adv_date)->delete();
-            $bill = CdaBillAuditTeam::where('adv_no', $advance_fund->adv_no)->where('adv_date', $advance_fund->adv_date)->first();
-            if ($bill) {
-                CDAReceipt::where('bill_id', $bill->id)->delete();
-                $bill->delete();
+            // AdvanceSettlement::where('af_id', $advance_fund->id)->delete();
+            // $bill = CdaBillAuditTeam::where('adv_no', $advance_fund->adv_no)->where('adv_date', $advance_fund->adv_date)->first();
+            // if ($bill) {
+            //     CDAReceipt::where('bill_id', $bill->id)->delete();
+            //     $bill->delete();
+            // }
+            // $advance_fund->delete();
+
+            // Fetch the advance fund record
+            $advance_fund = AdvanceFundToEmployee::findOrFail($id);
+
+            // Fetch and delete all related advance settlements
+            $advance_settlements = AdvanceSettlement::where('af_id', $advance_fund->id)->get();
+            foreach ($advance_settlements as $advance_settlement) {
+                // Get all related bills for the settlement
+                $bills = CdaBillAuditTeam::where('settle_id', $advance_settlement->id)->get();
+
+                // Loop through each bill to delete associated receipts
+                foreach ($bills as $bill) {
+                    // Delete all receipts for the current bill
+                    CDAReceipt::where('bill_id', $bill->id)->delete();
+
+                    // Delete the bill itself
+                    $bill->delete();
+                }
+
+                // Delete the advance settlement itself
+                $advance_settlement->delete();
             }
+
+            // Finally, delete the advance fund record
             $advance_fund->delete();
+
 
             session()->flash('message', 'Advance fund and associated records deleted successfully.');
             return redirect()->back()->with('success', 'Advance fund deleted successfully.');

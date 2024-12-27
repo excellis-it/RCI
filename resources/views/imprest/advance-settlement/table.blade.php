@@ -12,6 +12,7 @@
             <td>{{ $advance_settlement->chq_no ?? 'N/A' }}</td>
             <td>{{ $advance_settlement->chq_date ?? 'N/A' }}</td>
             <td>{{ $advance_settlement->variableType->name ?? 'N/A' }}</td>
+            <td>{{ $advance_settlement->var_date ?? 'N/A' }}</td>
             <td>
                 <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2"
                     id="advance-sttl-delete"

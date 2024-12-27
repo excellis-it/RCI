@@ -1,13 +1,13 @@
 @extends('imprest.layouts.master')
 @section('title')
-Cash Withdrawal List
+    Cash Withdrawal List
 @endsection
 
 @push('styles')
 @endpush
 
 @php
-use App\Helpers\Helper;
+    use App\Helpers\Helper;
 @endphp
 
 @section('content')
@@ -29,14 +29,14 @@ use App\Helpers\Helper;
         </div>
         <!--  Row 1 -->
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-6 text-start mb-3">
                 <h5>Cash In Bank - {{ $bank_balance ?? 0 }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
                <h5> Cash In hand - {{ $cash_balance ?? 0 }}</h5>
             </div>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="col-lg-12">
@@ -74,7 +74,7 @@ use App\Helpers\Helper;
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="chq_date"
                                                     style="cursor: pointer">CHQ DATE.<span id="chq_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                            <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">AMOUNT<span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
 
@@ -100,39 +100,39 @@ use App\Helpers\Helper;
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#cash-withdrawals-create-form').submit(function(e) {
+    <script>
+        $(document).ready(function() {
+            $('#cash-withdrawals-create-form').submit(function(e) {
 
-            e.preventDefault();
-            var formData = $(this).serialize();
+                e.preventDefault();
+                var formData = $(this).serialize();
 
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
 
-                    //windows load with toastr message
-                    window.location.reload();
-                },
-                error: function(xhr) {
+                        //windows load with toastr message
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
 
-                    // Handle errors (e.g., display validation errors)
-                    //clear any old errors
-                    $('.text-danger').html('');
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a div with class "text-danger" next to each input
-                        $('[name="' + key + '"]').next('.text-danger').html(value[
-                            0]);
-                    });
-                }
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({

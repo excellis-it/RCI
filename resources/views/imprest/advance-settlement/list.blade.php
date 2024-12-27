@@ -87,6 +87,7 @@
                                                     style="cursor: pointer">Cheque Date <span id="pers_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Variable Type </th>
+                                                <th>Vr Date</th>
                                                 <th>Actions</th>
 
                                                 {{-- <th></th> --}}

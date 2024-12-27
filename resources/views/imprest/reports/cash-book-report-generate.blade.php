@@ -613,7 +613,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_bank }}
+                                    {{-- {{ $cashin_bank }} --}}
+                                    {{ $cashin_bank_predate }}
                                 </td>
                                 <td
                                     style="
@@ -1474,7 +1475,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($cashin_bank, 2) }}
+                                    {{ number_format($cashinbank_without_cdareceipt, 2) }}
                                 </td>
                             </tr>
 
