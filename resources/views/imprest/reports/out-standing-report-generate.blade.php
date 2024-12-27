@@ -128,6 +128,20 @@
                     ">
                                     ADV Amt
                                 </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                    Outstand Amt
+                                </td>
                             </tr>
                         </thead>
                         <tbody>
@@ -219,6 +233,20 @@
                     ">
                                             {{ $advanceFund->adv_amount }}
                                         </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            {{ $advanceFund->outstand_amount }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -294,6 +322,20 @@
                                 </td>
                                 <td
                                     style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: center;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            border: 1px solid #000;
+            height: 5px;
+          ">
+                                    {{ $totalAmount }}
+                                </td>
+                                <td
+                                    style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -304,7 +346,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                    {{ $totalAmount }}
+                                    {{ $totalOutStandAmount }}
                                 </td>
                             </tr>
 

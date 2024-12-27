@@ -18,6 +18,7 @@ use App\Models\ChequePaymentMember;
 use App\Models\CDAReceipt;
 use App\Models\CashWithdrawal;
 use App\Models\AdvanceSettlement;
+use App\Models\AdvanceFundToEmployee;
 
 class Helper
 {
@@ -76,17 +77,18 @@ class Helper
     {
         try {
             $query1 = CashWithdrawal::query();
-            $query2 = AdvanceSettlement::query();
+            // $query2 = AdvanceSettlement::query();AdvanceFundToEmployee
+            $query2 = AdvanceFundToEmployee::query();
 
             if ($date) {
                 $query1->whereDate('vr_date', $date);
-                $query2->whereDate('var_date', $date);
+                $query2->whereDate('adv_date', $date);
             }
 
             $withdrawls_amount = $query1->sum('amount');
-            $settle_amount = $query2->sum('bill_amount');
+            $fund_amount = $query2->sum('adv_amount');
 
-            $total_balance = $withdrawls_amount - $settle_amount;
+            $total_balance = $withdrawls_amount - $fund_amount;
 
             return $total_balance;
         } catch (\Exception $e) {

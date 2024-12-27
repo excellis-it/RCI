@@ -1524,7 +1524,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($bills_to_cda, 2) }}
+                                    {{ number_format($bills_on_hand, 2) }}
                                 </td>
                             </tr>
 
@@ -1570,7 +1570,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($bills_on_hand, 2) }}
+                                    {{ number_format($bills_onhand_total_outstand, 2) }}
                                 </td>
                             </tr>
 
@@ -1616,7 +1616,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($advance_settle_total_outstand, 2) }}
+                                    {{ number_format($advance_amount_total, 2) }}
                                 </td>
                             </tr>
 
