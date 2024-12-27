@@ -64,7 +64,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->voucher_no ?? '-' }}
+                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->invoice_no ?? '-' }}
                                 </td>
                                 <td
                                     style="
@@ -109,7 +109,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    SIR DATE: &nbsp; {{ $get_sir->sirNo->sir_date ?? '-' }}
+                                    SIR DATE: &nbsp;   {{ isset($get_sir->sirNo->sir_date) && $get_sir->sirNo->sir_date  ? date('d-m-Y', strtotime($get_sir->sirNo->sir_date)) : '-' }}
                                 </td>
                                 <td colspan="2"
                                     style="
@@ -123,7 +123,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? '-' }}
+                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->invoice_date  ? date('d-m-Y', strtotime($creditVoucher->invoice_date)) : '-' }}
                                 </td>
                                 <td
                                     style="
@@ -138,7 +138,7 @@
                       border: 1px solid #000;
                     ">
                                     RIN DATE: &nbsp;
-                                    {{ $singleData[$creditVoucher->voucher_no]['rin_date']  ?? '-' }}
+                                    {{ isset($singleData[$creditVoucher->voucher_no]['rin_date']) && $singleData[$creditVoucher->voucher_no]['rin_date']  ? date('d-m-Y', strtotime($singleData[$creditVoucher->voucher_no]['rin_date'])) : '-' }}
                                 </td>
                                 <td
                                     style="
