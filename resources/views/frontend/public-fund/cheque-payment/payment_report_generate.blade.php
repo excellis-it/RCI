@@ -22,7 +22,9 @@
 </head>
 
 <body>
-
+    @php
+        use App\Helpers\Helper;
+    @endphp
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center; border-color: inherit;">
         <tbody>
@@ -100,6 +102,27 @@
             </tr>
         </thead>
         <tbody>
+
+            @php
+                $categoryAmounts = [];
+                $balanceCarriedForward = [];
+                // $totalPayments = [];
+                foreach ($category as $cat) {
+                    $categoryAmounts[$cat->id] = 0;
+                    $balanceCarriedForward[$cat->id] = 0;
+                    //    $totalPayments[$cat->id] = 0;
+                }
+            @endphp
+
+            @foreach ($receipts as $receipt)
+                @php
+
+                    if (isset($categoryAmounts[$receipt->category_id])) {
+                        $categoryAmounts[$receipt->category_id] += $receipt->amount;
+                    }
+                @endphp
+            @endforeach
+
             @php
                 // Initialize totals and processed receipt IDs
                 $categoryTotals = [];
@@ -147,7 +170,7 @@
                                         @if (isset($chequePaymentMember->reciepts) && $chequePaymentMember->reciepts->category_id == $cat->id)
                                             {{ $chequePaymentMember->amount ? $chequePaymentMember->amount : 0 }} <br>
                                             @php
-                                              
+
                                                 $categoryTotals[$cat->id] += $chequePaymentMember->amount;
                                                 // Skip if this receipt has already been processed
                                                 if (!in_array($item->reciepts->id, $processedReceipts)) {
@@ -176,11 +199,14 @@
             <tr>
                 <td colspan="4">Balance Carried Forward</td>
                 @foreach ($category as $cat)
-                    <td>
+                    {{-- <td>
                         @php
                             $balanceCarriedForward[$cat->id] = $totalReceipts[$cat->id] - $categoryTotals[$cat->id];
                         @endphp
                         {{ $balanceCarriedForward[$cat->id] }}
+                    </td> --}}
+                    <td>
+                        {{ ($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) -  $categoryTotals[$cat->id]}}
                     </td>
                 @endforeach
                 <td></td>
@@ -189,7 +215,10 @@
             <tr>
                 <td colspan="4">Total Receipts</td>
                 @foreach ($category as $cat)
-                    <td>{{ $totalReceipts[$cat->id] }}</td>
+                    {{-- <td>{{ $totalReceipts[$cat->id] }}</td> --}}
+                    <td>
+                        {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                    </td>
                 @endforeach
                 <td></td>
             </tr>
