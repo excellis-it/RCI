@@ -185,11 +185,11 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->save();
 
 
-        $cashInHand = new CashInHand();
-        $cashInHand->debit = $request->bill_amount;
-        $cashInHand->cheque_no = $request->chq_no;
-        $cashInHand->cheque_date = $request->chq_date;
-        $cashInHand->save();
+        // $cashInHand = new CashInHand();
+        // $cashInHand->debit = $request->bill_amount;
+        // $cashInHand->cheque_no = $request->chq_no;
+        // $cashInHand->cheque_date = $request->chq_date;
+        // $cashInHand->save();
 
         session()->flash('message', 'Advance Settlement added successfully');
         return response()->json(['success' => 'Advance Settlement added successfully']);
@@ -316,17 +316,30 @@ class AdvanceSettlementController extends Controller
     public function delete($id)
     {
         try {
+            // $advance_settlement = AdvanceSettlement::findOrFail($id);
+
+            // $bill = CdaBillAuditTeam::where('settle_id', $advance_settlement->id)->get();
+            // if ($bill) {
+            //     CDAReceipt::where('bill_id', $bill->id)->delete();
+            //     $bill->delete();
+            // }
+
+            // $advance_settlement->delete();
             $advance_settlement = AdvanceSettlement::findOrFail($id);
-            // $advance_settlement->bill_status = 0;
-            // $advance_settlement->receipt_status = 0;
-            // $advance_settlement->save();
 
+            // Get all related bills for the settlement
+            $bills = CdaBillAuditTeam::where('settle_id', $advance_settlement->id)->get();
 
-            $bill = CdaBillAuditTeam::where('adv_no', $advance_settlement->adv_no)->where('adv_date', $advance_settlement->adv_date)->first();
-            if ($bill) {
+            // Loop through each bill to delete associated receipts
+            foreach ($bills as $bill) {
+                // Delete all receipts for the current bill
                 CDAReceipt::where('bill_id', $bill->id)->delete();
+
+                // Delete the bill itself
                 $bill->delete();
             }
+
+            // Finally, delete the advance settlement
             $advance_settlement->delete();
 
 

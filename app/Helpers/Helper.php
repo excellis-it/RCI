@@ -15,6 +15,9 @@ use App\Models\CashInBank;
 use App\Models\CashInHand;
 use App\Models\ReceiptMember;
 use App\Models\ChequePaymentMember;
+use App\Models\CDAReceipt;
+use App\Models\CashWithdrawal;
+use App\Models\AdvanceSettlement;
 
 class Helper
 {
@@ -42,15 +45,27 @@ class Helper
     {
         try {
             $query = CashInBank::query();
+            $query2 = CDAReceipt::query();
+            $query3 = CashWithdrawal::query();
+
 
             if ($date) {
-                $query->whereDate('created_at', $date);
+                //  $query->whereDate('created_at', $date);
+                $query2->whereDate('rct_vr_date', $date);
+                $query3->whereDate('vr_date', $date);
             }
 
             $bank_credit = $query->sum('credit');
-            $bank_debit = $query->sum('debit');
+            // $bank_debit = $query->sum('debit');
+            // return $bank_credit - $bank_debit;
 
-            return $bank_credit - $bank_debit;
+            $cda_receipt_amount = $query2->sum('rct_vr_amount');
+
+            $withdrawls_amount = $query3->sum('amount');
+
+            $total_balance = ($bank_credit - $withdrawls_amount) + $cda_receipt_amount;
+
+            return $total_balance;
         } catch (\Exception $e) {
             // Handle the exception and log it if necessary
             return 0; // Return 0 or another default value in case of an error
@@ -60,16 +75,51 @@ class Helper
     public static function getCashBalance($date = null)
     {
         try {
-            $query = CashInHand::query();
+            $query1 = CashWithdrawal::query();
+            $query2 = AdvanceSettlement::query();
 
             if ($date) {
-                $query->whereDate('created_at', $date);
+                $query1->whereDate('vr_date', $date);
+                $query2->whereDate('var_date', $date);
             }
 
-            $cash_credit = $query->sum('credit');
-            $cash_debit = $query->sum('debit');
+            $withdrawls_amount = $query1->sum('amount');
+            $settle_amount = $query2->sum('bill_amount');
 
-            return $cash_credit - $cash_debit;
+            $total_balance = $withdrawls_amount - $settle_amount;
+
+            return $total_balance;
+        } catch (\Exception $e) {
+            // Handle the exception and log it if necessary
+            return 0; // Return 0 or another default value in case of an error
+        }
+    }
+
+    public static function getBankBalanceNoCDAReceipt($date = null)
+    {
+        try {
+            $query = CashInBank::query();
+            $query2 = CDAReceipt::query();
+            $query3 = CashWithdrawal::query();
+
+
+            if ($date) {
+                // $query->whereDate('created_at', $date);
+                $query2->whereDate('rct_vr_date', $date);
+                $query3->whereDate('vr_date', $date);
+            }
+
+            $bank_credit = $query->sum('credit');
+            // $bank_debit = $query->sum('debit');
+            // return $bank_credit - $bank_debit;
+
+            $cda_receipt_amount = $query2->sum('rct_vr_amount');
+
+            $withdrawls_amount = $query3->sum('amount');
+
+            $total_balance = ($bank_credit - $withdrawls_amount);
+
+            return $total_balance;
         } catch (\Exception $e) {
             // Handle the exception and log it if necessary
             return 0; // Return 0 or another default value in case of an error
@@ -87,6 +137,14 @@ class Helper
             $balance = $receipt_amount;
         }
         return $balance;
+    }
+
+    public static function getCheqpaymentMemberRCamount($receipt_id, $member_id)
+    {
+        $balance = 0;
+        $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
+
+        return $receipt_amount;
     }
 
 

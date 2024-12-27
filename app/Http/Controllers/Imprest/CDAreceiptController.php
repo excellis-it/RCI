@@ -240,9 +240,9 @@ class CdaReceiptController extends Controller
             }
 
             // Insert into CashInBank
-            $cashInBank = new CashInBank();
-            $cashInBank->credit = $advBill->bill_amount;
-            $cashInBank->save();
+            // $cashInBank = new CashInBank();
+            // $cashInBank->credit = $advBill->bill_amount;
+            // $cashInBank->save();
         }
 
 
