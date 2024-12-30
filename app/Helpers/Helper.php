@@ -188,10 +188,10 @@ class Helper
         }
     }
 
-    public static function getCheqpaymentMemberBalance($receipt_id, $member_id)
+    public static function getCheqpaymentMemberBalance($rcm_id, $receipt_id, $member_id)
     {
         $balance = 0;
-        $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
+        $receipt_amount = ReceiptMember::where('id', $rcm_id)->where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
         $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->sum('amount');
         if ($payment_amount) {
             $balance = $receipt_amount - $payment_amount;
