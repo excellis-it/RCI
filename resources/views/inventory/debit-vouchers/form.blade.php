@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -87,6 +87,7 @@
                             <div class="col-md-12">
                                 <select class="form-control" name="voucher_type" id="voucher_type">
                                     <option value="">Select</option>
+                                    <option value="credit" {{ $debitVoucher->voucher_type == 'credit' ? 'selected' : '' }}>Credit</option>
                                     <option value="transfer" {{ $debitVoucher->voucher_type == 'transfer' ? 'selected' : '' }}>Transfer</option>
                                     <option value="voucher" {{ $debitVoucher->voucher_type == 'voucher' ? 'selected' : '' }}>Voucher</option>
                                 </select>
@@ -100,14 +101,14 @@
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="remarks" id="remarks" 
+                                <textarea class="form-control" name="remarks" id="remarks"
                                     placeholder="" >{{ $debitVoucher->remarks }}</textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
@@ -145,6 +146,7 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="voucher_type" id="voucher_type_1" onchange="getVoucherType(this)">
                                     <option value="">Select</option>
+                                    <option value="credit">Credit</option>
                                     <option value="transfer">Transfer</option>
                                     <option value="voucher">Voucher</option>
                                 </select>
@@ -174,16 +176,16 @@
 
         </div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 count-class">
                 <div class="row">
-                    
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_code_id[]" id="item_code_id_1" disabled>
+                                <select class="form-select item_code_id" name="item_code_id[]" id="item_code_id_1" disabled>
                                     {{-- <option value="">Select</option>
                                     @foreach($creditVouchers as $item)
                                         <option value="{{ $item->item_code_id }}" data-hidden-value="{{ $item->total_quantity }}">{{ $item->itemCodes->code }}({{ $item->total_quantity }})</option>
@@ -193,7 +195,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group col-md-4 mb-2">
+                        <label>Item Code</label>
+                        <input type="text" class="form-control item_code" name="item_code[]" readonly>
+                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -220,7 +225,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -236,14 +241,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="remarks[]" id="remarks" 
+                                <textarea class="form-control" name="remarks[]" id="remarks"
                                     placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
@@ -256,7 +261,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="debit_form_add_new_row"></div>
             </div>
             <div class="col-md-2">
@@ -307,7 +312,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group col-md-4 mb-2">
+                        <label>Item Code</label>
+                        <input type="text" class="form-control item_code" name="item_code[]" readonly>
+                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -332,10 +340,10 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="row">
-                   
+
                     {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -349,7 +357,7 @@
                         </div>
                     </div> --}}
 
-                   
+
                     {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -399,7 +407,7 @@
                                 <label>Remarks</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="remarks[]" id="remarks" 
+                                <textarea class="form-control" name="remarks[]" id="remarks"
                                     placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
@@ -410,10 +418,10 @@
                         <button class="listing_add w-100 trash form-control"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
-                
-                
+
+
             </div>
-            
+
         </div>
     </div>
 @endif

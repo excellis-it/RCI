@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Debit Vouchers
+    Debit Vouchers
 @endsection
 
 @push('styles')
@@ -53,11 +53,12 @@
                                             </div>
                                             <div>
                                                 <div class="refresh-btn">
-                                                    <a href=""><span><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+                                                    <a href=""><span><i class="fa fa-refresh"
+                                                                aria-hidden="true"></i></span></a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
@@ -65,16 +66,16 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
-                                                style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                    style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
                                                     style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_type"
                                                     style="cursor: pointer">Voucher Type<span id="voucher_type_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting"  data-column_name="inv_no"
-                                                    style="cursor: pointer">Inv. No.<span id="inv_no_icon"></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-column_name="inv_no" style="cursor: pointer">Inv.
+                                                    No.<span id="inv_no_icon"></span> </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -224,19 +225,19 @@
             $('#debit-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -306,7 +307,7 @@
         $(document).ready(function(){
             $('#item_code_id').change(function() {
                 var item_code_id = $(this).val();
-                $.ajax({ 
+                $.ajax({
                     url: "{{ route('debit-vouchers.get-item-quantity')}}",
                     type: 'POST',
                     data: {
@@ -328,14 +329,14 @@
     </script> --}}
 
     <script>
-        $(document).ready(function () {
-            $('#item_code_id_1').change(function(){
+        $(document).ready(function() {
+            $('#item_code_id_1').change(function() {
                 var selectedValue = $(this).find(':selected');
                 var quantity = selectedValue.data('hidden-value');
                 var itemType = selectedValue.data('item-type');
                 var itemDescription = selectedValue.data('item_desc');
                 // var quantityDiv = $('#quantity');
-                
+
                 var quantityDivSelectBox = [];
 
                 for (var i = 1; i <= quantity; i++) {
@@ -347,12 +348,12 @@
 
                 if (itemType) {
                     $('#item_type_1').val(itemType);
-                    
+
                 }
                 if (itemDescription) {
                     $('#item_desc_1').val(itemDescription);
                 }
-                
+
             });
         });
     </script>
@@ -363,8 +364,8 @@
             var quantity = selectedValue.data('hidden-value');
             var itemType = selectedValue.data('item-type');
             var itemDescription = selectedValue.data('item_desc');
-            
-            
+
+
             var quantityDivSelectBox = [];
 
             for (var i = 1; i <= quantity; i++) {
@@ -389,21 +390,21 @@
                 var tr = $('#debit_new_html').html();
                 $('#debit_form_add_new_row').append(tr);
 
-                if($('#voucher_date_1').val() != '') {
+                if ($('#voucher_date_1').val() != '') {
                     $('.voucher-date').each(function() {
                         $(this).val($('#voucher_date_1').val());
                     });
                 }
                 if ($('#inv_no_1').val() != '') {
                     var inv_no = $('#inv_no_1').val();
-                    
+
                     // Set the value for each .inv_no element
                     $('.inv_no').each(function() {
                         $(this).val(inv_no);
                     });
-                    
+
                     // Enable the item code input
-                   $('#item_code_id').prop('disabled', false);
+                    $('#item_code_id').prop('disabled', false);
 
                     // Make the AJAX call
                     $.ajax({
@@ -419,8 +420,9 @@
                                 var itemCode = creditVoucher.item_codes.code;
                                 var itemCodeId = creditVoucher.item_code_id;
                                 var totalQuantity = creditVoucher.total_quantity;
-                                
-                                options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" >${itemCode}(${totalQuantity})</option>`;
+
+                                options +=
+                                    `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" >${itemCode}(${totalQuantity})</option>`;
                             });
                             var $row = $(this).closest('.count-class');
                             $row.find('#item_code_id').html(options);
@@ -431,17 +433,17 @@
                         }
                     });
                 }
-                if($('#voucher_no_1').val() != '') {
+                if ($('#voucher_no_1').val() != '') {
                     $('.voucher-no').each(function() {
                         $(this).val($('#voucher_no_1').val());
                     });
                 }
-                if($('#voucher_type_1').val() != '') {
+                if ($('#voucher_type_1').val() != '') {
                     $('.voucher-type').each(function() {
                         $(this).val($('#voucher_type_1').val());
                     });
                 }
-                return false;   
+                return false;
             });
 
             $(document).on('click', '.trash', function() {
@@ -453,13 +455,13 @@
     <script>
         $(document).on('change', '#inv_no_1', function() {
             var inv_no = $(this).val();
-           $('#item_code_id_1').prop('disabled', false);
+            $('#item_code_id_1').prop('disabled', false);
             $('.inv_no').each(function() {
                 $(this).val(inv_no);
             });
 
             $.ajax({
-                url: "{{ route('debit-vouchers.get-items-by-inv-no')}}",
+                url: "{{ route('debit-vouchers.get-items-by-inv-no') }}",
                 type: 'POST',
                 data: {
                     inv_no: inv_no,
@@ -469,19 +471,20 @@
                     // console.log(response.creditVouchers[0]);
                     // add options to select box
                     var options = '<option value="">Select Item</option>';
-                    var itemType = '';  // Initialize itemType outside the loop
+                    var itemType = ''; // Initialize itemType outside the loop
 
                     $.each(response.creditVouchers, function(index, creditVoucher) {
-                        console.log(creditVoucher);
+                        // console.log(creditVoucher);
                         var itemCode = creditVoucher.item_codes.code;
                         var itemName = creditVoucher.item_codes.item_name;
                         var itemCodeId = creditVoucher.item_code;
                         var totalQuantity = creditVoucher.total_quantity;
                         var itemType = creditVoucher.item_codes.item_type;
                         var itemDescription = creditVoucher.item_codes.description;
-                        
-                        
-                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
+
+
+                        options +=
+                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
                     });
                     console.log(itemType);
                     $('#item_code_id_1').html(options);
@@ -533,7 +536,7 @@
                 var id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('reports.debit-voucher')}}",
+                    url: "{{ route('reports.debit-voucher') }}",
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -547,11 +550,12 @@
                         // Get current date
                         var currentDate = new Date();
                         var day = String(currentDate.getDate()).padStart(2, '0');
-                        var month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                        var month = String(currentDate.getMonth() + 1).padStart(2,
+                        '0'); // Months are zero-based
                         var year = currentDate.getFullYear();
 
                         // Format the date as 'YYYY-MM-DD'
-                        var formattedDate = day + '-' + month + '-' + year ;
+                        var formattedDate = day + '-' + month + '-' + year;
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
                         a.href = url;
@@ -565,6 +569,38 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.item_code_id', function() {
+                var itemCodeId = $(this).val();
+                var $row = $(this).closest('.count-class');
+
+                if (itemCodeId) {
+                    $.ajax({
+                        url: "{{ route('debit-vouchers.get-item-details') }}",
+                        type: 'POST',
+                        data: {
+                            item_code_id: itemCodeId,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.item) {
+                                $row.find('.item_code').val(response.item.code);
+                            }
+
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                            alert('Failed to fetch item details.');
+                        }
+                    });
+                } else {
+                    $row.find('.item_code').val('');
+                }
+            });
+
         });
     </script>
 @endpush

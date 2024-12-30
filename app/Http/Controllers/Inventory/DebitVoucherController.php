@@ -26,7 +26,7 @@ class DebitVoucherController extends Controller
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-        
+
         return view('inventory.debit-vouchers.list', compact('debitVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
     }
 
@@ -40,16 +40,16 @@ class DebitVoucherController extends Controller
             $date = $request->get('date_entry');
             $debitVoucherQuery = DebitVoucher::query();
 
-            
-            if($query){
+
+            if ($query) {
                 $query = str_replace(" ", "%", $query);
-                $debitVoucherQuery->where(function($queryBuilder) use ($query) {
+                $debitVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                   // inventory number
-                    ->orWhereHas('inventoryNumber', function($queryBuilder) use ($query) {
-                        $queryBuilder->where('inv_no', 'like', '%' . $query . '%');
-                    });
+                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                        // inventory number
+                        ->orWhereHas('inventoryNumber', function ($queryBuilder) use ($query) {
+                            $queryBuilder->where('inv_no', 'like', '%' . $query . '%');
+                        });
                 });
             }
 
@@ -58,7 +58,7 @@ class DebitVoucherController extends Controller
             }
 
             $debitVouchers = $debitVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
-                
+
             $inventoryNumbers = InventoryNumber::all();
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
@@ -86,7 +86,9 @@ class DebitVoucherController extends Controller
 
         $itemQuantity = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
         $request->validate([
-            'inv_no' => 'required'
+            'inv_no' => 'required',
+            'voucher_date' => 'required',
+            'voucher_type' => 'required',
         ]);
 
         //voucher no
@@ -116,7 +118,7 @@ class DebitVoucherController extends Controller
 
         // Pad the voucher number with leading zeros to ensure it's always 4 digits
         $voucherNo = str_pad($voucherNo, 4, '0', STR_PAD_LEFT);
-        
+
 
         $debitVoucher = new DebitVoucher();
         $debitVoucher->inv_no = $request->inv_no;
@@ -175,7 +177,7 @@ class DebitVoucherController extends Controller
                 }
             }
         }
-        
+
         session()->flash('message', 'Debit Voucher added successfully');
         return response()->json(['success' => 'Debit Voucher added successfully']);
     }
@@ -207,16 +209,16 @@ class DebitVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         // $itemQuantity = CreditVoucher::where('item_code_id', $debitVoucher->item_id)->get()->sum('quantity');
         // $totalQuantity = $itemQuantity + $request->quantity;
 
         $request->validate([
             'inv_no' => 'required',
             // 'quantity' => 'required|numeric|min:1|max:'.$totalQuantity,
-        ],[
+        ], [
             // 'quantity.max' => 'The quantity must not be greater than the available quantity ('.$totalQuantity.')',
-        
+
         ]);
 
         $debitVoucher = DebitVoucher::find($id);
@@ -277,17 +279,29 @@ class DebitVoucherController extends Controller
     public function getItemQuantity(Request $request)
     {
         $creditVoucher = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->get()->sum('quantity');
-        // $items = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get(); 
-        
+        // $items = CreditVoucher::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+
         return response()->json(['quantity' => $creditVoucher]);
     }
 
     public function getItemsByInvNo(Request $request)
     {
 
-        
+
         $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity'))->with('itemCodes')->get();
         // dd($creditVouchers);
         return response()->json(['creditVouchers' => $creditVouchers]);
+    }
+
+    public function getItemDetails(Request $request)
+    {
+        $item = ItemCode::where('id', $request->item_code_id)->first();
+        if ($item) {
+            return response()->json([
+                'item' => $item
+            ]);
+        }
+
+        return response()->json(['error' => 'Item not found'], 404);
     }
 }
