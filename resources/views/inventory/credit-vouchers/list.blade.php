@@ -535,7 +535,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#inv_no').change(function() {
                 var selectedValue = $(this).find(':selected');
@@ -555,7 +555,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
             $('#inv_no').on('change', function() {
@@ -563,11 +563,11 @@
                 let inventoryId = selectedOption.val();
 
                 // Hide both divs initially
-                $('#member_div, #project_div').hide();
+                $('#member_div, #division').prop('hidden', true);
 
                 if (inventoryId) {
                     $.ajax({
-                        url: '{{route("get.inventory-number")}}', // Update with your route
+                        url: '{{ route('get.inventory-number') }}', // Update with your route
                         type: 'POST',
                         data: {
                             id: inventoryId,
@@ -576,20 +576,72 @@
                         },
                         success: function(response) {
                             let inventoryType = response.inventoryNumber.inventory_type;
-
+                            console.log(inventoryType);
+                            $('#member_div, #division').prop('hidden', false);
                             // Show the relevant dropdown based on inventory type
-                            if (inventoryType === 'member') {
-                                $('#member_div').show();
-                            } else if (inventoryType === 'project') {
-                                $('#project_div').show();
+                            if (inventoryType === 'Project') {
+                                $('#division').html(`
+                                     <div class="row align-items-center justify-content-between">
+                            <div class="col-md-12">
+                                <label>Division</label>
+                            </div>
+                            <div class="col-md-12">
+                                    <input type="text" class="form-control" name="division" id="divi" value="${response.inventoryNumber.division ?? ''}" readonly
+                                    >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                                `);
+
+                                $('#member_div').html(`
+                                     <div class="row align-items-center justify-content-between">
+                            <div class="col-md-12">
+                                <label>Project Name</label>
+                            </div>
+                            <div class="col-md-12">
+                                    <input type="text" class="form-control" name="project_name" id="project_name" value="${response.inventoryNumber.project.project_name ?? ''}" readonly
+                                    >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                                `);
+                            } else {
+                                $('#division').html(`
+                                     <div class="row align-items-center justify-content-between">
+                            <div class="col-md-12">
+                                <label>Division</label>
+                            </div>
+                            <div class="col-md-12">
+                                    <input type="text" class="form-control" name="division" id="divi" value="${response.inventoryNumber.division ?? ''}" readonly
+                                    >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                                `);
+
+                                $('#member_div').html(`
+                                     <div class="row align-items-center justify-content-between">
+                            <div class="col-md-12">
+                                <label>Group Name</label>
+                            </div>
+                            <div class="col-md-12">
+                                    <input type="text" class="form-control" name="group_name" id="group_name" value="${response.inventoryNumber.group.value ?? ''}" readonly
+                                    >
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                                `);
                             }
                         },
                         error: function(xhr) {
                             console.error('Error fetching inventory details:', xhr
-                            .responseText);
+                                .responseText);
                             alert('Could not fetch inventory details. Please try again.');
                         }
                     });
+                } else {
+                    // Hide both divs if no inventory selected
+                    $('#member_div, #division').prop('hidden', true);
                 }
             });
         });

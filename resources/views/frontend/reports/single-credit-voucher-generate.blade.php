@@ -78,7 +78,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                   
+
                                     RIN NO: &nbsp;   {{ $singleData[$creditVoucher->voucher_no]['rin_no']  ?? 'N/A' }}
                                 </td>
                                 <td
@@ -166,7 +166,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
-                    ">  
+                    ">
                                     Consignor's Name & address: M/S. &nbsp;
                                     {{ Str::ucfirst($result['consigner_name'])  ?? 'N/A' }} & {{ $result['consigner_Address']  ?? 'N/A' }}
                                 </td>
@@ -425,7 +425,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                    
+
                                         {{ $index  ?? 'N/A' }}
                                     </td>
                                     @php $index++; @endphp
@@ -555,7 +555,7 @@
                     ">
                                         {{ $creditDetail['disc_amt']  ?? 'N/A' }}
                                     </td>
-                                    @php 
+                                    @php
                                         if($creditDetail['disc_amt'] == 0) {
                                             $totalCost = $creditDetail['rate'] * $creditDetail['quantity'];
                                         } else {
@@ -588,7 +588,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        
+
                                     </td>
                                     <td
                                         style="
@@ -602,7 +602,7 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                        
+
                                     </td>
                                     <td
                                         style="
@@ -619,12 +619,12 @@
                                         {{  $creditDetail['remarks']  ?? 'N/A' }}
                                     </td>
                                 </tr>
-                                @php 
+                                @php
                                     $total_amt += $totalCost;
                                 @endphp
                             @endforeach
 
-                            
+
                             <tr>
                                 <td colspan="3"
                                     style="
@@ -654,7 +654,7 @@
                                     Total Item Cost (Rs.)
                                     <span style="text-align: right">{{ $totalItemCost  ?? 'N/A' }}/-</span>
                                 </td>
-                                
+
                                 <td colspan="4"
                                     style="
                       font-size: 10px;

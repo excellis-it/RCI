@@ -304,7 +304,7 @@
                     </div>
 
                     <div class="form-group col-md-4 mb-2 member_div" hidden id="member_div">
-                        <div class="row align-items-center justify-content-between">
+                        {{-- <div class="row align-items-center justify-content-between">
                             <div class="col-md-12">
                                 <label>Inventory Holder Name</label>
                             </div>
@@ -317,10 +317,10 @@
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="form-group col-md-4 mb-2 project_div" hidden id="project_div">
-                        <div class="row align-items-center justify-content-between">
+                    <div class="form-group col-md-4 mb-2 project_div" hidden id="division">
+                        {{-- <div class="row align-items-center justify-content-between">
                             <div class="col-md-12">
                                 <label>Inventory Project Name</label>
                             </div>
@@ -333,7 +333,7 @@
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="form-group col-md-4 mb-2">

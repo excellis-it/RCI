@@ -13,4 +13,9 @@ class CreditVoucher extends Model
     {
         return $this->belongsTo(ItemCode::class, 'item_code_id');
     }
+
+    public function supplyOrder()
+    {
+        return $this->belongsTo(SupplyOrder::class, 'supply_order_id');
+    }
 }

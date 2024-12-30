@@ -191,8 +191,8 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    Authority: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['member_name']  ?? '-' }}<br />
-                                    Date: &nbsp; {{ $creditVoucher->voucher_date  ?? '-' }}
+                                     Supply Order Number: &nbsp; {{ $creditVoucher['supplyOrder']['order_number']  ?? 'N/A' }}<br />
+                                     Supply Order Date: &nbsp; {{ isset($creditVoucher['supplyOrder']['created_at']) && ($creditVoucher['supplyOrder']['created_at']) ?  date('d-m-Y', strtotime($creditVoucher['supplyOrder']['created_at'])) : '-'}}
                                 </td>
                                 <td colspan="6"
                                     style="

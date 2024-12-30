@@ -150,6 +150,8 @@ class CreditVoucherController extends Controller
         $creditVoucher->voucher_date = $request->voucher_date;
         $creditVoucher->invoice_no = $request->invoice_no;
         $creditVoucher->invoice_date = $request->invoice_date;
+        $creditVoucher->supply_order_id = $request->supply_order_no;
+        $inventory_number = InventoryNumber::where('id', '=', $request->inv_no)->first();
         if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
 
@@ -169,7 +171,7 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->quantity = $request->quantity[$key] ?? null;
                     $creditVoucherDetail->supply_order_no = $request->supply_order_no ?? null;
                     $creditVoucherDetail->rin = $request->rin ?? null;
-                    $creditVoucherDetail->member_id = $request->member_id ?? null;
+                    $creditVoucherDetail->member_id = $inventory_number->holder_id ?? null;
                     $creditVoucherDetail->order_type = $request->order_type ?? null;
                     $creditVoucherDetail->tax = $request->tax[$key] ?? null;
                     $creditVoucherDetail->tax_amt = $request->tax_amt[$key] ?? null;
@@ -303,7 +305,7 @@ class CreditVoucherController extends Controller
 {
     $id = $request->input('id'); // Retrieve the inventory ID from the POST data
 
-    $inventoryNumber = InventoryNumber::find($id);
+    $inventoryNumber = InventoryNumber::with(['group','project'])->find($id);
 
     if ($inventoryNumber) {
         return response()->json([
