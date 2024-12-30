@@ -50,7 +50,7 @@
                       text-transform: uppercase;
                       text-decoration: underline;
                     ">
-                                    IMPREST (A/c No 33016905204) Account as on {{ $report_date }}
+                                    IMPREST (A/c No {{ $setting->public_bank_ac }}) Account as on {{ $report_date }}
                                 </td>
                                 <td
                                     style="
@@ -406,7 +406,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_hand_predate }}
+                                    {{ $book1_data['opening_blanace_cash_in_hand'] ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -420,7 +420,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_bank_predate }}
+                                    {{ $book1_data['opening_blanace_cash_in_bank'] ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -438,8 +438,8 @@
                             </tr>
 
 
-                            @if ($cash_withdraws)
-                                @foreach ($cash_withdraws as $index => $cash_withdraw)
+                            @if ($book1_data['cash_withdraws'])
+                                @foreach ($book1_data['cash_withdraws'] as $index => $cash_withdraw)
                                     <tr>
                                         <td
                                             style="
@@ -524,7 +524,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cash_withdraw->vr_no }}
+                                            {{ $cash_withdraw->vr_no ?? '' }}
                                         </td>
                                         <td
                                             style="
@@ -538,7 +538,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cash_withdraw->amount }}
+                                            {{ number_format($cash_withdraw->amount, 2) }}
                                         </td>
                                         <td
                                             style="
@@ -572,6 +572,142 @@
                             @endif
 
 
+
+                            @if ($book1_data['cash_receipts'])
+                                @foreach ($book1_data['cash_receipts'] as $index => $cash_receipt)
+                                    <tr>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            {{ $cash_receipt->rct_vr_date ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            {{ $index + 1 }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            By DV No. {{ $cash_receipt->dv_no ?? '' }} of DV Date
+                                            {{ $cash_receipt->dv_date ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            Repayment Of Bill No. {{ $cash_receipt->cdaBill->cda_bill_no ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            {{ '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            {{ '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: right;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: right;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                            {{ number_format($cash_receipt->rct_vr_amount, 2) }}
+                                        </td>
+                                        <td
+                                            style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
+
                             <tr>
                                 <td colspan="6"
                                     style="
@@ -599,7 +735,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $total_cashin_hand }}
+                                    {{ number_format($book1_data['totalCashInHandBalance'], 2) }}
                                 </td>
                                 <td
                                     style="
@@ -613,8 +749,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{-- {{ $cashin_bank }} --}}
-                                    {{ $cashin_bank_predate }}
+                                    {{ number_format($book1_data['totalCashInBankBalance'], 2) }}
                                 </td>
                                 <td
                                     style="
@@ -686,7 +821,8 @@
                       text-transform: uppercase;
                       text-decoration: underline;
                     ">
-                                    IMPREST (A/c No 33016905204) Account as on {{ $report_date }}
+                                    IMPREST (A/c No {{ $setting->public_bank_ac ?? '' }}) Account as on
+                                    {{ $report_date }}
                                 </td>
                                 <td
                                     style="
@@ -950,8 +1086,8 @@
 
 
 
-                            @if ($cda_bills)
-                                @foreach ($cda_bills as $index => $cda_bill)
+                            @if ($book2_data['cda_bills'])
+                                @foreach ($book2_data['cda_bills'] as $index => $cda_bill)
                                     <tr>
                                         <td
                                             style="
@@ -965,7 +1101,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cda_bill->cda_bill_date }}
+                                            {{ $cda_bill->cda_bill_date ?? '' }}
                                         </td>
                                         <td
                                             style="
@@ -994,7 +1130,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cda_bill->settle_firm }}
+                                            {{ $cda_bill->advanceSettlement->firm ?? '' }}
                                         </td>
                                         <td
                                             style="
@@ -1008,7 +1144,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cda_bill->var_type }}
+                                            {{ $cda_bill->variableType->name ?? '' }}
                                         </td>
 
                                         <td
@@ -1023,7 +1159,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cda_bill->chq_no }}
+                                            {{ $cda_bill->chq_no ?? '' }}
 
                                         </td>
                                         <td
@@ -1038,7 +1174,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cda_bill->varno }}
+                                            {{ $cda_bill->variableType->var_no ?? '' }}
 
                                         </td>
                                         <td
@@ -1053,7 +1189,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cda_bill->cda_bill_amount }}
+                                            {{ number_format($cda_bill->bill_amount, 2) }}
                                         </td>
                                         <td
                                             style="
@@ -1114,7 +1250,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $total_paybills }}
+                                    {{ number_format($book2_data['totalPaymentsForTheDay'], 2) ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -1174,7 +1310,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_hand }}
+                                    {{ number_format($book2_data['closing_balance_cash_in_hand'], 2) ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -1188,7 +1324,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_bank }}
+                                    {{ number_format($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -1233,7 +1369,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $grand_total_cashin_hand }}
+                                    {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -1247,7 +1383,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ $cashin_bank }}
+                                    {{ number_format($book2_data['grand_total_cash_in_bank'], 2) ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -1430,7 +1566,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($cashin_hand, 2) }}
+                                    {{ number_format($book3_data['cash_in_hand'], 2) ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -1475,7 +1611,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($cashinbank_without_cdareceipt, 2) }}
+                                    {{ number_format($book3_data['cash_in_bank'], 2) ?? 0 }}
                                 </td>
                             </tr>
 
@@ -1524,7 +1660,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($bills_on_hand, 2) }}
+                                    {{ number_format($book3_data['bills_submitted_to_cda'], 2) ?? 0 }}
                                 </td>
                             </tr>
 
@@ -1570,7 +1706,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($bills_onhand_total_outstand, 2) }}
+                                    {{ number_format($book3_data['bills_on_hand'], 2) ?? 0 }}
                                 </td>
                             </tr>
 
@@ -1616,7 +1752,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($advance_amount_total, 2) }}
+                                    {{ number_format($book3_data['advance_slips'], 2) ?? 0 }}
                                 </td>
                             </tr>
 
@@ -1663,7 +1799,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    {{ number_format($bill_reff_total, 2) }}
+                                    {{ number_format($book3_data['all_totals'], 2) ?? 0 }}
+
                                 </td>
                             </tr>
                         </tbody>

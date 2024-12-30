@@ -20,6 +20,7 @@ use App\Models\CashWithdrawal;
 use App\Models\AdvanceSettlement;
 use App\Models\AdvanceFundToEmployee;
 use Illuminate\Support\Facades\DB;
+use App\Models\ImprestBalance;
 
 
 class Helper
@@ -70,6 +71,35 @@ class Helper
             return $bank_payments = 00.00;
         }
         return $bank_payments;
+    }
+
+    public static function getLastImprestBalance($date)
+    {
+        return ImprestBalance::where('date', '<=', $date)->latest('date')->latest('time')->orderBy('id', 'desc')->first();
+    }
+
+    public static function updateBalancesAfterDate($date, $updates)
+    {
+        $records = ImprestBalance::where('date', '>', $date)->orderBy('date')->orderBy('time')->orderBy('id', 'desc')->get();
+        foreach ($records as $record) {
+            foreach ($updates as $key => $value) {
+                $record->{$key} += $value;
+            }
+            $record->save();
+        }
+    }
+
+    public static function getCashInBank($date = null)
+    {
+        $lastIMBRecord = ImprestBalance::latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_bank');
+       // dd($lastIMBRecord); die;
+        return $lastIMBRecord ?? 0;
+    }
+
+    public static function getCashInHand($date = null)
+    {
+        $lastIMBRecord = ImprestBalance::latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_hand');
+        return $lastIMBRecord ?? 0;
     }
 
     public static function getBankBalance($date = null)

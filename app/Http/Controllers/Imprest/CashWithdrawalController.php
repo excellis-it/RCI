@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Imprest;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CashWithdrawal;
@@ -10,6 +11,7 @@ use App\Models\ChequePayment;
 use App\Models\CashInBank;
 use App\Models\CashInHand;
 use Illuminate\Support\Str;
+use App\Models\ImprestBalance;
 
 class CashWithdrawalController extends Controller
 {
@@ -110,18 +112,30 @@ class CashWithdrawalController extends Controller
         $cashInBank->debit = $request->amount;
         $cashInBank->save();
 
-        // $cashInBank = CashInBank::first();
-        // if ($cashInBank) {
-        //     $cashInBank->credit -= $request->amount; // Deduct from the bank
-        //     $cashInBank->save();
-        // } else {
-        //     return response()->json([
-        //         'error' => 'Insufficient balance in Cash In Bank to process this withdrawal.'
-        //     ], 400);
-        // }
+        $lastIMBRecord =  Helper::getLastImprestBalance($request->vr_date);
 
+        $imprestBalanceData = [
+            'cash_in_hand' => ($lastIMBRecord->cash_in_hand ?? 0) + $request->amount,
+            'opening_cash_in_hand' => ($lastIMBRecord->opening_cash_in_hand ?? 0) + $request->amount,
+            'cash_in_bank' => ($lastIMBRecord->cash_in_bank ?? 0) - $request->amount,
+            'opening_cash_in_bank' => ($lastIMBRecord->opening_cash_in_bank ?? 0) - $request->amount,
+            'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
+            'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
+            'cda_bill' => $lastIMBRecord->cda_bill ?? 0,
+            'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
+            'adv_fund_outstand' => $lastIMBRecord->adv_fund_outstand ?? 0,
+            'adv_settle_outstand' => $lastIMBRecord->adv_settle_outstand ?? 0,
+            'cda_bill_outstand' => $lastIMBRecord->cda_bill_outstand ?? 0,
+            'date' => $request->input('vr_date', now()->toDateString()),
+            'time' => now()->toTimeString(),
+        ];
 
+        ImprestBalance::create($imprestBalanceData);
 
+        Helper::updateBalancesAfterDate($request->vr_date, [
+            'cash_in_hand' => $request->amount,
+            'cash_in_bank' => -$request->amount,
+        ]);
 
 
         session()->flash('message', 'Cash Withdrawal updated successfully');

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Imprest;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Amount;
 use App\Models\CashInBank;
+use App\Models\ImprestBalance;
 
 class AmountController extends Controller
 {
@@ -43,6 +45,33 @@ class AmountController extends Controller
         $cashInBank = new CashInBank();
         $cashInBank->credit = $request->amount;
         $cashInBank->save();
+
+        $lastIMBRecord = Helper::getLastImprestBalance($request->vr_date);
+        $imprestBalanceData = [
+            'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
+            'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
+            'cash_in_bank' => ($lastIMBRecord->cash_in_bank ?? 0) + $request->amount,
+            'opening_cash_in_bank' => ($lastIMBRecord->opening_cash_in_bank ?? 0) + $request->amount,
+            'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
+            'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
+            'cda_bill' => $lastIMBRecord->cda_bill ?? 0,
+            'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
+            'adv_fund_outstand' => $lastIMBRecord->adv_fund_outstand ?? 0,
+            'adv_settle_outstand' => $lastIMBRecord->adv_settle_outstand ?? 0,
+            'cda_bill_outstand' => $lastIMBRecord->cda_bill_outstand ?? 0,
+            'date' => $request->input('vr_date', now()->toDateString()),
+            'time' => now()->toTimeString(),
+        ];
+
+        $imprestBalance = ImprestBalance::create($imprestBalanceData);
+
+        // Update subsequent records
+        Helper::updateBalancesAfterDate($request->vr_date, [
+            'cash_in_bank' => $request->amount,
+            'opening_cash_in_bank' => $request->amount,
+        ]);
+
+
 
         return redirect()->route('amount.index')->with('success', 'Amount Added Successfully');
     }
