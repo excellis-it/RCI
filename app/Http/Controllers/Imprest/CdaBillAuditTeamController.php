@@ -28,6 +28,13 @@ class CdaBillAuditTeamController extends Controller
         $variable_types = VariableType::orderBy('id', 'desc')->where('status', 1)->get();
         $advance_settels = AdvanceSettlement::where('bill_status', 0)->orderBy('id', 'desc')->get();
 
+        if ($advance_settels) {
+            $lastSettleDate = AdvanceSettlement::where('bill_status', 0)->orderBy('var_date', 'asc')->first()?->var_date;
+            // $lastSettleDate = '';
+        } else {
+            $lastSettleDate = '';
+        }
+
         $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')->get();
 
         // foreach ($advance_bills as $advance_bill) {
@@ -51,7 +58,7 @@ class CdaBillAuditTeamController extends Controller
 
 
 
-        return view('imprest.cda-bills.list', compact('projects', 'variable_types', 'advance_settels', 'advance_bills'));
+        return view('imprest.cda-bills.list', compact('projects', 'lastSettleDate', 'variable_types', 'advance_settels', 'advance_bills'));
     }
 
     public function getCda(Request $request)
