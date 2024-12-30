@@ -53,6 +53,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3" hidden>
+                                        <div class="row">
+
+                                            <div class="form-group col-md-12 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>Vr Date</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <input type="date" class="form-control" name="vr_date"
+                                                            id="vr_date" value="2000-01-01">
+                                                        <div class="text-danger mt-2" style="display:none;"></div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <label></label>
                                         <div class="form-group col-md-5 mb-2">

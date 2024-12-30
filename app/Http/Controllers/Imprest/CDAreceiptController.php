@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Imprest;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\CDAReceipt;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ use App\Models\CdaBillAuditTeam;
 use App\Models\CashInBank;
 use App\Models\CashInHand;
 use Illuminate\Support\Facades\DB;
+use App\Models\ImprestBalance;
+use App\Http\Controllers\ImprestReportController;
 
 class CdaReceiptController extends Controller
 {
@@ -221,7 +224,7 @@ class CdaReceiptController extends Controller
         $advBills = CdaBillAuditTeam::where('cda_bill_no', $request->bill_no)->get();
 
         foreach ($advBills as $advBill) {
-            CDAReceipt::create([
+            $cdreceipt = CDAReceipt::create([
                 'bill_id' => $advBill->id, // Use the current bill ID from CdaBillAuditTeam
                 'rct_vr_no' => $request->rct_vr_no,
                 'rct_vr_date' => $request->rct_vr_date,
@@ -238,6 +241,35 @@ class CdaReceiptController extends Controller
                 $advSettlement->receipt_status = 1;
                 $advSettlement->save();
             }
+
+            $lastIMBRecord =  Helper::getLastImprestBalance($request->rct_vr_date);
+
+            $imprestBalanceData = [
+                'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
+                'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
+                'cash_in_bank' => ($lastIMBRecord->cash_in_bank ?? 0) + $advBill->bill_amount,
+                'opening_cash_in_bank' => ($lastIMBRecord->opening_cash_in_bank ?? 0) + $advBill->bill_amount,
+                'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
+                'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
+                'cda_bill' => $lastIMBRecord->cda_bill ?? 0,
+                'cda_receipt' => ($lastIMBRecord->cda_receipt ?? 0) + $advBill->bill_amount,
+                'adv_fund_outstand' => $lastIMBRecord->adv_fund_outstand ?? 0,
+                'adv_settle_outstand' => $lastIMBRecord->adv_settle_outstand ?? 0,
+                'cda_bill_outstand' => ($lastIMBRecord->cda_bill_outstand ?? 0) - $advBill->bill_amount,
+                'adv_fund_id' => $advSettlement->af_id,
+                'adv_settle_id' => $advSettlement->id,
+                'cda_bill_id' => $advBill->id,
+                'cda_receipt_id' => $cdreceipt->id,
+                'date' => $request->input('rct_vr_date', now()->toDateString()),
+                'time' => now()->toTimeString(),
+            ];
+
+            ImprestBalance::create($imprestBalanceData);
+
+            Helper::updateBalancesAfterDate($request->rct_vr_date, [
+                'cda_receipt' => $advBill->bill_amount,
+                'cda_bill_outstand' => -$advBill->bill_amount,
+            ]);
 
             // Insert into CashInBank
             // $cashInBank = new CashInBank();

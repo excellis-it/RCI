@@ -88,7 +88,7 @@
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Variable Type </th>
                                                 <th>Vr Date</th>
-                                                <th>Actions</th>
+                                                {{-- <th>Actions</th> --}}
 
                                                 {{-- <th></th> --}}
                                             </tr>

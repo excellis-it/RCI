@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Imprest;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CdaBillAuditTeam;
@@ -12,6 +13,8 @@ use App\Models\AdvanceFundToEmployee;
 use App\Models\AdvanceSettlement;
 use App\Models\CDAReceipt;
 use Illuminate\Support\Str;
+use App\Models\ImprestBalance;
+use App\Http\Controllers\ImprestReportController;
 
 class CdaBillAuditTeamController extends Controller
 {
@@ -171,6 +174,36 @@ class CdaBillAuditTeamController extends Controller
                     $advSettlement->bill_status = 1;
                     $advSettlement->save();
                 }
+
+
+                $lastIMBRecord =  Helper::getLastImprestBalance($request->cda_bill_date);
+
+                $imprestBalanceData = [
+                    'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
+                    'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
+                    'cash_in_bank' => $lastIMBRecord->cash_in_bank ?? 0,
+                    'opening_cash_in_bank' => $lastIMBRecord->opening_cash_in_bank ?? 0,
+                    'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
+                    'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
+                    'cda_bill' => ($lastIMBRecord->cda_bill ?? 0) + $request->bill_amount[$index],
+                    'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
+                    'adv_fund_outstand' => $lastIMBRecord->adv_fund_outstand ?? 0,
+                    'adv_settle_outstand' => ($lastIMBRecord->adv_settle_outstand ?? 0) - $request->bill_amount[$index],
+                    'cda_bill_outstand' => ($lastIMBRecord->cda_bill_outstand ?? 0) + $request->bill_amount[$index],
+                    'adv_fund_id' => $advSettlement->af_id,
+                    'adv_settle_id' => $advSettlement->id,
+                    'cda_bill_id' => $receiptPayment->id,
+                    'date' => $request->input('cda_bill_date', now()->toDateString()),
+                    'time' => now()->toTimeString(),
+                ];
+
+                ImprestBalance::create($imprestBalanceData);
+
+                Helper::updateBalancesAfterDate($request->cda_bill_date, [
+                    'adv_settle_outstand' => -$request->bill_amount[$index],
+                    'cda_bill' => $request->bill_amount[$index],
+                    'cda_bill_outstand' => $request->bill_amount[$index],
+                ]);
             }
         }
 

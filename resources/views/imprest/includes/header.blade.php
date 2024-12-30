@@ -57,12 +57,12 @@
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block ms-5">
-                <span class="nav-link text-primary">Cash In Bank : {{ Helper::getBankBalance() }}</span>
+                <span class="nav-link text-primary">Cash In Bank : {{ Helper::getCashInBank() }}</span>
                 <input type="hidden" id="main_cashinbank_balance" value="{{ Helper::getBankBalance() }}">
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <span class="nav-link text-primary">Cash In Hand : {{ Helper::getCashBalance() }}</span>
+                <span class="nav-link text-primary">Cash In Hand : {{ Helper::getCashInHand() }}</span>
                 <input type="hidden" id="main_cashinhand_balance" value="{{ Helper::getCashBalance() }}">
             </li>
 

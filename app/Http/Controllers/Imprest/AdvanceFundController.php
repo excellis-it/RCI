@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Imprest;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdvanceFundToEmployee;
@@ -17,6 +18,8 @@ use App\Models\Bank;
 use App\Models\AdvanceSettlement;
 use App\Models\CdaBillAuditTeam;
 use App\Models\CDAReceipt;
+use App\Models\ImprestBalance;
+use App\Http\Controllers\ImprestReportController;
 
 class AdvanceFundController extends Controller
 {
@@ -159,6 +162,36 @@ class AdvanceFundController extends Controller
             'created_by' => auth()->id(),
         ]);
 
+
+
+        $lastIMBRecord = Helper::getLastImprestBalance($request->adv_date);
+
+        $imprestBalanceData = [
+            'cash_in_hand' => ($lastIMBRecord->cash_in_hand ?? 0) - $request->adv_amount,
+            'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
+            'cash_in_bank' => $lastIMBRecord->cash_in_bank ?? 0,
+            'opening_cash_in_bank' => $lastIMBRecord->opening_cash_in_bank ?? 0,
+            'adv_fund' => ($lastIMBRecord->adv_fund ?? 0) + $request->adv_amount,
+            'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
+            'cda_bill' => $lastIMBRecord->cda_bill ?? 0,
+            'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
+            'adv_fund_outstand' => ($lastIMBRecord->adv_fund_outstand ?? 0) + $request->adv_amount,
+            'adv_settle_outstand' => $lastIMBRecord->adv_settle_outstand ?? 0,
+            'cda_bill_outstand' => $lastIMBRecord->cda_bill_outstand ?? 0,
+            'adv_fund_id' => $advance_fund->id, 
+            'date' => $request->input('adv_date', now()->toDateString()),
+            'time' => now()->toTimeString(),
+        ];
+
+        ImprestBalance::create($imprestBalanceData);
+
+        Helper::updateBalancesAfterDate($request->adv_date, [
+            'cash_in_hand' => -$request->adv_amount,
+            'adv_fund' => $request->adv_amount,
+            'adv_fund_outstand' => $request->adv_amount,
+        ]);
+
+
         session()->flash('message', 'Advance fund added successfully');
         return response()->json(['success' => 'Advance fund added successfully']);
     }
@@ -290,6 +323,8 @@ class AdvanceFundController extends Controller
                 // Delete the advance settlement itself
                 $advance_settlement->delete();
             }
+
+            ImprestBalance::where('adv_fund_id', $advance_fund->id)->delete();
 
             // Finally, delete the advance fund record
             $advance_fund->delete();
