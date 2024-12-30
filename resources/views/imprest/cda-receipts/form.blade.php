@@ -74,11 +74,11 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Rct Vr. Date</label>
+                                    <label>Rct Vr. Date<span class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="date" class="form-control" name="rct_vr_date" id="rct_vr_date"
-                                        placeholder="" value="{{ date('Y-m-d') }}" readonly>
+                                        placeholder="" value="">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>

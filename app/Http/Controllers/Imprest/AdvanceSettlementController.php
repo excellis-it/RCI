@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Imprest;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdvanceSettlement;
@@ -14,6 +15,8 @@ use App\Models\CDAReceipt;
 use Illuminate\Support\Facades\DB;
 use App\Models\CashInBank;
 use App\Models\CashInHand;
+use App\Models\ImprestBalance;
+use App\Http\Controllers\ImprestReportController;
 
 class AdvanceSettlementController extends Controller
 {
@@ -190,6 +193,32 @@ class AdvanceSettlementController extends Controller
         // $cashInHand->cheque_no = $request->chq_no;
         // $cashInHand->cheque_date = $request->chq_date;
         // $cashInHand->save();
+        $lastIMBRecord =  Helper::getLastImprestBalance($request->var_date);
+
+        $imprestBalanceData = [
+            'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
+            'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
+            'cash_in_bank' => $lastIMBRecord->cash_in_bank ?? 0,
+            'opening_cash_in_bank' => $lastIMBRecord->opening_cash_in_bank ?? 0,
+            'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
+            'adv_settle' => ($lastIMBRecord->adv_settle ?? 0) + $request->bill_amount,
+            'cda_bill' => $lastIMBRecord->cda_bill ?? 0,
+            'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
+            'adv_fund_outstand' => ($lastIMBRecord->adv_fund_outstand ?? 0) - $request->bill_amount,
+            'adv_settle_outstand' => ($lastIMBRecord->adv_settle_outstand ?? 0) + $request->bill_amount,
+            'cda_bill_outstand' => $lastIMBRecord->cda_bill_outstand ?? 0,
+            'adv_fund_id' => $request->af_id,
+            'adv_settle_id' => $advance_settlement->id,
+            'date' => $request->input('var_date', now()->toDateString()),
+            'time' => now()->toTimeString(),
+        ];
+
+        ImprestBalance::create($imprestBalanceData);
+
+        Helper::updateBalancesAfterDate($request->var_date, [
+            'adv_fund_outstand' => -$request->bill_amount,
+            'adv_settle_outstand' => $request->bill_amount,
+        ]);
 
         session()->flash('message', 'Advance Settlement added successfully');
         return response()->json(['success' => 'Advance Settlement added successfully']);
