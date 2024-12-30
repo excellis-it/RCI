@@ -196,7 +196,7 @@ class AdvanceSettlementController extends Controller
         $lastIMBRecord =  Helper::getLastImprestBalance($request->var_date);
 
         $imprestBalanceData = [
-            'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
+            'cash_in_hand' => ($lastIMBRecord->cash_in_hand ?? 0) + $request->balance,
             'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
             'cash_in_bank' => $lastIMBRecord->cash_in_bank ?? 0,
             'opening_cash_in_bank' => $lastIMBRecord->opening_cash_in_bank ?? 0,
@@ -204,7 +204,7 @@ class AdvanceSettlementController extends Controller
             'adv_settle' => ($lastIMBRecord->adv_settle ?? 0) + $request->bill_amount,
             'cda_bill' => $lastIMBRecord->cda_bill ?? 0,
             'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
-            'adv_fund_outstand' => ($lastIMBRecord->adv_fund_outstand ?? 0) - $request->bill_amount,
+            'adv_fund_outstand' => (($lastIMBRecord->adv_fund_outstand ?? 0) - $request->bill_amount) - $request->balance,
             'adv_settle_outstand' => ($lastIMBRecord->adv_settle_outstand ?? 0) + $request->bill_amount,
             'cda_bill_outstand' => $lastIMBRecord->cda_bill_outstand ?? 0,
             'adv_fund_id' => $request->af_id,
