@@ -20,7 +20,7 @@
                             <tr>
                                 <td style="width: 25%; text-align: left; padding-right: 70px;"> <img
                                         style="width: 35%; padding: 0px 0px 10px 0px;"
-                                        src="https://excellis.co.in/rci//public/storage/logo/vdwXoIX2O0liZAlBvYhJBzcLPgg4qYLlrLnmk3Yu.png"
+                                        src="{{ asset('web_assets/images/vdwXoIX2O0liZAlBvYhJBzcLPgg4qYLlrLnmk3Yu.png') }}"
                                         alt=""></td>
                                 <td style=" font-size: 16px;
                                 line-height: 18px; width: 50%;

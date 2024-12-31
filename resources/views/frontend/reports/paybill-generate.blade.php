@@ -72,7 +72,7 @@
                                 <td colspan="3" style="text-align: center;"><img
                                         style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;"
                                         border="0"
-                                        src="https://excellis.co.in/rci//frontend_assets/images/drdo-logo.png" alt="">
+                                        src="{{ asset('web_assets/images/drdo-logo.png') }}" alt="">
                                 </td>
                                 <td colspan="6"
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border-right: none !important;">

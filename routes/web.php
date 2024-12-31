@@ -127,7 +127,8 @@ use App\Http\Controllers\PublicFund\ReceiptController;
 use App\Http\Controllers\PublicFund\PublicFundBankController;
 use App\Http\Controllers\PublicFund\SettingController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Settings\CsvController;
+use App\Http\Controllers\LinkScannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -229,6 +230,16 @@ Route::middleware('permssions')->group(function () {
 
 
     ]);
+
+    Route::get('/scan-links', [LinkScannerController::class, 'scanLinks']);
+    Route::get('/process-assets', [LinkScannerController::class, 'processAssets']);
+
+    Route::get('/public-fund-import-export-data', [CsvController::class, 'publicFund'])->name('public_fund.import_export');
+    Route::get('/imprest-import-export-data', [CsvController::class, 'imprest'])->name('imprest.import_export');
+
+    Route::get('/csv/export', [CsvController::class, 'export'])->name('csv.export');
+    Route::post('/csv/import', [CsvController::class, 'import'])->name('csv.import');
+   
 
     Route::get('/get-pay-bands', [PmLevelController::class, 'getPayBands'])->name('pm-levels.get-pay-bands');
 

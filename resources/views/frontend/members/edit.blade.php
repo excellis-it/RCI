@@ -378,7 +378,7 @@
 
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="{{ asset('web_assets/js/jquery.validate.min.js') }}"></script>
 
     {{-- credit script --}}
     <script>

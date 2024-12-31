@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+        <title>Laravel Telescope - Laravel 11.x - The PHP Framework For Web Artisans</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+        <link rel="canonical" href="https://laravel.com/docs/11.x/telescope">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Laravel - The PHP Framework For Web Artisans">
+    <meta name="description" content="Laravel is a PHP web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://laravel.com/">
+    <meta property="og:title" content="Laravel - The PHP Framework For Web Artisans">
+    <meta property="og:description" content="Laravel is a PHP web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things.">
+    <meta property="og:image" content="https://laravel.com/img/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://laravel.com/">
+    <meta property="twitter:title" content="Laravel - The PHP Framework For Web Artisans">
+    <meta property="twitter:description" content="Laravel is a PHP web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things.">
+    <meta property="twitter:image" content="https://laravel.com/img/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#ff2d20">
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ff2d20">
+    <meta name="msapplication-config" content="/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light">
+
+    <link rel="preconnect" href="https://E3MIRNPJH5-dsn.algolia.net" crossorigin />
+
+    <link rel="stylesheet" href="https://use.typekit.net/ins2wgm.css">
+    <link rel="preload" as="style" href="https://laravel.com/build/assets/app-BtzO9dTe.css" /><link rel="modulepreload" href="https://laravel.com/build/assets/app-BOWVlUZW.js" /><link rel="modulepreload" href="https://laravel.com/build/assets/docs-CrJG7rMg.js" /><link rel="stylesheet" href="https://laravel.com/build/assets/app-BtzO9dTe.css" /><script type="module" src="https://laravel.com/build/assets/app-BOWVlUZW.js"></script><script type="module" src="https://laravel.com/build/assets/docs-CrJG7rMg.js"></script>
+            <!-- Fathom - beautiful, simple website analytics -->
+        <script src="https://cdn.usefathom.com/script.js" data-site="DVMEKBYF" defer></script>
+        <!-- / Fathom -->
+
+        <!-- Clearbit -->
+        <script async src="https://tag.clearbitscripts.com/v1/pk_97d2bf69f817feb07be42fcda1460119/tags.js" referrerpolicy="strict-origin-when-cross-origin"></script>
+    
+    
+    <script>
+        const alwaysLightMode = false;
+    </script>
+
+    <script>
+    function updateTheme() {
+        if (!('theme' in localStorage)) {
+            localStorage.theme = 'system';
+        }
+
+        switch (localStorage.theme) {
+            case 'system':
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+
+                document.documentElement.setAttribute('color-theme', 'system');
+                break;
+
+            case 'dark':
+                document.documentElement.classList.add('dark');
+                document.documentElement.setAttribute('color-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+                break;
+
+            case 'light':
+                document.documentElement.classList.remove('dark');
+                document.documentElement.setAttribute('color-theme', 'light');
+                document.documentElement.setAttribute('data-theme', 'light');
+                break;
+        }
+
+        updateThemeAndSchemeColor();
+    }
+
+    function updateThemeAndSchemeColor() {
+        if (! alwaysLightMode) {
+            if (document.documentElement.classList.contains('dark')) {
+                document.querySelector('meta[name="color-scheme"]').setAttribute('content', 'dark');
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', '#171923');
+
+                return;
+            }
+
+            document.querySelector('meta[name="color-scheme"]').setAttribute('content', 'light');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff');
+        }
+    }
+
+    updateTheme();
+</script>
+
+    </head>
+<body
+    x-data="{
+        navIsOpen: false,
+    }"
+    class="w-full h-full font-sans antialiased text-gray-900 language-php"
+    data-instant-intensity="0"
+>
+
+    <a
+    id="skip-to-content-link"
+    href="#main-content"
+    class="absolute bg-gray-100 px-4 py-2 top-3 left-3 text-gray-700 shadow-xl"
+>
+    Skip to content
+</a>
+
+    <div class="items-center justify-center bg-gradient-to-b from-red-500 to-red-600 p-2 text-center text-white text-sm h-9">
+    <template id="news-herd">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" stroke-linecap="round" fill="none" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z" />
+              <path d="M7 8v1" />
+              <path d="M17 8v1" />
+              <path d="M12.5 4c-.654 1.486 -1.26 3.443 -1.5 9h2.5c-.19 2.867 .094 5.024 .5 7" />
+              <path d="M7 15.5c3.667 2 6.333 2 10 0" />
+            </svg>
+        </div>
+
+        <div class="mt-px ml-1">
+            Get started with PHP and Laravel faster than ever using <a href="https://herd.laravel.com" class="underline">Laravel Herd</a>.
+        </div>
+    </template>
+
+    <template id="news-laracon">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            Join us in Dallas, TX! Tickets are now available for <a href="https://laracon.us" class="underline">Laracon US</a>.
+        </div>
+    </template>
+
+    <template id="news-laracon-in">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            Let's go to India! Tickets are now available for <a href="https://laracon.in" class="underline">Laracon IN</a>.
+        </div>
+    </template>
+
+    <template id="news-laracon-eu">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            Let's go to Europe! Tickets are now available for <a href="https://laracon.eu" class="underline">Laracon EU</a>.
+        </div>
+    </template>
+
+    <template id="news-laracon-au">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            Let's go down under! Tickets are now available for <a href="https://laracon.au" class="underline">Laracon AU</a>.
+        </div>
+    </template>
+
+    <template id="news-forge">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            Servers with PHP 8.3 are now available for provisioning via <a href="https://forge.laravel.com" class="underline">Laravel Forge</a>.
+        </div>
+    </template>
+
+    <template id="news-vapor">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            Deploy Laravel with the infinite scale of serverless using <a href="https://vapor.laravel.com" class="underline">Laravel Vapor</a>.
+        </div>
+    </template>
+
+    <template id="news-cloud">
+        
+
+        <div class="mt-px ml-1">
+            Join the waitlist for <a href="https://cloud.laravel.com" class="underline">Laravel Cloud</a><span class="hidden md:inline">, the future of shipping</span>.
+        </div>
+    </template>
+
+    <template id="news-nightwatch">
+        <div class="mt-px ml-1">
+            Join the waitlist for <a href="https://nightwatch.laravel.com" class="underline">Laravel Nightwatch</a><span class="hidden md:inline">, first-class monitoring designed for Laravel</span>.
+        </div>
+    </template>
+
+    <template id="news-pulse">
+        <div><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg></div>
+
+        <div class="mt-px ml-1">
+            How's your health? Check your application's vital signs using <a href="https://pulse.laravel.com" class="underline">Laravel Pulse</a>.
+        </div>
+    </template>
+
+    <template id="news-reverb">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414z" />
+              <path d="M6 10l-3 3l3 3l3 -3" />
+              <path d="M10 6l3 -3l3 3l-3 3" />
+              <path d="M12 12l1.5 1.5" />
+              <path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5" />
+              <path d="M15 21a6 6 0 0 0 6 -6" />
+            </svg>
+        </div>
+
+        <div class="mt-px ml-1">
+            Incoming transmission received. <a href="https://reverb.laravel.com" class="underline">Laravel Reverb</a> is now available!
+        </div>
+    </template>
+
+    <template id="news-nova">
+        <div>
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+            </svg>
+        </div>
+
+        <div class="mt-px ml-1">
+            Take your administration backend to another dimension with <a href="https://nova.laravel.com" class="underline">Laravel Nova</a>.
+        </div>
+    </template>
+
+    <template id="news-careers">
+        <div>
+            <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+            </svg>
+        </div>
+
+        <div class="mt-px ml-1">
+            Laravel is hiring! <a href="https://laravel.com/careers" class="underline">Help us build the future of Laravel</a>.
+        </div>
+
+    </template>
+</div>
+<script>
+    const activeNewsTemplate = document.getElementById(
+        'news-'+JSON.parse('[\u0022cloud\u0022,\u0022nightwatch\u0022]')[Math.floor(Math.random() * 2)]
+    )
+
+    activeNewsTemplate.replaceWith(activeNewsTemplate.content)
+</script>
+
+    <div class="relative dark:bg-dark-700" id="docsScreen">
+        <div class="relative lg:flex lg:items-start">
+            <aside class="hidden fixed top-0 bottom-0 left-0 z-20 w-16 bg-gradient-to-b from-gray-100 to-white transition-all duration-300 lg:sticky lg:w-80 lg:shrink-0 lg:flex lg:flex-col lg:justify-end lg:items-end 2xl:max-w-lg 2xl:w-full dark:from-dark-800 dark:to-dark-700">
+                <div class="relative max-h-screen overflow-auto flex-1 flex flex-col xl:w-80">
+                    <a href="/" class="flex items-center py-8 px-4 lg:px-8 xl:px-16">
+                        <img
+                            class="w-8 h-8 shrink-0 transition-all duration-300 lg:w-12 lg:h-12"
+                            src="/img/logomark.min.svg"
+                            alt="Laravel"
+                            width="50"
+                            height="52"
+                        >
+                        <img
+                            src="/img/logotype.min.svg"
+                            alt="Laravel"
+                            class="hidden ml-4 lg:block"
+                            width="114"
+                            height="29"
+                        >
+                    </a>
+                    <div class="px-4 pb-10 lg:px-8 xl:px-16">
+                        <nav id="indexed-nav" class="hidden lg:block lg:mt-4">
+                            <div class="docs_sidebar">
+                                <ul>
+<li>
+<h2>Prologue</h2>
+<ul>
+<li>
+<a href="/docs/11.x/releases">Release Notes</a>
+</li>
+<li>
+<a href="/docs/11.x/upgrade">Upgrade Guide</a>
+</li>
+<li>
+<a href="/docs/11.x/contributions">Contribution Guide</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Getting Started</h2>
+<ul>
+<li>
+<a href="/docs/11.x/installation">Installation</a>
+</li>
+<li>
+<a href="/docs/11.x/configuration">Configuration</a>
+</li>
+<li>
+<a href="/docs/11.x/structure">Directory Structure</a>
+</li>
+<li>
+<a href="/docs/11.x/frontend">Frontend</a>
+</li>
+<li>
+<a href="/docs/11.x/starter-kits">Starter Kits</a>
+</li>
+<li>
+<a href="/docs/11.x/deployment">Deployment</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Architecture Concepts</h2>
+<ul>
+<li>
+<a href="/docs/11.x/lifecycle">Request Lifecycle</a>
+</li>
+<li>
+<a href="/docs/11.x/container">Service Container</a>
+</li>
+<li>
+<a href="/docs/11.x/providers">Service Providers</a>
+</li>
+<li>
+<a href="/docs/11.x/facades">Facades</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>The Basics</h2>
+<ul>
+<li>
+<a href="/docs/11.x/routing">Routing</a>
+</li>
+<li>
+<a href="/docs/11.x/middleware">Middleware</a>
+</li>
+<li>
+<a href="/docs/11.x/csrf">CSRF Protection</a>
+</li>
+<li>
+<a href="/docs/11.x/controllers">Controllers</a>
+</li>
+<li>
+<a href="/docs/11.x/requests">Requests</a>
+</li>
+<li>
+<a href="/docs/11.x/responses">Responses</a>
+</li>
+<li>
+<a href="/docs/11.x/views">Views</a>
+</li>
+<li>
+<a href="/docs/11.x/blade">Blade Templates</a>
+</li>
+<li>
+<a href="/docs/11.x/vite">Asset Bundling</a>
+</li>
+<li>
+<a href="/docs/11.x/urls">URL Generation</a>
+</li>
+<li>
+<a href="/docs/11.x/session">Session</a>
+</li>
+<li>
+<a href="/docs/11.x/validation">Validation</a>
+</li>
+<li>
+<a href="/docs/11.x/errors">Error Handling</a>
+</li>
+<li>
+<a href="/docs/11.x/logging">Logging</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Digging Deeper</h2>
+<ul>
+<li>
+<a href="/docs/11.x/artisan">Artisan Console</a>
+</li>
+<li>
+<a href="/docs/11.x/broadcasting">Broadcasting</a>
+</li>
+<li>
+<a href="/docs/11.x/cache">Cache</a>
+</li>
+<li>
+<a href="/docs/11.x/collections">Collections</a>
+</li>
+<li>
+<a href="/docs/11.x/concurrency">Concurrency</a>
+</li>
+<li>
+<a href="/docs/11.x/context">Context</a>
+</li>
+<li>
+<a href="/docs/11.x/contracts">Contracts</a>
+</li>
+<li>
+<a href="/docs/11.x/events">Events</a>
+</li>
+<li>
+<a href="/docs/11.x/filesystem">File Storage</a>
+</li>
+<li>
+<a href="/docs/11.x/helpers">Helpers</a>
+</li>
+<li>
+<a href="/docs/11.x/http-client">HTTP Client</a>
+</li>
+<li>
+<a href="/docs/11.x/localization">Localization</a>
+</li>
+<li>
+<a href="/docs/11.x/mail">Mail</a>
+</li>
+<li>
+<a href="/docs/11.x/notifications">Notifications</a>
+</li>
+<li>
+<a href="/docs/11.x/packages">Package Development</a>
+</li>
+<li>
+<a href="/docs/11.x/processes">Processes</a>
+</li>
+<li>
+<a href="/docs/11.x/queues">Queues</a>
+</li>
+<li>
+<a href="/docs/11.x/rate-limiting">Rate Limiting</a>
+</li>
+<li>
+<a href="/docs/11.x/strings">Strings</a>
+</li>
+<li>
+<a href="/docs/11.x/scheduling">Task Scheduling</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Security</h2>
+<ul>
+<li>
+<a href="/docs/11.x/authentication">Authentication</a>
+</li>
+<li>
+<a href="/docs/11.x/authorization">Authorization</a>
+</li>
+<li>
+<a href="/docs/11.x/verification">Email Verification</a>
+</li>
+<li>
+<a href="/docs/11.x/encryption">Encryption</a>
+</li>
+<li>
+<a href="/docs/11.x/hashing">Hashing</a>
+</li>
+<li>
+<a href="/docs/11.x/passwords">Password Reset</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Database</h2>
+<ul>
+<li>
+<a href="/docs/11.x/database">Getting Started</a>
+</li>
+<li>
+<a href="/docs/11.x/queries">Query Builder</a>
+</li>
+<li>
+<a href="/docs/11.x/pagination">Pagination</a>
+</li>
+<li>
+<a href="/docs/11.x/migrations">Migrations</a>
+</li>
+<li>
+<a href="/docs/11.x/seeding">Seeding</a>
+</li>
+<li>
+<a href="/docs/11.x/redis">Redis</a>
+</li>
+<li>
+<a href="/docs/11.x/mongodb">MongoDB</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Eloquent ORM</h2>
+<ul>
+<li>
+<a href="/docs/11.x/eloquent">Getting Started</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-relationships">Relationships</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-collections">Collections</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-mutators">Mutators / Casts</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-resources">API Resources</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-serialization">Serialization</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-factories">Factories</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Testing</h2>
+<ul>
+<li>
+<a href="/docs/11.x/testing">Getting Started</a>
+</li>
+<li>
+<a href="/docs/11.x/http-tests">HTTP Tests</a>
+</li>
+<li>
+<a href="/docs/11.x/console-tests">Console Tests</a>
+</li>
+<li>
+<a href="/docs/11.x/dusk">Browser Tests</a>
+</li>
+<li>
+<a href="/docs/11.x/database-testing">Database</a>
+</li>
+<li>
+<a href="/docs/11.x/mocking">Mocking</a>
+</li>
+</ul>
+</li>
+<li class="sub--on">
+<h2>Packages</h2>
+<ul>
+<li>
+<a href="/docs/11.x/starter-kits#laravel-breeze">Breeze</a>
+</li>
+<li>
+<a href="/docs/11.x/billing">Cashier (Stripe)</a>
+</li>
+<li>
+<a href="/docs/11.x/cashier-paddle">Cashier (Paddle)</a>
+</li>
+<li>
+<a href="/docs/11.x/dusk">Dusk</a>
+</li>
+<li>
+<a href="/docs/11.x/envoy">Envoy</a>
+</li>
+<li>
+<a href="/docs/11.x/fortify">Fortify</a>
+</li>
+<li>
+<a href="/docs/11.x/folio">Folio</a>
+</li>
+<li>
+<a href="/docs/11.x/homestead">Homestead</a>
+</li>
+<li>
+<a href="/docs/11.x/horizon">Horizon</a>
+</li>
+<li>
+<a href="https://jetstream.laravel.com">Jetstream</a>
+</li>
+<li>
+<a href="/docs/11.x/mix">Mix</a>
+</li>
+<li>
+<a href="/docs/11.x/octane">Octane</a>
+</li>
+<li>
+<a href="/docs/11.x/passport">Passport</a>
+</li>
+<li>
+<a href="/docs/11.x/pennant">Pennant</a>
+</li>
+<li>
+<a href="/docs/11.x/pint">Pint</a>
+</li>
+<li>
+<a href="/docs/11.x/precognition">Precognition</a>
+</li>
+<li>
+<a href="/docs/11.x/prompts">Prompts</a>
+</li>
+<li>
+<a href="/docs/11.x/pulse">Pulse</a>
+</li>
+<li>
+<a href="/docs/11.x/reverb">Reverb</a>
+</li>
+<li>
+<a href="/docs/11.x/sail">Sail</a>
+</li>
+<li>
+<a href="/docs/11.x/sanctum">Sanctum</a>
+</li>
+<li>
+<a href="/docs/11.x/scout">Scout</a>
+</li>
+<li>
+<a href="/docs/11.x/socialite">Socialite</a>
+</li>
+<li class="active">
+<a href="/docs/11.x/telescope">Telescope</a>
+</li>
+<li>
+<a href="/docs/11.x/valet">Valet</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="/api/11.x">API Documentation</a>
+</li>
+</ul>
+
+                            </div>
+                        </nav>
+
+                        
+                        <template id="promote-forge">
+                            <div class="mt-4 px-3 py-2 border-dashed border-gray-200 border rounded-lg text-xs leading-loose text-gray-700 lg:block dark:border-gray-400 dark:text-gray-200">
+                                <span class="font-medium">Laravel Forge:</span> create and manage PHP 8 servers. Deploy your Laravel applications in seconds. <a class="underline text-red-600" href="https://forge.laravel.com">Sign up now!</a>.
+                            </div>
+                        </template>
+
+                        <template id="promote-vapor">
+                            <div class="mt-4 px-3 py-2 border-dashed border-gray-200 border rounded-lg text-xs leading-loose text-gray-700 lg:block dark:border-gray-400 dark:text-gray-200">
+                                <span class="font-medium">Laravel Vapor:</span> experience extreme scale on a dedicated serverless platform for Laravel. <a class="underline text-red-600" href="https://vapor.laravel.com">Sign up now!</a>.
+                            </div>
+                        </template>
+
+                        <template id="promote-nova">
+                            <div class="mt-4 px-3 py-2 border-dashed border-gray-200 border rounded-lg text-xs leading-loose text-gray-700 lg:block dark:border-gray-400 dark:text-gray-200">
+                                <span class="font-medium">Laravel Nova:</span> The next generation of Nova is <a class="underline text-red-600" href="https://nova.laravel.com">now available</a>.
+                            </div>
+                        </template>
+
+                        <template id="promote-pulse">
+                            <div class="mt-4 px-3 py-2 border-dashed border-gray-200 border rounded-lg text-xs leading-loose text-gray-700 lg:block dark:border-gray-400 dark:text-gray-200">
+                                <span class="font-medium">Laravel Pulse:</span> How's your health? Check your application's vital signs using <a href="https://pulse.laravel.com" class="underline text-red-600">Laravel Pulse</a>.
+                            </div>
+                        </template>
+
+                        <template id="promote-reverb">
+                            <div class="mt-4 px-3 py-2 border-dashed border-gray-200 border rounded-lg text-xs leading-loose text-gray-700 lg:block dark:border-gray-400 dark:text-gray-200">
+                                <span class="font-medium">Laravel Reverb:</span> You can easily build dynamic, real-time Laravel applications using WebSockets. <a href="https://reverb.laravel.com" class="underline text-red-600">Laravel Reverb</a> is now available!
+                            </div>
+                        </template>
+                        <script>
+                            const activePromotionTemplate = document.getElementById(
+                                'promote-'+JSON.parse('[\u0022forge\u0022,\u0022vapor\u0022,\u0022nova\u0022,\u0022pulse\u0022,\u0022reverb\u0022]')[Math.floor(Math.random() * 5)]
+                            )
+
+                            activePromotionTemplate.replaceWith(activePromotionTemplate.content)
+                        </script>
+                    </div>
+                </div>
+            </aside>
+
+            <header
+                class="lg:hidden"
+                @keydown.window.escape="navIsOpen = false"
+                @click.away="navIsOpen = false"
+            >
+                <div class="relative mx-auto w-full py-10 bg-white transition duration-200 dark:bg-dark-700">
+                    <div class="mx-auto px-8 sm:px-16 flex items-center justify-between">
+                        <a href="/" class="flex items-center">
+                            <img class="" src="/img/logomark.min.svg" alt="Laravel" width="50" height="52">
+                            <img class="hidden ml-5 sm:block" src="/img/logotype.min.svg" alt="Laravel" width="114" height="29">
+                        </a>
+                        <div class="flex-1 flex items-center justify-end">
+                            <button id="header__sun" onclick="toSystemMode()" title="Switch to system theme" class="relative w-10 h-10 focus:outline-none focus:shadow-outline text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="12" cy="12" r="4"></circle>
+                                    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+                                 </svg>
+                            </button>
+                            <button id="header__moon" onclick="toLightMode()" title="Switch to light mode" class="relative w-10 h-10 focus:outline-none focus:shadow-outline text-gray-500">
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z" />
+                                </svg>
+                            </button>
+                            <button id="header__indeterminate" onclick="toDarkMode()" title="Switch to dark mode" class="relative w-10 h-10 focus:outline-none focus:shadow-outline text-gray-500">
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z" />
+                                </svg>
+                            </button>
+                            <button class="ml-2 relative w-10 h-10 p-2 text-red-600 lg:hidden focus:outline-none focus:shadow-outline" aria-label="Menu" @click.prevent="navIsOpen = !navIsOpen">
+                                <svg x-show="! navIsOpen" x-transition.opacity class="absolute inset-0 mt-2 ml-2 w-6 h-6" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                                <svg x-show="navIsOpen" x-transition.opacity x-cloak class="absolute inset-0 mt-2 ml-2 w-6 h-6" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <span :class="{ 'shadow-sm': navIsOpen }" class="absolute inset-0 z-20 pointer-events-none"></span>
+                </div>
+                <div
+                    x-show="navIsOpen"
+                    x-transition:enter="duration-150"
+                    x-transition:leave="duration-100 ease-in"
+                    x-cloak
+                >
+                    <nav
+                        x-show="navIsOpen"
+                        x-cloak
+                        class="absolute w-full transform origin-top shadow-sm z-10"
+                        x-transition:enter="duration-150 ease-out"
+                        x-transition:enter-start="opacity-0 -translate-y-8 scale-75"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="duration-100 ease-in"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 -translate-y-8 scale-75"
+                    >
+                        <div class="relative p-8 bg-white docs_sidebar dark:bg-dark-600">
+                            <ul>
+<li>
+<h2>Prologue</h2>
+<ul>
+<li>
+<a href="/docs/11.x/releases">Release Notes</a>
+</li>
+<li>
+<a href="/docs/11.x/upgrade">Upgrade Guide</a>
+</li>
+<li>
+<a href="/docs/11.x/contributions">Contribution Guide</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Getting Started</h2>
+<ul>
+<li>
+<a href="/docs/11.x/installation">Installation</a>
+</li>
+<li>
+<a href="/docs/11.x/configuration">Configuration</a>
+</li>
+<li>
+<a href="/docs/11.x/structure">Directory Structure</a>
+</li>
+<li>
+<a href="/docs/11.x/frontend">Frontend</a>
+</li>
+<li>
+<a href="/docs/11.x/starter-kits">Starter Kits</a>
+</li>
+<li>
+<a href="/docs/11.x/deployment">Deployment</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Architecture Concepts</h2>
+<ul>
+<li>
+<a href="/docs/11.x/lifecycle">Request Lifecycle</a>
+</li>
+<li>
+<a href="/docs/11.x/container">Service Container</a>
+</li>
+<li>
+<a href="/docs/11.x/providers">Service Providers</a>
+</li>
+<li>
+<a href="/docs/11.x/facades">Facades</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>The Basics</h2>
+<ul>
+<li>
+<a href="/docs/11.x/routing">Routing</a>
+</li>
+<li>
+<a href="/docs/11.x/middleware">Middleware</a>
+</li>
+<li>
+<a href="/docs/11.x/csrf">CSRF Protection</a>
+</li>
+<li>
+<a href="/docs/11.x/controllers">Controllers</a>
+</li>
+<li>
+<a href="/docs/11.x/requests">Requests</a>
+</li>
+<li>
+<a href="/docs/11.x/responses">Responses</a>
+</li>
+<li>
+<a href="/docs/11.x/views">Views</a>
+</li>
+<li>
+<a href="/docs/11.x/blade">Blade Templates</a>
+</li>
+<li>
+<a href="/docs/11.x/vite">Asset Bundling</a>
+</li>
+<li>
+<a href="/docs/11.x/urls">URL Generation</a>
+</li>
+<li>
+<a href="/docs/11.x/session">Session</a>
+</li>
+<li>
+<a href="/docs/11.x/validation">Validation</a>
+</li>
+<li>
+<a href="/docs/11.x/errors">Error Handling</a>
+</li>
+<li>
+<a href="/docs/11.x/logging">Logging</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Digging Deeper</h2>
+<ul>
+<li>
+<a href="/docs/11.x/artisan">Artisan Console</a>
+</li>
+<li>
+<a href="/docs/11.x/broadcasting">Broadcasting</a>
+</li>
+<li>
+<a href="/docs/11.x/cache">Cache</a>
+</li>
+<li>
+<a href="/docs/11.x/collections">Collections</a>
+</li>
+<li>
+<a href="/docs/11.x/concurrency">Concurrency</a>
+</li>
+<li>
+<a href="/docs/11.x/context">Context</a>
+</li>
+<li>
+<a href="/docs/11.x/contracts">Contracts</a>
+</li>
+<li>
+<a href="/docs/11.x/events">Events</a>
+</li>
+<li>
+<a href="/docs/11.x/filesystem">File Storage</a>
+</li>
+<li>
+<a href="/docs/11.x/helpers">Helpers</a>
+</li>
+<li>
+<a href="/docs/11.x/http-client">HTTP Client</a>
+</li>
+<li>
+<a href="/docs/11.x/localization">Localization</a>
+</li>
+<li>
+<a href="/docs/11.x/mail">Mail</a>
+</li>
+<li>
+<a href="/docs/11.x/notifications">Notifications</a>
+</li>
+<li>
+<a href="/docs/11.x/packages">Package Development</a>
+</li>
+<li>
+<a href="/docs/11.x/processes">Processes</a>
+</li>
+<li>
+<a href="/docs/11.x/queues">Queues</a>
+</li>
+<li>
+<a href="/docs/11.x/rate-limiting">Rate Limiting</a>
+</li>
+<li>
+<a href="/docs/11.x/strings">Strings</a>
+</li>
+<li>
+<a href="/docs/11.x/scheduling">Task Scheduling</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Security</h2>
+<ul>
+<li>
+<a href="/docs/11.x/authentication">Authentication</a>
+</li>
+<li>
+<a href="/docs/11.x/authorization">Authorization</a>
+</li>
+<li>
+<a href="/docs/11.x/verification">Email Verification</a>
+</li>
+<li>
+<a href="/docs/11.x/encryption">Encryption</a>
+</li>
+<li>
+<a href="/docs/11.x/hashing">Hashing</a>
+</li>
+<li>
+<a href="/docs/11.x/passwords">Password Reset</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Database</h2>
+<ul>
+<li>
+<a href="/docs/11.x/database">Getting Started</a>
+</li>
+<li>
+<a href="/docs/11.x/queries">Query Builder</a>
+</li>
+<li>
+<a href="/docs/11.x/pagination">Pagination</a>
+</li>
+<li>
+<a href="/docs/11.x/migrations">Migrations</a>
+</li>
+<li>
+<a href="/docs/11.x/seeding">Seeding</a>
+</li>
+<li>
+<a href="/docs/11.x/redis">Redis</a>
+</li>
+<li>
+<a href="/docs/11.x/mongodb">MongoDB</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Eloquent ORM</h2>
+<ul>
+<li>
+<a href="/docs/11.x/eloquent">Getting Started</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-relationships">Relationships</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-collections">Collections</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-mutators">Mutators / Casts</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-resources">API Resources</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-serialization">Serialization</a>
+</li>
+<li>
+<a href="/docs/11.x/eloquent-factories">Factories</a>
+</li>
+</ul>
+</li>
+<li>
+<h2>Testing</h2>
+<ul>
+<li>
+<a href="/docs/11.x/testing">Getting Started</a>
+</li>
+<li>
+<a href="/docs/11.x/http-tests">HTTP Tests</a>
+</li>
+<li>
+<a href="/docs/11.x/console-tests">Console Tests</a>
+</li>
+<li>
+<a href="/docs/11.x/dusk">Browser Tests</a>
+</li>
+<li>
+<a href="/docs/11.x/database-testing">Database</a>
+</li>
+<li>
+<a href="/docs/11.x/mocking">Mocking</a>
+</li>
+</ul>
+</li>
+<li class="sub--on">
+<h2>Packages</h2>
+<ul>
+<li>
+<a href="/docs/11.x/starter-kits#laravel-breeze">Breeze</a>
+</li>
+<li>
+<a href="/docs/11.x/billing">Cashier (Stripe)</a>
+</li>
+<li>
+<a href="/docs/11.x/cashier-paddle">Cashier (Paddle)</a>
+</li>
+<li>
+<a href="/docs/11.x/dusk">Dusk</a>
+</li>
+<li>
+<a href="/docs/11.x/envoy">Envoy</a>
+</li>
+<li>
+<a href="/docs/11.x/fortify">Fortify</a>
+</li>
+<li>
+<a href="/docs/11.x/folio">Folio</a>
+</li>
+<li>
+<a href="/docs/11.x/homestead">Homestead</a>
+</li>
+<li>
+<a href="/docs/11.x/horizon">Horizon</a>
+</li>
+<li>
+<a href="https://jetstream.laravel.com">Jetstream</a>
+</li>
+<li>
+<a href="/docs/11.x/mix">Mix</a>
+</li>
+<li>
+<a href="/docs/11.x/octane">Octane</a>
+</li>
+<li>
+<a href="/docs/11.x/passport">Passport</a>
+</li>
+<li>
+<a href="/docs/11.x/pennant">Pennant</a>
+</li>
+<li>
+<a href="/docs/11.x/pint">Pint</a>
+</li>
+<li>
+<a href="/docs/11.x/precognition">Precognition</a>
+</li>
+<li>
+<a href="/docs/11.x/prompts">Prompts</a>
+</li>
+<li>
+<a href="/docs/11.x/pulse">Pulse</a>
+</li>
+<li>
+<a href="/docs/11.x/reverb">Reverb</a>
+</li>
+<li>
+<a href="/docs/11.x/sail">Sail</a>
+</li>
+<li>
+<a href="/docs/11.x/sanctum">Sanctum</a>
+</li>
+<li>
+<a href="/docs/11.x/scout">Scout</a>
+</li>
+<li>
+<a href="/docs/11.x/socialite">Socialite</a>
+</li>
+<li class="active">
+<a href="/docs/11.x/telescope">Telescope</a>
+</li>
+<li>
+<a href="/docs/11.x/valet">Valet</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="/api/11.x">API Documentation</a>
+</li>
+</ul>
+
+                        </div>
+                    </nav>
+                </div>
+            </header>
+
+            <section class="flex-1 dark:bg-dark-700">
+                <div class="max-w-screen-lg px-8 sm:px-16 lg:px-24">
+                    <div class="flex flex-col items-end border-b border-gray-200 py-1 transition-colors dark:border-gray-700 lg:mt-8 lg:flex-row-reverse">
+                        <div class="hidden lg:flex items-center justify-center ml-8">
+                            <button id="header__sun" onclick="toSystemMode()" title="Switch to system theme" class="relative w-10 h-10 focus:outline-none focus:shadow-outline text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="12" cy="12" r="4"></circle>
+                                    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+                                 </svg>
+                            </button>
+                            <button id="header__moon" onclick="toLightMode()" title="Switch to light mode" class="relative w-10 h-10 focus:outline-none focus:shadow-outline text-gray-500">
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z" />
+                                </svg>
+                            </button>
+                            <button id="header__indeterminate" onclick="toDarkMode()" title="Switch to dark mode" class="relative w-10 h-10 focus:outline-none focus:shadow-outline text-gray-500">
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12A10 10 0 0 0 12 22A10 10 0 0 0 22 12A10 10 0 0 0 12 2M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20V4Z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="w-full lg:w-40 lg:pl-12">
+                            <div>
+                                <label class="text-gray-600 text-xs tracking-widest uppercase dark:text-gray-500" for="version-switcher">Version</label>
+                                <div x-data class="relative w-full bg-white transition-all duration-500 focus-within:border-gray-600 dark:bg-gray-800">
+                                    <select
+                                        id="version-switcher"
+                                        aria-label="Laravel version"
+                                        class="appearance-none flex-1 w-full px-0 py-1 placeholder-gray-900 tracking-wide bg-white border-transparent focus:outline-none dark:bg-dark-700 dark:text-gray-400 dark:placeholder-gray-500"
+                                        @change="window.location = $event.target.value"
+                                    >
+                                                                                    <option  value="https://laravel.com/docs/master/telescope">Master</option>
+                                                                                    <option selected value="https://laravel.com/docs/11.x/telescope">11.x</option>
+                                                                                    <option  value="https://laravel.com/docs/10.x/telescope">10.x</option>
+                                                                                    <option  value="https://laravel.com/docs/9.x/telescope">9.x</option>
+                                                                                    <option  value="https://laravel.com/docs/8.x/telescope">8.x</option>
+                                                                                    <option  value="https://laravel.com/docs/7.x/telescope">7.x</option>
+                                                                                    <option  value="https://laravel.com/docs/6.x/telescope">6.x</option>
+                                                                                    <option  value="https://laravel.com/docs/5.8/telescope">5.8</option>
+                                                                                    <option  value="https://laravel.com/docs/5.7/telescope">5.7</option>
+                                                                                    <option  value="https://laravel.com/docs/5.6/telescope">5.6</option>
+                                                                                    <option  value="https://laravel.com/docs/5.5/telescope">5.5</option>
+                                                                                    <option  value="https://laravel.com/docs/5.4/telescope">5.4</option>
+                                                                                    <option  value="https://laravel.com/docs/5.3/telescope">5.3</option>
+                                                                                    <option  value="https://laravel.com/docs/5.2/telescope">5.2</option>
+                                                                                    <option  value="https://laravel.com/docs/5.1/telescope">5.1</option>
+                                                                                    <option  value="https://laravel.com/docs/5.0/telescope">5.0</option>
+                                                                                    <option  value="https://laravel.com/docs/4.2/telescope">4.2</option>
+                                                                            </select>
+                                    <img class="absolute inset-y-0 right-0 mt-2.5 w-2.5 h-2.5 text-gray-900 pointer-events-none dark:hidden" src="/img/icons/drop_arrow.min.svg" alt="" width="10" height="10">
+                                    <img class="absolute inset-y-0 right-0 mt-2.5 w-2.5 h-2.5 text-gray-900 pointer-events-none hidden dark:block" src="/img/icons/drop_arrow.dark.min.svg" alt="" width="10" height="10">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative mt-8 flex items-center justify-end w-full h-10 lg:mt-0">
+                            <div class="flex-1 flex items-center">
+                                <button id="docsearch" class="text-gray-800 transition-colors dark:text-gray-400 w-full"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="mt-8 md:mt-16">
+                        <section class="docs_main max-w-prose">
+                            
+                            
+                            <div id="main-content">
+    <h1>Laravel Telescope</h1>
+<ul>
+<li>
+<a href="#introduction">Introduction</a>
+</li>
+<li>
+<a href="#installation">Installation</a>
+<ul>
+<li>
+<a href="#local-only-installation">Local Only Installation</a>
+</li>
+<li>
+<a href="#configuration">Configuration</a>
+</li>
+<li>
+<a href="#data-pruning">Data Pruning</a>
+</li>
+<li>
+<a href="#dashboard-authorization">Dashboard Authorization</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#upgrading-telescope">Upgrading Telescope</a>
+</li>
+<li>
+<a href="#filtering">Filtering</a>
+<ul>
+<li>
+<a href="#filtering-entries">Entries</a>
+</li>
+<li>
+<a href="#filtering-batches">Batches</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#tagging">Tagging</a>
+</li>
+<li>
+<a href="#available-watchers">Available Watchers</a>
+<ul>
+<li>
+<a href="#batch-watcher">Batch Watcher</a>
+</li>
+<li>
+<a href="#cache-watcher">Cache Watcher</a>
+</li>
+<li>
+<a href="#command-watcher">Command Watcher</a>
+</li>
+<li>
+<a href="#dump-watcher">Dump Watcher</a>
+</li>
+<li>
+<a href="#event-watcher">Event Watcher</a>
+</li>
+<li>
+<a href="#exception-watcher">Exception Watcher</a>
+</li>
+<li>
+<a href="#gate-watcher">Gate Watcher</a>
+</li>
+<li>
+<a href="#http-client-watcher">HTTP Client Watcher</a>
+</li>
+<li>
+<a href="#job-watcher">Job Watcher</a>
+</li>
+<li>
+<a href="#log-watcher">Log Watcher</a>
+</li>
+<li>
+<a href="#mail-watcher">Mail Watcher</a>
+</li>
+<li>
+<a href="#model-watcher">Model Watcher</a>
+</li>
+<li>
+<a href="#notification-watcher">Notification Watcher</a>
+</li>
+<li>
+<a href="#query-watcher">Query Watcher</a>
+</li>
+<li>
+<a href="#redis-watcher">Redis Watcher</a>
+</li>
+<li>
+<a href="#request-watcher">Request Watcher</a>
+</li>
+<li>
+<a href="#schedule-watcher">Schedule Watcher</a>
+</li>
+<li>
+<a href="#view-watcher">View Watcher</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#displaying-user-avatars">Displaying User Avatars</a>
+</li>
+</ul>
+<h2 id="introduction"><a href="#introduction">Introduction</a></h2>
+<p><a href="https://github.com/laravel/telescope">Laravel Telescope</a> makes a wonderful companion to your local Laravel development environment. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps, and more.</p>
+<img src="https://laravel.com/img/docs/telescope-example.png">
+<h2 id="installation"><a href="#installation">Installation</a></h2>
+<p>You may use the Composer package manager to install Telescope into your Laravel project:</p>
+<div class="code-container">
+<pre><code data-theme="olaolu-palenight" data-lang="shell" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #BFC7D5;">composer </span><span style="color: #BFC7D5;">require</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">laravel/telescope</span></div></code></pre>
+</div>
+<p>After installing Telescope, publish its assets and migrations using the <code>telescope:install</code> Artisan command. After installing Telescope, you should also run the <code>migrate</code> command in order to create the tables needed to store Telescope's data:</p>
+<div class="code-container">
+<pre><code data-theme="olaolu-palenight" data-lang="shell" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #BFC7D5;">php </span><span style="color: #BFC7D5;">artisan</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">telescope:install</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">php </span><span style="color: #BFC7D5;">artisan</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">migrate</span></div></code></pre>
+</div>
+<p>Finally, you may access the Telescope dashboard via the <code>/telescope</code> route.</p>
+<h3 id="local-only-installation"><a href="#local-only-installation">Local Only Installation</a></h3>
+<p>If you plan to only use Telescope to assist your local development, you may install Telescope using the <code>--dev</code> flag:</p>
+<div class="code-container">
+<pre><code data-theme="olaolu-palenight" data-lang="shell" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #BFC7D5;">composer </span><span style="color: #BFC7D5;">require</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">laravel/telescope</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">--dev</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">php </span><span style="color: #BFC7D5;">artisan</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">telescope:install</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">php </span><span style="color: #BFC7D5;">artisan</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">migrate</span></div></code></pre>
+</div>
+<p>After running <code>telescope:install</code>, you should remove the <code>TelescopeServiceProvider</code> service provider registration from your application's <code>bootstrap/providers.php</code> configuration file. Instead, manually register Telescope's service providers in the <code>register</code> method of your <code>App\Providers\AppServiceProvider</code> class. We will ensure the current environment is <code>local</code> before registering the providers:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #697098;">/**</span></div><div class='line'><span style="color: #697098;"> * Register any application services.</span></div><div class='line'><span style="color: #697098;"> </span><span style="color: #697098;">*/</span></div><div class='line'><span style="color: #C792EA;">public</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">register</span><span style="color: #D9F5DD;">()</span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">void</span></div><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #C792EA;">if</span><span style="color: #BFC7D5;"> (</span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;app-&gt;</span><span style="color: #82AAFF;">environment</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">local</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">) </span><span style="color: #C792EA;">&amp;&amp;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">class_exists</span><span style="color: #BFC7D5;">(\</span><span style="color: #82AAFF;">Laravel</span><span style="color: #BFC7D5;">\</span><span style="color: #82AAFF;">Telescope</span><span style="color: #BFC7D5;">\</span><span style="color: #FFCB8B;">TelescopeServiceProvider</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;">)) {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;app-&gt;</span><span style="color: #82AAFF;">register</span><span style="color: #BFC7D5;">(\Laravel\Telescope\</span><span style="color: #FFCB8B;">TelescopeServiceProvider</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;">);</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;app-&gt;</span><span style="color: #82AAFF;">register</span><span style="color: #BFC7D5;">(</span><span style="color: #FFCB8B;">TelescopeServiceProvider</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;">);</span></div><div class='line'><span style="color: #BFC7D5;">    }</span></div><div class='line'><span style="color: #BFC7D5;">}</span></div></code></pre>
+<p>Finally, you should also prevent the Telescope package from being <a href="/docs/11.x/packages#package-discovery">auto-discovered</a> by adding the following to your <code>composer.json</code> file:</p>
+<div class="code-container">
+<pre><code data-theme="olaolu-palenight" data-lang="json" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&quot;</span><span style="color: #C3E88D;">extra</span><span style="color: #D9F5DD;">&quot;</span><span style="color: #BFC7D5;">: {</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #C3E88D;">&quot;laravel&quot;</span><span style="color: #BFC7D5;">: {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C3E88D;">&quot;dont-discover&quot;</span><span style="color: #BFC7D5;">: [</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #D9F5DD;">&quot;</span><span style="color: #80CBC4;">laravel/telescope</span><span style="color: #D9F5DD;">&quot;</span></div><div class='line'><span style="color: #BFC7D5;">        ]</span></div><div class='line'><span style="color: #BFC7D5;">    }</span></div><div class='line'><span style="color: #BFC7D5;">},</span></div></code></pre>
+</div>
+<h3 id="configuration"><a href="#configuration">Configuration</a></h3>
+<p>After publishing Telescope's assets, its primary configuration file will be located at <code>config/telescope.php</code>. This configuration file allows you to configure your <a href="#available-watchers">watcher options</a>. Each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.</p>
+<p>If desired, you may disable Telescope's data collection entirely using the <code>enabled</code> configuration option:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_ENABLED</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div></code></pre>
+<h3 id="data-pruning"><a href="#data-pruning">Data Pruning</a></h3>
+<p>Without pruning, the <code>telescope_entries</code> table can accumulate records very quickly. To mitigate this, you should <a href="/docs/11.x/scheduling">schedule</a> the <code>telescope:prune</code> Artisan command to run daily:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Illuminate\Support\Facades\</span><span style="color: #FFCB8B;">Schedule</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #FFCB8B;">Schedule</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">command</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">telescope:prune</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">)</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">daily</span><span style="color: #BFC7D5;">();</span></div></code></pre>
+<p>By default, all entries older than 24 hours will be pruned. You may use the <code>hours</code> option when calling the command to determine how long to retain Telescope data. For example, the following command will delete all records created over 48 hours ago:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Illuminate\Support\Facades\</span><span style="color: #FFCB8B;">Schedule</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #FFCB8B;">Schedule</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">command</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">telescope:prune --hours=48</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">)</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">daily</span><span style="color: #BFC7D5;">();</span></div></code></pre>
+<h3 id="dashboard-authorization"><a href="#dashboard-authorization">Dashboard Authorization</a></h3>
+<p>The Telescope dashboard may be accessed via the <code>/telescope</code> route. By default, you will only be able to access this dashboard in the <code>local</code> environment. Within your <code>app/Providers/TelescopeServiceProvider.php</code> file, there is an <a href="/docs/11.x/authorization#gates">authorization gate</a> definition. This authorization gate controls access to Telescope in <strong>non-local</strong> environments. You are free to modify this gate as needed to restrict access to your Telescope installation:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> App\Models\</span><span style="color: #FFCB8B;">User</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #697098;">/**</span></div><div class='line'><span style="color: #697098;"> * Register the Telescope gate.</span></div><div class='line'><span style="color: #697098;"> *</span></div><div class='line'><span style="color: #697098;"> * This gate determines who can access Telescope in non-local environments.</span></div><div class='line'><span style="color: #697098;"> </span><span style="color: #697098;">*/</span></div><div class='line'><span style="color: #C792EA;">protected</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">gate</span><span style="color: #D9F5DD;">()</span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">void</span></div><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FFCB8B;">Gate</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">define</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">viewTelescope</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">, </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #FFCB8B;">User</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$user</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">in_array</span><span style="color: #BFC7D5;">($</span><span style="color: #BEC5D4;">user</span><span style="color: #89DDFF;">-&gt;email</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> </span><span style="color: #BFC7D5;">[</span></div><div class='line'><span style="color: #82AAFF;">            </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2c584d5540435e6c404d5e4d5a4940024f4341">[email&#160;protected]</a></span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #82AAFF;">        </span><span style="color: #BFC7D5;">]);</span></div><div class='line'><span style="color: #BFC7D5;">    });</span></div><div class='line'><span style="color: #BFC7D5;">}</span></div></code></pre>
+<div class="mb-10 max-w-2xl mx-auto px-4 py-8 shadow-lg lg:flex lg:items-center callout">
+    <div class="w-20 h-20 mb-6 flex items-center justify-center shrink-0 lg:mb-0 bg-red-600">
+        <div class="opacity-75"><svg width="6" height="35" viewBox="0 0 6 35" xmlns="http://www.w3.org/2000/svg"><title>exclamation</title><path d="M0 29h6v6H0v-6zM0 0h6v24H0V0z" fill="#FFF" fill-rule="nonzero"/></svg>
+</div>
+    </div>
+    <p class="mb-0 lg:ml-6 callout">
+You should ensure you change your <code>APP_ENV</code> environment variable to <code>production</code> in your production environment. Otherwise, your Telescope installation will be publicly available.</p>
+</div>
+<h2 id="upgrading-telescope"><a href="#upgrading-telescope">Upgrading Telescope</a></h2>
+<p>When upgrading to a new major version of Telescope, it's important that you carefully review <a href="https://github.com/laravel/telescope/blob/master/UPGRADE.md">the upgrade guide</a>.</p>
+<p>In addition, when upgrading to any new Telescope version, you should re-publish Telescope's assets:</p>
+<div class="code-container">
+<pre><code data-theme="olaolu-palenight" data-lang="shell" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #BFC7D5;">php </span><span style="color: #BFC7D5;">artisan</span><span style="color: #BFC7D5;"> </span><span style="color: #BFC7D5;">telescope:publish</span></div></code></pre>
+</div>
+<p>To keep the assets up-to-date and avoid issues in future updates, you may add the <code>vendor:publish --tag=laravel-assets</code> command to the <code>post-update-cmd</code> scripts in your application's <code>composer.json</code> file:</p>
+<div class="code-container">
+<pre><code data-theme="olaolu-palenight" data-lang="json" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #C3E88D;">&quot;scripts&quot;</span><span style="color: #BFC7D5;">: {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C3E88D;">&quot;post-update-cmd&quot;</span><span style="color: #BFC7D5;">: [</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #D9F5DD;">&quot;</span><span style="color: #80CBC4;">@php artisan vendor:publish --tag=laravel-assets --ansi --force</span><span style="color: #D9F5DD;">&quot;</span></div><div class='line'><span style="color: #BFC7D5;">        ]</span></div><div class='line'><span style="color: #BFC7D5;">    }</span></div><div class='line'><span style="color: #BFC7D5;">}</span></div></code></pre>
+</div>
+<h2 id="filtering"><a href="#filtering">Filtering</a></h2>
+<h3 id="filtering-entries"><a href="#filtering-entries">Entries</a></h3>
+<p>You may filter the data that is recorded by Telescope via the <code>filter</code> closure that is defined in your <code>App\Providers\TelescopeServiceProvider</code> class. By default, this closure records all data in the <code>local</code> environment and exceptions, failed jobs, scheduled tasks, and data with monitored tags in all other environments:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">IncomingEntry</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">Telescope</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #697098;">/**</span></div><div class='line'><span style="color: #697098;"> * Register any application services.</span></div><div class='line'><span style="color: #697098;"> </span><span style="color: #697098;">*/</span></div><div class='line'><span style="color: #C792EA;">public</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">register</span><span style="color: #D9F5DD;">()</span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">void</span></div><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">hideSensitiveRequestDetails</span><span style="color: #BFC7D5;">();</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FFCB8B;">Telescope</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">filter</span><span style="color: #BFC7D5;">(</span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #FFCB8B;">IncomingEntry</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entry</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">if</span><span style="color: #BFC7D5;"> (</span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;app-&gt;</span><span style="color: #82AAFF;">environment</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">local</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">)) {</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">true</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #BFC7D5;">        }</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isReportableException</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isFailedJob</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isScheduledTask</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isSlowQuery</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">hasMonitoredTag</span><span style="color: #BFC7D5;">();</span></div><div class='line'><span style="color: #BFC7D5;">    });</span></div><div class='line'><span style="color: #BFC7D5;">}</span></div></code></pre>
+<h3 id="filtering-batches"><a href="#filtering-batches">Batches</a></h3>
+<p>While the <code>filter</code> closure filters data for individual entries, you may use the <code>filterBatch</code> method to register a closure that filters all data for a given request or console command. If the closure returns <code>true</code>, all of the entries are recorded by Telescope:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Illuminate\Support\</span><span style="color: #FFCB8B;">Collection</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">IncomingEntry</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">Telescope</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #697098;">/**</span></div><div class='line'><span style="color: #697098;"> * Register any application services.</span></div><div class='line'><span style="color: #697098;"> </span><span style="color: #697098;">*/</span></div><div class='line'><span style="color: #C792EA;">public</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">register</span><span style="color: #D9F5DD;">()</span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">void</span></div><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">hideSensitiveRequestDetails</span><span style="color: #BFC7D5;">();</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FFCB8B;">Telescope</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">filterBatch</span><span style="color: #BFC7D5;">(</span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #FFCB8B;">Collection</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entries</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">if</span><span style="color: #BFC7D5;"> (</span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;app-&gt;</span><span style="color: #82AAFF;">environment</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">local</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">)) {</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">true</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #BFC7D5;">        }</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entries</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">contains</span><span style="color: #BFC7D5;">(</span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #FFCB8B;">IncomingEntry</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entry</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class='line'><span style="color: #BFC7D5;">            </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isReportableException</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">                </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isFailedJob</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">                </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isScheduledTask</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">                </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">isSlowQuery</span><span style="color: #BFC7D5;">() </span><span style="color: #C792EA;">||</span></div><div class='line'><span style="color: #BFC7D5;">                </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">hasMonitoredTag</span><span style="color: #BFC7D5;">();</span></div><div class='line'><span style="color: #BFC7D5;">            });</span></div><div class='line'><span style="color: #BFC7D5;">    });</span></div><div class='line'><span style="color: #BFC7D5;">}</span></div></code></pre>
+<h2 id="tagging"><a href="#tagging">Tagging</a></h2>
+<p>Telescope allows you to search entries by &quot;tag&quot;. Often, tags are Eloquent model class names or authenticated user IDs which Telescope automatically adds to entries. Occasionally, you may want to attach your own custom tags to entries. To accomplish this, you may use the <code>Telescope::tag</code> method. The <code>tag</code> method accepts a closure which should return an array of tags. The tags returned by the closure will be merged with any tags Telescope would automatically attach to the entry. Typically, you should call the <code>tag</code> method within the <code>register</code> method of your <code>App\Providers\TelescopeServiceProvider</code> class:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">IncomingEntry</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">Telescope</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #697098;">/**</span></div><div class='line'><span style="color: #697098;"> * Register any application services.</span></div><div class='line'><span style="color: #697098;"> </span><span style="color: #697098;">*/</span></div><div class='line'><span style="color: #C792EA;">public</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">register</span><span style="color: #D9F5DD;">()</span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">void</span></div><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FF5572;">$this</span><span style="color: #89DDFF;">-&gt;</span><span style="color: #82AAFF;">hideSensitiveRequestDetails</span><span style="color: #BFC7D5;">();</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FFCB8B;">Telescope</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">tag</span><span style="color: #BFC7D5;">(</span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #FFCB8B;">IncomingEntry</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entry</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;type</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">===</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">request</span><span style="color: #D9F5DD;">&#39;</span></div><div class='line'><span style="color: #BFC7D5;">                    </span><span style="color: #89DDFF;">?</span><span style="color: #BFC7D5;"> [</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">status:</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #89DDFF;">.</span><span style="color: #BEC5D4;">$entry</span><span style="color: #89DDFF;">-&gt;content</span><span style="color: #BFC7D5;">[</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">response_status</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">]]</span></div><div class='line'><span style="color: #BFC7D5;">                    </span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> [];</span></div><div class='line'><span style="color: #BFC7D5;">    });</span></div><div class='line'><span style="color: #BFC7D5;"> }</span></div></code></pre>
+<h2 id="available-watchers"><a href="#available-watchers">Available Watchers</a></h2>
+<p>Telescope &quot;watchers&quot; gather application data when a request or console command is executed. You may customize the list of watchers that you would like to enable within your <code>config/telescope.php</code> configuration file:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">CacheWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">true</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">CommandWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">true</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<p>Some watchers also allow you to provide additional customization options:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">QueryWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_QUERY_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">slow</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #F78C6C;">100</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="batch-watcher"><a href="#batch-watcher">Batch Watcher</a></h3>
+<p>The batch watcher records information about queued <a href="/docs/11.x/queues#job-batching">batches</a>, including the job and connection information.</p>
+<h3 id="cache-watcher"><a href="#cache-watcher">Cache Watcher</a></h3>
+<p>The cache watcher records data when a cache key is hit, missed, updated and forgotten.</p>
+<h3 id="command-watcher"><a href="#command-watcher">Command Watcher</a></h3>
+<p>The command watcher records the arguments, options, exit code, and output whenever an Artisan command is executed. If you would like to exclude certain commands from being recorded by the watcher, you may specify the command in the <code>ignore</code> option within your <code>config/telescope.php</code> file:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">CommandWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_COMMAND_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">ignore</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">key:generate</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">],</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="dump-watcher"><a href="#dump-watcher">Dump Watcher</a></h3>
+<p>The dump watcher records and displays your variable dumps in Telescope. When using Laravel, variables may be dumped using the global <code>dump</code> function. The dump watcher tab must be open in a browser for the dump to be recorded, otherwise, the dumps will be ignored by the watcher.</p>
+<h3 id="event-watcher"><a href="#event-watcher">Event Watcher</a></h3>
+<p>The event watcher records the payload, listeners, and broadcast data for any <a href="/docs/11.x/events">events</a> dispatched by your application. The Laravel framework's internal events are ignored by the Event watcher.</p>
+<h3 id="exception-watcher"><a href="#exception-watcher">Exception Watcher</a></h3>
+<p>The exception watcher records the data and stack trace for any reportable exceptions that are thrown by your application.</p>
+<h3 id="gate-watcher"><a href="#gate-watcher">Gate Watcher</a></h3>
+<p>The gate watcher records the data and result of <a href="/docs/11.x/authorization">gate and policy</a> checks by your application. If you would like to exclude certain abilities from being recorded by the watcher, you may specify those in the <code>ignore_abilities</code> option in your <code>config/telescope.php</code> file:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">GateWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_GATE_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">ignore_abilities</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">viewNova</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">],</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="http-client-watcher"><a href="#http-client-watcher">HTTP Client Watcher</a></h3>
+<p>The HTTP client watcher records outgoing <a href="/docs/11.x/http-client">HTTP client requests</a> made by your application.</p>
+<h3 id="job-watcher"><a href="#job-watcher">Job Watcher</a></h3>
+<p>The job watcher records the data and status of any <a href="/docs/11.x/queues">jobs</a> dispatched by your application.</p>
+<h3 id="log-watcher"><a href="#log-watcher">Log Watcher</a></h3>
+<p>The log watcher records the <a href="/docs/11.x/logging">log data</a> for any logs written by your application.</p>
+<p>By default, Telescope will only record logs at the <code>error</code> level and above. However, you can modify the <code>level</code> option in your application's <code>config/telescope.php</code> configuration file to modify this behavior:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">LogWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_LOG_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">level</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">debug</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #697098;">//</span><span style="color: #697098;"> ...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="mail-watcher"><a href="#mail-watcher">Mail Watcher</a></h3>
+<p>The mail watcher allows you to view an in-browser preview of <a href="/docs/11.x/mail">emails</a> sent by your application along with their associated data. You may also download the email as an <code>.eml</code> file.</p>
+<h3 id="model-watcher"><a href="#model-watcher">Model Watcher</a></h3>
+<p>The model watcher records model changes whenever an Eloquent <a href="/docs/11.x/eloquent#events">model event</a> is dispatched. You may specify which model events should be recorded via the watcher's <code>events</code> option:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">ModelWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_MODEL_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">events</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">eloquent.created*</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">, </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">eloquent.updated*</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">],</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<p>If you would like to record the number of models hydrated during a given request, enable the <code>hydrations</code> option:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">ModelWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_MODEL_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">events</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">eloquent.created*</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">, </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">eloquent.updated*</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">],</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">hydrations</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">true</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="notification-watcher"><a href="#notification-watcher">Notification Watcher</a></h3>
+<p>The notification watcher records all <a href="/docs/11.x/notifications">notifications</a> sent by your application. If the notification triggers an email and you have the mail watcher enabled, the email will also be available for preview on the mail watcher screen.</p>
+<h3 id="query-watcher"><a href="#query-watcher">Query Watcher</a></h3>
+<p>The query watcher records the raw SQL, bindings, and execution time for all queries that are executed by your application. The watcher also tags any queries slower than 100 milliseconds as <code>slow</code>. You may customize the slow query threshold using the watcher's <code>slow</code> option:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">QueryWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_QUERY_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">slow</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #F78C6C;">50</span><span style="color: #BFC7D5;">,</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="redis-watcher"><a href="#redis-watcher">Redis Watcher</a></h3>
+<p>The Redis watcher records all <a href="/docs/11.x/redis">Redis</a> commands executed by your application. If you are using Redis for caching, cache commands will also be recorded by the Redis watcher.</p>
+<h3 id="request-watcher"><a href="#request-watcher">Request Watcher</a></h3>
+<p>The request watcher records the request, headers, session, and response data associated with any requests handled by the application. You may limit your recorded response data via the <code>size_limit</code> (in kilobytes) option:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">watchers</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">    Watchers\</span><span style="color: #FFCB8B;">RequestWatcher</span><span style="color: #89DDFF;">::</span><span style="color: #C792EA;">class</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> [</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">enabled</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_REQUEST_WATCHER</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> true</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">size_limit</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;"> </span><span style="color: #89DDFF;">=&gt;</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">env</span><span style="color: #BFC7D5;">(</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #C3E88D;">TELESCOPE_RESPONSE_SIZE_LIMIT</span><span style="color: #D9F5DD;">&#39;</span><span style="color: #BFC7D5;">,</span><span style="color: #82AAFF;"> </span><span style="color: #F78C6C;">64</span><span style="color: #BFC7D5;">),</span></div><div class='line'><span style="color: #BFC7D5;">    ],</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #89DDFF;">...</span></div><div class='line'><span style="color: #BFC7D5;">],</span></div></code></pre>
+<h3 id="schedule-watcher"><a href="#schedule-watcher">Schedule Watcher</a></h3>
+<p>The schedule watcher records the command and output of any <a href="/docs/11.x/scheduling">scheduled tasks</a> run by your application.</p>
+<h3 id="view-watcher"><a href="#view-watcher">View Watcher</a></h3>
+<p>The view watcher records the <a href="/docs/11.x/views">view</a> name, path, data, and &quot;composers&quot; used when rendering views.</p>
+<h2 id="displaying-user-avatars"><a href="#displaying-user-avatars">Displaying User Avatars</a></h2>
+<p>The Telescope dashboard displays the user avatar for the user that was authenticated when a given entry was saved. By default, Telescope will retrieve avatars using the Gravatar web service. However, you may customize the avatar URL by registering a callback in your <code>App\Providers\TelescopeServiceProvider</code> class. The callback will receive the user's ID and email address and should return the user's avatar image URL:</p>
+<pre><code data-theme="olaolu-palenight" data-lang="php" class='torchlight' style='background-color: #292D3E; --theme-selection-background: #7580B850;'><!-- Syntax highlighted by torchlight.dev --><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> App\Models\</span><span style="color: #FFCB8B;">User</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #C792EA;">use</span><span style="color: #BFC7D5;"> Laravel\Telescope\</span><span style="color: #FFCB8B;">Telescope</span><span style="color: #BFC7D5;">;</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #697098;">/**</span></div><div class='line'><span style="color: #697098;"> * Register any application services.</span></div><div class='line'><span style="color: #697098;"> </span><span style="color: #697098;">*/</span></div><div class='line'><span style="color: #C792EA;">public</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #82AAFF;">register</span><span style="color: #D9F5DD;">()</span><span style="color: #89DDFF;">:</span><span style="color: #BFC7D5;"> </span><span style="color: #C792EA;">void</span></div><div class='line'><span style="color: #BFC7D5;">{</span></div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #697098;">//</span><span style="color: #697098;"> ...</span></div><div class='line'>&nbsp;</div><div class='line'><span style="color: #BFC7D5;">    </span><span style="color: #FFCB8B;">Telescope</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">avatar</span><span style="color: #BFC7D5;">(</span><span style="color: #C792EA;">function</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">(</span><span style="color: #C792EA;">string</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$id</span><span style="color: #BFC7D5;">, </span><span style="color: #C792EA;">string</span><span style="color: #BFC7D5;"> </span><span style="color: #BEC5D4;">$email</span><span style="color: #D9F5DD;">)</span><span style="color: #BFC7D5;"> {</span></div><div class='line'><span style="color: #BFC7D5;">        </span><span style="color: #C792EA;">return</span><span style="color: #BFC7D5;"> </span><span style="color: #D9F5DD;">&#39;/</span><span style="color: #80CBC4;">avatars</span><span style="color: #D9F5DD;">/&#39;</span><span style="color: #89DDFF;">.</span><span style="color: #FFCB8B;">User</span><span style="color: #89DDFF;">::</span><span style="color: #82AAFF;">find</span><span style="color: #BFC7D5;">(</span><span style="color: #BEC5D4;">$id</span><span style="color: #BFC7D5;">)</span><span style="color: #89DDFF;">-&gt;avatar_path</span><span style="color: #BFC7D5;">;</span></div><div class='line'><span style="color: #BFC7D5;">    });</span></div><div class='line'><span style="color: #BFC7D5;">}</span></div></code></pre>
+
+                                <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYILK3E&placement=laravelcom" id="_carbonads_js"></script>
+</div>
+                        </section>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </div>
+
+<footer class="relative pt-12 dark:bg-dark-700">
+    <div class="max-w-screen-2xl mx-auto w-full px-8">
+        <div>
+            <a href="/" class="inline-flex">
+                <img class="w-16 h-16" src="/img/logomark.min.svg" alt="Laravel" width="64" height="64" loading="lazy">
+            </a>
+        </div>
+
+        <div class="mt-6 grid grid-cols-12 md:gap-x-8 gap-y-12 sm:mt-12">
+            <div class="col-span-12 lg:col-span-4">
+                <p class="max-w-sm text-xs text-gray-700 sm:text-sm dark:text-gray-500">
+                    Laravel is a web application framework with expressive, elegant syntax. We believe development must
+                    be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain
+                    out of development by easing common tasks used in most web projects.</p>
+                <ul class="mt-6 flex items-center space-x-3">
+                    <li>
+                        <a href="https://x.com/laravelphp">
+                            <img class="hidden dark:inline-block w-6 h-6" src="/img/social/x.dark.min.svg" alt="X" width="24" height="20" loading="lazy">
+                            <img class="inline-block dark:hidden w-6 h-6" src="/img/social/x.min.svg" alt="X" width="24" height="20" loading="lazy">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/laravel">
+                            <img class="hidden dark:inline-block w-6 h-6"
+                                src="/img/social/github.dark.min.svg" alt="GitHub" width="24" height="24"
+                                loading="lazy">
+                            <img class="inline-block dark:hidden w-6 h-6"
+                                src="/img/social/github.min.svg" alt="GitHub" width="24" height="24"
+                                loading="lazy">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://discord.gg/laravel">
+                            <img class="hidden dark:inline-block w-6 h-6"
+                                src="/img/social/discord.dark.min.svg" alt="Discord" width="21" height="24"
+                                loading="lazy">
+                            <img class="inline-block dark:hidden w-6 h-6"
+                                src="/img/social/discord.min.svg" alt="Discord" width="21" height="24"
+                                loading="lazy">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/laravelphp">
+                            <img class="hidden dark:inline-block w-6 h-6"
+                                src="/img/social/youtube.dark.min.svg" alt="YouTube" width="169" height="150"
+                                loading="lazy">
+                            <img class="inline-block dark:hidden w-6 h-6"
+                                src="/img/social/youtube.min.svg" alt="YouTube" width="169" height="150"
+                                loading="lazy">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+                            <div class="text-xs col-span-6 md:col-span-3 lg:col-span-2">
+                    <span
+                        class="uppercase dark:text-gray-200">Highlights</span>
+                    <div class="mt-5">
+                        <ul class="space-y-3 text-gray-700 dark:text-gray-500">
+                                                            <li>
+                                    <a href="/docs/11.x/releases"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Release Notes</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/installation"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Getting Started</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/routing"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Routing</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/blade"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Blade Templates</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/authentication"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Authentication</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/authorization"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Authorization</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/artisan"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Artisan Console</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/database"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Database</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/eloquent"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Eloquent ORM</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/testing"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Testing</a>
+                                </li>
+                                                    </ul>
+                    </div>
+                </div>
+                            <div class="text-xs col-span-6 md:col-span-3 lg:col-span-2">
+                    <span
+                        class="uppercase dark:text-gray-200">Resources</span>
+                    <div class="mt-5">
+                        <ul class="space-y-3 text-gray-700 dark:text-gray-500">
+                                                            <li>
+                                    <a href="https://bootcamp.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laravel Bootcamp</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laracasts.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laracasts</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laravel-news.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laravel News</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laracon.us"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laracon</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laracon.au"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laracon AU</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laracon.eu/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laracon EU</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laracon.in/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Laracon India</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://larabelles.com/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Larabelles</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laravel.com/careers"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Careers</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://larajobs.com/?partner=5"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Jobs</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://laracasts.com/discuss"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Forums</a>
+                                </li>
+                                                            <li>
+                                    <a href="/trademark"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Trademark</a>
+                                </li>
+                                                    </ul>
+                    </div>
+                </div>
+                            <div class="text-xs col-span-6 md:col-span-3 lg:col-span-2">
+                    <span
+                        class="uppercase dark:text-gray-200">Partners</span>
+                    <div class="mt-5">
+                        <ul class="space-y-3 text-gray-700 dark:text-gray-500">
+                                                            <li>
+                                    <a href="https://vehikl.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Vehikl</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://webreinvent.com/?utm_source=laravel&amp;utm_medium=laravel.com&amp;utm_campaign=footer-link"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">WebReinvent</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://tighten.co"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Tighten</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://www.bacancytechnology.com/hire-laravel-developer?utm_source=laravel&amp;utm_medium=partners.laravel&amp;utm_campaign=sponsors"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Bacancy</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://64robots.com/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">64 Robots</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://activelogic.com/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Active Logic</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://www.blackairplane.com/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Black Airplane</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://www.byte5.net/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Byte 5</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://www.curotec.com/services/technologies/laravel/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Curotec</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://www.cyber-duck.co.uk/how-we-work/technology/laravel?utm_source=Laravel%20Partner&amp;utm_medium=Sponsorship"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Cyber-Duck</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://devsquad.com/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">DevSquad</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://jump24.co.uk/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Jump24</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://kirschbaumdevelopment.com/"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Kirschbaum</a>
+                                </li>
+                                                    </ul>
+                    </div>
+                </div>
+                            <div class="text-xs col-span-6 md:col-span-3 lg:col-span-2">
+                    <span
+                        class="uppercase dark:text-gray-200">Ecosystem</span>
+                    <div class="mt-5">
+                        <ul class="space-y-3 text-gray-700 dark:text-gray-500">
+                                                            <li>
+                                    <a href="/docs/11.x/starter-kits#laravel-breeze"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Breeze</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/billing"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Cashier</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/dusk"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Dusk</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/broadcasting"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Echo</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://envoyer.io"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Envoyer</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://forge.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Forge</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://herd.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Herd</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/horizon"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Horizon</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://inertiajs.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Inertia</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://jetstream.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Jetstream</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://livewire.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Livewire</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://nova.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Nova</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/octane"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Octane</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/pennant"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Pennant</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/pint"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Pint</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/prompts"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Prompts</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://pulse.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Pulse</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://reverb.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Reverb</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/sail"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Sail</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/sanctum"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Sanctum</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/scout"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Scout</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/socialite"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Socialite</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://spark.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Spark</a>
+                                </li>
+                                                            <li>
+                                    <a href="/docs/11.x/telescope"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Telescope</a>
+                                </li>
+                                                            <li>
+                                    <a href="https://vapor.laravel.com"
+                                        class="transition-colors hover:text-gray-600 dark:hover:text-gray-400">Vapor</a>
+                                </li>
+                                                    </ul>
+                    </div>
+                </div>
+                    </div>
+        <div class="mt-10 border-t pt-6 pb-16 border-gray-200 dark:border-dark-500">
+            <p class="text-xs text-gray-700 dark:text-gray-400">
+                Laravel is a Trademark of Laravel Holdings Inc.<br />
+                Copyright &copy; 2011-2024 Laravel Holdings Inc.
+            </p>
+            <p class="mt-6 text-xs text-gray-700 dark:text-gray-400">
+                Code highlighting provided by <a href="https://torchlight.dev">Torchlight</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    var algolia_app_id = 'E3MIRNPJH5';
+    var algolia_search_key = '1fa3a8fec06eb1858d6ca137211225c0';
+    var version = '11.x';
+</script>
+
+<script>
+    var _gaq=[['_setAccount','UA-23865777-1'],['_trackPageview']];
+    (function(d,t){
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)
+    }(document,'script'));
+</script>
+
+<!-- HubSpot -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/45240648.js"></script>
+
+<div class="fixed">
+    <input type="text">
+</div>
+
+</body>
+</html>

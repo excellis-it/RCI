@@ -21,7 +21,7 @@
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('frontend_assets/css/style.min.css') }}">
     <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    href="{{ asset('web_assets/css/toastr.min.css') }}">
 </head>
 
 <body>
@@ -99,9 +99,9 @@ use App\Helpers\Helper;
     <script src="{{ asset('frontend_assets/js/custom.js') }}"></script>
     <!--  current page js files -->
     <script src="{{ asset('frontend_assets/js/owl.carousel.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="{{ asset('web_assets/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('web_assets/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('web_assets/js/jquery.validate.min.js') }}"></script>
     <script>
         @if (Session::has('message'))
             toastr.options = {
