@@ -185,7 +185,7 @@ class ReceiptController extends Controller
             'vr_date' => 'required|date',
             'dv_no' => 'required|string|max:255',
             'narration' => 'nullable|string',
-            'category' => 'required|exists:categories,id',
+            'category' => 'required|exists:payment_categories,id',
             'sr_no.*' => 'required|numeric',
             'member_id.*' => 'required|exists:members,id',
             'amount.*' => 'required|numeric|min:0',

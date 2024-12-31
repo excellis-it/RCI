@@ -202,13 +202,14 @@ class ChequePaymentController extends Controller
 
 
                 // If there are members for this receipt, process them
-                if (isset($request->member_id[$receiptId])) {
+                if (isset($request->member_serial[$receiptId])) {
 
-                    foreach ($request->member_id[$receiptId] as $memberIndex => $memberId) {
+                    foreach ($request->member_serial[$receiptId] as $memberIndex => $serialId) {
                         // Insert member-specific cheque payment details
                         $chequePaymentMember = new ChequePaymentMember();
                         $chequePaymentMember->cheque_payments_id = $chequePayment['id'];
-                        $chequePaymentMember->member_id = $memberId;
+                        $chequePaymentMember->serial_no = $serialId;
+                        $chequePaymentMember->member_id = $request['member_id'][$receiptId][$memberIndex] ?? null;;
                         $chequePaymentMember->receipt_id = $receiptId ?? 0;
                         $chequePaymentMember->amount = $request['amount'][$receiptId][$memberIndex] ?? 0;
                         $chequePaymentMember->cheq_no = $request['cheq_no'][$index] ?? null;
@@ -311,10 +312,11 @@ class ChequePaymentController extends Controller
             $chequePayment->save();
 
             // Update associated ChequePaymentMember records
-            if (isset($request->member_id[$chequePayment->id])) {
-                foreach ($request->member_id[$chequePayment->id] as $index => $memberId) {
+            if (isset($request->member_serial[$chequePayment->id])) {
+                foreach ($request->member_serial[$chequePayment->id] as $index => $serialId) {
                     $memberData = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)
-                        ->where('member_id', $memberId)
+                        ->where('member_id', $request->member_id[$chequePayment->id][$index] ?? null)
+                        ->where('serial_no', $serialId)
                         ->first();
 
                     if ($memberData) {
