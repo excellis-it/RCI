@@ -63,7 +63,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="date" class="form-control" name="vr_date"
-                                                            id="vr_date" value="2000-01-01">
+                                                            id="vr_date" value="2024-01-01">
                                                         <div class="text-danger mt-2" style="display:none;"></div>
 
 
