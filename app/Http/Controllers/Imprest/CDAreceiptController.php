@@ -42,7 +42,7 @@ class CdaReceiptController extends Controller
         })
             ->select('cda_bill_no', DB::raw('SUM(bill_amount) as total_bill_amount'))
             ->groupBy('cda_bill_no')
-            ->orderBy('id', 'desc')
+           // ->orderBy('id', 'desc')
             ->get();
 
 

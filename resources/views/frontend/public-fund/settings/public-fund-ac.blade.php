@@ -45,7 +45,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="text" class="form-control" name="public_bank_ac"
-                                                            id="public_bank_ac" value="{{ $settings->public_bank_ac }}">
+                                                            id="public_bank_ac" value="{{ $settings->public_bank_ac ?? '' }}">
                                                         <span class="text-danger"></span>
 
                                                     </div>

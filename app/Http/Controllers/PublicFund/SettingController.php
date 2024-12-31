@@ -39,7 +39,7 @@ class SettingController extends Controller
 
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $settings->public_bank_ac = $request->public_bank_ac;
+        $settings->public_bank_ac = $request->public_bank_ac ?? '';
         $settings->save();
 
         session()->flash('message', 'Public Bank Account No. added successfully');

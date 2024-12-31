@@ -31,14 +31,14 @@
                     </div>
                 </div>
             </li> --}}
-            <li class="nav-item dropdown-hover d-none d-lg-block">
+            {{-- <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('cda-receipt-details.index') ? 'active' : '' }}"
                     href="{{ route('cda-receipt-details.index') }}"> CDA Receipt Details</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('imprest-reset-voucher.index') ? 'active' : '' }}"
                     href="{{ route('imprest-reset-voucher.index') }}">Reset Voucher</a>
-            </li>
+            </li> --}}
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('variable-type.index') ? 'active' : '' }}"
                     href="{{ route('variable-type.index') }}">Variable Type</a>
@@ -54,6 +54,29 @@
 
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link" href="{{ route('imprest-report') }}">Report</a>
+            </li>
+
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Settings<span class="mt-1"><i
+                            class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('settings.index') }}">Bank Account</a>
+                            </li> --}}
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('imprest.import_export') }}">Import/Export Data</a>
+                            </li>
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('cheque-payment.report') }}">Cheque Payment Report</a>
+                            </li> --}}
+                        </ul>
+                    </div>
+                </div>
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block ms-5">
