@@ -53,13 +53,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" hidden>
+                                    <div class="col-md-3" >
                                         <div class="row">
 
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
-                                                        <label>Vr Date</label>
+                                                        <label>Cash in Bank Date</label>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="date" class="form-control" name="vr_date"

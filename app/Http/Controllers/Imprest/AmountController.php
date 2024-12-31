@@ -40,6 +40,8 @@ class AmountController extends Controller
         // Store the amount in the Amount model
         $amt = new Amount();
         $amt->amount = $request->amount;
+        $amt->created_at = $request->input('vr_date', now());
+        $amt->updated_at = $request->input('vr_date', now());
         $amt->save();
 
         $cashInBank = new CashInBank();
