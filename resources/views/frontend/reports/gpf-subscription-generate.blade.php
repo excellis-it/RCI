@@ -21,7 +21,7 @@
                             </tr>
                             <tr style=" padding: 0px 0px 20px 0px; text-align: center;">
                                 <td> <img style="width: 70px; height: 70px; padding: 0px 0px 10px 0px;"
-                                        src="https://excellis.co.in/rci//frontend_assets/images/drdo-logo.png"
+                                        src="{{ asset('web_assets/images/drdo-logo.png') }}"
                                         alt=""></td>
 
                             </tr>

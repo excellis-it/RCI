@@ -4,9 +4,9 @@
 @endsection
 
 @push('styles')
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
+<link href='{{ asset('web_assets/css/main.min.css') }}' rel='stylesheet' />
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar/core@5.3.0/main.min.css' rel='stylesheet' />
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar/daygrid@5.3.0/main.min.css' rel='stylesheet' />
+<link href='{{ asset('web_assets/css/main.min.css') }}' rel='stylesheet' />
 @endpush
 
 @section('content')
@@ -134,7 +134,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.js"></script>
+<script src="{{ asset('web_assets/js/index.global.min.js') }}"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/core@5.3.0/main.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/daygrid@5.3.0/main.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/interaction@5.3.0/main.min.js'></script>

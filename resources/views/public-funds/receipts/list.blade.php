@@ -4,7 +4,7 @@
 @endsection
 
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('web_assets/css/select2.min.css') }}" rel="stylesheet" />
 
 
     <style>
@@ -375,7 +375,7 @@
     </script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('web_assets/js/select2.min.js') }}"></script>
 
     <script>
         function validateDynamicFields() {

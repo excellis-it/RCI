@@ -232,6 +232,7 @@ Route::middleware('permssions')->group(function () {
     ]);
 
     Route::get('/scan-links', [LinkScannerController::class, 'scanLinks']);
+    Route::get('/process-assets', [LinkScannerController::class, 'processAssets']);
 
     Route::get('/public-fund-import-export-data', [CsvController::class, 'publicFund'])->name('public_fund.import_export');
     Route::get('/imprest-import-export-data', [CsvController::class, 'imprest'])->name('imprest.import_export');
