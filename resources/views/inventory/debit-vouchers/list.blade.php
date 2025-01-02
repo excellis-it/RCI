@@ -405,7 +405,7 @@
 
                     // Enable the item code input
                     $('#item_code_id').prop('disabled', false);
-
+                    $('.item_code').val('');
                     // Make the AJAX call
                     $.ajax({
                         url: "{{ route('debit-vouchers.get-items-by-inv-no') }}",
@@ -459,7 +459,8 @@
             $('.inv_no').each(function() {
                 $(this).val(inv_no);
             });
-
+            // var $row = $(this).closest('.count-class');
+            $('.item_code').val('');
             $.ajax({
                 url: "{{ route('debit-vouchers.get-items-by-inv-no') }}",
                 type: 'POST',
@@ -551,7 +552,7 @@
                         var currentDate = new Date();
                         var day = String(currentDate.getDate()).padStart(2, '0');
                         var month = String(currentDate.getMonth() + 1).padStart(2,
-                        '0'); // Months are zero-based
+                            '0'); // Months are zero-based
                         var year = currentDate.getFullYear();
 
                         // Format the date as 'YYYY-MM-DD'

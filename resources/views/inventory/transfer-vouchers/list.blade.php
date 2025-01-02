@@ -57,7 +57,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
@@ -72,9 +72,9 @@
                                                         class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="from_inv_number"
                                                     style="cursor: pointer">From Inv. No.<span id="from_inv_number_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="to_inv_number" 
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="to_inv_number"
                                                     style="cursor: pointer">To Inv. No.<span id="to_inv_number_icon"></span> </th>
-                                               
+
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -222,7 +222,7 @@
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -241,14 +241,14 @@
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
-                
+
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                       
+
                         $('#code-form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
@@ -288,7 +288,7 @@
             });
         });
     </script>
-   
+
 
 
     <script>
@@ -298,7 +298,7 @@
                 $('#to_inv_number').empty(); // Clear existing options
                 var selectedText = $(this).find('option:selected').text();
                 var selectedValue = $(this).val();
-            
+
                 $('#from_inv_number option').each(function() {
                     if ($(this).val() !== selectedValue) {
                         $('#to_inv_number').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
@@ -327,13 +327,13 @@
                         var totalQuantity = creditVoucher.total_quantity;
                         var itemType = creditVoucher.item_codes.item_type;
                         var itemDescription = creditVoucher.item_codes.description;
-                        
-                        
+
+
                         options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
                     });
                     console.log(itemType);
                     $('#item_code_id').html(options);
-                    
+
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -381,7 +381,7 @@
     $(document).on('change', '#strike_item_code', function() {
         var item_id = $('#strike_item_code').val();
         var selectedValue = $(this).find(':selected');
-        
+
         $.ajax({
             url: "{{ route('conversions.item.details') }}",
             type: 'GET',
@@ -414,7 +414,7 @@
     $(document).on('change', '#brought_item_code', function() {
         var item_id = $('#brought_item_code').val();
         var selectedValue = $(this).find(':selected');
-        
+
         $.ajax({
             url: "{{ route('conversions.item.details') }}",
             type: 'GET',
@@ -472,7 +472,7 @@
     // On change of strike_item_code
     $(document).on('change', '.strike_item_code', function() {
         var item_id = $(this).val();
-        var $this = $(this); 
+        var $this = $(this);
         var selectedOption = $this.find('option:selected');
         var $row = $this.closest('.count-class'); // Get the closest row
 
@@ -524,7 +524,7 @@
     // On change of strike_item_code
     $(document).on('change', '.brought_item_code', function() {
         var item_id = $(this).val();
-        var $this = $(this); 
+        var $this = $(this);
         var selectedOption = $this.find('option:selected');
         var $row = $this.closest('.count-class'); // Get the closest row
 
@@ -579,7 +579,7 @@
                 var tr = $('#transaction_new_html').html();
                 $('#trans_form_add_new_row').append(tr);
 
-                return false;   
+                return false;
             });
 
             $(document).on('click', '.trash', function() {

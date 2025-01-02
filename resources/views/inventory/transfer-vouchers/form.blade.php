@@ -143,6 +143,26 @@
                 <div class="form-group col-xl-3 col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
+                            <label>Inventory Number</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-control" name="inv_no" id="inv_no"
+                                onchange="">
+                                <option value="">Select</option>
+                                @foreach ($inventoryNumbers as $inventoryNumber)
+                                    <option value="{{ $inventoryNumber->id }}"
+                                        data-hidden-value="{{ $inventoryNumber->inventory_type }}">
+                                        {{ $inventoryNumber->number }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-xl-3 col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
                             <label>Icc No</label>
                         </div>
                         <div class="col-md-12">
@@ -368,7 +388,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -394,7 +414,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
                         <button class="listing_add w-100 trash form-control"><i class="fa fa-times"></i></button>
