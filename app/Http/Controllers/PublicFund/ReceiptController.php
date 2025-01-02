@@ -27,7 +27,7 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        $receipts = Receipt::orderBy('id', 'desc')->paginate(10);
+        $receipts = Receipt::with('receiptMembers.member')->orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
         $lastReceipt = Receipt::whereYear('created_at', now()->year)
