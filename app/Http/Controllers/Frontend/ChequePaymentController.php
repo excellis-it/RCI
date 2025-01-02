@@ -15,6 +15,7 @@ use App\Models\ChequePaymentMember;
 use App\Models\Designation;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
 use PDF;
 
 class ChequePaymentController extends Controller
@@ -454,6 +455,8 @@ class ChequePaymentController extends Controller
         $chq_date = $request->date;
         $pre_vr_date = date('Y-m-d', strtotime($chq_date . ' -1 day'));
 
+        $logo = Helper::logo() ?? '';
+
         $members = Member::orderBy('id', 'desc')->get();
 
         $category = PaymentCategory::orderBy('id', 'asc')->get();
@@ -482,7 +485,7 @@ class ChequePaymentController extends Controller
             ->where('receipts.vr_date', $chq_date)
             ->get();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('receipts','category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 

@@ -17,6 +17,7 @@ use App\Models\ReceiptMember;
 use App\Models\ChequePayment;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
 use PDF;
 
 class ReceiptController extends Controller
@@ -407,6 +408,8 @@ class ReceiptController extends Controller
 
         $pre_vr_date = date('Y-m-d', strtotime($vr_date . ' -1 day'));
 
+        $logo = Helper::logo() ?? '';
+
         // return dd($pre_vr_date);
 
         $members = Member::orderBy('id', 'desc')->get();
@@ -491,7 +494,7 @@ class ReceiptController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 

@@ -63,6 +63,8 @@ class ImprestReportController extends Controller
 
         // how to add this format like d/m/y
 
+        $logo = Helper::logo() ?? '';
+
 
         $request_date = $request->report_date;
         $date = new DateTime($request_date);
@@ -169,10 +171,10 @@ class ImprestReportController extends Controller
                 'all_totals' => $all_totals,
             ];
 
-            // return view('imprest.reports.cash-book-report-generate', compact('report_date', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
+            //  return view('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
 
 
-            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
+            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
             return $pdf->download('cash-book-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'out_standing') {
 
@@ -196,15 +198,15 @@ class ImprestReportController extends Controller
 
             // return $advanceFunds;
 
-            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'));
+            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'));
             return $pdf->download('out-standing-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'bill_hand') {
 
             $settleBills = AdvanceSettlement::whereDate('var_date', $request_date)->where('bill_status', 0)->where('receipt_status', 0)->get();
 
             // return $settleBills;
-
-            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('report_date', 'settleBills'));
+            // return view('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
+            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
             return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'cda_bill') {
 
@@ -234,7 +236,7 @@ class ImprestReportController extends Controller
             // return $cdaReceipts;
 
 
-            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date', 'cdaReceipts', 'totalAmount'));
+            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date', 'logo', 'cdaReceipts', 'totalAmount'));
             return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
         } else {
             return redirect()->back()->with('error', 'Invalid Bill Type');
