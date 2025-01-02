@@ -9,10 +9,10 @@
 </style>
 
 <body style="background: #fff">
-    <div>
-        <img src="{{ asset('web_assets/images/mJzAtluGFNXqKGhAfsw0riQ8ijlyvS29v56TAP2y.png') }}"
-            alt="App Logo" style="max-width: 50px;">
-    </div>
+    <center>
+        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+    </center>
+    <br>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
         <tbody>
