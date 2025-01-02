@@ -32,7 +32,7 @@ class ChequePaymentController extends Controller
 
         $allReceipts = Receipt::get();
         $lastPayment = ChequePayment::orderBy('id', 'desc')->first();
-        $AllPayments = ChequePayment::orderBy('id', 'desc')->paginate(100);
+        $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->paginate(100);
         return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments'));
     }
 

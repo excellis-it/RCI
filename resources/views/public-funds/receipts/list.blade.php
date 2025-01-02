@@ -112,6 +112,9 @@
                                                     style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
 
+                                                <th>Member</th>
+                                                <th>Designation</th>
+
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">Amount <span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>

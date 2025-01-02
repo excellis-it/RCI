@@ -5,7 +5,25 @@
             <td>{{ $receipt->dv_no ?? 'N/A' }}</td>
             <td>{{ $receipt->category->name ?? 'N/A' }}</td>
             <td>{{ $receipt->vr_date ?? 'N/A' }}</td>
-            <td>{{ $receipt->amount ?? 'N/A' }}</td>
+            <td>
+                @foreach ($receipt->receiptMembers as $rcMember)
+                    <span>{{ $rcMember->member->name ?? 'N/A' }}</span><br>
+                @endforeach
+            </td>
+            <td>
+                @foreach ($receipt->receiptMembers as $rcMember)
+                    <span>{{ $rcMember->member->designation->designation_type ?? 'N/A' }}</span><br>
+                @endforeach
+            </td>
+            {{-- <td>{{ $receipt->amount ?? 'N/A' }}</td> --}}
+            <td>
+                @foreach ($receipt->receiptMembers as $rcMember)
+                    <span>{{ $rcMember->amount ?? 'N/A' }}</span><br>
+                @endforeach
+                <span>-------------</span><br>
+                <span>Total : {{ number_format($receipt->amount, 2) ?? 'N/A' }}</span>
+
+            </td>
             <td class="sepharate"><a data-route="{{ route('receipts.edit', $receipt->id) }}" href="#"
                     onclick="getEditForm({{ $receipt->id }})" class="edit_pencil"><i class="ti ti-pencil"></i></a>
                 {{-- <a href="{{route('receipts.delete', ['vr_no' => $receipt->vr_no, 'vr_date' => $receipt->vr_date])}}" id="delete" class="delete" data-route="{{route('receipts.delete', ['vr_no' => $receipt->vr_no, 'vr_date' => $receipt->vr_date])}}"><i class="ti ti-trash"></i></a> --}}

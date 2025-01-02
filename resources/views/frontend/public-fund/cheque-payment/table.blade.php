@@ -15,11 +15,13 @@
                 <th>Receipt No</th>
                 <th>VR No</th>
                 <th>VR Date</th>
+                <th>Member</th>
+                <th>Designation</th>
                 <th>Amount</th>
                 <th>Bill Ref</th>
                 <th>Cheque No</th>
                 <th>Cheque Date</th>
-                <th>Created At</th>
+
                 <th>Actions</th>
             </tr>
         </thead>
@@ -35,11 +37,29 @@
                         <td>{{ $payments->receipt_no ?? 'N/A' }}</td>
                         <td>{{ $payments->vr_no ?? 'N/A' }}</td>
                         <td>{{ $payments->vr_date ?? 'N/A' }}</td>
-                        <td>{{ $payments->amount ?? 'N/A' }}</td>
+                        <td>
+                            @foreach ($payments->chequePaymentMembers as $chqMember)
+                                <span>{{ $chqMember->member->name ?? 'N/A' }}</span><br>
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach ($payments->chequePaymentMembers as $chqMember)
+                                <span>{{ $chqMember->member->designation->designation_type ?? 'N/A' }}</span><br>
+                            @endforeach
+                        </td>
+                        {{-- <td>{{ $payments->amount ?? 'N/A' }}</td> --}}
+                        <td>
+                            @foreach ($payments->chequePaymentMembers as $chqMember)
+                                <span>{{ $chqMember->amount ?? 'N/A' }}</span><br>
+                            @endforeach
+                            <span>-------------</span><br>
+                            <span>Total : {{ number_format($payments->amount, 2) ?? 'N/A' }}</span>
+
+                        </td>
                         <td>{{ $payments->bill_ref ?? 'N/A' }}</td>
                         <td>{{ $payments->cheq_no ?? 'N/A' }}</td>
                         <td>{{ $payments->cheq_date ?? 'N/A' }}</td>
-                        <td>{{ $payments->created_at->format('Y-m-d') ?? 'N/A' }}</td>
+
                         <td>
                             <div class="d-flex">
                                 <a data-route="{{ route('cheque-payments.edit', $payments->id) }}" href="#"

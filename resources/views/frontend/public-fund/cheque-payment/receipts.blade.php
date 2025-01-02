@@ -125,9 +125,9 @@
                                 <td>{{ $memberName }}</td>
                                 <td>{{ $memberDesign }}</td>
                                 <td>
-                                     <input type="hidden" id="member_serial_{{ $receipt_data->id }}" class="form-control"
-                                        name="member_serial[{{ $receipt_data->id }}][]" required readonly
-                                        value="{{ $member->serial_no }}">
+                                    <input type="hidden" id="member_serial_{{ $receipt_data->id }}"
+                                        class="form-control" name="member_serial[{{ $receipt_data->id }}][]" required
+                                        readonly value="{{ $member->serial_no }}">
                                     <input type="hidden" id="member_id_{{ $receipt_data->id }}" class="form-control"
                                         name="member_id[{{ $receipt_data->id }}][]" required readonly
                                         value="{{ $member->member_id }}">
@@ -139,7 +139,7 @@
                                 </td>
                                 <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
                                         class="form-control bill-amount bill-amount-lower"
-                                        name="amount[{{ $receipt_data->id }}][]">
+                                        name="amount[{{ $receipt_data->id }}][]" value="{{ $member->amount }}">
 
                                     <span class="text-danger"></span>
                                 </td>
@@ -149,7 +149,7 @@
                                         value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}">
                                     <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
                                         name="balance[{{ $receipt_data->id }}][]"
-                                        value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}"
+                                        value="{{ $member->amount - Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}"
                                         required readonly>
                                 </td>
                                 <td><input type="text" class="form-control"
