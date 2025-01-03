@@ -212,8 +212,24 @@
     </script>
     <script>
         $(document).ready(function() {
+
+
+            $("#saveDraftReceipt").click(function(e) {
+                e.preventDefault();
+                $("#form_type").val(1);
+                $("#receipts-create-form").submit();
+            });
+
+            $("#saveReceipt").click(function(e) {
+                e.preventDefault();
+                $("#form_type").val(0);
+                $("#receipts-create-form").submit();
+            });
+
+
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
+
 
                 let hasErrors = false;
 

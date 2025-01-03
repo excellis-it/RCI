@@ -274,6 +274,8 @@ Route::middleware('permssions')->group(function () {
     Route::put('/receipts/{id}', [ReceiptController::class, 'update'])->name('receipts.update');
     Route::get('/receipts/{id}/delete', [ReceiptController::class, 'delete'])->name('receipts.delete');
 
+    Route::get('/receipts-clear-draft', [ReceiptController::class, 'receiptClearDraft'])->name('receipts.clearDraft');
+
     Route::get('/receipts-report', [ReceiptController::class, 'receiptReport'])->name('receipts.report');
     Route::post('/receipts-report-generate', [ReceiptController::class, 'receiptReportGenerate'])->name('receipts.report.generate');
 
