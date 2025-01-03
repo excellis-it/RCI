@@ -9,7 +9,7 @@
         @endif
 
         <button type="button" class="btn btn-primary btn-sm ms-3" id="saveDraftReceipt">
-            Save Draft
+            Save as Draft
         </button>
 
 

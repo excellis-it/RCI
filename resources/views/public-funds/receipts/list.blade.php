@@ -709,7 +709,7 @@
             // Initial setup
             updateRemoveButtonVisibility();
 
-            bindDynamicValidation();
+            //   bindDynamicValidation();
 
         });
     </script>
