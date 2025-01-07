@@ -139,7 +139,7 @@
 
             @foreach ($payments as $key => $payment)
                 <tr>
-                    <td>{{ \Carbon\Carbon::parse($payment->first()->created_at)->format('d/m/Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($payment->first()->cheq_date)->format('d/m/Y') }}</td>
                     <td>
                         @foreach ($payment as $vr_no_print)
                             {{ $vr_no_print->vr_no }}
