@@ -40,15 +40,53 @@
             </td>
         </tr>
     @endforeach
-    <tr class="toxic">
-        <td colspan="7" class="text-left">
+    {{-- <tr class="toxic">
+        <td colspan="8" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                     (Showing {{ $receipts->firstItem() }} – {{ $receipts->lastItem() }} Receipts of
                     {{ $receipts->total() }} Receipts)
                 </div>
                 <div>{!! $receipts->links() !!}</div>
+
             </div>
+        </td>
+    </tr> --}}
+
+    <tr class="toxic">
+        <td colspan="8" class="text-left">
+
+
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    Showing
+                    @if ($receipts instanceof \Illuminate\Pagination\AbstractPaginator)
+                        {{ $receipts->firstItem() }} – {{ $receipts->lastItem() }} Receipts of
+                        {{ $receipts->total() }} Receipts
+                    @else
+                        {{ $receipts->count() }} Receipts
+                    @endif
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <form method="GET" action="{{ url()->current() }}" class="me-3 text-end">
+                        <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
+                            <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
+                            <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
+                            <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
+                            <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
+                            <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
+                        </select>
+                    </form>
+
+                    @if ($receipts instanceof \Illuminate\Pagination\AbstractPaginator)
+                        <div class="mt-2">{!! $receipts->links() !!}</div>
+                    @endif
+                </div>
+
+            </div>
+
+
         </td>
     </tr>
 @else

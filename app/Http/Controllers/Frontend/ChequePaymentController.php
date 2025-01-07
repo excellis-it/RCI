@@ -23,7 +23,7 @@ class ChequePaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $receipt_nos = Receipt::get();
         $cheque_receipt_nos = Receipt::paginate(10);
@@ -32,8 +32,18 @@ class ChequePaymentController extends Controller
 
         $allReceipts = Receipt::get();
         $lastPayment = ChequePayment::orderBy('id', 'desc')->first();
-        $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->paginate(100);
-        return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments'));
+        // $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->paginate(100);
+
+        $limit = $request->get('limit', 10) ?? 10;
+
+        // Fetch the data based on the limit; use paginate if it's not 'All'
+        if ($limit === 'All') {
+            $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->get();
+        } else {
+            $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->paginate((int) $limit);
+        }
+
+        return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments', 'limit'));
     }
 
     public function getReceiptNoDetail(Request $request)
@@ -116,24 +126,7 @@ class ChequePaymentController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $chequePayments = ChequePayment::where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where('vr_no', 'like', '%' . $query . '%')
-                    ->orWhere('vr_date', 'like', '%' . $query . '%')
-                    ->orWhere('amount', 'like', '%' . $query . '%')
-                    ->orWhere('receipt_no', 'like', '%' . $query . '%')
-                    // ->orWhereHas('member', function ($q) use ($query) {
-                    //     $q->where('name', 'like', '%' . $query . '%');
-                    // })
-                    // ->orWhere('designation', 'like', '%' . $query . '%')
-                    ->orWhere('bill_ref', 'like', '%' . $query . '%')
-                    //  ->orWhere('bank_account', 'like', '%' . $query . '%')
-                    //  ->orWhere('vr_no', 'like', '%' . $query . '%')
-                    ->orWhere('cheq_no', 'like', '%' . $query . '%')
-                    ->orWhere('cheq_date', 'like', '%' . $query . '%');
-                //  ->orWhere('narration', 'like', '%' . $query . '%')
-
-            })
-                ->orderBy($sort_by, $sort_type)
+            $chequePayments = ChequePayment::orderBy($sort_by, $sort_type)
                 ->paginate(10);
 
             return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('chequePayments'))->render()]);
