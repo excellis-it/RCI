@@ -685,7 +685,7 @@
                                             .toFixed(2));
 
                                         $("#pay_amount2_" + data_id).text(
-                                            totalBillAmount);
+                                            totalBillAmount.toFixed(2));
 
                                     });
                                 });
@@ -950,7 +950,7 @@
 
             // Log or use the total amount
             console.log('Total Amount:', totalAmount);
-            $("#setTotalBillAmount").text(parseFloat(totalAmount));
+            $("#setTotalBillAmount").text(totalAmount.toFixed(2));
 
         }
     </script>
