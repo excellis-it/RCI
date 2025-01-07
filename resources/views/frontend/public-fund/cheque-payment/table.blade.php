@@ -29,7 +29,8 @@
             @foreach ($AllPayments->groupBy('cheq_no') as $cheqNo => $groupedPayments)
                 <tr>
                     <td colspan="9" class="table-group-title">
-                        <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}</strong>
+                        <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}, &nbsp;&nbsp;&nbsp; Total Amount:
+                            {{ number_format($groupedPayments->sum('amount'), 2) }}</strong>
                     </td>
                 </tr>
                 @foreach ($groupedPayments as $payments)
@@ -108,21 +109,24 @@
                     @endif
                 </div>
 
-                <div class="d-flex align-items-center">
-                    <form method="GET" action="{{ url()->current() }}" class="me-3 text-end">
-                        <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
-                            <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
-                            <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
-                            <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
-                            <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
-                            <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
-                        </select>
-                    </form>
+                @if (isset($search) && $search == 1)
+                @else
+                    <div class="d-flex align-items-center">
+                        <form method="GET" action="{{ route('cheque-payments.index') }}" class="me-3 text-end">
+                            <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
+                                <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
+                                <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
+                                <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
+                                <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
+                            </select>
+                        </form>
 
-                    @if ($AllPayments instanceof \Illuminate\Pagination\AbstractPaginator)
-                        <div class="mt-2">{!! $AllPayments->links() !!}</div>
-                    @endif
-                </div>
+                        @if ($AllPayments instanceof \Illuminate\Pagination\AbstractPaginator)
+                            <div class="mt-2">{!! $AllPayments->links() !!}</div>
+                        @endif
+                    </div>
+                @endif
 
             </div>
 
