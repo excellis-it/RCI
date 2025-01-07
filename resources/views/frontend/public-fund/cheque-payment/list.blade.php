@@ -59,13 +59,13 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                    {{-- <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="table-responsive rounded-2 listmain">
                                     <table class="table  mb-0 align-middle">
@@ -148,68 +148,68 @@
     <script>
         $(document).ready(function() {
 
-            function fetch_data(page, sort_type, sort_by, query) {
-                $.ajax({
-                    url: "{{ route('cheque-payments.fetch-data') }}",
-                    data: {
-                        page: page,
-                        sortby: sort_by,
-                        sorttype: sort_type,
-                        query: query
-                    },
-                    success: function(data) {
-                        $('tbody').html(data.data);
-                    }
-                });
-            }
+            // function fetch_data(page, sort_type, sort_by, query) {
+            //     $.ajax({
+            //         url: "{{ route('cheque-payments.fetch-data') }}",
+            //         data: {
+            //             page: page,
+            //             sortby: sort_by,
+            //             sorttype: sort_type,
+            //             query: query
+            //         },
+            //         success: function(data) {
+            //             $('tbody').html(data.data);
+            //         }
+            //     });
+            // }
 
-            $(document).on('keyup', '#search', function() {
-                var query = $('#search').val();
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
-                var page = $('#hidden_page').val();
-                fetch_data(page, sort_type, column_name, query);
-            });
+            // $(document).on('keyup', '#search', function() {
+            //     var query = $('#search').val();
+            //     var column_name = $('#hidden_column_name').val();
+            //     var sort_type = $('#hidden_sort_type').val();
+            //     var page = $('#hidden_page').val();
+            //     fetch_data(page, sort_type, column_name, query);
+            // });
 
-            $(document).on('click', '.sorting', function() {
-                var column_name = $(this).data('column_name');
-                var order_type = $(this).data('sorting_type');
-                var reverse_order = '';
-                if (order_type == 'asc') {
-                    $(this).data('sorting_type', 'desc');
-                    reverse_order = 'desc';
-                    // clear_icon();
-                    $('#' + column_name + '_icon').html(
-                        '<i class="fa fa-arrow-down"></i>');
-                }
-                if (order_type == 'desc') {
-                    // alert(order_type);
-                    $(this).data('sorting_type', 'asc');
-                    reverse_order = 'asc';
-                    // clear_icon();
-                    $('#' + column_name + '_icon').html(
-                        '<i class="fa fa-arrow-up"></i>');
-                }
-                $('#hidden_column_name').val(column_name);
-                $('#hidden_sort_type').val(reverse_order);
-                var page = $('#hidden_page').val();
-                var query = $('#search').val();
-                fetch_data(page, reverse_order, column_name, query);
-            });
+            // $(document).on('click', '.sorting', function() {
+            //     var column_name = $(this).data('column_name');
+            //     var order_type = $(this).data('sorting_type');
+            //     var reverse_order = '';
+            //     if (order_type == 'asc') {
+            //         $(this).data('sorting_type', 'desc');
+            //         reverse_order = 'desc';
+            //         // clear_icon();
+            //         $('#' + column_name + '_icon').html(
+            //             '<i class="fa fa-arrow-down"></i>');
+            //     }
+            //     if (order_type == 'desc') {
+            //         // alert(order_type);
+            //         $(this).data('sorting_type', 'asc');
+            //         reverse_order = 'asc';
+            //         // clear_icon();
+            //         $('#' + column_name + '_icon').html(
+            //             '<i class="fa fa-arrow-up"></i>');
+            //     }
+            //     $('#hidden_column_name').val(column_name);
+            //     $('#hidden_sort_type').val(reverse_order);
+            //     var page = $('#hidden_page').val();
+            //     var query = $('#search').val();
+            //     fetch_data(page, reverse_order, column_name, query);
+            // });
 
-            $(document).on('click', '.pagination a', function(event) {
-                event.preventDefault();
-                var page = $(this).attr('href').split('page=')[1];
-                $('#hidden_page').val(page);
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
+            // $(document).on('click', '.pagination a', function(event) {
+            //     event.preventDefault();
+            //     var page = $(this).attr('href').split('page=')[1];
+            //     $('#hidden_page').val(page);
+            //     var column_name = $('#hidden_column_name').val();
+            //     var sort_type = $('#hidden_sort_type').val();
 
-                var query = $('#search').val();
+            //     var query = $('#search').val();
 
-                $('li').removeClass('active');
-                $(this).parent().addClass('active');
-                fetch_data(page, sort_type, column_name, query);
-            });
+            //     $('li').removeClass('active');
+            //     $(this).parent().addClass('active');
+            //     fetch_data(page, sort_type, column_name, query);
+            // });
 
         });
     </script>
@@ -576,6 +576,7 @@
 
                                 $('.bill-amount').on('keyup', function() {
                                     calculateBillAmountSum();
+                                    getTotalBillAmount();
                                 });
 
 
@@ -652,7 +653,7 @@
                                         // Get inputs and error message container in the current row
                                         let $mainPayAmountInput = $row.find(
                                             'input[name^="main_pay_amount["]'
-                                            );
+                                        );
                                         let $payAmountInput = $row.find(
                                             'input[name^="rc_amount["]');
                                         let $balanceInput = $row.find(
@@ -673,7 +674,7 @@
                                             // Show error message and reset bill amount
                                             $errorSpan.text(
                                                 'Bill amount cannot exceed pay amount.'
-                                                );
+                                            );
                                             $balanceInput.val(mainPayAmount);
                                             $billAmountInput.val('');
                                         } else {
@@ -691,7 +692,7 @@
                                             function() {
                                                 totalBillAmount +=
                                                     parseFloat($(this)
-                                                    .val()) || 0;
+                                                        .val()) || 0;
                                             });
 
                                         // Update the upper-bill-amount value
@@ -699,6 +700,12 @@
                                             .toFixed(2));
                                     });
                                 });
+
+                                setTimeout(() => {
+                                    getTotalBillAmount();
+                                }, 1200);
+
+
 
 
 
@@ -940,6 +947,23 @@
         $('.upper-bill-amount').on('input', function() {
             calculateBillAmountSum();
         });
+
+        function getTotalBillAmount() {
+            // Initialize total amount to 0
+            let totalAmount = 0;
+
+            // Iterate over each element with the class 'bill-amount-lower'
+            $('.bill-amount-lower').each(function() {
+                // Parse the text or value as a float and add it to the total amount
+                let amount = parseFloat($(this).val()) || 0;
+                totalAmount += amount;
+            });
+
+            // Log or use the total amount
+            console.log('Total Amount:', totalAmount);
+            $("#setTotalBillAmount").text(parseFloat(totalAmount));
+
+        }
     </script>
 
     <script>

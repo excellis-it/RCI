@@ -80,7 +80,7 @@
 
 
 
-    <tr class="toxic">
+    {{-- <tr class="toxic">
         <td colspan="9" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
@@ -90,6 +90,43 @@
                 </div>
                 <div>{!! $AllPayments->links() !!}</div>
             </div>
+        </td>
+    </tr> --}}
+
+    <tr class="toxic">
+        <td colspan="8" class="text-left">
+
+
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    Showing
+                    @if ($AllPayments instanceof \Illuminate\Pagination\AbstractPaginator)
+                        {{ $AllPayments->firstItem() }} – {{ $AllPayments->lastItem() }} Payments of
+                        {{ $AllPayments->total() }} Payments
+                    @else
+                        {{ $AllPayments->count() }} Payments
+                    @endif
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <form method="GET" action="{{ url()->current() }}" class="me-3 text-end">
+                        <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
+                            <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
+                            <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
+                            <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
+                            <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
+                            <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
+                        </select>
+                    </form>
+
+                    @if ($AllPayments instanceof \Illuminate\Pagination\AbstractPaginator)
+                        <div class="mt-2">{!! $AllPayments->links() !!}</div>
+                    @endif
+                </div>
+
+            </div>
+
+
         </td>
     </tr>
 @else

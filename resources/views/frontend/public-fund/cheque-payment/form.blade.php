@@ -128,6 +128,22 @@
             </div>
         </div> --}}
 
+        <br>
+        <div class="table-responsive">
+            <table class="table table-primary">
+
+                <tbody>
+                    <tr class="">
+                        <td col-span="5" class="text-end fw-bold">Total Bill Amount :</td>
+                        <td class="fw-bold"><span id="setTotalBillAmount">0</span></td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
 
         <br>
         <div class="row">

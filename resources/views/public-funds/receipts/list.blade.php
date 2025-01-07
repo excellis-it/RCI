@@ -85,13 +85,13 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                    {{-- <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
@@ -145,68 +145,68 @@
     <script>
         $(document).ready(function() {
 
-            function fetch_data(page, sort_type, sort_by, query) {
-                $.ajax({
-                    url: "{{ route('receipts.fetch-data') }}",
-                    data: {
-                        page: page,
-                        sortby: sort_by,
-                        sorttype: sort_type,
-                        query: query
-                    },
-                    success: function(data) {
-                        $('tbody').html(data.data);
-                    }
-                });
-            }
+            // function fetch_data(page, sort_type, sort_by, query) {
+            //     $.ajax({
+            //         url: "{{ route('receipts.fetch-data') }}",
+            //         data: {
+            //             page: page,
+            //             sortby: sort_by,
+            //             sorttype: sort_type,
+            //             query: query
+            //         },
+            //         success: function(data) {
+            //             $('tbody').html(data.data);
+            //         }
+            //     });
+            // }
 
-            $(document).on('keyup', '#search', function() {
-                var query = $('#search').val();
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
-                var page = $('#hidden_page').val();
-                fetch_data(page, sort_type, column_name, query);
-            });
+            // $(document).on('keyup', '#search', function() {
+            //     var query = $('#search').val();
+            //     var column_name = $('#hidden_column_name').val();
+            //     var sort_type = $('#hidden_sort_type').val();
+            //     var page = $('#hidden_page').val();
+            //     fetch_data(page, sort_type, column_name, query);
+            // });
 
-            $(document).on('click', '.sorting', function() {
-                var column_name = $(this).data('column_name');
-                var order_type = $(this).data('sorting_type');
-                var reverse_order = '';
-                if (order_type == 'asc') {
-                    $(this).data('sorting_type', 'desc');
-                    reverse_order = 'desc';
-                    // clear_icon();
-                    $('#' + column_name + '_icon').html(
-                        '<i class="fa fa-arrow-down"></i>');
-                }
-                if (order_type == 'desc') {
-                    // alert(order_type);
-                    $(this).data('sorting_type', 'asc');
-                    reverse_order = 'asc';
-                    // clear_icon();
-                    $('#' + column_name + '_icon').html(
-                        '<i class="fa fa-arrow-up"></i>');
-                }
-                $('#hidden_column_name').val(column_name);
-                $('#hidden_sort_type').val(reverse_order);
-                var page = $('#hidden_page').val();
-                var query = $('#search').val();
-                fetch_data(page, reverse_order, column_name, query);
-            });
+            // $(document).on('click', '.sorting', function() {
+            //     var column_name = $(this).data('column_name');
+            //     var order_type = $(this).data('sorting_type');
+            //     var reverse_order = '';
+            //     if (order_type == 'asc') {
+            //         $(this).data('sorting_type', 'desc');
+            //         reverse_order = 'desc';
+            //         // clear_icon();
+            //         $('#' + column_name + '_icon').html(
+            //             '<i class="fa fa-arrow-down"></i>');
+            //     }
+            //     if (order_type == 'desc') {
+            //         // alert(order_type);
+            //         $(this).data('sorting_type', 'asc');
+            //         reverse_order = 'asc';
+            //         // clear_icon();
+            //         $('#' + column_name + '_icon').html(
+            //             '<i class="fa fa-arrow-up"></i>');
+            //     }
+            //     $('#hidden_column_name').val(column_name);
+            //     $('#hidden_sort_type').val(reverse_order);
+            //     var page = $('#hidden_page').val();
+            //     var query = $('#search').val();
+            //     fetch_data(page, reverse_order, column_name, query);
+            // });
 
-            $(document).on('click', '.pagination a', function(event) {
-                event.preventDefault();
-                var page = $(this).attr('href').split('page=')[1];
-                $('#hidden_page').val(page);
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
+            // $(document).on('click', '.pagination a', function(event) {
+            //     event.preventDefault();
+            //     var page = $(this).attr('href').split('page=')[1];
+            //     $('#hidden_page').val(page);
+            //     var column_name = $('#hidden_column_name').val();
+            //     var sort_type = $('#hidden_sort_type').val();
 
-                var query = $('#search').val();
+            //     var query = $('#search').val();
 
-                $('li').removeClass('active');
-                $(this).parent().addClass('active');
-                fetch_data(page, sort_type, column_name, query);
-            });
+            //     $('li').removeClass('active');
+            //     $(this).parent().addClass('active');
+            //     fetch_data(page, sort_type, column_name, query);
+            // });
 
         });
     </script>

@@ -27,9 +27,20 @@ class ReceiptController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $receipts = Receipt::with('receiptMembers.member')->orderBy('id', 'desc')->paginate(10);
+        // $receipts = Receipt::with('receiptMembers.member')->orderBy('id', 'desc')->paginate(10);
+
+        $limit = $request->get('limit', 10) ?? 10;
+
+        // Fetch the data based on the limit; use paginate if it's not 'All'
+        if ($limit === 'All') {
+            $receipts = Receipt::with('receiptMembers.member')->orderBy('id', 'desc')->get();
+        } else {
+            $receipts = Receipt::with('receiptMembers.member')->orderBy('id', 'desc')->paginate((int) $limit);
+        }
+
+
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
         $lastReceipt = Receipt::whereYear('created_at', now()->year)
@@ -62,7 +73,7 @@ class ReceiptController extends Controller
             $dvcategory = $draft_receipts->category_id;
         }
 
-        return view('public-funds.receipts.list', compact('receipts', 'paymentCategories', 'members', 'vrNo', 'vrDate', 'dvNo', 'draft_rc_members', 'narration', 'dvcategory'));
+        return view('public-funds.receipts.list', compact('receipts', 'limit', 'paymentCategories', 'members', 'vrNo', 'vrDate', 'dvNo', 'draft_rc_members', 'narration', 'dvcategory'));
     }
 
     public function fetchData(Request $request)
@@ -365,6 +376,7 @@ class ReceiptController extends Controller
     {
         //
     }
+
 
     // /**
     //  * Show the form for editing the specified resource.
