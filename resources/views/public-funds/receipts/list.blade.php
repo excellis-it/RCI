@@ -85,39 +85,39 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    {{-- <div class="col-md-5 col-lg-3 mb-2 mt-4">
+
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
+                                                id="search" placeholder="Search by DV No.">
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
-                                    </div> --}}
+                                    </div>
+
+
+
+
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                    style="cursor: pointer">Vr No.<span id="vr_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no">Vr No.
+                                                </th>
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="dv_no"
-                                                    style="cursor: pointer">DV No.<span id="dv_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="category_id"
-                                                    style="cursor: pointer">Category <span id="category_id_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="dv_no">DV No.
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="category_id">
+                                                    Category </th>
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                    style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no">Vr
+                                                    Date.</th>
 
                                                 <th>Member</th>
                                                 <th>Designation</th>
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                    style="cursor: pointer">Amount <span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount">
+                                                    Amount </th>
                                                 <th>Actions</th>
 
                                             </tr>
@@ -145,28 +145,28 @@
     <script>
         $(document).ready(function() {
 
-            // function fetch_data(page, sort_type, sort_by, query) {
-            //     $.ajax({
-            //         url: "{{ route('receipts.fetch-data') }}",
-            //         data: {
-            //             page: page,
-            //             sortby: sort_by,
-            //             sorttype: sort_type,
-            //             query: query
-            //         },
-            //         success: function(data) {
-            //             $('tbody').html(data.data);
-            //         }
-            //     });
-            // }
+            function fetch_data(page, sort_type, sort_by, query) {
+                $.ajax({
+                    url: "{{ route('receipts.fetch-data') }}",
+                    data: {
+                        page: page,
+                        sortby: sort_by,
+                        sorttype: sort_type,
+                        query: query
+                    },
+                    success: function(data) {
+                        $('tbody').html(data.data);
+                    }
+                });
+            }
 
-            // $(document).on('keyup', '#search', function() {
-            //     var query = $('#search').val();
-            //     var column_name = $('#hidden_column_name').val();
-            //     var sort_type = $('#hidden_sort_type').val();
-            //     var page = $('#hidden_page').val();
-            //     fetch_data(page, sort_type, column_name, query);
-            // });
+            $(document).on('keyup', '#search', function() {
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, sort_type, column_name, query);
+            });
 
             // $(document).on('click', '.sorting', function() {
             //     var column_name = $(this).data('column_name');

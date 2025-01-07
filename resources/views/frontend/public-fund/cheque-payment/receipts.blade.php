@@ -96,6 +96,8 @@
 
 
 
+
+
                 <table class="table table-responsive mt-0 pt-0 ">
                     <thead>
                         <tr>
@@ -159,6 +161,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                <p class="fw-bold">Receipt Total Bill Amount : <span
+                        id="pay_amount2_{{ $receipt_data->id }}">0</span></p>
 
             </div>
 

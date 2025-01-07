@@ -122,14 +122,22 @@ class ChequePaymentController extends Controller
     public function fetchData(Request $request)
     {
         if ($request->ajax()) {
+            $limit = 'All';
+            $search = 1;
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $chequePayments = ChequePayment::orderBy($sort_by, $sort_type)
-                ->paginate(10);
+            if (empty($query)) {
+                $search = 0;
+            }
+            $AllPayments = ChequePayment::with('chequePaymentMembers.member')->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('cheq_no', 'like', '%' . $query . '%')
+                    ->orWhere('cheq_date', 'like', '%' . $query . '%');
+            })->orderBy($sort_by, $sort_type)
+                ->get();
 
-            return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('chequePayments'))->render()]);
+            return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('AllPayments', 'limit', 'search'))->render()]);
         }
     }
 

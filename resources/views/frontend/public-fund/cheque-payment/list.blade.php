@@ -59,55 +59,28 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    {{-- <div class="col-md-5 col-lg-3 mb-2 mt-4">
+
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
-                                            <input type="text" class="form-control search_table" value=""
-                                                id="search" placeholder="Search">
+                                            <input type="text" class="form-control search_table searchval" value=""
+                                                id="search" placeholder="Search by Cheque No.">
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
-                                    </div> --}}
+                                    </div>
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="date" class="form-control search_table searchval" value=""
+                                                id="search-date" placeholder="Search by Cheque Date">
+                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="table-responsive rounded-2 listmain">
-                                    <table class="table  mb-0 align-middle">
-                                        {{-- <thead class="text-white fs-4 bg_blue">
-                                            <tr>
+                                <div class="rounded-2 listmain">
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="receipt_no"
-                                                    style="cursor: pointer">RCT No<span id="sr_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_no"
-                                                    style="cursor: pointer">Vr No<span id="vr_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="vr_date"
-                                                    style="cursor: pointer">Vr Date<span id="vr_date_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
-                                                    style="cursor: pointer">Amount<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                    <div class="allpayments_table">
+                                        @include('frontend.public-fund.cheque-payment.table')
+                                    </div>
 
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="bill_ref"
-                                                    style="cursor: pointer">Bill Ref<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="cheq_no"
-                                                    style="cursor: pointer">Cheque No.<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-
-
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="cheq_date"
-                                                    style="cursor: pointer">Cheque Date<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="created_at"
-                                                    style="cursor: pointer">Created On<span id="amount_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead> --}}
-                                        <tbody class="tbody_height_scroll">
-                                            @include('frontend.public-fund.cheque-payment.table')
-                                        </tbody>
-                                    </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
                                         value="id" />
@@ -148,28 +121,38 @@
     <script>
         $(document).ready(function() {
 
-            // function fetch_data(page, sort_type, sort_by, query) {
-            //     $.ajax({
-            //         url: "{{ route('cheque-payments.fetch-data') }}",
-            //         data: {
-            //             page: page,
-            //             sortby: sort_by,
-            //             sorttype: sort_type,
-            //             query: query
-            //         },
-            //         success: function(data) {
-            //             $('tbody').html(data.data);
-            //         }
-            //     });
-            // }
+            function fetch_data(page, sort_type, sort_by, query) {
+                $.ajax({
+                    url: "{{ route('cheque-payments.fetch-data') }}",
+                    data: {
+                        page: page,
+                        sortby: sort_by,
+                        sorttype: sort_type,
+                        query: query
+                    },
+                    success: function(data) {
+                        $('.allpayments_table').html(data.data);
+                    }
+                });
+            }
 
-            // $(document).on('keyup', '#search', function() {
-            //     var query = $('#search').val();
-            //     var column_name = $('#hidden_column_name').val();
-            //     var sort_type = $('#hidden_sort_type').val();
-            //     var page = $('#hidden_page').val();
-            //     fetch_data(page, sort_type, column_name, query);
-            // });
+            $(document).on('keyup', '#search', function() {
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                $('#search-date').val('');
+                fetch_data(page, sort_type, column_name, query);
+            });
+
+            $(document).on('change', '#search-date', function() {
+                var query = $('#search-date').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                $('#search').val('');
+                fetch_data(page, sort_type, column_name, query);
+            });
 
             // $(document).on('click', '.sorting', function() {
             //     var column_name = $(this).data('column_name');
@@ -466,6 +449,8 @@
                                     .vr_date);
                                 $("#pay_amount_" + data_id).val(response.receipt_data.amount);
 
+                                $("#pay_amount2_" + data_id).text(response.receipt_data.amount);
+
                                 //    $("#pay_amount_"+data_id).val(response.receipt_data.amount);
 
                                 $("#balance_" + data_id).val(response.balance);
@@ -698,6 +683,10 @@
                                         // Update the upper-bill-amount value
                                         $upperBillAmount.val(totalBillAmount
                                             .toFixed(2));
+
+                                        $("#pay_amount2_" + data_id).text(
+                                            totalBillAmount);
+
                                     });
                                 });
 
@@ -998,6 +987,19 @@
         $(document).ready(function() {
             // Attach event handler to all .receipt_member_data_form tables
 
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#cheq_date").change(function(e) {
+                e.preventDefault();
+                var chqdate = $(this).val();
+                $("#search_receipt_form").show();
+                $("#vr_date").val(chqdate);
+                $("#vr_date").attr("max", chqdate);
+
+            });
         });
     </script>
 @endpush

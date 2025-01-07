@@ -34,7 +34,7 @@
 
 
         <div class="col-lg-12">
-            <form id="search_receipt_form" method="POST">
+            <form id="search_receipt_form" method="POST" style="display:none">
                 @csrf
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
