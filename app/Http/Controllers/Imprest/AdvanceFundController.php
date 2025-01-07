@@ -19,6 +19,7 @@ use App\Models\AdvanceSettlement;
 use App\Models\CdaBillAuditTeam;
 use App\Models\CDAReceipt;
 use App\Models\ImprestBalance;
+use App\Models\CashWithdrawal;
 use App\Http\Controllers\ImprestReportController;
 
 class AdvanceFundController extends Controller
@@ -46,11 +47,18 @@ class AdvanceFundController extends Controller
 
         $lastAdvNo = $lastAdv ? $lastAdv->adv_no : 0;
 
+        $last_withdraw = CashWithdrawal::orderBy('vr_date', 'desc')->first();
+        if ($last_withdraw) {
+            $last_withdraw_date = $last_withdraw->vr_date;
+        } else {
+            $last_withdraw_date = '';
+        }
+
         // dd($lastReceiptNo);
         // die;
         $advNo = $lastAdvNo + 1;
 
-        return view('imprest.advance-fund.list', compact('advance_funds', 'variable_types', 'projects', 'designations', 'groups', 'divisions', 'employees', 'members', 'advNo'));
+        return view('imprest.advance-fund.list', compact('advance_funds', 'last_withdraw_date', 'variable_types', 'projects', 'designations', 'groups', 'divisions', 'employees', 'members', 'advNo'));
     }
 
     public function fetchData(Request $request)
@@ -178,7 +186,7 @@ class AdvanceFundController extends Controller
             'adv_fund_outstand' => ($lastIMBRecord->adv_fund_outstand ?? 0) + $request->adv_amount,
             'adv_settle_outstand' => $lastIMBRecord->adv_settle_outstand ?? 0,
             'cda_bill_outstand' => $lastIMBRecord->cda_bill_outstand ?? 0,
-            'adv_fund_id' => $advance_fund->id, 
+            'adv_fund_id' => $advance_fund->id,
             'date' => $request->input('adv_date', now()->toDateString()),
             'time' => now()->toTimeString(),
         ];

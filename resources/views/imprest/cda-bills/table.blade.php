@@ -28,7 +28,7 @@
                             <input type="hidden" name="adv_no[]" value="{{ $advance_settel->adv_no }}">
                         </td>
                         <td>{{ $advance_settel->adv_date ?? 'N/A' }}
-                            <input type="hidden" name="adv_date[]" value="{{ $advance_settel->adv_date }}">
+                            <input class="bill_adv_date_input" type="hidden" name="adv_date[]" value="{{ $advance_settel->adv_date }}">
                         </td>
 
                         <td hidden>{{ $advance_settel->member->name ?? 'N/A' }}
@@ -53,7 +53,7 @@
                         <td>{{ $advance_settel->variableType->name ?? 'N/A' }}
                             <input type="hidden" name="variable_id[]" value="{{ $advance_settel->var_type_id }}">
                         </td>
-                        <td><input type="checkbox" name="bills[]" value="{{ $advance_settel->id }}" id="">
+                        <td><input class="bill_check_input" type="checkbox" name="bills[]" value="{{ $advance_settel->id }}" id="">
                         </td>
 
 

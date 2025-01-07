@@ -17,6 +17,9 @@ use App\Models\ReceiptMember;
 use App\Models\ChequePayment;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
+use App\Models\TempReceipt;
+use App\Models\TempReceiptMember;
 use PDF;
 
 class ReceiptController extends Controller
@@ -26,7 +29,7 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        $receipts = Receipt::orderBy('id', 'desc')->paginate(10);
+        $receipts = Receipt::with('receiptMembers.member')->orderBy('id', 'desc')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
         $lastReceipt = Receipt::whereYear('created_at', now()->year)
@@ -41,7 +44,25 @@ class ReceiptController extends Controller
         // die;
         $receiptNo = $lastReceiptNo + 1;
         $vrNo = $receiptNo;
-        return view('public-funds.receipts.list', compact('receipts', 'paymentCategories', 'members', 'vrNo'));
+
+        $vrDate = date('Y-m-d');
+        $dvNo = '';
+        $narration = '';
+        $dvcategory = 0;
+
+
+        $draft_receipts = TempReceipt::first();
+        $draft_rc_members = TempReceiptMember::get();
+
+        if ($draft_receipts) {
+            $vrNo = $draft_receipts->vr_no;
+            $vrDate = $draft_receipts->vr_date;
+            $dvNo = $draft_receipts->dv_no;
+            $narration = $draft_receipts->narration;
+            $dvcategory = $draft_receipts->category_id;
+        }
+
+        return view('public-funds.receipts.list', compact('receipts', 'paymentCategories', 'members', 'vrNo', 'vrDate', 'dvNo', 'draft_rc_members', 'narration', 'dvcategory'));
     }
 
     public function fetchData(Request $request)
@@ -179,13 +200,18 @@ class ReceiptController extends Controller
 
     public function store(Request $request)
     {
+
+        if ($request->form_type == 1) {
+            return $this->saveDraft($request);
+        }
+
         DB::beginTransaction();
 
         $request->validate([
             'vr_date' => 'required|date',
             'dv_no' => 'required|string|max:255',
             'narration' => 'nullable|string',
-            'category' => 'required|exists:categories,id',
+            'category' => 'required|exists:payment_categories,id',
             'sr_no.*' => 'required|numeric',
             'member_id.*' => 'required|exists:members,id',
             'amount.*' => 'required|numeric|min:0',
@@ -214,10 +240,13 @@ class ReceiptController extends Controller
             $receiptNo = $lastReceiptNo + 1;
             $formattedReceiptNo = $receiptNo;
 
+            TempReceipt::query()->delete();
+            TempReceiptMember::query()->delete();
+
             // Create Receipt
             $receipt = Receipt::create([
-                'receipt_no' => $formattedReceiptNo,
-                'vr_no' => $formattedReceiptNo,
+                'receipt_no' => $request->vr_no,
+                'vr_no' => $request->vr_no,
                 'vr_date' => $request->vr_date,
                 'dv_no' => $request->dv_no,
                 'narration' => $request->narration,
@@ -254,7 +283,79 @@ class ReceiptController extends Controller
     }
 
 
+    public function saveDraft(Request $request)
+    {
+        DB::beginTransaction();
 
+        $request->validate([
+            'vr_date' => 'required|date',
+            //  'dv_no' => 'required|string|max:255',
+            //  'narration' => 'nullable|string',
+            //  'category' => 'required|exists:payment_categories,id',
+            'sr_no.*' => 'required|numeric',
+            'member_id.*' => 'required|exists:members,id',
+            //   'amount.*' => 'required|numeric|min:0',
+            'bill_ref.*' => 'nullable|string|max:255',
+            'cheq_no.*' => 'nullable|string|max:255',
+            'cheq_date.*' => 'nullable|date',
+        ]);
+
+        try {
+
+            TempReceipt::query()->delete();
+            TempReceiptMember::query()->delete();
+
+
+            // Update or insert into TempReceipt (always row 1)
+            $receipt = TempReceipt::updateOrCreate(
+                ['id' => 1], // Always target row 1
+                [
+                    'receipt_no' => $request->vr_no, // Fixed receipt number for drafts
+                    'vr_no' => $request->vr_no,
+                    'vr_date' => $request->vr_date,
+                    'dv_no' => $request->dv_no,
+                    'narration' => $request->narration,
+                    'category_id' => $request->category,
+                    'amount' => array_sum($request->member_amount), // Total amount from receipt_members
+                ]
+            );
+
+            // Clear existing TempReceiptMembers for row 1
+            TempReceiptMember::where('receipt_id', $receipt->id)->delete();
+
+            // Add new TempReceiptMembers
+            foreach ($request->sr_no as $index => $serialNo) {
+                TempReceiptMember::create([
+                    'receipt_id' => $receipt->id,
+                    'vr_no' => $receipt->vr_no,
+                    'serial_no' => $serialNo,
+                    'member_id' => $request->member_id[$index],
+                    'amount' => $request->member_amount[$index],
+                    'bill_ref' => $request->bill_ref[$index] ?? null,
+                    'cheq_no' => $request->cheq_no[$index] ?? null,
+                    'cheq_date' => $request->cheq_date[$index] ?? null,
+                ]);
+            }
+
+            DB::commit();
+
+            session()->flash('message', 'Draft saved successfully');
+            return response()->json(['success' => 'Draft saved successfully.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('message', 'Error creating receipt');
+            return response()->json(['error' => 'Error saving draft: ' . $e->getMessage()]);
+        }
+    }
+
+
+    public function receiptClearDraft()
+    {
+        TempReceipt::query()->delete();
+        TempReceiptMember::query()->delete();
+        session()->flash('message', 'Draft cleared successfully');
+        return redirect()->back()->with('message', 'Draft cleared successfully');
+    }
 
 
     /**
@@ -407,6 +508,8 @@ class ReceiptController extends Controller
 
         $pre_vr_date = date('Y-m-d', strtotime($vr_date . ' -1 day'));
 
+        $logo = Helper::logo() ?? '';
+
         // return dd($pre_vr_date);
 
         $members = Member::orderBy('id', 'desc')->get();
@@ -491,7 +594,7 @@ class ReceiptController extends Controller
         // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 

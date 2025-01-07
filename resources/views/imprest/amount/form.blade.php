@@ -53,17 +53,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" hidden>
+                                    <div class="col-md-3" >
                                         <div class="row">
 
                                             <div class="form-group col-md-12 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
-                                                        <label>Vr Date</label>
+                                                        <label>Cash in Bank Date</label>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="date" class="form-control" name="vr_date"
-                                                            id="vr_date" value="2000-01-01">
+                                                            id="vr_date" value="2024-01-01">
                                                         <div class="text-danger mt-2" style="display:none;"></div>
 
 
@@ -95,7 +95,7 @@
     @endsection
 
     @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{ asset('web_assets/js/jquery-3.6.0.min.js') }}"></script>
         <script>
             $(document).ready(function() {
                 $('#amountForm').on('submit', function(e) {

@@ -58,10 +58,34 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item dropdown-hover d-none d-lg-block">
+
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Settings<span class="mt-1"><i
+                            class="ti ti-chevron-down"></i></span></a>
+                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
+                    <div class="position-relative p-7 h-100">
+                        <ul class="">
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('settings.index') }}">Bank Account</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('public_fund.import_export') }}">Import/Export Data</a>
+                            </li>
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('cheque-payment.report') }}">Cheque Payment Report</a>
+                            </li> --}}
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            {{-- <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('settings.index') ? 'active' : '' }}"
                     href="{{ route('settings.index') }}">Settings</a>
-            </li>
+            </li> --}}
 
             {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
                 <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pay & Allowance<span

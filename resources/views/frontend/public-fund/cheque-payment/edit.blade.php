@@ -214,10 +214,13 @@
                     $bankAccountNo = $memberCoreInfo ? $memberCoreInfo->bank_acc_no : 'N/A';
                 @endphp
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $member->serial_no }}</td>
                     <td>{{ $memberName }}</td>
                     <td>{{ $memberDesign }}</td>
                     <td>
+                        <input type="hidden" id="member_serial_{{ $chequePayment->id }}" class="form-control"
+                        name="member_serial[{{ $chequePayment->id }}][]" required readonly
+                        value="{{ $member->serial_no }}">
                         <input type="hidden" id="member_id_{{ $chequePayment->id }}" class="form-control"
                             name="member_id[{{ $chequePayment->id }}][]" required readonly
                             value="{{ $member->member_id }}">
@@ -225,7 +228,7 @@
 
                         <input type="number" id="pay_amount_{{ $chequePayment->id }}" class="form-control"
                             name="rc_amount[{{ $chequePayment->id }}][]"
-                            value="{{ Helper::getCheqpaymentMemberRCamount($receipt_data2->id, $member->member_id) }}"
+                            value="{{ Helper::getCheqpaymentMemberRCamount($receipt_data2->id, $member->member_id, $member->serial_no) }}"
                             required readonly>
                     </td>
                     <td><input type="number" id="bill_amount_{{ $chequePayment->id }}"
@@ -237,10 +240,10 @@
                     <td>
                         <input type="hidden" id="main_pay_amount_{{ $chequePayment->id }}" class="form-control"
                             name="main_pay_amount[{{ $chequePayment->id }}][]" required
-                            value="{{ Helper::getCheqpaymentMemberRCamount($receipt_data2->id, $member->member_id) }}">
+                            value="{{ Helper::getCheqpaymentMemberRCamount($receipt_data2->id, $member->member_id, $member->serial_no) }}">
                         <input type="number" id="balance_{{ $chequePayment->id }}" class="form-control"
                             name="balance[{{ $chequePayment->id }}][]"
-                            value="{{ Helper::getCheqpaymentMemberBalance($receipt_data2->id, $member->member_id) }}"
+                            value="{{ Helper::getCheqpaymentMemberBalance($receipt_data2->id, $member->member_id, $member->serial_no) }}"
                             required readonly>
                     </td>
                     <td><input type="text" class="form-control" name="bill_ref[{{ $chequePayment->id }}][]"

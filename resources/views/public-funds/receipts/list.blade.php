@@ -4,7 +4,7 @@
 @endsection
 
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('web_assets/css/select2.min.css') }}" rel="stylesheet" />
 
 
     <style>
@@ -112,6 +112,9 @@
                                                     style="cursor: pointer">Vr Date.<span id="vr_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
 
+                                                <th>Member</th>
+                                                <th>Designation</th>
+
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="amount"
                                                     style="cursor: pointer">Amount <span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -209,8 +212,24 @@
     </script>
     <script>
         $(document).ready(function() {
+
+
+            $("#saveDraftReceipt").click(function(e) {
+                e.preventDefault();
+                $("#form_type").val(1);
+                $("#receipts-create-form").submit();
+            });
+
+            $("#saveReceipt").click(function(e) {
+                e.preventDefault();
+                $("#form_type").val(0);
+                $("#receipts-create-form").submit();
+            });
+
+
             $('#receipts-create-form').submit(function(e) {
                 e.preventDefault();
+
 
                 let hasErrors = false;
 
@@ -375,7 +394,7 @@
     </script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('web_assets/js/select2.min.js') }}"></script>
 
     <script>
         function validateDynamicFields() {
@@ -690,7 +709,7 @@
             // Initial setup
             updateRemoveButtonVisibility();
 
-            bindDynamicValidation();
+            //   bindDynamicValidation();
 
         });
     </script>

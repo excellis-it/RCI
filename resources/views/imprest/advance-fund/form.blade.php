@@ -143,7 +143,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="date" class="form-control" name="adv_date" id="adv_date" placeholder=""
-                                value="{{ date('Y-m-d') }}">
+                                value="{{ date('Y-m-d') }}" min="{{ $last_withdraw_date }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

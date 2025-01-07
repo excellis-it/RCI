@@ -15,6 +15,7 @@ use App\Models\ChequePaymentMember;
 use App\Models\Designation;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
 use PDF;
 
 class ChequePaymentController extends Controller
@@ -31,7 +32,7 @@ class ChequePaymentController extends Controller
 
         $allReceipts = Receipt::get();
         $lastPayment = ChequePayment::orderBy('id', 'desc')->first();
-        $AllPayments = ChequePayment::orderBy('id', 'desc')->paginate(100);
+        $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->paginate(100);
         return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments'));
     }
 
@@ -202,13 +203,14 @@ class ChequePaymentController extends Controller
 
 
                 // If there are members for this receipt, process them
-                if (isset($request->member_id[$receiptId])) {
+                if (isset($request->member_serial[$receiptId])) {
 
-                    foreach ($request->member_id[$receiptId] as $memberIndex => $memberId) {
+                    foreach ($request->member_serial[$receiptId] as $memberIndex => $serialId) {
                         // Insert member-specific cheque payment details
                         $chequePaymentMember = new ChequePaymentMember();
                         $chequePaymentMember->cheque_payments_id = $chequePayment['id'];
-                        $chequePaymentMember->member_id = $memberId;
+                        $chequePaymentMember->serial_no = $serialId;
+                        $chequePaymentMember->member_id = $request['member_id'][$receiptId][$memberIndex] ?? null;;
                         $chequePaymentMember->receipt_id = $receiptId ?? 0;
                         $chequePaymentMember->amount = $request['amount'][$receiptId][$memberIndex] ?? 0;
                         $chequePaymentMember->cheq_no = $request['cheq_no'][$index] ?? null;
@@ -311,10 +313,11 @@ class ChequePaymentController extends Controller
             $chequePayment->save();
 
             // Update associated ChequePaymentMember records
-            if (isset($request->member_id[$chequePayment->id])) {
-                foreach ($request->member_id[$chequePayment->id] as $index => $memberId) {
+            if (isset($request->member_serial[$chequePayment->id])) {
+                foreach ($request->member_serial[$chequePayment->id] as $index => $serialId) {
                     $memberData = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)
-                        ->where('member_id', $memberId)
+                        ->where('member_id', $request->member_id[$chequePayment->id][$index] ?? null)
+                        ->where('serial_no', $serialId)
                         ->first();
 
                     if ($memberData) {
@@ -452,6 +455,8 @@ class ChequePaymentController extends Controller
         $chq_date = $request->date;
         $pre_vr_date = date('Y-m-d', strtotime($chq_date . ' -1 day'));
 
+        $logo = Helper::logo() ?? '';
+
         $members = Member::orderBy('id', 'desc')->get();
 
         $category = PaymentCategory::orderBy('id', 'asc')->get();
@@ -480,7 +485,7 @@ class ChequePaymentController extends Controller
             ->where('receipts.vr_date', $chq_date)
             ->get();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('receipts','category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 

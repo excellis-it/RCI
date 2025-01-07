@@ -25,6 +25,10 @@
     @php
         use App\Helpers\Helper;
     @endphp
+    <center>
+        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+    </center>
+    <br>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center; border-color: inherit;">
         <tbody>
@@ -206,7 +210,7 @@
                         {{ $balanceCarriedForward[$cat->id] }}
                     </td> --}}
                     <td>
-                        {{ ($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) -  $categoryTotals[$cat->id]}}
+                        {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $categoryTotals[$cat->id] }}
                     </td>
                 @endforeach
                 <td></td>

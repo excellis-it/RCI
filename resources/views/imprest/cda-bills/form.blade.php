@@ -12,7 +12,8 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="">CDA Bill Date</label>
-                        <input type="date" class="form-control" name="cda_bill_date" id="cda_bill_date">
+                        <input type="date" class="form-control cda_bill_date_input" name="cda_bill_date" id="cda_bill_date"
+                            min="{{ $lastSettleDate }}">
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-4">
