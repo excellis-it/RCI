@@ -251,12 +251,33 @@ class ChequePaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    // public function getedit(Request $request)
+    // {
+    //     $id = $request->id;
+    //     $vr_no = $request->vr_no;
+    //     $vr_date = $request->vr_date;
+    //     $chequePayment = ChequePayment::with('chequePaymentMembers')->where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+    //     $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+    //     $members = Member::all();
+
+    //     //  dd($chequePayment);
+
+    //     $chequePaymentMembers = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)->get();
+
+    //     // dd($chequePaymentMembers);
+
+    //     $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment', 'receipt_data2', 'members',))->render();
+
+    //     return response()->json(['view' => $view]);
+    // }
+
     public function getedit(Request $request)
     {
+        $id = $request->id;
         $vr_no = $request->vr_no;
         $vr_date = $request->vr_date;
-        $chequePayment = ChequePayment::with('chequePaymentMembers')->where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
-        $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+        $chequePayment = ChequePayment::with('chequePaymentMembers')->where('id', $id)->first();
+        $receipt_data2 = Receipt::where('id', $chequePayment->receipt_id)->first();
         $members = Member::all();
 
         //  dd($chequePayment);

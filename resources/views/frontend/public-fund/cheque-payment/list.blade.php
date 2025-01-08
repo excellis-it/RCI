@@ -283,7 +283,7 @@
         //     });
         // }
 
-        function getEditForm(vr_no, date) {
+        function getEditForm(vr_no, date, id) {
             // Serialize form data for search_receipt_form functionality
             var formData = $('#search_receipt_form').serialize();
 
@@ -294,6 +294,7 @@
                     _token: "{{ csrf_token() }}",
                     vr_no: vr_no,
                     vr_date: date,
+                    id:id,
 
                 },
                 dataType: 'json',
