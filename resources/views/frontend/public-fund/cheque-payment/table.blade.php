@@ -6,6 +6,9 @@
         }
     </style>
 @endpush
+@php
+    use App\Helpers\Helper;
+@endphp
 
 @if (count($AllPayments) > 0)
 
@@ -30,7 +33,7 @@
                 <tr>
                     <td colspan="9" class="table-group-title">
                         <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}, &nbsp;&nbsp;&nbsp; Total Amount:
-                            {{ number_format($groupedPayments->sum('amount'), 2) }}</strong>
+                            {{ number_format(Helper::getTotalPaymentsByChqNo($cheqNo), 2) }}</strong>
                     </td>
                 </tr>
                 @foreach ($groupedPayments as $payments)

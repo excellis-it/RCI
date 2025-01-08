@@ -141,17 +141,19 @@
                                 </td>
                                 <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
                                         class="form-control bill-amount bill-amount-lower"
-                                        name="amount[{{ $receipt_data->id }}][]" value="{{ $member->amount }}">
+                                        name="amount[{{ $receipt_data->id }}][]"
+                                        value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}">
 
                                     <span class="text-danger"></span>
                                 </td>
                                 <td>
+                                    {{-- <p>{{ $receipt_data->id }}-{{ $member->member_id }}-{{ $member->serial_no }}</p> --}}
                                     <input type="hidden" id="main_pay_amount_{{ $receipt_data->id }}"
                                         class="form-control" name="main_pay_amount[{{ $receipt_data->id }}][]" required
                                         value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}">
                                     <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
                                         name="balance[{{ $receipt_data->id }}][]"
-                                        value="{{ $member->amount - Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}"
+                                        value="{{ Helper::getCheqpaymentMemberBalanceIn($receipt_data->id, $member->member_id, $member->serial_no) }}"
                                         required readonly>
                                 </td>
                                 <td><input type="text" class="form-control"
@@ -162,7 +164,8 @@
                     </tbody>
                 </table>
                 <p class="fw-bold">Receipt Total Bill Amount : <span
-                        id="pay_amount2_{{ $receipt_data->id }}">0</span></p>
+                        id="pay_amount2_{{ $receipt_data->id }}" class="rctba">{{ Helper::getCheqpaymentBillTotal($receipt_data->id) }}</span>
+                </p>
 
             </div>
 
