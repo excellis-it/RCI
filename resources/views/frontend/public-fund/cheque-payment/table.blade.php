@@ -67,7 +67,7 @@
                         <td>
                             <div class="d-flex">
                                 <a data-route="{{ route('cheque-payments.edit', $payments->id) }}" href="#"
-                                    onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}')"
+                                    onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}', '{{ $payments->id }}')"
                                     class="edit_pencil"><i class="ti ti-pencil"></i></a>
                                 <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2"
                                     id="delete" data-route="{{ route('cheque-payments.delete', $payments->id) }}">
