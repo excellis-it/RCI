@@ -449,7 +449,7 @@
                                     .vr_date);
                                 $("#pay_amount_" + data_id).val(response.receipt_data.amount);
 
-                                $("#pay_amount2_" + data_id).text(response.receipt_data.amount);
+                                //  $("#pay_amount2_" + data_id).text(response.receipt_data.amount);
 
                                 //    $("#pay_amount_"+data_id).val(response.receipt_data.amount);
 
@@ -480,7 +480,7 @@
 
                                 /////
 
-                                $("#bill_amount_" + data_id).on("keyup", function() {
+                                $("#bill_amount_" + data_id).on("keyup load", function() {
                                     let initialBalanceMain = parseFloat($(
                                         "#main_amount_" + data_id).val());
                                     let payAmount = parseFloat($("#balance_" + data_id)
@@ -647,6 +647,8 @@
                                             .siblings('.text-danger');
                                         let $upperBillAmount = $table.find(
                                             '.upper-bill-amount');
+                                        let $rctba = $table.find(
+                                            '.rctba');
 
                                         // Get numeric values
                                         let mainPayAmount = parseFloat(
@@ -684,7 +686,7 @@
                                         $upperBillAmount.val(totalBillAmount
                                             .toFixed(2));
 
-                                        $("#pay_amount2_" + data_id).text(
+                                        $rctba.text(
                                             totalBillAmount.toFixed(2));
 
                                     });

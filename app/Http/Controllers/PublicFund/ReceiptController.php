@@ -43,8 +43,8 @@ class ReceiptController extends Controller
 
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
-        $lastReceipt = Receipt::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
+        $lastReceipt = Receipt::whereYear('vr_date', now()->year)
+            ->whereMonth('vr_date', now()->month)
             ->orderBy('id', 'desc')
             ->lockForUpdate()
             ->first();
