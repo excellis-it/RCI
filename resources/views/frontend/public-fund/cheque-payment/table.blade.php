@@ -60,7 +60,12 @@
                             <span>Total : {{ number_format($payments->amount, 2) ?? 'N/A' }}</span>
 
                         </td>
-                        <td>{{ $payments->bill_ref ?? 'N/A' }}</td>
+                        {{-- <td>{{ $payments->bill_ref ?? 'N/A' }}</td> --}}
+                        <td>
+                            @foreach ($payments->chequePaymentMembers as $chqMember)
+                                <span>{{ $chqMember->bill_ref ?? 'N/A' }}</span><br>
+                            @endforeach
+                        </td>
                         <td>{{ $payments->cheq_no ?? 'N/A' }}</td>
                         <td>{{ $payments->cheq_date ?? 'N/A' }}</td>
 
