@@ -294,7 +294,7 @@
                     _token: "{{ csrf_token() }}",
                     vr_no: vr_no,
                     vr_date: date,
-                    id:id,
+                    id: id,
 
                 },
                 dataType: 'json',
@@ -454,8 +454,13 @@
 
                                 //    $("#pay_amount_"+data_id).val(response.receipt_data.amount);
 
-                                $("#balance_" + data_id).val(response.balance);
+
                                 $("#main_amount_" + data_id).val(response.balance);
+
+
+                                $("#bill_amount_" + data_id).val(response.balance);
+
+                                $("#balance_" + data_id).val(0);
 
                                 if (response.paydone == 1) {
                                     // $('.cheq_pay_add').prop('disabled', true)
@@ -919,10 +924,17 @@
             let totalAmount = 0;
 
             // Loop through each bill amount input field and sum the values
-            $('.upper-bill-amount').each(function() {
+            // $('.upper-bill-amount').each(function() {
+            //     let billAmount = parseFloat($(this).val()) || 0; // Get value and default to 0 if not a valid number
+            //     totalAmount += billAmount;
+            // });
+
+            $('.bill-amount-lower').each(function() {
                 let billAmount = parseFloat($(this).val()) || 0; // Get value and default to 0 if not a valid number
                 totalAmount += billAmount;
             });
+
+
 
             // Get main amount value
             let mainAmount = parseFloat($('#main_cheq_amount').val()) || 0;
@@ -931,6 +943,9 @@
             // Optionally, you can display the sum and difference in a specific element
             $('#total_amount').text('Total Bill Amount: ' + totalAmount);
             $('#difference_amount').text('Difference: ' + difference);
+            // alert('mainAmount: ' + mainAmount);
+            // alert('Total Bill Amount: ' + totalAmount);
+            // alert('Difference: ' + difference);
 
             return difference; // Return the difference
         }

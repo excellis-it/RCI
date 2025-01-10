@@ -73,19 +73,21 @@ class ChequePaymentController extends Controller
             $rc_amount = $receipt_data->amount;
 
 
-            $paymentsData = ChequePayment::where('vr_no', $vr_no)
-                ->where('vr_date', $vr_date)
+            $paymentsData = ChequePayment::where('receipt_id', $rct_id)
+                // ->where('vr_date', $vr_date)
                 ->orderBy('id', 'desc')
-                ->first();
+                ->get();
 
             if ($paymentsData) {
 
-                $paymentsDataBal = ChequePayment::where('vr_no', $vr_no)
-                    ->where('vr_date', $vr_date)
-                    ->orderBy('id', 'desc')
+                $paymentsDataBal = ChequePayment::where('receipt_id', $rct_id)
+                    // ->where('vr_date', $vr_date)                    
                     ->sum('amount');
 
                 $balance = $rc_amount - $paymentsDataBal;
+
+                // dd($paymentsDataBal);
+                //  die;
 
                 if ($balance <= 0) {
                     $paydone = 1;
