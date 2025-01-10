@@ -163,8 +163,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                <p class="fw-bold">Receipt Total Bill Amount : <span
-                        id="pay_amount2_{{ $receipt_data->id }}" class="rctba">{{ Helper::getCheqpaymentBillTotal($receipt_data->id) }}</span>
+                <p class="fw-bold">Receipt Total Bill Amount : <span id="pay_amount2_{{ $receipt_data->id }}"
+                        class="rctba">{{ Helper::getCheqpaymentBillTotal($receipt_data->id) }}</span>
                 </p>
 
             </div>
