@@ -92,7 +92,7 @@ class Helper
     public static function getCashInBank($date = null)
     {
         $lastIMBRecord = ImprestBalance::latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_bank');
-       // dd($lastIMBRecord); die;
+        // dd($lastIMBRecord); die;
         return $lastIMBRecord ?? 0;
     }
 
@@ -193,7 +193,7 @@ class Helper
         $balance = 0;
         $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
         $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
-        if ($payment_amount) {
+        if ($payment_amount > 0) {
             $balance = $receipt_amount - $payment_amount;
         } else {
             $balance = $receipt_amount;
@@ -201,12 +201,75 @@ class Helper
         return $balance;
     }
 
+    public static function getCheqpaymentMemberBalanceIn($receipt_id, $member_id, $srno)
+    {
+        $balance = 0;
+        $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
+        $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
+        if ($payment_amount > 0) {
+            $balance = 0;
+        } else {
+            $balance = 0;
+        }
+        return $balance;
+    }
+
+    public static function getCheqpaymentBillTotal($receipt_id)
+    {
+        $balance = 0;
+        $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->sum('amount');
+        $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)->sum('amount');
+        if ($payment_amount > 0) {
+            $balance = $receipt_amount - $payment_amount;
+        } else {
+            $balance = $receipt_amount;
+        }
+        return $balance;
+    }
+
+    // public static function getCheqpaymentMemberBalance($receipt_id, $member_id, $srno)
+    // {
+    //     try {
+    //         // Retrieve receipt and payment amounts
+    //         $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)
+    //             ->where('member_id', $member_id)
+    //             ->where('serial_no', $srno)
+    //             ->sum('amount');
+
+    //         $payment_amount = ChequePaymentMember::where('receipt_id', $receipt_id)
+    //             ->where('member_id', $member_id)
+    //             ->where('serial_no', $srno)
+    //             ->sum('amount');
+
+    //         // Calculate the balance
+    //         $balance = $receipt_amount - $payment_amount;
+
+    //         return $balance;
+    //     } catch (\Exception $e) {
+    //         // Log the exception and return 0 as a fallback
+    //         Log::error('Error calculating member balance: ' . $e->getMessage(), [
+    //             'receipt_id' => $receipt_id,
+    //             'member_id' => $member_id,
+    //             'serial_no' => $srno,
+    //         ]);
+
+    //         return 0;
+    //     }
+    // }
+
+
     public static function getCheqpaymentMemberRCamount($receipt_id, $member_id, $srno)
     {
         $balance = 0;
         $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
 
         return $receipt_amount;
+    }
+
+    public static function getTotalPaymentsByChqNo($cheqNo)
+    {
+        $totalamount = ChequePayment::where('cheq_no', $cheqNo)->sum('amount');
+        return $totalamount;
     }
 
 

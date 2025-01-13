@@ -68,21 +68,24 @@
                     @endif
                 </div>
 
-                <div class="d-flex align-items-center">
-                    <form method="GET" action="{{ url()->current() }}" class="me-3 text-end">
-                        <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
-                            <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
-                            <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
-                            <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
-                            <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
-                            <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
-                        </select>
-                    </form>
+                @if (isset($search) && $search == 1)
+                @else
+                    <div class="d-flex align-items-center">
+                        <form method="GET" action="{{ route('receipts.index') }}" class="me-3 text-end">
+                            <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
+                                <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
+                                <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
+                                <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
+                                <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
+                            </select>
+                        </form>
 
-                    @if ($receipts instanceof \Illuminate\Pagination\AbstractPaginator)
-                        <div class="mt-2">{!! $receipts->links() !!}</div>
-                    @endif
-                </div>
+                        @if ($receipts instanceof \Illuminate\Pagination\AbstractPaginator)
+                            <div class="mt-2">{!! $receipts->links() !!}</div>
+                        @endif
+                    </div>
+                @endif
 
             </div>
 

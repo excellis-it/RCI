@@ -43,8 +43,8 @@ class ReceiptController extends Controller
 
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
-        $lastReceipt = Receipt::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
+        $lastReceipt = Receipt::whereYear('vr_date', now()->year)
+            ->whereMonth('vr_date', now()->month)
             ->orderBy('id', 'desc')
             ->lockForUpdate()
             ->first();
@@ -79,22 +79,28 @@ class ReceiptController extends Controller
     public function fetchData(Request $request)
     {
         if ($request->ajax()) {
+            $limit = 'All';
+            $search = 1;
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $receipts = Receipt::where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('receipt_no', 'like', '%' . $query . '%')
-                    ->orWhere('receipt_type', 'like', '%' . $query . '%')
-                    ->orWhere('vr_no', 'like', '%' . $query . '%')
-                    ->orWhere('vr_date', 'like', '%' . $query . '%')
-                    ->orWhere('amount', 'like', '%' . $query . '%');
+            if (empty($query)) {
+                $search = 0;
+            }
+            $receipts = Receipt::with('receiptMembers.member')->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('dv_no', 'like', '%' . $query . '%');
+                // ->orWhere('id', 'like', '%' . $query . '%')
+                // ->orWhere('receipt_no', 'like', '%' . $query . '%')
+                // ->orWhere('receipt_type', 'like', '%' . $query . '%')
+                // ->orWhere('vr_no', 'like', '%' . $query . '%')
+                // ->orWhere('vr_date', 'like', '%' . $query . '%')
+                // ->orWhere('amount', 'like', '%' . $query . '%');
             })
                 ->orderBy($sort_by, $sort_type)
-                ->paginate(10);
+                ->get();
 
-            return response()->json(['data' => view('public-funds.receipts.table', compact('receipts'))->render()]);
+            return response()->json(['data' => view('public-funds.receipts.table', compact('receipts', 'limit', 'search'))->render()]);
         }
     }
 

@@ -73,19 +73,21 @@ class ChequePaymentController extends Controller
             $rc_amount = $receipt_data->amount;
 
 
-            $paymentsData = ChequePayment::where('vr_no', $vr_no)
-                ->where('vr_date', $vr_date)
+            $paymentsData = ChequePayment::where('receipt_id', $rct_id)
+                // ->where('vr_date', $vr_date)
                 ->orderBy('id', 'desc')
-                ->first();
+                ->get();
 
             if ($paymentsData) {
 
-                $paymentsDataBal = ChequePayment::where('vr_no', $vr_no)
-                    ->where('vr_date', $vr_date)
-                    ->orderBy('id', 'desc')
+                $paymentsDataBal = ChequePayment::where('receipt_id', $rct_id)
+                    // ->where('vr_date', $vr_date)                    
                     ->sum('amount');
 
                 $balance = $rc_amount - $paymentsDataBal;
+
+                // dd($paymentsDataBal);
+                //  die;
 
                 if ($balance <= 0) {
                     $paydone = 1;
@@ -122,14 +124,22 @@ class ChequePaymentController extends Controller
     public function fetchData(Request $request)
     {
         if ($request->ajax()) {
+            $limit = 'All';
+            $search = 1;
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $chequePayments = ChequePayment::orderBy($sort_by, $sort_type)
-                ->paginate(10);
+            if (empty($query)) {
+                $search = 0;
+            }
+            $AllPayments = ChequePayment::with('chequePaymentMembers.member')->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('cheq_no', 'like', '%' . $query . '%')
+                    ->orWhere('cheq_date', 'like', '%' . $query . '%');
+            })->orderBy($sort_by, $sort_type)
+                ->get();
 
-            return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('chequePayments'))->render()]);
+            return response()->json(['data' => view('frontend.public-fund.cheque-payment.table', compact('AllPayments', 'limit', 'search'))->render()]);
         }
     }
 
@@ -243,12 +253,33 @@ class ChequePaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    // public function getedit(Request $request)
+    // {
+    //     $id = $request->id;
+    //     $vr_no = $request->vr_no;
+    //     $vr_date = $request->vr_date;
+    //     $chequePayment = ChequePayment::with('chequePaymentMembers')->where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+    //     $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+    //     $members = Member::all();
+
+    //     //  dd($chequePayment);
+
+    //     $chequePaymentMembers = ChequePaymentMember::where('cheque_payments_id', $chequePayment->id)->get();
+
+    //     // dd($chequePaymentMembers);
+
+    //     $view = view('frontend.public-fund.cheque-payment.edit', compact('chequePayment', 'receipt_data2', 'members',))->render();
+
+    //     return response()->json(['view' => $view]);
+    // }
+
     public function getedit(Request $request)
     {
+        $id = $request->id;
         $vr_no = $request->vr_no;
         $vr_date = $request->vr_date;
-        $chequePayment = ChequePayment::with('chequePaymentMembers')->where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
-        $receipt_data2 = Receipt::where('vr_no', $vr_no)->where('vr_date', $vr_date)->first();
+        $chequePayment = ChequePayment::with('chequePaymentMembers')->where('id', $id)->first();
+        $receipt_data2 = Receipt::where('id', $chequePayment->receipt_id)->first();
         $members = Member::all();
 
         //  dd($chequePayment);

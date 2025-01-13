@@ -6,6 +6,9 @@
         }
     </style>
 @endpush
+@php
+    use App\Helpers\Helper;
+@endphp
 
 @if (count($AllPayments) > 0)
 
@@ -29,7 +32,8 @@
             @foreach ($AllPayments->groupBy('cheq_no') as $cheqNo => $groupedPayments)
                 <tr>
                     <td colspan="9" class="table-group-title">
-                        <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}</strong>
+                        <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}, &nbsp;&nbsp;&nbsp; Total Amount:
+                            {{ number_format(Helper::getTotalPaymentsByChqNo($cheqNo), 2) }}</strong>
                     </td>
                 </tr>
                 @foreach ($groupedPayments as $payments)
@@ -56,14 +60,19 @@
                             <span>Total : {{ number_format($payments->amount, 2) ?? 'N/A' }}</span>
 
                         </td>
-                        <td>{{ $payments->bill_ref ?? 'N/A' }}</td>
+                        {{-- <td>{{ $payments->bill_ref ?? 'N/A' }}</td> --}}
+                        <td>
+                            @foreach ($payments->chequePaymentMembers as $chqMember)
+                                <span>{{ $chqMember->bill_ref ?? 'N/A' }}</span><br>
+                            @endforeach
+                        </td>
                         <td>{{ $payments->cheq_no ?? 'N/A' }}</td>
                         <td>{{ $payments->cheq_date ?? 'N/A' }}</td>
 
                         <td>
                             <div class="d-flex">
                                 <a data-route="{{ route('cheque-payments.edit', $payments->id) }}" href="#"
-                                    onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}')"
+                                    onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}', '{{ $payments->id }}')"
                                     class="edit_pencil"><i class="ti ti-pencil"></i></a>
                                 <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2"
                                     id="delete" data-route="{{ route('cheque-payments.delete', $payments->id) }}">
@@ -108,21 +117,24 @@
                     @endif
                 </div>
 
-                <div class="d-flex align-items-center">
-                    <form method="GET" action="{{ url()->current() }}" class="me-3 text-end">
-                        <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
-                            <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
-                            <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
-                            <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
-                            <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
-                            <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
-                        </select>
-                    </form>
+                @if (isset($search) && $search == 1)
+                @else
+                    <div class="d-flex align-items-center">
+                        <form method="GET" action="{{ route('cheque-payments.index') }}" class="me-3 text-end">
+                            <select name="limit" onchange="this.form.submit()" class="form-select form-select-sm">
+                                <option value="10" {{ $limit == 10 ? 'selected' : '' }}>10</option>
+                                <option value="20" {{ $limit == 20 ? 'selected' : '' }}>20</option>
+                                <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100</option>
+                                <option value="All" {{ $limit == 'All' ? 'selected' : '' }}>All</option>
+                            </select>
+                        </form>
 
-                    @if ($AllPayments instanceof \Illuminate\Pagination\AbstractPaginator)
-                        <div class="mt-2">{!! $AllPayments->links() !!}</div>
-                    @endif
-                </div>
+                        @if ($AllPayments instanceof \Illuminate\Pagination\AbstractPaginator)
+                            <div class="mt-2">{!! $AllPayments->links() !!}</div>
+                        @endif
+                    </div>
+                @endif
 
             </div>
 
