@@ -52,10 +52,10 @@ class ItemCodeController extends Controller
                     ->orWhere('entry_date', 'like', '%' . $query . '%')
                     ->orWhere('item_type', 'like', '%' . $query . '%');
             });
-            
+
         }
 
-    
+
         if ($created_by) {
             $itemsQuery->whereHas('createdBy', function ($q) use ($created_by) {
                 $q->where('user_name',  $created_by );
@@ -85,7 +85,7 @@ class ItemCodeController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -93,12 +93,11 @@ class ItemCodeController extends Controller
      */
     public function store(Request $request)
     {
-      
+
         $request->validate([
             'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
             'uom' => 'required',
-            'item_type' => 'required',
-            'item_price' => 'required|numeric',
+            'item_type' => 'nullable|numeric',
         ], [
             'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
         ]);
@@ -144,7 +143,7 @@ class ItemCodeController extends Controller
      */
     public function edit(string $id)
     {
-        
+
         $edit_item_code = ItemCode::find($id);
         $members = User::role('MATERIAL-MANAGER')->get();
         $uoms = Uom::all();
@@ -160,13 +159,13 @@ class ItemCodeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'item_code' =>  'required', 
+            'item_code' =>  'required',
             'uom' => 'required',
-            'item_type' => 'required', 
+            'item_type' => 'required',
             'item_name' => 'required',
-            'item_price' => 'required|numeric',
+            'item_price' => 'nullable|numeric',
         ]);
-        
+
         $item_code = ItemCode::find($id);
         $item_code->description = $request->description;
         $item_code->uom = $request->uom;
@@ -192,10 +191,10 @@ class ItemCodeController extends Controller
 
     public function delete($id)
     {
-       
+
         $item_code = ItemCode::find($id);
         $item_code->delete();
-        
+
         return redirect()->back()->with('message', 'Item Code deleted successfully');
     }
 }
