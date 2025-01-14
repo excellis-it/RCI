@@ -426,7 +426,7 @@
                                 <label>SIR No</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="sir_no">
+                                <select class="form-select" name="sir_no" readonly>
                                     <option value="">Select SIR No </option>
                                     @foreach ($sir_nos as $sir_no)
                                         <option value="{{ $sir_no->id }}">{{ $sir_no->sir_no }}</option>
@@ -440,11 +440,24 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Sir Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control sir_date" name="sir_date" id="sir_date"
+                                    readonly placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Inventory No</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control inventory_code" name="inventory_code"
-                                    id="inventory_code" placeholder="">
+                                    readonly id="inventory_code" placeholder="">
                                 <input type="hidden" class="form-control inventory_no" name="inventory_no"
                                     id="inventory_no" placeholder="">
 
@@ -455,21 +468,68 @@
 
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-12 d-flex justify-content-between">
-                                <label>Supplier Detail</label>
-                                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn"
-                                    id="add-supplier-btn"><i class="fa fa-plus"></i></a>
-                                {{-- <button type="button" class="btn btn-sm btn-primary" id="add-supplier-btn">Add Supplier</button> --}}
+                            <div class="col-md-12">
+                                <label>Group/Division</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="vendor_id" id="vendor_id">
-                                    <option value="">Select Supplier</option>
-                                    @foreach ($vendors as $vendor)
-                                        <option value="{{ $vendor->id }}">{{ $vendor->name }}
-                                            ({{ $vendor->phone }})
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control contract_authority" readonly
+                                    name="contract_authority" id="contract_authority" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Contract Authority</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control contract_authority" readonly
+                                    name="contract_authority" id="contract_authority" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> --}}
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Invoice Number</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control invoice_no" readonly name="invoice_no"
+                                    id="invoice_no" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Invoice Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control invoice_date" readonly name="invoice_date"
+                                    id="invoice_date" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12 d-flex justify-content-between">
+                                <label>Supplier Detail</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control supplier" name="supplier" readonly
+                                    id="supplier" placeholder="">
+                                <input type="hidden" class="form-control vendor_id" name="vendor_id" id="vendor_id"
+                                    placeholder="">
+
+
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -479,17 +539,13 @@
                         <div class="row align-items-center">
                             <div class="col-md-12 d-flex justify-content-between">
                                 <label>Supply Order No</label>
-                                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn"
-                                    id="add-supply-order-btn"><i class="fa fa-plus"></i></a>
+
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="supply_order_no" id="supply_order_no">
-                                    <option value="">Select Supply Order No</option>
-                                    @foreach ($supply_orders as $supply_order)
-                                        <option value="{{ $supply_order->id }}">{{ $supply_order->order_number }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control supplier_order_number"
+                                    name="supplier_order_number" readonly id="supplier_order_number" placeholder="">
+                                <input type="hidden" class="form-control supply_order_no" name="supply_order_no"
+                                    id="supply_order_no" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -501,12 +557,10 @@
                                 <label>Inspection Authority</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="authority_id" id="authority_id">
-                                    <option value="">Select Inspection Authority</option>
-                                    @foreach ($authorities as $authority)
-                                        <option value="{{ $authority->id }}">{{ $authority->user_name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control inspection_authority_name"
+                                    name="inspection_authority_name" readonly id="inspection_authority_name" placeholder="">
+                                <input type="hidden" class="form-control authority_id" name="authority_id"
+                                    id="authority_id" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

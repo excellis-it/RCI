@@ -239,7 +239,7 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/csv/export', [CsvController::class, 'export'])->name('csv.export');
     Route::post('/csv/import', [CsvController::class, 'import'])->name('csv.import');
-   
+
 
     Route::get('/get-pay-bands', [PmLevelController::class, 'getPayBands'])->name('pm-levels.get-pay-bands');
 
@@ -1131,6 +1131,8 @@ Route::middleware('permssions')->group(function () {
             Route::post('/get-item-description', [RinController::class, 'getItemDescription'])->name('rins.get-item-description');
 
             Route::post('/rins-total-reports/{id}', [RinController::class, 'rinsTotalValue'])->name('rins.get-total-amount');
+
+            Route::post('/get-sir-details', [RinController::class, 'getSirDetails'])->name('rins.get-sir-details');
 
             //supply-orders
             Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');

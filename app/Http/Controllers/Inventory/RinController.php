@@ -24,30 +24,27 @@ class RinController extends Controller
      */
     public function index()
     {
-        $rins = Rin::select('rins.rin_no', 'rins.id')
-                ->join(DB::raw('(SELECT rin_no, MAX(id) as max_id FROM rins GROUP BY rin_no) as subquery'), function($join) {
-                    $join->on('rins.id', '=', 'subquery.max_id');
-                })
-                ->orderBy('rins.id', 'desc')
-                ->paginate(10);
+        $rins = Rin::select('rins.rin_no', 'rins.id', 'rins.created_at')
+            ->join(DB::raw('(SELECT rin_no, MAX(id) as max_id FROM rins GROUP BY rin_no) as subquery'), function ($join) {
+                $join->on('rins.id', '=', 'subquery.max_id');
+            })
+            ->orderBy('rins.id', 'desc')
+            ->paginate(10);
 
         $items = ItemCode::all();
-        $vendors = Vendor::orderBy('id','desc')->get();
+        $vendors = Vendor::orderBy('id', 'desc')->get();
         $supply_orders = SupplyOrder::all();
-        $sir_nos = InventorySir::where('status', 1)->orderBy('id','desc')->get();
-        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id','desc')->get();
-        $gsts = GstPercentage::orderBy('id','desc')->get();
+        $sir_nos = InventorySir::where('status', 1)->orderBy('id', 'desc')->get();
+        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
+        $gsts = GstPercentage::orderBy('id', 'desc')->get();
         $authorities = User::role('MATERIAL-MANAGER')->get();
         $designations = Designation::orderBy('id', 'desc')->paginate(10);
-        $nc_statuses = NcStatus::orderBy('status','asc')->get();
-        $au_statuses = AuStatus::orderBy('status','asc')->get();
-        return view('inventory.rins.list',compact('rins', 'items','vendors', 'supply_orders','sir_nos','inventory_nos','gsts','authorities','designations', 'nc_statuses', 'au_statuses'));
+        $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
+        $au_statuses = AuStatus::orderBy('status', 'asc')->get();
+        return view('inventory.rins.list', compact('rins', 'items', 'vendors', 'supply_orders', 'sir_nos', 'inventory_nos', 'gsts', 'authorities', 'designations', 'nc_statuses', 'au_statuses'));
     }
 
-    public function rinsTotalValue()
-    {
-
-    }
+    public function rinsTotalValue() {}
 
 
     public function fetchData(Request $request)
@@ -57,7 +54,7 @@ class RinController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $rins = Rin::where(function($queryBuilder) use ($query) {
+            $rins = Rin::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('item_id', 'like', '%' . $query . '%')
                     ->orWhere('description', 'like', '%' . $query . '%')
@@ -68,8 +65,8 @@ class RinController extends Controller
                     ->orWhere('nc_status', 'like', '%' . $query . '%')
                     ->orWhere('au_status', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
             $items = ItemCode::all();
             $supply_orders = SupplyOrder::all();
 
@@ -117,10 +114,10 @@ class RinController extends Controller
             $rin_id = 'RIN' . str_pad(1, 4, '0', STR_PAD_LEFT);
         }
 
-        $sir_detail = InventorySir::where('id',$request->sir_no)->first();
+        $sir_detail = InventorySir::where('id', $request->sir_no)->first();
 
-        if($request->item_id){
-           foreach($request->item_id as $key => $item){
+        if ($request->item_id) {
+            foreach ($request->item_id as $key => $item) {
                 $rin = new Rin();
                 $rin->sir_no = $request->sir_no;
                 $rin->sir_date = $sir_detail->sir_date;
@@ -134,9 +131,9 @@ class RinController extends Controller
                 // $rin->accepted_quantity = $request->accepted_quantity[$key];
                 //$rin->rejected_quantity = $request->rejected_quantity[$key];
                 $rin->remarks = $request->remarks[$key];
-                 $rin->discount = $request->disc_percent[$key];
-                 $rin->discount_amount = $request->discount_amount[$key];
-                 $rin->discount_type = $request->discount_type[$key];
+                $rin->discount = $request->disc_percent[$key];
+                $rin->discount_amount = $request->discount_amount[$key];
+                $rin->discount_type = $request->discount_type[$key];
 
                 $rin->unit_cost = $request->unit_cost[$key];
                 $rin->total_cost = $request->total_cost[$key];
@@ -148,7 +145,7 @@ class RinController extends Controller
                 $rin->vendor_id = $request->vendor_id;
                 $rin->supply_order_no = $request->supply_order_no;
                 $rin->save();
-           }
+            }
         }
 
         session()->flash('message', 'RIN Created successfully');
@@ -171,10 +168,10 @@ class RinController extends Controller
         $rin = Rin::find($id);
         $all_rins = Rin::where('rin_no', $rin->rin_no)->get();
         $items = ItemCode::all();
-        $vendors = Vendor::orderBy('id','desc')->get();
+        $vendors = Vendor::orderBy('id', 'desc')->get();
         $supply_orders = SupplyOrder::all();
         $edit = true;
-        return response()->json(['view' => view('inventory.rins.form', compact('edit','rin', 'items','all_rins','vendors', 'supply_orders'))->render()]);
+        return response()->json(['view' => view('inventory.rins.form', compact('edit', 'rin', 'items', 'all_rins', 'vendors', 'supply_orders'))->render()]);
     }
 
     /**
@@ -188,9 +185,9 @@ class RinController extends Controller
 
         $delte_old_rins = Rin::where('rin_no', $rin_no)->delete();
 
-        if($request->item_id){
-            foreach($request->item_id as $key => $item){
-                if($item != null){
+        if ($request->item_id) {
+            foreach ($request->item_id as $key => $item) {
+                if ($item != null) {
 
                     $rin = new Rin();
                     $rin->rin_no = $rin_no;
@@ -200,7 +197,7 @@ class RinController extends Controller
                     $rin->accepted_quantity = $request->accepted_quantity[$key];
                     $rin->rejected_quantity = $request->rejected_quantity[$key];
                     $rin->remarks = $request->remarks[$key];
-                    $rin->unit_cost = $request->unit_cost [$key];
+                    $rin->unit_cost = $request->unit_cost[$key];
                     $rin->total_cost = $request->total_cost[$key];
                     $rin->nc_status = $request->nc_status[$key];
                     $rin->au_status = $request->au_status[$key];
@@ -209,7 +206,7 @@ class RinController extends Controller
                     $rin->save();
                 }
             }
-         }
+        }
 
 
         session()->flash('message', 'RIN Updated successfully');
@@ -238,6 +235,24 @@ class RinController extends Controller
         return response()->json(['description' => $item->description, 'price' => $item->item_price]);
     }
 
+    public function getSirDetails(Request $request)
+    {
+        $request->validate([
+            'sir_id' => 'required|integer|exists:inventory_sirs,id', // Ensure the SIR ID exists in the database
+        ]);
 
+        $sirDetails = InventorySir::with([
+            'inventoryNumber',
+            'supplier',
+            'supplyOrder',
+            'inspectionAuthority',
+            'contractAuthority'
+        ])->find($request->sir_id);
 
+        if (!$sirDetails) {
+            return response()->json(['error' => 'SIR not found'], 404);
+        }
+
+        return response()->json($sirDetails);
+    }
 }

@@ -1,19 +1,20 @@
 @if (count($rins) > 0)
     @foreach ($rins as $key => $rin)
         <tr>
-           
+            {{-- @dd($rin) --}}
             <td> {{ ($rins->currentPage()-1) * $rins->perPage() + $loop->index + 1 }}</td>
             <td>{{ $rin->rin_no ?? 'N/A'}}</td>
+            <td>{{ $rin->created_at ? date('d-m-Y', strtotime($rin->created_at)) : 'N/A'}}</td>
             {{-- @if ($rin->item_id != null)
                 @foreach ($items as $item)
                     @if ($item->id == $rin->item_id)
                         <td>{{ $item->code }}</td>
-                    @endif                    
+                    @endif
                 @endforeach
             @else
                 <td>N/A</td>
             @endif
-           
+
             <td>{{ $rin->received_quantity ?? 'N/A'}}</td>
             <td>{{ $rin->accepted_quantity ?? 'N/A'}}</td>
             <td>{{ $rin->rejected_quantity ?? 'N/A'}}</td>

@@ -50,6 +50,7 @@
                                             <tr>
                                                 <th>SL No.</th>
                                                 <th>Rin No.</th>
+                                                <th>Rin Date</th>
                                                 {{-- <th class="sorting" data-sorting_type="desc" data-column_name="item_id"
                                                 style="cursor: pointer"> Item Code <span id="item_id_icon"></span> </th>
                                             <th>Received Quantity</th>
@@ -822,4 +823,49 @@
             });
         });
     </script>
+  <script>
+    $(document).ready(function () {
+        // Event listener for SIR dropdown change
+        $(document).on('change', 'select[name="sir_no"]', function () {
+            let sirId = $(this).val();
+
+            if (sirId) {
+                $.ajax({
+                    url: '{{ route("rins.get-sir-details") }}', // Update to match your POST route
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'), // Include CSRF token
+                        sir_id: sirId
+                    },
+                    success: function (data) {
+                        // Populate fields with the returned data
+                        $('#sir_date').val(data.sir_date || '');
+                        $('#inventory_code').val(data.inventory_number?.number || ''); // Adjust for relationship
+                        $('#inventory_no').val(data.inventory_number?.id || ''); // Adjust for relationship
+                        // $('#contract_authority').val(data.contract_authority?.name || ''); // Adjust for relationship
+                        $('#invoice_no').val(data.invoice_no || '');
+                        $('#invoice_date').val(data.invoice_date || '');
+                        $('#supplier').val(data.supplier?.name || ''); // Adjust for relationship
+                        $('#vendor_id').val(data.supplier?.id || ''); // Adjust for relationship
+                        $('#supplier_order_number').val(data.supply_order?.order_number || ''); // Adjust for relationship
+                        $('#supply_order_no').val(data.supply_order?.id || ''); // Adjust for relationship
+                        $('#inspection_authority_name').val(data.inspection_authority?.name || ''); // Adjust for relationship
+                        $('#authority_id').val(data.inspection_authority?.id || ''); // Adjust for relationship
+                        $('#authority_designation').val(data.inspection_authority?.designation || '').change(); // Ensure dropdown is updated
+                    },
+                    error: function (xhr) {
+                        alert('Failed to fetch SIR details.');
+                        console.error(xhr);
+                    }
+                });
+            } else {
+                // Clear fields if no SIR is selected
+                $('#sir_date, #inventory_code, #inventory_no, #contract_authority, #invoice_no, #invoice_date, #supplier, #vendor_id, #supplier_order_number, #supply_order_no, #inspection_authority_name, #authority_id').val('');
+                $('#authority_designation').val('').change();
+            }
+        });
+    });
+</script>
+
 @endpush
