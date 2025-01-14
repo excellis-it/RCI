@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('demand_no')->nullable()->after('sir_date');
             $table->date('demand_date')->nullable()->after('demand_no');
             $table->string('invoice_no')->nullable()->after('demand_date');
-            $table->string('inventory_no')->nullable()->after('invoice_no');
+            $table->date('invoice_date')->nullable()->after('invoice_no');
+            $table->string('inventory_no')->nullable()->after('invoice_date');
             $table->unsignedBigInteger('supplier_id')->nullable()->after('inventory_no');
             $table->string('supply_order_no')->nullable()->after('supplier_id');
             $table->string('inspection_authority')->nullable()->after('supply_order_no');
@@ -36,6 +37,7 @@ return new class extends Migration
                 'demand_no',
                 'demand_date',
                 'invoice_no',
+                'invoice_date',
                 'inventory_no',
                 'supplier_id',
                 'supply_order_no',

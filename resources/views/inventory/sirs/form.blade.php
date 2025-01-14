@@ -302,8 +302,12 @@
                                 <label>Inspection Authority</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="inspection_authority"
-                                    id="inspection_authority" value="{{ $sir->inspection_authority ?? '' }}">
+                                <select class="form-select" name="inspection_authority" id="inspection_authority">
+                                    <option value="">Select Inspection Authority</option>
+                                    @foreach ($authorities as $authority)
+                                        <option value="{{ $authority->id }}">{{ $authority->user_name }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -317,6 +321,19 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="contract_authority"
                                     id="contract_authority" value="{{ $sir->contract_authority ?? '' }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Contract Authority Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control" name="contract_authority_date"
+                                    id="contract_authority_date" value="{{ $sir->contract_authority_date ?? '' }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
