@@ -8,6 +8,7 @@ use App\Models\InventorySir;
 use App\Models\SupplyOrder;
 use App\Models\Vendor;
 use App\Models\InventoryNumber;
+use App\Models\User;
 
 class InventorySirController extends Controller
 {
@@ -21,7 +22,8 @@ class InventorySirController extends Controller
         $vendors = Vendor::orderBy('id', 'desc')->get();
         $supply_orders = SupplyOrder::all();
         $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
-        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos'));
+        $authorities = User::role('MATERIAL-MANAGER')->get();
+        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos','authorities'));
     }
 
     public function fetchData(Request $request)
