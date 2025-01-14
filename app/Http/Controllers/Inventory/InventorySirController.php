@@ -63,6 +63,14 @@ class InventorySirController extends Controller
         $request->validate([
             'sir_no' => 'required',
             'sir_date' => 'required',
+            'demand_no' => 'required',
+            'demand_date' => 'required',
+            'invoice_no' => 'required',
+            'invoice_date' => 'required',
+            'inventory_no' => 'required',
+            'supplier_id' => 'required',
+            'supply_order_no' => 'required',
+            'inspection_authority' => 'required',
             'status' => 'required',
         ]);
 
