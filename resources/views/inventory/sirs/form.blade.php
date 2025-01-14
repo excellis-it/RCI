@@ -32,6 +32,42 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Demand No. </label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="demand_no" id="demand_no" value="{{ $sir->sir_date ?? '' }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Demand Date </label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control" name="demand_date" id="demand_date" value="{{ $sir->sir_date ?? '' }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Invoice No.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control" name="invoice_no" id="invoice_no" value="{{ $sir->sir_date ?? '' }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
