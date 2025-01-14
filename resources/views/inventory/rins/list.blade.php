@@ -940,9 +940,19 @@
                         }
                     },
                     error: function(response) {
-                        // let errors = response.responseJSON.errors;
-                        // $('#error-order-number').text(errors.order_number ? errors.order_number[
-                        //     0] : '');
+                        let errors = response.responseJSON.errors;
+                        // Clear all previous errors
+                        $('#add-sir-form .text-danger').text('');
+
+                        // Loop through the errors and display them
+                        for (const [key, messages] of Object.entries(errors)) {
+                            let errorSpan = $(`#add-sir-form [name="${key}"]`).siblings(
+                                '.text-danger');
+                            if (errorSpan.length) {
+                                errorSpan.text(messages[
+                                0]); // Show the first error message for the field
+                            }
+                        }
                     }
                 });
             });
