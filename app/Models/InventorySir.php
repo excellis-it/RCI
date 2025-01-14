@@ -21,16 +21,6 @@ class InventorySir extends Model
         'supply_order_no',
         'inspection_authority',
         'status',
-        'demand_no',
-        'demand_date',
-        'invoice_no',
-        'invoice_date',
-        'inventory_no',
-        'supplier_id',
-        'supply_order_no',
-        'inspection_authority',
-        'contract_authority',
-        'contract_authority_date'
     ];
 
 

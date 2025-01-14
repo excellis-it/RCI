@@ -58,15 +58,15 @@
                                     Date: {{ optional($rin->created_at)->format('d-m-y') ?? ''}}</th>
                                 <th colspan="3"
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px;">
-                                    SIR No: 
+                                    SIR No:
                                     {{ $rin->sirNo->sir_no ?? 'N/A' }}</th>
                                 <th colspan="3"
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px;">
                                     SIR
-                                    Date : {{ $rin->sirNo->sir_date ?? 'N/A' }}</th>
+                                    Date : {{ isset($rin->sirNo->sir_date) && $rin->sirNo->sir_date ? date('d-m-Y', strtotime($rin->sirNo->sir_date)) : 'N/A' }}</th>
                                 <th
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px; border-right:1px solid #000;">
-                                    Demand No.:</th>
+                                    Demand No.: {{ $rin->sirNo->demand_no ?? 'N/A' }}</th>
                             </tr>
                             <tr>
                                 <td rowspan="3"
@@ -74,31 +74,31 @@
                                     Received From (Name & <br> address):<br>
                                     <span style="font-weight: 400; !important">{{ $rin->vendorDetail->name ?? 'N/A' }} &
                                         {{ $rin->vendorDetail->address ?? 'N/A' }}</span>
-                                    
+
                                 </td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-weight: 600; border-left: 0; border-bottom: 0; font-size: 10px;">
-                                   
-                                    
+
+
                                 </td>
 
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;  font-size: 10px;">
-                                    DC/PRC/Invoice No.:</td>
+                                    DC/PRC/Invoice No.: {{ $rin->sirNo->invoice_no ?? 'N/A' }}</td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-weight: 600; font-size: 10px;">
                                     &nbsp;</td>
-                                <td colspan="5"
-                                    style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0; font-size: 10px;">
-                                    Group /
-                                    Division:
+                                    <td colspan="5"
+                                    style="border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0; font-size: 10px;">
+                                    Group / Division:
+                                    {{ $rin->sirNo->inventoryNumber->group->group_name ?? $rin->sirNo->inventoryNumber->division ?? 'N/A' }}
                                 </td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-size: 10px;">
                                 </td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-size: 10px;">
-                                    Inventory No (ICC): {{ $rin->inventoryNo->number ?? 'N/A' }}</td>
+                                    Inventory No (ICC): {{ $rin->sirNo->inventoryNumber->number ?? 'N/A' }}</td>
                             </tr>
                             <tr>
                                 <td
@@ -107,13 +107,13 @@
 
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                    DC/PRC/Invoice Date:</td>
+                                    DC/PRC/Invoice Date: {{ isset($rin->sirNo->invoice_date) && $rin->sirNo->invoice_date ? date('d-m-Y', strtotime($rin->sirNo->invoice_date)) : 'N/A' }}</td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-weight: 600;font-size: 10px;">
                                     &nbsp;</td>
                                 <td colspan="5"
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">
-                                    SO/Contract/Authority No.: {{ $rin->supplyOrder->order_number ?? 'N/A' }}<br>
+                                    SO/Contract/Authority No.: {{ $rin->sirNo->supplyOrder->order_number ?? 'N/A' }}<br>
                                     GeM Contract No.</td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">
@@ -121,7 +121,7 @@
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                     SO/Contract/ <br> Authority Date:
-                                    {{ $rin->supplyOrder->created_at ?? 'N/A' }}</td>
+                                    {{ isset($rin->sirNo->supplyOrder->created_at) && $rin->sirNo->supplyOrder->created_at ?  date('d-m-Y', strtotime($rin->sirNo->supplyOrder->created_at)) : 'N/A' }}</td>
                             </tr>
                             <tr>
                                 <td
@@ -130,7 +130,7 @@
 
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                    Store Received Date:</td>
+                                    Store Received Date:  {{ isset($rin->sirNo->sir_date) && $rin->sirNo->sir_date ? date('d-m-Y', strtotime($rin->sirNo->sir_date)) : 'N/A' }}</td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-weight: 600;font-size: 10px;">
                                     &nbsp;</td>
@@ -324,7 +324,7 @@
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                     <span>GST & <br>{{ $rin->gst ?? '' }} % </span>
-                                    
+
                                 </td>
                                 <td colspan="2"
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
@@ -399,7 +399,7 @@
                                     <br><br>
                                     Inspection Authority/Division Officer
                                     <br>
-                                    Name:  <span style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }} </span><br> 
+                                    Name:  <span style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }} </span><br>
                                     Designation: <span style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
                                     Date: ____________
                                     <br><br>
@@ -410,7 +410,7 @@
                                     <br><br><br><br><br><br>
                                     Inspection Authority/Division Officer
                                     <br>
-                                    Name:  <span style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }} </span><br> 
+                                    Name:  <span style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }} </span><br>
                                     Designation: <span style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
                                     Date: ____________
                                     <br><br>
