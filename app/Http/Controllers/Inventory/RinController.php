@@ -246,7 +246,8 @@ class RinController extends Controller
             'supplier',
             'supplyOrder',
             'inspectionAuthority',
-            'contractAuthority'
+            'contractAuthority',
+            'inventoryNumber.group'
         ])->find($request->sir_id);
 
         if (!$sirDetails) {

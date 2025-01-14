@@ -9,6 +9,15 @@ class InventoryNumber extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'inventory_type',
+        'holder_id',
+        'group_id',
+        'inventory_project_id',
+        'number',
+        'division',
+        'status'
+    ];
 
     public function member()
     {

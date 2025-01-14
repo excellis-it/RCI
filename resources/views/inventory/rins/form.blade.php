@@ -472,8 +472,8 @@
                                 <label>Group/Division</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control contract_authority" readonly
-                                    name="contract_authority" id="contract_authority" placeholder="">
+                                <input type="text" class="form-control group_name" readonly
+                                    name="group_name" id="group_name" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
