@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('supplier_id')->nullable()->after('inventory_no');
             $table->string('supply_order_no')->nullable()->after('supplier_id');
             $table->string('inspection_authority')->nullable()->after('supply_order_no');
+            $table->string('contract_authority')->nullable()->after('inspection_authority');
+            $table->string('contract_authority_date')->nullable()->after('contract_authority');
         });
     }
 
@@ -38,6 +40,8 @@ return new class extends Migration
                 'supplier_id',
                 'supply_order_no',
                 'inspection_authority',
+                'contract_authority',
+                'contract_authority_date'
             ]);
         });
     }
