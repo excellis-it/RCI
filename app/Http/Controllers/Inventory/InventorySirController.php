@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InventorySir;
+use App\Models\SupplyOrder;
+use App\Models\Vendor;
+use App\Models\InventoryNumber;
 
 class InventorySirController extends Controller
 {
@@ -13,9 +16,12 @@ class InventorySirController extends Controller
      */
     public function index()
     {
-        
-        $sirs = InventorySir::orderBy('id','desc')->paginate(10);
-        return view('inventory.sirs.list',compact('sirs'));
+
+        $sirs = InventorySir::orderBy('id', 'desc')->paginate(10);
+        $vendors = Vendor::orderBy('id', 'desc')->get();
+        $supply_orders = SupplyOrder::all();
+        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
+        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos'));
     }
 
     public function fetchData(Request $request)
@@ -25,14 +31,14 @@ class InventorySirController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $sirs = InventorySir::where(function($queryBuilder) use ($query) {
+            $sirs = InventorySir::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('sir_no', 'like', '%' . $query . '%')
                     ->orWhere('sir_date', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('inventory.inventory-types.table', compact('itemTypes'))->render()]);
         }
@@ -81,9 +87,9 @@ class InventorySirController extends Controller
      */
     public function edit(string $id)
     {
-        $sir = InventorySir::where('id',$id)->first();
+        $sir = InventorySir::where('id', $id)->first();
         $edit = true;
-        return response()->json(['view' => view('inventory.sirs.form', compact('edit','sir'))->render()]);
+        return response()->json(['view' => view('inventory.sirs.form', compact('edit', 'sir'))->render()]);
     }
 
     /**
@@ -91,14 +97,14 @@ class InventorySirController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         // validation 
-         $request->validate([
+        // validation 
+        $request->validate([
             'sir_no' => 'required',
             'sir_date' => 'required',
             'status' => 'required',
         ]);
 
-        $sir_save = InventorySir::where('id',$id)->update([
+        $sir_save = InventorySir::where('id', $id)->update([
             'sir_no' => $request->sir_no,
             'sir_date' => $request->sir_date,
             'status' => $request->status,
