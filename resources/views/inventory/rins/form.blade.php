@@ -443,12 +443,11 @@
                                 <label>Inventory No</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="inventory_no">
-                                    <option value="">Select Inventory No </option>
-                                    @foreach ($inventory_nos as $inventory_no)
-                                        <option value="{{ $inventory_no->id }}">{{ $inventory_no->number }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control inventory_code" name="inventory_code"
+                                    id="inventory_code" placeholder="">
+                                <input type="hidden" class="form-control inventory_no" name="inventory_no"
+                                    id="inventory_no" placeholder="">
+
                                 <span class="text-danger"></span>
                             </div>
                         </div>
