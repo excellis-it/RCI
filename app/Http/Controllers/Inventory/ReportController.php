@@ -255,10 +255,10 @@ class ReportController extends Controller
         $all_items = Rin::where('rin_no', $rin->rin_no)->get();
         $total_item = count($all_items);
         $inventory_no = InventoryNumber::where('id',$rin->inventory_id)->first() ?? '';
-        $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
+        // $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
         // $gst = GstPercentage::where('id',)
 
-        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin', 'all_items', 'total_item','project'));
+        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('rin', 'all_items', 'total_item'));
         return $pdf->download('rin.pdf');
     }
 

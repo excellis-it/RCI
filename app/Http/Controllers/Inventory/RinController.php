@@ -96,9 +96,9 @@ class RinController extends Controller
             // 'nc_status' => 'required',
             // 'au_status' => 'required',
             'sir_no' => 'required',
-            'inventory_no' => 'required',
-            'vendor_id' => 'required',
-            'supply_order_no' => 'required',
+            // 'inventory_no' => 'required',
+            // 'vendor_id' => 'required',
+            // 'supply_order_no' => 'required',
         ]);
         // auto generate rin id
         $lastRin = Rin::orderBy('id', 'desc')->first();

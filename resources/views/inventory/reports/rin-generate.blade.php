@@ -144,7 +144,7 @@
                                     &nbsp;</td>
                                 <td
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                    Project No.: {{ $project->project_code ?? 'N/A' }}</td>
+                                    Project No.: {{ $rin->sirNo->inventoryNumber->project->project_code ?? 'N/A' }}</td>
                             </tr>
                             <tr
                                 style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
