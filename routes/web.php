@@ -1040,6 +1040,9 @@ Route::middleware('permssions')->group(function () {
             // debit voucher
             Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
 
+            // inventory report
+            Route::post('/reports-inventory-crv', [InventoryReportController::class, 'inventoryCRVGenerate'])->name('reports.iventory-crv');
+
 
             // transfer voucher
             Route::post('/reports-transfer-voucher', [InventoryReportController::class, 'transferVoucherGenerate'])->name('reports.transfer-voucher');

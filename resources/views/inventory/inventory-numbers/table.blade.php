@@ -8,6 +8,8 @@
             <td><span class="{{ ($inventoryNumber->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($inventoryNumber->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('inventory-numbers.edit', $inventoryNumber->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('inventory-numbers.delete', $inventoryNumber->id)}}"><i class="ti ti-trash"></i></a> --}}
+                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn" id="print_id" data-id="{{ $inventoryNumber->id }}"><i class="fa fa-print"></i></a>
+
             </td>
         </tr>
     @endforeach

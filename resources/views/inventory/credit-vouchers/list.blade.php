@@ -521,12 +521,27 @@
             $.ajax({
                 url: "{{ route('credit-vouchers.get-rin-details') }}",
                 type: 'POST',
+                dataType: 'json',
                 data: {
                     rin: rin,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     $('#receipt-and-inspection').html(response.view);
+                    if (response.rinData && response.rinData.length > 0) {
+                        const rinItem = response.rinData[0]; // Access the first item in the array
+                        if (rinItem.inventory_no) {
+                            $('#inv_no').val(rinItem.inventory_id).change();
+
+                        } else {
+                            console.error("inventory_no is undefined in rinData[0]", rinItem);
+                        }
+                        $('#supply_order_no').val(rinItem.supply_order_no).change();
+                        $('#invoice_no').val(rinItem.sir_details.invoice_no);
+                        $('#invoice_date').val(rinItem.sir_details.invoice_date);
+                    } else {
+                        console.error("rinData is empty or undefined in the response", response);
+                    }
 
                 },
                 error: function(xhr) {
