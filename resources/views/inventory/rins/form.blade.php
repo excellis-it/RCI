@@ -418,15 +418,18 @@
         @csrf
 
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="row">
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-flex justify-content-between">
                                 <label>SIR No</label>
+                                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn"
+                                    id="add-sir-btn"><i class="fa fa-plus"></i></a>
+                                {{-- <button type="button" class="btn btn-sm btn-primary" id="add-supplier-btn">Add Supplier</button> --}}
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="sir_no" readonly>
+                                <select class="form-select" name="sir_no" id="sir_no" readonly>
                                     <option value="">Select SIR No </option>
                                     @foreach ($sir_nos as $sir_no)
                                         <option value="{{ $sir_no->id }}">{{ $sir_no->sir_no }}</option>
@@ -472,8 +475,8 @@
                                 <label>Group/Division</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control group_name" readonly
-                                    name="group_name" id="group_name" placeholder="">
+                                <input type="text" class="form-control group_name" readonly name="group_name"
+                                    id="group_name" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -558,7 +561,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control inspection_authority_name"
-                                    name="inspection_authority_name" readonly id="inspection_authority_name" placeholder="">
+                                    name="inspection_authority_name" readonly id="inspection_authority_name"
+                                    placeholder="">
                                 <input type="hidden" class="form-control authority_id" name="authority_id"
                                     id="authority_id" placeholder="">
                                 <span class="text-danger"></span>

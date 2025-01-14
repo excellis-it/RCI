@@ -256,4 +256,14 @@ class RinController extends Controller
 
         return response()->json($sirDetails);
     }
+
+    public function getSirForm(Request $request)
+    {
+        $sirs = InventorySir::orderBy('id', 'desc')->paginate(10);
+        $vendors = Vendor::orderBy('id', 'desc')->get();
+        $supply_orders = SupplyOrder::all();
+        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
+        $authorities = User::role('MATERIAL-MANAGER')->get();
+        return view('inventory.rins.sir-form', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos', 'authorities'));
+    }
 }

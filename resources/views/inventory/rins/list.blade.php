@@ -146,6 +146,25 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="addSIRModal" tabindex="-1" aria-labelledby="addSIRModalLabel" aria-hidden="true"
+        style="top: 60px;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addSupplyOrderModalLabel">Add SIR</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="getSirFromDiv">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -882,6 +901,53 @@
                     $('#authority_designation').val('').change();
                 }
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#add-sir-btn', function() {
+                $('#addSIRModal').modal('show');
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('rins.get-sir-form') }}",
+                    data: {
+                        getForm: 1
+                    },
+                    dataType: "text",
+                    success: function(response) {
+                        $("#getSirFromDiv").html(response);
+                    }
+                });
+            });
+
+
+            $(document).on('submit', '#add-sir-form', function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'), // Update to your route
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#sir_no').append(
+                                `<option value="${response.sirData.id}">${response.sirData.sir_no}</option>`
+                            );
+                            $('#addSIRModal').modal('hide');
+                            $('#add-sir-form')[0].reset();
+                            toastr.success('SIR added successfully');
+                        }
+                    },
+                    error: function(response) {
+                        // let errors = response.responseJSON.errors;
+                        // $('#error-order-number').text(errors.order_number ? errors.order_number[
+                        //     0] : '');
+                    }
+                });
+            });
+
+
         });
     </script>
 @endpush

@@ -81,7 +81,7 @@ class InventorySirController extends Controller
         ]);
 
         session()->flash('message', 'Sir added successfully');
-        return response()->json(['success' => 'Sir added successfully']);
+        return response()->json(['success' => 'Sir added successfully', 'sirData' => $sir_save]);
     }
 
     /**
