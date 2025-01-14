@@ -869,6 +869,7 @@
                                 (data.inventory_number?.group?.value || '') + ' ' + (data
                                     .inventory_number?.division || '')
                             );
+                            $('#project_number').val(data.inventory_number?.project?.project_code || '');
 
                             $('#invoice_no').val(data.invoice_no || '');
                             $('#invoice_date').val(data.invoice_date || '');
