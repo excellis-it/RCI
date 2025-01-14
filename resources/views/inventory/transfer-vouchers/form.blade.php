@@ -146,7 +146,7 @@
                             <label>Inventory Number</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-control" name="inv_no" id="inv_no"
+                            <select class="form-control" name="issuing_icc_no" id="issuing_icc_no"
                                 onchange="">
                                 <option value="">Select</option>
                                 @foreach ($inventoryNumbers as $inventoryNumber)
@@ -160,17 +160,6 @@
                     </div>
                 </div>
 
-                <div class="form-group col-xl-3 col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Icc No</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="issuing_icc_no" id="icc_no" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="form-group col-xl-3 col-md-4 mb-2">
                     <div class="row align-items-center">
@@ -188,10 +177,18 @@
                 <div class="form-group col-xl-3 col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Icc No</label>
+                            <label>Inventory Number</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="receiving_icc_no" id="icc_no" placeholder="">
+                            <select class="form-control" name="receiving_icc_no" id="receiving_icc_no"
+                                onchange="">
+                                <option value="">Select</option>
+                                @foreach ($inventoryNumbers as $inventoryNumber)
+                                    <option value="{{ $inventoryNumber->id }}"
+                                        data-hidden-value="{{ $inventoryNumber->inventory_type }}">
+                                        {{ $inventoryNumber->number }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger"></span>
                         </div>
                     </div>
