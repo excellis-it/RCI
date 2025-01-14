@@ -452,7 +452,31 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Demand No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control demand_no" readonly name="demand_no"
+                                    id="demand_no" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Demand Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control demand_date" readonly name="demand_date"
+                                    id="demand_date" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -535,7 +559,7 @@
                     </div>
 
                     <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center" id="supply_order_field">
                             <div class="col-md-12 d-flex justify-content-between">
                                 <label>Supplier Detail</label>
                             </div>
@@ -552,7 +576,7 @@
                     </div>
 
                     <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center" id="supply_order_number_field">
                             <div class="col-md-12 d-flex justify-content-between">
                                 <label>Supply Order No</label>
 
@@ -568,7 +592,7 @@
                     </div>
 
                     <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center" id="inspection_authority_field">
                             <div class="col-md-12">
                                 <label>Inspection Authority</label>
                             </div>

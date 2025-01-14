@@ -87,19 +87,51 @@ class RinController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd($request->all());
         $request->validate([
             'item_id.*' => 'required',
             'received_quantity.*' => 'required',
             // 'accepted_quantity' => 'required',
             // 'rejected_quantity' => 'required',
-            // 'nc_status' => 'required',
-            // 'au_status' => 'required',
+            // 'inspection_authority' => 'required',
+            'supplier_id' => 'required',
+
             'sir_no' => 'required',
-            // 'inventory_no' => 'required',
+            'inventory_no' => 'required',
             // 'vendor_id' => 'required',
-            // 'supply_order_no' => 'required',
+            'supply_order_no' => 'required',
+            'authority_id' => 'required',
+            'demand_no' => 'required',
+            'demand_date' => 'required',
+            'invoice_no' => 'required',
+            'invoice_date' => 'required',
+        ],[
+            'item_id.*.required' => 'Item is required.',
+           'received_quantity.*.required' => 'Received Quantity is required.',
+            // 'accepted_quantity.required' => 'Accepted Quantity is required.',
+            // 'rejected_quantity.required' => 'Rejected Quantity is required.',
+            // 'nc_status.required' => 'NC Status is required.',
+            // 'au_status.required' => 'AU Status is required.',
+           'sir_no.required' => 'SIR No field is required.',
+            'inventory_no.required' => 'Inventory No field is required.',
+           'vendor_id.required' => 'Vendor field is required.',
+           'supply_order_no.required' => 'Supply Order field is required.',
+            'authority_id.required' => 'Authority field is required.',
+            // 'nc_status.required' => 'Select NC Status.',
         ]);
+
+        $sir = InventorySir::findOrFail($request->sir_no);
+        $sir->demand_no = $sir->demand_no ? $sir->demand_no : $request->demand_no;
+        $sir->inventory_no = $sir->inventory_no ? $sir->inventory_no : $request->inventory_no;
+        $sir->supply_order_no = $sir->supply_order_no ? $sir->supply_order_no : $request->supply_order_no;
+        $sir->inspection_authority = $sir->authority_id ? $sir->authority_id : $request->authority_id;
+        $sir->demand_date = $sir->demand_date ? $sir->demand_date : $request->demand_date;
+        $sir->invoice_no = $sir->invoice_no ? $sir->invoice_no : $request->invoice_no;
+        $sir->invoice_date = $sir->invoice_date ? $sir->invoice_date : $request->invoice_date;
+        $sir->supplier_id = $sir->supplier_id ? $sir->supplier_id : $request->supplier_id;
+        $sir->save(); //
+
+
         // auto generate rin id
         $lastRin = Rin::orderBy('id', 'desc')->first();
 
@@ -142,7 +174,7 @@ class RinController extends Controller
                 $rin->gst = $request->gst[$key];
                 $rin->gst_amount = $request->gst_amount[$key];
                 $rin->total_amount = $request->total_amount[$key];
-                $rin->vendor_id = $request->vendor_id;
+                $rin->vendor_id = $request->supplier_id;
                 $rin->supply_order_no = $request->supply_order_no;
                 $rin->save();
             }

@@ -59,7 +59,7 @@ class InventorySirController extends Controller
      */
     public function store(Request $request)
     {
-        // validation 
+        // validation
         $request->validate([
             'sir_no' => 'required',
             'sir_date' => 'required',
@@ -68,9 +68,9 @@ class InventorySirController extends Controller
             'invoice_no' => 'required',
             'invoice_date' => 'required',
             'inventory_no' => 'required',
-            'supplier_id' => 'required',
-            'supply_order_no' => 'required',
-            'inspection_authority' => 'required',
+            // 'supplier_id' => 'required',
+            // 'supply_order_no' => 'required',
+            // 'inspection_authority' => 'required',
             'status' => 'required',
         ]);
 
@@ -119,11 +119,16 @@ class InventorySirController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // validation 
+        // validation
         $request->validate([
             'sir_no' => 'required',
             'sir_date' => 'required',
             'status' => 'required',
+            'demand_no' => 'required',
+            'demand_date' => 'required',
+            'invoice_no' => 'required',
+            'invoice_date' => 'required',
+            'inventory_no' => 'required',
         ]);
 
         $sir_save = InventorySir::where('id', $id)->update([

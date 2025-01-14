@@ -860,35 +860,166 @@
                         },
                         success: function(data) {
                             // Populate fields with the returned data
-                            $('#sir_date').val(data.sir_date || '');
-                            $('#inventory_code').val(data.inventory_number?.number ||
-                                ''); // Adjust for relationship
-                            $('#inventory_no').val(data.inventory_number?.id ||
-                                ''); // Adjust for relationship
-                            $('#group_name').val(
-                                (data.inventory_number?.group?.value || '') + ' ' + (data
-                                    .inventory_number?.division || '')
-                            );
-                            $('#project_number').val(data.inventory_number?.project?.project_code || '');
 
-                            $('#invoice_no').val(data.invoice_no || '');
-                            $('#invoice_date').val(data.invoice_date || '');
-                            $('#supplier').val(data.supplier?.name ||
-                                ''); // Adjust for relationship
-                            $('#vendor_id').val(data.supplier?.id ||
-                                ''); // Adjust for relationship
-                            $('#supplier_order_number').val(data.supply_order?.order_number ||
-                                ''); // Adjust for relationship
-                            $('#supply_order_no').val(data.supply_order?.id ||
-                                ''); // Adjust for relationship
-                            $('#inspection_authority_name').val(
-                                (data.inspection_authority?.first_name || '') + ' ' + (data
-                                    .inspection_authority?.last_name || '')
-                            );
-                            $('#authority_id').val(data.inspection_authority?.id ||
-                                ''); // Adjust for relationship
+                            // Check if 'sir_date' is set and assign value
+                            $('#sir_date').val(data.sir_date || '');
+
+                            // Check if 'inventory_number' exists and use number or ID
+                            $('#inventory_code').val(data.inventory_number?.number || '');
+                            $('#inventory_no').val(data.inventory_number?.id || '');
+
+                            // Check if group_name or division exists and concatenate them
+                            let groupName = data.inventory_number?.group?.value || '';
+                            let division = data.inventory_number?.division || '';
+                            $('#group_name').val(groupName + (groupName && division ? ' / ' :
+                                '') + division);
+
+                            // Check if project exists
+                            $('#project_number').val(data.inventory_number?.project
+                                ?.project_code || '');
+
+                            // Handle conditional readonly attribute for demand_date, demand_no, invoice_no, invoice_date
+                            if (data.demand_date) {
+                                $('#demand_date').val(data.demand_date || '');
+                            } else {
+                                $('#demand_date').val('');
+                                $('#demand_date').removeAttr("readonly");
+                            }
+
+                            if (data.demand_no) {
+                                $('#demand_no').val(data.demand_no || '');
+                            } else {
+                                $('#demand_no').val('');
+                                $('#demand_no').removeAttr("readonly");
+                            }
+
+                            if (data.invoice_no) {
+                                $('#invoice_no').val(data.invoice_no || '');
+                            } else {
+                                $('#invoice_no').val('');
+                                $('#invoice_no').removeAttr("readonly");
+                            }
+
+                            if (data.invoice_date) {
+                                $('#invoice_date').val(data.invoice_date || '');
+                            } else {
+                                $('#invoice_date').val('');
+                                $('#invoice_date').removeAttr("readonly");
+                            }
+
+                            // Check if supplier exists and update fields, else provide select option
+                            if (data.supplier?.id) {
+                                $('#supply_order_field').html(`
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <label>Supplier Detail</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control supplier" name="supplier" readonly
+                                    id="supplier" placeholder="">
+                                <input type="hidden" class="form-control vendor_id" name="vendor_id" id="vendor_id"
+                                    placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            `);
+                                $('#supplier').val(data.supplier?.name || '');
+                                $('#vendor_id').val(data.supplier?.id || '');
+                            } else {
+                                $('#supply_order_field').html(`
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <label>Supplier Detail</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-select" name="supplier_id" id="supplier_id">
+                                        <option value="">Select Supplier</option>
+                                        @foreach ($vendors as $vendor)
+                                            <option value="{{ $vendor->id }}">
+                                                {{ $vendor->name }} ({{ $vendor->phone }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
+                            `);
+                            }
+
+                            if (data.supply_order?.id) {
+                                $('#supply_order_number_field').html(`
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <label>Supplier Detail</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control supplier_order_number"
+                                    name="supplier_order_number" readonly id="supplier_order_number" placeholder="">
+                                <input type="hidden" class="form-control supply_order_no" name="supply_order_no"
+                                    id="supply_order_no" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            `);
+                                $('#supplier_order_number').val(data.supply_order
+                                    ?.order_number || '');
+                                $('#supply_order_no').val(data.supply_order?.id || '');
+                            } else {
+                                $('#supply_order_number_field').html(`
+                               <div class="col-md-12 d-flex justify-content-between">
+                                <label>Supply Order No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="supply_order_no" id="supply_order_no">
+                                    <option value="">Select Supply Order No</option>
+                                    @foreach ($supply_orders as $supply_order)
+                                        <option value="{{ $supply_order->id }}">
+                                            {{ $supply_order->order_number }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                            `);
+                            }
+
+                            if (data.inspection_authority?.id) {
+                                $('#inspection_authority_field').html(`
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <label>Supplier Detail</label>
+                                </div>
+                                <div class="col-md-12">
+                                   <input type="text" class="form-control inspection_authority_name"
+                                    name="inspection_authority_name" readonly id="inspection_authority_name"
+                                    placeholder="">
+                                <input type="hidden" class="form-control authority_id" name="authority_id"
+                                    id="authority_id" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                            `);
+                                $('#inspection_authority_name').val(
+                                    (data.inspection_authority?.first_name || '') + ' ' + (
+                                        data
+                                        .inspection_authority?.last_name || '')
+                                );
+                                $('#authority_id').val(data.inspection_authority?.id || '');
+                            } else {
+                                $('#inspection_authority_field').html(`
+                               <div class="col-md-12">
+                                <label>Inspection Authority</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="authority_id" id="authority_id">
+                                    <option value="">Select Inspection Authority</option>
+                                    @foreach ($authorities as $authority)
+                                        <option value="{{ $authority->id }}" >
+                                            {{ $authority->user_name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                            `);
+                            }
+
+
+                            // Check if inspection authority exists and update fields
+
                             $('#authority_designation').val(data.inspection_authority
-                                ?.designation || '').change(); // Ensure dropdown is updated
+                                ?.designation || '').change();
                         },
                         error: function(xhr) {
                             alert('Failed to fetch SIR details.');
@@ -904,6 +1035,7 @@
             });
         });
     </script>
+
     <script>
         $(document).ready(function() {
             $(document).on('click', '#add-sir-btn', function() {
@@ -951,7 +1083,7 @@
                                 '.text-danger');
                             if (errorSpan.length) {
                                 errorSpan.text(messages[
-                                0]); // Show the first error message for the field
+                                    0]); // Show the first error message for the field
                             }
                         }
                     }
