@@ -75,7 +75,6 @@
 @endsection
 
 @push('scripts')
-    
     <script>
         $(document).ready(function() {
 
@@ -235,8 +234,8 @@
 
         //     // $('#edit_received_quantity, #edit_accepted_quantity').on('keyup', updateEditDifference);
         // });
-        $(document).ready(function(){
-            $(document).on('keyup','#edit_received_quantity, #edit_accepted_quantity', function(){
+        $(document).ready(function() {
+            $(document).on('keyup', '#edit_received_quantity, #edit_accepted_quantity', function() {
                 console.log('Keyup event fired');
                 // Your updateEditDifference() function logic here
                 var received = parseInt($('#edit_received_quantity').val());
@@ -247,4 +246,82 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            // Open modal on button click
+            $(document).on('click', '#add-supply-order-btn', function() {
+                $('#addSupplyOrderModal').modal('show');
+            });
+
+            // Handle form submission
+            $(document).on('submit', '#add-supply-order-form', function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    url: "{{ route('supply_orders.model-store') }}", // Update to your route
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#supply_order_no').append(
+                                `<option value="${response.supply_order.id}">${response.supply_order.order_number}</option>`
+                            );
+                            $('#addSupplyOrderModal').modal('hide');
+                            $('#add-supply-order-form')[0].reset();
+                            toastr.success('Supply order number added successfully');
+                        }
+                    },
+                    error: function(response) {
+                        let errors = response.responseJSON.errors;
+                        $('#error-order-number').text(errors.order_number ? errors.order_number[
+                            0] : '');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Set up CSRF token for all AJAX requests
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Open modal on button click
+            $(document).on('click', '#add-supplier-btn', function() {
+                $('#addSupplierModal').modal('show');
+            });
+
+            // Handle form submission
+            $(document).on('submit', '#add-supplier-form', function(e) {
+                e.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    url: "{{ route('vendors.model-store') }}", // Adjust this to your store route
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#supplier_id').append(
+                                `<option value="${response.vendor.id}">${response.vendor.name} (${response.vendor.phone})</option>`
+                            );
+                            $('#addSupplierModal').modal('hide');
+                            $('#add-supplier-form')[0].reset();
+                            toastr.success('Supplier added successfully');
+                        }
+                    },
+                    error: function(response) {
+                        let errors = response.responseJSON.errors;
+                        $('#error-name').text(errors.name ? errors.name[0] : '');
+                        $('#error-phone').text(errors.phone ? errors.phone[0] : '');
+                        $('#error-email').text(errors.email ? errors.email[0] : '');
+                        $('#error-address').text(errors.address ? errors.address[0] : '');
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

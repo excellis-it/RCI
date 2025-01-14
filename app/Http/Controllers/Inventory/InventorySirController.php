@@ -23,7 +23,7 @@ class InventorySirController extends Controller
         $supply_orders = SupplyOrder::all();
         $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
         $authorities = User::role('MATERIAL-MANAGER')->get();
-        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos','authorities'));
+        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos', 'authorities'));
     }
 
     public function fetchData(Request $request)
@@ -69,6 +69,14 @@ class InventorySirController extends Controller
         $sir_save = InventorySir::create([
             'sir_no' => $request->sir_no,
             'sir_date' => $request->sir_date,
+            'demand_no' => $request->demand_no,
+            'demand_date' => $request->demand_date,
+            'invoice_no' => $request->invoice_no,
+            'invoice_date' => $request->invoice_date,
+            'inventory_no' => $request->inventory_no,
+            'supplier_id' => $request->supplier_id,
+            'supply_order_no' => $request->supply_order_no,
+            'inspection_authority' => $request->inspection_authority,
             'status' => $request->status,
         ]);
 
@@ -91,7 +99,11 @@ class InventorySirController extends Controller
     {
         $sir = InventorySir::where('id', $id)->first();
         $edit = true;
-        return response()->json(['view' => view('inventory.sirs.form', compact('edit', 'sir'))->render()]);
+        $vendors = Vendor::orderBy('id', 'desc')->get();
+        $supply_orders = SupplyOrder::all();
+        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
+        $authorities = User::role('MATERIAL-MANAGER')->get();
+        return response()->json(['view' => view('inventory.sirs.form', compact('edit', 'sir', 'vendors', 'supply_orders', 'inventory_nos', 'authorities'))->render()]);
     }
 
     /**
@@ -109,6 +121,14 @@ class InventorySirController extends Controller
         $sir_save = InventorySir::where('id', $id)->update([
             'sir_no' => $request->sir_no,
             'sir_date' => $request->sir_date,
+            'demand_no' => $request->demand_no,
+            'demand_date' => $request->demand_date,
+            'invoice_no' => $request->invoice_no,
+            'invoice_date' => $request->invoice_date,
+            'inventory_no' => $request->inventory_no,
+            'supplier_id' => $request->supplier_id,
+            'supply_order_no' => $request->supply_order_no,
+            'inspection_authority' => $request->inspection_authority,
             'status' => $request->status,
         ]);
 

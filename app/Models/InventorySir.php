@@ -12,6 +12,14 @@ class InventorySir extends Model
     protected $fillable = [
         'sir_no',
         'sir_date',
+        'demand_no',
+        'demand_date',
+        'invoice_no',
+        'invoice_date',
+        'inventory_no',
+        'supplier_id',
+        'supply_order_no',
+        'inspection_authority',
         'status',
     ];
 }
