@@ -598,8 +598,8 @@
 
         </div>
         <div class="row">
-            <div class="col-md-8">
-                <div id="credit_form_add_new_row" class="new_html">
+            <div class="col-md-8" id="credit_form_add_new_row">
+                <div  class="new_html">
                     <div class="row">
                         <div class="form-group col-md-4 mb-2">
                             <div class="row align-items-center">

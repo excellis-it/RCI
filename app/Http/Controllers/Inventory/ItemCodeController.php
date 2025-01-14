@@ -97,7 +97,7 @@ class ItemCodeController extends Controller
         $request->validate([
             'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
             'uom' => 'required',
-            'item_type' => 'nullable|numeric',
+            'item_type' => 'nullable',
         ], [
             'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
         ]);

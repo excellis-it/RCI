@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Price</label>
@@ -42,7 +42,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -54,14 +54,14 @@
                                     <option value="">Select</option>
                                     @foreach ($uoms as $uom)
                                         <option value="{{ $uom->id }}" {{ ($edit_item_code->uom == $uom->id) ? 'selected' : '' }}>{{ $uom->name }}</option>
-                                        
+
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-               
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -99,7 +99,7 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="description" id="description" 
+                                <textarea class="form-control" name="description" id="description"
                                     placeholder="">{{ $edit_item_code->description ?? '' }}</textarea>
                                 <span class="text-danger"></span>
                             </div>
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
@@ -159,7 +159,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Price</label>
@@ -170,7 +170,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <div class="form-group col-md-4 mb-2">
@@ -183,14 +183,14 @@
                                     <option value="">Select</option>
                                     @foreach ($uoms as $uom)
                                         <option value="{{ $uom->id }}">{{ $uom->name }}</option>
-                                        
+
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -207,7 +207,7 @@
                             </div>
                         </div>
                     </div>
-               
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -230,7 +230,7 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="description" id="description" 
+                                <textarea class="form-control" name="description" id="description"
                                     placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
@@ -250,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
