@@ -312,6 +312,19 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Contract Authority</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="contract_authority"
+                                    id="contract_authority" value="{{ $sir->contract_authority ?? '' }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
