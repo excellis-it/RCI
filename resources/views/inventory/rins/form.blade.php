@@ -512,8 +512,8 @@
                                 <label>Project Number</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control project_number" readonly name="project_number"
-                                    id="project_number" placeholder="">
+                                <input type="text" class="form-control project_number" readonly
+                                    name="project_number" id="project_number" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -564,7 +564,7 @@
                                 <label>Supplier Detail</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control supplier" name="supplier" readonly
+                                <input type="text" class="form-control supplier" name="supplier_id" readonly
                                     id="supplier" placeholder="">
                                 <input type="hidden" class="form-control vendor_id" name="vendor_id" id="vendor_id"
                                     placeholder="">
@@ -636,7 +636,7 @@
         </div>
         <div class="row">
             <div class="col-md-8" id="credit_form_add_new_row">
-                <div  class="new_html">
+                <div class="new_html">
                     <div class="row">
                         <div class="form-group col-md-4 mb-2">
                             <div class="row align-items-center">
