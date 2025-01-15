@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   Transfer Voucher List
+    Transfer Voucher List
 @endsection
 
 @push('styles')
@@ -32,7 +32,7 @@
                         <div id="code-form">
                             @include('inventory.transfer-vouchers.form')
                         </div>
-                        <hr/>
+                        <hr />
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <div class="row justify-content-end">
@@ -53,7 +53,8 @@
                                             </div>
                                             <div>
                                                 <div class="refresh-btn">
-                                                    <a href=""><span><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+                                                    <a href=""><span><i class="fa fa-refresh"
+                                                                aria-hidden="true"></i></span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -69,11 +70,13 @@
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
                                                     style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="from_inv_number"
-                                                    style="cursor: pointer">From Inv. No.<span id="from_inv_number_icon"></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="to_inv_number"
-                                                    style="cursor: pointer">To Inv. No.<span id="to_inv_number_icon"></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="from_inv_number" style="cursor: pointer">From Inv.
+                                                    No.<span id="from_inv_number_icon"></span> </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="to_inv_number" style="cursor: pointer">To Inv.
+                                                    No.<span id="to_inv_number_icon"></span> </th>
 
                                                 <th></th>
                                             </tr>
@@ -292,56 +295,57 @@
 
 
     <script>
-         $(function() {
-            $('#from_inv_number').change(function() {
-                var fromInvNumberId = $(this).val();
-                $('#to_inv_number').empty(); // Clear existing options
-                var selectedText = $(this).find('option:selected').text();
-                var selectedValue = $(this).val();
+        //  $(function() {
+        // $('#from_inv_number').change(function() {
+        //     var fromInvNumberId = $(this).val();
+        //     $('#to_inv_number').empty(); // Clear existing options
+        //     var selectedText = $(this).find('option:selected').text();
+        //     var selectedValue = $(this).val();
 
-                $('#from_inv_number option').each(function() {
-                    if ($(this).val() !== selectedValue) {
-                        $('#to_inv_number').append('<option value="' + $(this).val() + '">' + $(this).text() + '</option>');
-                    }
-                });
-
-
-                $.ajax({
-                url: "{{ route('debit-vouchers.get-items-by-inv-no')}}",
-                type: 'POST',
-                data: {
-                    inv_no: fromInvNumberId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    // console.log(response.creditVouchers[0]);
-                    // add options to select box
-                    var options = '<option value="">Select Item</option>';
-                    var itemType = '';  // Initialize itemType outside the loop
-
-                    $.each(response.creditVouchers, function(index, creditVoucher) {
-                        console.log(creditVoucher);
-                        var itemCode = creditVoucher.item_codes.code;
-                        var itemName = creditVoucher.item_codes.item_name;
-                        var itemCodeId = creditVoucher.item_code_id;
-                        var totalQuantity = creditVoucher.total_quantity;
-                        var itemType = creditVoucher.item_codes.item_type;
-                        var itemDescription = creditVoucher.item_codes.description;
+        //     $('#from_inv_number option').each(function() {
+        //         if ($(this).val() !== selectedValue) {
+        //             $('#to_inv_number').append('<option value="' + $(this).val() + '">' + $(
+        //                 this).text() + '</option>');
+        //         }
+        //     });
 
 
-                        options += `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
-                    });
-                    console.log(itemType);
-                    $('#item_code_id').html(options);
+        //     $.ajax({
+        //         url: "{{ route('debit-vouchers.get-items-by-inv-no') }}",
+        //         type: 'POST',
+        //         data: {
+        //             inv_no: fromInvNumberId,
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         success: function(response) {
+        //             // console.log(response.creditVouchers[0]);
+        //             // add options to select box
+        //             var options = '<option value="">Select Item</option>';
+        //             var itemType = ''; // Initialize itemType outside the loop
 
-                },
-                error: function(xhr) {
-                    console.log(xhr);
-                }
-            });
-            });
-        });
+        //             $.each(response.creditVouchers, function(index, creditVoucher) {
+        //                 console.log(creditVoucher);
+        //                 var itemCode = creditVoucher.item_codes.code;
+        //                 var itemName = creditVoucher.item_codes.item_name;
+        //                 var itemCodeId = creditVoucher.item_code_id;
+        //                 var totalQuantity = creditVoucher.total_quantity;
+        //                 var itemType = creditVoucher.item_codes.item_type;
+        //                 var itemDescription = creditVoucher.item_codes.description;
 
+
+        //                 options +=
+        //                     `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
+        //             });
+        //             console.log(itemType);
+        //             $('#item_code_id').html(options);
+
+        //         },
+        //         error: function(xhr) {
+        //             console.log(xhr);
+        //         }
+        //     });
+        // });
+        //   });
     </script>
 
     <script>
@@ -350,7 +354,7 @@
                 var id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('reports.transfer-voucher')}}",
+                    url: "{{ route('reports.transfer-voucher') }}",
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -377,208 +381,211 @@
         });
     </script>
 
-<script>
-    $(document).on('change', '#strike_item_code', function() {
-        var item_id = $('#strike_item_code').val();
-        var selectedValue = $(this).find(':selected');
+    <script>
+        // $(document).on('change', '#strike_item_code', function() {
+        //     var item_id = $('#strike_item_code').val();
+        //     var selectedValue = $(this).find(':selected');
 
-        $.ajax({
-            url: "{{ route('conversions.item.details') }}",
-            type: 'GET',
-            data: {
-                item_id: item_id
-            },
-            success: function(response) {
-                $('#strike_c_nc').val(response.item_details.item_type);
-                $('#strike_description').val(response.item_details.description);
-                $('#strike_rate').val(response.item_details.item_price);
-                $('#strike_ledger').val(response.inventory_number.inventory_number.number);
+        //     $.ajax({
+        //         url: "{{ route('conversions.item.details') }}",
+        //         type: 'GET',
+        //         data: {
+        //             item_id: item_id
+        //         },
+        //         success: function(response) {
+        //             $('#strike_c_nc').val(response.item_details.item_type);
+        //             $('#strike_description').val(response.item_details.description);
+        //             $('#strike_rate').val(response.item_details.item_price);
+        //             $('#strike_ledger').val(response.inventory_number.inventory_number.number);
 
-                var quantityDivSelectBox = [];
-                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                for (var i = 1; i <= response.quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
+        //             var quantityDivSelectBox = [];
+        //             quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+        //             for (var i = 1; i <= response.quantity; i++) {
+        //                 quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+        //             }
 
-                $('#strike_quantity').empty();
-                $('#strike_quantity').append(quantityDivSelectBox.join(''));
-            },
-            error: function(xhr) {
-                console.log(xhr);
-            }
+        //             $('#strike_quantity').empty();
+        //             $('#strike_quantity').append(quantityDivSelectBox.join(''));
+        //         },
+        //         error: function(xhr) {
+        //             console.log(xhr);
+        //         }
+        //     });
+        // });
+    </script>
+
+    <script>
+        // $(document).on('change', '#brought_item_code', function() {
+        //     var item_id = $('#brought_item_code').val();
+        //     var selectedValue = $(this).find(':selected');
+
+        //     $.ajax({
+        //         url: "{{ route('conversions.item.details') }}",
+        //         type: 'GET',
+        //         data: {
+        //             item_id: item_id
+        //         },
+        //         success: function(response) {
+        //             $('#brought_c_nc').val(response.item_details.item_type);
+        //             $('#brought_description').val(response.item_details.description);
+        //             $('#brought_rate').val(response.item_details.item_price);
+        //             $('#brought_ledger').val(response.inventory_number.inventory_number.number);
+
+        //             var quantityDivSelectBox = [];
+        //             quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+        //             for (var i = 1; i <= response.quantity; i++) {
+        //                 quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+        //             }
+
+        //             $('#brought_quantity').empty();
+        //             $('#brought_quantity').append(quantityDivSelectBox.join(''));
+        //         },
+        //         error: function(xhr) {
+        //             console.log(xhr);
+        //         }
+        //     });
+        // });
+    </script>
+
+    <script>
+        // $(document).ready(function() {
+        //     $('#strike_quantity').change(function() {
+        //         var quantity = $(this).val();
+        //         var item_unit_price = $('#strike_rate').val() ?? 0;
+        //         var total_price = quantity * item_unit_price;
+        //         $('#strike_total_rate').val(total_price);
+        //     });
+        // });
+    </script>
+
+    <script>
+        // $(document).ready(function() {
+        //     $('#brought_quantity').change(function() {
+        //         var quantity = $(this).val();
+        //         var item_unit_price = $('#brought_rate').val() ?? 0;
+        //         var total_price = quantity * item_unit_price;
+        //         $('#brought_total_rate').val(total_price);
+        //     });
+        // });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // On change of strike_item_code
+            // $(document).on('change', '.strike_item_code', function() {
+            //     var item_id = $(this).val();
+            //     var $this = $(this);
+            //     var selectedOption = $this.find('option:selected');
+            //     var $row = $this.closest('.count-class'); // Get the closest row
+
+            //     // AJAX call to get item details
+            //     $.ajax({
+            //         url: "{{ route('conversions.item.details') }}",
+            //         type: 'GET',
+            //         data: {
+            //             item_id: item_id,
+            //             _token: '{{ csrf_token() }}'
+            //         },
+            //         success: function(response) {
+            //             // Set values in the respective fields within the current row
+            //             $row.find('.strike_c_nc').val(response.item_details.item_type);
+            //             $row.find('.strike_description').val(response.item_details.description);
+            //             $row.find('.strike_more_rate').val(response.item_details.item_price);
+            //             $row.find('.strike_ledger').val(response.inventory_number
+            //                 .inventory_number.number);
+
+            //             // Populate quantity select box
+            //             var quantityDivSelectBox = [];
+            //             quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+            //             for (var i = 1; i <= response.quantity; i++) {
+            //                 quantityDivSelectBox.push('<option value="' + i + '">' + i +
+            //                     '</option>');
+            //             }
+
+            //             $row.find('.strike_more_quantity').empty();
+            //             $row.find('.strike_more_quantity').append(quantityDivSelectBox.join(
+            //                 ''));
+            //         },
+            //         error: function(xhr) {
+            //             console.log(xhr);
+            //         }
+            //     });
+            // });
+
+            // On change of strike_more_quantity
+            // $(document).on('change', '.strike_more_quantity', function() {
+            //     var quantity = $(this).val();
+            //     var $row = $(this).closest('.count-class'); // Get the closest row again
+            //     var item_unit_price = $row.find('.strike_more_rate').val() ?? 0;
+            //     var total_price = quantity * item_unit_price;
+            //     $row.find('.strike_total_rate').val(total_price);
+            // });
         });
-    });
-</script>
+    </script>
 
-<script>
-    $(document).on('change', '#brought_item_code', function() {
-        var item_id = $('#brought_item_code').val();
-        var selectedValue = $(this).find(':selected');
+    <script>
+        $(document).ready(function() {
+            // On change of strike_item_code
+            // $(document).on('change', '.brought_item_code', function() {
+            //     var item_id = $(this).val();
+            //     var $this = $(this);
+            //     var selectedOption = $this.find('option:selected');
+            //     var $row = $this.closest('.count-class'); // Get the closest row
 
-        $.ajax({
-            url: "{{ route('conversions.item.details') }}",
-            type: 'GET',
-            data: {
-                item_id: item_id
-            },
-            success: function(response) {
-                $('#brought_c_nc').val(response.item_details.item_type);
-                $('#brought_description').val(response.item_details.description);
-                $('#brought_rate').val(response.item_details.item_price);
-                $('#brought_ledger').val(response.inventory_number.inventory_number.number);
+            //     // AJAX call to get item details
+            //     $.ajax({
+            //         url: "{{ route('conversions.item.details') }}",
+            //         type: 'GET',
+            //         data: {
+            //             item_id: item_id,
+            //             _token: '{{ csrf_token() }}'
+            //         },
+            //         success: function(response) {
+            //             // Set values in the respective fields within the current row
+            //             $row.find('.brought_c_nc').val(response.item_details.item_type);
+            //             $row.find('.brought_description').val(response.item_details
+            //                 .description);
+            //             $row.find('.brought_rate').val(response.item_details.item_price);
+            //             $row.find('.brought_ledger').val(response.inventory_number
+            //                 .inventory_number.number);
 
-                var quantityDivSelectBox = [];
-                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                for (var i = 1; i <= response.quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
+            //             // Populate quantity select box
+            //             var quantityDivSelectBox = [];
+            //             quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+            //             for (var i = 1; i <= response.quantity; i++) {
+            //                 quantityDivSelectBox.push('<option value="' + i + '">' + i +
+            //                     '</option>');
+            //             }
 
-                $('#brought_quantity').empty();
-                $('#brought_quantity').append(quantityDivSelectBox.join(''));
-            },
-            error: function(xhr) {
-                console.log(xhr);
-            }
+            //             $row.find('.brought_more_quantity').empty();
+            //             $row.find('.brought_more_quantity').append(quantityDivSelectBox.join(
+            //                 ''));
+            //         },
+            //         error: function(xhr) {
+            //             console.log(xhr);
+            //         }
+            //     });
+            // });
+
+            // On change of strike_more_quantity
+            // $(document).on('change', '.brought_more_quantity', function() {
+            //     var quantity = $(this).val();
+            //     var $row = $(this).closest('.count-class'); // Get the closest row again
+            //     var item_unit_price = $row.find('.brought_rate').val() ?? 0;
+            //     var total_price = quantity * item_unit_price;
+            //     $row.find('.brought_total_rate').val(total_price);
+            // });
         });
-    });
-</script>
-
-<script>
-    $(document).ready(function(){
-        $('#strike_quantity').change(function(){
-            var quantity = $(this).val();
-            var item_unit_price = $('#strike_rate').val() ?? 0;
-            var total_price = quantity * item_unit_price;
-            $('#strike_total_rate').val(total_price);
-        });
-    });
-
-</script>
-
-<script>
-    $(document).ready(function(){
-        $('#brought_quantity').change(function(){
-            var quantity = $(this).val();
-            var item_unit_price = $('#brought_rate').val() ?? 0;
-            var total_price = quantity * item_unit_price;
-            $('#brought_total_rate').val(total_price);
-        });
-    });
-
-</script>
-
-<script>
-    $(document).ready(function() {
-    // On change of strike_item_code
-    $(document).on('change', '.strike_item_code', function() {
-        var item_id = $(this).val();
-        var $this = $(this);
-        var selectedOption = $this.find('option:selected');
-        var $row = $this.closest('.count-class'); // Get the closest row
-
-        // AJAX call to get item details
-        $.ajax({
-            url: "{{ route('conversions.item.details') }}",
-            type: 'GET',
-            data: {
-                item_id: item_id,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                // Set values in the respective fields within the current row
-                $row.find('.strike_c_nc').val(response.item_details.item_type);
-                $row.find('.strike_description').val(response.item_details.description);
-                $row.find('.strike_more_rate').val(response.item_details.item_price);
-                $row.find('.strike_ledger').val(response.inventory_number.inventory_number.number);
-
-                // Populate quantity select box
-                var quantityDivSelectBox = [];
-                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                for (var i = 1; i <= response.quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
-
-                $row.find('.strike_more_quantity').empty();
-                $row.find('.strike_more_quantity').append(quantityDivSelectBox.join(''));
-            },
-            error: function(xhr) {
-                console.log(xhr);
-            }
-        });
-    });
-
-    // On change of strike_more_quantity
-    $(document).on('change', '.strike_more_quantity', function() {
-        var quantity = $(this).val();
-        var $row = $(this).closest('.count-class'); // Get the closest row again
-        var item_unit_price = $row.find('.strike_more_rate').val() ?? 0;
-        var total_price = quantity * item_unit_price;
-        $row.find('.strike_total_rate').val(total_price);
-    });
-});
-
-</script>
-
-<script>
-    $(document).ready(function() {
-    // On change of strike_item_code
-    $(document).on('change', '.brought_item_code', function() {
-        var item_id = $(this).val();
-        var $this = $(this);
-        var selectedOption = $this.find('option:selected');
-        var $row = $this.closest('.count-class'); // Get the closest row
-
-        // AJAX call to get item details
-        $.ajax({
-            url: "{{ route('conversions.item.details') }}",
-            type: 'GET',
-            data: {
-                item_id: item_id,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                // Set values in the respective fields within the current row
-                $row.find('.brought_c_nc').val(response.item_details.item_type);
-                $row.find('.brought_description').val(response.item_details.description);
-                $row.find('.brought_rate').val(response.item_details.item_price);
-                $row.find('.brought_ledger').val(response.inventory_number.inventory_number.number);
-
-                // Populate quantity select box
-                var quantityDivSelectBox = [];
-                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                for (var i = 1; i <= response.quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
-
-                $row.find('.brought_more_quantity').empty();
-                $row.find('.brought_more_quantity').append(quantityDivSelectBox.join(''));
-            },
-            error: function(xhr) {
-                console.log(xhr);
-            }
-        });
-    });
-
-    // On change of strike_more_quantity
-    $(document).on('change', '.brought_more_quantity', function() {
-        var quantity = $(this).val();
-        var $row = $(this).closest('.count-class'); // Get the closest row again
-        var item_unit_price = $row.find('.brought_rate').val() ?? 0;
-        var total_price = quantity * item_unit_price;
-        $row.find('.brought_total_rate').val(total_price);
-    });
-});
-
-</script>
+    </script>
 
 
-<script>
-    // add new row
+    <script>
+        // add new row
         $(document).ready(function() {
             $(document).on('click', '.add-more-trans', function() {
                 var tr = $('#transaction_new_html').html();
                 $('#trans_form_add_new_row').append(tr);
-
+                setItemCodeList();
                 return false;
             });
 
@@ -587,9 +594,119 @@
                 return false;
             });
         });
-</script>
+    </script>
+
+    <script>
+        // function setItemCodeList() {
+        //     var itemOptions = $("#item_code_list").html();
+        //     $('.item_code_list').each(function(index, element) {
+        //         var $this = $(this);
+        //         var selectedValue = $this.val();
+        //         if (!selectedValue) {
+        //             $this.html(itemOptions);
+        //         } else {
+        //             //  $this.val(selectedValue); 
+        //         }
+        //     });
+        // }
+        function setItemCodeList() {
+            var itemOptions = $("#item_code_list").html(); // Get all options
+            var selectedValues = []; // Array to track selected items
+
+            // Populate selectedValues array with current selections
+            $('.item_code_list').each(function() {
+                var value = $(this).val();
+                if (value) {
+                    selectedValues.push(value);
+                }
+            });
+
+            $('.item_code_list').each(function(index, element) {
+                var $this = $(this);
+                var selectedValue = $this.val();
+
+                if (!selectedValue) {
+                    // Filter options to exclude already selected values
+                    var filteredOptions = $(itemOptions).filter(function() {
+                        return !selectedValues.includes($(this).val());
+                    });
+
+                    // Set the filtered options
+                    $this.html(filteredOptions);
+                } else {
+                    // Preserve the current selected value
+                    $this.html(itemOptions); // Reset to all options
+                    $this.val(selectedValue); // Re-select the current value
+                }
+            });
+        }
+
+        $(document).ready(function() {
+
+
+
+            $('#issuing_inv_no').on('change', function() {
+                var selectedOption = $(this).find('option:selected');
+                var divisionValue = selectedOption.data('division');
+                $("#issuing_division").val(divisionValue);
+
+                var crvData = selectedOption.data('crvs');
+                console.log(crvData);
+
+                if (crvData && crvData !== null && (crvData).length > 0) {
+                    $.each(crvData, function(index, value) {
+                        console.log('Index: ' + index + ', Value: ' + value.item_code_id);
+                        var crvDataString = JSON.stringify(value);
+                        $('#item_code_list').append(
+                            `<option value="${value.id}" data-crvdata='${crvDataString}'>${value.item_code_id} (${value.voucher_detail.voucher_no})</option>`
+                        );
+                    });
+                    setItemCodeList();
+                } else {
+                    $("#item_code_list").empty();
+                }
+            });
+
+
+            // $(".item_code_list").change(function(e) {
+            //     e.preventDefault();
+            //     var thisData = $(this).find('option:selected').data('crvdata');
+            //     if (thisData) {
+            //         console.log(thisData); // Access the ID from the data
+            //     }
+            //     var parentElement = $(this).closest('.new_html');
+            //     parentElement.find('.item_code').val(thisData.item_code_id);
+            //     parentElement.find('.item_description').val(thisData.description);
+            //     parentElement.find('.item_quantity').val(thisData.quantity);
+            //     parentElement.find('.item_rate').val(thisData.total_price);
+
+            // });
+
+
+            $('#receiving_inv_no').on('change', function() {
+                var selectedOption = $(this).find('option:selected');
+                var divisionValue = selectedOption.data('division');
+                $("#receiving_division").val(divisionValue);
+            });
 
 
 
 
+        });
+
+        $(document).on('change', '.item_code_list', function(e) {
+            e.preventDefault();
+            var thisData = $(this).find('option:selected').data('crvdata');
+            if (thisData) {
+                console.log(thisData); // Access the ID from the data
+            }
+            var parentElement = $(this).closest('.new_html');
+            parentElement.find('.item_code').val(thisData.item_code_id + '(' + thisData.voucher_detail.voucher_no +
+                ')');
+            parentElement.find('.item_description').val(thisData.description);
+            parentElement.find('.item_quantity').val(thisData.quantity);
+            parentElement.find('.item_rate').val(thisData.total_price);
+
+        });
+    </script>
 @endpush

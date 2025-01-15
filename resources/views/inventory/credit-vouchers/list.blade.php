@@ -532,9 +532,9 @@
                         const rinItem = response.rinData[0]; // Access the first item in the array
                         if (rinItem.inventory_no) {
                             $('#inv_no').val(rinItem.inventory_id).change();
-
-                        } else {
-                            console.error("inventory_no is undefined in rinData[0]", rinItem);
+                            $('#inv_no').html(
+                                `<option value="${rinItem.inventory_id}">${rinItem.inventory_no.number}</option>`
+                            );
                         }
                         $('#supply_order_no').val(rinItem.supply_order_no).change();
                         $('#invoice_no').val(rinItem.sir_details.invoice_no);
