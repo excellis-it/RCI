@@ -184,7 +184,8 @@ class ReportController extends Controller
 
     public function transferVoucherGenerate(Request $request)
     {
-        $transferVoucher = TransferVoucher::where('id', $request->id)->first();
+        $transferVoucher = TransferVoucher::with('voucherDetails')->where('id', $request->id)->first();
+        //  dd($transferVoucher);
         $itemDesc = ItemCode::where('id', $transferVoucher->item_id)->first();
         $pdf = PDF::loadView('inventory.reports.single-transfer-voucher-generate', compact('transferVoucher', 'itemDesc'));
         return $pdf->download('transfer-voucher.pdf');

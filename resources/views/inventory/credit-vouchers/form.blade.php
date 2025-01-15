@@ -291,12 +291,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control" name="inv_no" id="inv_no">
-                                    <option value="">Select</option>
-                                    @foreach ($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}"
-                                            data-hidden-value="{{ $inventoryNumber->inventory_type }}">
-                                            {{ $inventoryNumber->number }}</option>
-                                    @endforeach
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

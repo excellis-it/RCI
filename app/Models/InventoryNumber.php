@@ -34,4 +34,9 @@ class InventoryNumber extends Model
     {
         return $this->belongsTo(InventoryProject::class, 'inventory_project_id');
     }
+
+    public function creditVoucherDetails()
+    {
+        return $this->hasMany(CreditVoucherDetail::class, 'inv_no');
+    }
 }

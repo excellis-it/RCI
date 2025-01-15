@@ -18,4 +18,11 @@ class TransferVoucher extends Model
     {
         return $this->belongsTo(InventoryNumber::class, 'to_inv_number');
     }
+
+    public function voucherDetails()
+    {
+        return $this->hasMany(TransferVoucherDetail::class, 'transfer_voucher_id');
+    }
+    
+
 }
