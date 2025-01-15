@@ -480,16 +480,26 @@ class ReportController extends Controller
         $creditVouchers = CreditVoucher::whereIn('id', $crv_nos)->get();
 
         $result = [];
+        $singleData = [];
         $totalItemCost = 0;
         $total = 0;
         $itemCount = 0;
 
         foreach ($creditVouchers as $creditVoucher) {
+
+
+
             $creditVoucherDetails = CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)
                 ->with('rins', 'inventoryProjects', 'members', 'itemCodes')->get();
 
             $singleCreditVoucher = $creditVoucherDetails->first();
             $get_sir = Rin::where('rin_no', $singleCreditVoucher->rin)->first();
+
+            $result['voucher_no'] = $creditVoucher->voucher_no;
+            $result['voucher_date'] = $creditVoucher->voucher_date;
+            $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name;
+            $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address;
+
 
             // Loop through the details for each credit voucher and gather data
             foreach ($creditVoucherDetails as $detail) {
@@ -521,6 +531,18 @@ class ReportController extends Controller
 
                 $totalItemCost += (float)$price;
                 $total += (float)$totalCost;
+
+                $singleData[$creditVoucher->voucher_no] = [
+                    'rin_no' => $detail->rin ?? 'N/A',
+                    'rin_date' =>  $rin_date->created_at ?? 'N/A',
+                    'item_type' => $detail->item_type ?? 'N/A',
+                    'consignor' => $detail->consigner ?? 'N/A',
+                    'member_name' => $detail->members->name ?? 'N/A',
+                    'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                    'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                    'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                ];
+
                 $itemCount++;
             }
         }
@@ -538,10 +560,14 @@ class ReportController extends Controller
         // Pass all credit vouchers to the PDF view
         $pdf = PDF::loadView('inventory.reports.inventory-crv-generate', compact(
             'creditVouchers',
+            'creditVoucherDetails',
             'result',
             'totalItemCost',
             'total',
-            'itemCount'
+            'singleData',
+            'itemCount',
+            'singleCreditVoucher',
+            'get_sir'
         ));
 
         return $pdf->download('credit-voucher-reports.pdf');

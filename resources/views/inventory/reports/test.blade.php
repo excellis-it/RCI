@@ -169,7 +169,7 @@
                       border: 1px solid #000;
                     ">
                                     Consignor's Name & address: M/S. &nbsp;
-                                    {{ Str::ucfirst($result['consigner_name'])  ?? '-' }} & {{ $result['consigner_Address']  ?? '-' }}
+                                    {{ $result['consigner_name']  ?? '-' }} & {{ $result['consigner_Address']  ?? '-' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -690,9 +690,8 @@
                                     Date:
                                 </td>
                                 @php
-                                      use App\Helpers\Helper;
-
-                                      $words = Helper::convert($total_amt);
+                                      
+                                      $words = App\Helpers\Helper::convert($total_amt);
                                 @endphp
                                 <td colspan="7"
                                     style="
@@ -1059,5 +1058,5 @@
 </body>
 
 </html>
-<div style="page-break-before: always;"></div> <!-- This ensures the next report starts on a new page -->
+<div style="page-break-before: always;"></div> 
 @endforeach

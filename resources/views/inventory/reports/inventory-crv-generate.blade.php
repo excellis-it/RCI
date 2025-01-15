@@ -1,4 +1,7 @@
-@foreach ($creditVouchers as $creditVoucher)
+@foreach ($creditVouchers as $key => $creditVoucher)
+    @if($key > 0)
+        <div style="page-break-before: always;"></div>
+    @endif
 <!DOCTYPE html>
 <html lang="en">
 <title>RCI</title>
@@ -39,42 +42,146 @@
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                         <tbody>
                             <tr>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">SIR NO:
-                                    {{ $get_sir->sirNo->sir_no ?? '-' }}</td>
-                                <td colspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                    DC/INVOICE NO: {{ $creditVoucher->invoice_no ?? '-' }}</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">RIN NO:
-                                    {{ $result[$creditVoucher->voucher_no][0]['rin_no'] ?? '-' }}</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">CRV NO:
-                                    {{ $result['voucher_no'] ?? '-' }}</td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    SIR NO: &nbsp; {{ $get_sir->sirNo->sir_no ?? '-' }}
+                                </td>
+                                <td colspan="2"
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    DC/INVOICE NO: &nbsp; {{ $creditVoucher->invoice_no ?? '-' }}
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+
+                                    RIN NO: &nbsp;   {{ $singleData[$creditVoucher->voucher_no]['rin_no']  ?? '-' }}
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    CRV NO: &nbsp; {{ $result['voucher_no'] ?? '-' }}
+                                </td>
                             </tr>
                             <tr>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">SIR DATE:
-                                    {{ isset($get_sir->sirNo->sir_date) ? date('d-m-Y', strtotime($get_sir->sirNo->sir_date)) : '-' }}
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    SIR DATE: &nbsp;   {{ isset($get_sir->sirNo->sir_date) && $get_sir->sirNo->sir_date  ? date('d-m-Y', strtotime($get_sir->sirNo->sir_date)) : '-' }}
                                 </td>
-                                <td colspan="2" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                    DC/INVOICE NO DATE:
-                                    {{ $creditVoucher->invoice_date ? date('d-m-Y', strtotime($creditVoucher->invoice_date)) : '-' }}
+                                <td colspan="2"
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    DC/INVOICE NO DATE: &nbsp; {{ $creditVoucher->invoice_date  ? date('d-m-Y', strtotime($creditVoucher->invoice_date)) : '-' }}
                                 </td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">RIN DATE:
-                                    {{ isset($result[$creditVoucher->voucher_no][0]['rin_date']) ? date('d-m-Y', strtotime($result[$creditVoucher->voucher_no][0]['rin_date'])) : '-' }}
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    RIN DATE: &nbsp;
+                                    {{ isset($singleData[$creditVoucher->voucher_no]['rin_date']) && $singleData[$creditVoucher->voucher_no]['rin_date']  ? date('d-m-Y', strtotime($singleData[$creditVoucher->voucher_no]['rin_date'])) : '-' }}
                                 </td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">CRV DATE:
-                                    {{ $creditVoucher->voucher_date ?? '-' }}</td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                    ">
+                                    CRV DATE: &nbsp; {{ $creditVoucher->voucher_date  ?? '-' }}
+                                </td>
                             </tr>
                             <tr>
-                                <td colspan="5" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                    Consignor's Name &amp; address: M/S. {{ $result['consigner_name'] ?? '-' }} &amp;
-                                    {{ $result['consigner_Address'] ?? '-' }}</td>
+                                <td colspan="5"
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Consignor's Name & address: M/S. &nbsp;
+                                    {{ $result['consigner_name']  ?? '-' }} & {{ $result['consigner_Address']  ?? '-' }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 10px;">
-                    <table style="width: 100%; border: 0px solid #000; border-collapse: collapse; font-size: 10px;"
-                        cellspacing="0" cellpadding="5">
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                         <tbody>
                             <tr>
                                 <td colspan="3"
@@ -103,7 +210,7 @@
                       border: 1px solid #000;
                     ">
                                     Cost Debatable to Budget Head: &nbsp;
-                                    {{ $result[$creditVoucher->voucher_no]['cost_debatable']  ?? '-' }} <br />
+                                    {{ $singleData[$creditVoucher->voucher_no]['cost_debatable']  ?? '-' }} <br />
                                 </td>
                                 <td colspan="5"
                                     style="
@@ -117,75 +224,410 @@
                       border: 1px solid #000;
                     ">
                                     Project No.: &nbsp;
-                                    {{ $result[$creditVoucher->voucher_no]['project_no']  ?? '-' }}<br />
-                                    Project Code: &nbsp; {{ $result[$creditVoucher->voucher_no]['project_code']  ?? '-' }}
+                                    {{ $singleData[$creditVoucher->voucher_no]['project_no']  ?? '-' }}<br />
+                                    Project Code: &nbsp; {{ $singleData[$creditVoucher->voucher_no]['project_code']  ?? '-' }}
                                 </td>
                             </tr>
                             <tr>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">SI.No.</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Item Code</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Nomenclature/
-                                    description of Stores</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">C/ NC / NCF</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">A/U</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Qty</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Rate<br /> (Rs.)</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Tax %</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Disc %</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Disc Amt</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Total Cost <br />
-                                    (Rs.)</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Ledger <br />No.</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Folio <br />No.</td>
-                                <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">Remarks</td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    SI.No.
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Item Code
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Nomenclature/ description of Stores
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    C/ NC / NCF
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    A/U
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Qty
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Rate<br />
+                                    (Rs.)
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Tax %
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Disc %
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Disc Amt
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Total Cost <br />
+                                    (Rs.)
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Ledger <br />No.
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Folio <br />No.
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                    Remarks
+                                </td>
                             </tr>
                             @php $index = 1; $total_amt = 0; @endphp
                             @foreach ($result[$creditVoucher->voucher_no] as $key => $creditDetail)
                                 <tr>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $loop->iteration }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['item_code'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['description'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['nc_status'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['au_status'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['quantity'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['rate'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['tax'] ?? '-' }}%</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['disc_percent'] ?? '-' }}%</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['disc_amt'] ?? '-' }}</td>
-                                        @php
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+
+                                        {{ $index  ?? '-' }}
+                                    </td>
+                                    @php $index++; @endphp
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{  $creditDetail['item_code']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['description']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{  $creditDetail['nc_status']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['au_status']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['quantity']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['rate']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['tax']  ?? '-' }}%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['disc_percent']  ?? '-' }}%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['disc_amt']  ?? '-' }}
+                                    </td>
+                                    @php
                                         if($creditDetail['disc_amt'] == 0) {
                                             $totalCost = $creditDetail['rate'] * $creditDetail['quantity'];
                                         } else {
                                             $totalCost = $creditDetail['total_price'];
                                         }
                                     @endphp
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['total_price'] ?? '-' }}</td>
-                                    <td style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                        {{ $creditDetail['remarks'] ?? '-' }}</td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{ $creditDetail['total_price']  ?? '-' }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
+                                        {{  $creditDetail['remarks']  ?? '-' }}
+                                    </td>
                                 </tr>
                                 @php
                                     (float)$total_amt += (float)$totalCost;
                                 @endphp
                             @endforeach
-                            <tr>
-                                <td colspan="3" style="border: 1px solid #000; padding: 5px; font-size: 10px;">Total
-                                    Number of Items: {{ $itemCount ?? '-' }}</td>
-                                <td colspan="7" style="border: 1px solid #000; padding: 5px; font-size: 10px;">Total
-                                    Item Cost (Rs.) {{ $totalItemCost ?? '-' }}/-</td>
-                                <td colspan="4" style="border: 1px solid #000; padding: 5px; font-size: 10px;">
-                                    {{ $total }}/-</td>
-                            </tr>
+
 
                             <tr>
                                 <td colspan="3"
@@ -200,7 +642,7 @@
                       border: 1px solid #000;
                     ">
                                     Total Number Number of Items:
-                                    <span style="text-align: right">{{ $itemCount ?? '-' }}</span>
+                                    <span style="text-align: right">{{ $itemCount ?? '-'  }}</span>
                                 </td>
                                 <td colspan="7"
                                     style="
@@ -214,7 +656,7 @@
                       border: 1px solid #000;
                     ">
                                     Total Item Cost (Rs.)
-                                    <span style="text-align: right">{{ $totalItemCost ?? '-' }}/-</span>
+                                    <span style="text-align: right">{{ $totalItemCost  ?? '-' }}/-</span>
                                 </td>
 
                                 <td colspan="4"
@@ -251,8 +693,8 @@
                                     Date:
                                 </td>
                                 @php
-
-                                    $words = App\Helpers\Helper::convert($total_amt);
+                                      
+                                      $words = App\Helpers\Helper::convert($total_amt);
                                 @endphp
                                 <td colspan="7"
                                     style="
@@ -266,7 +708,7 @@
                       border: 1px solid #000;
                     ">
                                     Inclusive of taxes TOTAL COST (Rs.)<br />
-                                    In words: {{ $words ?? '-' }}
+                                    In words: {{ $words  ?? '-' }}
                                 </td>
                                 <td colspan="3"
                                     style="
@@ -279,7 +721,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    {{ $total_amt ?? '-' }}/-
+                                    {{ $total_amt  ?? '-' }}/-
                                 </td>
                                 <td
                                     style="
@@ -431,7 +873,7 @@
                       height: 10px;
                     ">
                                 </td>
-                                <td colspan="3"
+                                <td  colspan="3"
                                     style="
                       font-size: 10px;
                       line-height: 14px;
@@ -610,9 +1052,6 @@
                                     Date:
                                 </td>
                             </tr>
-
-
-
                         </tbody>
                     </table>
                 </td>
@@ -620,6 +1059,7 @@
         </tbody>
     </table>
 </body>
+
 </html>
-    <div style="page-break-before: always;"></div> <!-- This ensures the next report starts on a new page -->
+
 @endforeach
