@@ -24,7 +24,7 @@ class DebitVoucherController extends Controller
         $debitVouchers = DebitVoucher::paginate(10);
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
-        $inventoryNumbers = InventoryNumber::all();
+        $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
         $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
         return view('inventory.debit-vouchers.list', compact('debitVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
@@ -134,6 +134,7 @@ class DebitVoucherController extends Controller
             foreach ($request->item_code_id as $key => $itemCode) {
                 $itemsByCode[$itemCode][] = [
                     'quantity' => $request->quantity[$key],
+                    'price' => $request->price[$key],
                     'item_type' => $request->item_type[$key],
                     'item_desc' => $request->item_desc[$key],
                     'remarks' => $request->remarks[$key]
@@ -156,6 +157,7 @@ class DebitVoucherController extends Controller
                     $debitVoucherDetail->debit_voucher_id = $latestVoucher->id;
                     $debitVoucherDetail->item_id = $itemCode; // Assuming item_id corresponds to item code
                     $debitVoucherDetail->quantity = $item['quantity'];
+                    $debitVoucherDetail->price = $item['price'];
                     $debitVoucherDetail->item_type = $item['item_type'];
                     $debitVoucherDetail->item_desc = $item['item_desc'];
                     $debitVoucherDetail->remarks = $item['remarks'];
@@ -163,17 +165,17 @@ class DebitVoucherController extends Controller
 
                     // Reduce quantity from credit vouchers
                     $remainingQuantity = $item['quantity'];
-                    foreach ($creditVouchersByCode[$itemCode] as $credit) {
-                        if ($credit->quantity >= $remainingQuantity) {
-                            $credit->quantity -= $remainingQuantity;
-                            $credit->save();
-                            break; // Exit the loop once quantity is reduced
-                        } else {
-                            $remainingQuantity -= $credit->quantity;
-                            $credit->quantity = 0;
-                            $credit->save();
-                        }
-                    }
+                    // foreach ($creditVouchersByCode[$itemCode] as $credit) {
+                    //     if ($credit->quantity >= $remainingQuantity) {
+                    //         $credit->quantity -= $remainingQuantity;
+                    //         $credit->save();
+                    //         break; // Exit the loop once quantity is reduced
+                    //     } else {
+                    //         $remainingQuantity -= $credit->quantity;
+                    //         $credit->quantity = 0;
+                    //         $credit->save();
+                    //     }
+                    // }
                 }
             }
         }
@@ -288,7 +290,7 @@ class DebitVoucherController extends Controller
     {
 
 
-        $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity'))->with('itemCodes')->get();
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity',), DB::raw('SUM(total_price) as total_price'))->with('itemCodes')->get();
         // dd($creditVouchers);
         return response()->json(['creditVouchers' => $creditVouchers]);
     }
