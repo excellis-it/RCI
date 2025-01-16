@@ -4,7 +4,7 @@
             <td> {{ ($debitVouchers->currentPage()-1) * $debitVouchers->perPage() + $loop->index + 1 }}</td>
             <td>{{ $debitVoucher->voucher_no ?? 'N/A'}}</td>
             <td>{{ $debitVoucher->voucher_date ?? 'N/A'}}</td>
-            <td>{{ $debitVoucher->voucher_type ?? 'N/A'}}</td>
+            <td>{{ 'Debit'}}</td>
             <td>{{ $debitVoucher->inventoryNumbers->number ?? 'N/A'}}</td>
             <td class="sepharate">
                 {{-- <a data-route="{{route('debit-vouchers.edit', $debitVoucher->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a> --}}
