@@ -403,8 +403,9 @@
                         var itemCode = creditVoucher.item_codes.code;
                         var itemName = creditVoucher.item_codes.item_name;
                         var itemCodeId = creditVoucher.item_code;
-                        var totalQuantity = creditVoucher.total_quantity;
-                        var totalPrice = creditVoucher.total_price;
+                        var totalQuantity = creditVoucher.quantity;
+                        var unitPrice = creditVoucher.price;
+                        var totalPrice = totalQuantity * unitPrice;
                         var itemType = creditVoucher.item_codes.item_type;
                         var itemDescription = creditVoucher.item_codes.description;
 

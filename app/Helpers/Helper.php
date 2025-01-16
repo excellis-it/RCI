@@ -21,7 +21,7 @@ use App\Models\AdvanceSettlement;
 use App\Models\AdvanceFundToEmployee;
 use Illuminate\Support\Facades\DB;
 use App\Models\ImprestBalance;
-
+use App\Models\ItemCode;
 
 class Helper
 {
@@ -473,5 +473,12 @@ class Helper
             ->first();
 
         return $loan;
+    }
+
+    public static function getItemCode($item_id)
+    {
+        $item = ItemCode::where('id', $item_id)->first();
+
+        return $item->code;
     }
 }
