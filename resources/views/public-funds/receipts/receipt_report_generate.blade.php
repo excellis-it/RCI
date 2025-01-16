@@ -187,7 +187,7 @@
                 </tr>
 
 
-                <tr style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">
+                <tr >
                     <td rowspan="{{ $receipt->receiptMembers->count() + 1 }}"
                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                         {{ $receipt->vr_no }}
