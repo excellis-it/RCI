@@ -158,7 +158,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="issuing_division"
-                                    id="issuing_division" placeholder="">
+                                    id="issuing_division" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="receiving_division"
-                                    id="receiving_division" placeholder="">
+                                    id="receiving_division" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -372,7 +372,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control item_description"
-                                        name="strike_nomenclature[]">
+                                        name="strike_nomenclature[]" readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
