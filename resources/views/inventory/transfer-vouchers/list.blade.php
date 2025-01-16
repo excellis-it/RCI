@@ -705,7 +705,7 @@
                 ')');
             parentElement.find('.item_description').val(thisData.description);
             parentElement.find('.item_quantity').val(thisData.quantity);
-            parentElement.find('.item_rate').val(thisData.total_price);
+            parentElement.find('.item_rate').val(thisData.price);
 
         });
     </script>

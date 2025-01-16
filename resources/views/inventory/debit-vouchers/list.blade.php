@@ -303,86 +303,10 @@
             });
         });
     </script>
-    {{-- <script>
-        $(document).ready(function(){
-            $('#item_code_id').change(function() {
-                var item_code_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('debit-vouchers.get-item-quantity')}}",
-                    type: 'POST',
-                    data: {
-                        item_code_id: item_code_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        // $('#quantity_no').val(parseInt(response.quantity));
-                        var quantity = parseInt(response.quantity);
-                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
-                        $('#quantity_no').text(text);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                 });
-            });
-        });
-    </script> --}}
-
-    <script>
-        $(document).ready(function() {
-            $('#item_code_id_1').change(function() {
-                var selectedValue = $(this).find(':selected');
-                var quantity = selectedValue.data('hidden-value');
-                var itemType = selectedValue.data('item-type');
-                var itemDescription = selectedValue.data('item_desc');
-                // var quantityDiv = $('#quantity');
-
-                var quantityDivSelectBox = [];
-
-                for (var i = 1; i <= quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
-
-                $('#quantity').empty();
-                $('#quantity').append(quantityDivSelectBox.join(''));
-
-                if (itemType) {
-                    $('#item_type_1').val(itemType);
-
-                }
-                if (itemDescription) {
-                    $('#item_desc_1').val(itemDescription);
-                }
-
-            });
-        });
-    </script>
-    <script>
-        function getQuantity(getval) {
-            // var itemCodeId = $(getval).val();
-            var selectedValue = $(getval).find(':selected');
-            var quantity = selectedValue.data('hidden-value');
-            var itemType = selectedValue.data('item-type');
-            var itemDescription = selectedValue.data('item_desc');
 
 
-            var quantityDivSelectBox = [];
 
-            for (var i = 1; i <= quantity; i++) {
-                quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-            }
 
-            var $row = $(getval).closest('.count-class');
-            $row.find('#quantity').empty();
-            $row.find('#quantity').append(quantityDivSelectBox.join(''));
-
-            $row.find('#item_type').val(itemType);
-            $row.find('#item_desc').val(itemDescription);
-
-            // $('#quantity').empty();
-            // $('#quantity').append(quantityDivSelectBox.join(''));
-        }
-    </script>
     <script>
         // add new row
         $(document).ready(function() {
@@ -415,17 +339,17 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
-                            var options = '<option value="">Select Item</option>';
-                            $.each(response.creditVouchers, function(index, creditVoucher) {
-                                var itemCode = creditVoucher.item_codes.code;
-                                var itemCodeId = creditVoucher.item_code_id;
-                                var totalQuantity = creditVoucher.total_quantity;
+                            // var options = '<option value="">Select Item</option>';
+                            // $.each(response.creditVouchers, function(index, creditVoucher) {
+                            //     var itemCode = creditVoucher.item_codes.code;
+                            //     var itemCodeId = creditVoucher.item_code_id;
+                            //     var totalQuantity = creditVoucher.total_quantity;
 
-                                options +=
-                                    `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" >${itemCode}(${totalQuantity})</option>`;
-                            });
-                            var $row = $(this).closest('.count-class');
-                            $row.find('#item_code_id').html(options);
+                            //     options +=
+                            //         `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" >${itemCode}(${totalQuantity})</option>`;
+                            // });
+                            // var $row = $(this).closest('.count-class');
+                            // $row.find('#item_code_id').html(options);
                             // $('.item_code_id').html(options);
                         },
                         error: function(xhr) {
@@ -480,12 +404,13 @@
                         var itemName = creditVoucher.item_codes.item_name;
                         var itemCodeId = creditVoucher.item_code;
                         var totalQuantity = creditVoucher.total_quantity;
+                        var totalPrice = creditVoucher.total_price;
                         var itemType = creditVoucher.item_codes.item_type;
                         var itemDescription = creditVoucher.item_codes.description;
 
 
                         options +=
-                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-type="${itemType}" data-item_desc="${itemDescription}">${itemName}(${totalQuantity})</option>`;
+                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-quantity="${totalQuantity}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
                     });
                     console.log(itemType);
                     $('#item_code_id_1').html(options);
@@ -503,19 +428,19 @@
             });
         });
 
-        $(document).on('keyup', '#voucher_no_1', function() {
-            var voucher_no = $(this).val();
-            $('.voucher-no').each(function() {
-                $(this).val(voucher_no);
-            });
-        });
+        // $(document).on('keyup', '#voucher_no_1', function() {
+        //     var voucher_no = $(this).val();
+        //     $('.voucher-no').each(function() {
+        //         $(this).val(voucher_no);
+        //     });
+        // });
 
-        $(document).on('change', '#voucher_date_1', function() {
-            var voucher_date = $(this).val();
-            $('.voucher-date').each(function() {
-                $(this).val(voucher_date);
-            });
-        });
+        // $(document).on('change', '#voucher_date_1', function() {
+        //     var voucher_date = $(this).val();
+        //     $('.voucher-date').each(function() {
+        //         $(this).val(voucher_date);
+        //     });
+        // });
 
         // $(document).on('change', '#voucher_type_1', function() {
         //     var voucher_type = $(this).val();
@@ -574,34 +499,115 @@
     </script>
     <script>
         $(document).ready(function() {
-            $(document).on('change', '.item_code_id', function() {
-                var itemCodeId = $(this).val();
-                var $row = $(this).closest('.count-class');
+            // $(document).on('change', '.item_code_id', function() {
+            //     var itemCodeId = $(this).val();
+            //     var $row = $(this).closest('.count-class');
 
-                if (itemCodeId) {
-                    $.ajax({
-                        url: "{{ route('debit-vouchers.get-item-details') }}",
-                        type: 'POST',
-                        data: {
-                            item_code_id: itemCodeId,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.item) {
-                                $row.find('.item_code').val(response.item.code);
-                            }
+            //     if (itemCodeId) {
+            //         $.ajax({
+            //             url: "{{ route('debit-vouchers.get-item-details') }}",
+            //             type: 'POST',
+            //             data: {
+            //                 item_code_id: itemCodeId,
+            //                 _token: '{{ csrf_token() }}'
+            //             },
+            //             success: function(response) {
+            //                 if (response.item) {
+            //                     $row.find('.item_code').val(response.item.code);
+            //                 }
 
-                        },
-                        error: function(xhr) {
-                            console.error(xhr.responseText);
-                            alert('Failed to fetch item details.');
-                        }
-                    });
-                } else {
-                    $row.find('.item_code').val('');
-                }
-            });
+            //             },
+            //             error: function(xhr) {
+            //                 console.error(xhr.responseText);
+            //                 alert('Failed to fetch item details.');
+            //             }
+            //         });
+            //     } else {
+            //         $row.find('.item_code').val('');
+            //     }
 
+
+
+
+
+            // });
+
+        });
+    </script>
+
+    <script>
+        $(document).on('change', '.item_code_id', function(e) {
+            e.preventDefault();
+
+            //  `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-quantity="${totalQuantity}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
+
+
+            var itemcode = $(this).find('option:selected').data('item-code');
+            var quantity = $(this).find('option:selected').data('item-quantity');
+            var type = $(this).find('option:selected').data('item-type');
+            var desc = $(this).find('option:selected').data('item-desc');
+            var price = $(this).find('option:selected').data('item-price');
+
+            console.log(price);
+
+            var parentElement = $(this).closest('.new_html');
+            parentElement.find('.item-code-no').val(desc);
+            parentElement.find('.item-desc').val(desc);
+            parentElement.find('.item-quantity').val(quantity);
+            parentElement.find('.init-item-quantity').val(quantity);
+            parentElement.find('.item-quantity').attr('max', quantity);
+            parentElement.find('.item-price').val(price);
+            parentElement.find('.init-item-price').val(price);
+            parentElement.find('.item-type').val(type);
+        });
+    </script>
+    <script>
+        function checkMax(input) {
+            // if (input.value > input.max) {
+            //     input.value = input.max;
+            //     console.log('big : ' + input.value);
+            // }
+            const max = parseInt(input.max, 10); // Get the max value
+            if (parseInt(input.value, 10) > max) {
+                input.value = max; // Reset to max if the value exceeds the limit
+            }
+        }
+    </script>
+    <script>
+        // $(document).on('keyup', '.item-quantity', function() {
+        //     // console.log('hello');
+        //     const $row = $(this).closest('.new_html'); // Get the current row
+        //     const quantity = parseFloat($(this).val()); // Get the entered quantity
+        //     init - item - quantity
+        //     const initialPrice = parseFloat($row.find('.init-item-price').val()); // Get the initial price
+
+        //     if (quantity > 0) {
+        //         // Calculate the price per quantity
+        //         const updatedPrice = initialPrice / quantity;
+        //         $row.find('.item-price').val(updatedPrice.toFixed(2)); // Update the price field
+        //     } else {
+        //         // Reset the price if quantity is invalid
+        //         $row.find('.item-price').val('');
+        //     }
+        // });
+    </script>
+
+    <script>
+        $(document).on('keyup', '.item-quantity', function() {
+            console.log('hello');
+            const $row = $(this).closest('.new_html'); // Get the current row
+            const enteredQuantity = parseFloat($(this).val()); // Get the entered quantity
+            const initialQuantity = parseFloat($row.find('.init-item-quantity').val()); // Get the initial quantity
+            const initialPrice = parseFloat($row.find('.init-item-price').val()); // Get the initial price
+
+            if (enteredQuantity > 0 && initialQuantity > 0) {
+                // Calculate the price based on the entered quantity and initial quantity
+                const updatedPrice = (initialPrice / initialQuantity) * enteredQuantity;
+                $row.find('.item-price').val(updatedPrice.toFixed(2)); // Update the price field
+            } else {
+                // Reset the price if the quantity is invalid
+                $row.find('.item-price').val('');
+            }
         });
     </script>
 @endpush

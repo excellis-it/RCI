@@ -157,7 +157,8 @@ class ReportController extends Controller
                 $result[$debitVoucher->voucher_no][$itemCode] = [
                     'item_code' => $itemCode,
                     'quantity' => $detail->quantity ?? 'N/A',
-                    'rate' => $price,
+                    'price' => $detail->price ?? '',
+                    'rate' => ($detail->price / $detail->quantity) ?? '',
                     'uom' => $uom,
                     'description' => $description,
                     'total_cost' => $totalCost,
