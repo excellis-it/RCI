@@ -1105,6 +1105,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
 
             //conversion-vouchers
+            Route::post('/conversion-items-by-inv-no', [ConversionVoucherController::class, 'getItemsByInvNo'])->name('conversion.get-items-by-inv-no');
             Route::get('/conversion-vouchers-fetch-data', [ConversionVoucherController::class, 'fetchData'])->name('conversion-vouchers.fetch-data');
             Route::post('/conversion-vouchers-item-quant', [ConversionVoucherController::class, 'getItemQuantity'])->name('conversion-vouchers.get-item-quantity');
             Route::post('/conversion-vouchers-quantity-validation', [ConversionVoucherController::class, 'getItemQuantityValidation'])->name('conversion-vouchers.quantity-validation');

@@ -290,7 +290,11 @@ class DebitVoucherController extends Controller
     {
 
 
-        $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity',), DB::raw('SUM(total_price) as total_price'))->with('itemCodes')->get();
+        //  $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('price as unit_rate',), DB::raw('SUM(quantity) as total_quantity',), DB::raw('SUM(total_price) as total_price'))->with('itemCodes')->get();
+        $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')
+            ->where('inv_no', $request->inv_no)
+            ->with('itemCodes')
+            ->get();
         // dd($creditVouchers);
         return response()->json(['creditVouchers' => $creditVouchers]);
     }

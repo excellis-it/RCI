@@ -15,6 +15,7 @@ use App\Models\ConversionVoucherDetail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class ConversionVoucherController extends Controller
 {
@@ -23,11 +24,24 @@ class ConversionVoucherController extends Controller
      */
     public function index()
     {
-        $itemCodes = CreditVoucherDetail::groupBy('item_code','item_code_id')->select('item_code','item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-        $inventoryNumbers = InventoryNumber::all();
+        $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        // $inventoryNumbers = InventoryNumber::all();
         $conversionVouchers = ConversionVoucher::paginate(10);
-        $transferVouchers = TransferVoucher::orderBy('id','desc')->get();
-        return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers','transferVouchers'));
+        $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
+        $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
+        return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers', 'transferVouchers'));
+    }
+
+    public function getItemsByInvNo(Request $request)
+    {
+
+
+        //  $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('price as unit_rate',), DB::raw('SUM(quantity) as total_quantity',), DB::raw('SUM(total_price) as total_price'))->with('itemCodes')->get();
+        $creditVouchers = CreditVoucherDetail::where('inv_no', $request->inv_no)
+            ->with('itemCodes')
+            ->get();
+        // dd($creditVouchers);
+        return response()->json(['creditVouchers' => $creditVouchers]);
     }
 
     public function fetchData(Request $request)
@@ -41,15 +55,15 @@ class ConversionVoucherController extends Controller
             $date = $request->get('date_entry');
             $conversionVoucherQuery = ConversionVoucher::query();
 
-            if($query){
+            if ($query) {
                 $query = str_replace(" ", "%", $query);
-                $conversionVoucherQuery->where(function($queryBuilder) use ($query) {
+                $conversionVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                    ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                    ->orWhereHas('itemCode', function ($q) use ($query) {
-                        $q->where('code', 'like', '%' . $query . '%');
-                    })
-                    ->orWhere('quantity', 'like', '%' . $query . '%');
+                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                        ->orWhereHas('itemCode', function ($q) use ($query) {
+                            $q->where('code', 'like', '%' . $query . '%');
+                        })
+                        ->orWhere('quantity', 'like', '%' . $query . '%');
                 });
             }
 
@@ -63,18 +77,18 @@ class ConversionVoucherController extends Controller
             $inventoryTypes = InventoryType::all();
             $inventoryNumbers = InventoryNumber::all();
 
-            return response()->json(['data' => view('inventory.conversion-vouchers.table', compact('conversionVouchers','itemCodes','inventoryTypes','inventoryNumbers'))->render()]);
+            return response()->json(['data' => view('inventory.conversion-vouchers.table', compact('conversionVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'))->render()]);
         }
     }
 
     public function conversionGetItemDetails(Request $request)
     {
-     
-        $item_quantity = CreditVoucherDetail::where('item_code_id', $request->item_id)->sum('quantity');
-        $item_details = ItemCode::where('code',$request->item_id)->first();
-        $inventory_number = CreditVoucherDetail::where('item_code_id',$request->item_id)->with('inventoryNumber')->first();
 
-        return response()->json(['success' => true, 'quantity' => $item_quantity, 'item_details' => $item_details, 'inventory_number' => $inventory_number]); 
+        $item_quantity = CreditVoucherDetail::where('item_code_id', $request->item_id)->sum('quantity');
+        $item_details = ItemCode::where('code', $request->item_id)->first();
+        $inventory_number = CreditVoucherDetail::where('item_code_id', $request->item_id)->with('inventoryNumber')->first();
+
+        return response()->json(['success' => true, 'quantity' => $item_quantity, 'item_details' => $item_details, 'inventory_number' => $inventory_number]);
     }
 
     public function getItemQuantity(Request $request)
@@ -105,14 +119,14 @@ class ConversionVoucherController extends Controller
      */
     public function store(Request $request)
     {
-        
-        Validator::extend('available_quantity', function ($attribute, $value, $parameters, $validator) {
-            $creditVoucherQuant = CreditVoucherDetail::where('item_code', $validator->getData()['item_code'])->sum('quantity');
-            return $value <= $creditVoucherQuant;
-        });
 
-        $sumQuant = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->sum('quantity');
-        
+        // Validator::extend('available_quantity', function ($attribute, $value, $parameters, $validator) {
+        //     $creditVoucherQuant = CreditVoucherDetail::where('item_code', $validator->getData()['item_code'])->sum('quantity');
+        //     return $value <= $creditVoucherQuant;
+        // });
+
+        // $sumQuant = CreditVoucherDetail::where('item_code_id', $request->item_code_id)->sum('quantity');
+
         // $request->validate([
         //     'voucher_date' => 'required',
         //     'quantity' => ['required', 'numeric', 'min:1', 'available_quantity'],
@@ -141,42 +155,58 @@ class ConversionVoucherController extends Controller
         $conversionVoucher->voucher_no = $voucherNo;
         $conversionVoucher->voucher_type = $request->voucher_type;
         $conversionVoucher->voucher_date = $request->voucher_date;
-        $conversionVoucher->transfer_voucher_number = $request->transfer_voucher_number;
+        //  $conversionVoucher->transfer_voucher_number = $request->transfer_voucher_number;
         $conversionVoucher->save();
 
-        foreach($request->strike_item_code as $key => $val) {
+        foreach ($request->strike_inv_id as $key => $val) {
+            // return Helper::getItemCode($request->strike_item_id[$key]); 
             $conversionVoucherDetail = new ConversionVoucherDetail;
             $conversionVoucherDetail->conversion_voucher_id = $conversionVoucher->id;
-            $conversionVoucherDetail->strike_item_code = $val ?? null;
+            $conversionVoucherDetail->strike_inv_id = $request->strike_inv_id[$key] ?? null;
+            $conversionVoucherDetail->strike_item_id = $request->strike_item_id[$key] ?? null;
+            $conversionVoucherDetail->strike_item_code = Helper::getItemCode($request->strike_item_id[$key]) ?? null;
             $conversionVoucherDetail->strike_ledger = $request->strike_ledger[$key] ?? null;
             $conversionVoucherDetail->strike_description = $request->strike_description[$key] ?? null;
             $conversionVoucherDetail->strike_c_nc = $request->strike_c_nc[$key] ?? null;
             $conversionVoucherDetail->strike_quantity = $request->strike_quantity[$key] ?? null;
             $conversionVoucherDetail->strike_rate = $request->strike_rate[$key] ?? null;
-            $conversionVoucherDetail->brought_item_code = $request->brought_item_code[$key] ?? null;
+            $conversionVoucherDetail->strike_price = $request->strike_price[$key] ?? null;
+
+            $conversionVoucherDetail->reason = $request->reason[$key] ?? null;
+            $conversionVoucherDetail->save();
+
+            //$creditVouchers = CreditVoucherDetail::where('item_code', $val)->where('quantity', '!=', 0)->get();
+            // $quantity = $request->quantity;
+            // foreach ($creditVouchers as $creditVoucher) {
+            //     $deductedQuantity = min($creditVoucher->quantity, $quantity);
+            //     $creditVoucher->quantity -= $deductedQuantity;
+            //     $creditVoucher->save();
+
+            //     $quantity -= $deductedQuantity;
+
+            //     if ($quantity <= 0) {
+            //         break;
+            //     }
+            // }
+        }
+
+        foreach ($request->brought_inv_id as $key => $val) {
+            $conversionVoucherDetail = new ConversionVoucherDetail;
+            $conversionVoucherDetail->brought_inv_id = $request->brought_inv_id[$key] ?? null;
+            $conversionVoucherDetail->brought_item_id = $request->brought_item_id[$key] ?? null;
+            $conversionVoucherDetail->brought_item_code = $request->brought_item_id[$key]
+                ? Helper::getItemCode($request->brought_item_id[$key])
+                : null;
             $conversionVoucherDetail->brought_ledger = $request->brought_ledger[$key] ?? null;
             $conversionVoucherDetail->brought_description = $request->brought_description[$key] ?? null;
             $conversionVoucherDetail->brought_c_nc = $request->brought_c_nc[$key] ?? null;
             $conversionVoucherDetail->brought_quantity = $request->brought_quantity[$key] ?? null;
             $conversionVoucherDetail->brought_rate = $request->brought_rate[$key] ?? null;
+            $conversionVoucherDetail->brought_price = $request->brought_price[$key] ?? null;
             $conversionVoucherDetail->reason = $request->reason[$key] ?? null;
             $conversionVoucherDetail->save();
-
-            $creditVouchers = CreditVoucherDetail::where('item_code', $val)->where('quantity', '!=', 0)->get();
-            $quantity = $request->quantity;
-            foreach ($creditVouchers as $creditVoucher) {
-                $deductedQuantity = min($creditVoucher->quantity, $quantity);
-                $creditVoucher->quantity -= $deductedQuantity;
-                $creditVoucher->save();
-                
-                $quantity -= $deductedQuantity;
-                
-                if ($quantity <= 0) {
-                    break;
-                }
-            }
         }
-        
+
         session()->flash('message', 'Conversion Voucher added successfully');
         return response()->json(['success' => 'Conversion Voucher added successfully']);
     }
@@ -197,11 +227,10 @@ class ConversionVoucherController extends Controller
         $conversionVoucher = ConversionVoucher::find($id);
         $itemCodes = ItemCode::all();
         $inventoryNumbers = InventoryNumber::all();
-        $transferVouchers = TransferVoucher::orderBy('id','desc')->get();
+        $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('inventory.conversion-vouchers.form', compact('conversionVoucher','itemCodes','inventoryNumbers','edit','transferVouchers'))->render()]);
-
+        return response()->json(['view' => view('inventory.conversion-vouchers.form', compact('conversionVoucher', 'itemCodes', 'inventoryNumbers', 'edit', 'transferVouchers'))->render()]);
     }
 
     /**
@@ -227,10 +256,10 @@ class ConversionVoucherController extends Controller
 
     public function deleteConversionVoucher(Request $request)
     {
-       
+
         $conversionVoucher = ConversionVoucher::find($request->id);
         $conversionVoucher->delete();
-        
+
         return redirect()->back()->with('error', 'Conversion Voucher deleted successfully');
     }
 }
