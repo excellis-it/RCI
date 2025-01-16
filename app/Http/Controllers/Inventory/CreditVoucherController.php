@@ -29,7 +29,7 @@ class CreditVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
-        $creditVouchers = CreditVoucher::paginate(10);
+        $creditVouchers = CreditVoucher::orderBy('id', 'desc')->paginate(10);
         $members = User::role('MATERIAL-MANAGER')->get();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();
@@ -285,7 +285,7 @@ class CreditVoucherController extends Controller
     {
         $set_rins = true;
         $rins = Rin::with('itemCode', 'itemCode.uomajorment', 'inventoryNo', 'supplyOrder', 'sirDetails')->where('rin_no', $request->rin)->get();
-        
+
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();

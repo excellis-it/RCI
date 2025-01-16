@@ -929,7 +929,7 @@
                                     <label>Supplier Detail</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <select class="form-select" name="supplier_id" id="supplier_id">
+                                    <select class="form-select" name="vendor_id" id="vendor_id">
                                         <option value="">Select Supplier</option>
                                         @foreach ($vendors as $vendor)
                                             <option value="{{ $vendor->id }}">
@@ -945,7 +945,7 @@
                             if (data.supply_order?.id) {
                                 $('#supply_order_number_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
-                                    <label>Supplier Detail</label>
+                                    <label>Supply Order No</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control supplier_order_number"
@@ -980,7 +980,7 @@
                             if (data.inspection_authority?.id) {
                                 $('#inspection_authority_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
-                                    <label>Supplier Detail</label>
+                                    <label>Inspection Authority</label>
                                 </div>
                                 <div class="col-md-12">
                                    <input type="text" class="form-control inspection_authority_name"

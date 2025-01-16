@@ -94,11 +94,11 @@ class RinController extends Controller
             // 'accepted_quantity' => 'required',
             // 'rejected_quantity' => 'required',
             // 'inspection_authority' => 'required',
-            'supplier_id' => 'required',
+            // 'supplier_id' => 'required',
 
             'sir_no' => 'required',
             'inventory_no' => 'required',
-            // 'vendor_id' => 'required',
+            'vendor_id' => 'required',
             'supply_order_no' => 'required',
             'authority_id' => 'required',
             'demand_no' => 'required',
@@ -128,7 +128,7 @@ class RinController extends Controller
         $sir->demand_date = $sir->demand_date ? $sir->demand_date : $request->demand_date;
         $sir->invoice_no = $sir->invoice_no ? $sir->invoice_no : $request->invoice_no;
         $sir->invoice_date = $sir->invoice_date ? $sir->invoice_date : $request->invoice_date;
-        $sir->supplier_id = $sir->supplier_id ? $sir->supplier_id : $request->vendor_id;
+        $sir->supplier_id = $sir->vendor_id ? $sir->vendor_id : $request->vendor_id;
         $sir->save(); //
 
 

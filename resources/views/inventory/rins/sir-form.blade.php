@@ -101,7 +101,7 @@
                             {{-- <button type="button" class="btn btn-sm btn-primary" id="add-supplier-btn">Add Supplier</button> --}}
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="supplier_id" id="supplier_id">
+                            <select class="form-select" name="vendor_id" id="vendor_id">
                                 <option value="">Select Supplier</option>
                                 @foreach ($vendors as $vendor)
                                     <option value="{{ $vendor->id }}">{{ $vendor->name }}
