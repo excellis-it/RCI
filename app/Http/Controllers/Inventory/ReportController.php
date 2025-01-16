@@ -195,7 +195,7 @@ class ReportController extends Controller
     public function conversionVoucherGenerate(Request $request)
     {
         $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
-        $conversionDetails = ConversionVoucherDetail::where('conversion_voucher_id', $conversionVoucher->id)->get();
+        $conversionDetails = ConversionVoucherDetail::all();
         $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
         $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
 
