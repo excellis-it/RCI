@@ -18,6 +18,10 @@
             text-align: left;
             font-size: 12px;
         }
+
+        th {
+            /* border-bottom: 1px solid #000; */
+        }
     </style>
 </head>
 
@@ -129,8 +133,11 @@
                 <td></td>
 
             </tr>
+            @php
+                $new_count_cvr = 0;
+            @endphp
 
-            @foreach ($receipts as $receipt)
+            @foreach ($receipts as $key => $receipt)
                 @php
 
                     if (isset($categoryAmounts[$receipt->category_id])) {
@@ -152,42 +159,89 @@
                             $categoryMemberAmounts[$categoryId][] = $member->amount;
                         }
                     }
+
                 @endphp
-                <tr>
-                    <td>{{ \Carbon\Carbon::parse($receipt->vr_date)->format('d/m/Y') }}</td>
-                    <td>{{ $receipt->vr_no }}</td>
-                    <td>
-                        <span>{{ $receipt->narration }} DV No.- {{ $receipt->dv_no }}</span><br>
 
-                        @if (isset($receipt->receiptMembers) && $receipt->receiptMembers->count() > 0)
-                            @foreach ($receipt->receiptMembers as $index => $member)
-                                @php
-                                    $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
-                                    $memberDesign =
-                                        $members->firstWhere('id', $member->member_id)->designation->designation_type ??
-                                        'N/A';
-                                @endphp
+                <tr style="">
+                    <td rowspan="{{ isset($receipt->receiptMembers) ? $receipt->receiptMembers->count() + 2 : 1 }}"
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                        {{ \Carbon\Carbon::parse($receipt->vr_date)->format('d/m/Y') }}
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
-                                <span>{{ $member->serial_no }}. {{ $memberName }} - {{ $memberDesign }}</span><br>
-                            @endforeach
-                        @endif
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                    </td>
+                    @foreach ($category as $cat)
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                        </td>
+                    @endforeach
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                    </td>
+                </tr>
+
+
+                <tr style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">
+                    <td rowspan="{{ $receipt->receiptMembers->count() + 1 }}"
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                        {{ $receipt->vr_no }}
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                        {{ $receipt->narration . ' DV No.-' . $receipt->dv_no ?? '-' }}
                     </td>
 
                     @foreach ($category as $cat)
-                        <td>
-                            @if ($receipt->category_id == $cat->id)
-                                @if (isset($categoryMemberAmounts[$cat->id]))
-                                    @foreach ($categoryMemberAmounts[$cat->id] as $amount)
-                                        <div>{{ $amount }}</div>
-                                    @endforeach
-                                @else
-                                    <div>Receipt Amount: {{ $receipt->amount }}</div>
-                                @endif
-                            @endif
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
                         </td>
                     @endforeach
-                    <td></td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom:0;  text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                    </td>
                 </tr>
+                @php
+                    $new_count_member = 0;
+                @endphp
+                @if (isset($receipt->receiptMembers) && $receipt->receiptMembers->count() > 0)
+                    @foreach ($receipt->receiptMembers as $index => $member)
+                        @php
+                            $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
+                            $memberDesign =
+                                $members->firstWhere('id', $member->member_id)->designation->designation_type ?? 'N/A';
+                        @endphp
+                        <tr style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                {{ $member->serial_no }}. {{ $memberName }} - {{ $memberDesign }}
+                            </td>
+
+                            @foreach ($category as $cat)
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    @if ($receipt->category_id == $cat->id)
+                                        @if (isset($categoryMemberAmounts[$cat->id]))
+                                            {{ $member->amount }}
+                                        @endif
+                                    @endif
+                                </td>
+                            @endforeach
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                {{ $new_count_cvr++ }}
             @endforeach
 
 

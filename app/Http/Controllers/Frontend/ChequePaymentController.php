@@ -81,7 +81,7 @@ class ChequePaymentController extends Controller
             if ($paymentsData) {
 
                 $paymentsDataBal = ChequePayment::where('receipt_id', $rct_id)
-                    // ->where('vr_date', $vr_date)                    
+                    // ->where('vr_date', $vr_date)
                     ->sum('amount');
 
                 $balance = $rc_amount - $paymentsDataBal;
@@ -513,7 +513,7 @@ class ChequePaymentController extends Controller
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
-        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'balanceCarriedForward', 'totalReceipts'));
+        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
     }
 
 

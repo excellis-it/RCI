@@ -616,7 +616,7 @@ class ReceiptController extends Controller
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 
-        // return view('public-funds.receipts.receipt_report_generate', compact('members', 'receipts', 'category', 'vr_date', 'openingBalance'));
+        // return view('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'));
     }
 
 

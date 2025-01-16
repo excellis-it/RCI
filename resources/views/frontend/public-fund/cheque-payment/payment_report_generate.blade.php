@@ -18,6 +18,10 @@
             text-align: left;
             font-size: 12px;
         }
+
+        th {
+            /* border-bottom: 1px solid #000; */
+        }
     </style>
 </head>
 
@@ -95,14 +99,14 @@
     <table>
         <thead>
             <tr>
-                <th>DATE</th>
-                <th>CBRV</th>
-                <th>DETAILS</th>
-                <th>Cheque No</th>
+                <th >DATE</th>
+                <th >CBRV</th>
+                <th >DETAILS</th>
+                <th >Cheque No</th>
                 @foreach ($category as $cat)
                     <th>{{ strtoupper($cat->name) }}</th>
                 @endforeach
-                <th>SIGN</th>
+                <th >SIGN</th>
             </tr>
         </thead>
         <tbody>
@@ -116,6 +120,7 @@
                     $balanceCarriedForward[$cat->id] = 0;
                     //    $totalPayments[$cat->id] = 0;
                 }
+
             @endphp
 
             @foreach ($receipts as $receipt)
@@ -139,57 +144,120 @@
                     $balanceCarriedForward[$cat->id] = 0;
                     $totalReceipts[$cat->id] = 0;
                 }
+
             @endphp
 
+
+
+
             @foreach ($payments as $key => $payment)
-                <tr>
-                    <td>{{ \Carbon\Carbon::parse($payment->first()->cheq_date)->format('d/m/Y') }}</td>
-                    <td>
-                        @foreach ($payment as $vr_no_print)
-                            {{ $vr_no_print->vr_no }}
-                            <br>
-                        @endforeach
+                @php
+                    $new_count = 0;
+                    foreach ($payment as $vr_no_print) {
+                        if (
+                            isset($vr_no_print->chequePaymentMembers) &&
+                            $vr_no_print->chequePaymentMembers->count() > 0
+                        ) {
+                            $new_count += $vr_no_print->chequePaymentMembers->count() + 1;
+                        }
+                    }
+                    $new_count_cvr = 0;
+                @endphp
+                <tr style="border-top: 0; border-top: 1px solid #000">
+                    <td rowspan="{{ $new_count + 1 }}"
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                        {{ \Carbon\Carbon::parse($payment->first()->cheq_date)->format('d/m/Y') }}
                     </td>
-                    <td>
-                        <span>Cheque No.- {{ $key ?? '-' }}</span><br>
-                        @foreach ($payment as $new => $item)
-                            @if (isset($item->chequePaymentMembers) && $item->chequePaymentMembers->count() > 0)
-                                <span>
-                                    @foreach ($item->chequePaymentMembers as $count => $member)
-                                        ({{ $count + 1 }})
-                                        ({{ $member->member->pers_no ?? '' }}. {{ $member->member->name ?? '' }}) <br>
-                                    @endforeach
-                                </span><br>
-                            @endif
-                        @endforeach
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
                     </td>
-                    <td>{{ $key ?? '-' }}</td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                    </td>
                     @foreach ($category as $cat)
-                        <td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                        </td>
+                    @endforeach
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
+                    </td>
+                </tr>
 
-                            @foreach ($payment as $index => $item)
-                                @if (isset($item->chequePaymentMembers))
-                                    @foreach ($item->chequePaymentMembers as $chequePaymentMember)
-                                        @if (isset($chequePaymentMember->reciepts) && $chequePaymentMember->reciepts->category_id == $cat->id)
-                                            {{ $chequePaymentMember->amount ? $chequePaymentMember->amount : 0 }} <br>
+                @foreach ($payment as $new_key => $vr_no_print)
+                    <tr >
+
+                        <td rowspan="{{ $vr_no_print->chequePaymentMembers->count() + 1 }}"
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            {{ $vr_no_print->vr_no }}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                            {{ $new_count_cvr == 0 ? 'Cheque No.-' . $key ?? '-' : '' }}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                        </td>
+                        @foreach ($category as $cat)
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            </td>
+                        @endforeach
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                        </td>
+                    </tr>
+                    @php
+                        $new_count_member = 0;
+                    @endphp
+                    @if (isset($vr_no_print->chequePaymentMembers) && $vr_no_print->chequePaymentMembers->count() > 0)
+                        @foreach ($vr_no_print->chequePaymentMembers as $count => $member)
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    ({{ $count + 1 }})
+                                    ({{ $member->member->pers_no ?? '' }}. {{ $member->member->name ?? '' }})
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    {{ $new_key == 0 && $count == 0 ? $key ?? '-' : '' }}
+                                </td>
+                                @foreach ($category as $cat)
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        @if (isset($member->reciepts) && $member->reciepts->category_id == $cat->id)
+                                            {{ $member->amount ? $member->amount : 0 }}
                                             @php
 
-                                                $categoryTotals[$cat->id] += $chequePaymentMember->amount;
+                                                $categoryTotals[$cat->id] += $member->amount;
                                                 // Skip if this receipt has already been processed
-                                                if (!in_array($item->reciepts->id, $processedReceipts)) {
-                                                    $totalReceipts[$cat->id] += $item->reciepts->amount;
-                                                    $processedReceipts[] = $item->reciepts->id; // Mark as processed
+                                                if (!in_array($vr_no_print->reciepts->id, $processedReceipts)) {
+                                                    $totalReceipts[$cat->id] += $vr_no_print->reciepts->amount;
+                                                    $processedReceipts[] = $vr_no_print->reciepts->id; // Mark as processed
                                                 }
                                             @endphp
                                         @endif
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        </td>
-                    @endforeach
-                    <td></td>
-                </tr>
+                                    </td>
+                                @endforeach
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+
+                                </td>
+                            </tr>
+                            {{ $new_count_member++ }}
+                        @endforeach
+                    @endif
+                    {{ $new_count_cvr++ }}
+                @endforeach
             @endforeach
 
             <tr>
