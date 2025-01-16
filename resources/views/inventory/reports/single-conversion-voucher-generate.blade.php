@@ -25,7 +25,7 @@
                       width: 100%;
                     ">
                   (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES) <br>
-                  Conversion Voucher 
+                  Conversion Voucher
                 </td>
                 <td style="font-size: 14px; text-align: right"></td>
               </tr>
@@ -45,10 +45,10 @@
                         color: #000;
                         text-align: left;">Group/ Division: <br> <br>
                   Type of Voucher: {{ $conversionVoucher->voucher_type ?? '' }} &nbsp;&nbsp;&nbsp; Date: {{ $conversionVoucher->voucher_date ? date('d-m-Y', strtotime($conversionVoucher->voucher_date)) : '' }}<br> <br>
-                  ICC No. 
+                  ICC No.
                 </td>
                 <td valign="top" style="font-size: 10px; width: 30%;
-                        line-height: 18px; 
+                        line-height: 18px;
                         font-weight: 400;
                         color: #000;
                         text-align: left; padding-left: 10px;">
@@ -129,7 +129,7 @@
               @foreach($conversionDetails as $key => $value)
               <tr>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                  1
+                  {{$key+1}}
                 </td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
                   {{ $value->strike_item_code ?? '' }}</td>
@@ -169,10 +169,10 @@
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
                   {{ $value->reason ?? '' }}
                 </td>
-               
+
               </tr>
               @endforeach
-              
+
             </tbody>
           </table>
         </td>
