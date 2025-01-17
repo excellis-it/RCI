@@ -194,6 +194,7 @@ class ConversionVoucherController extends Controller
 
         foreach ($request->brought_inv_id as $key => $val) {
             $conversionVoucherDetail = new ConversionVoucherDetail;
+            $conversionVoucherDetail->conversion_voucher_id = $conversionVoucher->id;
             $conversionVoucherDetail->brought_inv_id = $request->brought_inv_id[$key] ?? null;
             $conversionVoucherDetail->brought_item_id = $request->brought_item_id[$key] ?? null;
             $conversionVoucherDetail->brought_item_code = $request->brought_item_id[$key]
