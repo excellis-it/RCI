@@ -850,6 +850,7 @@
         </div>
     </form>
 
+
     <div id="rins_new_html" hidden>
         <div class="new_html">
             <hr />

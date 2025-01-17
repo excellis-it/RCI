@@ -649,7 +649,7 @@
                     success: function(response) {
                         // Update the description in the same row
                         $row.find('.description').val(response.description);
-                        $row.find('.units_cost').val(response.price);
+                        // $row.find('.units_cost').val(response.price);
                     },
                     error: function(xhr) {
                         console.log(xhr);

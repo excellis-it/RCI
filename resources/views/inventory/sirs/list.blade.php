@@ -324,4 +324,279 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.add-more-rin').click(function() {
+                var newRow = `
+           <div class="new_html">
+            <hr />
+            <div class="col-md-12 count-class">
+                <div class="row item-row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select item_id" name="item_id[]">
+                                    <option value="">Select Item Code</option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}">{{ $item->code }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control description" name="description[]" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Received Quantity</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control rcv_quantity" name="received_quantity[]">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Remarks</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="remarks[]" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Unit Cost</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control units_cost" name="unit_cost[]" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Total Unit Cost</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control total_cost" name="total_cost[]"  placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                           <div class="col-md-12 d-flex justify-content-between">
+                                <label>Discount  <select class="discount_type" name="discount_type[]" id="discount_type">
+                                    <option value="percentage">Percentage (%)</option>
+                                    <option value="fixed">Fixed Amount</option>
+                                </select></label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
+                                  <input type="hidden" class="form-control discount_amount" name="discount_amount[]" id="discount_amount" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select gst_percent" name="gst[]">
+                                    <option value="">Select GST</option>
+                                    @foreach ($gsts as $gst)
+                                        <option value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control gst_amount" name="gst_amount[]" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Total Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control total_amount" name="total_amount[]" placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NC Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="nc_status[]">
+                                    <option value="">Select NC Status</option>
+                                     @if (count($nc_statuses) > 0)
+                                            @foreach ($nc_statuses as $nc_status)
+                                                <option value="{{ $nc_status['status'] }}">{{ $nc_status['status'] }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>A/U Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status[]">
+                                    <option value="">Select A/U Status</option>
+                                      @if (count($au_statuses) > 0)
+                                        @foreach ($au_statuses as $au_status)
+                                            <option value="{{ $au_status['status'] }}">{{ $au_status['status'] }}
+                                            </option>
+                                        @endforeach
+                                        @endif
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 ms-auto">
+                        <label>&nbsp;</label>
+                        <button type="button" class="listing_add w-100 trash form-control add-more">
+                            <i class="fa fa-cross">x</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+                $('#credit_form_add_new_row').append(newRow);
+            });
+
+            // Remove dynamically added rows
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
+
+
+            $(document).on('change', '.item_id', function() {
+                var item_code_id = $(this).val();
+                var $this = $(this); // Reference to the selected item
+
+                // Get the row containing this item
+                var $row = $this.closest('.new_html');
+
+                $.ajax({
+                    url: "{{ route('rins.get-item-description') }}",
+                    type: 'POST',
+                    data: {
+                        id: item_code_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Update the description in the same row
+                        $row.find('.description').val(response.description);
+                        //   $row.find('.units_cost').val(response.price);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            function calculateTotalCost($row) {
+                var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
+                var unitCost = parseFloat($row.find('.units_cost').val()) || 0;
+                var discPercent = parseFloat($row.find('.disc_percent').val()) || 0;
+                var gstPercent = parseFloat($row.find('.gst_percent').val()) || 0;
+                var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
+
+                var totalCost = unitCost * received;
+                $row.find('.total_cost').val(totalCost.toFixed(2));
+
+                var discountedCost = totalCost; // Start with the total cost
+
+                // Apply discount based on discount type
+                if (discountType === 'percentage') {
+                    discountedCost = totalCost - (totalCost * (discPercent / 100));
+                    var discount = (totalCost * (discPercent / 100));
+                } else if (discountType === 'fixed') {
+                    discountedCost = totalCost - discPercent;
+                    var discount = discPercent;
+                }
+                $row.find('.discount_amount').val(discount.toFixed(2));
+                // Calculate GST on the discounted amount
+                var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
+                $row.find('.gst_amount').val(gstAmount);
+
+                // Calculate total amount after GST
+                var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
+                $row.find('.total_amount').val(totalAmount);
+            }
+
+            // Event listener for changes in received quantity, unit cost, discount, or GST percentage
+            $(document).on('input', '.rcv_quantity, .units_cost, .disc_percent, .gst_percent, .discount_type',
+                function() {
+                    var $row = $(this).closest('.new_html');
+                    calculateTotalCost($row);
+                });
+        });
+    </script>
 @endpush

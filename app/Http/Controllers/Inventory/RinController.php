@@ -15,7 +15,7 @@ use App\Models\GstPercentage;
 use App\Models\User;
 use App\Models\Designation;
 use App\Models\NcStatus;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class RinController extends Controller
 {

@@ -20,12 +20,13 @@ class InventoryNumberController extends Controller
     public function index()
     {
         $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->paginate(10);
-        $itemTypes = InventoryType::orderBy('id','desc')->get();
-        $members = User::role('MATERIAL-MANAGER')->get();
-        $groups = Group::orderBy('id','desc')->get();
-        $invProjects = InventoryProject::orderBy('id','desc')->where('status', 1)->get();
+        $itemTypes = InventoryType::orderBy('id', 'desc')->get();
+        // $members = User::role('MATERIAL-MANAGER')->get();
+        $members = Member::all();
+        $groups = Group::orderBy('id', 'desc')->get();
+        $invProjects = InventoryProject::orderBy('id', 'desc')->where('status', 1)->get();
 
-        return view('inventory.inventory-numbers.list', compact('inventoryNumbers','itemTypes','members','invProjects','groups'));
+        return view('inventory.inventory-numbers.list', compact('inventoryNumbers', 'itemTypes', 'members', 'invProjects', 'groups'));
     }
 
     public function fetchData(Request $request)
@@ -35,14 +36,14 @@ class InventoryNumberController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $inventoryNumbers = InventoryNumber::where(function($queryBuilder) use ($query) {
+            $inventoryNumbers = InventoryNumber::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('inventory_type', 'like', '%' . $query . '%')
                     ->orWhere('number', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('inventory.inventory-numbers.table', compact('inventoryNumbers'))->render()]);
         }
@@ -71,8 +72,7 @@ class InventoryNumberController extends Controller
         ]);
 
         $invNum = InventoryNumber::latest()->first();
-        if(isset($invNum))
-        {
+        if (isset($invNum)) {
             $serial_no = Str::substr($invNum->number, -1);
             $counter = $serial_no + 1;
             // dd($serial_no);
@@ -97,7 +97,6 @@ class InventoryNumberController extends Controller
 
         session()->flash('message', 'Inventory Number added successfully');
         return response()->json(['success' => 'Inventory Number added successfully']);
-
     }
 
     /**
@@ -115,11 +114,12 @@ class InventoryNumberController extends Controller
     {
 
         $inventory_number = InventoryNumber::find($id);
-        $members = User::role('MATERIAL-MANAGER')->get();
-        $groups = Group::orderBy('id','desc')->get();
-        $invProjects = InventoryProject::orderBy('id','desc')->where('status', 1)->get();
+        // $members = User::role('MATERIAL-MANAGER')->get();
+        $members = Member::all();
+        $groups = Group::orderBy('id', 'desc')->get();
+        $invProjects = InventoryProject::orderBy('id', 'desc')->where('status', 1)->get();
         $edit = true;
-        return response()->json(['view' => view('inventory.inventory-numbers.form', compact('edit','inventory_number','members','groups','invProjects'))->render()]);
+        return response()->json(['view' => view('inventory.inventory-numbers.form', compact('edit', 'inventory_number', 'members', 'groups', 'invProjects'))->render()]);
     }
 
     /**

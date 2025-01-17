@@ -21,7 +21,7 @@ class InventoryNumber extends Model
 
     public function member()
     {
-        return $this->belongsTo(User::class, 'holder_id');
+        return $this->belongsTo(Member::class, 'holder_id');
     }
 
 
