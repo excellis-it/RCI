@@ -173,7 +173,7 @@ class RinController extends Controller
                 $rin->au_status = $request->au_status[$key];
                 $rin->gst = $request->gst[$key];
                 $rin->gst_amount = $request->gst_amount[$key];
-                $rin->total_amount = $request->total_amount[$key];
+                $rin->total_cost = $request->total_amount[$key];
                 $rin->vendor_id = $request->vendor_id;
                 $rin->supply_order_no = $request->supply_order_no;
                 $rin->save();
