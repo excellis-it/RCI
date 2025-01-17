@@ -34,7 +34,7 @@ class RinController extends Controller
         $items = ItemCode::all();
         $vendors = Vendor::orderBy('id', 'desc')->get();
         $supply_orders = SupplyOrder::all();
-        $sir_nos = InventorySir::where('status', 1)->orderBy('id', 'desc')->get();
+        $sir_nos = InventorySir::where('status', 1)->orderBy('id', 'desc')->get()->groupBy('sir_no');
         $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
         $gsts = GstPercentage::orderBy('id', 'desc')->get();
         $authorities = User::role('MATERIAL-MANAGER')->get();
@@ -120,16 +120,16 @@ class RinController extends Controller
             // 'nc_status.required' => 'Select NC Status.',
         ]);
 
-        $sir = InventorySir::findOrFail($request->sir_no);
-        $sir->demand_no = $sir->demand_no ? $sir->demand_no : $request->demand_no;
-        $sir->inventory_no = $sir->inventory_no ? $sir->inventory_no : $request->inventory_no;
-        $sir->supply_order_no = $sir->supply_order_no ? $sir->supply_order_no : $request->supply_order_no;
-        $sir->inspection_authority = $sir->authority_id ? $sir->authority_id : $request->authority_id;
-        $sir->demand_date = $sir->demand_date ? $sir->demand_date : $request->demand_date;
-        $sir->invoice_no = $sir->invoice_no ? $sir->invoice_no : $request->invoice_no;
-        $sir->invoice_date = $sir->invoice_date ? $sir->invoice_date : $request->invoice_date;
-        $sir->supplier_id = $sir->vendor_id ? $sir->vendor_id : $request->vendor_id;
-        $sir->save(); //
+        $sir = InventorySir::where('sir_no', $request->sir_no)->update([
+            'demand_no' => $sir->demand_no ?? $request->demand_no,
+            'inventory_no' => $sir->inventory_no ?? $request->inventory_no,
+            'supply_order_no' => $sir->supply_order_no ?? $request->supply_order_no,
+            'inspection_authority' => $sir->authority_id ?? $request->authority_id,
+            'demand_date' => $sir->demand_date ?? $request->demand_date,
+            'invoice_no' => $sir->invoice_no ?? $request->invoice_no,
+            'invoice_date' => $sir->invoice_date ?? $request->invoice_date,
+            'supplier_id' => $sir->vendor_id ?? $request->vendor_id,
+        ]);
 
 
         // auto generate rin id
@@ -146,7 +146,7 @@ class RinController extends Controller
             $rin_id = 'RIN' . str_pad(1, 4, '0', STR_PAD_LEFT);
         }
 
-        $sir_detail = InventorySir::where('id', $request->sir_no)->first();
+        $sir_detail = InventorySir::where('sir_no', $request->sir_no)->first();
 
         if ($request->item_id) {
             foreach ($request->item_id as $key => $item) {
@@ -270,9 +270,10 @@ class RinController extends Controller
     public function getSirDetails(Request $request)
     {
         $request->validate([
-            'sir_id' => 'required|integer|exists:inventory_sirs,id', // Ensure the SIR ID exists in the database
+            'sir_id' => 'required|exists:inventory_sirs,sir_no', // Validate the SIR ID exists
         ]);
 
+        // Fetch the SIR details along with related data
         $sirDetails = InventorySir::with([
             'inventoryNumber',
             'supplier',
@@ -281,14 +282,52 @@ class RinController extends Controller
             'contractAuthority',
             'inventoryNumber.group',
             'inventoryNumber.project'
-        ])->find($request->sir_id);
+        ])->where('sir_no', $request->sir_id)->first();
 
+        // Check if SIR details exist
         if (!$sirDetails) {
             return response()->json(['error' => 'SIR not found'], 404);
         }
 
-        return response()->json($sirDetails);
+        $allSirDetails = InventorySir::with([
+            'inventoryNumber',
+            'supplier',
+            'supplyOrder',
+            'inspectionAuthority',
+            'contractAuthority',
+            'inventoryNumber.group',
+            'inventoryNumber.project'
+        ])->where('sir_no', $request->sir_id)->get();
+
+        // Fetch additional data for the view
+        $items = ItemCode::all();
+        $vendors = Vendor::orderBy('id', 'desc')->get();
+        $supply_orders = SupplyOrder::all();
+        $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
+        $gsts = GstPercentage::orderBy('id', 'desc')->get();
+        $authorities = User::role('MATERIAL-MANAGER')->get();
+        $designations = Designation::orderBy('id', 'desc')->paginate(10);
+        $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
+        $au_statuses = AuStatus::orderBy('status', 'asc')->get();
+
+        // Render the view and return JSON response
+        $view = view('inventory.rins.fetch_item_sir', compact(
+            'sirDetails',
+            'allSirDetails',
+            'items',
+            'vendors',
+            'supply_orders',
+            'inventory_nos',
+            'gsts',
+            'authorities',
+            'designations',
+            'nc_statuses',
+            'au_statuses'
+        ))->render();
+
+        return response()->json(['sirDetails' => $sirDetails, 'view' => $view]);
     }
+
 
     public function getSirForm(Request $request)
     {

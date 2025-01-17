@@ -375,7 +375,7 @@
                     }
                 });
             });
-            $('.add-more-rin').click(function() {
+            $(document).on('click', '.add-more-rin', function() {
                 var newRow = `
            <div class="new_html">
             <hr />
@@ -562,7 +562,7 @@
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
                         <button type="button" class="listing_add w-100 trash form-control add-more">
-                            <i class="fa fa-cross">x</i>
+                            <i class="fas fa-minus-circle">Remove</i>
                         </button>
                     </div>
                 </div>
@@ -822,7 +822,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#item_id').change(function() {
+            $(document).on('change', '#item_id', function() {
                 var item_code_id = $(this).val();
                 $.ajax({
                     url: "{{ route('rins.get-item-description') }}",
@@ -862,53 +862,53 @@
                             // Populate fields with the returned data
 
                             // Check if 'sir_date' is set and assign value
-                            $('#sir_date').val(data.sir_date || '');
+                            $('#sir_date').val(data.sirDetails.sir_date || '');
 
                             // Check if 'inventory_number' exists and use number or ID
-                            $('#inventory_code').val(data.inventory_number?.number || '');
-                            $('#inventory_no').val(data.inventory_number?.id || '');
+                            $('#inventory_code').val(data.sirDetails.inventory_number?.number || '');
+                            $('#inventory_no').val(data.sirDetails.inventory_number?.id || '');
 
                             // Check if group_name or division exists and concatenate them
-                            let groupName = data.inventory_number?.group?.value || '';
-                            let division = data.inventory_number?.division || '';
+                            let groupName = data.sirDetails.inventory_number?.group?.value || '';
+                            let division = data.sirDetails.inventory_number?.division || '';
                             $('#group_name').val(groupName + (groupName && division ? ' / ' :
                                 '') + division);
 
                             // Check if project exists
-                            $('#project_number').val(data.inventory_number?.project
+                            $('#project_number').val(data.sirDetails.inventory_number?.project
                                 ?.project_code || '');
 
                             // Handle conditional readonly attribute for demand_date, demand_no, invoice_no, invoice_date
-                            if (data.demand_date) {
-                                $('#demand_date').val(data.demand_date || '');
+                            if (data.sirDetails.demand_date) {
+                                $('#demand_date').val(data.sirDetails.demand_date || '');
                             } else {
                                 $('#demand_date').val('');
                                 $('#demand_date').removeAttr("readonly");
                             }
 
-                            if (data.demand_no) {
-                                $('#demand_no').val(data.demand_no || '');
+                            if (data.sirDetails.demand_no) {
+                                $('#demand_no').val(data.sirDetails.demand_no || '');
                             } else {
                                 $('#demand_no').val('');
                                 $('#demand_no').removeAttr("readonly");
                             }
 
-                            if (data.invoice_no) {
-                                $('#invoice_no').val(data.invoice_no || '');
+                            if (data.sirDetails.invoice_no) {
+                                $('#invoice_no').val(data.sirDetails.invoice_no || '');
                             } else {
                                 $('#invoice_no').val('');
                                 $('#invoice_no').removeAttr("readonly");
                             }
 
-                            if (data.invoice_date) {
-                                $('#invoice_date').val(data.invoice_date || '');
+                            if (data.sirDetails.invoice_date) {
+                                $('#invoice_date').val(data.sirDetails.invoice_date || '');
                             } else {
                                 $('#invoice_date').val('');
                                 $('#invoice_date').removeAttr("readonly");
                             }
 
                             // Check if supplier exists and update fields, else provide select option
-                            if (data.supplier?.id) {
+                            if (data.sirDetails.supplier?.id) {
                                 $('#supply_order_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
                                     <label>Supplier Detail</label>
@@ -921,8 +921,8 @@
                                     <span class="text-danger"></span>
                                 </div>
                             `);
-                                $('#supplier').val(data.supplier?.name || '');
-                                $('#vendor_id').val(data.supplier?.id || '');
+                                $('#supplier').val(data.sirDetails.supplier?.name || '');
+                                $('#vendor_id').val(data.sirDetails.supplier?.id || '');
                             } else {
                                 $('#supply_order_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
@@ -942,7 +942,7 @@
                             `);
                             }
 
-                            if (data.supply_order?.id) {
+                            if (data.sirDetails.supply_order?.id) {
                                 $('#supply_order_number_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
                                     <label>Supply Order No</label>
@@ -955,9 +955,9 @@
                                     <span class="text-danger"></span>
                                 </div>
                             `);
-                                $('#supplier_order_number').val(data.supply_order
+                                $('#supplier_order_number').val(data.sirDetails.supply_order
                                     ?.order_number || '');
-                                $('#supply_order_no').val(data.supply_order?.id || '');
+                                $('#supply_order_no').val(data.sirDetails.supply_order?.id || '');
                             } else {
                                 $('#supply_order_number_field').html(`
                                <div class="col-md-12 d-flex justify-content-between">
@@ -977,7 +977,7 @@
                             `);
                             }
 
-                            if (data.inspection_authority?.id) {
+                            if (data.sirDetails.inspection_authority?.id) {
                                 $('#inspection_authority_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
                                     <label>Inspection Authority</label>
@@ -992,11 +992,11 @@
                                 </div>
                             `);
                                 $('#inspection_authority_name').val(
-                                    (data.inspection_authority?.first_name || '') + ' ' + (
-                                        data
+                                    (data.sirDetails.inspection_authority?.first_name || '') + ' ' + (
+                                        data.sirDetails
                                         .inspection_authority?.last_name || '')
                                 );
-                                $('#authority_id').val(data.inspection_authority?.id || '');
+                                $('#authority_id').val(data.sirDetails.inspection_authority?.id || '');
                             } else {
                                 $('#inspection_authority_field').html(`
                                <div class="col-md-12">
@@ -1018,8 +1018,9 @@
 
                             // Check if inspection authority exists and update fields
 
-                            $('#authority_designation').val(data.inspection_authority
+                            $('#authority_designation').val(data.sirDetails.inspection_authority
                                 ?.designation || '').change();
+                            $('#credit_form_add_new_row').html(data.view);
                         },
                         error: function(xhr) {
                             alert('Failed to fetch SIR details.');

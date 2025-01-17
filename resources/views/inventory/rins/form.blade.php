@@ -424,15 +424,15 @@
                         <div class="row align-items-center">
                             <div class="col-md-12 d-flex justify-content-between">
                                 <label>SIR No</label>
-                                <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn"
-                                    id="add-sir-btn"><i class="fa fa-plus"></i></a>
+                                {{-- <a href="javascript:void(0);" class="edit_pencil edit-route print-route print-btn"
+                                    id="add-sir-btn"><i class="fa fa-plus"></i></a> --}}
                                 {{-- <button type="button" class="btn btn-sm btn-primary" id="add-supplier-btn">Add Supplier</button> --}}
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="sir_no" id="sir_no" readonly>
                                     <option value="">Select SIR No </option>
-                                    @foreach ($sir_nos as $sir_no)
-                                        <option value="{{ $sir_no->id }}">{{ $sir_no->sir_no }}</option>
+                                    @foreach ($sir_nos as $key => $sir_no)
+                                        <option value="{{ $key }}">{{ $key }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -636,222 +636,26 @@
         </div>
         <div class="row">
             <div class="col-md-8" id="credit_form_add_new_row">
-                <div class="new_html">
-                    <div class="row">
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Item Code </label>
-                                </div>
-                                <div class="col-md-12">
-                                    <select class="form-select item_id" name="item_id[]" id="item_id">
-                                        <option value="">Select Item Code </option>
-                                        @foreach ($items as $item)
-                                            <option value="{{ $item->id }}">{{ $item->code }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
+                @include('inventory.rins.fetch_item_sir')
 
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Description</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control description" name="description[]"
-                                        id="description">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Received Quantity</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control rcv_quantity"
-                                        name="received_quantity[]" id="received_quantity">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Remarks</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" name="remarks[]" id="remarks"
-                                        value="" placeholder="">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Unit Cost</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control units_cost" name="unit_cost[]"
-                                        id="unit_cost" placeholder="">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Total Unit Cost</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control total_cost" name="total_cost[]"
-                                        id="total_cost" placeholder="">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12 d-flex justify-content-between">
-                                    <label>Discount <select class="discount_type" name="discount_type[]"
-                                            id="discount_type">
-                                            <option value="percentage">Percentage (%)</option>
-                                            <option value="fixed">Fixed Amount</option>
-                                        </select></label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control disc_percent" name="disc_percent[]"
-                                        id="disc_percent" placeholder="">
-                                    <input type="hidden" class="form-control discount_amount"
-                                        name="discount_amount[]" id="discount_amount" placeholder="">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>GST</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <select class="form-select gst_percent" name="gst[]" id="gst">
-                                        <option value="">Select Gst</option>
-                                        @foreach ($gsts as $gst)
-                                            <option value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Gst Amount</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control gst_amount" name="gst_amount[]"
-                                        id="gst_amount" placeholder="">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>Total Amount</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control total_amount" name="total_amount[]"
-                                        id="total_amount" placeholder="">
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>NC Status</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <select class="form-select" name="nc_status[]" id="nc_status">
-                                        <option value="">Select NC Status</option>
-                                        @if (count($nc_statuses) > 0)
-                                            @foreach ($nc_statuses as $nc_status)
-                                                <option value="{{ $nc_status['status'] }}">{{ $nc_status['status'] }}
-                                                </option>
-                                            @endforeach
-                                        @endif
-
-                                    </select>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4 mb-2">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <label>A/U Status</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <select class="form-select" name="au_status[]" id="au_status">
-                                        <option value="">Select A/U Status</option>
-                                        @if (count($au_statuses) > 0)
-                                            @foreach ($au_statuses as $au_status)
-                                                <option value="{{ $au_status['status'] }}">{{ $au_status['status'] }}
-                                                </option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                    <span class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-2 ms-auto">
-                            <div class="add-more form-group mt-4">
-                                <a href="javascript:void(0);" class="listing_add add-more-rin"><i
-                                        class="fas fa-plus-circle"></i> Add More</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
 
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
+            <div class="row">
+                <div class="col-md-3 d-flex justify-content-center">
+                    <div class="col-md-6 mb-1">
+                        <button type="submit" class="listing_add">Add</button>
+                    </div>
+                    <div class="col-md-6 mb-1 ms-1">
+                        <a href="" class="listing_exit">Back</a>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
 
 
-    <div id="rins_new_html" hidden>
+    {{-- <div id="rins_new_html" hidden>
         <div class="new_html">
             <hr />
             <div class="col-md-12 count-class">
@@ -1023,6 +827,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 @endif

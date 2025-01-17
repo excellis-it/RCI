@@ -304,6 +304,7 @@ class ReportController extends Controller
 
     public function rinControllerReport()
     {
+        return view('inventory.reports.rin-list');
         $pdf = PDF::loadView('inventory.reports.rin-controller-generate');
         return $pdf->download('rin-controller.pdf');
     }

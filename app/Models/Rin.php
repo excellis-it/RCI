@@ -26,7 +26,7 @@ class Rin extends Model
 
     public function sirNo()
     {
-        return $this->belongsTo(InventorySir::class, 'sir_no');
+        return $this->hasOne(InventorySir::class, 'sir_no', 'sir_no');
     }
 
     public function vendorDetail()
