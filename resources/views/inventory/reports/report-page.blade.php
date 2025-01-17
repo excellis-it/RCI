@@ -28,9 +28,9 @@
         </div>
         <!--  Row 1 -->
 
-        <form action="{{ route('reports.inventory.generate') }}" method="post">
+        <form action="{{ route('reports.inventory.generate') }}" method="post" id="report-form">
             @csrf
-            <input type="hidden" name="type" value="{{ $report_type }}">
+            <input type="hidden" name="type" value="{{ $report_type }}" id="type">
             <div class="row">
                 <div class="col-md-3">
                     <div class="mb-3">
@@ -68,6 +68,68 @@
                 locale: {
                     format: 'YYYY-MM-DD' // Date format
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#report-form').submit(function(e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+                var re_type = $('#type').val();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    xhrFields: {
+                        responseType: 'blob' // Important for handling binary data
+                    },
+                    success: function(blob, status, xhr) {
+                        // Check if the response contains an error
+                        const contentType = xhr.getResponseHeader("Content-Type");
+                        if (contentType && contentType.includes("application/json")) {
+                            const reader = new FileReader();
+                            reader.onload = function() {
+                                try {
+                                    const response = JSON.parse(reader.result);
+                                    if (response.error) {
+                                        toastr.error(response.error);
+                                        return;
+                                    }
+                                } catch (err) {
+                                    console.error("Error parsing JSON:", err);
+                                }
+                            };
+                            reader.readAsText(blob);
+                            return;
+                        }
+
+                        // If no error, process the blob as a file download
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = re_type + '.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('There was an error with your request:', error);
+                        if (xhr.status === 201) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                toastr.error(response.error || 'Data Not Found!');
+                            } catch (err) {
+                                toastr.error('Data Not Found!');
+                            }
+                        } else {
+                            toastr.error('Data Not Found!');
+                        }
+                    }
+                });
+
             });
         });
     </script>
