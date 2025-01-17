@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Helpers\Helper;
+use App\Models\InventoryItemBalance;
+
 
 class ConversionVoucherController extends Controller
 {
@@ -26,7 +28,7 @@ class ConversionVoucherController extends Controller
     {
         $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         // $inventoryNumbers = InventoryNumber::all();
-        $conversionVouchers = ConversionVoucher::paginate(10);
+        $conversionVouchers = ConversionVoucher::orderBy('id', 'desc')->paginate(10);
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
         $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
         return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers', 'transferVouchers'));

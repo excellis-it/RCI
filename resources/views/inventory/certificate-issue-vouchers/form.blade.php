@@ -89,8 +89,8 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="quantity" id="quantity" value="{{ $certificateIssueVoucher->quantity }}"
-                                    placeholder="" readonly>
+                                <input type="text" class="form-control" name="quantity" id="quantity"
+                                    value="{{ $certificateIssueVoucher->quantity }}" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -101,8 +101,8 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_price" id="total_price" value="{{ $certificateIssueVoucher->total_price }}"
-                                    placeholder="" readonly>
+                                <input type="text" class="form-control" name="total_price" id="total_price"
+                                    value="{{ $certificateIssueVoucher->total_price }}" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -132,10 +132,11 @@
                                 <label>Inventory number </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select search-select-box" name="inv_no" id="inv_no">
+                                <select class="form-select search-select-box2" name="inv_no" id="inv_no">
                                     <option value="">Select No </option>
                                     @foreach ($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}</option>
+                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -148,7 +149,8 @@
                                 <label>Inventory Holder Name </label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" name="inventory_holder" id="inventory_holder" class="form-control">
+                                <input type="text" name="inventory_holder" id="inventory_holder"
+                                    class="form-control">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -160,7 +162,8 @@
                                 <label>Voucher Date </label>
                             </div>
                             <div class="col-md-12">
-                                <input type="date"  name="voucher_date" id="voucher_date" class="form-control" max="{{ date('Y-m-d') }}">
+                                <input type="date" name="voucher_date" id="voucher_date" class="form-control"
+                                    max="{{ date('Y-m-d') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -169,7 +172,7 @@
                     <hr>
                 </div>
 
-                
+
 
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -182,9 +185,9 @@
                                     <option value="">Select Item Code </option>
                                     @foreach ($itemCodes as $item)
                                         @if ($item->total_quantity > 0)
-                                        <option value="{{ $item->item_code }}"
-                                            data-hidden-value="{{ $item->total_quantity }}">
-                                            {{ $item->item_code_id }}({{ $item->total_quantity }})</option>
+                                            <option value="{{ $item->item_code }}"
+                                                data-hidden-value="{{ $item->total_quantity }}">
+                                                {{ $item->item_code_id }}({{ $item->total_quantity }})</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -205,14 +208,14 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input class="form-control" name="description[]" id="description"  readonly>
+                                <input class="form-control" name="description[]" id="description" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -226,7 +229,7 @@
                             <div class="col-md-12">
                                 <select class="form-control" name="quantity[]" id="quantity">
                                     <option value="">Select Quantity</option>
-                                    
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -238,7 +241,7 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_price[]" id="total_price" 
+                                <input type="text" class="form-control" name="total_price[]" id="total_price"
                                     placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -250,7 +253,7 @@
                             <div class="col-md-12">
                                 <label>A/U status</label>
                             </div>
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
                                 <select class="form-select" name="au_status[]" id="au_status">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
@@ -266,8 +269,8 @@
                             <div class="col-md-12">
                                 <label>Remarks</label>
                             </div>
-                            <div class="col-md-12"> 
-                                <textarea class="form-control" name="remarks[]" id="remarks" ></textarea>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remarks[]" id="remarks"></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -280,7 +283,7 @@
                         </div>
                     </div>
                 </div>
-               
+
 
                 <div id="credit_form_add_new_row"></div>
             </div>
@@ -310,9 +313,9 @@
                                     <option value="">Select Item Code </option>
                                     @foreach ($itemCodes as $item)
                                         @if ($item->total_quantity > 0)
-                                        <option value="{{ $item->item_code }}"
-                                            data-hidden-value="{{ $item->total_quantity }}">
-                                            {{ $item->item_code_id }}({{ $item->total_quantity }})</option>
+                                            <option value="{{ $item->item_code }}"
+                                                data-hidden-value="{{ $item->total_quantity }}">
+                                                {{ $item->item_code_id }}({{ $item->total_quantity }})</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -333,14 +336,14 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input class="form-control description" name="description[]" id=""  readonly>
+                                <input class="form-control description" name="description[]" id="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -354,7 +357,7 @@
                             <div class="col-md-12">
                                 <select class="form-control quantity" name="quantity[]">
                                     <option value="">Select Quantity</option>
-                                    
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -366,7 +369,7 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control total_price" name="total_price[]" 
+                                <input type="text" class="form-control total_price" name="total_price[]"
                                     placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -378,7 +381,7 @@
                             <div class="col-md-12">
                                 <label>A/U status</label>
                             </div>
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
                                 <select class="form-select" name="au_status[]" id="au_status">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
@@ -394,8 +397,8 @@
                             <div class="col-md-12">
                                 <label>Remarks</label>
                             </div>
-                            <div class="col-md-12"> 
-                                <textarea class="form-control" name="remarks[]" id="remarks" ></textarea>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remarks[]" id="remarks"></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -406,7 +409,7 @@
                         </button>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>

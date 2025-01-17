@@ -12,13 +12,16 @@ use App\Models\ItemCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\TransferVoucherDetail;
+use App\Models\InventoryItemBalance;
+use App\Helpers\Helper;
+
 
 
 class TransferVoucherController extends Controller
 {
     public function index()
     {
-        $transferVouchers = TransferVoucher::paginate(10);
+        $transferVouchers = TransferVoucher::orderBy('id', 'desc')->paginate(10);
         $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
         // foreach ($inventoryNumbers as $inv) {
         //     $inv['crv_voucher_no'] = $inv->creditVoucherDetails->voucherDetail->voucher_no;
@@ -188,6 +191,8 @@ class TransferVoucherController extends Controller
         }
 
         TransferVoucherDetail::insert($strikeDetails);
+
+
 
         session()->flash('message', 'Transfer Voucher added successfully');
         return response()->json(['success' => 'Transfer Voucher added successfully']);

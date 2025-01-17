@@ -18,6 +18,7 @@ use App\Models\InventoryProject;
 use App\Models\Uom;
 use App\Models\Vendor;
 use Carbon\Carbon;
+use App\Models\InventoryItemBalance;
 
 class CreditVoucherController extends Controller
 {
@@ -183,6 +184,19 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
                     $creditVoucherDetail->cost_debatable = $request->cost_debatable ?? null;
                     $creditVoucherDetail->save();
+
+                    $inventoryItem = new InventoryItemBalance();
+                    $inventoryItem->voucher_type = 'credit_voucher';
+                    $inventoryItem->item_id = $request->item_code_id[$key] ?? null;
+                    $inventoryItem->item_code = $request->item_code[$key] ?? null;
+                    $inventoryItem->inv_id = $request->inv_no ?? null;
+                    $inventoryItem->quantity = $request->quantity[$key] ?? 0;
+                    $inventoryItem->unit_cost = $request->price[$key] ?? 0.00;
+                    $inventoryItem->total_cost = $request->price[$key] * $request->quantity[$key] ?? 0.00;
+                    $inventoryItem->gst_amount = $request->gst_amt[$key] ?? 0.00;
+                    $inventoryItem->discount_amount = $request->disc_amt[$key] ?? 0.00;
+                    $inventoryItem->total_amount = $request->total_price[$key] ?? 0.00;
+                    $inventoryItem->save();
                 }
             }
         }

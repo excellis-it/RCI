@@ -15,6 +15,8 @@ use App\Models\Vendor;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use App\Models\InventoryItemBalance;
+use App\Helpers\Helper;
 
 
 class ExternalIssueVoucherController extends Controller
@@ -24,7 +26,7 @@ class ExternalIssueVoucherController extends Controller
      */
     public function index()
     {
-        $externalIssueVouchers = ExternalIssueVoucher::paginate(10);
+        $externalIssueVouchers = ExternalIssueVoucher::orderBy('id', 'desc')->paginate(10);
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::where('gate_pass_type','non-returnable')->orderBy('id','desc')->get();
