@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\InventoryNumber;
+use App\Models\InventoryItemBalance;
+use App\Helpers\Helper;
 
 class CertificateIssueVoucherController extends Controller
 {
@@ -26,7 +28,7 @@ class CertificateIssueVoucherController extends Controller
         $members = User::role('MATERIAL-MANAGER')->get();
         $inventoryNumbers = InventoryNumber::all();
         $itemCodes = CreditVoucherDetail::groupBy('item_code','item_code_id')->select('item_code','item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-        $certificateIssueVouchers = CertificateIssueVoucher::paginate(10);
+        $certificateIssueVouchers = CertificateIssueVoucher::orderBy('id', 'desc')->paginate(10);
 
         return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers','inventoryNumbers'));
 

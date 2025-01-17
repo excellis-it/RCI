@@ -13,6 +13,8 @@ use App\Models\InventoryNumber;
 use App\Models\DebitVoucherDetail;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\InventoryItemBalance;
+use App\Helpers\Helper;
 
 class DebitVoucherController extends Controller
 {
@@ -21,7 +23,7 @@ class DebitVoucherController extends Controller
      */
     public function index()
     {
-        $debitVouchers = DebitVoucher::paginate(10);
+        $debitVouchers = DebitVoucher::orderBy('id', 'desc')->paginate(10);
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
@@ -176,6 +178,19 @@ class DebitVoucherController extends Controller
                     //         $credit->save();
                     //     }
                     // }
+
+                    $inventoryItem = new InventoryItemBalance();
+                    $inventoryItem->voucher_type = 'debit_voucher';
+                    $inventoryItem->item_id = $itemCode ?? null;
+                    $inventoryItem->item_code = Helper::getItemCode($itemCode) ?? null;
+                    $inventoryItem->inv_id = $request->inv_no ?? null;
+                    $inventoryItem->quantity = $item['quantity'] ?? 0;
+                    $inventoryItem->unit_cost = $item['price'] / $item['quantity'] ?? 0.00;
+                    $inventoryItem->total_cost = $item['price'] ?? 0.00;
+                    $inventoryItem->gst_amount = 0.00;
+                    $inventoryItem->discount_amount = 0.00;
+                    $inventoryItem->total_amount = $item['price'] ?? 0.00;
+                    $inventoryItem->save();
                 }
             }
         }

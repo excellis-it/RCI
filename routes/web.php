@@ -976,6 +976,10 @@ Route::middleware('permssions')->group(function () {
             Route::get('/reports-rin-controller', [InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
             Route::get('/reports-certificate-receipt', [InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
 
+
+            Route::get('/reports-iventory/{type}', [InventoryReportController::class, 'invReportPage'])->name('reports.inventory');
+            Route::post('/reports-iventory-generate', [InventoryReportController::class, 'invReportGenerate'])->name('reports.inventory.generate');
+
             // Ledger Sheet Report
             Route::get('/ledger-sheet-report', [InventoryReportController::class, 'ledgerSheetReport'])->name('reports.ledger-sheet');
             // Bin Card Report

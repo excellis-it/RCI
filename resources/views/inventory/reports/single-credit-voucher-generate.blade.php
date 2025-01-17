@@ -1,3 +1,7 @@
+@foreach ($creditVouchers as $key => $creditVoucher)
+    @if($key > 0)
+        <div style="page-break-before: always;"></div>
+    @endif
 <!DOCTYPE html>
 <html lang="en">
 <title>RCI</title>
@@ -689,9 +693,9 @@
                                     Date:
                                 </td>
                                 @php
-                                      use App\Helpers\Helper;
+                                      
 
-                                      $words = Helper::convert($total_amt);
+                                      $words = App\Helpers\Helper::convert($total_amt);
                                 @endphp
                                 <td colspan="7"
                                     style="
@@ -1058,3 +1062,4 @@
 </body>
 
 </html>
+@endforeach
