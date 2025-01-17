@@ -69,7 +69,7 @@ class ReportController extends Controller
         }
 
         if ($report_type == 'conversion_voucher') {
-            return $this->debitVoucherGenerate($request, $startDate, $endDate);
+            return $this->conversionVoucherGenerate($request, $startDate, $endDate);
         }
     }
 
@@ -168,87 +168,166 @@ class ReportController extends Controller
         return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
     }
 
+    // public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    // {
+
+    //     if ($startDate && $endDate) {
+    //         $debitVouchers = DebitVoucher::with('inventoryNumbers')->whereBetween('created_at', [$startDate, $endDate])->get();
+    //     }
+    //     if ($request->has('id')) {
+    //         $debitVouchers = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->get();
+    //     }
+
+    //     $result = [];
+    //     $itemCodeCounts = [];
+
+    //     foreach ($debitVouchers as $debitVoucher) {
+
+    //         $totalItemCost = 0;
+    //         $total = 0;
+    //         // Fetch the debit voucher and associated details
+    //         // $debitVoucher = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->first();
+    //         $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
+    //         $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $debitVoucher->inv_no)->where('item_type', 'consumable')->with('itemCodes')->get();
+
+    //         // Initialize result array and variables
+
+
+    //         $result['voucher_no'] = $debitVoucher->voucher_no;
+    //         $result['voucher_date'] = $debitVoucher->voucher_date;
+    //         $result['voucher_type'] = $debitVoucher->voucher_type;
+    //         $result['inv_no'] = $debitVoucher->inventoryNumbers->number;
+
+    //         // Uncomment the line below for debugging purposes only
+    //         // dd($debitVoucherDetails, $creditVoucherDetails);
+
+    //         foreach ($debitVoucherDetails as $detail) {
+    //             // Find the matching credit detail
+    //             $matchingCreditDetail = null;
+    //             foreach ($creditVoucherDetails as $creditDetail) {
+    //                 if ($detail->item_id == $creditDetail->item_code) { // Ensure the correct item code ID is being checked
+    //                     $matchingCreditDetail = $creditDetail;
+    //                     break; // Stop the loop once we find a match
+    //                 }
+    //             }
+
+    //             if ($matchingCreditDetail) {
+    //                 $price = $matchingCreditDetail->price ?? 0;
+    //                 $totalCost = (($detail->quantity) * $price) ?? 0;
+    //                 $uom = $matchingCreditDetail->uom ?? 'N/A';
+    //                 $description = $detail->item_desc ?? 'N/A';
+    //                 $remarks = $detail->remarks ?? 'N/A';
+
+    //                 // Access the first item code, assuming itemCodes is a collection
+    //                 $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
+
+    //                 // Increment the count for this item code
+    //                 if (!isset($itemCodeCounts[$itemCode])) {
+    //                     $itemCodeCounts[$itemCode] = 0;
+    //                 }
+    //                 $itemCodeCounts[$itemCode]++;
+
+    //                 $result[$debitVoucher->voucher_no][$itemCode] = [
+    //                     'item_code' => $itemCode,
+    //                     'quantity' => $detail->quantity ?? 'N/A',
+    //                     'price' => $detail->price ?? 0,
+    //                     'rate' => ($detail->price / $detail->quantity) ?? 0,
+    //                     'uom' => $uom,
+    //                     'description' => $description,
+    //                     'total_cost' => $totalCost ?? 0,
+    //                     'remarks' => $remarks,
+    //                 ];
+
+    //                 $totalItemCost += (float)$price;
+    //                 $total += (float)$totalCost;
+    //             }
+    //         }
+    //     }
+
+    //     // dd($result, $totalItemCost, $total, $itemCodeCounts);
+
+    //     $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
+    //     return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
+    // }
+
     public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null)
     {
+        try {
+            $debitVouchersQuery = DebitVoucher::with('inventoryNumbers');
 
-        if ($startDate && $endDate) {
-            $debitVouchers = DebitVoucher::with('inventoryNumbers')->whereBetween('created_at', [$startDate, $endDate])->get();
-        }
-        if ($request->has('id')) {
-            $debitVouchers = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->get();
-        }
+            if ($startDate && $endDate) {
+                $debitVouchersQuery->whereBetween('created_at', [$startDate, $endDate]);
+            }
+            if ($request->has('id')) {
+                $debitVouchersQuery->where('id', $request->id);
+            }
 
-        $result = [];
-        $itemCodeCounts = [];
+            $debitVouchers = $debitVouchersQuery->get();
 
-        foreach ($debitVouchers as $debitVoucher) {
+            $result = [];
+            $itemCodeCounts = [];
 
-            $totalItemCost = 0;
-            $total = 0;
-            // Fetch the debit voucher and associated details
-            // $debitVoucher = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->first();
-            $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
-            $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $debitVoucher->inv_no)->where('item_type', 'consumable')->with('itemCodes')->get();
+            foreach ($debitVouchers as $debitVoucher) {
+                $totalItemCost = 0;
+                $total = 0;
 
-            // Initialize result array and variables
+                $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
+                $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $debitVoucher->inv_no)
+                    ->where('item_type', 'consumable')
+                    ->with('itemCodes')
+                    ->get();
 
+                $result['voucher_no'] = $debitVoucher->voucher_no;
+                $result['voucher_date'] = $debitVoucher->voucher_date;
+                $result['voucher_type'] = $debitVoucher->voucher_type;
+                $result['inv_no'] = $debitVoucher->inventoryNumbers->number;
 
-            $result['voucher_no'] = $debitVoucher->voucher_no;
-            $result['voucher_date'] = $debitVoucher->voucher_date;
-            $result['voucher_type'] = $debitVoucher->voucher_type;
-            $result['inv_no'] = $debitVoucher->inventoryNumbers->number;
-
-            // Uncomment the line below for debugging purposes only
-            // dd($debitVoucherDetails, $creditVoucherDetails);
-
-            foreach ($debitVoucherDetails as $detail) {
-                // Find the matching credit detail
-                $matchingCreditDetail = null;
-                foreach ($creditVoucherDetails as $creditDetail) {
-                    if ($detail->item_id == $creditDetail->item_code) { // Ensure the correct item code ID is being checked
-                        $matchingCreditDetail = $creditDetail;
-                        break; // Stop the loop once we find a match
+                foreach ($debitVoucherDetails as $detail) {
+                    $matchingCreditDetail = null;
+                    foreach ($creditVoucherDetails as $creditDetail) {
+                        if ($detail->item_id == $creditDetail->item_code) {
+                            $matchingCreditDetail = $creditDetail;
+                            break;
+                        }
                     }
-                }
 
-                if ($matchingCreditDetail) {
-                    $price = $matchingCreditDetail->price ?? 0;
-                    $totalCost = (($detail->quantity) * $price) ?? 0;
-                    $uom = $matchingCreditDetail->uom ?? 'N/A';
-                    $description = $detail->item_desc ?? 'N/A';
-                    $remarks = $detail->remarks ?? 'N/A';
+                    if ($matchingCreditDetail) {
+                        $price = $matchingCreditDetail->price ?? 0;
+                        $totalCost = (($detail->quantity) * $price) ?? 0;
+                        $uom = $matchingCreditDetail->uom ?? 'N/A';
+                        $description = $detail->item_desc ?? 'N/A';
+                        $remarks = $detail->remarks ?? 'N/A';
+                        $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
 
-                    // Access the first item code, assuming itemCodes is a collection
-                    $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
+                        if (!isset($itemCodeCounts[$itemCode])) {
+                            $itemCodeCounts[$itemCode] = 0;
+                        }
+                        $itemCodeCounts[$itemCode]++;
 
-                    // Increment the count for this item code
-                    if (!isset($itemCodeCounts[$itemCode])) {
-                        $itemCodeCounts[$itemCode] = 0;
+                        $result[$debitVoucher->voucher_no][$itemCode] = [
+                            'item_code' => $itemCode,
+                            'quantity' => $detail->quantity ?? 'N/A',
+                            'price' => $detail->price ?? 0,
+                            'rate' => ($detail->price / $detail->quantity) ?? 0,
+                            'uom' => $uom,
+                            'description' => $description,
+                            'total_cost' => $totalCost ?? 0,
+                            'remarks' => $remarks,
+                        ];
+
+                        $totalItemCost += (float)$price;
+                        $total += (float)$totalCost;
                     }
-                    $itemCodeCounts[$itemCode]++;
-
-                    $result[$debitVoucher->voucher_no][$itemCode] = [
-                        'item_code' => $itemCode,
-                        'quantity' => $detail->quantity ?? 'N/A',
-                        'price' => $detail->price ?? 0,
-                        'rate' => ($detail->price / $detail->quantity) ?? 0,
-                        'uom' => $uom,
-                        'description' => $description,
-                        'total_cost' => $totalCost ?? 0,
-                        'remarks' => $remarks,
-                    ];
-
-                    $totalItemCost += (float)$price;
-                    $total += (float)$totalCost;
                 }
             }
+
+            $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
+            return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 201);
         }
-
-        // dd($result, $totalItemCost, $total, $itemCodeCounts);
-
-        $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
-        return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
     }
+
 
 
 
@@ -272,14 +351,23 @@ class ReportController extends Controller
         return $pdf->download('transfer-voucher.pdf');
     }
 
-    public function conversionVoucherGenerate(Request $request)
+    public function conversionVoucherGenerate(Request $request, $startDate = null, $endDate = null)
     {
-        $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
-        $conversionDetails = ConversionVoucherDetail::all();
-        $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
-        $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
+        if ($startDate && $endDate) {
+            $conversionVouchers = ConversionVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
+        }
+        if ($request->has('id')) {
+            $conversionVouchers = ConversionVoucher::where('id', $request->id)->get();
+        }
 
-        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc', 'inv_no', 'conversionDetails'));
+        foreach ($conversionVouchers as $conversionVoucher) {
+            // $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
+            //   $conversionDetails = ConversionVoucherDetail::where('conversion_voucher_id', $conversionVoucher->id)->get();
+            $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
+            $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
+        }
+
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVouchers', 'itemDesc', 'inv_no'));
         return $pdf->download('conversion-voucher.pdf');
     }
 
