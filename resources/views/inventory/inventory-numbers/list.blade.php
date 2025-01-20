@@ -290,7 +290,25 @@
                     xhrFields: {
                         responseType: 'blob' // Important for handling binary data
                     },
-                    success: function(blob) {
+                    success: function(blob, status, xhr) {
+                        // Check if the response contains an error
+                        const contentType = xhr.getResponseHeader("Content-Type");
+                        if (contentType && contentType.includes("application/json")) {
+                            const reader = new FileReader();
+                            reader.onload = function() {
+                                try {
+                                    const response = JSON.parse(reader.result);
+                                    if (response.error) {
+                                        toastr.error(response.error);
+                                        return;
+                                    }
+                                } catch (err) {
+                                    console.error("Error parsing JSON:", err);
+                                }
+                            };
+                            reader.readAsText(blob);
+                            return;
+                        }
                         // alert('Success');
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
@@ -302,6 +320,16 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('There was an error with your request:', error);
+                        if (xhr.status === 201) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                toastr.error(response.error || 'Data Not Found!');
+                            } catch (err) {
+                                toastr.error('No Credit Voucher Data Not Found!');
+                            }
+                        } else {
+                            toastr.error('No Credit Voucher Data Not Found!');
+                        }
                     }
                 });
             });

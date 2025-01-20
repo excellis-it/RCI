@@ -1,3 +1,6 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 @foreach ($creditVouchers as $key => $creditVoucher)
     @if ($key > 0)
         <div style="page-break-before: always;"></div>
@@ -54,7 +57,8 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                            SIR NO: &nbsp; {{ $get_sir->sirNo->sir_no ?? '-' }}
+                                            SIR NO: &nbsp;
+                                            {{ Helper::getSIRbyRin($singleData[$creditVoucher->voucher_no]['rin_no'])['sir_no'] ?? '-' }}
                                         </td>
                                         <td colspan="2"
                                             style="
@@ -115,7 +119,7 @@
                       border: 1px solid #000;
                     ">
                                             SIR DATE: &nbsp;
-                                            {{ isset($get_sir->sirNo->sir_date) && $get_sir->sirNo->sir_date ? date('d-m-Y', strtotime($get_sir->sirNo->sir_date)) : '-' }}
+                                            {{ Helper::getSIRbyRin($singleData[$creditVoucher->voucher_no]['rin_no'])['sir_date'] ?? '-' }}
                                         </td>
                                         <td colspan="2"
                                             style="
