@@ -11,13 +11,11 @@ class DebitVoucherDetail extends Model
 
     public function debitVoucher()
     {
-        return $this->belongsTo(DebitVoucher::class);
+        return $this->belongsTo(DebitVoucher::class, 'debit_voucher_id');
     }
 
-    public function itemCodes()
+    public function itemCode()
     {
-        return $this->hasMany(ItemCode::class, 'id', 'item_id');
+        return $this->belongsTo(ItemCode::class, 'item_id');
     }
-
-    
 }
