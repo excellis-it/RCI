@@ -190,6 +190,12 @@ class ConversionVoucherController extends Controller
             //         break;
             //     }
             // }
+
+            $creditV = CreditVoucherDetail::where('item_code', $request->strike_item_id[$key])->where('inv_no', $request->strike_inv_id[$key])->first();
+            if ($creditV->quantity >= $request->strike_quantity[$key]) {
+                $creditV->quantity -= $request->strike_quantity[$key];
+                $creditV->save();
+            }
         }
 
         foreach ($request->brought_inv_id as $key => $val) {
