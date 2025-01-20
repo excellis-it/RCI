@@ -24,20 +24,19 @@ class CertificateIssueVoucherController extends Controller
      */
     public function index()
     {
-        
+
         $members = User::role('MATERIAL-MANAGER')->get();
         $inventoryNumbers = InventoryNumber::all();
-        $itemCodes = CreditVoucherDetail::groupBy('item_code','item_code_id')->select('item_code','item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         $certificateIssueVouchers = CertificateIssueVoucher::orderBy('id', 'desc')->paginate(10);
 
-        return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers','inventoryNumbers'));
-
+        return view('inventory.certificate-issue-vouchers.list', compact('members', 'itemCodes', 'certificateIssueVouchers', 'inventoryNumbers'));
     }
 
     public function getInventoryHolder(Request $request)
     {
-       
-         $inventoryHolder = InventoryNumber::where('id', $request->inventory_no)->with('member')->latest()->first();
+
+        $inventoryHolder = InventoryNumber::where('id', $request->inventory_no)->with('member')->latest()->first();
         return response()->json(['inventoryHolder' => $inventoryHolder]);
     }
 
@@ -48,15 +47,15 @@ class CertificateIssueVoucherController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $certificateIssueVouchers = CertificateIssueVoucher::where(function($queryBuilder) use ($query) {
+            $certificateIssueVouchers = CertificateIssueVoucher::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('member_id', 'like', '%' . $query . '%')
                     ->orWhere('item_id', 'like', '%' . $query . '%')
                     ->orWhere('price', 'like', '%' . $query . '%')
                     ->orWhere('item_type', 'like', '%' . $query . '%')
                     ->orWhere('description', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             $members = Member::all();
             $items = CreditVoucherDetail::groupBy('item_code')->select('item_code', DB::raw('SUM(quantity) as total_quantity'))->get();
@@ -78,7 +77,7 @@ class CertificateIssueVoucherController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         // $request->validate([
         //     'inv_no' => 'required',
         //     'inventory_holder' => 'required',
@@ -88,15 +87,15 @@ class CertificateIssueVoucherController extends Controller
         // voucher no generate
         $currentDate = Carbon::today();
         $resetDate = Carbon::createFromFormat('Y-m-d', date('Y') . '-04-01')->subDay()->endOfDay();
- 
+
         if ($currentDate < $resetDate) {
             $resetDate = Carbon::createFromFormat('Y-m-d', (date('Y') - 1) . '-04-01')->subDay()->endOfDay();
         }
- 
+
         $lastVoucher = CertificateIssueVoucher::where('created_at', '<', $resetDate)
-             ->orderBy('voucher_no', 'desc')
-             ->first() ?? CertificateIssueVoucher::latest()->first();
- 
+            ->orderBy('voucher_no', 'desc')
+            ->first() ?? CertificateIssueVoucher::latest()->first();
+
         $voucherNo = str_pad($lastVoucher ? ((int) $lastVoucher->voucher_no) + 1 : 1, 4, '0', STR_PAD_LEFT);
 
         $certificateIssueVoucher = new CertificateIssueVoucher();
@@ -107,7 +106,7 @@ class CertificateIssueVoucherController extends Controller
         $certificateIssueVoucher->save();
 
         // CertificateIssueVoucherDetail data add
-        foreach($request->item_id as $key => $itemCode) {
+        foreach ($request->item_id as $key => $itemCode) {
 
             $certificateIssueVoucherDetail = new CertificateIssueVoucherDetail();
             $certificateIssueVoucherDetail->certicate_issue_voucher_id = $certificateIssueVoucher->id;
@@ -121,25 +120,31 @@ class CertificateIssueVoucherController extends Controller
             $certificateIssueVoucherDetail->save();
 
             $creditVouchers = CreditVoucherDetail::where('item_code', $itemCode)
-                    ->where('inv_no', $request->inv_no)
-                    ->orderBy('id', 'asc') // Assuming you want to reduce from the oldest records first
-                    ->get();
+                ->where('inv_no', $request->inv_no)
+                ->orderBy('id', 'asc') // Assuming you want to reduce from the oldest records first
+                ->get();
 
-                    $remainingQuantity = $request->quantity[$key];
+            // $remainingQuantity = $request->quantity[$key];
 
-                    // Iterate over the credit vouchers and reduce the quantity
-                    foreach ($creditVouchers as $credit) {
-                        if ($credit->quantity >= $remainingQuantity) {
-                            $credit->quantity -= $remainingQuantity;
-                            $credit->save();
-                            $remainingQuantity = 0;
-                            break; // Exit the loop once quantity is reduced
-                        } else {
-                            $remainingQuantity -= $credit->quantity;
-                            $credit->quantity = 0;
-                            $credit->save();
-                        }
-                    }
+            // // Iterate over the credit vouchers and reduce the quantity
+            // foreach ($creditVouchers as $credit) {
+            //     if ($credit->quantity >= $remainingQuantity) {
+            //         $credit->quantity -= $remainingQuantity;
+            //         $credit->save();
+            //         $remainingQuantity = 0;
+            //         break; // Exit the loop once quantity is reduced
+            //     } else {
+            //         $remainingQuantity -= $credit->quantity;
+            //         $credit->quantity = 0;
+            //         $credit->save();
+            //     }
+            // }
+
+            $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
+            if ($creditV->quantity >= $request->quantity[$key]) {
+                $creditV->quantity -= $request->quantity[$key];
+                $creditV->save();
+            }
         }
 
         session()->flash('message', 'Certificate Issue Voucher created successfully');

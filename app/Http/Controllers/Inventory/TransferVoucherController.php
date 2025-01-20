@@ -188,6 +188,12 @@ class TransferVoucherController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            $creditV = CreditVoucherDetail::where('id', $ledgerNo)->where('inv_no', $validatedData['issuing_inv_no'])->first();
+            if ($creditV->quantity >= $validatedData['strike_quantity'][$index]) {
+                $creditV->quantity -= $validatedData['strike_quantity'][$index];
+                $creditV->save();
+            }
         }
 
         TransferVoucherDetail::insert($strikeDetails);

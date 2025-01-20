@@ -180,8 +180,10 @@ class DebitVoucherController extends Controller
                     // }
 
                     $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
-                    $creditV->quantity -= $item['quantity'];
-                    $creditV->save();
+                    if ($creditV->quantity >= $item['quantity']) {
+                        $creditV->quantity -= $item['quantity'];
+                        $creditV->save();
+                    }
 
 
                     $inventoryItem = new InventoryItemBalance();
