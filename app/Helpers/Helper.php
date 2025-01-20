@@ -21,11 +21,18 @@ use App\Models\AdvanceSettlement;
 use App\Models\AdvanceFundToEmployee;
 use Illuminate\Support\Facades\DB;
 use App\Models\ImprestBalance;
+use App\Models\InventorySir;
 use App\Models\ItemCode;
 
 class Helper
 {
+    public static function getTotalSirQty($sir_no)
+    {
+        $sir_qty = InventorySir::where('sir_no', $sir_no)
+            ->sum('received_quantity');
 
+        return $sir_qty;
+    }
     public static function get_openings_balance($cat_id, $pre_vr_date)
     {
         $total_reciept = DB::table('receipts')

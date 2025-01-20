@@ -52,7 +52,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.store-inward') }}">
+                        <a href="{{ route('reports.store-inward-list') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Stores inward Register</h5>
@@ -61,7 +61,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.rin-controller') }}">
+                        <a href="{{ route('reports.rin-controller-list') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Rin Control Register</h5>

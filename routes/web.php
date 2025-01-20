@@ -972,8 +972,10 @@ Route::middleware('permssions')->group(function () {
             Route::get('/report-generate', [InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
             Route::get('/traffic-control-reports', [InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
             Route::get('/reports-security-gate-store', [InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
-            Route::get('/reports-store-inward', [InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
-            Route::get('/reports-rin-controller', [InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
+            Route::post('/reports-store-inward', [InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
+            Route::get('/reports-store-inward-list', [InventoryReportController::class, 'storeInwardReportList'])->name('reports.store-inward-list');
+            Route::get('/reports-rin-controller-list', [InventoryReportController::class, 'rinControllerReportList'])->name('reports.rin-controller-list');
+            Route::post('/reports-rin-controller', [InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
             Route::get('/reports-certificate-receipt', [InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
 
 

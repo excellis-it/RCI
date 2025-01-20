@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Inventory;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\CertificateIssueVoucher;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ use App\Models\SecurityGateStore;
 use App\Models\TrafficControl;
 use App\Models\InventoryLoan;
 use App\Models\ExternalIssueVoucherDetail;
+use App\Models\InventorySir;
 use PDF;
 use Carbon\Carbon;
 
@@ -376,17 +378,72 @@ class ReportController extends Controller
         return $pdf->download('security-gate-store-report-' . $from . '-to-' . $to . '.pdf');
     }
 
-    public function storeInwardReport()
+    public function storeInwardReport(Request $request)
     {
-        $pdf = PDF::loadView('inventory.reports.store-inward-generate');
-        return $pdf->download('store-inward.pdf');
+        // Validate the request
+        $request->validate([
+            'daterange' => 'required|string',
+        ]);
+
+        // Split the daterange into start and end dates
+        $dates = explode(' - ', $request->daterange);
+
+        // Parse the dates
+        $startDate = Carbon::parse($dates[0])->startOfDay();
+        $endDate = Carbon::parse($dates[1])->endOfDay();
+
+        // Fetch Store Inward entries within the given date range, grouped by `sir_no`, and get the first record per group
+        $storeInwards = InventorySir::whereBetween('created_at', [$startDate, $endDate])
+            ->with(['supplyOrder']) // Eager load related data for better performance
+            ->get()
+            ->groupBy('sir_no')
+            ->map(fn($group) => $group->first());
+        // dd($storeInwards);
+        // Generate and download the PDF
+        $pdf = PDF::loadView('inventory.reports.store-inward-generate', compact('storeInwards', 'startDate', 'endDate'));
+
+        return $pdf->download('store-inward-' . $startDate->format('d-m-Y') . '-to-' . $endDate->format('d-m-Y') . '.pdf');
     }
 
-    public function rinControllerReport()
+    public function storeInwardReportList()
     {
-        return view('inventory.reports.rin-list');
-        $pdf = PDF::loadView('inventory.reports.rin-controller-generate');
-        return $pdf->download('rin-controller.pdf');
+        return view('inventory.reports.store-inward-list');
+    }
+
+    public function rinControllerReport(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'financial_year' => 'required',
+        ]);
+
+        // Split the financial year into start and end years
+        [$startYear, $endYear] = explode('-', $request->financial_year);
+
+        // Set the start and end of the financial year
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate($endYear, 3, 31)->endOfDay();
+
+        // Fetch RINs grouped by rin_no for the financial year and get only the first item in each group
+        $rinControllerReports = Rin::whereBetween('created_at', [$startOfYear, $endOfYear])
+            ->with([
+                'sirNo.supplyOrder',
+                'sirNo.inventoryNumber.group'
+            ])
+            ->get()
+            ->groupBy('rin_no')
+            ->map(fn($group) => $group->first());
+
+        // Generate and download the PDF
+        $pdf = PDF::loadView('inventory.reports.rin-controller-generate', compact('rinControllerReports', 'startOfYear', 'endOfYear'));
+        return $pdf->download('rin-controller-report-' . $request->financial_year . '.pdf');
+    }
+
+
+    public function rinControllerReportList()
+    {
+        $financialYears = Helper::getFinancialYears();
+        return view('inventory.reports.rin-list')->with(compact('financialYears'));
     }
 
     public function certificateReceiptVoucher()
