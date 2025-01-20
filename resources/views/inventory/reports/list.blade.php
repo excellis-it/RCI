@@ -95,7 +95,7 @@
                         <a href="{{ route('reports.inventory', 'transfer_voucher') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Transfer Voucher</h5>
+                                    <h5 class="card-title">Transfer Vouchers</h5>
                                 </div>
                             </div>
                         </a>
