@@ -56,8 +56,17 @@ class ReportController extends Controller
 
 
         // Extract start and end date
-        $startDate = $dates[0];
-        $endDate = $dates[1];
+        // $startDate = $dates[0];
+        // $endDate = $dates[1];
+
+        // Extract start and end date
+        $startDate_s = Carbon::parse($dates[0])->subDay();
+        $endDate_s = Carbon::parse($dates[1])->addDay();
+
+        // If you need the dates as strings, you can format them
+        $startDate = $startDate_s->toDateString(); // e.g., 'YYYY-MM-DD'
+        $endDate = $endDate_s->toDateString();
+
         if ($report_type == 'credit_voucher') {
             return $this->creditVoucherGenerate($request, $startDate, $endDate);
         }
@@ -71,187 +80,270 @@ class ReportController extends Controller
         }
 
         if ($report_type == 'conversion_voucher') {
-            return $this->debitVoucherGenerate($request, $startDate, $endDate);
+            return $this->conversionVoucherGenerate($request, $startDate, $endDate);
         }
     }
 
 
     public function creditVoucherGenerate(Request $request, $startDate = null, $endDate = null)
     {
-        // dd($request->all());
-        if ($startDate && $endDate) {
-            $creditVouchers = CreditVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
-        }
-        if ($request->has('id')) {
-            // Get credit voucher by ID
-            $creditVouchers = CreditVoucher::where('id', $request->id)->get();
-        }
+        try {
+            // dd($request->all());
+            if ($startDate && $endDate) {
+                $creditVouchers = CreditVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
+            }
+            if ($request->has('id')) {
+                // Get credit voucher by ID
+                $creditVouchers = CreditVoucher::where('id', $request->id)->get();
+            }
 
-        $result = [];
-        $singleData = [];
-
-
-        foreach ($creditVouchers as $creditVoucher) {
-
-            $totalItemCost = 0;
-            $total = 0;
-            $itemCount = 0;
-
-            // return $creditVoucher;
-
-            // $creditVoucher = CreditVoucher::where('id', $request->id)->first();
-            $creditVoucherDetails = CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('rins', 'inventoryProjects', 'members', 'itemCodes')->get();
-
-            $singleCreditVoucher =  CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('inventoryProjects', 'members', 'itemCodes')->first();
-            $get_sir = Rin::where('rin_no', $singleCreditVoucher->rin)->first();
-            // result array to store the credit voucher details
+            $result = [];
+            $singleData = [];
 
 
-            $result['voucher_no'] = $creditVoucher->voucher_no;
-            $result['voucher_date'] = $creditVoucher->voucher_date;
-            $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name;
-            $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address;
+            foreach ($creditVouchers as $creditVoucher) {
+
+                $totalItemCost = 0;
+                $total = 0;
+                $itemCount = 0;
+
+                // return $creditVoucher;
+
+                // $creditVoucher = CreditVoucher::where('id', $request->id)->first();
+                $creditVoucherDetails = CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('rins', 'inventoryProjects', 'members', 'itemCodes')->get();
+
+                $singleCreditVoucher =  CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('inventoryProjects', 'members', 'itemCodes')->first();
+                $get_sir = Rin::where('rin_no', $singleCreditVoucher->rin)->first();
+                // result array to store the credit voucher details
 
 
-            if ($creditVoucherDetails) {
+                $result['voucher_no'] = $creditVoucher->voucher_no;
+                $result['voucher_date'] = $creditVoucher->voucher_date;
+                $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name;
+                $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address;
 
-                foreach ($creditVoucherDetails as $detail) {
 
-                    $rin_date = Rin::where('rin_no', $detail->rin)->first();
-                    $price = $detail->price ?? 0;
-                    $totalCost = $detail->total_price ?? 0;
+                if ($creditVoucherDetails) {
 
-                    $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
-                        'rin_no' => $detail->rin ?? 'N/A',
-                        'rin_date' => $rin_date->created_at ?? 'N/A',
-                        'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
-                        'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                        'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                        'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                        'member_name' => $detail->members->name ?? 'N/A',
-                        'item_code' => $detail->item_code_id ?? 'N/A',
-                        'description' => $detail->description ?? 'N/A',
-                        'quantity' => $detail->quantity ?? 'N/A',
-                        'remarks' => $detail->rins->remarks ?? 'N/A',
-                        'nc_status' => $detail->rins->nc_status ?? 'N/A',
-                        'au_status' => $detail->rins->au_status ?? 'N/A',
-                        'rate' => $price ?? 'N/A',
-                        'tax' => $detail->rins->gst ?? 'N/A',
-                        'disc_percent' => $detail->disc_percent ?? 'N/A',
-                        'disc_amt' => $detail->disc_amt ?? 'N/A',
-                        'total_price' => $detail->total_price ?? 'N/A',
-                        'total_cost' => $totalCost ?? 'N/A',
-                    ];
+                    foreach ($creditVoucherDetails as $detail) {
 
-                    $totalItemCost += (float)$price;
-                    $total += (float)$totalCost;
+                        $rin_date = Rin::where('rin_no', $detail->rin)->first();
+                        $price = $detail->price ?? 0;
+                        $totalCost = $detail->total_price ?? 0;
 
-                    $singleData[$creditVoucher->voucher_no] = [
-                        'rin_no' => $detail->rin ?? 'N/A',
-                        'rin_date' =>  $rin_date->created_at ?? 'N/A',
-                        'item_type' => $detail->item_type ?? 'N/A',
-                        'consignor' => $detail->consigner ?? 'N/A',
-                        'member_name' => $detail->members->name ?? 'N/A',
-                        'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                        'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                        'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                    ];
+                        $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
+                            'rin_no' => $detail->rin ?? 'N/A',
+                            'rin_date' => $rin_date->created_at ?? 'N/A',
+                            'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
+                            'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                            'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                            'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                            'member_name' => $detail->members->name ?? 'N/A',
+                            'item_code' => $detail->item_code_id ?? 'N/A',
+                            'description' => $detail->description ?? 'N/A',
+                            'quantity' => $detail->quantity ?? 'N/A',
+                            'remarks' => $detail->rins->remarks ?? 'N/A',
+                            'nc_status' => $detail->rins->nc_status ?? 'N/A',
+                            'au_status' => $detail->rins->au_status ?? 'N/A',
+                            'rate' => $price ?? 'N/A',
+                            'tax' => $detail->rins->gst ?? 'N/A',
+                            'disc_percent' => $detail->disc_percent ?? 'N/A',
+                            'disc_amt' => $detail->disc_amt ?? 'N/A',
+                            'total_price' => $detail->total_price ?? 'N/A',
+                            'total_cost' => $totalCost ?? 'N/A',
+                        ];
 
-                    $itemCount++;
+                        $totalItemCost += (float)$price;
+                        $total += (float)$totalCost;
+
+                        $singleData[$creditVoucher->voucher_no] = [
+                            'rin_no' => $detail->rin ?? 'N/A',
+                            'rin_date' =>  $rin_date->created_at ?? 'N/A',
+                            'item_type' => $detail->item_type ?? 'N/A',
+                            'consignor' => $detail->consigner ?? 'N/A',
+                            'member_name' => $detail->members->name ?? 'N/A',
+                            'cost_debatable' => $detail->cost_debatable ?? 'N/A',
+                            'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
+                            'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                        ];
+
+                        $itemCount++;
+                    }
                 }
             }
+
+            // return $singleData;
+
+            // dd($result);
+
+            $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
+            return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
+        } catch (\Exception $e) {
+            //   return response()->json(['error' => $e->getMessage()], 201);
+            //   session()->flash('message', 'Data Not Found');
+            return response()->json(['error' => 'Data Not Found'], 404);
         }
-
-        // return $singleData;
-
-        // dd($result);
-
-        $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
-        return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
     }
+
+    // public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    // {
+
+    //     if ($startDate && $endDate) {
+    //         $debitVouchers = DebitVoucher::with('inventoryNumbers')->whereBetween('created_at', [$startDate, $endDate])->get();
+    //     }
+    //     if ($request->has('id')) {
+    //         $debitVouchers = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->get();
+    //     }
+
+    //     $result = [];
+    //     $itemCodeCounts = [];
+
+    //     foreach ($debitVouchers as $debitVoucher) {
+
+    //         $totalItemCost = 0;
+    //         $total = 0;
+    //         // Fetch the debit voucher and associated details
+    //         // $debitVoucher = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->first();
+    //         $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
+    //         $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $debitVoucher->inv_no)->where('item_type', 'consumable')->with('itemCodes')->get();
+
+    //         // Initialize result array and variables
+
+
+    //         $result['voucher_no'] = $debitVoucher->voucher_no;
+    //         $result['voucher_date'] = $debitVoucher->voucher_date;
+    //         $result['voucher_type'] = $debitVoucher->voucher_type;
+    //         $result['inv_no'] = $debitVoucher->inventoryNumbers->number;
+
+    //         // Uncomment the line below for debugging purposes only
+    //         // dd($debitVoucherDetails, $creditVoucherDetails);
+
+    //         foreach ($debitVoucherDetails as $detail) {
+    //             // Find the matching credit detail
+    //             $matchingCreditDetail = null;
+    //             foreach ($creditVoucherDetails as $creditDetail) {
+    //                 if ($detail->item_id == $creditDetail->item_code) { // Ensure the correct item code ID is being checked
+    //                     $matchingCreditDetail = $creditDetail;
+    //                     break; // Stop the loop once we find a match
+    //                 }
+    //             }
+
+    //             if ($matchingCreditDetail) {
+    //                 $price = $matchingCreditDetail->price ?? 0;
+    //                 $totalCost = (($detail->quantity) * $price) ?? 0;
+    //                 $uom = $matchingCreditDetail->uom ?? 'N/A';
+    //                 $description = $detail->item_desc ?? 'N/A';
+    //                 $remarks = $detail->remarks ?? 'N/A';
+
+    //                 // Access the first item code, assuming itemCodes is a collection
+    //                 $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
+
+    //                 // Increment the count for this item code
+    //                 if (!isset($itemCodeCounts[$itemCode])) {
+    //                     $itemCodeCounts[$itemCode] = 0;
+    //                 }
+    //                 $itemCodeCounts[$itemCode]++;
+
+    //                 $result[$debitVoucher->voucher_no][$itemCode] = [
+    //                     'item_code' => $itemCode,
+    //                     'quantity' => $detail->quantity ?? 'N/A',
+    //                     'price' => $detail->price ?? 0,
+    //                     'rate' => ($detail->price / $detail->quantity) ?? 0,
+    //                     'uom' => $uom,
+    //                     'description' => $description,
+    //                     'total_cost' => $totalCost ?? 0,
+    //                     'remarks' => $remarks,
+    //                 ];
+
+    //                 $totalItemCost += (float)$price;
+    //                 $total += (float)$totalCost;
+    //             }
+    //         }
+    //     }
+
+    //     // dd($result, $totalItemCost, $total, $itemCodeCounts);
+
+    //     $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
+    //     return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
+    // }
 
     public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null)
     {
+        try {
+            $debitVouchersQuery = DebitVoucher::with('inventoryNumbers');
 
-        if ($startDate && $endDate) {
-            $debitVouchers = DebitVoucher::with('inventoryNumbers')->whereBetween('created_at', [$startDate, $endDate])->get();
-        }
-        if ($request->has('id')) {
-            $debitVouchers = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->get();
-        }
+            if ($startDate && $endDate) {
+                $debitVouchersQuery->whereBetween('created_at', [$startDate, $endDate]);
+            }
+            if ($request->has('id')) {
+                $debitVouchersQuery->where('id', $request->id);
+            }
 
-        $result = [];
-        $itemCodeCounts = [];
+            $debitVouchers = $debitVouchersQuery->get();
 
-        foreach ($debitVouchers as $debitVoucher) {
+            $result = [];
+            $itemCodeCounts = [];
 
-            $totalItemCost = 0;
-            $total = 0;
-            // Fetch the debit voucher and associated details
-            // $debitVoucher = DebitVoucher::where('id', $request->id)->with('inventoryNumbers')->first();
-            $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
-            $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $debitVoucher->inv_no)->where('item_type', 'consumable')->with('itemCodes')->get();
+            foreach ($debitVouchers as $debitVoucher) {
+                $totalItemCost = 0;
+                $total = 0;
 
-            // Initialize result array and variables
+                $debitVoucherDetails = DebitVoucherDetail::where('debit_voucher_id', $debitVoucher->id)->with('itemCodes')->get();
+                $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $debitVoucher->inv_no)
+                    ->where('item_type', 'consumable')
+                    ->with('itemCodes')
+                    ->get();
 
+                $result['voucher_no'] = $debitVoucher->voucher_no;
+                $result['voucher_date'] = $debitVoucher->voucher_date;
+                $result['voucher_type'] = $debitVoucher->voucher_type;
+                $result['inv_no'] = $debitVoucher->inventoryNumbers->number;
 
-            $result['voucher_no'] = $debitVoucher->voucher_no;
-            $result['voucher_date'] = $debitVoucher->voucher_date;
-            $result['voucher_type'] = $debitVoucher->voucher_type;
-            $result['inv_no'] = $debitVoucher->inventoryNumbers->number;
-
-            // Uncomment the line below for debugging purposes only
-            // dd($debitVoucherDetails, $creditVoucherDetails);
-
-            foreach ($debitVoucherDetails as $detail) {
-                // Find the matching credit detail
-                $matchingCreditDetail = null;
-                foreach ($creditVoucherDetails as $creditDetail) {
-                    if ($detail->item_id == $creditDetail->item_code) { // Ensure the correct item code ID is being checked
-                        $matchingCreditDetail = $creditDetail;
-                        break; // Stop the loop once we find a match
+                foreach ($debitVoucherDetails as $detail) {
+                    $matchingCreditDetail = null;
+                    foreach ($creditVoucherDetails as $creditDetail) {
+                        if ($detail->item_id == $creditDetail->item_code) {
+                            $matchingCreditDetail = $creditDetail;
+                            break;
+                        }
                     }
-                }
 
-                if ($matchingCreditDetail) {
-                    $price = $matchingCreditDetail->price ?? 0;
-                    $totalCost = (($detail->quantity) * $price) ?? 0;
-                    $uom = $matchingCreditDetail->uom ?? 'N/A';
-                    $description = $detail->item_desc ?? 'N/A';
-                    $remarks = $detail->remarks ?? 'N/A';
+                    if ($matchingCreditDetail) {
+                        $price = $matchingCreditDetail->price ?? 0;
+                        $totalCost = (($detail->quantity) * $price) ?? 0;
+                        $uom = $matchingCreditDetail->uom ?? 'N/A';
+                        $description = $detail->item_desc ?? 'N/A';
+                        $remarks = $detail->remarks ?? 'N/A';
+                        $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
 
-                    // Access the first item code, assuming itemCodes is a collection
-                    $itemCode = $detail->itemCodes->first()->code ?? 'N/A';
+                        if (!isset($itemCodeCounts[$itemCode])) {
+                            $itemCodeCounts[$itemCode] = 0;
+                        }
+                        $itemCodeCounts[$itemCode]++;
 
-                    // Increment the count for this item code
-                    if (!isset($itemCodeCounts[$itemCode])) {
-                        $itemCodeCounts[$itemCode] = 0;
+                        $result[$debitVoucher->voucher_no][$itemCode] = [
+                            'item_code' => $itemCode,
+                            'quantity' => $detail->quantity ?? 'N/A',
+                            'price' => $detail->price ?? 0,
+                            'rate' => ($detail->price / $detail->quantity) ?? 0,
+                            'uom' => $uom,
+                            'description' => $description,
+                            'total_cost' => $totalCost ?? 0,
+                            'remarks' => $remarks,
+                        ];
+
+                        $totalItemCost += (float)$price;
+                        $total += (float)$totalCost;
                     }
-                    $itemCodeCounts[$itemCode]++;
-
-                    $result[$debitVoucher->voucher_no][$itemCode] = [
-                        'item_code' => $itemCode,
-                        'quantity' => $detail->quantity ?? 'N/A',
-                        'price' => $detail->price ?? 0,
-                        'rate' => ($detail->price / $detail->quantity) ?? 0,
-                        'uom' => $uom,
-                        'description' => $description,
-                        'total_cost' => $totalCost ?? 0,
-                        'remarks' => $remarks,
-                    ];
-
-                    $totalItemCost += (float)$price;
-                    $total += (float)$totalCost;
                 }
             }
+
+            $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
+            return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 201);
         }
-
-        // dd($result, $totalItemCost, $total, $itemCodeCounts);
-
-        $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'itemCodeCounts'));
-        return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
     }
-
 
 
 
@@ -274,14 +366,23 @@ class ReportController extends Controller
         return $pdf->download('transfer-voucher.pdf');
     }
 
-    public function conversionVoucherGenerate(Request $request)
+    public function conversionVoucherGenerate(Request $request, $startDate = null, $endDate = null)
     {
-        $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
-        $conversionDetails = ConversionVoucherDetail::all();
-        $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
-        $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
+        if ($startDate && $endDate) {
+            $conversionVouchers = ConversionVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
+        }
+        if ($request->has('id')) {
+            $conversionVouchers = ConversionVoucher::where('id', $request->id)->get();
+        }
 
-        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVoucher', 'itemDesc', 'inv_no', 'conversionDetails'));
+        foreach ($conversionVouchers as $conversionVoucher) {
+            // $conversionVoucher = ConversionVoucher::where('id', $request->id)->first();
+            //   $conversionDetails = ConversionVoucherDetail::where('conversion_voucher_id', $conversionVoucher->id)->get();
+            $itemDesc = ItemCode::where('id', $conversionVoucher->item_id)->first();
+            $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
+        }
+
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('conversionVouchers', 'itemDesc', 'inv_no'));
         return $pdf->download('conversion-voucher.pdf');
     }
 

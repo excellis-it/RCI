@@ -9,15 +9,20 @@ class ConversionVoucher extends Model
 {
     use HasFactory;
 
-    
+
     public function inventoryNumber()
     {
         return $this->belongsTo(InventoryNumber::class, 'inv_no');
     }
 
-    
+
     public function itemCode()
     {
         return $this->belongsTo(ItemCode::class, 'item_id');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(ConversionVoucherDetail::class, 'conversion_voucher_id');
     }
 }
