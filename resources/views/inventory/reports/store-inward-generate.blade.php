@@ -50,17 +50,17 @@
                                     Date</th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">SO/Contract No. /
                                     Authority No. & Date</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">TCR No & Date (If
-                                    applicable)</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Nomenclature</th>
+                                {{-- <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">TCR No & Date (If
+                                    applicable)</th> --}}
+                                {{-- <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Nomenclature</th> --}}
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Name of Consignor
                                 </th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Qty Received</th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Date of Receipt</th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Name & Sig. of O/IC
                                     CRDS</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Remarks</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">RIN No & Date</th>
+                                {{-- <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Remarks</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">RIN No & Date</th> --}}
 
 
                             </tr>
@@ -92,27 +92,27 @@
                                         </td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">  {{ $item->supplyOrder->order_number ?? 'N/A' }} /
                                             {{ isset($item->supplyOrder->created_at) && $item->supplyOrder->created_at ? date('d-m-Y', strtotime($item->supplyOrder->created_at)) : 'N/A' }}</td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;">
+                                        {{-- <td style="border: 1px solid #000; padding: 5px; text-align: center;">
 
                                         </td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">
 
-                                        </td>
+                                        </td> --}}
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">{{ $item->supplier->name ?? '' }}</td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">
                                             {{ Helper::getTotalSirQty($sirNo) ?? '' }}</td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;"> {{ isset($item->sir_date) && $item->sir_date ? date('d-m-Y', strtotime($item->sir_date)) : 'N/A' }}</td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">
                                         </td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center"></td>
+                                        {{-- <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                                        <td style="border: 1px solid #000; padding: 5px; text-align: center"></td> --}}
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
                                     <td colspan="10"
                                         style="border: 1px solid #000; padding: 5px; text-align: center;">
-                                        No data available for the selected financial year.
+                                        No data available for the selected date.
                                     </td>
                                 </tr>
                             @endif

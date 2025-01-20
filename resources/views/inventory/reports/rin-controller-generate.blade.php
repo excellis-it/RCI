@@ -62,14 +62,14 @@
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">SO/ Contract /
                                     Authority No.& Date</th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">SIR No & Date</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Nomenclature</th>
+                                {{-- <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Nomenclature</th> --}}
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Group/ Division</th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">Name & Sign of
                                     Division Rep receiving the items & Date</th>
                                 <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">O/IC CRDS Name &
                                     Sign.</th>
-                                <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">CRV No & Date (*)
-                                </th>
+                                {{-- <th style="border: 1px solid #000; padding: 5px; font-size: 14px;">CRV No & Date (*)
+                                </th> --}}
 
 
                             </tr>
@@ -107,13 +107,13 @@
                                             {{ $item->sirNo->sir_no ?? 'N/A' }}
                                             & {{ optional($item->sirNo->sir_date)->format('d-m-Y') ?? 'N/A' }}
                                         </td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                                        {{-- <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td> --}}
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;">
                                             {{ $item->sirNo->inventoryNumber->group->group_name ?? ($item->sirNo->inventoryNumber->division ?? 'N/A') }}
                                         </td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
                                         <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
-                                        <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td>
+                                        {{-- <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td> --}}
                                     </tr>
                                 @endforeach
                             @else
