@@ -654,6 +654,9 @@
                 console.log(crvData);
 
                 if (crvData && crvData !== null && (crvData).length > 0) {
+                    $('#item_code_list').append(
+                        `<option selected disabled>Select Item</option>`
+                    );
                     $.each(crvData, function(index, value) {
                         console.log('Index: ' + index + ', Value: ' + value.item_code_id);
                         var crvDataString = JSON.stringify(value);
