@@ -204,7 +204,7 @@
 
                     <div hidden>
                         <select name="" id="item_code_list">
-                            <option value="" selected disabled>Select Item</option>
+
 
                         </select>
 
