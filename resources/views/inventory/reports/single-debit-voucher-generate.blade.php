@@ -51,13 +51,13 @@
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             Holder / Inventory No<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['inv_no'] ?? 'N/A' }}</span>
+                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $debitVoucher->inventoryNumbers->number }}</span>
                                             </span>
                                         </td>
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; ">
                                             No of Items in Voucher<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ count($itemCodeCounts) }}</span>
+                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ count($debitVoucher['details']) }}</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -69,12 +69,12 @@
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             Voucher No<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['voucher_no'] }}</span>
+                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $debitVoucher['voucher_no'] }}</span>
                                         </td>
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             Voucher Date<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $result['voucher_date'] }}
+                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $debitVoucher['voucher_date'] }}
                                             </span>
                                         </td>
                                         <td
@@ -139,50 +139,46 @@
                                 </thead>
                                 <tbody>
                                     @php $serialNumber = 1; @endphp
-                                    @foreach ($result as $voucherNo => $items)
-                                        @if (is_array($items))
-                                            @foreach ($items as $item)
-                                                <tr>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ $serialNumber++ }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ $item['item_code'] }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ ' ' }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ $item['description'] }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ number_format($item['rate'], 2) }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ $item['uom'] }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ $item['quantity'] }}
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ number_format(is_numeric($item['price']) ? (float) $item['price'] : 0, 2) }}
+                                    @foreach ($debitVoucher['details'] as $key => $item)
+                                        <tr>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $serialNumber++ }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $item->itemCode->code }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ ' ' }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $item['item_desc'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ number_format($item['price'] / $item['quantity'], 2) }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ '' }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $item['quantity'] }}
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ number_format(is_numeric($item['price']) ? (float) $item['price'] : 0, 2) }}
 
-                                                    </td>
-                                                    <td
-                                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                        {{ $item['remarks'] }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
+                                            </td>
+                                            <td
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                {{ $item['remarks'] }}
+                                            </td>
+                                        </tr>
                                     @endforeach
 
                                 </tbody>

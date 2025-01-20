@@ -29,4 +29,9 @@ class ExternalIssueVoucher extends Model
     {
         return $this->belongsTo(InventoryNumber::class, 'inv_no');
     }
+
+    public function details()
+    {
+        return $this->hasMany(ExternalIssueVoucherDetail::class, 'external_issue_voucher_id');
+    }
 }

@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ImprestBalance;
 use App\Models\InventorySir;
 use App\Models\ItemCode;
+use App\Models\InventorySir;
+use App\Models\Rin;
 
 class Helper
 {
@@ -487,5 +489,14 @@ class Helper
         $item = ItemCode::where('id', $item_id)->first();
 
         return $item->code;
+    }
+
+    public static function getSIRbyRin($rin_no)
+    {
+        $rin = Rin::where('rin_no', $rin_no)->first();
+        //  return $rin->sir_no;
+        $sir = InventorySir::where('id', $rin->sir_no)->first();
+
+        return $sir;
     }
 }

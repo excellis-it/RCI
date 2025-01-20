@@ -9,13 +9,13 @@ class DebitVoucher extends Model
 {
     use HasFactory;
 
-    public function itemCode()
-    {
-        return $this->belongsTo(ItemCode::class, 'item_id');
-    }
-
     public function inventoryNumbers()
     {
         return $this->hasOne(InventoryNumber::class, 'id', 'inv_no');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(DebitVoucherDetail::class, 'debit_voucher_id');
     }
 }
