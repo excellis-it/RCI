@@ -179,6 +179,11 @@ class DebitVoucherController extends Controller
                     //     }
                     // }
 
+                    $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
+                    $creditV->quantity -= $item['quantity'];
+                    $creditV->save();
+
+
                     $inventoryItem = new InventoryItemBalance();
                     $inventoryItem->voucher_type = 'debit_voucher';
                     $inventoryItem->item_id = $itemCode ?? null;

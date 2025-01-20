@@ -70,9 +70,9 @@
                         </a>
 
                     </div>
-                </div>
 
-                <div class="row justify-content-center">
+
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.inventory', 'credit_voucher') }}">
                             <div class="card">
@@ -110,9 +110,46 @@
                         </a>
 
                     </div>
-                </div>
 
-                <div class="row justify-content-center">
+
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'external_issue') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">External Issue Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'certificate_issue') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Certificate Issue Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'inventory_numbers') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Inventory Numbers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+
+
+
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.certificate-receipt-voucher') }}">
                             <div class="card">
@@ -150,9 +187,7 @@
                         </a>
 
                     </div>
-                </div>
 
-                <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.stock-sheet') }}">
                             <div class="card">
@@ -190,9 +225,7 @@
                         </a>
 
                     </div>
-                </div>
 
-                <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.internal-return-receipt-voucher') }}">
                             <div class="card">
@@ -230,8 +263,7 @@
                         </a>
 
                     </div>
-                </div>
-                <div class="row justify-content-center">
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.statement-of-damaged') }}">
                             <div class="card">
@@ -269,8 +301,7 @@
                         </a>
 
                     </div>
-                </div>
-                <div class="row justify-content-center">
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.loan-out-ledger-register') }}">
                             <div class="card">
@@ -308,8 +339,7 @@
                         </a>
 
                     </div>
-                </div>
-                <div class="row justify-content-center">
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.contingent-bill') }}">
                             <div class="card">
@@ -347,8 +377,8 @@
                         </a>
 
                     </div>
-                </div>
-                <div class="row justify-content-center">
+
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.fitment-voucher') }}">
                             <div class="card">
@@ -368,13 +398,16 @@
                         </a>
                     </div>
 
+                    <div class="row justify-content-center">
+
+
+                    </div>
                 </div>
+                <!-- Add more cards as needed -->
             </div>
-            <!-- Add more cards as needed -->
+
         </div>
+    @endsection
 
-    </div>
-@endsection
-
-@push('scripts')
-@endpush
+    @push('scripts')
+    @endpush
