@@ -380,6 +380,29 @@
 @push('scripts')
     <script src="{{ asset('web_assets/js/jquery.validate.min.js') }}"></script>
 
+
+
+    <script>
+        $(document).ready(function() {
+            // Save the active tab to sessionStorage before reloading
+            $('.nav-link').on('click', function() {
+                var activeTabId = $(this).attr('id'); // Get the ID of the clicked tab-pane
+                sessionStorage.setItem('activeTabEditMember', activeTabId);
+                //   alert(activeTabId);
+            });
+
+            // Restore the active tab after the page reloads
+            const activeTabId = sessionStorage.getItem('activeTabEditMember');
+            if (activeTabId) {
+                const activeTab = $('#' + activeTabId); // Use jQuery to select the tab-pane by ID
+                if (activeTab.length) {
+                    new bootstrap.Tab(activeTab).show(); // Bootstrap 5 Tab method
+                }
+            }
+        });
+    </script>
+
+
     {{-- credit script --}}
     <script>
         $(document).ready(function() {
@@ -405,7 +428,7 @@
                         type: $(form).attr('method'),
                         data: formData,
                         success: function(response) {
-                           
+
                             toastr.success(response.message);
                         },
                         error: function(xhr) {
@@ -473,7 +496,7 @@
             });
         });
     </script>
-    
+
     {{-- credit script end --}}
 
     {{-- debit script --}}
@@ -496,7 +519,7 @@
                 submitHandler: function(form) {
                     var formData = $(form).serialize();
 
-                    
+
                     $.ajax({
                         url: $(form).attr('action'),
                         type: $(form).attr('method'),
@@ -728,6 +751,7 @@
                         },
                         success: function(response) {
                             toastr.success(response.message);
+                            window.location.reload();
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -813,7 +837,7 @@
                             var id = data.id;
                             // var route = '/members-policy-info-edit/' + data.id;
                             var route =
-                            "{{ route('members.loan.edit', ['id' => ':id']) }}";
+                                "{{ route('members.loan.edit', ['id' => ':id']) }}";
                             route = route.replace(':id', id);
 
                             // var route = '/members-loan-edit/' + data.id;
@@ -1358,7 +1382,7 @@
             $('.exp_rule_create').change(function() {
                 var rule_data = $(this).val();
                 var rule_id = rule_data.split(',')[1].trim();
-                
+
                 $.ajax({
                     url: "{{ route('members.expectation.get-rule-detail') }}",
                     type: 'POST',
@@ -1369,7 +1393,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        $('#exp_percent').val(response.data.percent); 
+                        $('#exp_percent').val(response.data.percent);
                         $('#exp_amount').val(response.data.amount);
                         $('#exp_year').val(response.data.year);
                         $('#exp_month').val(response.data.month);
@@ -1377,15 +1401,14 @@
                 });
             });
 
-            
+
         });
-        
     </script>
 
     <script>
         $(document).ready(function() {
-            $('#exp_rule_edit').change(function(){
-               alert();
+            $('#exp_rule_edit').change(function() {
+                alert();
 
             });
 
@@ -1633,7 +1656,7 @@
             ];
 
             var tot_credits = parseInt($('#tot_credits').val()) || 0;
-           
+
 
             function updateTotalDebit() {
                 let total = 0;
@@ -1678,20 +1701,19 @@
                     success: function(response) {
                         if (response.status == 'error') {
                             toastr.error(response.message);
-                            
+
                             //disable debit-button
                             $("#debit-update").prop('disabled', true);
                             $('#recovry-update').prop('disabled', true);
-                        }else{
+                        } else {
                             $("#debit-update").prop('disabled', false);
                             $('#recovry-update').prop('disabled', false);
                         }
                     }
                 });
             });
-            
+
         });
-        
     </script>
 
     <script>
@@ -1722,14 +1744,14 @@
             updateEolHpl();
         });
     </script>
-    
+
 
     <script>
         //get ifsc code from bank id
         $(document).ready(function() {
             $('#bank').change(function() {
                 var bank_id = $(this).val();
-                
+
                 $.ajax({
                     url: "{{ route('members.core-info.get-ifsc') }}",
                     type: 'POST',
@@ -1746,6 +1768,4 @@
             });
         });
     </script>
-
-
 @endpush
