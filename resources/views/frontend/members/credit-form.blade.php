@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="pay" id="basic-pay"
-                            value="{{ $member->basic  ?? (old('basic') ?? '') }}" placeholder="" >
+                            value="{{ $member->basic ?? (old('basic') ?? '') }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -25,7 +25,8 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="da"
-                            value="{{ $member_credit->da ?? (old('da') ?? '') }}" placeholder="" id="da_percentage" readonly>
+                            value="{{ $member_credit->da ?? (old('da') ?? '') }}" placeholder="" id="da_percentage"
+                            readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -69,7 +70,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="g_pay" id="g_pay"
-                            value="{{ $member_credit->g_pay  ?? $member->g_pay ?? '' }}" placeholder="" readonly>
+                            value="{{ $member_credit->g_pay ?? ($member->g_pay ?? '') }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -191,7 +192,7 @@
         </div> --}}
     </div>
     <div class="row">
-        
+
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -250,7 +251,7 @@
         </div>
     </div>
     <div class="row">
-        
+
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -301,7 +302,8 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="spl_incentive" id="spl_incentive"
-                            value="{{ $member_credit->spl_incentive ?? (old('spl_incentive') ?? '') }}" placeholder="">
+                            value="{{ $member_credit->spl_incentive ?? (old('spl_incentive') ?? '') }}"
+                            placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -392,7 +394,7 @@
                         </div>
                     </div>
                 </div> --}}
-                
+
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -416,24 +418,25 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="var_amount" id="var_amount"
-                                    value="{{ $member_credit->variable_amount ?? (old('var_amount') ?? '') }}" placeholder="">
+                                    value="{{ $member_credit->variable_amount ?? (old('var_amount') ?? '') }}"
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="row">
-                
-                
+
+
             </div>
         </div>
 
     </div>
-    
+
     <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">
@@ -479,7 +482,7 @@
             </div>
         </div>
     </div>
-     
+
 
     <div class="row mt-3">
         <div class="col-md-12">

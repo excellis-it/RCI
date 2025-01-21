@@ -501,6 +501,7 @@ class MemberController extends Controller
             $update_debit_member->sco_int = $request->scooter_interest;
             $update_debit_member->quarter_charges = $request->quarter_charge;
             $update_debit_member->cgeis_arr = $request->cgeis_arr;
+            $update_debit_member->cghs_arr = $request->cghs_arr;
             $update_debit_member->penal_intr = $request->penal_interest;
             $update_debit_member->society = $request->society;
             $update_debit_member->arrear_pay = $request->arrear_pay;
@@ -584,6 +585,7 @@ class MemberController extends Controller
             $debit_member->sco_int = $request->scooter_interest;
             $debit_member->quarter_charges = $request->quarter_charge;
             $debit_member->cgeis_arr = $request->cgeis_arr;
+            $debit_member->cghs_arr = $request->cghs_arr;
             $debit_member->penal_intr = $request->penal_interest;
             $debit_member->society = $request->society;
             $debit_member->arrear_pay = $request->arrear_pay;
@@ -644,6 +646,7 @@ class MemberController extends Controller
             $update_recovery_org_member->cort_atch = $request->cort_atch;
             $update_recovery_org_member->ogpf = $request->ogpf;
             $update_recovery_org_member->ntp = $request->ntp;
+            $update_recovery_org_member->ptax = $request->ptax;
             $update_recovery_org_member->remarks = $request->remarks;
             $update_recovery_org_member->update();
 
@@ -673,6 +676,7 @@ class MemberController extends Controller
             $recovery_org_member->cort_atch = $request->cort_atch;
             $recovery_org_member->ogpf = $request->ogpf;
             $recovery_org_member->ntp = $request->ntp;
+            $recovery_org_member->ptax = $request->ptax;
             $recovery_org_member->remarks = $request->remarks;
             $recovery_org_member->save();
 
@@ -820,6 +824,34 @@ class MemberController extends Controller
         //     'pay_stop' => 'required'
         // ]);
 
+        //memebers details update
+        $member_details = Member::where('id', $request->member_id)->first();
+        $member_details->emp_id = $request->emp_id;
+        $member_details->gender = $request->gender;
+        $member_details->name = $request->name;
+        $member_details->pm_level = $request->pm_level;
+        $member_details->pm_index = $request->pm_index;
+        $member_details->basic = $request->basic;
+        $member_details->desig = $request->desig;
+        $member_details->group = $request->group;
+        $member_details->cadre = $request->cadre;
+        $member_details->category = $request->category;
+        $member_details->status = $request->status;
+        $member_details->g_pay = $request->g_pay;
+        $member_details->fund_type = $request->fund_type;
+        $member_details->dob = $request->dob;
+        $member_details->doj_lab = $request->doj_lab;
+        $member_details->dop = $request->dop;
+        $member_details->next_inr = $request->next_inr;
+        $member_details->quater = $request->quater;
+        $member_details->quater_no = $request->quater_no;
+        $member_details->ex_service = $request->ex_service;
+        $member_details->cgegis = $request->cgegis;
+
+        $member_details->pay_stop = $request->pay_stop;
+        $member_details->e_status = $request->e_status;
+        $member_details->update();
+
         $check_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->get();
         if (count($check_personal_member) > 0) {
             $update_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
@@ -858,33 +890,7 @@ class MemberController extends Controller
             $update_personal_member->e_status = $request->e_status;
             $update_personal_member->update();
 
-            //memebers details update
-            $member_details = Member::where('id', $request->member_id)->first();
-            $member_details->emp_id = $request->emp_id;
-            $member_details->gender = $request->gender;
-            $member_details->name = $request->name;
-            $member_details->pm_level = $request->pm_level;
-            $member_details->pm_index = $request->pm_index;
-            $member_details->basic = $request->basic;
-            $member_details->desig = $request->desig;
-            $member_details->group = $request->group;
-            $member_details->cadre = $request->cadre;
-            $member_details->category = $request->category;
-            $member_details->status = $request->status;
-            $member_details->g_pay = $request->g_pay;
-            $member_details->fund_type = $request->fund_type;
-            $member_details->dob = $request->dob;
-            $member_details->doj_lab = $request->doj_lab;
-            $member_details->dop = $request->dop;
-            $member_details->next_inr = $request->next_inr;
-            $member_details->quater = $request->quater;
-            $member_details->quater_no = $request->quater_no;
-            $member_details->ex_service = $request->ex_service;
-            $member_details->cgegis = $request->cgegis;
 
-            $member_details->pay_stop = $request->pay_stop;
-            $member_details->e_status = $request->e_status;
-            $member_details->update();
 
             // session()->flash('message', 'Member personal info updated successfully');
             return response()->json(['message' => 'Member personal info updated successfully']);

@@ -862,7 +862,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -989,6 +989,20 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="quarter_charge" id="quarter_charge"
                             value="{{ $member_debit->quarter_charges ?? $member->quarter->qrt_charge ?? ''}}" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>CGHS Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cghs_arr" id="cghs_arr"
+                            value="{{ $member_debit->cghs_arr ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

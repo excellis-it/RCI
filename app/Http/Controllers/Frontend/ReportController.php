@@ -50,6 +50,7 @@ use App\Models\PayMatrixBasic;
 use App\Models\PmIndex;
 use App\Models\Hra;
 use App\Models\Pension;
+use App\Models\MemberOriginalRecovery;
 
 class ReportController extends Controller
 {
@@ -197,7 +198,7 @@ class ReportController extends Controller
                     ->whereMonth('created_at', $request->month)
                     ->with('banks')
                     ->first(),
-                'member_recovery' => MemberRecovery::where('member_id', $member_data->id)
+                'member_recovery' => MemberOriginalRecovery::where('member_id', $member_data->id)
                     ->whereYear('created_at', $request->year)
                     ->whereMonth('created_at', $request->month)
                     ->first(),
