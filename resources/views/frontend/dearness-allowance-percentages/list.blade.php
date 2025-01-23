@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   DA Percentage List
+    DA Percentage List
 @endsection
 
 @push('styles')
@@ -58,8 +58,8 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="month"
                                                     style="cursor: pointer">Quarter <span id="month_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" 
-                                                    style="cursor: pointer">Pay Commision  </th>
+                                                <th class="sorting" data-sorting_type="desc" style="cursor: pointer">Pay
+                                                    Commision </th>
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>
@@ -179,19 +179,19 @@
             $('#da-percentage-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -220,6 +220,65 @@
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         $('#offcanvasEdit').offcanvas('show');
+
+                        var monthDropDownInit = $("#month-edit");
+
+                        var monthInitVal = $("#edit-month-val").val();
+                        var yearInitVal = $("#edit-year-val").val();
+
+                        for (var month = 1; month <= 12; month++) {
+                            var option = $('<option></option>');
+                            option.val(month);
+                            option.text(new Date(yearInitVal, month - 1)
+                                .toLocaleString('default', {
+                                    month: 'long'
+                                }));
+                            if (month == monthInitVal) {
+                                option.attr("selected", "selected");
+                            }
+                            monthDropDownInit.append(option);
+                        }
+
+
+                        $('#year-edit').change(function() {
+                            var year = $(this).val();
+                            console.log(year);
+                            var currentDate = new Date();
+                            var monthDropdown = $('#month-edit');
+
+                            if (year == currentDate.getFullYear()) {
+                                var currentMonth = currentDate.getMonth() + 1;
+                                var endMonth = (year == currentDate.getFullYear()) ?
+                                    currentMonth : 12;
+
+                                monthDropdown.empty();
+                                for (var month = 1; month <= endMonth; month++) {
+                                    var option = $('<option></option>');
+                                    option.val(month);
+                                    option.text(new Date(year, month - 1)
+                                        .toLocaleString('default', {
+                                            month: 'long'
+                                        }));
+                                    monthDropdown.append(option);
+                                }
+
+                            } else {
+                                monthDropdown.empty();
+                                for (var month = 1; month <= 12; month++) {
+                                    var option = $('<option></option>');
+                                    option.val(month);
+                                    option.text(new Date(year, month - 1)
+                                        .toLocaleString('default', {
+                                            month: 'long'
+                                        }));
+                                    monthDropdown.append(option);
+                                }
+                            }
+
+                        });
+
+
+
                     },
                     error: function(xhr) {
                         // Handle errors
@@ -264,7 +323,7 @@
                 var currentDate = new Date();
                 var monthDropdown = $('#month');
 
-                if(year == currentDate.getFullYear()) {
+                if (year == currentDate.getFullYear()) {
                     var currentMonth = currentDate.getMonth() + 1;
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
@@ -272,7 +331,9 @@
                     for (var month = 1; month <= endMonth; month++) {
                         var option = $('<option></option>');
                         option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        option.text(new Date(year, month - 1).toLocaleString('default', {
+                            month: 'long'
+                        }));
                         monthDropdown.append(option);
                     }
 
@@ -281,11 +342,13 @@
                     for (var month = 1; month <= 12; month++) {
                         var option = $('<option></option>');
                         option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        option.text(new Date(year, month - 1).toLocaleString('default', {
+                            month: 'long'
+                        }));
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script>
