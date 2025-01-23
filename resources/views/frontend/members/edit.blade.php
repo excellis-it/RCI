@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <div id="form">
                             {{-- <form action="" method="POST" id="designation-create-form">
-                            
+
                             @csrf --}}
                             <div class="row">
                                 <div class="col-md-12">
@@ -600,6 +600,11 @@
                             //     .id; // Update this URL based on your route structure
                             // $('#delete-recovery').attr('href', deleteUrl);
                             toastr.success(response.message);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+
+
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1627,7 +1632,7 @@
         $(document).ready(function() {
             $('#i_tax').change(function() {
                 var i_tax = $(this).val();
-                
+
                 $.ajax({
                     url: "{{ route('members.debit.get-edu-cess') }}",
                     type: 'POST',
@@ -1638,7 +1643,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        
+
                         $('#ecess').val(response.edu_cal);
                     }
                 });

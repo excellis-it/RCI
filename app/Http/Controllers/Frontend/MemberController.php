@@ -145,7 +145,7 @@ class MemberController extends Controller
             'e_status' => 'required',
         ]);
 
-        //check employee id 
+        //check employee id
         $employeeIdText = ResetEmployeeId::where('status', 1)->first();
         $latest_member = Member::latest()->first();
 
@@ -262,7 +262,7 @@ class MemberController extends Controller
 
     public function memberCreditUpdate(Request $request)
     {
-        //validation 
+        //validation
         // $validated = $request->validate([
         //     'pay' => 'required',
         //     // 'da' => 'required',
@@ -400,7 +400,7 @@ class MemberController extends Controller
 
     public function memberDebitUpdate(Request $request)
     {
-        //validation 
+        //validation
         // $validated = $request->validate([
         //     'gpa_sub' => 'required',
         //     'eol' => 'required',
@@ -687,7 +687,7 @@ class MemberController extends Controller
 
     public function memberRecoveryUpdate(Request $request)
     {
-        //validation 
+        //validation
         // $validated = $request->validate([
         //     'v_incr' => 'required',
         //     'noi' => 'required',
@@ -714,9 +714,17 @@ class MemberController extends Controller
             $update_recovery_member->save();
         }
 
+        $member_details = Member::where('id', $request->member_id)->first();
+        $member_details->basic = $member_details->basic + $request->total;
+        $member_details->update();
+
+        $personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
+        $personal_member->basic = $personal_member->basic + $request->total;
+        $personal_member->update();
+
         // session()->flash('message', 'Member recovery updated successfully');
 
-        return response()->json(['message' => 'Member recovery updated successfully', 'data' => $update_recovery_member]);
+        return response()->json(['message' => 'Member Var Info updated successfully', 'data' => $update_recovery_member]);
     }
     public function memberRecoveryDelete($id)
     {
@@ -729,7 +737,7 @@ class MemberController extends Controller
 
     public function memberCoreInfoUpdate(Request $request)
     {
-        //validation 
+        //validation
         // $validated = $request->validate([
         //     'bank_acc_no' => 'required',
         //     'ccs_mem_no' => 'required',
@@ -794,7 +802,7 @@ class MemberController extends Controller
 
     public function memberPersonalUpdate(Request $request)
     {
-        //validation 
+        //validation
         // $validated = $request->validate([
         //     'basic' => 'required',
         //     'emp_id' => 'required',
@@ -934,7 +942,7 @@ class MemberController extends Controller
             $personal_member->save();
 
 
-            // session()->flash('message', 'Member personal info added successfully');  
+            // session()->flash('message', 'Member personal info added successfully');
             return response()->json(['message' => 'Member personal info added successfully']);
         }
     }
