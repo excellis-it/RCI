@@ -40,6 +40,7 @@ class DearnessAllowancePercentageController extends Controller
             'quarter' => 'required',
             'percentage' => 'required',
             'pay_commission_id' => 'required',
+            'status' => 'required',
         ]);
 
         $dearnessAllowancePercentage = new DearnessAllowancePercentage();
@@ -49,6 +50,7 @@ class DearnessAllowancePercentageController extends Controller
         $dearnessAllowancePercentage->pay_commission_id = $request->pay_commission_id;
         $dearnessAllowancePercentage->year = $request->year;
         $dearnessAllowancePercentage->month = $request->month;
+        $dearnessAllowancePercentage->is_active = $request->status;
         $dearnessAllowancePercentage->save();
 
         // make the older dearness allowance percentage inactive
@@ -95,7 +97,14 @@ class DearnessAllowancePercentageController extends Controller
             'quarter' => 'required',
             'percentage' => 'required',
             'pay_commission_id' => 'required',
+            'status' => 'required',
         ]);
+
+        $dearnessAllowancePercentagePasts = DearnessAllowancePercentage::where('id', '!=', $id)->get();
+        foreach ($dearnessAllowancePercentagePasts as $dearnessAllowancePercentagePast) {
+            $dearnessAllowancePercentagePast->is_active = 0;
+            $dearnessAllowancePercentagePast->update();
+        }
 
         $dearnessAllowancePercentage = DearnessAllowancePercentage::findOrFail($id);
         $dearnessAllowancePercentage->financial_year = $request->financial_year;
@@ -104,6 +113,7 @@ class DearnessAllowancePercentageController extends Controller
         $dearnessAllowancePercentage->pay_commission_id = $request->pay_commission_id;
         $dearnessAllowancePercentage->year = $request->year;
         $dearnessAllowancePercentage->month = $request->month;
+        $dearnessAllowancePercentage->is_active = $request->status;
         $dearnessAllowancePercentage->update();
 
         session()->flash('message', 'Dearness Allowance Percentage updated successfully');
@@ -119,7 +129,7 @@ class DearnessAllowancePercentageController extends Controller
     {
         //
     }
-    
+
     public function delete(string $id)
     {
         $dearnessAllowancePercentage = DearnessAllowancePercentage::findOrFail($id);

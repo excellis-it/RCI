@@ -26,12 +26,12 @@ class HraController extends Controller
         $sort_type = $request->get('sorttype');
         $query = $request->get('query');
         $query = str_replace(" ", "%", $query);
-        $hras = Hra::where(function($queryBuilder) use ($query) {
+        $hras = Hra::where(function ($queryBuilder) use ($query) {
             $queryBuilder->where('city_category', 'like', '%' . $query . '%')
                 ->orWhere('percentage', 'like', '%' . $query . '%');
         })
-        ->orderBy($sort_by, $sort_type)
-        ->paginate(10);
+            ->orderBy($sort_by, $sort_type)
+            ->paginate(10);
         $paycommissions = PayCommission::all();
 
         return response()->json(['view' => view('frontend.hras.table', compact('hras', 'paycommissions'))->render()]);
@@ -54,9 +54,16 @@ class HraController extends Controller
             'city_category' => 'required',
             'percentage' => 'required',
             'pay_commission_id' => 'required',
+            'status' => 'required',
         ]);
 
-        $lastHra = Hra::where('city_category', $request->city_category)->latest()->first();
+        if ($request->status == 1) {
+            $old = Hra::where('city_category', $request->city_category)->get();
+            foreach ($old as $o) {
+                $o->status = 0;
+                $o->update();
+            }
+        }
 
         $hra = new Hra();
         $hra->city_category = $request->city_category;
@@ -65,14 +72,10 @@ class HraController extends Controller
         $hra->status = $request->status;
         $hra->save();
 
-        // make the older data inactive according to city category
-        if($lastHra) {
-            $lastHra->status = 0;
-            $lastHra->update();
-        }
 
 
-        session()->flash('success', 'HRA created successfully.'); 
+
+        session()->flash('success', 'HRA created successfully.');
         return redirect()->route('hras.index')->with('success', 'HRA created successfully.');
     }
 
@@ -94,7 +97,6 @@ class HraController extends Controller
         $edit = true;
 
         return response()->json(['view' => view('frontend.hras.form', compact('hra', 'paycommissions', 'edit'))->render()]);
-
     }
 
     /**
@@ -106,7 +108,17 @@ class HraController extends Controller
             'city_category' => 'required',
             'percentage' => 'required',
             'pay_commission_id' => 'required',
+            'status' => 'required',
         ]);
+
+        if ($request->status == 1) {
+            $old = Hra::where('city_category', $request->city_category)->get();
+            foreach ($old as $o) {
+                $o->status = 0;
+                $o->update();
+            }
+        }
+
 
         $hra = Hra::findOrFail($id);
         $hra->city_category = $request->city_category;
@@ -115,7 +127,7 @@ class HraController extends Controller
         $hra->status = $request->status;
         $hra->update();
 
-        session()->flash('success', 'HRA updated successfully.'); 
+        session()->flash('success', 'HRA updated successfully.');
         return redirect()->route('hras.index')->with('success', 'HRA updated successfully.');
     }
 
@@ -132,7 +144,7 @@ class HraController extends Controller
         $hra = Hra::findOrFail($id);
         $hra->delete();
 
-        session()->flash('success', 'HRA deleted successfully.'); 
+        session()->flash('success', 'HRA deleted successfully.');
         return redirect()->route('hras.index')->with('success', 'HRA deleted successfully.');
     }
 }

@@ -1,5 +1,6 @@
 @if (isset($edit))
-    <form action="{{ route('dearness-allowance-percentages.update', $dearnessAllowancePercentage->id) }}" method="POST" id="da-percentage-edit-form">
+    <form action="{{ route('dearness-allowance-percentages.update', $dearnessAllowancePercentage->id) }}" method="POST"
+        id="da-percentage-edit-form">
         @method('PUT')
         @csrf
         <div class="row align-items-center">
@@ -14,7 +15,9 @@
                                 <select class="form-select" name="financial_year" id="financial_year">
                                     <option value="">Select Year</option>
                                     @foreach ($financialYears as $financialYear)
-                                        <option value="{{ $financialYear }}" {{ ($dearnessAllowancePercentage->financial_year == $financialYear) ? 'selected' : '' }}>{{ $financialYear }}</option>
+                                        <option value="{{ $financialYear }}"
+                                            {{ $dearnessAllowancePercentage->financial_year == $financialYear ? 'selected' : '' }}>
+                                            {{ $financialYear }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -30,10 +33,18 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="quarter" id="quarter">
                                     <option value="">Select Quarter</option>
-                                    <option value="q1" {{ ($dearnessAllowancePercentage->quarter == 'q1') ? 'selected' : '' }}>Q1</option>
-                                    <option value="q2" {{ ($dearnessAllowancePercentage->quarter == 'q2') ? 'selected' : '' }}>Q2</option>
-                                    <option value="q3" {{ ($dearnessAllowancePercentage->quarter == 'q3') ? 'selected' : '' }}>Q3</option>
-                                    <option value="q4" {{ ($dearnessAllowancePercentage->quarter == 'q4') ? 'selected' : '' }}>Q4</option>
+                                    <option value="q1"
+                                        {{ $dearnessAllowancePercentage->quarter == 'q1' ? 'selected' : '' }}>Q1
+                                    </option>
+                                    <option value="q2"
+                                        {{ $dearnessAllowancePercentage->quarter == 'q2' ? 'selected' : '' }}>Q2
+                                    </option>
+                                    <option value="q3"
+                                        {{ $dearnessAllowancePercentage->quarter == 'q3' ? 'selected' : '' }}>Q3
+                                    </option>
+                                    <option value="q4"
+                                        {{ $dearnessAllowancePercentage->quarter == 'q4' ? 'selected' : '' }}>Q4
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -46,7 +57,8 @@
                                 <label>Percentage</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="percentage" id="percentage" value="{{ $dearnessAllowancePercentage->percentage }}" >
+                                <input type="text" class="form-control" name="percentage" id="percentage"
+                                    value="{{ $dearnessAllowancePercentage->percentage }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -62,7 +74,9 @@
                                 <select class="form-select" name="pay_commission_id" id="pay_commission_id">
                                     <option value="">Select Pay Commision</option>
                                     @foreach ($payCommissions as $paycommission)
-                                        <option value="{{ $paycommission->id }}" {{ ($dearnessAllowancePercentage->pay_commission_id == $paycommission->id) ? 'selected' : '' }}>{{ $paycommission->name }}</option>
+                                        <option value="{{ $paycommission->id }}"
+                                            {{ $dearnessAllowancePercentage->pay_commission_id == $paycommission->id ? 'selected' : '' }}>
+                                            {{ $paycommission->name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -75,7 +89,15 @@
                                 <label>Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="year" id="year" value="{{ $dearnessAllowancePercentage->year }}" readonly>
+                                <input type="hidden" id="edit-year-val" value="{{ $dearnessAllowancePercentage->year }}">
+                                <select class="form-select" name="year" id="year-edit">
+                                    <option value="">Select Year</option>
+                                    @for ($i = date('Y'); $i >= 1950; $i--)
+                                        <option value="{{ $i }}"
+                                            {{ $dearnessAllowancePercentage->year == $i ? 'selected' : '' }}>
+                                            {{ $i }}</option>
+                                    @endfor
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -86,7 +108,10 @@
                                 <label>Month</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="month" id="month" value="{{ $dearnessAllowancePercentage->month }}" readonly>
+                                <input type="hidden" id="edit-month-val" value="{{ $dearnessAllowancePercentage->month }}">
+                                <select class="form-select month" name="month" id="month-edit">
+                                    <option value="">Select Month</option>
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -98,8 +123,12 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($dearnessAllowancePercentage->is_active == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($dearnessAllowancePercentage->is_active == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1"
+                                        {{ $dearnessAllowancePercentage->is_active == 1 ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="0"
+                                        {{ $dearnessAllowancePercentage->is_active == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -133,7 +162,6 @@
                                     <option value="">Select Year</option>
                                     @foreach ($financialYears as $financialYear)
                                         <option value="{{ $financialYear }}">{{ $financialYear }}</option>
-                                        
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -165,7 +193,7 @@
                                 <label>Percentage</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="percentage" id="percentage" >
+                                <input type="text" class="form-control" name="percentage" id="percentage">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -211,7 +239,7 @@
                                 <label>Month</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="month" id="month">
+                                <select class="form-select month" name="month" id="month">
                                     <option value="">Select Month</option>
                                 </select>
                                 <span class="text-danger"></span>
