@@ -9,6 +9,7 @@
                     <div class="col-md-12">
                         <label>Basic Pay</label>
                     </div>
+                    {{-- {{ $vinfo_amount = $member->memberRecovery->v_incr ?? 0 }} --}}
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="pay" id="basic-pay"
                             value="{{ $member->basic ?? (old('basic') ?? '') }}" placeholder="" readonly>
@@ -243,7 +244,8 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="var_incr" id="var_incr"
-                            value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}" placeholder="">
+                            {{-- value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}" --}} value="{{ $member->var_inc_amount ?? (old('var_incr') ?? '') }}"
+                            placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

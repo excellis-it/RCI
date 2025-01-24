@@ -430,6 +430,9 @@
                         success: function(response) {
 
                             toastr.success(response.message);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1100);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -449,7 +452,7 @@
             const fields = ["#basic-pay", "#da_percentage", "#hra", "#tpt", "#da_on_tpt", "#s_pay",
                 "#spl_incentive",
                 "#incentive", "#dis_alw", "#var_amount", "#arrs_pay_allowance", "#risk_alw", "#misc_1",
-                "#misc_2"
+                "#misc_2", "#var_incr"
             ];
 
             function updateDAPercentage(basicPay, memberID) {
