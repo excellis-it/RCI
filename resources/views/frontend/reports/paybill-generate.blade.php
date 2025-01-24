@@ -71,7 +71,7 @@
                                         </td>
                                         <td colspan="3" style="text-align: center;"><img
                                                 style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;"
-                                                border="0" src="{{ asset('web_assets/images/drdo-logo.png') }}"
+                                                border="0" src="{{ public_path('storage/' . $logo->logo) }}"
                                                 alt="">
                                         </td>
                                         <td colspan="6"

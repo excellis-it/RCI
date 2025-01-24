@@ -51,6 +51,9 @@ use App\Models\PmIndex;
 use App\Models\Hra;
 use App\Models\Pension;
 use App\Models\MemberOriginalRecovery;
+use App\Models\MemberMonthlyDataCredit;
+use App\Models\MemberMonthlyDataDebit;
+use App\Models\MemberMonthlyDataRecovery;
 
 class ReportController extends Controller
 {
@@ -185,23 +188,24 @@ class ReportController extends Controller
 
         foreach ($member_datas as $member_data) {
             $member_details = [
-                'member_credit' => MemberCredit::where('member_id', $member_data->id)
-                    ->whereYear('created_at', $request->year)
-                    ->whereMonth('created_at', $request->month)
+                'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
                     ->first(),
-                'member_debit' => MemberDebit::where('member_id', $member_data->id)
-                    ->whereYear('created_at', $request->year)
-                    ->whereMonth('created_at', $request->month)
+                'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
                     ->first(),
                 'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
                     ->whereYear('created_at', $request->year)
                     ->whereMonth('created_at', $request->month)
                     ->with('banks')
                     ->first(),
-                'member_recovery' => MemberOriginalRecovery::where('member_id', $member_data->id)
-                    ->whereYear('created_at', $request->year)
-                    ->whereMonth('created_at', $request->month)
-                    ->first(),
+
             ];
 
             $combined_member_info = [
@@ -218,10 +222,10 @@ class ReportController extends Controller
         // dd($all_members_info);
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
         $year = $request->year;
-        $logo = SiteLogo::first() ?? null;
+        $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
         // dd($member_datas);
-        // return $member_datas;
+        //  return $all_members_info;
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no', 'month', 'year', 'logo', 'da_percent', 'all_members_info', 'groupedData'));
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
@@ -1328,7 +1332,7 @@ class ReportController extends Controller
 
     public function terminalBenefitsGenerate(Request $request)
     {
-        // validation 
+        // validation
         $request->validate([
             'member_id' => 'required',
         ]);

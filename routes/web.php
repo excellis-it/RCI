@@ -129,6 +129,7 @@ use App\Http\Controllers\PublicFund\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Settings\CsvController;
 use App\Http\Controllers\LinkScannerController;
+use App\Http\Controllers\AutoRun\MemberPayGenerate;
 
 /*
 |--------------------------------------------------------------------------
@@ -1188,4 +1189,6 @@ Route::middleware('permssions')->group(function () {
             });
         });
     });
+
+    Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
 });
