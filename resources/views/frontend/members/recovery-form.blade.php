@@ -11,7 +11,8 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="v_incr" id="v_incr"
-                            value="{{ $member_var_info->var_incr ?? $member_recovery->v_incr ?? (old('v_incr') ?? '') }}" placeholder="">
+                            value="{{ $member_recovery->v_incr ?? ($member_var_info->var_incr ?? (old('v_incr') ?? '')) }}"
+                            placeholder="" required>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -23,11 +24,14 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NOI</label>
+                        <label>NOI <span class="float-end">(Pending :
+                                {{ $member_recovery->noi_pending ?? 0 }}
+                                )</span></label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="noi" id="noi"
-                            value="{{ $member_var_info->noi ?? $member_recovery->noi ?? (old('noi') ?? '') }}" placeholder="">
+                            value="{{ $member_recovery->noi ?? ($member_var_info->noi ?? (old('noi') ?? '')) }}"
+                            placeholder="" required>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -43,7 +47,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="total" id="total"
-                            value="{{ $member_recovery->total ?? (old('total') ?? '') }}" placeholder="">
+                            value="{{ $member_recovery->total ?? (old('total') ?? '') }}" placeholder="" required>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -58,8 +62,8 @@
                         <label>Stop</label>
                     </div>
                     <div class="col-md-12">
-                        <select class="form-select" name="stop" id="stop">
-                            <option value="">Select</option>
+                        <select class="form-select" name="stop" id="stop" required>
+                            <option value="" disabled>Select</option>
                             <option value="Yes"
                                 {{ (isset($member_recovery->stop) && $member_recovery->stop == 'Yes') || old('stop') == 'Yes' ? 'selected' : '' }}>
                                 Yes</option>
@@ -82,7 +86,8 @@
                             <button type="submit" class="listing_add">Save</button>
                         </div>
                         <div class="form-group col-md-3 mb-2">
-                            <a class="delete_acma"  id="delete-recovery" data-id="{{ isset($member_recovery->id) ? $member_recovery->id :'#' }}">
+                            <a class="delete_acma" id="delete-recovery"
+                                data-id="{{ isset($member_recovery->id) ? $member_recovery->id : '#' }}">
                                 <button type="button" class="delete-btn-1">Delete</button>
                             </a>
 
@@ -92,7 +97,7 @@
             </div>
         </div>
     </div>
-   
+
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="row justify-content-end">
@@ -114,3 +119,25 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $("#noi").keyup(function(e) {
+                e.preventDefault();
+                var noi = $(this).val();
+                console.log(noi);
+                var v_incr = $("#v_incr").val();
+                if (v_incr == '') {
+                    v_incr = 0;
+                }
+                if (noi == '') {
+                    noi = 1;
+                }
+                var total = parseFloat(v_incr) * parseFloat(noi);
+                $("#total").val(total);
+
+            });
+        });
+    </script>
+@endpush

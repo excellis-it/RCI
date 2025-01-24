@@ -257,6 +257,21 @@ class MemberController extends Controller
 
         $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
 
+
+        $noi_amount = 0;
+        $var_inc_amount = 0;
+        $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+        if ($var_noi) {
+            if ($var_noi->noi_pending > 0 && $var_noi->stop == 'No') {
+                $noi_amount = $var_noi->v_incr;
+                $var_inc_amount = $var_noi->v_incr;
+            }
+        }
+        $member->var_inc_amount = $var_inc_amount;
+        $member->basic_with_noi = $member->basic + $noi_amount;
+
+        // return $member;
+
         return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules'));
     }
 
@@ -310,6 +325,15 @@ class MemberController extends Controller
             ->whereMonth('created_at', now()->month)
             ->whereYear('created_at', now()->year)
             ->get();
+
+        // $check_recovery_member = MemberRecovery::where('member_id', $request->member_id)->get();
+        // if (count($check_recovery_member) > 0) {
+        //     $update_recovery_member = MemberRecovery::where('member_id', $request->member_id)->first();
+        //     if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
+        //         $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
+        //         $update_recovery_member->update();
+        //     }
+        // }
 
         if (count($check_credit_member) > 0) {
             $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
@@ -687,14 +711,14 @@ class MemberController extends Controller
 
     public function memberRecoveryUpdate(Request $request)
     {
-        //validation
-        // $validated = $request->validate([
-        //     'v_incr' => 'required',
-        //     'noi' => 'required',
-        //     'total' => 'required',
-        //     'stop' => 'required',
+        // validation
+        $validated = $request->validate([
+            'v_incr' => 'required',
+            'noi' => 'required',
+            'total' => 'required',
+            'stop' => 'required',
 
-        // ]);
+        ]);
 
         $check_recovery_member = MemberRecovery::where('member_id', $request->member_id)->get();
         if (count($check_recovery_member) > 0) {
@@ -709,18 +733,20 @@ class MemberController extends Controller
             $update_recovery_member->member_id = $request->member_id;
             $update_recovery_member->v_incr = $request->v_incr;
             $update_recovery_member->noi = $request->noi;
+            $update_recovery_member->noi_pending = $request->noi;
             $update_recovery_member->total = $request->total;
             $update_recovery_member->stop = $request->stop;
             $update_recovery_member->save();
         }
 
-        $member_details = Member::where('id', $request->member_id)->first();
-        $member_details->basic = $member_details->basic + $request->total;
-        $member_details->update();
+        // $member_details = Member::where('id', $request->member_id)->first();
+        // $member_details->basic = $member_details->basic + $request->v_incr;
+        // $member_details->update();
 
-        $personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
-        $personal_member->basic = $personal_member->basic + $request->total;
-        $personal_member->update();
+
+        // $personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
+        // $personal_member->basic = $personal_member->basic + $request->v_incr;
+        // $personal_member->update();
 
         // session()->flash('message', 'Member recovery updated successfully');
 
