@@ -73,16 +73,20 @@
                 </div>
             </div>
         </div>
-        
-       
+
+
     </div>
 @endsection
 
 @push('scripts')
     <script>
         //if member_id select then monthly_subscription will remove readonly
-        $(document).on('change', '#member_id', function() {
-            $('#monthly_subscription').removeAttr('readonly');
+
+
+        $(document).ready(function() {
+            $(document).on('change', '#member_id', function() {
+                $('#monthly_subscription').removeAttr('readonly');
+            });
         });
     </script>
     <script>
@@ -154,78 +158,78 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
-        // Handle click event on the header checkbox
-        $('#select-all').on('click', function() {
-            // Check or uncheck all row checkboxes based on header checkbox state
-            $('.row-checkbox').prop('checked', this.checked);
-        });
+    <script>
+        $(document).ready(function() {
+            // Handle click event on the header checkbox
+            $('#select-all').on('click', function() {
+                // Check or uncheck all row checkboxes based on header checkbox state
+                $('.row-checkbox').prop('checked', this.checked);
+            });
 
-        $('.row-checkbox').on('click', function() {
-            if ($('.row-checkbox:checked').length == $('.row-checkbox').length) {
-                $('#select-all').prop('checked', true);
-            } else {
-                $('#select-all').prop('checked', false);
-            }
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        $(document).on('click', '.edit-route', function() {
-            var route = $(this).data('route');
-            $('#loading').addClass('loading');
-            $('#loading-content').addClass('loading-content');
-            $.ajax({
-                url: route,
-                type: 'GET',
-                success: function(response) {
-                    $('#form').html(response.view);
-                    $('#loading').removeClass('loading');
-                    $('#loading-content').removeClass('loading-content');
-                    $('#offcanvasEdit').offcanvas('show');
-                },
-                error: function(xhr) {
-                    // Handle errors
-                    $('#loading').removeClass('loading');
-                    $('#loading-content').removeClass('loading-content');
-                    console.log(xhr);
+            $('.row-checkbox').on('click', function() {
+                if ($('.row-checkbox:checked').length == $('.row-checkbox').length) {
+                    $('#select-all').prop('checked', true);
+                } else {
+                    $('#select-all').prop('checked', false);
                 }
             });
         });
+    </script>
 
-        // Handle the form submission
-        $(document).on('submit', '#gpfs-edit-form', function(e) {
-            e.preventDefault();
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#form').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
 
-            var formData = $(this).serialize();
+            // Handle the form submission
+            $(document).on('submit', '#gpfs-edit-form', function(e) {
+                e.preventDefault();
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                    window.location.reload();
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a span with class "text-danger" next to each input
-                        $('#' + key + '-error').html(value[0]);
-                    });
-                }
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                        window.location.reload();
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
+                        });
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
-<script>
-    var select_box_element = document.querySelector('.search-select-box');
-    dselect(select_box_element, {
-        search: true
-    });
-</script>
+    <script>
+        var select_box_element = document.querySelector('.search-select-box');
+        dselect(select_box_element, {
+            search: true
+        });
+    </script>
 @endpush

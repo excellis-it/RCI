@@ -320,7 +320,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.pay-matrix') }}">Pay Matrix</a>
                             </li>
-                            
+
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.ltc-advance')}}">Ltc Advance</a>
@@ -368,12 +368,66 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.pay-fixation-arrears') }}">Pay Fixation Arrear</a>
-                            </li> 
+                            </li>
 
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('ltc-advance-settlement')}}">Ltc Advance Settlement</a>
                             </li> --}}
+
+                            {{-- <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.cgeg-gpf') }}">CGEG GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.cgegis-gpf') }}">CGEGIS GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.annexure-ii-nps') }}">Annexure II NPS</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.gpf-subscription-rio') }}">GPF Subscription</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.hba-adv-gpf') }}">HBA ADV GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.hba-interest-gpf') }}">HBA Interest GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.income-tax-gpf') }}">Income Tax GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.misc-debit-gpf') }}">Misc Debit GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.quarter-charges-gpf') }}">Quarter Charges GPF</a>
+                            </li>
+                             --}}
+
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.recovery-gpf') }}">RECOVERY SCHEDULE GPF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.recovery-nps') }}">RECOVERY SCHEDULE NPS</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="#">Income Tax Calculation</a>
+                            </li>
+
+
                         </ul>
                     </div>
                 </div>
@@ -495,7 +549,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('tptas.index') }}">TPT</a>
                             </li>
-                            
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('income-taxes.index') }}">Income Tax</a>
@@ -566,10 +620,10 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-bag-allowance.index') }}" >Member Purse
+                                    href="{{ route('member-bag-allowance.index') }}">Member Purse
                                     Allowance</a>
                             </li>
-                           
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-family.index') }}">Member Family info</a>
@@ -609,7 +663,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('tada-advance.index') }}">TA/DA Advance</a>
                             </li>
-                           <li class="mb-2">
+                            <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('tada-plus.index') }}">TA/DA Final Settlement</a>
                             </li>
@@ -845,7 +899,8 @@
                         @if (Auth::check() && Auth::user()->hasRole('ADMIN'))
                             <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                                 <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
-                                    <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt="" width="24" height="24">
+                                    <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
+                                        width="24" height="24">
                                 </span>
                                 <div class="w-75 d-inline-block v-middle ps-3">
                                     <h6 class="mb-1 bg-hover-primary fw-semibold"> Change Logo </h6>
