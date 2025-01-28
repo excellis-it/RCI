@@ -424,7 +424,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Income Tax Calculation</a>
+                                    href="{{ route('reports.annual-income-tax-report') }}">Income Tax Calculation</a>
                             </li>
 
 
@@ -897,7 +897,8 @@
 
 
                         @if (Auth::check() && Auth::user()->hasRole('ADMIN'))
-                            <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
+                            <a href="{{ route('logo.dashboard') }}"
+                                class="py-8 px-7 mt-8 d-flex align-items-center">
                                 <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                     <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
                                         width="24" height="24">
