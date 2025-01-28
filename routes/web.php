@@ -402,6 +402,55 @@ Route::middleware('permssions')->group(function () {
     Route::get('reports-terminal-benefits', [ReportController::class, 'terminalBenefits'])->name('reports.terminal-benefits');
     Route::post('reports-terminal-benefits-generate', [ReportController::class, 'terminalBenefitsGenerate'])->name('reports.terminal-benefits-generate');
 
+    //RECOVERY SCHEDULE GPF
+    Route::get('/reports-recovery-gpf', [ReportController::class, 'recoveryGpfReport'])->name('reports.recovery-gpf');
+    Route::post('/reports-recovery-gpf-generate', [ReportController::class, 'recoveryGpfReportGenerate'])->name('reports.recovery-gpf-report-generate');
+
+    //RECOVERY SCHEDULE NPS
+    Route::get('/reports-recovery-nps', [ReportController::class, 'recoveryNpsReport'])->name('reports.recovery-nps');
+    Route::post('/reports-recovery-nps-generate', [ReportController::class, 'recoveryNpsReportGenerate'])->name('reports.recovery-nps-report-generate');
+
+    // CGEG GPF reports
+Route::get('/reports-cgeg-gpf', [ReportController::class, 'cgegGpfReport'])->name('reports.cgeg-gpf');
+Route::post('/reports-cgeg-gpf-generate', [ReportController::class, 'cgegGpfReportGenerate'])->name('reports.cgeg-gpf-report-generate');
+
+// CGEGIS GPF reports
+Route::get('/reports-cgegis-gpf', [ReportController::class, 'cgegisGpfReport'])->name('reports.cgegis-gpf');
+Route::post('/reports-cgegis-gpf-generate', [ReportController::class, 'cgegisGpfReportGenerate'])->name('reports.cgegis-gpf-report-generate');
+
+// Annexure II NPS reports
+Route::get('/reports-annexure-ii-nps', [ReportController::class, 'annexureIINpsReport'])->name('reports.annexure-ii-nps');
+Route::post('/reports-annexure-ii-nps-generate', [ReportController::class, 'annexureIINpsReportGenerate'])->name('reports.annexure-ii-nps-report-generate');
+
+// GPF Subscription reports
+Route::get('/reports-gpf-subscription-rio', [ReportController::class, 'gpfSubscriptionReportRio'])->name('reports.gpf-subscription-rio');
+Route::post('/reports-gpf-subscription-generate-rio', [ReportController::class, 'gpfSubscriptionReportGenerateRio'])->name('reports.gpf-subscription-report-generate-rio');
+
+// HBA ADV GPF reports
+Route::get('/reports-hba-adv-gpf', [ReportController::class, 'hbaAdvGpfReport'])->name('reports.hba-adv-gpf');
+Route::post('/reports-hba-adv-gpf-generate', [ReportController::class, 'hbaAdvGpfReportGenerate'])->name('reports.hba-adv-gpf-report-generate');
+
+// HBA Interest GPF reports
+Route::get('/reports-hba-interest-gpf', [ReportController::class, 'hbaInterestGpfReport'])->name('reports.hba-interest-gpf');
+Route::post('/reports-hba-interest-gpf-generate', [ReportController::class, 'hbaInterestGpfReportGenerate'])->name('reports.hba-interest-gpf-report-generate');
+
+// Income Tax GPF reports
+Route::get('/reports-income-tax-gpf', [ReportController::class, 'incomeTaxGpfReport'])->name('reports.income-tax-gpf');
+Route::post('/reports-income-tax-gpf-generate', [ReportController::class, 'incomeTaxGpfReportGenerate'])->name('reports.income-tax-gpf-report-generate');
+
+// Misc Debit GPF reports
+Route::get('/reports-misc-debit-gpf', [ReportController::class, 'miscDebitGpfReport'])->name('reports.misc-debit-gpf');
+Route::post('/reports-misc-debit-gpf-generate', [ReportController::class, 'miscDebitGpfReportGenerate'])->name('reports.misc-debit-gpf-report-generate');
+
+// Quarter Charges GPF reports
+Route::get('/reports-quarter-charges-gpf', [ReportController::class, 'quarterChargesGpfReport'])->name('reports.quarter-charges-gpf');
+Route::post('/reports-quarter-charges-gpf-generate', [ReportController::class, 'quarterChargesGpfReportGenerate'])->name('reports.quarter-charges-gpf-report-generate');
+
+// Income Tax Calculation reports
+Route::get('/reports-income-tax-calculation', [ReportController::class, 'incomeTaxCalculationReport'])->name('reports.income-tax-calculation');
+Route::post('/reports-income-tax-calculation-generate', [ReportController::class, 'incomeTaxCalculationReportGenerate'])->name('reports.income-tax-calculation-report-generate');
+
+
     // form 16 b
     Route::get('reports-form-16b', [ReportController::class, 'formSixteenB'])->name('reports.form-16b');
     Route::post('reports-form-16b-generate', [ReportController::class, 'formSixteenBGenerate'])->name('reports.form-16b-generate');

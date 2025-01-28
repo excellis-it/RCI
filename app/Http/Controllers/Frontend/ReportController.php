@@ -201,8 +201,6 @@ class ReportController extends Controller
                     ->where('month', $request->month)
                     ->first(),
                 'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
-                    ->whereYear('created_at', $request->year)
-                    ->whereMonth('created_at', $request->month)
                     ->with('banks')
                     ->first(),
 
@@ -267,6 +265,8 @@ class ReportController extends Controller
         // $startOfYear = Carbon::now()->startOfYear();
         // $endOfYear = Carbon::now()->endOfYear();
         [$startYear, $endYear] = explode('-', $request->report_year);
+        // return $endYear;
+
         $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
         $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
 
@@ -279,8 +279,12 @@ class ReportController extends Controller
         }
 
         $member_data = Member::where('id', $memberId)->first();
-        $member_credit_data = MemberCredit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
-        $member_debit_data = MemberDebit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        // $member_credit_data = MemberCredit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        // $member_debit_data = MemberDebit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+
+        $member_credit_data = MemberMonthlyDataCredit::where('member_id', $memberId)->whereBetween('year', [$startYear, $endYear])->get();
+        $member_debit_data = MemberMonthlyDataDebit::where('member_id', $memberId)->whereBetween('year', [$startYear, $endYear])->get();
+
         $member_core_info = MemberCoreInfo::where('member_id', $memberId)->first();
         $member_recoveries_data = MemberRecovery::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_policy_info = MemberPolicyInfo::where('member_id', $memberId)->sum('amount');
@@ -379,7 +383,7 @@ class ReportController extends Controller
             $total_policy += $result[$month]['policy']['amount'];
 
             foreach ($member_credit_data as $credit) {
-                if (Carbon::parse($credit->created_at)->format('M-y') == $month) {
+                if (Carbon::parse($credit->year . '-' . $credit->month . '-01')->format('M-y') == $month) {
                     $result[$month]['credit']['basic_pay'] += $credit->pay ?? 0;
                     $result[$month]['credit']['g_pay'] += $credit->g_pay ?? 0;
                     $result[$month]['credit']['s_pay'] += $credit->s_pay ?? 0;
@@ -404,7 +408,7 @@ class ReportController extends Controller
             }
 
             foreach ($member_debit_data as $debit) {
-                if (Carbon::parse($debit->created_at)->format('M-y') == $month) {
+                if (Carbon::parse($debit->year . '-' . $debit->month . '-01')->format('M-y') == $month) {
                     $result[$month]['debit']['gpf'] += $debit->gpa_sub ?? 0;
                     $result[$month]['debit']['cgegis'] += $debit->cgegis ?? 0;
                     $result[$month]['debit']['cghs'] += $debit->cghs ?? 0;
@@ -423,6 +427,7 @@ class ReportController extends Controller
                 $total_debit[$key] += $value;
             }
         }
+        // return $yearMonths;
         $hbaInterest = 0;
         if ($member_loan_info) {
 
@@ -2086,4 +2091,275 @@ class ReportController extends Controller
         $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->where('fund_type', 'NPS')->orderBy('id', 'desc')->get();
         return response()->json(['members' => $members]);
     }
+    //
+
+    public function cgegGpfReport()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.cgeg_gpf', compact('categories'));
+    }
+
+    public function cgegGpfReportGenerate(Request $request)
+    {
+        $year = $request->year;
+        $month = $request->month;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+
+        $all_members_info = [];
+
+        $gpf_members = MemberGpf::pluck('member_id')->toArray();
+
+        $member_datas = Member::whereIn('id', $gpf_members)
+            ->where('e_status', 'active')
+            // ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')
+            ->orderBy('id', 'desc')
+            ->with('desigs')
+            ->get();
+
+
+        if ($member_datas->count() == 0) {
+            return redirect()->back()->with('error', 'No data found');
+        }
+
+        foreach ($member_datas as $member_data) {
+            $member_details = [
+                'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
+                    ->whereYear('created_at', $request->year)
+                    ->whereMonth('created_at', $request->month)
+                    ->with('banks')
+                    ->first(),
+
+            ];
+
+            $combined_member_info = [
+                'member_data' => $member_data,
+                'details' => $member_details,
+            ];
+
+            $all_members_info[] = $combined_member_info;
+        }
+
+        //  return $all_members_info;
+
+        $pdf = PDF::loadView('frontend.reports.cgeg_gpf_generate', compact('all_members_info', 'month_name', 'year', 'month'));
+        return $pdf->download('CGEF-GPF-Report-' . $month . '-' . $year . '.pdf');
+    }
+
+
+    public function recoveryGpfReport()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.recovery-gpf', compact('categories'));
+    }
+
+    public function recoveryGpfReportGenerate(Request $request)
+    {
+        $year = $request->year;
+        $month = $request->month;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+
+        $all_members_info = [];
+
+        $gpf_members = MemberGpf::pluck('member_id')->toArray();
+
+        $member_datas = Member::whereIn('id', $gpf_members)
+            ->where('e_status', 'active')
+            // ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')
+            ->orderBy('id', 'desc')
+            ->with('desigs')
+            ->get();
+
+
+        if ($member_datas->count() == 0) {
+            return redirect()->back()->with('error', 'No data found');
+        }
+
+        foreach ($member_datas as $member_data) {
+            $member_details = [
+                'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
+                    ->with('banks')
+                    ->first(),
+
+            ];
+
+            $combined_member_info = [
+                'member_data' => $member_data,
+                'details' => $member_details,
+            ];
+
+            $all_members_info[] = $combined_member_info;
+        }
+
+        // return $all_members_info;
+
+        $pdf = PDF::loadView('frontend.reports.recovery-gpf-generate', compact('all_members_info', 'month_name', 'year', 'month'));
+        return $pdf->download('RECOVERY-SCHEDULE-GPF-' . $month . '-' . $year . '.pdf');
+    }
+
+
+    public function recoveryNpsReport()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.recovery-nps', compact('categories'));
+    }
+
+    public function recoveryNpsReportGenerate(Request $request)
+    {
+        $year = $request->year;
+        $month = $request->month;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+
+        $all_members_info = [];
+
+        // $gpf_members = MemberGpf::pluck('member_id')->toArray();
+
+        $member_datas = Member::where('e_status', 'active')
+            // ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')
+            ->orderBy('id', 'desc')
+            ->with('desigs')
+            ->get();
+
+
+        if ($member_datas->count() == 0) {
+            return redirect()->back()->with('error', 'No data found');
+        }
+
+        foreach ($member_datas as $member_data) {
+            $member_details = [
+                'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
+                    ->with('banks')
+                    ->first(),
+
+            ];
+
+            $combined_member_info = [
+                'member_data' => $member_data,
+                'details' => $member_details,
+            ];
+
+            $all_members_info[] = $combined_member_info;
+        }
+
+        // return $all_members_info;
+
+        $pdf = PDF::loadView('frontend.reports.recovery-nps-generate', compact('all_members_info', 'month_name', 'year', 'month'));
+        return $pdf->download('RECOVERY-SCHEDULE-NPS-' . $month . '-' . $year . '.pdf');
+    }
+
+
+    public function incomeTaxCalculationReport()
+    {
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.income-tax-calculation', compact('categories'));
+    }
+
+    public function incomeTaxCalculationReportGenerate(Request $request)
+    {
+        $year = $request->year;
+        $month = $request->month;
+        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
+
+        $all_members_info = [];
+
+        // $gpf_members = MemberGpf::pluck('member_id')->toArray();
+
+        $member_datas = Member::where('e_status', 'active')
+            // ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')
+            ->orderBy('id', 'desc')
+            ->with('desigs')
+            ->get();
+
+
+        if ($member_datas->count() == 0) {
+            return redirect()->back()->with('error', 'No data found');
+        }
+
+        foreach ($member_datas as $member_data) {
+            $member_details = [
+                'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
+                    ->first(),
+                'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
+                    ->with('banks')
+                    ->first(),
+
+            ];
+
+            $combined_member_info = [
+                'member_data' => $member_data,
+                'details' => $member_details,
+            ];
+
+            $all_members_info[] = $combined_member_info;
+        }
+
+        // return $all_members_info;
+
+        $pdf = PDF::loadView('frontend.reports.income-tax-calculation-generate', compact('all_members_info', 'month_name', 'year', 'month'))->setPaper('a4', 'landscape')->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+        $pdf->setOption('margin-top', 0)
+            ->setOption('margin-right', 0)
+            ->setOption('margin-bottom', 0)
+            ->setOption('margin-left', 0);
+        return $pdf->download('income-tax-calculation-' . $month . '-' . $year . '.pdf');
+    }
+
+
+
+
+
+
+    //
 }
