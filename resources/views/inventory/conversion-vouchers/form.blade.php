@@ -233,8 +233,8 @@
                                 <label>Unit Rate</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item-rate" name="strike_rate[]"
-                                    id="strike_rate" readonly>
+                                <input type="text" value="0.00" class="form-control item-rate"
+                                    name="strike_rate[]" id="strike_rate" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -246,8 +246,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-quantity">
-                                <input type="number" class="form-control item-quantity" name="strike_quantity[]"
-                                    oninput="checkMax(this)">
+                                <input type="number" value="0" class="form-control item-quantity"
+                                    name="strike_quantity[]" oninput="checkMax(this)">
                                 <span class="text-danger"></span>
                                 <div class="text-danger" id="quantity_no"></div>
                             </div>
@@ -260,8 +260,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-price">
-                                <input type="text" class="form-control item-price" name="strike_price[]"
-                                    id="strike_total_rate" readonly>
+                                <input type="text" value="0.00" class="form-control item-price"
+                                    name="strike_price[]" id="strike_total_rate" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -374,8 +374,8 @@
                         <label>Unit Rate</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" name="brought_rate[]" class="form-control" id="brought_unit_rate"
-                            readonly>
+                        <input type="text" value="0.00" name="brought_rate[]" class="form-control"
+                            id="brought_unit_rate" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -386,7 +386,8 @@
                         <label>Quantity</label>
                     </div>
                     <div class="col-md-12">
-                        <input name="brought_quantity[]" id="brought_quantity" class="form-control" readonly>
+                        <input name="brought_quantity[]" value="0" id="brought_quantity" class="form-control"
+                            readonly>
 
                         <span class="text-danger"></span>
                         <div class="text-danger" id="quantity_no"></div>
@@ -399,8 +400,8 @@
                         <label>Price</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="brought_price[]" id="brought_total_rate"
-                            readonly>
+                        <input type="text" value="0.00" class="form-control" name="brought_price[]"
+                            id="brought_total_rate" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -525,8 +526,8 @@
                                     <label>Unit Rate</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control item-rate" name="strike_rate[]"
-                                        placeholder="">
+                                    <input type="text" value="0.00" class="form-control item-rate"
+                                        name="strike_rate[]" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -538,8 +539,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="hidden" class="init-item-quantity">
-                                    <input type="number" class="form-control item-quantity" name="strike_quantity[]"
-                                        oninput="checkMax(this)">
+                                    <input type="number" value="0" class="form-control item-quantity"
+                                        name="strike_quantity[]" oninput="checkMax(this)">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -551,8 +552,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="hidden" class="init-item-price">
-                                    <input type="text" class="form-control item-price" name="strike_price[]"
-                                        id="strike_total_rate" readonly>
+                                    <input type="text" value="0.00" class="form-control item-price"
+                                        name="strike_price[]" id="strike_total_rate" readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>

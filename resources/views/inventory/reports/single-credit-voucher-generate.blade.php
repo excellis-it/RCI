@@ -633,8 +633,14 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
+                                                @php
+                                                    $parts = explode('.', $creditDetail['item_code'] ?? '');
+                                                    $middleNumber = $parts[1] ?? '-';
+                                                @endphp
 
+                                                {{ $middleNumber }}
                                             </td>
+
                                             <td
                                                 style="
                       font-size: 10px;

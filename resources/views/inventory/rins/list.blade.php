@@ -416,7 +416,7 @@
                                 <label>Received Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control rcv_quantity" name="received_quantity[]">
+                                <input type="text" value="0" class="form-control rcv_quantity" name="received_quantity[]">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -441,7 +441,7 @@
                                 <label>Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control units_cost" name="unit_cost[]" placeholder="">
+                                <input type="text" value="0.00" class="form-control units_cost" name="unit_cost[]" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -455,7 +455,7 @@
                                 <label>Total Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control total_cost" name="total_cost[]"  placeholder="">
+                                <input type="text" value="0.00" class="form-control total_cost" name="total_cost[]"  placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -470,7 +470,7 @@
                                 </select></label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
+                                <input type="text" value="0" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
                                   <input type="hidden" class="form-control discount_amount" name="discount_amount[]" id="discount_amount" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -500,7 +500,7 @@
                                 <label>GST Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control gst_amount" name="gst_amount[]" placeholder="">
+                                <input type="text" value="0.00" class="form-control gst_amount" name="gst_amount[]" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -512,7 +512,7 @@
                                 <label>Total Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control total_amount" name="total_amount[]" placeholder="" readonly>
+                                <input type="text" value="0.00" class="form-control total_amount" name="total_amount[]" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -865,11 +865,13 @@
                             $('#sir_date').val(data.sirDetails.sir_date || '');
 
                             // Check if 'inventory_number' exists and use number or ID
-                            $('#inventory_code').val(data.sirDetails.inventory_number?.number || '');
+                            $('#inventory_code').val(data.sirDetails.inventory_number?.number ||
+                                '');
                             $('#inventory_no').val(data.sirDetails.inventory_number?.id || '');
 
                             // Check if group_name or division exists and concatenate them
-                            let groupName = data.sirDetails.inventory_number?.group?.value || '';
+                            let groupName = data.sirDetails.inventory_number?.group?.value ||
+                                '';
                             let division = data.sirDetails.inventory_number?.division || '';
                             $('#group_name').val(groupName + (groupName && division ? ' / ' :
                                 '') + division);
@@ -957,7 +959,8 @@
                             `);
                                 $('#supplier_order_number').val(data.sirDetails.supply_order
                                     ?.order_number || '');
-                                $('#supply_order_no').val(data.sirDetails.supply_order?.id || '');
+                                $('#supply_order_no').val(data.sirDetails.supply_order?.id ||
+                                    '');
                             } else {
                                 $('#supply_order_number_field').html(`
                                <div class="col-md-12 d-flex justify-content-between">
@@ -992,11 +995,13 @@
                                 </div>
                             `);
                                 $('#inspection_authority_name').val(
-                                    (data.sirDetails.inspection_authority?.first_name || '') + ' ' + (
+                                    (data.sirDetails.inspection_authority?.first_name ||
+                                        '') + ' ' + (
                                         data.sirDetails
                                         .inspection_authority?.last_name || '')
                                 );
-                                $('#authority_id').val(data.sirDetails.inspection_authority?.id || '');
+                                $('#authority_id').val(data.sirDetails.inspection_authority
+                                    ?.id || '');
                             } else {
                                 $('#inspection_authority_field').html(`
                                <div class="col-md-12">
