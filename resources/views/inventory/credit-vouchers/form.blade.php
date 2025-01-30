@@ -355,7 +355,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="cost_debatable" id="cost_debatable"
-                                    value="" placeholder="">
+                                    value="0.00" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -580,7 +580,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                    value="" placeholder="">
+                                    value="" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

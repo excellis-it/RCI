@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-12">
                     <input type="text" class="form-control rcv_quantity" name="received_quantity[]"
-                           id="received_quantity" value="{{ $sir->received_quantity }}">
+                           id="received_quantity" value="{{ $sir->received_quantity ?? 0 }}">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-md-12">
                     <input type="text" class="form-control units_cost" name="unit_cost[]" id="unit_cost"
-                           value="{{ $sir->unit_cost }}">
+                           value="{{ $sir->unit_cost ?? 0.00 }}">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-md-12">
                     <input type="text" class="form-control total_cost" name="total_cost[]" id="total_cost"
-                           value="{{ $sir->total_cost }}">
+                           value="{{ $sir->total_cost ?? 0.00 }}">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     <input type="text" class="form-control disc_percent" name="disc_percent[]" id="disc_percent"
                            value="{{ $sir->discount }}">
                     <input type="hidden" class="form-control discount_amount" name="discount_amount[]"
-                           id="discount_amount" value="{{ $sir->discount_amount }}">
+                           id="discount_amount" value="{{ $sir->discount_amount ?? 0 }}">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-md-12">
                     <input type="text" class="form-control gst_amount" name="gst_amount[]" id="gst_amount"
-                           value="{{ $sir->gst_amount }}">
+                           value="{{ $sir->gst_amount ?? 0.00 }}">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="col-md-12">
                     <input type="text" class="form-control total_amount" name="total_amount[]" id="total_amount"
-                           value="{{ $sir->total_amount }}">
+                           value="{{ $sir->total_amount ?? 0.00 }}">
                     <span class="text-danger"></span>
                 </div>
             </div>

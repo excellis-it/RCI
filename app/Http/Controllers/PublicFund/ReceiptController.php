@@ -613,6 +613,10 @@ class ReceiptController extends Controller
         $settings = Setting::orderBy('id', 'desc')->first();
 
         $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
+        $pdf->setOption('margin-top', 0)
+            ->setOption('margin-right', 0)
+            ->setOption('margin-bottom', 0)
+            ->setOption('margin-left', 0);
         return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 

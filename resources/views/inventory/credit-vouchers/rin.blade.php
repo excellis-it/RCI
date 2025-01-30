@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control price" name="price[]" id="price"
-                                value="{{ $rin->unit_cost }}" placeholder="">
+                                value="{{ $rin->unit_cost ?? 0.0 }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -85,7 +85,8 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
-                                id="disc_percent" placeholder="">
+                                id="disc_percent" placeholder=""
+                                value="{{ number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) ?? '0' }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -97,7 +98,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                placeholder="" value="{{ $rin->discount_amount }}">
+                                placeholder="" value="{{ $rin->discount_amount ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -110,7 +111,8 @@
                         </div>
                         <div class="col-md-12">
                             <input type="number" class="form-control total_price" name="total_price[]" id="total_price"
-                                placeholder="" value="{{ $rin->total_amount }}">
+                                placeholder=""
+                                value="{{ $rin->unit_cost * $rin->received_quantity - ($rin->discount_amount ?? 0) ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -122,8 +124,8 @@
                             <label>Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="quantity[]" id="quantity"
-                                placeholder="" value="{{ $rin->received_quantity }}">
+                            <input type="text" class="form-control quantity" name="quantity[]" id="quantity"
+                                placeholder="" value="{{ $rin->received_quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

@@ -202,8 +202,8 @@
                                 <label>Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="price[]" id="item_price"
-                                    placeholder="">
+                                <input type="text" value="0.00" class="form-control" name="price[]"
+                                    id="item_price" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -241,8 +241,8 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_price[]" id="total_price"
-                                    placeholder="" readonly>
+                                <input type="text" value="0.00" class="form-control" name="total_price[]"
+                                    id="total_price" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -330,8 +330,8 @@
                                 <label>Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item_price" name="price[]" id=""
-                                    placeholder="">
+                                <input type="text" value="0.00" class="form-control item_price" name="price[]"
+                                    id="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -369,8 +369,8 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control total_price" name="total_price[]"
-                                    placeholder="" readonly>
+                                <input type="text" value="0.00" class="form-control total_price"
+                                    name="total_price[]" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

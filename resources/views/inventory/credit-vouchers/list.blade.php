@@ -385,7 +385,7 @@
         // }
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Function to update difference
             function updateTotalPrice(inputElement) {
@@ -422,7 +422,44 @@
             });
 
         });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            // Function to update discount amount and total price
+            function updateTotalPrice(inputElement) {
+                var $row = $(inputElement).closest('.count-class'); // Find the closest row
+
+                // Get values for price, discount percentage, and quantity
+                var price = parseFloat($row.find('.price').val()) || 0;
+                var disc_percent = parseFloat($row.find('.disc_percent').val()) || 0;
+                var quantity = parseInt($row.find('.quantity').val()) || 0;
+
+                // Calculate the total price before discount (price * quantity)
+                var total_price_before_discount = price * quantity;
+
+                // Calculate discount amount (percentage of total price)
+                var disc_amt = total_price_before_discount * disc_percent / 100;
+
+                // Calculate total price after discount
+                var total_price = total_price_before_discount - disc_amt;
+
+                // Update the discount amount and total price fields
+                $row.find('.disc_amt').val(disc_amt.toFixed(2)); // Discount amount rounded to 2 decimal places
+                $row.find('.total_price').val(total_price.toFixed(
+                    2)); // Total price after discount, rounded to 2 decimal places
+            }
+
+            // Bind change event to input fields (price, discount percent, and quantity)
+            $(document).on('keyup', '.price, .disc_percent, .quantity', function() {
+                updateTotalPrice(this);
+            });
+        });
     </script>
+
+
+
+
 
     <script>
         $(document).ready(function() {

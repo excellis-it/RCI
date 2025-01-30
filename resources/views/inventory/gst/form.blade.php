@@ -11,8 +11,8 @@
                                 <label>GST Percentage </label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="gst_percent" id="gst_percent" value="{{ $gst->gst_percent ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="gst_percent" id="gst_percent"
+                                    value="{{ $gst->gst_percent ?? 0 }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -24,8 +24,8 @@
                                 <label>GST Description </label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="gst_desc" id="gst_desc" value="{{ $gst->gst_desc ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="gst_desc" id="gst_desc"
+                                    value="{{ $gst->gst_desc ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -70,8 +70,8 @@
                                 <label>GST Percentage </label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="gst_percent" id="gst_percent" value=""
-                                    placeholder="">
+                                <input type="text" class="form-control" name="gst_percent" id="gst_percent"
+                                    value="0" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

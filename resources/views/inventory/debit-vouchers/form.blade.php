@@ -258,7 +258,7 @@
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-quantity">
                                 <input type="number" class="form-control item-quantity" name="quantity[]"
-                                    id="quantity" oninput="checkMax(this)">
+                                    id="quantity" oninput="checkMax(this)" value="0">
                                 <div class="text-danger item-quantity" id="quantity_no"></div>
                                 <span class="text-danger"></span>
                             </div>
@@ -272,8 +272,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-price">
-                                <input type="text" class="form-control item-price" name="price[]" id="price"
-                                    readonly>
+                                <input type="text" value="0.00" class="form-control item-price" name="price[]"
+                                    id="price" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -384,8 +384,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-quantity">
-                                <input type="number" class="form-control item-quantity" name="quantity[]"
-                                    id="quantity" oninput="checkMax(this)">
+                                <input type="number" value="0" class="form-control item-quantity"
+                                    name="quantity[]" id="quantity" oninput="checkMax(this)">
                                 <div class="text-danger" id="quantity_no"></div>
                                 <span class="text-danger"></span>
                             </div>
@@ -399,8 +399,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-price">
-                                <input type="text" class="form-control item-price" name="price[]" id="price"
-                                    readonly>
+                                <input type="text" value="0.00" class="form-control item-price" name="price[]"
+                                    id="price" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
