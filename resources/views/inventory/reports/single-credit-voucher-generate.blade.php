@@ -619,7 +619,12 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
+                                                @php
+                                                    $parts = explode('.', $creditDetail['item_code'] ?? '');
+                                                    $firstNumber = $parts[0] ?? '-';
+                                                @endphp
 
+                                                {{ $firstNumber }}
                                             </td>
                                             <td
                                                 style="
@@ -821,6 +826,8 @@
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                     ">
+                                            <br>
+                                            <br>
                                             I/ c. Ledger
                                         </td>
                                         <td colspan="3"
@@ -834,6 +841,9 @@
                       margin: 0px 0px !important;
                       border-right: 1px solid #000;
                     ">
+                                            <br>
+                                            <br>
+                                            <br>
                                             I/c. Ledger <br>Accounting
                                         </td>
                                     </tr>

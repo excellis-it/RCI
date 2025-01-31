@@ -470,7 +470,7 @@
                                 </select></label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" value="0" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
+                                <input type="text" value="0.00" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
                                   <input type="hidden" class="form-control discount_amount" name="discount_amount[]" id="discount_amount" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -557,6 +557,25 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Damage Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="damage_status[]" id="damage_status">
+                                    <option value="">Select Damage Status</option>
+                                    <option value="1" >Damaged
+                                    </option>
+                                    <option value="0" >Not Damaged
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="row">
                     <div class="col-md-2 ms-auto">

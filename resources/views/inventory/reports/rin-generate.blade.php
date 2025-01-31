@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
 
     <body style="background: #fff">
-        
+
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto">
             <tbody>
@@ -124,7 +124,7 @@
                                     <td colspan="5"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">
                                         SO/Contract/Authority No.:
-                                        {{ $rin->sirNo->supplyOrder->order_number ?? 'N/A' }}<br>
+                                        {{ $rin->sirNo?->supplyOrder?->order_number ?? 'N/A' }}<br>
                                         GeM Contract No.</td>
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">
@@ -132,7 +132,7 @@
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                         SO/Contract/ <br> Authority Date:
-                                        {{ isset($rin->sirNo->supplyOrder->created_at) && $rin->sirNo->supplyOrder->created_at ? date('d-m-Y', strtotime($rin->sirNo->supplyOrder->created_at)) : 'N/A' }}
+                                        {{ isset($rin->sirNo?->supplyOrder?->created_at) && $rin->sirNo?->supplyOrder?->created_at ? date('d-m-Y', strtotime($rin->sirNo?->supplyOrder?->created_at)) : 'N/A' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -212,7 +212,8 @@
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                         Rejected*</td>
                                 </tr>
-                                @php$total_basic_cost = 0;
+                                @php
+                                    $total_basic_cost = 0;
                                     $taxes_amount = 0;
                                     $total_amount = 0;
                                 @endphp

@@ -105,13 +105,13 @@
                                                 {{ optional($item->created_at)->format('d-m-Y') ?? 'N/A' }}
                                             </td>
                                             <td style="border: 1px solid #000; padding: 5px; text-align: center;">
-                                                {{ $item->sirNo->supplyOrder->order_number ?? 'N/A' }}
+                                                {{ $item->sirNo?->supplyOrder?->order_number ?? 'N/A' }}
                                                 &
-                                                {{ optional($item->sirNo->supplyOrder->created_at)->format('d-m-Y') ?? 'N/A' }}
+                                                {{ optional($item->sirNo?->supplyOrder?->created_at)->format('d-m-Y') ?? 'N/A' }}
                                             </td>
                                             <td style="border: 1px solid #000; padding: 5px; text-align: center;">
                                                 {{ $item->sirNo->sir_no ?? 'N/A' }}
-                                                & {{ optional($item->sirNo->sir_date)->format('d-m-Y') ?? 'N/A' }}
+                                                & {{ optional($item->sirNo?->sir_date)->format('d-m-Y') ?? 'N/A' }}
                                             </td>
                                             {{-- <td style="border: 1px solid #000; padding: 5px; text-align: center;"></td> --}}
                                             <td style="border: 1px solid #000; padding: 5px; text-align: center;">
