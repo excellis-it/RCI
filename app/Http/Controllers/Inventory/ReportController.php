@@ -152,39 +152,39 @@ class ReportController extends Controller
                         $totalCost = $detail->total_price ?? 0;
 
                         $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
-                            'rin_no' => $detail->rin ?? 'N/A',
-                            'rin_date' => $rin_date->created_at ?? 'N/A',
-                            'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
-                            'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                            'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                            'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                            'member_name' => $detail->members->name ?? 'N/A',
-                            'item_code' => $detail->item_code_id ?? 'N/A',
-                            'description' => $detail->description ?? 'N/A',
-                            'quantity' => $detail->quantity ?? 'N/A',
-                            'remarks' => $detail->rins->remarks ?? 'N/A',
-                            'nc_status' => $detail->rins->nc_status ?? 'N/A',
-                            'au_status' => $detail->rins->au_status ?? 'N/A',
-                            'rate' => $price ?? 'N/A',
-                            'tax' => $detail->rins->gst ?? 'N/A',
-                            'disc_percent' => $detail->disc_percent ?? 'N/A',
-                            'disc_amt' => $detail->disc_amt ?? 'N/A',
-                            'total_price' => $detail->total_price ?? 'N/A',
-                            'total_cost' => $totalCost ?? 'N/A',
+                            'rin_no' => $detail->rin ?? '',
+                            'rin_date' => $rin_date->created_at ?? '',
+                            'consigner' => $detail->rins->vendorDetail->name ?? '',
+                            'cost_debatable' => $detail->cost_debatable ?? '',
+                            'project_no' => $detail->inventoryProjects->project_name ?? '',
+                            'project_code' => $detail->inventoryProjects->project_code ?? '',
+                            'member_name' => $detail->members->name ?? '',
+                            'item_code' => $detail->item_code_id ?? '',
+                            'description' => $detail->description ?? '',
+                            'quantity' => $detail->quantity ?? '',
+                            'remarks' => $detail->rins->remarks ?? '',
+                            'nc_status' => $detail->rins->nc_status ?? '',
+                            'au_status' => $detail->rins->au_status ?? '',
+                            'rate' => $price ?? 0,
+                            'tax' => $detail->rins->gst ?? 0,
+                            'disc_percent' => $detail->disc_percent ?? 0,
+                            'disc_amt' => $detail->disc_amt ?? 0,
+                            'total_price' => $detail->total_price ?? 0,
+                            'total_cost' => $totalCost ?? 0,
                         ];
 
                         $totalItemCost += (float)$price;
                         $total += (float)$totalCost;
 
                         $singleData[$creditVoucher->voucher_no] = [
-                            'rin_no' => $detail->rin ?? 'N/A',
-                            'rin_date' =>  $rin_date->created_at ?? 'N/A',
-                            'item_type' => $detail->item_type ?? 'N/A',
-                            'consignor' => $detail->consigner ?? 'N/A',
-                            'member_name' => $detail->members->name ?? 'N/A',
-                            'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                            'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                            'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                            'rin_no' => $detail->rin ?? '',
+                            'rin_date' =>  $rin_date->created_at ?? '',
+                            'item_type' => $detail->item_type ?? '',
+                            'consignor' => $detail->consigner ?? '',
+                            'member_name' => $detail->members->name ?? '',
+                            'cost_debatable' => $detail->cost_debatable ?? '',
+                            'project_no' => $detail->inventoryProjects->project_name ?? '',
+                            'project_code' => $detail->inventoryProjects->project_code ?? '',
                         ];
 
                         $itemCount++;
@@ -759,39 +759,39 @@ class ReportController extends Controller
                     $totalCost = $detail->total_price ?? 0;
 
                     $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
-                        'rin_no' => $detail->rin ?? 'N/A',
-                        'rin_date' => $rin_date->created_at ?? 'N/A',
-                        'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
-                        'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                        'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                        'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                        'member_name' => $detail->members->name ?? 'N/A',
-                        'item_code' => $detail->item_code_id ?? 'N/A',
-                        'description' => $detail->description ?? 'N/A',
-                        'quantity' => $detail->quantity ?? 'N/A',
-                        'remarks' => $detail->rins->remarks ?? 'N/A',
-                        'nc_status' => $detail->rins->nc_status ?? 'N/A',
-                        'au_status' => $detail->rins->au_status ?? 'N/A',
-                        'rate' => $price ?? 'N/A',
-                        'tax' => $detail->rins->gst ?? 'N/A',
-                        'disc_percent' => $detail->disc_percent ?? 'N/A',
-                        'disc_amt' => $detail->disc_amt ?? 'N/A',
-                        'total_price' => $detail->total_price ?? 'N/A',
-                        'total_cost' => $totalCost ?? 'N/A',
+                        'rin_no' => $detail->rin ?? '',
+                        'rin_date' => $rin_date->created_at ?? '',
+                        'consigner' => $detail->rins->vendorDetail->name ?? '',
+                        'cost_debatable' => $detail->cost_debatable ?? '',
+                        'project_no' => $detail->inventoryProjects->project_name ?? '',
+                        'project_code' => $detail->inventoryProjects->project_code ?? '',
+                        'member_name' => $detail->members->name ?? '',
+                        'item_code' => $detail->item_code_id ?? '',
+                        'description' => $detail->description ?? '',
+                        'quantity' => $detail->quantity ?? 0,
+                        'remarks' => $detail->rins->remarks ?? '',
+                        'nc_status' => $detail->rins->nc_status ?? '',
+                        'au_status' => $detail->rins->au_status ?? '',
+                        'rate' => $price ?? 0,
+                        'tax' => $detail->rins->gst ?? 0,
+                        'disc_percent' => $detail->disc_percent ?? 0,
+                        'disc_amt' => $detail->disc_amt ?? 0,
+                        'total_price' => $detail->total_price ?? 0,
+                        'total_cost' => $totalCost ?? 0,
                     ];
 
                     $totalItemCost += (float)$price;
                     $total += (float)$totalCost;
 
                     $singleData[$creditVoucher->voucher_no] = [
-                        'rin_no' => $detail->rin ?? 'N/A',
-                        'rin_date' =>  $rin_date->created_at ?? 'N/A',
-                        'item_type' => $detail->item_type ?? 'N/A',
-                        'consignor' => $detail->consigner ?? 'N/A',
-                        'member_name' => $detail->members->name ?? 'N/A',
-                        'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                        'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                        'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                        'rin_no' => $detail->rin ?? '',
+                        'rin_date' =>  $rin_date->created_at ?? '',
+                        'item_type' => $detail->item_type ?? '',
+                        'consignor' => $detail->consigner ?? '',
+                        'member_name' => $detail->members->name ?? '',
+                        'cost_debatable' => $detail->cost_debatable ?? '',
+                        'project_no' => $detail->inventoryProjects->project_name ?? '',
+                        'project_code' => $detail->inventoryProjects->project_code ?? '',
                     ];
 
                     $itemCount++;

@@ -177,12 +177,12 @@
                                                 {{ $value->strike_c_nc ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;   font-size: 10px;">
                                                 {{ $value->strike_quantity ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $value->strike_rate ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;   font-size: 10px;">
+                                                {{ ($value->strike_rate != '' ? number_format($value->strike_rate, 2) : '') ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: center;  font-size: 10px;">
@@ -201,11 +201,11 @@
                                                 {{ $value->brought_c_nc ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;   font-size: 10px;">
                                                 {{ $value->brought_quantity ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;  font-size: 10px;">
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-size: 10px;">
                                                 {{ $value->brought_rate ?? '' }}
                                             </td>
                                             <td

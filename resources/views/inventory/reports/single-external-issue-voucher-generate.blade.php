@@ -299,7 +299,7 @@
                                                 style="
                       border: 1px solid #000;
                       padding: 5px;
-                      text-align: center;
+                      text-align: right;
                       font-weight: 600;
                       height: 100px;
                     ">
