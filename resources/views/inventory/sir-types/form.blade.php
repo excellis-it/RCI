@@ -1,5 +1,5 @@
 @if (isset($edit))
-    <form action="{{ route('sir-type.edit', $uom->id) }}" method="POST" id="uom-edit-form">
+    <form action="{{ route('sir-type.update', $sir_type->id) }}" method="POST" id="sir-type-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -12,7 +12,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="name" id="name"
-                                    value="{{ $uom->name }}" placeholder="">
+                                    value="{{ $sir_type->name }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -26,8 +26,10 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
                                     <option value="">Select Status</option>
-                                    <option value="1" {{ $uom->status == 1 ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ $uom->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ $sir_type->status == 1 ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="0" {{ $sir_type->status == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

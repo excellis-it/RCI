@@ -1236,6 +1236,7 @@ Route::middleware('permssions')->group(function () {
             Route::get('/sir-type', [InventorySirController::class, 'sirType'])->name('sir-type.index');
             Route::post('/sir-type-store', [InventorySirController::class, 'sirTypeStore'])->name('sir-type.store');
             Route::get('/sir-type-edit/{id}', [InventorySirController::class, 'sirTypeEdit'])->name('sir-type.edit');
+            Route::put('/sir-type-update/{id}', [InventorySirController::class, 'sirTypeUpdate'])->name('sir-type.update');
 
 
             // gst

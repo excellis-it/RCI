@@ -26,6 +26,7 @@ use App\Models\TrafficControl;
 use App\Models\InventoryLoan;
 use App\Models\ExternalIssueVoucherDetail;
 use App\Models\InventorySir;
+use App\Models\SirType;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -468,12 +469,24 @@ class ReportController extends Controller
         $startDate = Carbon::parse($dates[0])->startOfDay();
         $endDate = Carbon::parse($dates[1])->endOfDay();
 
-        // Fetch Store Inward entries within the given date range, grouped by `sir_no`, and get the first record per group
-        $storeInwards = InventorySir::whereBetween('created_at', [$startDate, $endDate])
-            ->with(['supplyOrder']) // Eager load related data for better performance
-            ->get()
-            ->groupBy('sir_no')
-            ->map(fn($group) => $group->first());
+        $sir_type = $request->sir_type;
+
+        if ($sir_type != '') {
+            $storeInwards = InventorySir::where('sir_type_id', $sir_type)->whereBetween('created_at', [$startDate, $endDate])
+                ->with(['supplyOrder']) // Eager load related data for better performance
+                ->get()
+                ->groupBy('sir_no')
+                ->map(fn($group) => $group->first());
+        } else {
+
+
+            // Fetch Store Inward entries within the given date range, grouped by `sir_no`, and get the first record per group
+            $storeInwards = InventorySir::whereBetween('created_at', [$startDate, $endDate])
+                ->with(['supplyOrder']) // Eager load related data for better performance
+                ->get()
+                ->groupBy('sir_no')
+                ->map(fn($group) => $group->first());
+        }
         // dd($storeInwards);
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
@@ -484,7 +497,8 @@ class ReportController extends Controller
 
     public function storeInwardReportList()
     {
-        return view('inventory.reports.store-inward-list');
+        $sir_types = SirType::get();
+        return view('inventory.reports.store-inward-list', compact('sir_types'));
     }
 
     public function rinControllerReport(Request $request)

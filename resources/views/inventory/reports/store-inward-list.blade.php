@@ -37,11 +37,29 @@
                         <input type="text" id="daterange" name="daterange" class="form-control" />
                         <small id="helpId" class="form-text text-danger"></small>
                         @if ($errors->has('daterange'))
-                            <span class="text-danger">{{$errors->first('daterange')}}</span>
+                            <span class="text-danger">{{ $errors->first('daterange') }}</span>
                         @endif
                     </div>
 
                 </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Sir Type</label>
+                        <select class="form-select" name="sir_type">
+                            <option value="">Select SIR Type</option>
+                            @foreach ($sir_types as $sir_type)
+                                <option value="{{ $sir_type->id }}">
+                                    {{ $sir_type->name }}</option>
+                            @endforeach
+                        </select>
+                        <small id="helpId" class="form-text text-danger"></small>
+
+                    </div>
+
+                </div>
+
+
 
                 <div class="col-md-2">
 
