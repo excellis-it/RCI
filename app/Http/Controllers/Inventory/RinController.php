@@ -176,6 +176,7 @@ class RinController extends Controller
                 $rin->total_cost = $request->total_amount[$key];
                 $rin->vendor_id = $request->vendor_id;
                 $rin->supply_order_no = $request->supply_order_no;
+                $rin->damage_status = $request->damage_status[$key];
                 $rin->save();
             }
         }

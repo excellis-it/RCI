@@ -2,8 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse"
-                    href="javascript:void(0)">
+                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
@@ -111,6 +110,10 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('sirs.index') }}">SIRs</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('sir-type.index') }}">SIR Types</a>
                             </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -317,7 +320,7 @@
         </ul>
 
         <div class="d-block d-lg-none">
-            <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
+            <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" width="" alt="">
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
@@ -329,7 +332,7 @@
             </li> --}}
             <li class="nav-item">
                 <a class="fw-semibold bg-hover-primary text-decoration-none text-deger ps-3 d-none d-md-block"
-                    href="{{route('logout')}}">
+                    href="{{ route('logout') }}">
                     <i class="ti ti-logout fs-4"></i> Logout
                 </a>
             </li>
@@ -484,7 +487,7 @@
                             <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                                 <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                     <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
-                                    width="24" height="24">
+                                        width="24" height="24">
                                 </span>
                                 <div class="w-75 d-inline-block v-middle ps-3">
                                     <h6 class="mb-1 bg-hover-primary fw-semibold"> Change Logo </h6>

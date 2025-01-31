@@ -14,6 +14,7 @@ use App\Models\GstPercentage;
 use App\Models\Designation;
 use App\Models\NcStatus;
 use App\Models\AuStatus;
+use App\Models\SirType;
 use Illuminate\Support\Facades\DB;
 
 class InventorySirController extends Controller
@@ -224,7 +225,7 @@ class InventorySirController extends Controller
         if ($request->item_id) {
             foreach ($request->item_id as $key => $item) {
                 $sir = InventorySir::find($id);
-        
+
                 $sir->sir_no = $request->sir_no;
                 $sir->sir_date = $request->sir_date;
                 $sir->demand_no = $request->demand_no;
@@ -236,7 +237,7 @@ class InventorySirController extends Controller
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
                 $sir->status = $request->status;
-        
+
                 $sir->item_id = $item ?? null;
                 $sir->description = $request->description[$key] ?? null;
                 $sir->received_quantity = $request->received_quantity[$key] ?? null;
@@ -244,7 +245,7 @@ class InventorySirController extends Controller
                 $sir->discount = $request->disc_percent[$key] ?? null;
                 $sir->discount_amount = $request->discount_amount[$key] ?? null;
                 $sir->discount_type = $request->discount_type[$key] ?? null;
-        
+
                 $sir->unit_cost = $request->unit_cost[$key] ?? null;
                 $sir->total_cost = $request->total_cost[$key] ?? null;
                 $sir->nc_status = $request->nc_status[$key] ?? null;
@@ -252,12 +253,12 @@ class InventorySirController extends Controller
                 $sir->gst = $request->gst[$key] ?? null;
                 $sir->gst_amount = $request->gst_amount[$key] ?? null;
                 $sir->total_amount = $request->total_amount[$key] ?? null;
-        
+
                 $sir->save();
             }
         } else {
             $sir = InventorySir::find($id);
-        
+
             if ($sir) {
                 $sir->sir_no = $request->sir_no;
                 $sir->sir_date = $request->sir_date;
@@ -270,11 +271,11 @@ class InventorySirController extends Controller
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
                 $sir->status = $request->status;
-        
+
                 $sir->save();
             }
         }
-        
+
 
 
         session()->flash('message', 'Sir updated successfully');
@@ -288,4 +289,53 @@ class InventorySirController extends Controller
     {
         //
     }
+
+    // sir type
+
+    public function sirType()
+    {
+        $sirtypes = SirType::orderBy('id', 'asc')->get();
+        return view('inventory.sir-types.list', compact('sirtypes'));
+    }
+
+    public function sirTypeStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+
+        $sir_type = SirType::create([
+            'name' => $request->name,
+            'status' => $request->status,
+        ]);
+
+        session()->flash('message', 'Sir Type added successfully');
+        return response()->json(['success' => 'Sir Type added successfully', 'sirTypeData' => $sir_type]);
+    }
+
+    public function sirTypeEdit(string $id)
+    {
+        $sir_type = SirType::where('id', $id)->first();
+        $edit = true;
+        return response()->json(['view' => view('inventory.sir-types.form', compact('edit', 'sir_type'))->render()]);
+    }
+
+    public function sirTypeUpdate(Request $request, string $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'status' => 'required',
+        ]);
+
+        $sir_type = SirType::where('id', $id)->update([
+            'name' => $request->name,
+            'status' => $request->status,
+        ]);
+
+        session()->flash('message', 'Sir Type updated successfully');
+        return response()->json(['success' => 'Sir Type updated successfully']);
+    }
+
+    
 }
