@@ -444,7 +444,7 @@
 
                     <div class="col-md-2 ms-auto">
                         <div class="add-more form-group mt-4">
-                            <a href="javascript:void(0);" class="listing_add add-more-eiv"><i
+                            <a href="javascript:void(0);" class="listing_add add-more-eiv add-more-sm"><i
                                     class="fas fa-plus-circle"></i> Add More</a>
                         </div>
                     </div>

@@ -11,21 +11,26 @@
                                 <label>Payband Type</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="payband_type" id="payband_type" value="{{ $payband_type->payband_type ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="payband_type" id="payband_type"
+                                    value="{{ $payband_type->payband_type ?? '' }}" placeholder="">
                                 <span class="text-danger" id="payband_type-error"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <label>&nbsp;</label>
-                <div class="mb-1">
-                    <button type="submit" class="listing_add me-2">Update</button>
-                </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Update</button>
                 </div>
             </div>
         </div>
@@ -50,13 +55,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <label>&nbsp;</label>
-                <div class="mb-1">
-                    <button type="submit" class="listing_add me-2">Add</button>
-                </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Add</button>
                 </div>
             </div>
         </div>

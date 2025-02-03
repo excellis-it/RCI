@@ -4,9 +4,9 @@
 @endsection
 
 @push('styles')
-<link href='{{ asset('web_assets/css/main.min.css') }}' rel='stylesheet' />
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar/core@5.3.0/main.min.css' rel='stylesheet' />
-<link href='{{ asset('web_assets/css/main.min.css') }}' rel='stylesheet' />
+    <link href='{{ asset('web_assets/css/main.min.css') }}' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar/core@5.3.0/main.min.css' rel='stylesheet' />
+    <link href='{{ asset('web_assets/css/main.min.css') }}' rel='stylesheet' />
 @endpush
 
 @section('content')
@@ -37,7 +37,8 @@
                     <div class="card-body">
                         <div id="form">
 
-                            <form action="{{ route('attendances.member-attendances') }}" method="POST" id="attendance-create-form">
+                            <form action="{{ route('attendances.member-attendances') }}" method="POST"
+                                id="attendance-create-form">
                                 @csrf
 
                                 <div class="row">
@@ -73,7 +74,7 @@
                                                                     <option value="">Select</option>
                                                                     @foreach ($years as $year)
                                                                         <option value="{{ $year }}">
-                                                                            {{ $year}}</option>
+                                                                            {{ $year }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <span class="text-danger"></span>
@@ -94,34 +95,30 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
-                                
+
 
                                 {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Save</button>
-                                                    </div>
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="reset" class="listing_exit">Cancel</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                                <div class="row justify-content-between mt-3">
+
+                                    <div class="form-group col-md-2 mb-2">
+                                        <button type="reset" class="listing_exit">Cancel</button>
                                     </div>
+                                    <div class="form-group col-md-2 mb-2">
+                                        <button type="submit" class="listing_add">Save</button>
+                                    </div>
+
                                 </div>
+
                             </form>
-                            
+
                         </div>
                         <div id='calendar'></div>
 
@@ -134,12 +131,12 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('web_assets/js/index.global.min.js') }}"></script>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar/core@5.3.0/main.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar/daygrid@5.3.0/main.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar/interaction@5.3.0/main.min.js'></script>
+    <script src="{{ asset('web_assets/js/index.global.min.js') }}"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/core@5.3.0/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/daygrid@5.3.0/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/interaction@5.3.0/main.min.js'></script>
 
-{{-- <script>
+    {{-- <script>
 
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
@@ -202,11 +199,12 @@
                         // initializeCalendar(response.events);
 
                         // var events = Array.isArray(response.attendances) ? response.attendances : [];
-                        if(Array.isArray(response.attendances) && response.attendances.length > 0) {
-                                var events = response.attendances;
+                        if (Array.isArray(response.attendances) && response.attendances.length >
+                            0) {
+                            var events = response.attendances;
 
-                                const calendarEl = document.getElementById('calendar');
-                                const calendar = new FullCalendar.Calendar(calendarEl, {
+                            const calendarEl = document.getElementById('calendar');
+                            const calendar = new FullCalendar.Calendar(calendarEl, {
                                 plugins: ['dayGrid', 'interaction'],
                                 editable: true,
                                 events: events,
@@ -231,10 +229,10 @@
 
                             calendar.render();
                         }
-                        
 
-                        
-                        
+
+
+
                     },
                     error: function(xhr) {
 
@@ -251,15 +249,15 @@
                 });
             });
         });
-    </script> 
+    </script>
 
-    
+
     <script>
         //grade pay found
         $(document).ready(function() {
             $('#pm_level').change(function() {
                 var pm_level = $(this).val();
-                
+
                 $.ajax({
                     url: "{{ route('members.grade-pay') }}",
                     type: 'POST',
@@ -272,10 +270,10 @@
                     success: function(response) {
                         $('#g_pay').val(response.grade_pay.id);
                         $('#g_pay_val').val(response.grade_pay.amount);
-                        
+
                         $('#quater').val(response.quarter.id);
                         $('#quater_type').val(response.quarter.qrt_type);
-                        
+
                     }
                 });
             });
@@ -287,7 +285,7 @@
         $(document).ready(function() {
             $('#group').change(function() {
                 var group = $(this).val();
-                
+
                 $.ajax({
                     url: "{{ route('members.get-cgegis-value') }}",
                     type: 'POST',
@@ -300,14 +298,14 @@
                     success: function(response) {
                         $('#cgegis_value').val(response.cgegis_value.value);
                         $('#cgegis').val(response.cgegis_value.id);
-                        
+
                     }
                 });
             });
 
             $('#desig').change(function() {
                 var desig = $(this).val();
-                
+
                 $.ajax({
                     url: "{{ route('members.get-category-value') }}",
                     type: 'POST',
@@ -320,7 +318,7 @@
                     success: function(response) {
                         $('#category_value').val(response.category_value.category);
                         $('#category').val(response.category_value.id);
-                        
+
 
                         $('#pay_band_value').val(response.payband_type.payband_type);
                         $('#pay_band').val(response.payband_type.id)
@@ -328,9 +326,8 @@
                     }
                 });
             });
-        
-        });
 
+        });
     </script>
 
     <script>
@@ -340,7 +337,7 @@
                 var currentDate = new Date();
                 var monthDropdown = $('#month');
 
-                if(year == currentDate.getFullYear()) {
+                if (year == currentDate.getFullYear()) {
                     var currentMonth = currentDate.getMonth() + 1;
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
@@ -348,7 +345,9 @@
                     for (var month = 1; month <= endMonth; month++) {
                         var option = $('<option></option>');
                         option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        option.text(new Date(year, month - 1).toLocaleString('default', {
+                            month: 'long'
+                        }));
                         monthDropdown.append(option);
                     }
 
@@ -357,11 +356,13 @@
                     for (var month = 1; month <= 12; month++) {
                         var option = $('<option></option>');
                         option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        option.text(new Date(year, month - 1).toLocaleString('default', {
+                            month: 'long'
+                        }));
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script>

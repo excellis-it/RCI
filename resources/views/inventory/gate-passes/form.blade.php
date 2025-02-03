@@ -74,12 +74,18 @@
 
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -319,7 +325,7 @@
 
                     <div class="col-md-2 ms-auto">
                         <div class="add-more form-group mt-4">
-                            <a href="javascript:void(0);" class="listing_add add-more-gate-pass"><i
+                            <a href="javascript:void(0);" class="listing_add add-more-gate-pass add-more-sm"><i
                                     class="fas fa-plus-circle"></i> Add More</a>
                         </div>
                     </div>

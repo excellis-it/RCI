@@ -1,5 +1,6 @@
 @if (isset($edit))
-    <form action="{{ route('payment-categories.update', $paymentCategory->id) }}" method="POST" id="payment-category-edit-form">
+    <form action="{{ route('payment-categories.update', $paymentCategory->id) }}" method="POST"
+        id="payment-category-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -11,8 +12,8 @@
                                 <label>Category Name</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="name" id="name" value="{{ $paymentCategory->name ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="name" id="name"
+                                    value="{{ $paymentCategory->name ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -25,8 +26,10 @@
                             </div>
                             <div class="col-md-9">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($paymentCategory->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($paymentCategory->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ $paymentCategory->status == 1 ? 'selected' : '' }}>
+                                        Active</option>
+                                    <option value="0" {{ $paymentCategory->status == 0 ? 'selected' : '' }}>
+                                        Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -34,12 +37,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -56,7 +65,7 @@
                                 <label>Category Name</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="name" id="name" >
+                                <input type="text" class="form-control" name="name" id="name">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -79,12 +88,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

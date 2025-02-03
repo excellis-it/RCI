@@ -15,7 +15,8 @@
                                 <select name="member_id" class="form-select" id="member_id">
                                     <option value="">Select Member</option>
                                     @foreach ($members as $member)
-                                        <option value="{{ $member->id }}" {{ ($member_pension->user_id == $member->id) ? 'selected' : '' }}>
+                                        <option value="{{ $member->id }}"
+                                            {{ $member_pension->user_id == $member->id ? 'selected' : '' }}>
                                             {{ $member->name }}</option>
                                     @endforeach
                                 </select>
@@ -30,7 +31,8 @@
                                 <label>NPSC Sub. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_sub_amt" id="npsc_sub_amt" value="{{ $member_pension->npsc_sub_amt }}" >
+                                <input type="text" class="form-control" name="npsc_sub_amt" id="npsc_sub_amt"
+                                    value="{{ $member_pension->npsc_sub_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -42,7 +44,8 @@
                                 <label>NPSG Sub. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_sub_amt" id="npsg_sub_amt" placeholder="" value="{{ $member_pension->npsg_sub_amt }}">
+                                <input type="text" class="form-control" name="npsg_sub_amt" id="npsg_sub_amt"
+                                    placeholder="" value="{{ $member_pension->npsg_sub_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -56,7 +59,9 @@
                                 <label>NPSC EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_eol_deduction_amt" id="npsc_eol_deduction_amt" placeholder="" value="{{ $member_pension->npsc_eol_deduction_amt }}">
+                                <input type="text" class="form-control" name="npsc_eol_deduction_amt"
+                                    id="npsc_eol_deduction_amt" placeholder=""
+                                    value="{{ $member_pension->npsc_eol_deduction_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -68,7 +73,9 @@
                                 <label>NPSG EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_eol_deduction_amt" id="npsg_eol_deduction_amt" placeholder="" value="{{ $member_pension->npsg_eol_deduction_amt }}">
+                                <input type="text" class="form-control" name="npsg_eol_deduction_amt"
+                                    id="npsg_eol_deduction_amt" placeholder=""
+                                    value="{{ $member_pension->npsg_eol_deduction_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -80,7 +87,9 @@
                                 <label>NPSC EOL Credit Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_eol_credit_amt" id="npsc_eol_credit_amt" placeholder="" value="{{ $member_pension->npsc_eol_credit_amt }}">
+                                <input type="text" class="form-control" name="npsc_eol_credit_amt"
+                                    id="npsc_eol_credit_amt" placeholder=""
+                                    value="{{ $member_pension->npsc_eol_credit_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -92,7 +101,9 @@
                                 <label>NPSG EOL Credit Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_eol_credit_amt" id="npsg_eol_credit_amt" placeholder="" value="{{ $member_pension->npsg_eol_credit_amt }}">
+                                <input type="text" class="form-control" name="npsg_eol_credit_amt"
+                                    id="npsg_eol_credit_amt" placeholder=""
+                                    value="{{ $member_pension->npsg_eol_credit_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -104,7 +115,8 @@
                                 <label>NPSC HPL Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_hpl_amt" id="npsc_hpl_amt" placeholder="" value="{{ $member_pension->npsc_hpl_amt }}">
+                                <input type="text" class="form-control" name="npsc_hpl_amt" id="npsc_hpl_amt"
+                                    placeholder="" value="{{ $member_pension->npsc_hpl_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -118,7 +130,8 @@
                                 <label>NPSG HPL Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_hpl_amt" id="npsg_hpl_amt" placeholder="" value="{{ $member_pension->npsg_hpl_amt }}">
+                                <input type="text" class="form-control" name="npsg_hpl_amt" id="npsg_hpl_amt"
+                                    placeholder="" value="{{ $member_pension->npsg_hpl_amt }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -130,7 +143,8 @@
                                 <label>Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="year" id="year" value="{{ $member_pension->year }}" readonly>
+                                <input type="text" class="form-control" name="year" id="year"
+                                    value="{{ $member_pension->year }}" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -142,24 +156,31 @@
                                 <label>Month</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="month" id="month" value="{{ $member_pension->month }}" readonly>
+                                <input type="text" class="form-control" name="month" id="month"
+                                    value="{{ $member_pension->month }}" readonly>
                                 @if ($errors->has('month'))
                                     <div class="error" style="color:red;">
                                         {{ $errors->first('month') }}</div>
                                 @endif
-                                
+
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-            
+
+            </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -195,7 +216,7 @@
                                 <label>NPSC Sub. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_sub_amt" id="npsc_sub_amt" >
+                                <input type="text" class="form-control" name="npsc_sub_amt" id="npsc_sub_amt">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -207,7 +228,8 @@
                                 <label>NPSG Sub. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_sub_amt" id="npsg_sub_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsg_sub_amt" id="npsg_sub_amt"
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -219,7 +241,8 @@
                                 <label>NPSC EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_eol_deduction_amt" id="npsc_eol_deduction_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsc_eol_deduction_amt"
+                                    id="npsc_eol_deduction_amt" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -231,7 +254,8 @@
                                 <label>NPSG EOL Deduction Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_eol_deduction_amt" id="npsg_eol_deduction_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsg_eol_deduction_amt"
+                                    id="npsg_eol_deduction_amt" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -243,7 +267,8 @@
                                 <label>NPSC EOL Credit Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_eol_credit_amt" id="npsc_eol_credit_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsc_eol_credit_amt"
+                                    id="npsc_eol_credit_amt" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -255,7 +280,8 @@
                                 <label>NPSG EOL Credit Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_eol_credit_amt" id="npsg_eol_credit_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsg_eol_credit_amt"
+                                    id="npsg_eol_credit_amt" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -267,7 +293,8 @@
                                 <label>NPSC HPL Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsc_hpl_amt" id="npsc_hpl_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsc_hpl_amt" id="npsc_hpl_amt"
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -279,7 +306,8 @@
                                 <label>NPSG HPL Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="npsg_hpl_amt" id="npsg_hpl_amt" placeholder="">
+                                <input type="text" class="form-control" name="npsg_hpl_amt" id="npsg_hpl_amt"
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -318,19 +346,25 @@
                                     <div class="error" style="color:red;">
                                         {{ $errors->first('month') }}</div>
                                 @endif
-                                
+
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-            
+
+            </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

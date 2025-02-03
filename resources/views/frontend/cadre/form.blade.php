@@ -11,8 +11,8 @@
                                 <label>Cadre Value</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="value" id="value" value="{{ $cadre->value ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="value" id="value"
+                                    value="{{ $cadre->value ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -25,8 +25,9 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($cadre->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($cadre->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ $cadre->status == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ $cadre->status == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -34,12 +35,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -56,7 +63,7 @@
                                 <label>Cadre Value</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="value" id="value" >
+                                <input type="text" class="form-control" name="value" id="value">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -79,12 +86,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

@@ -111,12 +111,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -314,7 +320,7 @@
                             </div>
                             <div class="col-md-2 ms-auto">
                                 <div class="add-more form-group mt-4">
-                                    <a href="javascript:void(0);" class="listing_add add-more-trans"><i
+                                    <a href="javascript:void(0);" class="listing_add add-more-trans add-more-sm"><i
                                             class="fas fa-plus-circle"></i> Add More</a>
                                 </div>
                             </div>
@@ -401,8 +407,8 @@
                                     <label>Rate</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" value="0.00" class="form-control item_rate" name="strike_rate[]"
-                                        readonly>
+                                    <input type="text" value="0.00" class="form-control item_rate"
+                                        name="strike_rate[]" readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>

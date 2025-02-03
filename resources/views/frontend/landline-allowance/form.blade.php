@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -16,7 +16,7 @@
                                     <option value="">Select Category</option>
                                     <option value="NPS">NPS</option>
                                     <option value="GPF">GPF</option>
-                                    {{-- @foreach($categories as $category)
+                                    {{-- @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" {{ $landline_allowance->category_id == $category->id ?'selected':''}}>{{ $category->category }}</option>
                                      @endforeach --}}
                                 </select>
@@ -31,7 +31,8 @@
                                 <label>Mobile max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="mobile_max_allo" id="mobile_max_allo" value="{{ $landline_allowance->mobile_max_allo }}">
+                                <input type="text" class="form-control" name="mobile_max_allo" id="mobile_max_allo"
+                                    value="{{ $landline_allowance->mobile_max_allo }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -43,7 +44,8 @@
                                 <label>Landline max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="landline_max_allo" id="landline_max_allo" value="{{ $landline_allowance->landline_max_allo }}">
+                                <input type="text" class="form-control" name="landline_max_allo"
+                                    id="landline_max_allo" value="{{ $landline_allowance->landline_max_allo }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -55,7 +57,8 @@
                                 <label>Broadband max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="broad_band_max_allo" id="broad_band_max_allo" value="{{ $landline_allowance->broad_band_max_allo }}">
+                                <input type="text" class="form-control" name="broad_band_max_allo"
+                                    id="broad_band_max_allo" value="{{ $landline_allowance->broad_band_max_allo }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -67,19 +70,26 @@
                                 <label>Total max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_amount_allo" id="total_amount_allo" value="{{ $landline_allowance->total_amount_allo }}">
+                                <input type="text" class="form-control" name="total_amount_allo"
+                                    id="total_amount_allo" value="{{ $landline_allowance->total_amount_allo }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -90,7 +100,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
-                
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -101,7 +111,7 @@
                                     <option value="">Select Category</option>
                                     <option value="NPS">NPS</option>
                                     <option value="GPF">GPF</option>
-                                    
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -114,7 +124,8 @@
                                 <label>Mobile max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="mobile_max_allo" id="mobile_max_allo" value="{{ old('mobile_max_allo') }}">
+                                <input type="text" class="form-control" name="mobile_max_allo" id="mobile_max_allo"
+                                    value="{{ old('mobile_max_allo') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -126,7 +137,8 @@
                                 <label>Landline max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="landline_max_allo" id="landline_max_allo" value="{{ old('landline_max_allo') }}">
+                                <input type="text" class="form-control" name="landline_max_allo"
+                                    id="landline_max_allo" value="{{ old('landline_max_allo') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -138,7 +150,8 @@
                                 <label>Broadband max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="broad_band_max_allo" id="broad_band_max_allo" value="{{ old('broad_band_max_allo') }}">
+                                <input type="text" class="form-control" name="broad_band_max_allo"
+                                    id="broad_band_max_allo" value="{{ old('broad_band_max_allo') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -150,19 +163,26 @@
                                 <label>Total max Allocation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="total_amount_allo" id="total_amount_allo" value="{{ old('total_amount_allo') }}">
+                                <input type="text" class="form-control" name="total_amount_allo"
+                                    id="total_amount_allo" value="{{ old('total_amount_allo') }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
