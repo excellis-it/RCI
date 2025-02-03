@@ -55,7 +55,7 @@
                         <a href="{{ route('reports.store-inward-list') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Stores inward Register</h5>
+                                    <h5 class="card-title">Stores inward Register (SIR)</h5>
                                 </div>
                             </div>
                         </a>

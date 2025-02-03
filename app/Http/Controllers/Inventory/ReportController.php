@@ -330,58 +330,58 @@ class ReportController extends Controller
 
     public function rinDamagedGenerate(Request $request, $startDate = null, $endDate = null)
     {
-        if ($startDate && $endDate) {
-            $rins = Rin::where('damage_status', 1)
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->whereIn('id', function ($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('rins')
-                        ->groupBy('rin_no');
-                })
-                ->get();
+        try {
+            if ($startDate && $endDate) {
+                $rins = Rin::where('damage_status', 1)
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->whereIn('id', function ($query) {
+                        $query->select(DB::raw('MAX(id)'))
+                            ->from('rins')
+                            ->groupBy('rin_no');
+                    })
+                    ->get();
+            }
+            if ($request->has('id')) {
+                $rins = Rin::where('damage_status', 1)
+                    ->where('id', $request->id)
+                    ->whereIn('id', function ($query) {
+                        $query->select(DB::raw('MAX(id)'))
+                            ->from('rins')
+                            ->groupBy('rin_no');
+                    })
+                    ->get();
+            }
+            $logo = Helper::logo() ?? '';
+
+            // return $rins;
+
+            //   $all_rins =  Rin::where('rin_no', $rin->rin_no)->get();
+
+            if ($rins->isEmpty()) {
+                session()->flash('error', 'Data Not Found');
+                return response()->json(['error' => 'Data Not Found'], 404);
+            }
+
+            foreach ($rins as $rin) {
+                // $rin = Rin::where('id', $request->id)->first();
+                // $damaged_items = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->pluck('item_id');
+                // $rin->rinDamagedItems = ItemCode::whereIn('id', $damaged_items)->get();
+
+
+                $rin->rinDamagedItems = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->get();
+            }
+
+            // return $rins;
+
+            $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'));
+            return $pdf->download('rin-damaged.pdf');
+        } catch (\Exception $e) {
+            //   return response()->json(['error' => $e->getMessage()], 201);
+            //   session()->flash('message', 'Data Not Found');
+            return response()->json(['error' => 'Data Not Found'], 404);
         }
-        if ($request->has('id')) {
-            $rins = Rin::where('damage_status', 1)
-                ->where('id', $request->id)
-                ->whereIn('id', function ($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('rins')
-                        ->groupBy('rin_no');
-                })
-                ->get();
-        }
-        $logo = Helper::logo() ?? '';
-
-        //  return $rins;
-
-        //   $all_rins =  Rin::where('rin_no', $rin->rin_no)->get();
-
-        foreach ($rins as $rin) {
-            // $rin = Rin::where('id', $request->id)->first();
-            // $damaged_items = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->pluck('item_id');
-            // $rin->rinDamagedItems = ItemCode::whereIn('id', $damaged_items)->get();
-
-
-            $rin->rinDamagedItems = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->get();
-        }
-
-        // return $rins;
-
-        $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'));
-        return $pdf->download('rin-damaged.pdf');
     }
-    // {
-    //     $rin = Rin::findOrFail($id);
-    //     $all_items = Rin::where('rin_no', $rin->rin_no)->get();
-    //     $total_item = count($all_items);
-    //     $inventory_no = InventoryNumber::where('id', $rin->inventory_id)->first() ?? '';
-    //     // $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
-    //     // $gst = GstPercentage::where('id',)
-    //     $logo = Helper::logo() ?? '';
 
-    //     $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'));
-    //     return $pdf->download('rin.pdf');
-    // }
 
     public function lvpList()
     {
@@ -488,6 +488,15 @@ class ReportController extends Controller
                 ->map(fn($group) => $group->first());
         }
         // dd($storeInwards);
+
+        // return $storeInwards;
+
+        // if data not found
+        if ($storeInwards->isEmpty()) {
+            session()->flash('error', 'Data Not Found');
+            return redirect()->back()->with('error', 'Data Not Found');
+        }
+
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
         $pdf = PDF::loadView('inventory.reports.store-inward-generate', compact('logo', 'storeInwards', 'startDate', 'endDate'));
@@ -524,6 +533,11 @@ class ReportController extends Controller
             ->get()
             ->groupBy('rin_no')
             ->map(fn($group) => $group->first());
+
+        if ($rinControllerReports->isEmpty()) {
+            session()->flash('error', 'Data Not Found');
+            return redirect()->back()->with('error', 'Data Not Found');
+        }
 
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';

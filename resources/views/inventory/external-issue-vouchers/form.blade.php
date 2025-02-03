@@ -229,7 +229,7 @@
     <form action="{{ route('external-issue-vouchers.store') }}" method="POST" id="externel-issue-vouchers-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -452,12 +452,19 @@
                     <div id="credit_form_add_new_row"></div>
                 </div>
             </div>
+
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Save</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

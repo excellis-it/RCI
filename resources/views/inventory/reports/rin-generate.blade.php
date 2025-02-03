@@ -3,8 +3,18 @@
     <title>RCI</title>
     <meta charset="utf-8" />
 
-    <body style="background: #fff">
+    <style>
+        @page {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
 
+    <body style="background: #fff">
+        <center>
+            <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+        </center>
+        <br>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto">
             <tbody>
@@ -258,7 +268,7 @@
                                     @php
                                         $total_basic_cost += $item->total_cost;
                                         $taxes_amount += $item->gst_amount;
-                                        $total_amount += $item->total_amount;
+                                        $total_amount += $item->total_cost + $item->gst_amount;
                                     @endphp
                                 @endforeach
                                 {{-- <tr>

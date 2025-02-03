@@ -6,9 +6,18 @@
     <html lang="en">
         <title>RCI</title>
         <meta charset="utf-8" />
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
 
         <body style="background: #fff">
-
+            <center>
+                <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+            </center>
+            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
                 style="border-radius: 0px; margin: 0 auto">
                 <tbody>
@@ -16,7 +25,7 @@
                         <td style="padding: 0 0px">
                             <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                                 <tbody>
-                                    <tr style=" padding: 0px 0px 20px 0px; text-align: right; font-weight: 600;">
+                                    <tr style=" padding: 0px 0px 10px 0px; text-align: right; font-weight: 600;">
                                         <td
                                             style=" font-size: 10px;
                                 line-height: 18px;
@@ -110,7 +119,8 @@
                                         </td>
                                         <td
                                             style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-size: 10px;">
-                                            Inventory No (ICC): {{ $rin->sirNo->inventoryNumber->number ?? 'N/A' }}</td>
+                                            Inventory No (ICC): {{ $rin->sirNo->inventoryNumber->number ?? 'N/A' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td
@@ -267,7 +277,7 @@
                                         @php
                                             $total_basic_cost += $item->total_cost;
                                             $taxes_amount += $item->gst_amount;
-                                            $total_amount += $item->total_amount;
+                                            $total_amount += $item->total_cost + $item->gst_amount;
                                         @endphp
                                     @endforeach
                                     {{-- <tr>

@@ -9,6 +9,12 @@
     <html lang="en">
         <title>RCI</title>
         <meta charset="utf-8" />
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
 
         <body style="background: #fff">
             <center>
@@ -38,6 +44,8 @@
                                             CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                             RCI CAMPUS, HYDERABAD - 500 069 <br />
                                             CERTIFICATE RECEIPT VOUCHER (CRV) <br />
+                                            <br>
+
                                         </td>
                                     </tr>
                                 </tbody>

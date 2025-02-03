@@ -1,10 +1,16 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
     <title>RCI</title>
     <meta charset="utf-8" />
-    @php
-        use App\Helpers\Helper;
-    @endphp
+    <style>
+        @page {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
 
     <body style="background: #fff">
         <center>
