@@ -119,10 +119,12 @@
         @php
             $total_previous_reciepts = [];
             $total_previous_balance = [];
+            $total_previous_balance1 = [];
             $start = 0;
             foreach ($category as $cat) {
                 $total_previous_reciepts[$cat->id] = 0;
                 $total_previous_balance[$cat->id] = 0;
+                $total_previous_balance1[$cat->id] = 0;
             }
         @endphp
         @foreach ($payment_members as $new_member)
@@ -325,6 +327,7 @@
                             <td>
                                 @if ($start > 0)
                                     @php
+                                    $total_previous_balance1[$cat->id] = $total_previous_balance[$cat->id];
                                         $total_previous_balance[$cat->id] =
                                             $total_previous_balance[$cat->id] - $categoryTotals[$cat->id];
                                     @endphp
@@ -351,7 +354,7 @@
                             <td>
                                 @if ($start > 0)
                                     @php
-                                        $total_previous_reciepts[$cat->id] = $total_previous_balance[$cat->id];
+                                        $total_previous_reciepts[$cat->id] = $total_previous_balance1[$cat->id];
                                     @endphp
                                     {{ $total_previous_reciepts[$cat->id] }}
                                 @else
