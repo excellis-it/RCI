@@ -33,12 +33,137 @@
 
             <div class="card-wrap">
                 <div class="row justify-content-center">
-                    <!-- Alphabetically sorted cards -->
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.armaments-ammunition-register') }}">
+                        <a href="{{ route('traffic-controls.index') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Armaments and Ammunition register</h5>
+                                    <h5 class="card-title">Traffic Control Register</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('security-gate-stores.index') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Security Gate Store Register</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.store-inward-list') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Stores inward Register (SIR)</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.rin-controller-list') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Rin Control Register</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'credit_voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Credit Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'debit_voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Debit Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'transfer_voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Transfer Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'conversion_voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Conversion Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'external_issue') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">External Issue Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'certificate_issue') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Certificate Issue Vouchers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory', 'inventory_numbers') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Inventory Numbers</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+
+
+
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.certificate-receipt-voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Certificate receipt voucher</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.ledger-sheet') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Ledger Sheet</h5>
                                 </div>
                             </div>
                         </a>
@@ -53,6 +178,103 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.register-for-inventories') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Register for inventories</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.stock-sheet') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Stock sheet</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory-loan-register') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Inventory Loan register</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.discrepancy-report') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Discrepancy</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.internal-demand-issue-voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Internal demand & issue voucher</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.internal-return-receipt-voucher') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Internal return & receipt voucher</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.trial-store-gate-pass') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Trial store gate pass</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.armaments-ammunition-register') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Armaments and Ammunition register</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.disposal-item-report') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Disposal Item</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        {{-- <a href="{{ route('reports.statement-of-damaged') }}"> --}}
+                        <a href="{{ route('reports.inventory', 'statement_of_damaged') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Statement of damaged</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.cash-purchase-control-register') }}">
                             <div class="card">
                                 <div class="card-body">
@@ -62,55 +284,39 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.certificate-receipt-voucher') }}">
+                        <a href="{{ route('reports.stores-outward-register') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Certificate receipt voucher</h5>
+                                    <h5 class="card-title">Stores outward register</h5>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'certificate_issue') }}">
+                        <a href="{{ route('reports.record-of-transaction') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Certificate Issue Vouchers</h5>
+                                    <h5 class="card-title">Record of transaction</h5>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.loan-out-ledger-register') }}">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Loan out ledger register</h5>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.certified-issue-voucher') }}">
+                        <a href="{{ route('reports.loan-in-ledger-register') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Certified issue voucher</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.contingent-bill') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Contingent bill</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.contractors-bill') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Contractor's bill</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'conversion_voucher') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Conversion Vouchers</h5>
+                                    <h5 class="card-title">Loan in ledger register</h5>
                                 </div>
                             </div>
                         </a>
@@ -132,39 +338,32 @@
                                 </div>
                             </div>
                         </a>
+
                     </div>
+
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'credit_voucher') }}">
+                        <a href="{{ route('reports.contingent-bill') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Credit Vouchers</h5>
+                                    <h5 class="card-title">Contingent bill</h5>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'debit_voucher') }}">
+                        <a href="{{ route('reports.contractors-bill') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Debit Vouchers</h5>
+                                    <h5 class="card-title">Contractor's bill</h5>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.discrepancy-report') }}">
+                        <a href="{{ route('reports.certified-issue-voucher') }}">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Discrepancy</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.disposal-item-report') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Disposal Item</h5>
+                                    <h5 class="card-title">Certified issue voucher</h5>
                                 </div>
                             </div>
                         </a>
@@ -177,84 +376,15 @@
                                 </div>
                             </div>
                         </a>
+
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'external_issue') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">External Issue Vouchers</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+
+
                     <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.fitment-voucher') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Fitment Voucher</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.internal-demand-issue-voucher') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Internal demand & issue voucher</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.internal-return-receipt-voucher') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Internal return & receipt voucher</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory-loan-register') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Inventory Loan register</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'inventory_numbers') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Inventory Numbers</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.ledger-sheet') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Ledger Sheet</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.loan-in-ledger-register') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Loan in ledger register</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.loan-out-ledger-register') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Loan out ledger register</h5>
                                 </div>
                             </div>
                         </a>
@@ -268,106 +398,13 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.record-of-transaction') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Record of transaction</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.register-for-inventories') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Register for inventories</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.rin-controller-list') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Rin Control Register</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('security-gate-stores.index') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Security Gate Store Register</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.statement-of-damaged') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Statement of damaged</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.stock-sheet') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Stock sheet</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.store-inward-list') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Stores inward Register (SIR)</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.stores-outward-register') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Stores outward register</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.inventory', 'transfer_voucher') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Transfer Vouchers</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('traffic-controls.index') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Traffic Control Register</h5>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.trial-store-gate-pass') }}">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Trial store gate pass</h5>
-                                </div>
-                            </div>
-                        </a>
+
+                    <div class="row justify-content-center">
+
+
                     </div>
                 </div>
+                <!-- Add more cards as needed -->
             </div>
 
         </div>

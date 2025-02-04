@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>RCI</title>
-<meta charset="utf-8" />
-<style>
-    @page {
-        size: 29.7cm 42cm
-    }
-</style>
+    <title>RCI</title>
+    <meta charset="utf-8" />
+    <style>
+        @page {
 
-<body style="background: #fff">
-    <center>
-        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
-    </center>
-    <br>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-        style="border-radius: 0px; margin: 0 auto">
-        <tbody>
-            <tr>
-                <td style="padding: 0 0px">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                        <tbody>
-                            <tr>
-                                <td
-                                    style="
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+
+    <body style="background: #fff">
+        <center>
+            <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+        </center>
+        <br>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 600;
@@ -32,20 +34,20 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    Outstanding Bills as on {{ $report_date }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 0 0px">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                        <thead>
-                            <tr>
-                                <td
-                                    style="
+                                        Outstanding Bills as on {{ $report_date }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -56,10 +58,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    Sr No
-                                </td>
-                                <td
-                                    style="
+                                        Sr No
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -70,10 +72,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    PC No
-                                </td>
-                                <td
-                                    style="
+                                        PC No
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -84,10 +86,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    Project
-                                </td>
-                                <td
-                                    style="
+                                        Project
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -98,10 +100,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    ADV No
-                                </td>
-                                <td
-                                    style="
+                                        ADV No
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -112,10 +114,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    ADV Date
-                                </td>
-                                <td
-                                    style="
+                                        ADV Date
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -126,10 +128,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    ADV Amt
-                                </td>
-                                <td
-                                    style="
+                                        ADV Amt
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -140,17 +142,17 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    Outstand Amt
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                        Outstand Amt
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            @if ($advanceFunds)
-                                @foreach ($advanceFunds as $index => $advanceFund)
-                                    <tr>
-                                        <td
-                                            style="
+                                @if ($advanceFunds)
+                                    @foreach ($advanceFunds as $index => $advanceFund)
+                                        <tr>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -161,10 +163,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $index + 1 }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $index + 1 }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -175,10 +177,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $advanceFund->pc_no }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $advanceFund->pc_no }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -189,10 +191,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $advanceFund->project->name }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $advanceFund->project->name }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -203,10 +205,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $advanceFund->adv_no }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $advanceFund->adv_no }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -217,10 +219,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $advanceFund->adv_date }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $advanceFund->adv_date }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -231,10 +233,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $advanceFund->adv_amount }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $advanceFund->adv_amount }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -245,16 +247,16 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $advanceFund->outstand_amount }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                                                {{ $advanceFund->outstand_amount }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
 
 
-                            <tr>
-                                <td
-                                    style="
+                                <tr>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -265,9 +267,9 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -278,9 +280,9 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -291,9 +293,9 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -304,9 +306,9 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -318,10 +320,10 @@
                 height: 5px;
                 text-transform: uppercase;
               ">
-                                    TOTAL
-                                </td>
-                                <td
-                                    style="
+                                        TOTAL
+                                    </td>
+                                    <td
+                                        style="
             font-size: 10px;
             line-height: 14px;
             font-weight: 400;
@@ -332,10 +334,10 @@
             border: 1px solid #000;
             height: 5px;
           ">
-                                    {{ $totalAmount }}
-                                </td>
-                                <td
-                                    style="
+                                        {{ $totalAmount }}
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -346,17 +348,17 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                    {{ $totalOutStandAmount }}
-                                </td>
-                            </tr>
+                                        {{ $totalOutStandAmount }}
+                                    </td>
+                                </tr>
 
 
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
 
 </html>

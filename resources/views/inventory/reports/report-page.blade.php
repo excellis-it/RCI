@@ -46,7 +46,7 @@
 
                     <div class="mb-3 mt-2">
                         <label for="">&nbsp;</label>
-                        <button type="submit" class="listing_add">Generate PDF</button>
+                        <button type="submit" class="listing_add mt-3">Generate PDF</button>
                     </div>
 
                 </div>
