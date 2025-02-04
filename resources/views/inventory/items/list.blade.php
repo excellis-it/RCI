@@ -319,4 +319,48 @@
             });
         });
     </script>
+
+    <script>
+        $(".item_name").keyup(function(e) {
+            var itemname = $(this).val();
+            $("#item_code").val('');
+
+            if (itemname.length > 1) {
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('inventory.item-code-name.get-items') }}",
+                    data: {
+                        itemname: itemname,
+                        _token: '{{ @csrf_token() }}',
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.length > 0) {
+                            let options = '<option value="">Select Item Code</option>';
+                            $.each(response, function(index, item) {
+                                options +=
+                                    `<option value="${item.item_code}">${item.item_code}</option>`;
+                            });
+                            $("#select-item-code").html(options);
+                            $(".item-code-select").show();
+                            $("#search-by-item-name").text(itemname);
+                        } else {
+                            $(".item-code-select").hide();
+                            $("#search-by-item-name").text('');
+                        }
+                    }
+                });
+            } else {
+                $(".item-code-select").hide();
+            }
+        });
+
+        // When item code is selected, set it in the item code input
+        $("#select-item-code").change(function() {
+            var itemCode = $(this).val();
+            if (itemCode) {
+                $("#item_code").val(itemCode);
+            }
+        });
+    </script>
 @endpush
