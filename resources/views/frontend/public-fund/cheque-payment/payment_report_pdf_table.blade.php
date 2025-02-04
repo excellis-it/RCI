@@ -219,9 +219,9 @@
                     @if ($total_previous_reciepts[$cat->id] > 0)
                         @php
                             $total_previous_reciepts[$cat->id] =
-                                $categoryAmounts[$cat->id] + $total_previous_balance[$cat->id];
+                                $total_previous_balance[$cat->id];
                         @endphp
-                        {{ $categoryAmounts[$cat->id] + $total_previous_balance[$cat->id] }}
+                        {{ $total_previous_balance[$cat->id] }}
                     @else
                         @php
                             $total_previous_reciepts[$cat->id] =
