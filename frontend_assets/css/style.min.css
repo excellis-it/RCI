@@ -56470,6 +56470,7 @@ ul {
 }
 
 .listing_add {
+    max-width: 130px;
     padding: 7px 17px;
     border-radius: 6px;
     background: #074465;
@@ -56483,6 +56484,7 @@ ul {
    color: #fff;
 }
 .listing_exit {
+    max-width: 130px;
     padding: 7px 17px;
     border-radius: 6px;
     background: #e76b6b;

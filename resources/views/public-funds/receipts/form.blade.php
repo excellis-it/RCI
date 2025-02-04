@@ -8,7 +8,7 @@
             </a>
         @endif
 
-        <button type="button" class="btn btn-primary btn-sm ms-3" id="saveDraftReceipt">
+        <button type="button" class="btn btn-primary ms-3" id="saveDraftReceipt">
             Save as Draft
         </button>
 
