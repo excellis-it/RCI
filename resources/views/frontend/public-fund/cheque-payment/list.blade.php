@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="rounded-2 listmain">
 
-                                    <div class="allpayments_table">
+                                    <div class="allpayments_table table-responsive">
                                         @include('frontend.public-fund.cheque-payment.table')
                                     </div>
 

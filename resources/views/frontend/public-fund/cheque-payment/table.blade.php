@@ -11,83 +11,84 @@
 @endphp
 
 @if (count($AllPayments) > 0)
-
-    <table class="table">
-        <thead class="text-white fs-4 bg_blue">
-            <tr>
-                <th>Receipt No</th>
-                <th>VR No</th>
-                <th>VR Date</th>
-                <th>Member</th>
-                <th>Designation</th>
-                <th>Amount</th>
-                <th>Bill Ref</th>
-                <th>Cheque No</th>
-                <th>Cheque Date</th>
-
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($AllPayments->groupBy('cheq_no') as $cheqNo => $groupedPayments)
+    <div class="">
+        <table class="table">
+            <thead class="text-white fs-4 bg_blue">
                 <tr>
-                    <td colspan="9" class="table-group-title">
-                        <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}, &nbsp;&nbsp;&nbsp; Total Amount:
-                            {{ number_format(Helper::getTotalPaymentsByChqNo($cheqNo), 2) }}</strong>
-                    </td>
+                    <th>Receipt No</th>
+                    <th>VR No</th>
+                    <th>VR Date</th>
+                    <th>Member</th>
+                    <th>Designation</th>
+                    <th>Amount</th>
+                    <th>Bill Ref</th>
+                    <th>Cheque No</th>
+                    <th>Cheque Date</th>
+
+                    <th>Actions</th>
                 </tr>
-                @foreach ($groupedPayments as $payments)
+            </thead>
+            <tbody>
+                @foreach ($AllPayments->groupBy('cheq_no') as $cheqNo => $groupedPayments)
                     <tr>
-                        <td>{{ $payments->receipt_no ?? 'N/A' }}</td>
-                        <td>{{ $payments->vr_no ?? 'N/A' }}</td>
-                        <td>{{ $payments->vr_date ?? 'N/A' }}</td>
-                        <td>
-                            @foreach ($payments->chequePaymentMembers as $chqMember)
-                                <span>{{ $chqMember->member->name ?? 'N/A' }}</span><br>
-                            @endforeach
-                        </td>
-                        <td>
-                            @foreach ($payments->chequePaymentMembers as $chqMember)
-                                <span>{{ $chqMember->member->designation->designation_type ?? 'N/A' }}</span><br>
-                            @endforeach
-                        </td>
-                        {{-- <td>{{ $payments->amount ?? 'N/A' }}</td> --}}
-                        <td>
-                            @foreach ($payments->chequePaymentMembers as $chqMember)
-                                <span>{{ $chqMember->amount ?? 'N/A' }}</span><br>
-                            @endforeach
-                            <span>-------------</span><br>
-                            <span>Total : {{ number_format($payments->amount, 2) ?? 'N/A' }}</span>
-
-                        </td>
-                        {{-- <td>{{ $payments->bill_ref ?? 'N/A' }}</td> --}}
-                        <td>
-                            @foreach ($payments->chequePaymentMembers as $chqMember)
-                                <span>{{ $chqMember->bill_ref ?? 'N/A' }}</span><br>
-                            @endforeach
-                        </td>
-                        <td>{{ $payments->cheq_no ?? 'N/A' }}</td>
-                        <td>{{ $payments->cheq_date ?? 'N/A' }}</td>
-
-                        <td>
-                            <div class="d-flex">
-                                <a data-route="{{ route('cheque-payments.edit', $payments->id) }}" href="#"
-                                    onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}', '{{ $payments->id }}')"
-                                    class="edit_pencil"><i class="ti ti-pencil"></i></a>
-                                <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2"
-                                    id="delete" data-route="{{ route('cheque-payments.delete', $payments->id) }}">
-                                    <i class="ti ti-trash"></i>
-                                </a>
-                            </div>
+                        <td colspan="9" class="table-group-title">
+                            <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}, &nbsp;&nbsp;&nbsp; Total Amount:
+                                {{ number_format(Helper::getTotalPaymentsByChqNo($cheqNo), 2) }}</strong>
                         </td>
                     </tr>
+                    @foreach ($groupedPayments as $payments)
+                        <tr>
+                            <td>{{ $payments->receipt_no ?? 'N/A' }}</td>
+                            <td>{{ $payments->vr_no ?? 'N/A' }}</td>
+                            <td>{{ $payments->vr_date ?? 'N/A' }}</td>
+                            <td>
+                                @foreach ($payments->chequePaymentMembers as $chqMember)
+                                    <span>{{ $chqMember->member->name ?? 'N/A' }}</span><br>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($payments->chequePaymentMembers as $chqMember)
+                                    <span>{{ $chqMember->member->designation->designation_type ?? 'N/A' }}</span><br>
+                                @endforeach
+                            </td>
+                            {{-- <td>{{ $payments->amount ?? 'N/A' }}</td> --}}
+                            <td>
+                                @foreach ($payments->chequePaymentMembers as $chqMember)
+                                    <span>{{ $chqMember->amount ?? 'N/A' }}</span><br>
+                                @endforeach
+                                <span>-------------</span><br>
+                                <span>Total : {{ number_format($payments->amount, 2) ?? 'N/A' }}</span>
+
+                            </td>
+                            {{-- <td>{{ $payments->bill_ref ?? 'N/A' }}</td> --}}
+                            <td>
+                                @foreach ($payments->chequePaymentMembers as $chqMember)
+                                    <span>{{ $chqMember->bill_ref ?? 'N/A' }}</span><br>
+                                @endforeach
+                            </td>
+                            <td>{{ $payments->cheq_no ?? 'N/A' }}</td>
+                            <td>{{ $payments->cheq_date ?? 'N/A' }}</td>
+
+                            <td>
+                                <div class="d-flex">
+                                    <a data-route="{{ route('cheque-payments.edit', $payments->id) }}" href="#"
+                                        onclick="getEditForm({{ $payments->vr_no }}, '{{ $payments->vr_date }}', '{{ $payments->id }}')"
+                                        class="edit_pencil"><i class="ti ti-pencil"></i></a>
+                                    <a href="javascript:void(0);" class="delete-cheque edit_pencil text-danger ms-2"
+                                        id="delete"
+                                        data-route="{{ route('cheque-payments.delete', $payments->id) }}">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
-            @endforeach
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
 
-
+    </div>
 
     {{-- <tr class="toxic">
         <td colspan="9" class="text-left">

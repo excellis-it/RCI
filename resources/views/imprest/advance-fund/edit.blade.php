@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control groups" name="groups"
-                                value="{{ $advance_fund->member->groups->value }}" placeholder="" readonly>
+                                value="{{ $advance_fund->member->groups?->value }}" placeholder="" readonly>
 
                             <span class="text-danger"></span>
                         </div>
@@ -244,22 +244,26 @@
             </div>
         </div> --}}
 
-        <div class="row justify-content-end">
-            <div class="col-md-2">
-                <div class="mb-2">
-                    <button type="submit" class="listing_add">Update</button>
-                </div>
-            </div>
 
-            <div class="col-md-2">
-                <div class="mb-2">
-                    <a href="{{ route('advance-funds.index') }}" type="button" class="listing_exit">Back</a>
-                </div>
-            </div>
-
-        </div>
 
 
     </div>
+    </div>
+
+    <div class="row justify-content-between mt-3">
+
+
+        <div class="col-md-2 ">
+
+            <a href="{{ route('advance-funds.index') }}" type="button" class="listing_exit">Back</a>
+
+        </div>
+
+        <div class="col-md-2 text-end">
+
+            <button type="submit" class="listing_add">Update</button>
+
+        </div>
+
     </div>
 </form>

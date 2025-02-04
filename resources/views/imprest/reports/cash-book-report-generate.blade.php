@@ -5,7 +5,8 @@
 
 <style>
     @page {
-        size: 29.7cm 42cm
+        margin: 10px;
+        padding: 10px;
     }
 
     .page-break {
