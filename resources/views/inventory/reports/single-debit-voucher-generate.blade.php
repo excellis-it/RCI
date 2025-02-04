@@ -6,7 +6,12 @@
     <html lang="en">
         <title>RCI</title>
         <meta charset="utf-8" />
-
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
         <body style="background: #fff;">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -162,7 +167,7 @@
                                                 {{ $item['item_desc'] }}
                                             </td>
                                             <td
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
                                                 {{ number_format($item['price'] / $item['quantity'], 2) }}
                                             </td>
                                             <td
@@ -170,11 +175,11 @@
                                                 {{ '' }}
                                             </td>
                                             <td
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
                                                 {{ $item['quantity'] }}
                                             </td>
                                             <td
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
                                                 {{ number_format(is_numeric($item['price']) ? (float) $item['price'] : 0, 2) }}
 
                                             </td>

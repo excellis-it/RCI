@@ -26,6 +26,7 @@ use App\Models\TrafficControl;
 use App\Models\InventoryLoan;
 use App\Models\ExternalIssueVoucherDetail;
 use App\Models\InventorySir;
+use App\Models\SirType;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -151,39 +152,39 @@ class ReportController extends Controller
                         $totalCost = $detail->total_price ?? 0;
 
                         $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
-                            'rin_no' => $detail->rin ?? 'N/A',
-                            'rin_date' => $rin_date->created_at ?? 'N/A',
-                            'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
-                            'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                            'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                            'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                            'member_name' => $detail->members->name ?? 'N/A',
-                            'item_code' => $detail->item_code_id ?? 'N/A',
-                            'description' => $detail->description ?? 'N/A',
-                            'quantity' => $detail->quantity ?? 'N/A',
-                            'remarks' => $detail->rins->remarks ?? 'N/A',
-                            'nc_status' => $detail->rins->nc_status ?? 'N/A',
-                            'au_status' => $detail->rins->au_status ?? 'N/A',
-                            'rate' => $price ?? 'N/A',
-                            'tax' => $detail->rins->gst ?? 'N/A',
-                            'disc_percent' => $detail->disc_percent ?? 'N/A',
-                            'disc_amt' => $detail->disc_amt ?? 'N/A',
-                            'total_price' => $detail->total_price ?? 'N/A',
-                            'total_cost' => $totalCost ?? 'N/A',
+                            'rin_no' => $detail->rin ?? '',
+                            'rin_date' => $rin_date->created_at ?? '',
+                            'consigner' => $detail->rins->vendorDetail->name ?? '',
+                            'cost_debatable' => $detail->cost_debatable ?? '',
+                            'project_no' => $detail->inventoryProjects->project_name ?? '',
+                            'project_code' => $detail->inventoryProjects->project_code ?? '',
+                            'member_name' => $detail->members->name ?? '',
+                            'item_code' => $detail->item_code_id ?? '',
+                            'description' => $detail->description ?? '',
+                            'quantity' => $detail->quantity ?? '',
+                            'remarks' => $detail->rins->remarks ?? '',
+                            'nc_status' => $detail->rins->nc_status ?? '',
+                            'au_status' => $detail->rins->au_status ?? '',
+                            'rate' => $price ?? 0,
+                            'tax' => $detail->rins->gst ?? 0,
+                            'disc_percent' => $detail->disc_percent ?? 0,
+                            'disc_amt' => $detail->disc_amt ?? 0,
+                            'total_price' => $detail->total_price ?? 0,
+                            'total_cost' => $totalCost ?? 0,
                         ];
 
                         $totalItemCost += (float)$price;
                         $total += (float)$totalCost;
 
                         $singleData[$creditVoucher->voucher_no] = [
-                            'rin_no' => $detail->rin ?? 'N/A',
-                            'rin_date' =>  $rin_date->created_at ?? 'N/A',
-                            'item_type' => $detail->item_type ?? 'N/A',
-                            'consignor' => $detail->consigner ?? 'N/A',
-                            'member_name' => $detail->members->name ?? 'N/A',
-                            'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                            'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                            'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                            'rin_no' => $detail->rin ?? '',
+                            'rin_date' =>  $rin_date->created_at ?? '',
+                            'item_type' => $detail->item_type ?? '',
+                            'consignor' => $detail->consigner ?? '',
+                            'member_name' => $detail->members->name ?? '',
+                            'cost_debatable' => $detail->cost_debatable ?? '',
+                            'project_no' => $detail->inventoryProjects->project_name ?? '',
+                            'project_code' => $detail->inventoryProjects->project_code ?? '',
                         ];
 
                         $itemCount++;
@@ -329,58 +330,58 @@ class ReportController extends Controller
 
     public function rinDamagedGenerate(Request $request, $startDate = null, $endDate = null)
     {
-        if ($startDate && $endDate) {
-            $rins = Rin::where('damage_status', 1)
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->whereIn('id', function ($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('rins')
-                        ->groupBy('rin_no');
-                })
-                ->get();
+        try {
+            if ($startDate && $endDate) {
+                $rins = Rin::where('damage_status', 1)
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->whereIn('id', function ($query) {
+                        $query->select(DB::raw('MAX(id)'))
+                            ->from('rins')
+                            ->groupBy('rin_no');
+                    })
+                    ->get();
+            }
+            if ($request->has('id')) {
+                $rins = Rin::where('damage_status', 1)
+                    ->where('id', $request->id)
+                    ->whereIn('id', function ($query) {
+                        $query->select(DB::raw('MAX(id)'))
+                            ->from('rins')
+                            ->groupBy('rin_no');
+                    })
+                    ->get();
+            }
+            $logo = Helper::logo() ?? '';
+
+            // return $rins;
+
+            //   $all_rins =  Rin::where('rin_no', $rin->rin_no)->get();
+
+            if ($rins->isEmpty()) {
+                session()->flash('error', 'Data Not Found');
+                return response()->json(['error' => 'Data Not Found'], 404);
+            }
+
+            foreach ($rins as $rin) {
+                // $rin = Rin::where('id', $request->id)->first();
+                // $damaged_items = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->pluck('item_id');
+                // $rin->rinDamagedItems = ItemCode::whereIn('id', $damaged_items)->get();
+
+
+                $rin->rinDamagedItems = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->get();
+            }
+
+            // return $rins;
+
+            $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'));
+            return $pdf->download('rin-damaged.pdf');
+        } catch (\Exception $e) {
+            //   return response()->json(['error' => $e->getMessage()], 201);
+            //   session()->flash('message', 'Data Not Found');
+            return response()->json(['error' => 'Data Not Found'], 404);
         }
-        if ($request->has('id')) {
-            $rins = Rin::where('damage_status', 1)
-                ->where('id', $request->id)
-                ->whereIn('id', function ($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('rins')
-                        ->groupBy('rin_no');
-                })
-                ->get();
-        }
-        $logo = Helper::logo() ?? '';
-
-        //  return $rins;
-
-        //   $all_rins =  Rin::where('rin_no', $rin->rin_no)->get();
-
-        foreach ($rins as $rin) {
-            // $rin = Rin::where('id', $request->id)->first();
-            // $damaged_items = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->pluck('item_id');
-            // $rin->rinDamagedItems = ItemCode::whereIn('id', $damaged_items)->get();
-
-
-            $rin->rinDamagedItems = Rin::where('damage_status', 1)->where('rin_no', $rin->rin_no)->get();
-        }
-
-        // return $rins;
-
-        $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'));
-        return $pdf->download('rin-damaged.pdf');
     }
-    // {
-    //     $rin = Rin::findOrFail($id);
-    //     $all_items = Rin::where('rin_no', $rin->rin_no)->get();
-    //     $total_item = count($all_items);
-    //     $inventory_no = InventoryNumber::where('id', $rin->inventory_id)->first() ?? '';
-    //     // $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
-    //     // $gst = GstPercentage::where('id',)
-    //     $logo = Helper::logo() ?? '';
 
-    //     $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'));
-    //     return $pdf->download('rin.pdf');
-    // }
 
     public function lvpList()
     {
@@ -468,13 +469,34 @@ class ReportController extends Controller
         $startDate = Carbon::parse($dates[0])->startOfDay();
         $endDate = Carbon::parse($dates[1])->endOfDay();
 
-        // Fetch Store Inward entries within the given date range, grouped by `sir_no`, and get the first record per group
-        $storeInwards = InventorySir::whereBetween('created_at', [$startDate, $endDate])
-            ->with(['supplyOrder']) // Eager load related data for better performance
-            ->get()
-            ->groupBy('sir_no')
-            ->map(fn($group) => $group->first());
+        $sir_type = $request->sir_type;
+
+        if ($sir_type != '') {
+            $storeInwards = InventorySir::where('sir_type_id', $sir_type)->whereBetween('created_at', [$startDate, $endDate])
+                ->with(['supplyOrder']) // Eager load related data for better performance
+                ->get()
+                ->groupBy('sir_no')
+                ->map(fn($group) => $group->first());
+        } else {
+
+
+            // Fetch Store Inward entries within the given date range, grouped by `sir_no`, and get the first record per group
+            $storeInwards = InventorySir::whereBetween('created_at', [$startDate, $endDate])
+                ->with(['supplyOrder']) // Eager load related data for better performance
+                ->get()
+                ->groupBy('sir_no')
+                ->map(fn($group) => $group->first());
+        }
         // dd($storeInwards);
+
+        // return $storeInwards;
+
+        // if data not found
+        if ($storeInwards->isEmpty()) {
+            session()->flash('error', 'Data Not Found');
+            return redirect()->back()->with('error', 'Data Not Found');
+        }
+
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
         $pdf = PDF::loadView('inventory.reports.store-inward-generate', compact('logo', 'storeInwards', 'startDate', 'endDate'));
@@ -484,7 +506,8 @@ class ReportController extends Controller
 
     public function storeInwardReportList()
     {
-        return view('inventory.reports.store-inward-list');
+        $sir_types = SirType::get();
+        return view('inventory.reports.store-inward-list', compact('sir_types'));
     }
 
     public function rinControllerReport(Request $request)
@@ -510,6 +533,11 @@ class ReportController extends Controller
             ->get()
             ->groupBy('rin_no')
             ->map(fn($group) => $group->first());
+
+        if ($rinControllerReports->isEmpty()) {
+            session()->flash('error', 'Data Not Found');
+            return redirect()->back()->with('error', 'Data Not Found');
+        }
 
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
@@ -745,39 +773,39 @@ class ReportController extends Controller
                     $totalCost = $detail->total_price ?? 0;
 
                     $result[$creditVoucher->voucher_no][$detail->item_code_id] = [
-                        'rin_no' => $detail->rin ?? 'N/A',
-                        'rin_date' => $rin_date->created_at ?? 'N/A',
-                        'consigner' => $detail->rins->vendorDetail->name ?? 'N/A',
-                        'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                        'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                        'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
-                        'member_name' => $detail->members->name ?? 'N/A',
-                        'item_code' => $detail->item_code_id ?? 'N/A',
-                        'description' => $detail->description ?? 'N/A',
-                        'quantity' => $detail->quantity ?? 'N/A',
-                        'remarks' => $detail->rins->remarks ?? 'N/A',
-                        'nc_status' => $detail->rins->nc_status ?? 'N/A',
-                        'au_status' => $detail->rins->au_status ?? 'N/A',
-                        'rate' => $price ?? 'N/A',
-                        'tax' => $detail->rins->gst ?? 'N/A',
-                        'disc_percent' => $detail->disc_percent ?? 'N/A',
-                        'disc_amt' => $detail->disc_amt ?? 'N/A',
-                        'total_price' => $detail->total_price ?? 'N/A',
-                        'total_cost' => $totalCost ?? 'N/A',
+                        'rin_no' => $detail->rin ?? '',
+                        'rin_date' => $rin_date->created_at ?? '',
+                        'consigner' => $detail->rins->vendorDetail->name ?? '',
+                        'cost_debatable' => $detail->cost_debatable ?? '',
+                        'project_no' => $detail->inventoryProjects->project_name ?? '',
+                        'project_code' => $detail->inventoryProjects->project_code ?? '',
+                        'member_name' => $detail->members->name ?? '',
+                        'item_code' => $detail->item_code_id ?? '',
+                        'description' => $detail->description ?? '',
+                        'quantity' => $detail->quantity ?? 0,
+                        'remarks' => $detail->rins->remarks ?? '',
+                        'nc_status' => $detail->rins->nc_status ?? '',
+                        'au_status' => $detail->rins->au_status ?? '',
+                        'rate' => $price ?? 0,
+                        'tax' => $detail->rins->gst ?? 0,
+                        'disc_percent' => $detail->disc_percent ?? 0,
+                        'disc_amt' => $detail->disc_amt ?? 0,
+                        'total_price' => $detail->total_price ?? 0,
+                        'total_cost' => $totalCost ?? 0,
                     ];
 
                     $totalItemCost += (float)$price;
                     $total += (float)$totalCost;
 
                     $singleData[$creditVoucher->voucher_no] = [
-                        'rin_no' => $detail->rin ?? 'N/A',
-                        'rin_date' =>  $rin_date->created_at ?? 'N/A',
-                        'item_type' => $detail->item_type ?? 'N/A',
-                        'consignor' => $detail->consigner ?? 'N/A',
-                        'member_name' => $detail->members->name ?? 'N/A',
-                        'cost_debatable' => $detail->cost_debatable ?? 'N/A',
-                        'project_no' => $detail->inventoryProjects->project_name ?? 'N/A',
-                        'project_code' => $detail->inventoryProjects->project_code ?? 'N/A',
+                        'rin_no' => $detail->rin ?? '',
+                        'rin_date' =>  $rin_date->created_at ?? '',
+                        'item_type' => $detail->item_type ?? '',
+                        'consignor' => $detail->consigner ?? '',
+                        'member_name' => $detail->members->name ?? '',
+                        'cost_debatable' => $detail->cost_debatable ?? '',
+                        'project_no' => $detail->inventoryProjects->project_name ?? '',
+                        'project_code' => $detail->inventoryProjects->project_code ?? '',
                     ];
 
                     $itemCount++;

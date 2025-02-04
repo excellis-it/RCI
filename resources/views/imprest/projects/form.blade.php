@@ -11,8 +11,8 @@
                                 <label>Project Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="project_name" id="project_name" value="{{ $project->name ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="project_name" id="project_name"
+                                    value="{{ $project->name ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -25,8 +25,10 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($project->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($project->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ $project->status == 1 ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="0" {{ $project->status == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -34,12 +36,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -56,7 +64,7 @@
                                 <label>Project Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="project_name" id="project_name" >
+                                <input type="text" class="form-control" name="project_name" id="project_name">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -79,12 +87,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

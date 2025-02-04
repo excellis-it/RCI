@@ -6,7 +6,12 @@
     <html lang="en">
         <title>RCI</title>
         <meta charset="utf-8" />
-
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -59,7 +64,7 @@
                                         </td>
                                         <td valign="top"
                                             style="font-size: 16px; width: 40%;
-                        line-height: 18px; 
+                        line-height: 18px;
                         font-weight: 400;
                         color: #000;
                         text-align: left; padding-left: 10px; padding-bottom: 10px;">
@@ -145,12 +150,12 @@
                                                 {{ $vouchers->strike_nomenclature }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
                                                 {{ $vouchers->strike_quantity }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strike_rate }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
+                                                {{ number_format($vouchers->strike_rate, 2) }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
@@ -161,7 +166,7 @@
                                                 {{ $vouchers->brought_nomenclature }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
                                                 {{ $vouchers->brought_quantity }}
                                             </td>
 
@@ -247,7 +252,7 @@
                                         <td valign="top"
                                             style="font-size: 16px; width: 40%;
                         line-height: 18px;
-                        
+
                         padding: 10px 30px 30px 30px;
                         color: #000;
                         text-align: left; padding-left: 10px; border: 1px solid #000; height: 120px;">

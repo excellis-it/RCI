@@ -47332,7 +47332,7 @@ html[dir=rtl] .welcome-bg-img {
     position: absolute;
     right: 0;
     top: 0;
-    /* background: url(../images/bed.png); */
+    background: url(../images/bed.png);
     width: 40%;
     height: 100%;
     background-size: cover;
@@ -56511,7 +56511,7 @@ ul {
 .add-more-sm {
     max-width: 120px;
     padding: 5px 18px;
-    
+
 }
 
 .trash {

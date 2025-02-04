@@ -118,12 +118,18 @@
                 </div>
 
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -281,7 +287,7 @@
 
                     <div class="col-md-2 ms-auto">
                         <div class="add-more form-group mt-4">
-                            <a href="javascript:void(0);" class="listing_add add-pre_qualification" id="add-row"><i
+                            <a href="javascript:void(0);" class="listing_add add-pre_qualification add-more-sm" id="add-row"><i
                                     class="fas fa-plus-circle"></i> Add More</a>
                         </div>
                     </div>
@@ -295,18 +301,18 @@
 
         <div id="debit_form_add_new_row"></div>
 
-        <div class="row">
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Save</button>
-                </div>
-            </div>
+        <div class="row mt-3 d-flex justify-content-between">
+
             <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
-
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Save</button>
+                </div>
+            </div>
         </div>
     </form>
 

@@ -183,254 +183,280 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-        </div>
-
-        <div>
-            <hr>
-            <div>
-                <div class="col-md-12" id="credit_form_add_new_row">
-                    @foreach ($sirItems as $sirItem)
-                        <div class="new_html">
-                            <div class="row">
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Item Code </label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <select class="form-select item_id" name="item_id[]" id="item_id">
-                                                <option value="">Select Item Code </option>
-                                                @foreach ($items as $item)
-                                                    <option {{ $sirItem->item_id == $item->id ? 'selected' : '' }}
-                                                        value="{{ $item->id }}">{{ $item->code }}</option>
-                                                @endforeach
-                                            </select>
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Description</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control description"
-                                                name="description[]" id="description"
-                                                value="{{ $sirItem->description }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Received Quantity</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control rcv_quantity"
-                                                name="received_quantity[]" id="received_quantity"
-                                                value="{{ $sirItem->received_quantity ?? 0 }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
+                    {{-- sir types --}}
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>SIR Type</label>
                             </div>
-                            <div class="row">
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Remarks</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control" name="remarks[]"
-                                                id="remarks" placeholder="" value="{{ $sirItem->remarks }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Unit Cost</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control units_cost" name="unit_cost[]"
-                                                id="unit_cost" placeholder=""
-                                                value="{{ $sirItem->unit_cost ?? 0.0 }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Total Unit Cost</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control total_cost" name="total_cost[]"
-                                                id="total_cost" placeholder=""
-                                                value="{{ $sirItem->total_cost ?? 0.0 }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12 d-flex justify-content-between">
-                                            <label>Discount <select class="discount_type" name="discount_type[]"
-                                                    id="discount_type">
-                                                    <option
-                                                        {{ $sirItem->discount_type == 'percentage' ? 'selected' : '' }}
-                                                        value="percentage">Percentage (%)</option>
-                                                    <option {{ $sirItem->discount_type == 'fixed' ? 'selected' : '' }}
-                                                        value="fixed">Fixed Amount</option>
-                                                </select></label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : '' }}"
-                                                class="form-control disc_percent" name="disc_percent[]"
-                                                id="disc_percent" placeholder="Enter percentage"
-                                                value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : '' }}"
-                                                {{ $sirItem->discount_type == 'fixed' ? 'disabled' : '' }}>
-
-                                            <input
-                                                type="{{ $sirItem->discount_type == 'percentage' ? 'hidden' : '' }}"
-                                                class="form-control discount_amount mt-2" name="discount_amount[]"
-                                                id="discount_amount" placeholder="Enter fixed amount"
-                                                value="{{ $sirItem->discount_type == 'fixed' ? $sirItem->discount_amount : '' }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>GST</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <select class="form-select gst_percent" name="gst[]" id="gst">
-                                                <option value="">Select Gst</option>
-                                                @foreach ($gsts as $gst)
-                                                    <option {{ $sirItem->gst == $gst->gst_percent ? 'selected' : '' }}
-                                                        value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Gst Amount</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control gst_amount" name="gst_amount[]"
-                                                id="gst_amount" placeholder=""
-                                                value="{{ $sirItem->gst_amount ?? 0.0 }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>Total Amount</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control total_amount"
-                                                name="total_amount[]" id="total_amount" placeholder=""
-                                                value="{{ $sirItem->total_amount ?? 0.0 }}">
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>NC Status</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <select class="form-select" name="nc_status[]" id="nc_status">
-                                                <option value="">Select NC Status</option>
-                                                @if (count($nc_statuses) > 0)
-                                                    @foreach ($nc_statuses as $nc_status)
-                                                        <option
-                                                            {{ $sirItem->nc_status == $nc_status['status'] ? 'selected' : '' }}
-                                                            value="{{ $nc_status['status'] }}">
-                                                            {{ $nc_status['status'] }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-
-                                            </select>
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-4 mb-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12">
-                                            <label>A/U Status</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <select class="form-select" name="au_status[]" id="au_status">
-                                                <option value="">Select A/U Status</option>
-                                                @if (count($au_statuses) > 0)
-                                                    @foreach ($au_statuses as $au_status)
-                                                        <option
-                                                            {{ $sirItem->au_status == $au_status['status'] ? 'selected' : '' }}
-                                                            value="{{ $au_status['status'] }}">
-                                                            {{ $au_status['status'] }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            <span class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="sir_type">
+                                    <option value="">Select SIR Type</option>
+                                    @foreach ($sir_types as $sir_type)
+                                        <option value="{{ $sir_type->id }}"
+                                            {{ $sir->sir_type_id == $sir_type->id ? 'selected' : '' }}>
+                                            {{ $sir_type->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
                             </div>
-
-
                         </div>
-                        <hr>
-                    @endforeach
+
+
+
+
+                    </div>
                 </div>
+
             </div>
 
-        </div>
+            <div>
+                <hr>
+                <div>
+                    <div class="col-md-12" id="credit_form_add_new_row">
+                        @foreach ($sirItems as $sirItem)
+                            <div class="new_html">
+                                <div class="row">
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Item Code </label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select item_id" name="item_id[]" id="item_id">
+                                                    <option value="">Select Item Code </option>
+                                                    @foreach ($items as $item)
+                                                        <option {{ $sirItem->item_id == $item->id ? 'selected' : '' }}
+                                                            value="{{ $item->id }}">{{ $item->code }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Description</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control description"
+                                                    name="description[]" id="description"
+                                                    value="{{ $sirItem->description }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Received Quantity</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control rcv_quantity"
+                                                    name="received_quantity[]" id="received_quantity"
+                                                    value="{{ $sirItem->received_quantity ?? 0 }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control" name="remarks[]"
+                                                    id="remarks" placeholder="" value="{{ $sirItem->remarks }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Unit Cost</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control units_cost"
+                                                    name="unit_cost[]" id="unit_cost" placeholder=""
+                                                    value="{{ $sirItem->unit_cost ?? 0.0 }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Total Unit Cost</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control total_cost"
+                                                    name="total_cost[]" id="total_cost" placeholder=""
+                                                    value="{{ $sirItem->total_cost ?? 0.0 }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12 d-flex justify-content-between">
+                                                <label>Discount <select class="discount_type" name="discount_type[]"
+                                                        id="discount_type">
+                                                        <option
+                                                            {{ $sirItem->discount_type == 'percentage' ? 'selected' : '' }}
+                                                            value="percentage">Percentage (%)</option>
+                                                        <option
+                                                            {{ $sirItem->discount_type == 'fixed' ? 'selected' : '' }}
+                                                            value="fixed">Fixed Amount</option>
+                                                    </select></label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : '' }}"
+                                                    class="form-control disc_percent" name="disc_percent[]"
+                                                    id="disc_percent" placeholder="Enter percentage"
+                                                    value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : '' }}"
+                                                    {{ $sirItem->discount_type == 'fixed' ? 'disabled' : '' }}>
+
+                                                <input
+                                                    type="{{ $sirItem->discount_type == 'percentage' ? 'hidden' : '' }}"
+                                                    class="form-control discount_amount mt-2" name="discount_amount[]"
+                                                    id="discount_amount" placeholder="Enter fixed amount"
+                                                    value="{{ $sirItem->discount_type == 'fixed' ? $sirItem->discount_amount : '' }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>GST</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select gst_percent" name="gst[]"
+                                                    id="gst">
+                                                    <option value="">Select Gst</option>
+                                                    @foreach ($gsts as $gst)
+                                                        <option
+                                                            {{ $sirItem->gst == $gst->gst_percent ? 'selected' : '' }}
+                                                            value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Gst Amount</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control gst_amount"
+                                                    name="gst_amount[]" id="gst_amount" placeholder=""
+                                                    value="{{ $sirItem->gst_amount ?? 0.0 }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-        <div class="row mt-3">
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Update</button>
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Total Amount</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control total_amount"
+                                                    name="total_amount[]" id="total_amount" placeholder=""
+                                                    value="{{ $sirItem->total_amount ?? 0.0 }}">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>NC Status</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select" name="nc_status[]" id="nc_status">
+                                                    <option value="">Select NC Status</option>
+                                                    @if (count($nc_statuses) > 0)
+                                                        @foreach ($nc_statuses as $nc_status)
+                                                            <option
+                                                                {{ $sirItem->nc_status == $nc_status['status'] ? 'selected' : '' }}
+                                                                value="{{ $nc_status['status'] }}">
+                                                                {{ $nc_status['status'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>A/U Status</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select class="form-select" name="au_status[]" id="au_status">
+                                                    <option value="">Select A/U Status</option>
+                                                    @if (count($au_statuses) > 0)
+                                                        @foreach ($au_statuses as $au_status)
+                                                            <option
+                                                                {{ $sirItem->au_status == $au_status['status'] ? 'selected' : '' }}
+                                                                value="{{ $au_status['status'] }}">
+                                                                {{ $au_status['status'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <hr>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row mt-3 d-flex justify-content-between">
+
+                <div class="col-md-2">
+                    <div class="mb-1">
+                        <a href="" class="listing_exit">Back</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-1">
+                        <button type="submit" class="listing_add">Update</button>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
-                </div>
-            </div>
-
-        </div>
 
     </form>
 @else
@@ -628,6 +654,26 @@
                             </div>
                         </div>
                     </div>
+
+
+                    {{-- sir types --}}
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>SIR Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="sir_type">
+                                    <option value="">Select SIR Type</option>
+                                    @foreach ($sir_types as $sir_type)
+                                        <option value="{{ $sir_type->id }}">{{ $sir_type->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -764,8 +810,8 @@
                                         <label>Gst Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" value="0.00" class="form-control gst_amount" name="gst_amount[]"
-                                            id="gst_amount" placeholder="">
+                                        <input type="text" value="0.00" class="form-control gst_amount"
+                                            name="gst_amount[]" id="gst_amount" placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -778,8 +824,8 @@
                                         <label>Total Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" value="0.00" class="form-control total_amount" name="total_amount[]"
-                                            id="total_amount" placeholder="">
+                                        <input type="text" value="0.00" class="form-control total_amount"
+                                            name="total_amount[]" id="total_amount" placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -833,7 +879,7 @@
 
                             <div class="col-md-2 ms-auto">
                                 <div class="add-more form-group mt-4">
-                                    <a href="javascript:void(0);" class="listing_add add-more-rin"><i
+                                    <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
                                             class="fas fa-plus-circle"></i> Add More</a>
                                 </div>
                             </div>
@@ -845,18 +891,18 @@
 
         </div>
 
-        <div class="row mt-3">
-            <div class="col-md-2">
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
-                </div>
-            </div>
+        <div class="row mt-3 d-flex justify-content-between">
+
             <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
-
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Add</button>
+                </div>
+            </div>
         </div>
 
     </form>
@@ -971,7 +1017,8 @@
                             <label>Received Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" value="0" class="form-control rcv_quantity" name="received_quantity[]">
+                            <input type="text" value="0" class="form-control rcv_quantity"
+                                name="received_quantity[]">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -996,7 +1043,8 @@
                             <label>Unit Cost</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" value="0.00" class="form-control units_cost" name="unit_cost[]" placeholder="">
+                            <input type="text" value="0.00" class="form-control units_cost" name="unit_cost[]"
+                                placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -1008,8 +1056,8 @@
                             <label>Total Unit Cost</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" value="0.00" class="form-control total_cost" name="total_cost[]" readonly
-                                placeholder="">
+                            <input type="text" value="0.00" class="form-control total_cost" name="total_cost[]"
+                                readonly placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -1051,8 +1099,8 @@
                             <label>Total Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" value="0.00" class="form-control total_amount" name="total_amount[]"
-                                placeholder="">
+                            <input type="text" value="0.00" class="form-control total_amount"
+                                name="total_amount[]" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -1090,6 +1138,11 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
             </div>
             <div class="row">
                 <div class="col-md-2 ms-auto">

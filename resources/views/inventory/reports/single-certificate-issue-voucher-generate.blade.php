@@ -6,7 +6,12 @@
     <html lang="en">
         <title>RCI-Certificate Issue Voucher</title>
         <meta charset="utf-8" />
-
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -61,7 +66,7 @@
                                         </td>
                                         <td valign="top"
                                             style="font-size: 12px; width: 30%;
-                        line-height: 16px; 
+                        line-height: 16px;
                         font-weight: 400;
                         color: #000;
                         text-align: left; padding-left: 10px; padding-bottom: 10px;">
@@ -138,8 +143,8 @@
                                                 {{ $certificateIssuevoucherDetail->quantity ?? '' }}
                                             </td>
                                             <td valign="top"
-                                                style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                {{ $certificateIssuevoucherDetail->total_price ?? '' }}
+                                                style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px; text-align:right">
+                                                {{ number_format($certificateIssuevoucherDetail->total_price, 2) ?? '' }}
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
@@ -221,7 +226,7 @@
                                         </td>
                                         <td valign="top"
                                             style="font-size: 12px; width: 33%;
-                line-height: 16px; font-weight: 400;                
+                line-height: 16px; font-weight: 400;
                 padding: 10px 30px 30px 30px;
                 color: #000;
                 text-align: left; padding-left: 10px; border: 1px solid #000; height: 80px;">

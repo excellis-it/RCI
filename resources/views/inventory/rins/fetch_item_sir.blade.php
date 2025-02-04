@@ -219,11 +219,12 @@
                 <div class="col-md-2 ms-auto">
                     <div class="add-more form-group mt-4">
                         @if ($index === 0)
-                            <a href="javascript:void(0);" class="listing_add add-more-rin"><i
+                            <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
                                     class="fas fa-plus-circle"></i> Add More</a>
                         @else
-                            <a href="javascript:void(0);" class="listing_add w-100 trash form-control add-more"><i
-                                    class="fas fa-minus-circle"></i> Remove</a>
+                            <a href="javascript:void(0);"
+                                class="listing_add w-100 trash form-control add-more add-more-sm"><i
+                                    class="fas fa-minus-circle"></i></a>
                         @endif
                     </div>
                 </div>

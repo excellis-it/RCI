@@ -12,8 +12,10 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="pm_level" id="pm_level">
-                                    @foreach($pay_levels as $pay_level)
-                                        <option value="{{ $pay_level->id }}" {{$grade_pay->pay_level == $pay_level->id ? 'selected':''}}>{{ $pay_level->value }}</option>
+                                    @foreach ($pay_levels as $pay_level)
+                                        <option value="{{ $pay_level->id }}"
+                                            {{ $grade_pay->pay_level == $pay_level->id ? 'selected' : '' }}>
+                                            {{ $pay_level->value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -26,13 +28,13 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                               <input type="text" class="form-control" name="amount" id="amount" value="{{ $grade_pay->amount ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="amount" id="amount"
+                                    value="{{ $grade_pay->amount ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
@@ -41,8 +43,10 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($grade_pay->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($grade_pay->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ $grade_pay->status == 1 ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="0" {{ $grade_pay->status == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -50,12 +54,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -74,7 +84,7 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="pm_level" id="pm_level">
                                     <option value="">Select PM Level</option>
-                                    @foreach($pay_levels as $pay_level)
+                                    @foreach ($pay_levels as $pay_level)
                                         <option value="{{ $pay_level->id }}">{{ $pay_level->value }}</option>
                                     @endforeach
                                 </select>
@@ -88,8 +98,8 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                               <input type="text" class="form-control" name="amount" id="amount" value="{{ old('amount') ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="amount" id="amount"
+                                    value="{{ old('amount') ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -112,12 +122,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

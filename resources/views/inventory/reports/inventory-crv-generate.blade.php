@@ -9,7 +9,12 @@
     <html lang="en">
         <title>RCI</title>
         <meta charset="utf-8" />
-
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -38,6 +43,7 @@
                                             CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                             RCI CAMPUS, HYDERABAD - 500 069 <br />
                                             CERTIFICATE RECEIPT VOUCHER (CRV) <br />
+                                            <br>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -536,13 +542,13 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: center;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ $creditDetail['rate'] ?? '-' }}
+                                                {{ number_format($creditDetail['rate'], 2) ?? '-' }}
                                             </td>
                                             <td
                                                 style="
@@ -550,13 +556,13 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: center;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ $creditDetail['tax'] ?? '-' }}%
+                                                {{ number_format($creditDetail['tax'], 2) ?? '-' }}%
                                             </td>
                                             <td
                                                 style="
@@ -564,13 +570,13 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: center;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ $creditDetail['disc_percent'] ?? '-' }}%
+                                                {{ number_format($creditDetail['disc_percent'], 2) ?? '-' }}%
                                             </td>
                                             <td
                                                 style="
@@ -578,13 +584,13 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: center;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ $creditDetail['disc_amt'] ?? '-' }}
+                                                {{ number_format($creditDetail['disc_amt'], 2) ?? '-' }}
                                             </td>
                                             @php
                                                 if ($creditDetail['disc_amt'] == 0) {
@@ -599,13 +605,13 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: center;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ $creditDetail['total_price'] ?? '-' }}
+                                                {{ number_format($creditDetail['total_price'], 2) ?? '-' }}
                                             </td>
                                             <td
                                                 style="
@@ -681,13 +687,14 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: left;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
                                             Total Item Cost (Rs.)
-                                            <span style="text-align: right">{{ $total_rate ?? '-' }}/-</span>
+                                            <span
+                                                style="text-align: right">{{ number_format($total_rate, 2) ?? '-' }}/-</span>
                                         </td>
 
                                         <td colspan="4"
@@ -696,12 +703,12 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: left;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            {{ $total_amount ?? 0 }}/-
+                                            {{ number_format($total_amount, 2) ?? 0 }}/-
                                         </td>
                                     </tr>
                                     <tr>
@@ -747,12 +754,12 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: left;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            {{ $total_amount ?? '-' }}/-
+                                            {{ number_format($total_amount, 2) ?? '-' }}/-
                                         </td>
                                         <td
                                             style="
@@ -820,6 +827,8 @@
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                     ">
+                                            <br>
+                                            <br>
                                             I/ c. Ledger
                                         </td>
                                         <td colspan="3"
@@ -833,6 +842,9 @@
                       margin: 0px 0px !important;
                       border-right: 1px solid #000;
                     ">
+                                            <br>
+                                            <br>
+                                            <br>
                                             I/c. Ledger <br>Accounting
                                         </td>
                                     </tr>

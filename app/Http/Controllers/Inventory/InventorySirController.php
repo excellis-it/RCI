@@ -43,8 +43,9 @@ class InventorySirController extends Controller
         $gsts = GstPercentage::orderBy('id', 'desc')->get();
         $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
+        $sir_types = SirType::orderBy('id', 'asc')->get();
 
-        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos', 'authorities', 'items', 'gsts', 'nc_statuses', 'au_statuses'));
+        return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos', 'authorities', 'items', 'gsts', 'nc_statuses', 'au_statuses', 'sir_types'));
     }
 
     public function fetchData(Request $request)
@@ -123,6 +124,7 @@ class InventorySirController extends Controller
                 $sir->supplier_id = $request->supplier_id ?? null;
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
+                $sir->sir_type_id = $request->sir_type ?? null;
                 $sir->status = $request->status;
 
 
@@ -156,6 +158,7 @@ class InventorySirController extends Controller
             $sir->supplier_id = $request->supplier_id ?? null;
             $sir->supply_order_no = $request->supply_order_no ?? null;
             $sir->inspection_authority = $request->inspection_authority ?? null;
+            $sir->sir_type_id = $request->sir_type ?? null;
             $sir->status = $request->status;
             $sir->save();
         }
@@ -188,7 +191,8 @@ class InventorySirController extends Controller
         $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
         $sirItems = InventorySir::where('sir_no', $sir->sir_no)->get();
-        return response()->json(['view' => view('inventory.sirs.form', compact('edit', 'sir', 'vendors', 'supply_orders', 'inventory_nos', 'authorities', 'items', 'gsts', 'nc_statuses', 'au_statuses', 'sirItems'))->render()]);
+        $sir_types = SirType::orderBy('id', 'asc')->get();
+        return response()->json(['view' => view('inventory.sirs.form', compact('edit', 'sir', 'vendors', 'supply_orders', 'inventory_nos', 'authorities', 'items', 'gsts', 'nc_statuses', 'au_statuses', 'sirItems', 'sir_types'))->render()]);
     }
 
     /**
@@ -236,6 +240,7 @@ class InventorySirController extends Controller
                 $sir->supplier_id = $request->supplier_id ?? null;
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
+                $sir->sir_type_id = $request->sir_type ?? null;
                 $sir->status = $request->status;
 
                 $sir->item_id = $item ?? null;
@@ -270,6 +275,7 @@ class InventorySirController extends Controller
                 $sir->supplier_id = $request->supplier_id ?? null;
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
+                $sir->sir_type_id = $request->sir_type ?? null;
                 $sir->status = $request->status;
 
                 $sir->save();
@@ -294,7 +300,7 @@ class InventorySirController extends Controller
 
     public function sirType()
     {
-        $sirtypes = SirType::orderBy('id', 'asc')->get();
+        $sirtypes = SirType::orderBy('id', 'asc')->paginate(10);
         return view('inventory.sir-types.list', compact('sirtypes'));
     }
 
@@ -336,6 +342,4 @@ class InventorySirController extends Controller
         session()->flash('message', 'Sir Type updated successfully');
         return response()->json(['success' => 'Sir Type updated successfully']);
     }
-
-    
 }

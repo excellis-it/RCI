@@ -8,11 +8,11 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Vendor Name  </label>
+                                <label>Vendor Name </label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="name" id="name" value="{{  $vendor->name ?? '' }}"
-                                    placeholder="">
+                                <input type="text" class="form-control" name="name" id="name"
+                                    value="{{ $vendor->name ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -24,8 +24,8 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="email" class="form-control" name="email" id="email" value="{{  $vendor->email ?? '' }}"
-                                    placeholder="">
+                                <input type="email" class="form-control" name="email" id="email"
+                                    value="{{ $vendor->email ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -36,8 +36,9 @@
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="phone" id="phone" value="{{  $vendor->phone ?? '' }}"
-                                    placeholder="" pattern="[6-9]{1}[0-9]{9}" title="Please enter a valid mobile no.">
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                    value="{{ $vendor->phone ?? '' }}" placeholder="" pattern="[6-9]{1}[0-9]{9}"
+                                    title="Please enter a valid mobile no.">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -50,8 +51,7 @@
                                 <label>Address</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="address" id="address"
-                                    placeholder="">{{ $vendor->address }}</textarea>
+                                <textarea class="form-control" name="address" id="address" placeholder="">{{ $vendor->address }}</textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -65,21 +65,29 @@
                                 <select class="form-select" name="status" id="status">
                                     <option value="">Select Status</option>
                                     <option value="1" {{ $vendor->status == 1 ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ $vendor->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                    <option value="0" {{ $vendor->status == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -93,7 +101,7 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Vendor Name  </label>
+                                <label>Vendor Name </label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="name" id="name" value=""
@@ -121,8 +129,9 @@
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="phone" id="phone" value=""
-                                    placeholder="" pattern="[6-9]{1}[0-9]{9}" title="Please enter a valid mobile no.">
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                    value="" placeholder="" pattern="[6-9]{1}[0-9]{9}"
+                                    title="Please enter a valid mobile no.">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -135,8 +144,7 @@
                                 <label>Address</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="address" id="address" value=""
-                                    placeholder=""></textarea>
+                                <textarea class="form-control" name="address" id="address" value="" placeholder=""></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -156,15 +164,22 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>

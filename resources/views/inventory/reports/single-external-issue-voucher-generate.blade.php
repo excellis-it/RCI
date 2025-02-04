@@ -6,7 +6,12 @@
     <html lang="en">
         <title>RCI</title>
         <meta charset="utf-8" />
-
+        <style>
+            @page {
+                margin: 10px;
+                padding: 10px;
+            }
+        </style>
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -299,7 +304,7 @@
                                                 style="
                       border: 1px solid #000;
                       padding: 5px;
-                      text-align: center;
+                      text-align: right;
                       font-weight: 600;
                       height: 100px;
                     ">

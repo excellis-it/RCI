@@ -581,7 +581,7 @@
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
                         <button type="button" class="listing_add w-100 trash form-control add-more">
-                            <i class="fas fa-minus-circle">Remove</i>
+                            <i class="fas fa-minus-circle"></i>
                         </button>
                     </div>
                 </div>

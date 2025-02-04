@@ -222,14 +222,14 @@
 
 
                                 <!-- <div class="col-md-4">
-                                <div class="row">
-                                    <div class="form-group col-md-12 mb-2">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-12">
-                                                <label>Category</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                {{-- <select class="form-select" name="category"
+                                        <div class="row">
+                                            <div class="form-group col-md-12 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>Category</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        {{-- <select class="form-select" name="category"
                                                                     id="category">
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
@@ -238,15 +238,15 @@
                                             @endforeach
 
                                             </select> --}}
-                                                <input type="text" class="form-control"
-                                                    id="category_value" readonly>
-                                                <input type="hidden" class="form-control" name="category" id="category">
-                                                <span class="text-danger"></span>
+                                                        <input type="text" class="form-control"
+                                                            id="category_value" readonly>
+                                                        <input type="hidden" class="form-control" name="category" id="category">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                                    </div> -->
 
 
                                 <div class="row">
@@ -326,7 +326,7 @@
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control"
                                                                     name="fund_type" id="fund_type">
-                                                                
+
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -488,7 +488,7 @@
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
                                                                         <option value="{{ $category->id }}">
-                                                                    {{ $category->category }}</option>
+                                                                            {{ $category->category }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <span class="text-danger"></span>
@@ -517,7 +517,7 @@
                                                                         <label class="form-check-label"
                                                                             for="inlineRadio2">No</label>
                                                                     </div>
-                                                                    
+
                                                                 </div>
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -590,12 +590,12 @@
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control"
                                                                     name="fund_type" id="fund_type">
-                                                                
+
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                    </div> 
-                                                    
+                                                    </div>
+
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
@@ -824,22 +824,18 @@
 
 
                                 {{-- save cancel button design in right corner --}}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row justify-content-end">
-                                            <div class="col-md-3">
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="submit" class="listing_add">Save</button>
-                                                    </div>
-                                                    <div class="form-group col-md-6 mb-2">
-                                                        <button type="reset" class="listing_exit">Cancel</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                                <div class="row justify-content-between mt-3">
+
+                                    <div class="form-group col-md-2 mb-2">
+                                        <button type="submit" class="listing_add">Save</button>
                                     </div>
+                                    <div class="form-group col-md-2 mb-2">
+                                        <button type="reset" class="listing_exit">Cancel</button>
+                                    </div>
+
                                 </div>
+
                             </form>
 
                         </div>
@@ -926,7 +922,8 @@
                         $basicSelect.empty(); // Clear existing options
                         $basicSelect.append('<option value="">Select</option>');
                         $.each(response.basic_pays, function(index, basic_pay) {
-                            $basicSelect.append('<option value="' + basic_pay.basic_pay +
+                            $basicSelect.append('<option value="' + basic_pay
+                                .basic_pay +
                                 '">' + basic_pay.basic_pay + '</option>');
                         });
 

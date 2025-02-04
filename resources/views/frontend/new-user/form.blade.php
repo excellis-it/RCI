@@ -11,48 +11,52 @@
                                 <label>First Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="first_name" id="first_name" value="{{ $user_detail->first_name }}">
+                                <input type="text" class="form-control" name="first_name" id="first_name"
+                                    value="{{ $user_detail->first_name }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Last Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="last_name" id="last_name" value="{{ $user_detail->last_name }}">
+                                <input type="text" class="form-control" name="last_name" id="last_name"
+                                    value="{{ $user_detail->last_name }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Email</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="email" id="email" value="{{ $user_detail->email }}">
+                                <input type="text" class="form-control" name="email" id="email"
+                                    value="{{ $user_detail->email }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="phone" id="phone" value="{{ $user_detail->phone }}">
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                    value="{{ $user_detail->phone }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -71,7 +75,8 @@
                                 <label>Confirm Password</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="password" class="form-control" name="confirm_password" id="confirm_password">
+                                <input type="password" class="form-control" name="confirm_password"
+                                    id="confirm_password">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -85,8 +90,10 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="role" id="role">
                                     <option value="">Select Role</option>
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ $role->id == $role_id ? 'selected':''}}>{{ $role->name }}</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}"
+                                            {{ $role->id == $role_id ? 'selected' : '' }}>
+                                            {{ $role->name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -101,8 +108,10 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($user_detail->status) == 1 ? 'selected': '' }}>Active</option>
-                                    <option value="0" {{ ($user_detail->status) == 0 ? 'selected': '' }}>Inactive</option>
+                                    <option value="1" {{ $user_detail->status == 1 ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="0" {{ $user_detail->status == 0 ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -110,13 +119,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <label></label>
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Update</button>
-                </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Update</button>
                 </div>
             </div>
         </div>
@@ -133,36 +147,36 @@
                                 <label>First Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="first_name" id="first_name" >
+                                <input type="text" class="form-control" name="first_name" id="first_name">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Last Name</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="last_name" id="last_name" >
+                                <input type="text" class="form-control" name="last_name" id="last_name">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Email</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="email" id="email" >
+                                <input type="text" class="form-control" name="email" id="email">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -174,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -193,7 +207,8 @@
                                 <label>Confirm Password</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="password" class="form-control" name="confirm_password" id="confirm_password">
+                                <input type="password" class="form-control" name="confirm_password"
+                                    id="confirm_password">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -207,7 +222,7 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="role" id="role">
                                     <option value="">Select Role</option>
-                                    @foreach($roles as $role)
+                                    @foreach ($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 </select>
@@ -223,7 +238,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="">Select Status</option>   
+                                    <option value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
@@ -233,13 +248,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <label></label>
-                <div class="mb-1">
-                    <button type="submit" class="listing_add">Add</button>
-                </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <button type="submit" class="listing_add">Add</button>
                 </div>
             </div>
         </div>

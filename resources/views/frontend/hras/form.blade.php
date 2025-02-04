@@ -11,7 +11,8 @@
                                 <label>HRA Percentage</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="percentage" id="percentage" value="{{ $hra->percentage }}" >
+                                <input type="text" class="form-control" name="percentage" id="percentage"
+                                    value="{{ $hra->percentage }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -25,9 +26,12 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="city_category" id="city_category">
                                     <option value="">Select City Category</option>
-                                    <option value="x" {{ ($hra->city_category == 'x') ? 'selected' : '' }}>X</option>
-                                    <option value="y" {{ ($hra->city_category == 'y') ? 'selected' : '' }}>Y</option>
-                                    <option value="z" {{ ($hra->city_category == 'z') ? 'selected' : '' }}>Z</option>
+                                    <option value="x" {{ $hra->city_category == 'x' ? 'selected' : '' }}>X
+                                    </option>
+                                    <option value="y" {{ $hra->city_category == 'y' ? 'selected' : '' }}>Y
+                                    </option>
+                                    <option value="z" {{ $hra->city_category == 'z' ? 'selected' : '' }}>Z
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -43,7 +47,9 @@
                                 <select class="form-select" name="pay_commission_id" id="pay_commission_id">
                                     <option value="">Select Pay Commision</option>
                                     @foreach ($paycommissions as $paycommission)
-                                        <option value="{{ $paycommission->id }}" {{ ($hra->pay_commission_id == $paycommission->id) ? 'selected' : '' }}>{{ $paycommission->name }}</option>
+                                        <option value="{{ $paycommission->id }}"
+                                            {{ $hra->pay_commission_id == $paycommission->id ? 'selected' : '' }}>
+                                            {{ $paycommission->name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -52,7 +58,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    
+
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -60,8 +66,8 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ ($hra->status == 1) ? 'selected' : '' }}>Active</option>
-                                    <option value="0" {{ ($hra->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ $hra->status == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ $hra->status == 0 ? 'selected' : '' }}>Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -69,12 +75,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Update</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
@@ -91,7 +103,7 @@
                                 <label>HRA percentage</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="percentage" id="percentage" >
+                                <input type="text" class="form-control" name="percentage" id="percentage">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -132,7 +144,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    
+
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -150,12 +162,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-between">
+
+            <div class="col-md-2">
+                <div class="mb-1">
+                    <a href="" class="listing_exit">Back</a>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mb-1">
                     <button type="submit" class="listing_add">Add</button>
-                </div>
-                <div class="mb-1">
-                    <a href="" class="listing_exit">Back</a>
                 </div>
             </div>
         </div>
