@@ -488,8 +488,14 @@ class ChequePaymentController extends Controller
         // return $category;
 
         // $payments = DB::table('cheque_payments')->where('vr_date', $vr_date)->get();
-        $payments = ChequePayment::where('cheq_date', $chq_date)->get()->groupBy('cheq_no');
-
+        $payments = ChequePayment::where('cheq_date', $chq_date)->get()->sortByDesc('cheq_no')->groupBy('cheq_no');
+        $payment_members = ChequePaymentMember::with(['chequePayment', 'member', 'reciepts'])
+        ->where('cheq_date', $chq_date)
+        ->orderByRaw('CAST(cheq_no AS UNSIGNED) DESC') // Ensure numeric sorting
+        ->get()
+        ->chunk(28);
+     // Chunk after fetching data
+        // dd($payment_members->toArray());
         // dd($payments);
         $settings = Setting::orderBy('id', 'desc')->first();
 
@@ -509,11 +515,11 @@ class ChequePaymentController extends Controller
             ->where('receipts.vr_date', $chq_date)
             ->get();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo','payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
-        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
+        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo','payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
     }
 
 
