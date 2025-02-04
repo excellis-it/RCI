@@ -43,7 +43,7 @@ class InventorySirController extends Controller
         $gsts = GstPercentage::orderBy('id', 'desc')->get();
         $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
-        $sir_types = SirType::orderBy('id', 'asc')->get();
+        $sir_types = SirType::where('status', 1)->orderBy('id', 'asc')->get();
 
         return view('inventory.sirs.list', compact('sirs', 'vendors', 'supply_orders', 'inventory_nos', 'authorities', 'items', 'gsts', 'nc_statuses', 'au_statuses', 'sir_types'));
     }
