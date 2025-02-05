@@ -538,7 +538,7 @@ class ReceiptController extends Controller
         // Fetch cheque payments up to the requested date
         $payments = DB::table('cheque_payments')->where('vr_date', '<=', $pre_vr_date)->get();
 
-        $receipt_members = ReceiptMember::with(['receipt', 'member'])->whereHas('receipt', function ($query) use($vr_date){
+        $receipt_members = ReceiptMember::with(['receipt', 'member'])->whereHas('receipt', function ($query) use ($vr_date) {
             $query->where('vr_date', $vr_date);
         })->orderBy('receipt_id', 'desc')->get()->chunk(23);
 
@@ -584,15 +584,14 @@ class ReceiptController extends Controller
 
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members','pre_vr_date', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members', 'pre_vr_date', 'settings'))->setPaper('a3', 'landscape');
         $pdf->setOption('margin-top', 0)
             ->setOption('margin-right', 0)
             ->setOption('margin-bottom', 0)
             ->setOption('margin-left', 0);
-        // return $pdf->download('receipt-report-' . $vr_date . '.pdf');
+        return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 
-        return view('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members','pre_vr_date', 'settings'));
+        //  return view('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members','pre_vr_date', 'settings'));
     }
-
 }

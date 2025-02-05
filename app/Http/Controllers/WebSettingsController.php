@@ -15,5 +15,14 @@ class WebSettingsController extends Controller
         return view('settings.pdf-page-type', compact('setting'));
     }
 
-    public function pdfPageTypeSave(Request $request) {}
+    public function pdfPageTypeSave(Request $request)
+    {
+        $pdf_page_type = $request->paper_type;
+        $setting = Setting::first();
+        $setting->pdf_page_type = $pdf_page_type;
+        $setting->save();
+
+        session()->flash('message', 'Settings saved successfully');
+        return redirect()->route('settings.pdf-page-type.form');
+    }
 }

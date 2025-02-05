@@ -1260,8 +1260,8 @@ Route::middleware('permssions')->group(function () {
     Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
 
     // Settings
-    Route::prefix('settings')->group(function () {
+    Route::prefix('web-settings')->group(function () {
         Route::get('/pdf-page-type', [WebSettingsController::class, 'pdfPageType'])->name('settings.pdf-page-type.form');
-        Route::get('/pdf-page-type-save', [WebSettingsController::class, 'pdfPageTypeSave'])->name('settings.pdf-page-type.save');
+        Route::post('/pdf-page-type-save', [WebSettingsController::class, 'pdfPageTypeSave'])->name('settings.pdf-page-type.save');
     });
 });

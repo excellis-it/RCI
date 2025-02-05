@@ -1,43 +1,90 @@
-<!doctype html>
-<html lang="en">
+@extends('inventory.layouts.master')
+@section('title')
+    Settings - PDF Paper Type
+@endsection
 
-    <head>
-        <title>Title</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+@push('styles')
+@endpush
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    </head>
-
-    <body>
-        <header>
-            <!-- place navbar here -->
-        </header>
-        <main>
-
-            <div class="mb-3">
-                <label for="" class="form-label">Name</label>
-                <input type="text" name="" id="" class="form-control" placeholder=""
-                    aria-describedby="helpId" />
-                <small id="helpId" class="text-muted">Help text</small>
+@section('content')
+    <section id="loading">
+        <div id="loading-content"></div>
+    </section>
+    <div class="container-fluid">
+        <div class="breadcome-list">
+            <div class="d-flex">
+                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
+                <div class="">
+                    <h3>Settings - PDF Paper Type</h3>
+                    <ul class="breadcome-menu mb-0">
+                        <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
+                        <li><span class="bread-blod">Settings</span></li>
+                    </ul>
+                </div>
             </div>
+        </div>
+        <!--  Row 1 -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div id="form">
+                            <form action="{{ route('settings.pdf-page-type.save') }}" method="POST" id="save-form">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
 
 
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-        </script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-        </script>
-    </body>
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>PDF Paper Type</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <select class="form-select" name="paper_type">
+                                                            {{-- <option value="" disabled selected>Select Portrait/Landscape</option> --}}
+                                                            <option value="portrait" {{ $setting->pdf_page_type == 'portrait' ? 'selected' : ''}}>Portrait
+                                                            </option>
+                                                            <option value="landscape" {{ $setting->pdf_page_type == 'landscape' ? 'selected' : ''}}>Landscape</option>
+                                                        </select>
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-</html>
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label></label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Save
+                                                        </button>
+
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endsection
