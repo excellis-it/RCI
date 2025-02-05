@@ -538,39 +538,11 @@ class ReceiptController extends Controller
         // Fetch cheque payments up to the requested date
         $payments = DB::table('cheque_payments')->where('vr_date', '<=', $pre_vr_date)->get();
 
-        // Prepare arrays for vr_no and vr_date from cheque payments
-        // $vrNos = $payments->pluck('vr_no')->toArray();
+        $receipt_members = ReceiptMember::with(['receipt', 'member'])->whereHas('receipt', function ($query) use($vr_date){
+            $query->where('vr_date', $vr_date);
+        })->orderBy('receipt_id', 'desc')->get()->chunk(23);
 
-        // Calculate opening balance for each category for past dates
-        $openingBalance1 = [];
-        $openingBalance2 = [];
-        $openingBalance = [];
-
-        foreach ($category as $cat) {
-            $openingBalance1[$cat->id] = DB::table('receipts')
-                ->where('vr_date', '<=', $pre_vr_date) // Filter by past dates
-                ->where('category_id', $cat->id) // Match category
-                //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
-                ->sum('amount'); // Sum amounts
-
-            $openingBalance2[$cat->id] = DB::table('cheque_payments')
-                ->where('vr_date', '<=', $pre_vr_date) // Filter by past dates
-                ->where('category_id', $cat->id) // Match category
-                //  ->whereNotIn('vr_no', $vrNos) // Exclude cheque payments
-                ->sum('amount'); // Sum amounts
-
-            $totalPayments[$cat->id] = DB::table('cheque_payments')
-                ->where('vr_date', '<=', $vr_date)
-                ->where('category_id', $cat->id)
-                ->sum('amount');
-
-            $openingBalance[$cat->id] = $openingBalance1[$cat->id] - $openingBalance2[$cat->id];
-        }
-
-
-
-
-        //  return $openingBalanceFinal;
+        // dd($receipt_members);
 
         $receipts = DB::table('receipts')
             ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
@@ -586,6 +558,7 @@ class ReceiptController extends Controller
                 'receipts.category_id'
             )
             ->where('receipts.vr_date', $vr_date)
+            ->orderBy('receipts.id', 'desc')
             ->get();
 
         // Fetch related rows from receipt_members for each receipt
@@ -609,23 +582,17 @@ class ReceiptController extends Controller
         }
 
 
-        // return view('frontend.public-fund.cheque-payment.receipt_report', compact('members', 'receipts', 'vr_date'));
         $settings = Setting::orderBy('id', 'desc')->first();
 
-        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members','pre_vr_date', 'settings'))->setPaper('a3', 'landscape');
         $pdf->setOption('margin-top', 0)
             ->setOption('margin-right', 0)
             ->setOption('margin-bottom', 0)
             ->setOption('margin-left', 0);
-        return $pdf->download('receipt-report-' . $vr_date . '.pdf');
+        // return $pdf->download('receipt-report-' . $vr_date . '.pdf');
 
 
-        // return view('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'openingBalance', 'pre_vr_date', 'settings', 'totalPayments'));
+        return view('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members','pre_vr_date', 'settings'));
     }
-
-
-
-
-    //
 
 }

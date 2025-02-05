@@ -159,7 +159,7 @@
 
                                 <span>{{ $member->serial_no }}. {{ $memberName }} - {{ $memberDesign }}</span>
                                 <br>
-                                {{-- <td>{{ $memberName }}</td> 
+                                {{-- <td>{{ $memberName }}</td>
                                 {{-- <td>{{ $memberDesign }}</td>
                             <td>{{ $bankAccountNo }}</td>
                             <td>{{ $member->amount }}</td>
