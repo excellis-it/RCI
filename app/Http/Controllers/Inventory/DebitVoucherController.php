@@ -47,9 +47,10 @@ class DebitVoucherController extends Controller
                 $query = str_replace(" ", "%", $query);
                 $debitVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                       // ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                        ->orWhere('voucher_type', 'like', '%' . $query . '%')
                         // inventory number
-                        ->orWhereHas('inventoryNumber', function ($queryBuilder) use ($query) {
+                        ->orWhereHas('inventoryNumbers', function ($queryBuilder) use ($query) {
                             $queryBuilder->where('inv_no', 'like', '%' . $query . '%');
                         });
                 });

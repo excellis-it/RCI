@@ -58,17 +58,17 @@ class CreditVoucherController extends Controller
             if ($query) {
                 $query = str_replace(" ", "%", $query);
                 $creditVoucherQuery->where(function ($queryBuilder) use ($query) {
-                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
-                        ->orWhere('item_type', 'like', '%' . $query . '%')
-                        ->orWhere('description', 'like', '%' . $query . '%')
-                        ->orWhere('total_price', 'like', '%' . $query . '%')
-                        ->orWhere('quantity', 'like', '%' . $query . '%')
-                        ->orWhere('supply_order_no', 'like', '%' . $query . '%')
-                        ->orWhereHas('itemCode', function ($q) use ($query) {
-                            $q->where('code', 'like', '%' . $query . '%');
-                        })
-                        ->orWhere('rin', 'like', '%' . $query . '%');
+                    $queryBuilder->where('voucher_no', 'like', '%' . $query . '%');
+                       // ->orWhere('voucher_date', 'like', '%' . $query . '%');
+                        // ->orWhere('item_type', 'like', '%' . $query . '%')
+                        // ->orWhere('description', 'like', '%' . $query . '%')
+                        // ->orWhere('total_price', 'like', '%' . $query . '%')
+                        // ->orWhere('quantity', 'like', '%' . $query . '%')
+                        // ->orWhere('supply_order_no', 'like', '%' . $query . '%')
+                        // ->orWhereHas('itemCode', function ($q) use ($query) {
+                        //     $q->where('code', 'like', '%' . $query . '%');
+                        // })
+                        // ->orWhere('rin', 'like', '%' . $query . '%');
                 });
             }
 

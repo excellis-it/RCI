@@ -206,7 +206,7 @@ class ReportController extends Controller
 
             $paperType = $paperType ?? $setting->pdf_page_type;
 
-           // return $paperType;
+            // return $paperType;
 
             $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
             return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
@@ -217,7 +217,7 @@ class ReportController extends Controller
         }
     }
 
-    public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
 
         // $result = [];
@@ -253,13 +253,16 @@ class ReportController extends Controller
         // return $debitVoucher;
 
         // dd($result, $totalItemCost, $total, $itemCodeCounts);
+        $setting = Setting::first();
+
+        $paperType = $paperType ?? $setting->pdf_page_type;
 
         $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('logo', 'debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'itemCodeCounts', 'totalItems'))->setPaper('a4', $paperType);
         return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
     }
 
 
-    public function transferVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function transferVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         if ($startDate && $endDate) {
             $transferVouchers = TransferVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
@@ -274,11 +277,14 @@ class ReportController extends Controller
             //  dd($transferVoucher);
             $itemDesc = ItemCode::where('id', $transferVoucher->item_id)->first();
         }
+        $setting = Setting::first();
+
+        $paperType = $paperType ?? $setting->pdf_page_type;
         $pdf = PDF::loadView('inventory.reports.single-transfer-voucher-generate', compact('logo', 'transferVouchers', 'itemDesc'))->setPaper('a4', $paperType);
         return $pdf->download('transfer-voucher.pdf');
     }
 
-    public function conversionVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function conversionVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         if ($startDate && $endDate) {
             $conversionVouchers = ConversionVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
@@ -296,12 +302,14 @@ class ReportController extends Controller
         }
 
         // return $conversionVouchers;
+        $setting = Setting::first();
 
+        $paperType = $paperType ?? $setting->pdf_page_type;
         $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('logo', 'conversionVouchers', 'itemDesc', 'inv_no'))->setPaper('a4', $paperType);
         return $pdf->download('conversion-voucher.pdf');
     }
 
-    public function externalIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function externalIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         // dd($request->all());
         if ($startDate && $endDate) {
@@ -319,12 +327,14 @@ class ReportController extends Controller
             //  $itemDesc = ItemCode::where('id', $externalIssueVoucher->item_id)->first();
             //   $gatepass = GatePass::where('id', $externalIssueVoucher->gate_pass_id)->first();
         }
+        $setting = Setting::first();
 
+        $paperType = $paperType ?? $setting->pdf_page_type;
         $pdf = PDF::loadView('inventory.reports.single-external-issue-voucher-generate', compact('logo', 'externalIssueVouchers'))->setPaper('a4', $paperType);
         return $pdf->download('external-issue-voucher.pdf');
     }
 
-    public function certificateIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function certificateIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         if ($startDate && $endDate) {
             $certificateIssueVouchers = CertificateIssueVoucher::with('details')->whereBetween('created_at', [$startDate, $endDate])->get();
@@ -342,12 +352,14 @@ class ReportController extends Controller
             session()->flash('error', 'Data Not Found');
             return response()->json(['error' => 'Data Not Found'], 404);
         }
+        $setting = Setting::first();
 
+        $paperType = $paperType ?? $setting->pdf_page_type;
         $pdf = PDF::loadView('inventory.reports.single-certificate-issue-voucher-generate', compact('logo', 'certificateIssueVouchers'))->setPaper('a4', $paperType);
         return $pdf->download('certificate-issue-voucher.pdf');
     }
 
-    public function rinDamagedGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function rinDamagedGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         try {
             if ($startDate && $endDate) {
@@ -391,7 +403,9 @@ class ReportController extends Controller
             }
 
             // return $rins;
+            $setting = Setting::first();
 
+            $paperType = $paperType ?? $setting->pdf_page_type;
             $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'))->setPaper('a4', $paperType);
             return $pdf->download('rin-damaged.pdf');
         } catch (\Exception $e) {
@@ -410,7 +424,10 @@ class ReportController extends Controller
     public function lvpListGenerate(Request $request)
     {
         $logo = Helper::logo() ?? '';
-        $paperType = $request->paper_type ?? 'portrait';
+
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+
         $pdf = PDF::loadView('inventory.reports.lvp-list-generate', compact('logo'))->setPaper('a4', $paperType);
         return $pdf->download('lvp-list.pdf');
     }
@@ -420,11 +437,13 @@ class ReportController extends Controller
         $date = Carbon::now();
         $gatePass = GatePass::findOrFail($id);
         $gate_pass_items = GatePassItem::where('gate_pass_id', $id)->get();
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
         if ($gatePass->gate_pass_type == 'returnable') {
-            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate', compact('gatePass', 'date', 'gate_pass_items'));
+            $pdf = PDF::loadView('inventory.reports.gate-pass-returnable-generate', compact('gatePass', 'date', 'gate_pass_items'))->setPaper('a4', $paperType);
             return $pdf->download('returnable-gate-pass.pdf');
         } else {
-            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate', compact('gatePass', 'date', 'gate_pass_items'));
+            $pdf = PDF::loadView('inventory.reports.gate-pass-non-returnable-generate', compact('gatePass', 'date', 'gate_pass_items'))->setPaper('a4', $paperType);
             return $pdf->download('non-returnable-gate-pass.pdf');
         }
     }
@@ -438,7 +457,8 @@ class ReportController extends Controller
         // $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
         // $gst = GstPercentage::where('id',)
         $logo = Helper::logo() ?? '';
-        $paperType = $request->paper_type ?? 'portrait';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
         $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->setPaper('a4', $paperType);
         return $pdf->download('rin.pdf');
     }
@@ -454,7 +474,8 @@ class ReportController extends Controller
         $to = Carbon::parse($explode[1])->addDay()->format('Y-m-d');
 
         $logo = Helper::logo() ?? '';
-        $paperType = $request->paper_type ?? 'portrait';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
 
         // return $request->paper_type;
 
@@ -480,7 +501,8 @@ class ReportController extends Controller
         $securityGates = SecurityGateStore::whereBetween('created_at', [$from, $to])->get();
 
         $logo = Helper::logo() ?? '';
-        $paperType = $request->paper_type ?? 'portrait';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
 
         $pdf = PDF::loadView('inventory.reports.security-gate-store-generate', compact('logo', 'securityGates', 'date'))->setPaper('a4', $paperType);
 
@@ -530,7 +552,8 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Data Not Found');
         }
 
-        $paperType = $request->paper_type ?? 'portrait';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
         $pdf = PDF::loadView('inventory.reports.store-inward-generate', compact('logo', 'storeInwards', 'startDate', 'endDate'))->setPaper('a4', $paperType);
@@ -572,7 +595,8 @@ class ReportController extends Controller
             session()->flash('error', 'Data Not Found');
             return redirect()->back()->with('error', 'Data Not Found');
         }
-        $paperType = $request->paper_type ?? 'portrait';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
         $pdf = PDF::loadView('inventory.reports.rin-controller-generate', compact('logo', 'rinControllerReports', 'startOfYear', 'endOfYear'))->setPaper('a4', $paperType);
@@ -588,7 +612,9 @@ class ReportController extends Controller
 
     public function certificateReceiptVoucher()
     {
-        $pdf = PDF::loadView('inventory.reports.certificate-receipt-voucher-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.certificate-receipt-voucher-generate')->setPaper('a4', $paperType);
         return $pdf->download('certificate-receipt-voucher.pdf');
     }
 
@@ -596,14 +622,18 @@ class ReportController extends Controller
 
     public function ledgerSheetReport()
     {
-        $pdf = PDF::loadView('inventory.reports.ledger-sheet-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.ledger-sheet-generate')->setPaper('a4', $paperType);
         return $pdf->download('ledger-sheet.pdf');
     }
 
 
     public function binCardReport()
     {
-        $pdf = PDF::loadView('inventory.reports.bin-card-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.bin-card-generate')->setPaper('a4', $paperType);
         return $pdf->download('bin-card.pdf');
     }
 
@@ -612,13 +642,18 @@ class ReportController extends Controller
         $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->get();
         $groupedData = collect($inventoryNumbers)->chunk(8);
 
-        $pdf = PDF::loadView('inventory.reports.register-for-inventories-generate', compact('inventoryNumbers', 'groupedData'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+
+        $pdf = PDF::loadView('inventory.reports.register-for-inventories-generate', compact('inventoryNumbers', 'groupedData'))->setPaper('a4', $paperType);
         return $pdf->download('register-for-inventories.pdf');
     }
 
     public function stockSheetReport()
     {
-        $pdf = PDF::loadView('inventory.reports.stock-sheet-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.stock-sheet-generate')->setPaper('a4', $paperType);
         return $pdf->download('stock-sheet.pdf');
     }
 
@@ -626,122 +661,161 @@ class ReportController extends Controller
     {
 
         $inventory_loans = InventoryLoan::orderBy('id', 'desc')->get();
-
-        $pdf = PDF::loadView('inventory.reports.inventory-loan-register-generate', compact('inventory_loans'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.inventory-loan-register-generate', compact('inventory_loans'))->setPaper('a4', $paperType);
         return $pdf->download('inventory-loan-register.pdf');
     }
 
     public function discrepancyReport()
     {
-        $pdf = PDF::loadView('inventory.reports.discrepancy-report-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.discrepancy-report-generate')->setPaper('a4', $paperType);
         return $pdf->download('discrepancy-report.pdf');
     }
 
     public function internalDemandIssueVoucher()
     {
-        $pdf = PDF::loadView('inventory.reports.internal-demand-issue-voucher-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.internal-demand-issue-voucher-generate')->setPaper('a4', $paperType);
         return $pdf->download('internal-demand-issue-voucher.pdf');
     }
 
     public function internalReturnReceiptVoucher()
     {
-        $pdf = PDF::loadView('inventory.reports.internal-return-receipt-voucher-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.internal-return-receipt-voucher-generate')->setPaper('a4', $paperType);
         return $pdf->download('internal-return-receipt-voucher.pdf');
     }
 
     public function trialStoreGatePass()
     {
-        $pdf = PDF::loadView('inventory.reports.trial-store-gate-pass-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.trial-store-gate-pass-generate')->setPaper('a4', $paperType);
         return $pdf->download('trial-store-gate-pass.pdf');
     }
 
     public function armamentsAmmunitionRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.armaments-ammunition-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.armaments-ammunition-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('armaments-ammunition-register.pdf');
     }
 
     public function disposalItemReport()
     {
-        $pdf = PDF::loadView('inventory.reports.disposal-item-report-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.disposal-item-report-generate')->setPaper('a4', $paperType);
         return $pdf->download('disposal-item-report.pdf');
     }
 
     public function statementOfDamaged()
     {
-        $pdf = PDF::loadView('inventory.reports.statement-of-damaged-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.statement-of-damaged-generate')->setPaper('a4', $paperType);
         return $pdf->download('statement-of-damaged.pdf');
     }
 
     public function cashPurchaseControlRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.cash-purchase-control-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.cash-purchase-control-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('cash-purchase-control-register.pdf');
     }
 
     public function storesOutwardRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.stores-outward-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.stores-outward-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('stores-outward-register.pdf');
     }
 
     public function recordOfTransaction()
     {
-        $pdf = PDF::loadView('inventory.reports.record-of-transaction-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.record-of-transaction-generate')->setPaper('a4', $paperType);
         return $pdf->download('record-of-transaction.pdf');
     }
 
     public function loanOutLedgerRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.loan-out-ledger-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.loan-out-ledger-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('loan-out-ledger-register.pdf');
     }
 
     public function loanInLedgerRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.loan-in-ledger-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.loan-in-ledger-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('loan-in-ledger-register.pdf');
     }
 
     public function cprvControlRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.cprv-control-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.cprv-control-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('cprv-control-register.pdf');
     }
 
     public function cpivControlRegister()
     {
-        $pdf = PDF::loadView('inventory.reports.cpiv-control-register-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.cpiv-control-register-generate')->setPaper('a4', $paperType);
         return $pdf->download('cpiv-control-register.pdf');
     }
 
     public function contingentBill() //not getting data
     {
-        $pdf = PDF::loadView('inventory.reports.contingent-bill-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.contingent-bill-generate')->setPaper('a4', $paperType);
         return $pdf->download('contingent-bill.pdf');
     }
 
     public function contractorsBill()
     {
-        $pdf = PDF::loadView('inventory.reports.contractors-bill-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.contractors-bill-generate')->setPaper('a4', $paperType);
         return $pdf->download('contractors-bill.pdf');
     }
 
     public function certifiedIssueVoucher()
     {
-        $pdf = PDF::loadView('inventory.reports.certified-issue-voucher-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.certified-issue-voucher-generate')->setPaper('a4', $paperType);
         return $pdf->download('certified-issue-voucher.pdf');
     }
 
     public function expendableStoreIssueVoucher()
     {
-        $pdf = PDF::loadView('inventory.reports.expendable-store-issue-voucher-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.expendable-store-issue-voucher-generate')->setPaper('a4', $paperType);
         return $pdf->download('expendable-store-issue-voucher.pdf');
     }
 
     public function fitmentVoucher()
     {
-        $pdf = PDF::loadView('inventory.reports.fitment-voucher-generate');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('inventory.reports.fitment-voucher-generate')->setPaper('a4', $paperType);
         return $pdf->download('fitment-voucher.pdf');
     }
 
@@ -751,7 +825,7 @@ class ReportController extends Controller
     //     return $pdf->download('report-lvp-list.pdf');
     // }
 
-    public function inventoryCRVGenerate(Request $request, $startDate = null, $endDate = null)
+    public function inventoryCRVGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         // Fetch all credit voucher IDs based on the inv_id
         //    $crv_nos = CreditVoucherDetail::where('inv_no', $request->id)->pluck('credit_voucher_id');
@@ -846,7 +920,8 @@ class ReportController extends Controller
                 }
             }
         }
-
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
         // Pass all credit vouchers to the PDF view
         $pdf = PDF::loadView('inventory.reports.inventory-crv-generate', compact(
             'logo',
@@ -859,7 +934,8 @@ class ReportController extends Controller
             'itemCount',
             'singleCreditVoucher',
             'get_sir'
-        ));
+        ))->setPaper('a4', $paperType);
+
 
         return $pdf->download('credit-voucher-reports.pdf');
         // } catch (\Exception $e) {

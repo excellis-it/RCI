@@ -152,12 +152,21 @@ class MemberPayGenerate extends Controller
                 if ($member_credit) {
 
 
+                    // $var_inc_amount = 0;
+                    // $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+                    // if ($var_noi) {
+                    //     if ($var_noi->noi_pending > 0 && $var_noi->stop == 'No') {
+
+                    //         $var_inc_amount = $var_noi->v_incr;
+                    //     }
+                    // }
+
                     $var_inc_amount = 0;
                     $var_noi = MemberRecovery::where('member_id', $member->id)->first();
                     if ($var_noi) {
-                        if ($var_noi->noi_pending > 0 && $var_noi->stop == 'No') {
+                        if ($var_noi->stop == 'No') {
 
-                            $var_inc_amount = $var_noi->v_incr;
+                            $var_inc_amount = $var_noi->total;
                         }
                     }
                     // $member->var_inc_amount = $var_inc_amount;

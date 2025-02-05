@@ -45,8 +45,8 @@ class TransferVoucherController extends Controller
                 $query = str_replace(" ", "%", $query);
                 $transferVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                        ->orWhere('voucher_no', 'like', '%' . $query . '%')
-                        ->orWhere('voucher_date', 'like', '%' . $query . '%');
+                        ->orWhere('voucher_no', 'like', '%' . $query . '%');
+                     //   ->orWhere('voucher_date', 'like', '%' . $query . '%');
                 });
             }
 
