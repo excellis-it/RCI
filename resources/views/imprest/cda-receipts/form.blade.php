@@ -158,17 +158,23 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-end mt-3">
-                <div class="col-md-2">
-                    <div class="mb-1">
-                        <button type="submit" class="listing_add">Save</button>
-                    </div>
-                    {{-- <div class="mb-1">
-                        <a href="" class="listing_exit">Back</a>
-                    </div> --}}
-                </div>
+
+        </div>
+
+        <div class="row justify-content-between mt-3">
+            <div class="col-md-2">
+
+                <a href="" class="listing_exit">Back</a>
+
+            </div>
+            <div class="col-md-2">
+
+                <button type="submit" class="listing_add">Save</button>
+
+
             </div>
         </div>
+
     </form>
 @else
     <center>

@@ -90,7 +90,7 @@
                         <div class="form-group mb-2 col-md-4">
                             <label>Narration</label>
                             <textarea type="text" class="form-control" name="narration">{{ $receipt->narration }}</textarea>
-                            
+
                         </div>
 
                         {{-- <div class="form-group mb-2 col-md-4">
@@ -123,13 +123,25 @@
 
 
 
-                        <div class="form-group mb-2 col-md-6">
+                        {{-- <div class="form-group mb-2 col-md-6">
                             <button type="submit" class="btn btn-success">Update</button>
                             <a href="{{ route('receipts.index') }}" class="btn btn-secondary">Cancel</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
+
+            <div class="row justify-content-between mt-3">
+
+                <div class="col-md-2 mb-2">
+                    <a href="{{ route('receipts.index') }}" class="listing_exit">Back</a>
+                </div>
+
+                <div class="col-md-2 text-end mb-2">
+                    <button type="submit" class="listing_add">Update</button>
+                </div>
+            </div>
+
         </form>
     </div>
 </div>

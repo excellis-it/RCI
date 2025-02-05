@@ -5,11 +5,16 @@
 
 <style>
     @page {
-        size: 29.7cm 42cm
+        margin: 10px;
+        padding: 10px;
     }
 </style>
 
 <body style="background: #fff;">
+    <center>
+        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+    </center>
+    <br>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center;">
         <tbody>
@@ -668,7 +673,7 @@
                                     margin: 0px 0px !important;">
                                             </td>
                                             <td
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-right: 1px solid #000; 
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-right: 1px solid #000;
                                     margin: 0px 0px !important;">
                                                 {{ $total_credit['total'] }}
                                             </td>
@@ -856,7 +861,7 @@
                                                     @if (preg_match('/\b80\s*d\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -883,7 +888,7 @@
                                                     @if (preg_match('/\b80\s*d{2}\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -911,7 +916,7 @@
                                                     @if (preg_match('/\b80\s*ddb\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -938,7 +943,7 @@
                                                     @if (preg_match('/\b80\s*u\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -965,7 +970,7 @@
                                                     @if (preg_match('/\b80\s*e\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -992,7 +997,7 @@
                                                     @if (preg_match('/\b80\s*g\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -1019,7 +1024,7 @@
                                                     @if (preg_match('/\b80\s*tta\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -1046,7 +1051,7 @@
                                                     @if (preg_match('/\b80\s*cc\s*g\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -1060,7 +1065,7 @@
 
                                             </td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
@@ -1074,7 +1079,7 @@
                                                     @if (preg_match('/\b80\s*ee\b/i', $exemption['section']))
                                                         {{ $exemption['member_deduction'] }}
                                                     @endif
-                                                    
+
                                                 @endforeach
                                             </td>
                                             <td
@@ -1143,7 +1148,7 @@
                                                 6. Income from Other Sources
                                             </td>
                                             <td
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px; 
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
 
                                             </td>
@@ -1317,7 +1322,7 @@
                                     margin: 0px 0px !important;">
                                             </td>
                                             <td
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; 
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                             </td>
                                         </tr>
@@ -1479,7 +1484,7 @@
                                                     foreach ($exemption_result as $exemption_section) {
                                                         if(preg_match('/\b80\s*c(?:c{2}|cd\(1\))?\b/i', $exemption_section['section'])) {
                                                             $max_savings = $exemption_section['max_deduction'];
-                                                        
+
                                                         }
                                                     }
                                                     if($total_savings > $max_savings) {
@@ -1491,7 +1496,7 @@
                                                 {{ $savings_total }}
                                             </td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: left; padding: 0px 5px !important; height: 10px;
@@ -1530,14 +1535,14 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                @php 
-                                                    $total_ccd2 = 0; 
+                                                @php
+                                                    $total_ccd2 = 0;
                                                     foreach ($exemption_result as $exemption) {
                                                         if (preg_match('/\b80\s*ccd\(2\)\b/i', $exemption['section'])) {
                                                             $total_ccd2 = $exemption['member_deduction'] ?? 0;
                                                         }
                                                     }
-                                                @endphp  
+                                                @endphp
                                                 {{ $total_ccd2 }}
                                             </td>
                                         </tr>
@@ -1559,14 +1564,14 @@
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; height: 10px;
                                     margin: 0px 0px !important;">
-                                                @php 
-                                                    $total_ccd1b = 0; 
+                                                @php
+                                                    $total_ccd1b = 0;
                                                     foreach ($exemption_result as $exemption) {
                                                         if (preg_match('/\b80\s*ccd\(1b\)\b/i', $exemption['section'])) {
                                                             $total_ccd1b = $exemption['member_deduction'] ?? 0;
                                                         }
                                                     }
-                                                @endphp  
+                                                @endphp
                                                 {{ $total_ccd1b }}
                                             </td>
                                         </tr>
@@ -1721,7 +1726,7 @@
                                                     $educess = $added87aTax * ($educessRate / 100);
 
                                                     $total_tax = $added87aTax + $educess;
-                                                    
+
                                                 @endphp
                                                 {{ $tax }}
                                             </td>
@@ -1991,7 +1996,7 @@
                                     TAX SLABS
                                 </td>
                                 <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-top: 1px solid #000; 
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-top: 1px solid #000;
                                     margin: 0px 0px !important;">
                                     A) where the Taxable Income <= Rs 2,50,000/- , 3,00,000 for Sr.Citizen is Nil </td>
                                 <td

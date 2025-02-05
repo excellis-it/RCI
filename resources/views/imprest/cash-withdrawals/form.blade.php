@@ -1,5 +1,6 @@
 @if (isset($edit))
-    <form action="{{ route('cash-withdrawals.update', $cashwithdrawal->id) }}" method="POST" id="cash-withdrawals-edit-form">
+    <form action="{{ route('cash-withdrawals.update', $cashwithdrawal->id) }}" method="POST"
+        id="cash-withdrawals-edit-form">
         @method('PUT')
         @csrf
         <div class="row">
@@ -10,8 +11,8 @@
                         <label>Vr No</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="vr_no" id="vr_no"
-                            placeholder="" value="{{ $cashwithdrawal->vr_no }}" readonly>
+                        <input type="text" class="form-control" name="vr_no" id="vr_no" placeholder=""
+                            value="{{ $cashwithdrawal->vr_no }}" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -23,8 +24,8 @@
                         <label>Vr Dt</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="date" class="form-control" name="vr_date" id="vr_date"
-                             placeholder="" value="{{ $cashwithdrawal->vr_date }}">
+                        <input type="date" class="form-control" name="vr_date" id="vr_date" placeholder=""
+                            value="{{ $cashwithdrawal->vr_date }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -36,8 +37,8 @@
                         <label>Chq No</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="chq_no" id="chq_no"
-                            placeholder="" value="{{ $cashwithdrawal->chq_no }}" >
+                        <input type="text" class="form-control" name="chq_no" id="chq_no" placeholder=""
+                            value="{{ $cashwithdrawal->chq_no }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -49,8 +50,8 @@
                         <label>Chq Dt</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="date" class="form-control" name="chq_date" id="chq_date"
-                            placeholder="" value="{{ $cashwithdrawal->chq_date }}" >
+                        <input type="date" class="form-control" name="chq_date" id="chq_date" placeholder=""
+                            value="{{ $cashwithdrawal->chq_date }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -62,8 +63,8 @@
                         <label>Amount</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="amount" id="amount"
-                            placeholder=""  value="{{ $cashwithdrawal->amount }}">
+                        <input type="text" class="form-control" name="amount" id="amount" placeholder=""
+                            value="{{ $cashwithdrawal->amount }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -76,7 +77,7 @@
                 <button type="submit" class="listing_add">Update</button>
             </div>
             <div class="col-md-2">
-               <button type="reset" class="listing_exit">Back</button>
+                <button type="reset" class="listing_exit">Back</button>
             </div>
         </div>
     </form>
@@ -92,8 +93,7 @@
                         <label>Vr No</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="vr_no" id="vr_no"
-                            placeholder="" >
+                        <input type="text" class="form-control" name="vr_no" id="vr_no" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -105,8 +105,7 @@
                         <label>Vr Dt</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="date" class="form-control" name="vr_date" id="vr_date"
-                             placeholder="">
+                        <input type="date" class="form-control" name="vr_date" id="vr_date" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -118,8 +117,7 @@
                         <label>Chq No</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="chq_no" id="chq_no"
-                            placeholder="" >
+                        <input type="text" class="form-control" name="chq_no" id="chq_no" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -131,8 +129,7 @@
                         <label>Chq Dt</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="date" class="form-control" name="chq_date" id="chq_date"
-                            placeholder="" >
+                        <input type="date" class="form-control" name="chq_date" id="chq_date" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -144,8 +141,7 @@
                         <label>Amount</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="amount" id="amount"
-                            placeholder="" >
+                        <input type="text" class="form-control" name="amount" id="amount" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -153,13 +149,14 @@
 
         </div>
 
-            <div class="row d-flex justify-content-end">
-                <div class="col-md-2">
-                    <button type="submit" class="listing_add">Save</button>
-                </div>
-                <div class="col-md-2">
-                   <button type="reset" class="listing_exit">Back</button>
-                </div>
+        <div class="row d-flex justify-content-between mt-3">
+
+            <div class="col-md-2">
+                <button type="reset" class="listing_exit">Back</button>
             </div>
+            <div class="col-md-2 text-end">
+                <button type="submit" class="listing_add">Save</button>
+            </div>
+        </div>
     </form>
 @endif

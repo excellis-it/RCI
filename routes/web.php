@@ -131,6 +131,7 @@ use App\Http\Controllers\Settings\CsvController;
 use App\Http\Controllers\LinkScannerController;
 use App\Http\Controllers\AutoRun\MemberPayGenerate;
 use App\Models\InventorySir;
+use App\Http\Controllers\Inventory\ItemCodeNameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -228,6 +229,7 @@ Route::middleware('permssions')->group(function () {
         'tada-journey' => TadaJourneyDetailController::class,
 
         'settings' => SettingController::class,
+
 
 
 
@@ -999,6 +1001,7 @@ Route::middleware('permssions')->group(function () {
                 'security-gate-stores' => SecurityGateStoresController::class,
                 'nc-status' => NcStatusController::class,
                 'au-status' => AuStatusController::class,
+                'item-code-names' => ItemCodeNameController::class,
             ]);
 
             // nc-status.fetch-data
@@ -1182,6 +1185,12 @@ Route::middleware('permssions')->group(function () {
                 Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
             });
 
+            //item-code-names
+            Route::get('/item-code-names-fetch-data', [ItemCodeNameController::class, 'fetchData'])->name('item-code-names.fetch-data');
+            Route::prefix('item-code-names')->group(function () {
+                Route::get('/delete/{id}', [ItemCodeNameController::class, 'delete'])->name('item-code-names.delete');
+            });
+            Route::post('inventory/item-code-names-get-items', [ItemCodeNameController::class, 'getItems'])->name('inventory.item-code-name.get-items');
 
 
             //rins

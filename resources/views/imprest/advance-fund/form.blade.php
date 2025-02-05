@@ -233,16 +233,29 @@
             </div>
         </div> --}}
 
-        <div class="row justify-content-end">
-            <div class="col-md-2">
-                <div class="mb-2">
-                    <button type="submit" class="listing_add" id="advfund_save_btn">Save</button>
-                </div>
-            </div>
 
-        </div>
 
 
     </div>
+
+
+    <div class="row justify-content-between mt-3">
+
+
+
+        <div class="col-md-2 ">
+
+            <a href="" type="submit" class="listing_exit">Back</a>
+
+        </div>
+
+        <div class="col-md-2 text-end">
+
+            <button type="submit" class="listing_add" id="advfund_save_btn">Save</button>
+
+        </div>
+
+    </div>
+
     </div>
 </form>

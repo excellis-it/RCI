@@ -82,6 +82,11 @@
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('item-code-names.index') }}">Item Code Names</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('vendors.index') }}">Vendors</a>
                             </li>
                             <li class="mb-2">

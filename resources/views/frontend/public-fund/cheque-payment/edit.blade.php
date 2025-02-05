@@ -219,8 +219,8 @@
                     <td>{{ $memberDesign }}</td>
                     <td>
                         <input type="hidden" id="member_serial_{{ $chequePayment->id }}" class="form-control"
-                        name="member_serial[{{ $chequePayment->id }}][]" required readonly
-                        value="{{ $member->serial_no }}">
+                            name="member_serial[{{ $chequePayment->id }}][]" required readonly
+                            value="{{ $member->serial_no }}">
                         <input type="hidden" id="member_id_{{ $chequePayment->id }}" class="form-control"
                             name="member_id[{{ $chequePayment->id }}][]" required readonly
                             value="{{ $member->member_id }}">
@@ -255,14 +255,23 @@
 
 
     <br>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-2 ml-auto">
             <div class="mb-1">
                 <button type="submit" class="listing_add">Update</button>
             </div>
-            {{-- <div class="mb-1">
-                <a href="" class="listing_exit">Back</a>
-            </div> --}}
+
+        </div>
+    </div> --}}
+
+    <div class="row justify-content-between mt-3">
+
+        <div class="col-md-2 mb-2">
+            <a href="" class="listing_exit">Back</a>
+        </div>
+
+        <div class="col-md-2 text-end mb-2">
+            <button type="submit" class="listing_add">Update</button>
         </div>
     </div>
 </form>

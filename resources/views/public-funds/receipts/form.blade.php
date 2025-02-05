@@ -2,13 +2,12 @@
 
     <div class="text-end">
         @if (!empty($draft_rc_members) && $draft_rc_members->count() > 0)
-            <a href="{{ route('receipts.clearDraft') }}" type="button" class="btn btn-primary btn-sm "
-                id="clearDraftReceipt">
+            <a href="{{ route('receipts.clearDraft') }}" type="button" class="listing_add btn-sm " id="clearDraftReceipt">
                 Create New
             </a>
         @endif
 
-        <button type="button" class="btn btn-primary ms-3" id="saveDraftReceipt">
+        <button type="button" class="listing_add ms-3" id="saveDraftReceipt">
             Save as Draft
         </button>
 
@@ -304,8 +303,8 @@
                                     class="ti ti-trash"></i></button>
                         </div>
                         <div class="col-md-12 text-end mt-2">
-                            <button type="button" class="btn btn-primary" id="add-section"><i
-                                    class="ti ti-plus"></i></button>
+                            <button type="button" class="btn btn-primary add-more-sm" id="add-section"><i
+                                    class="ti ti-plus"></i>Add More</button>
                         </div>
                     </div>
 
@@ -348,17 +347,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 mt-3">
-                            <div class="row justify-content-end">
-                                <div class="form-group col-md-6 mb-2">
-                                    <button type="button" class="listing_add" id="saveReceipt">Add</button>
-                                </div>
-                                <div class="form-group col-md-6 mb-2">
-                                    <button type="reset" class="listing_exit">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
+
+
+
+
 
 
 
@@ -366,6 +360,19 @@
             </div>
 
         </div>
+
+
+        <div class="row justify-content-between mt-3">
+
+            <div class="col-md-2 mb-2">
+                <a href="{{ route('receipts.index') }}" class="listing_exit">Back</a>
+            </div>
+
+            <div class="col-md-2 text-end mb-2">
+                <button type="button" class="listing_add" id="saveReceipt">Add</button>
+            </div>
+        </div>
+
     </form>
 
 </div>

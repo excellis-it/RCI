@@ -25485,41 +25485,53 @@ progress {
 
 .table-responsive {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid;
+    border-color: #eaeaea;
 }
 
 @media (max-width:575.98px) {
     .table-responsive-sm {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid;
+    border-color: #eaeaea;
     }
 }
 
 @media (max-width:767.98px) {
     .table-responsive-md {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid;
+    border-color: #eaeaea;
     }
 }
 
 @media (max-width:991.98px) {
     .table-responsive-lg {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid;
+    border-color: #eaeaea;
     }
 }
 
 @media (max-width:1299.98px) {
     .table-responsive-xl {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid;
+    border-color: #eaeaea;
     }
 }
 
 @media (max-width:1399.98px) {
     .table-responsive-xxl {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid;
+    border-color: #eaeaea;
     }
 }
 
@@ -26612,18 +26624,18 @@ fieldset:disabled .btn {
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #1C6D99;
-    --bs-btn-border-color: #1C6D99;
+    --bs-btn-bg: #074465;
+    --bs-btn-border-color: #074465;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #4f73d9;
-    --bs-btn-hover-border-color: #4a6ccc;
+    --bs-btn-hover-bg: #074465;
+    --bs-btn-hover-border-color: #074465;
     --bs-btn-focus-shadow-rgb: 117, 153, 255;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #4a6ccc;
-    --bs-btn-active-border-color: #4665bf;
+    --bs-btn-active-bg: #074465;
+    --bs-btn-active-border-color: #074465;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #1C6D99;
+    --bs-btn-disabled-bg: #074465;
     --bs-btn-disabled-border-color: #1C6D99
 }
 
@@ -47332,7 +47344,7 @@ html[dir=rtl] .welcome-bg-img {
     position: absolute;
     right: 0;
     top: 0;
-    background: url(../images/bed.png);
+    /* background: url(../images/bed.png); */
     width: 40%;
     height: 100%;
     background-size: cover;
@@ -56127,7 +56139,7 @@ ul {
 }
 
 .bg_tbody tbody tr {
-    background: #E5F7FD;
+    background: white;
 }
 
 .bg_tbody tbody tr td {
@@ -56217,6 +56229,8 @@ ul {
 
 .sepharate {
     display: flex;
+    background-color: none !important;
+    border-bottom: none;
 }
 
 .left_img span {
@@ -56470,7 +56484,8 @@ ul {
 }
 
 .listing_add {
-    max-width: 130px;
+    height: 35px;
+    max-width: 170px;
     padding: 7px 17px;
     border-radius: 6px;
     background: #074465;
@@ -56484,7 +56499,8 @@ ul {
    color: #fff;
 }
 .listing_exit {
-    max-width: 130px;
+    height: 35px;
+    max-width: 170px;
     padding: 7px 17px;
     border-radius: 6px;
     background: #e76b6b;

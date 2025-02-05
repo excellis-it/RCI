@@ -52,8 +52,8 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">&nbsp;</label>
-                            <button type="submit" class="btn btn-primary" id="search_vr">
-                                Add
+                            <button type="submit" class="btn btn-primary add-more-sm" id="search_vr">
+                                <span><i class="ti ti-plus"></i></span> Add
                             </button>
 
                         </div>
@@ -145,17 +145,28 @@
 
 
 
-        <br>
+        {{-- <br>
         <div class="row">
             <div class="col-md-2 ml-auto">
                 <div class="mb-1">
                     <button type="submit" class="listing_add cheq_pay_add" style="display: none;">Save</button>
                 </div>
-                {{-- <div class="mb-1">
-                <a href="" class="listing_exit">Back</a>
-            </div> --}}
+
+            </div>
+        </div> --}}
+
+        <div class="row justify-content-between mt-3">
+
+            <div class="col-md-2 mb-2">
+                <a href="{{ route('cheque-payments.index') }}" class="listing_exit">Back</a>
+            </div>
+
+            <div class="col-md-2 text-end mb-2">
+                <button type="submit" class="listing_add cheq_pay_add">Save</button>
             </div>
         </div>
+
+
     </form>
 
 

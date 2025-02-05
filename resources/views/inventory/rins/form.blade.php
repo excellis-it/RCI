@@ -615,7 +615,7 @@
 
 
 
-                    <div class="form-group col-md-3 mb-2">
+                    {{-- <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation</label>
@@ -625,6 +625,24 @@
                                     <option value="">Select Inspection Authority</option>
                                     @foreach ($designations as $designation)
                                         <option value="{{ $designation->id }}">{{ $designation->designation }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> --}}
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="member_id" id="member_id">
+                                    <option value="">Select Inspection Authority</option>
+                                    @foreach ($all_members as $member)
+                                        <option value="{{ $member->id }}">{{ $member->name }}
                                         </option>
                                     @endforeach
                                 </select>
