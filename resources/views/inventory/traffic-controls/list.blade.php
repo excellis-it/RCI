@@ -36,15 +36,31 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row">
-                                    <div class="col-md-4 col-lg-4 mb-2 mt-4">
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="position-relative">
-                                        <input type="text" class="form-control" name="date-pdf" id="date-pdf"
-                                            value="" placeholder="Select Date">
+                                            <label for="">Date</label>
+                                            <input type="text" class="form-control" name="date-pdf" id="date-pdf"
+                                                value="" placeholder="Select Date">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-lg-2 mb-2 mt-4">
+                                    <div class="form-group col-md-3 mb-2">
+
+                                        <label for="" class="form-label">Select Paper
+                                            Type</label>
+                                        <select class="form-select" name="paper_type" id="paper-type">
+                                            {{-- <option value="" disabled selected>Select Portrait/Landscape</option> --}}
+                                            <option value="portrait" selected>Portrait</option>
+                                            <option value="landscape">Landscape</option>
+                                        </select>
+                                        <small id="helpId" class="form-text text-danger"></small>
+
+
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="position-relative">
-                                        <button class="listing_add" type="submit" id="generatepdf">Generate PDF</button>
+                                            <label for="" class="form-label">&nbsp;</label>
+                                            <button class="listing_add" type="submit" id="generatepdf">Generate
+                                                PDF</button>
                                         </div>
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-end  mb-2 mt-4">
@@ -60,10 +76,10 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>SL No.</th>
-                                                <th class="sorting" data-sorting_type="desc"
-                                                data-column_name="tcr_number" style="cursor: pointer">
-                                                TCR SL Number <span id="tcr_number_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="tcr_number"
+                                                    style="cursor: pointer">
+                                                    TCR SL Number <span id="tcr_number_icon"><i
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc"
                                                     data-column_name="lr_rr_awb_bl_app_rpp_number" style="cursor: pointer">
                                                     LR/RR/AWB/BL/APP/RPP No <span id="lr_rr_awb_bl_app_rpp_number_icon"><i
@@ -108,7 +124,8 @@
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
                                         value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type"
+                                        value="desc" />
                                 </div>
                             </div>
                         </div>
@@ -294,13 +311,14 @@
         $('#date-pdf').daterangepicker();
     </script>
 
-<script>
-    $(document).on('click', '#generatepdf', function() {
-        var date = $('#date-pdf').val();
-        var url = "{{ route('reports.traffic-control') }}";
+    <script>
+        $(document).on('click', '#generatepdf', function() {
+            var date = $('#date-pdf').val();
+            var paper_type = $('#paper-type').val();
+            var url = "{{ route('reports.traffic-control') }}";
 
-        // Redirect to the URL with the date range as a query parameter
-        window.location.href = url + '?date=' + encodeURIComponent(date);
-    });
-</script>
+            // Redirect to the URL with the date range as a query parameter
+            window.location.href = url + '?date=' + encodeURIComponent(date) + '&paper_type=' + encodeURIComponent(paper_type);
+        });
+    </script>
 @endpush

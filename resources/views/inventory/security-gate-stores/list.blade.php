@@ -36,14 +36,29 @@
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row">
-                                    <div class="col-md-4 col-lg-4 mb-2 mt-4">
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="position-relative">
+                                            <label for="" class="form-label">Date</label>
                                             <input type="text" class="form-control" name="date-pdf" id="date-pdf"
                                                 value="" placeholder="Select Date">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-lg-2 mb-2 mt-4">
+                                    <div class="form-group col-md-3 mb-2">
+
+                                        <label for="" class="form-label">Select Paper
+                                            Type</label>
+                                        <select class="form-select" name="paper_type" id="paper-type">
+                                            {{-- <option value="" disabled selected>Select Portrait/Landscape</option> --}}
+                                            <option value="portrait" selected>Portrait</option>
+                                            <option value="landscape">Landscape</option>
+                                        </select>
+                                        <small id="helpId" class="form-text text-danger"></small>
+
+
+                                    </div>
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="position-relative">
+                                            <label for="" class="form-label">&nbsp;</label>
                                             <button class="listing_add" type="submit" id="generatepdf">Generate
                                                 PDF</button>
                                         </div>
@@ -288,10 +303,11 @@
     <script>
         $(document).on('click', '#generatepdf', function() {
             var date = $('#date-pdf').val();
+            var paper_type = $('#paper-type').val();
             var url = "{{ route('reports.security-gate') }}";
 
             // Redirect to the URL with the date range as a query parameter
-            window.location.href = url + '?date=' + encodeURIComponent(date);
+            window.location.href = url + '?date=' + encodeURIComponent(date) + '&paper_type=' + encodeURIComponent(paper_type);
         });
     </script>
 @endpush

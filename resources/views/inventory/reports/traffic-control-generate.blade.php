@@ -2,8 +2,17 @@
 <html lang="en">
 <title>RCI</title>
 <meta charset="utf-8" />
-
+<style>
+    @page {
+        margin: 10px;
+        padding: 10px;
+    }
+</style>
 <body style="background: #fff">
+    <center>
+        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+    </center>
+    <br>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
         <tbody>
             <tr>

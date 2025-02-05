@@ -31,7 +31,7 @@
         <form action="{{ route('reports.store-inward') }}" method="post">
             @csrf
             <div class="row">
-                <div class="col-md-3">
+                <div class="form-group col-md-3">
                     <div class="mb-3">
                         <label for="" class="form-label">Date</label>
                         <input type="text" id="daterange" name="daterange" class="form-control" />
@@ -43,7 +43,7 @@
 
                 </div>
 
-                <div class="col-md-3">
+                <div class="form-group col-md-3">
                     <div class="mb-3">
                         <label for="" class="form-label">Sir Type</label>
                         <select class="form-select" name="sir_type">
@@ -59,13 +59,27 @@
 
                 </div>
 
+                <div class="form-group col-md-3 mb-2">
+
+                    <label for="" class="form-label">Select Paper
+                        Type</label>
+                    <select class="form-select" name="paper_type">
+                        {{-- <option value="" disabled selected>Select Portrait/Landscape</option> --}}
+                        <option value="portrait" selected>Portrait</option>
+                        <option value="landscape">Landscape</option>
+                    </select>
+                    <small id="helpId" class="form-text text-danger"></small>
 
 
-                <div class="col-md-2">
+                </div>
 
 
-                    <div class="mb-3 mt-2">
-                        <label for="">&nbsp;</label>
+
+                <div class="form-group col-md-3">
+
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">&nbsp;</label>
                         <button type="submit" class="listing_add">Generate PDF</button>
                     </div>
 
