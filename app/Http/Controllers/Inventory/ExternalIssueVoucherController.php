@@ -49,7 +49,7 @@ class ExternalIssueVoucherController extends Controller
                 $query = str_replace(" ", "%", $query);
                 $externalIssueVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                        //  ->orWhere('voucher_date', 'like', '%' . $query . '%')
                         ->orWhere('inv_no', 'like', '%' . $query . '%')
                         ->orWhere('item_id', 'like', '%' . $query . '%')
                         ->orWhereHas('itemCode', function ($q) use ($query) {
@@ -64,7 +64,7 @@ class ExternalIssueVoucherController extends Controller
             }
 
             if ($date) {
-                $externalIssueVoucherQuery->whereDate('voucher_date',  '<=', $date);
+                $externalIssueVoucherQuery->whereDate('voucher_date', $date);
             }
 
             $externalIssueVouchers = $externalIssueVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);

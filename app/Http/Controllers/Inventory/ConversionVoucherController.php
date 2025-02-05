@@ -61,7 +61,7 @@ class ConversionVoucherController extends Controller
                 $query = str_replace(" ", "%", $query);
                 $conversionVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                        ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                     //   ->orWhere('voucher_date', 'like', '%' . $query . '%')
                         ->orWhereHas('itemCode', function ($q) use ($query) {
                             $q->where('code', 'like', '%' . $query . '%');
                         })
@@ -161,7 +161,7 @@ class ConversionVoucherController extends Controller
         $conversionVoucher->save();
 
         foreach ($request->strike_inv_id as $key => $val) {
-            // return Helper::getItemCode($request->strike_item_id[$key]); 
+            // return Helper::getItemCode($request->strike_item_id[$key]);
             $conversionVoucherDetail = new ConversionVoucherDetail;
             $conversionVoucherDetail->conversion_voucher_id = $conversionVoucher->id;
             $conversionVoucherDetail->strike_inv_id = $request->strike_inv_id[$key] ?? null;

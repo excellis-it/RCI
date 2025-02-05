@@ -48,11 +48,11 @@ class CertificateIssueVoucherController extends Controller
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $certificateIssueVouchers = CertificateIssueVoucher::where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where('member_id', 'like', '%' . $query . '%')
-                    ->orWhere('item_id', 'like', '%' . $query . '%')
-                    ->orWhere('price', 'like', '%' . $query . '%')
-                    ->orWhere('item_type', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%');
+                $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
+                    ->orWhere('inventory_holder', 'like', '%' . $query . '%')
+                    ->orWhereHas('inventory', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('inv_no', 'like', '%' . $query . '%');
+                    });
             })
                 ->orderBy($sort_by, $sort_type)
                 ->paginate(10);
