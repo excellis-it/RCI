@@ -32,61 +32,81 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.lvp-list-generate') }}" method="POST" >
+                            <form action="{{ route('reports.lvp-list-generate') }}" method="POST">
                                 @csrf
 
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-                                                        
-                                                        
 
-                                                        <div class="form-group col-md-4 mb-2">
-                                                            <div class="col-md-12">
-                                                                <label>Select Date</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <input type="date" name="report_date" class="form-control" >
-                                                                @if ($errors->has('report_date'))
-                                                                    <div class="error" style="color:red;">
-                                                                        {{ $errors->first('report_date') }}</div>
-                                                                @endif
-                                                            </div>
+
+
+                                                        <div class="form-group col-md-3 mb-2">
+
+                                                            <label class="form-label">Select Date</label>
+                                                            <input type="date" name="report_date" class="form-control">
+                                                            @if ($errors->has('report_date'))
+                                                                <div class="error" style="color:red;">
+                                                                    {{ $errors->first('report_date') }}</div>
+                                                            @endif
+
+
                                                         </div>
 
-                                                        
+                                                        <div class="form-group col-md-3 mb-2">
 
-                                                        
+                                                            <label for="" class="form-label">Select Paper
+                                                                Type</label>
+                                                            <select class="form-select" name="paper_type">
+                                                                {{-- <option value="" disabled selected>Select Portrait/Landscape</option> --}}
+                                                                <option value="portrait" selected>Portrait</option>
+                                                                <option value="landscape">Landscape</option>
+                                                            </select>
+                                                            <small id="helpId" class="form-text text-danger"></small>
+
+
+                                                        </div>
+
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <label for="" class="form-label">&nbsp;</label>
+                                                            <button type="submit" class="listing_add">Generate PDF</button>
+                                                        </div>
+
+
+
                                                     </div>
+
+
+
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                {{-- save cancel button design in right corner --}}
-                                <div class="row justify-content-end">
-                                    <div class="col-md-6 col-lg-2">
-                                        <div class="row justify-content-end">
-                                            <div class="form-group mb-2">
-                                                <button type="submit" class="listing_add">Generate</button>
-                                            </div>
-                                            
-                                            {{-- <div class="form-group col-md-6 mb-2">
-                                                <button type="submit" class="listing_exit">Cancel</button>
-                                            </div> --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
+
+                        {{-- save cancel button design in right corner --}}
+                        {{-- <div class="row justify-content-end">
+                            <div class="col-md-6 col-lg-2">
+                                <div class="row justify-content-end">
+                                    <div class="form-group mb-2">
+                                        <button type="submit" class="listing_add">Generate</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div> --}}
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 
@@ -151,7 +171,7 @@
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script> --}}
@@ -163,10 +183,21 @@
                 $.ajax({
                     url: "{{ route('reports.get-all-members') }}",
                     type: 'POST',
-                    data: { e_status, _token: '{{ csrf_token() }}' },
-                    success: ({members}) => {
-                        const memberDropdown = $('[name="member_id"]').empty().append('<option value="">Select Member</option>');
-                        members.forEach(({id, name, emp_id}) => memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`));
+                    data: {
+                        e_status,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: ({
+                        members
+                    }) => {
+                        const memberDropdown = $('[name="member_id"]').empty().append(
+                            '<option value="">Select Member</option>');
+                        members.forEach(({
+                            id,
+                            name,
+                            emp_id
+                        }) => memberDropdown.append(
+                            `<option value="${id}">${name} (${emp_id})</option>`));
                     },
                     error: (xhr) => console.log(xhr)
                 });

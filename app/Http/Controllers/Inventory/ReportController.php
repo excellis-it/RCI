@@ -70,41 +70,43 @@ class ReportController extends Controller
         $startDate = $startDate_s->toDateString(); // e.g., 'YYYY-MM-DD'
         $endDate = $endDate_s->toDateString();
 
+        $paperType = $request->paper_type;
+
         if ($report_type == 'credit_voucher') {
-            return $this->creditVoucherGenerate($request, $startDate, $endDate);
+            return $this->creditVoucherGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'debit_voucher') {
-            return $this->debitVoucherGenerate($request, $startDate, $endDate);
+            return $this->debitVoucherGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'transfer_voucher') {
-            return $this->transferVoucherGenerate($request, $startDate, $endDate);
+            return $this->transferVoucherGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'conversion_voucher') {
-            return $this->conversionVoucherGenerate($request, $startDate, $endDate);
+            return $this->conversionVoucherGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'external_issue') {
-            return $this->externalIssueVoucherGenerate($request, $startDate, $endDate);
+            return $this->externalIssueVoucherGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'certificate_issue') {
-            return $this->certificateIssueVoucherGenerate($request, $startDate, $endDate);
+            return $this->certificateIssueVoucherGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'inventory_numbers') {
-            return $this->inventoryCRVGenerate($request, $startDate, $endDate);
+            return $this->inventoryCRVGenerate($request, $startDate, $endDate, $paperType);
         }
 
         if ($report_type == 'statement_of_damaged') {
-            return $this->rinDamagedGenerate($request, $startDate, $endDate);
+            return $this->rinDamagedGenerate($request, $startDate, $endDate, $paperType);
         }
     }
 
 
-    public function creditVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    public function creditVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
         try {
             // dd($request->all());
@@ -196,7 +198,7 @@ class ReportController extends Controller
 
             // dd($result);
 
-            $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
+            $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
             return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
         } catch (\Exception $e) {
             //   return response()->json(['error' => $e->getMessage()], 201);
@@ -205,7 +207,7 @@ class ReportController extends Controller
         }
     }
 
-    public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    public function debitVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
 
         // $result = [];
@@ -242,12 +244,12 @@ class ReportController extends Controller
 
         // dd($result, $totalItemCost, $total, $itemCodeCounts);
 
-        $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('logo', 'debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'itemCodeCounts', 'totalItems'));
+        $pdf = PDF::loadView('inventory.reports.single-debit-voucher-generate', compact('logo', 'debitVouchers', 'debitVoucherDetails', 'creditVoucherDetails', 'itemCodeCounts', 'totalItems'))->setPaper('a4', $paperType);
         return $pdf->download('debit-voucher ' . date('d-m-Y') . '.pdf');
     }
 
 
-    public function transferVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    public function transferVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
         if ($startDate && $endDate) {
             $transferVouchers = TransferVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
@@ -262,11 +264,11 @@ class ReportController extends Controller
             //  dd($transferVoucher);
             $itemDesc = ItemCode::where('id', $transferVoucher->item_id)->first();
         }
-        $pdf = PDF::loadView('inventory.reports.single-transfer-voucher-generate', compact('logo', 'transferVouchers', 'itemDesc'));
+        $pdf = PDF::loadView('inventory.reports.single-transfer-voucher-generate', compact('logo', 'transferVouchers', 'itemDesc'))->setPaper('a4', $paperType);
         return $pdf->download('transfer-voucher.pdf');
     }
 
-    public function conversionVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    public function conversionVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
         if ($startDate && $endDate) {
             $conversionVouchers = ConversionVoucher::whereBetween('created_at', [$startDate, $endDate])->get();
@@ -283,11 +285,13 @@ class ReportController extends Controller
             $inv_no = InventoryNumber::where('id', $conversionVoucher->inv_no)->first();
         }
 
-        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('logo', 'conversionVouchers', 'itemDesc', 'inv_no'));
+        // return $conversionVouchers;
+
+        $pdf = PDF::loadView('inventory.reports.single-conversion-voucher-generate', compact('logo', 'conversionVouchers', 'itemDesc', 'inv_no'))->setPaper('a4', $paperType);
         return $pdf->download('conversion-voucher.pdf');
     }
 
-    public function externalIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    public function externalIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
         // dd($request->all());
         if ($startDate && $endDate) {
@@ -306,11 +310,11 @@ class ReportController extends Controller
             //   $gatepass = GatePass::where('id', $externalIssueVoucher->gate_pass_id)->first();
         }
 
-        $pdf = PDF::loadView('inventory.reports.single-external-issue-voucher-generate', compact('logo', 'externalIssueVouchers'));
+        $pdf = PDF::loadView('inventory.reports.single-external-issue-voucher-generate', compact('logo', 'externalIssueVouchers'))->setPaper('a4', $paperType);
         return $pdf->download('external-issue-voucher.pdf');
     }
 
-    public function certificateIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null)
+    public function certificateIssueVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
         if ($startDate && $endDate) {
             $certificateIssueVouchers = CertificateIssueVoucher::with('details')->whereBetween('created_at', [$startDate, $endDate])->get();
@@ -324,11 +328,16 @@ class ReportController extends Controller
         //  $certificateIssuevoucherDetails = CertificateIssueVoucherDetail::where('certicate_issue_voucher_id', $certificateIssueVoucher->id)->get();
         //  $itemDesc = ItemCode::where('id', $certificateIssueVoucher->item_id)->first();
 
-        $pdf = PDF::loadView('inventory.reports.single-certificate-issue-voucher-generate', compact('logo', 'certificateIssueVouchers'));
+        if ($certificateIssueVouchers->isEmpty()) {
+            session()->flash('error', 'Data Not Found');
+            return response()->json(['error' => 'Data Not Found'], 404);
+        }
+
+        $pdf = PDF::loadView('inventory.reports.single-certificate-issue-voucher-generate', compact('logo', 'certificateIssueVouchers'))->setPaper('a4', $paperType);
         return $pdf->download('certificate-issue-voucher.pdf');
     }
 
-    public function rinDamagedGenerate(Request $request, $startDate = null, $endDate = null)
+    public function rinDamagedGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
     {
         try {
             if ($startDate && $endDate) {
@@ -373,7 +382,7 @@ class ReportController extends Controller
 
             // return $rins;
 
-            $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'));
+            $pdf = PDF::loadView('inventory.reports.rin-damaged-generate', compact('logo', 'rins'))->setPaper('a4', $paperType);
             return $pdf->download('rin-damaged.pdf');
         } catch (\Exception $e) {
             //   return response()->json(['error' => $e->getMessage()], 201);
@@ -390,8 +399,9 @@ class ReportController extends Controller
 
     public function lvpListGenerate(Request $request)
     {
-
-        $pdf = PDF::loadView('inventory.reports.lvp-list-generate');
+        $logo = Helper::logo() ?? '';
+        $paperType = $request->paper_type ?? 'portrait';
+        $pdf = PDF::loadView('inventory.reports.lvp-list-generate', compact('logo'))->setPaper('a4', $paperType);
         return $pdf->download('lvp-list.pdf');
     }
 
@@ -418,8 +428,8 @@ class ReportController extends Controller
         // $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
         // $gst = GstPercentage::where('id',)
         $logo = Helper::logo() ?? '';
-
-        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'));
+        $paperType = $request->paper_type ?? 'portrait';
+        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->setPaper('a4', $paperType);
         return $pdf->download('rin.pdf');
     }
 
@@ -427,11 +437,19 @@ class ReportController extends Controller
     {
         $date = $request->date;
         $explode = explode(' - ', $date);
-        $from = Carbon::parse($explode[0])->format('Y-m-d');
-        $to = Carbon::parse($explode[1])->format('Y-m-d');
+        // $from = Carbon::parse($explode[0])->format('Y-m-d');
+        // $to = Carbon::parse($explode[1])->format('Y-m-d');
+
+        $from = Carbon::parse($explode[0])->subDay()->format('Y-m-d');
+        $to = Carbon::parse($explode[1])->addDay()->format('Y-m-d');
+
+        $logo = Helper::logo() ?? '';
+        $paperType = $request->paper_type ?? 'portrait';
+
+        // return $request->paper_type;
 
         $trafficControls = TrafficControl::whereBetween('created_at', [$from, $to])->get();
-        $pdf = PDF::loadView('inventory.reports.traffic-control-generate', compact('trafficControls', 'date'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('inventory.reports.traffic-control-generate', compact('logo', 'trafficControls', 'date'))->setPaper('a4', $paperType);
 
         // Return the PDF directly for download
         return $pdf->download('traffic-control-report-' . $from . '-to-' . $to . '.pdf');
@@ -444,12 +462,17 @@ class ReportController extends Controller
 
         // Get data by date range created_at
         $explode = explode(' - ', $date);
-        $from = Carbon::parse($explode[0])->format('Y-m-d');
-        $to = Carbon::parse($explode[1])->format('Y-m-d');
+        // $from = Carbon::parse($explode[0])->format('Y-m-d');
+        // $to = Carbon::parse($explode[1])->format('Y-m-d');
+        $from = Carbon::parse($explode[0])->subDay()->format('Y-m-d');
+        $to = Carbon::parse($explode[1])->addDay()->format('Y-m-d');
 
         $securityGates = SecurityGateStore::whereBetween('created_at', [$from, $to])->get();
 
-        $pdf = PDF::loadView('inventory.reports.security-gate-store-generate', compact('securityGates', 'date'))->setPaper('a3', 'landscape');
+        $logo = Helper::logo() ?? '';
+        $paperType = $request->paper_type ?? 'portrait';
+
+        $pdf = PDF::loadView('inventory.reports.security-gate-store-generate', compact('logo', 'securityGates', 'date'))->setPaper('a4', $paperType);
 
         // Return the PDF directly for download
         return $pdf->download('security-gate-store-report-' . $from . '-to-' . $to . '.pdf');
@@ -497,9 +520,10 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Data Not Found');
         }
 
+        $paperType = $request->paper_type ?? 'portrait';
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
-        $pdf = PDF::loadView('inventory.reports.store-inward-generate', compact('logo', 'storeInwards', 'startDate', 'endDate'));
+        $pdf = PDF::loadView('inventory.reports.store-inward-generate', compact('logo', 'storeInwards', 'startDate', 'endDate'))->setPaper('a4', $paperType);
 
         return $pdf->download('store-inward-' . $startDate->format('d-m-Y') . '-to-' . $endDate->format('d-m-Y') . '.pdf');
     }
@@ -538,10 +562,10 @@ class ReportController extends Controller
             session()->flash('error', 'Data Not Found');
             return redirect()->back()->with('error', 'Data Not Found');
         }
-
+        $paperType = $request->paper_type ?? 'portrait';
         // Generate and download the PDF
         $logo = Helper::logo() ?? '';
-        $pdf = PDF::loadView('inventory.reports.rin-controller-generate', compact('logo', 'rinControllerReports', 'startOfYear', 'endOfYear'));
+        $pdf = PDF::loadView('inventory.reports.rin-controller-generate', compact('logo', 'rinControllerReports', 'startOfYear', 'endOfYear'))->setPaper('a4', $paperType);
         return $pdf->download('rin-controller-report-' . $request->financial_year . '.pdf');
     }
 

@@ -305,7 +305,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('reports.statement-of-damaged') }}">
+                        <a href="{{ route('reports.inventory', 'statement_of_damaged') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Statement of damaged</h5>
