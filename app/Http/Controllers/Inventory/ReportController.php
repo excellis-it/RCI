@@ -30,6 +30,7 @@ use App\Models\SirType;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Setting;
 
 
 class ReportController extends Controller
@@ -70,7 +71,10 @@ class ReportController extends Controller
         $startDate = $startDate_s->toDateString(); // e.g., 'YYYY-MM-DD'
         $endDate = $endDate_s->toDateString();
 
-        $paperType = $request->paper_type;
+        $setting = Setting::first();
+
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+
 
         if ($report_type == 'credit_voucher') {
             return $this->creditVoucherGenerate($request, $startDate, $endDate, $paperType);
@@ -106,7 +110,7 @@ class ReportController extends Controller
     }
 
 
-    public function creditVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = 'portrait')
+    public function creditVoucherGenerate(Request $request, $startDate = null, $endDate = null, $paperType = null)
     {
         try {
             // dd($request->all());
@@ -197,6 +201,12 @@ class ReportController extends Controller
             // return $singleData;
 
             // dd($result);
+
+            $setting = Setting::first();
+
+            $paperType = $paperType ?? $setting->pdf_page_type;
+
+           // return $paperType;
 
             $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
             return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
