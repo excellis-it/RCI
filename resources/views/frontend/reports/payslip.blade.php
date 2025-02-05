@@ -52,7 +52,7 @@
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('report_type') }}</div>
                                                     @endif
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-4 mb-2 emp_status" style="display:none;">
@@ -69,7 +69,7 @@
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('e_status') }}</div>
                                                     @endif
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-4 mb-2 member_list" style="display:none;">
@@ -78,7 +78,7 @@
                                                 </div>
                                                 <div class="col-md-12" id="your-div-id">
                                                     <select name="member_id" class="form-select search-select-box" id="member_id">
-                                                        
+
                                                     </select>
                                                     @if ($errors->has('member_id'))
                                                         <div class="error" style="color:red;">
@@ -105,7 +105,7 @@
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('year') }}</div>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,24 +123,24 @@
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('month') }}</div>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                         <label></label>   
+                                         <label></label>
                                         <div class="form-group col-md-12 mb-2">
                                             <button type="submit" class="listing_add">Generate</button>
                                         </div>
-                                        
+
                                         {{-- <div class="form-group col-md-12 mb-2">
                                             <button type="submit" class="listing_exit">Cancel</button>
                                         </div> --}}
                                     </div>
                                 </div>
-                               
+
                             </form>
                         </div>
                     </div>
@@ -191,7 +191,7 @@
                 var monthDropdown = $('#report_month');
 
                 if(year == currentDate.getFullYear()) {
-                    var currentMonth = currentDate.getMonth() + 1;
+                    var currentMonth = currentDate.getMonth();
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
                     monthDropdown.empty();
@@ -211,7 +211,7 @@
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script>
@@ -224,8 +224,8 @@
                     url: "{{ route('reports.get-all-members') }}",
                     type: 'POST',
                     data: { e_status, _token: '{{ csrf_token() }}' },
-                    
-                    
+
+
                     success: ({ members }) => {
                         // Reference the existing select element
                         const memberDropdown = $('#member_id');

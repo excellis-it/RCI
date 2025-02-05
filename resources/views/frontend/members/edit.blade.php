@@ -1711,8 +1711,8 @@
                             toastr.error(response.message);
 
                             //disable debit-button
-                            $("#debit-update").prop('disabled', true);
-                            $('#recovry-update').prop('disabled', true);
+                        //    $("#debit-update").prop('disabled', true);
+                        //    $('#recovry-update').prop('disabled', true);
                         } else {
                             $("#debit-update").prop('disabled', false);
                             $('#recovry-update').prop('disabled', false);

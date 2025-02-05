@@ -172,6 +172,9 @@ class ReportController extends Controller
             'year' => 'required',
         ]);
 
+        $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
+       // return $themonth;
+
         $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
         $all_members_info = [];
         $member_datas = Member::where('e_status', $request->e_status)
@@ -191,15 +194,15 @@ class ReportController extends Controller
             $member_details = [
                 'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
-                    ->where('month', $request->month)
+                    ->where('month', $themonth)
                     ->first(),
                 'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
-                    ->where('month', $request->month)
+                    ->where('month', $themonth)
                     ->first(),
                 'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
                     ->where('year', $request->year)
-                    ->where('month', $request->month)
+                    ->where('month', $themonth)
                     ->first(),
                 'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
                     ->with('banks')
@@ -220,6 +223,9 @@ class ReportController extends Controller
 
         // dd($all_members_info);
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
+
+
+
         $year = $request->year;
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();

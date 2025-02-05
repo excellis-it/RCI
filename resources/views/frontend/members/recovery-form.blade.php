@@ -24,9 +24,11 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NOI <span class="float-end">(Pending :
-                                {{ $member_recovery->noi_pending ?? 0 }}
-                                )</span></label>
+                        <label>NOI
+                            {{-- <span class="float-end">
+                            (Pending : {{ $member_recovery->noi_pending ?? 0 }})
+                        </span> --}}
+                        </label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="noi" id="noi"

@@ -258,13 +258,25 @@ class MemberController extends Controller
         $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
 
 
+        // $noi_amount = 0;
+        // $var_inc_amount = 0;
+        // $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+        // if ($var_noi) {
+        //     if ($var_noi->noi_pending > 0 && $var_noi->stop == 'No') {
+        //         $noi_amount = $var_noi->v_incr;
+        //         $var_inc_amount = $var_noi->v_incr;
+        //     }
+        // }
+        // $member->var_inc_amount = $var_inc_amount;
+        // $member->basic_with_noi = $member->basic + $noi_amount;
+
         $noi_amount = 0;
         $var_inc_amount = 0;
         $var_noi = MemberRecovery::where('member_id', $member->id)->first();
         if ($var_noi) {
-            if ($var_noi->noi_pending > 0 && $var_noi->stop == 'No') {
-                $noi_amount = $var_noi->v_incr;
-                $var_inc_amount = $var_noi->v_incr;
+            if ($var_noi->stop == 'No') {
+                $noi_amount = $var_noi->total;
+                $var_inc_amount = $var_noi->total;
             }
         }
         $member->var_inc_amount = $var_inc_amount;

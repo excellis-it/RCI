@@ -52,7 +52,7 @@
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('e_status') }}</div>
                                                     @endif
-                                                    
+
                                                 </div>
                                             </div>
 
@@ -66,14 +66,14 @@
                                                         @foreach ($categories as $category)
                                                             <option value="{{ $category->id }}">
                                                                 {{ $category->category }}</option>
-                                                            
+
                                                         @endforeach
                                                     </select>
                                                     @if ($errors->has('category'))
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('category') }}</div>
                                                     @endif
-                                                    
+
                                                 </div>
                                             </div>
 
@@ -94,7 +94,7 @@
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('year') }}</div>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,19 +112,19 @@
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('month') }}</div>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                         <label></label> 
+                                         <label></label>
                                         <div class="form-group mb-2">
                                             <button type="submit" class="listing_add">Generate</button>
                                         </div>
                                       </div>
-                                </div>  
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
 @endsection
 
 @push('scripts')
-   
+
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
@@ -144,7 +144,7 @@
                 var monthDropdown = $('#report_month');
 
                 if(year == currentDate.getFullYear()) {
-                    var currentMonth = currentDate.getMonth() + 1;
+                    var currentMonth = currentDate.getMonth();
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
                     monthDropdown.empty();
@@ -164,9 +164,9 @@
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script>
-    
+
 @endpush
