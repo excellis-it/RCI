@@ -25,6 +25,60 @@
         </div>
         <!--  Row 1 -->
 
+        <div class="d-flex justify-content-end mb-3">
+            <!-- Modal trigger button -->
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalId">
+                Import CSV
+            </button>
+
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md" role="document">
+
+
+                    <div class="modal-content">
+                        <form action="" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalTitleId">
+                                    Import CSV Data
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div>
+                                    <p>Download CSV Format : <a href="" class="btn btn-primary btn-sm">file_name.csv</a></p>
+
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Upload CSV File</label>
+                                    <input type="file" class="form-control" name="csv_file" id=""
+                                        aria-describedby="helpId" placeholder="" />
+                                    <small id="helpId" class="form-text text-muted"></small>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger me-3" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="button" class="btn btn-primary" disabled>Import</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card w-100">
@@ -57,7 +111,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
@@ -72,7 +126,7 @@
                                                         class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="code"
                                                     >Inv. No.<span id="code_icon"></span> </th>
-                                               
+
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -213,19 +267,19 @@
             $('#externel-issue-vouchers-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -293,7 +347,7 @@
         $(document).ready(function(){
             $('#item_code_id').change(function() {
                 var item_code_id = $(this).val();
-                $.ajax({ 
+                $.ajax({
                     url: "{{ route('debit-vouchers.get-item-quantity')}}",
                     type: 'POST',
                     data: {
@@ -397,7 +451,7 @@
             var selectedValue = $(this).find(':selected');
             var quantity = selectedValue.data('hidden-value');
             // var quantityDiv = $('#quantity');
-            
+
             var quantityDivSelectBox = [];
             quantityDivSelectBox.push('<option value="">Select Quantity</option>');
             for (var i = 1; i <= quantity; i++) {
@@ -406,7 +460,7 @@
 
             $('#quantity').empty();
             $('#quantity').append(quantityDivSelectBox.join(''));
-            
+
         });
     });
 </script>
@@ -441,7 +495,7 @@
                         $(this).val($('#rin1').val());
                     });
                 }
-                return false;   
+                return false;
             });
 
             $(document).on('click', '.trash', function() {
@@ -481,7 +535,7 @@
                         quantityOptions.push('<option value="' + i + '">' + i + '</option>');
                     }
                     $row.find('.quantity').empty().append(quantityOptions.join(''));
-                    
+
                 },
                 error: function(xhr) {
                     console.log(xhr);

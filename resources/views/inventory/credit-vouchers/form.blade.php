@@ -11,7 +11,7 @@
                                 <label>Item Code</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="item_code_id" id="item_code_id" disabled>
+                                <select class="form-control" name="item_code_id" id="item_code_id" readonly>
                                     <option value="">Select</option>
                                     @foreach ($itemCodes as $item)
                                         <option value="{{ $item->id }}"
@@ -44,7 +44,7 @@
                                 <label>Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="inv_no" id="inv_no" disabled>
+                                <select class="form-control" name="inv_no" id="inv_no" readonly>
                                     <option value="">Select</option>
                                     @foreach ($inventoryNumbers as $inventoryNumber)
                                         <option value="{{ $inventoryNumber->id }}"
@@ -449,7 +449,7 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control item-code" name="item_code_id[]" id=""
-                                    onchange="getItemDetails(this)">
+                                    onchange="getItemDetails(this)" readonly>
                                     <option value="">Select</option>
                                     @foreach ($itemCodes as $item)
                                         <option value="{{ $item->id }}">{{ $item->code }}</option>
