@@ -107,7 +107,7 @@ use App\Http\Controllers\Imprest\CdaReceiptDetailController;
 use App\Http\Controllers\Imprest\ImprestResetVoucherController;
 use App\Http\Controllers\Imprest\VariableTypeController;
 use App\Http\Controllers\Imprest\ProjectController;
-use App\Http\Controllers\Imprest\CDAreceiptController;
+use App\Http\Controllers\Imprest\CdaReceiptController;
 use App\Http\Controllers\Imprest\CdaBillAuditTeamController;
 use App\Http\Controllers\Imprest\CashWithdrawalController;
 use App\Http\Controllers\Imprest\AdvanceSettlementController;
@@ -887,7 +887,7 @@ Route::middleware('permssions')->group(function () {
             'imprest-reset-voucher' => ImprestResetVoucherController::class,
             'variable-type' => VariableTypeController::class,
             'project' => ProjectController::class,
-            'cda-receipts' => CDAreceiptController::class,
+            'cda-receipts' => CdaReceiptController::class,
             'cda-bills' => CdaBillAuditTeamController::class,
             'cash-withdrawals' => CashWithdrawalController::class,
             'advance-settlement' => AdvanceSettlementController::class,
@@ -924,11 +924,11 @@ Route::middleware('permssions')->group(function () {
 
         // cda receipt
         Route::prefix('cda-receipts')->group(function () {
-            Route::get('/cda-receipts-delete/{bill_id}', [CDAreceiptController::class, 'delete'])->name('cda-receipts.delete');
+            Route::get('/cda-receipts-delete/{bill_id}', [CdaReceiptController::class, 'delete'])->name('cda-receipts.delete');
         });
-        Route::get('/cda-receipts-fetch-data', [CDAreceiptController::class, 'fetchData'])->name('cda-receipts.fetch-data');
+        Route::get('/cda-receipts-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipts.fetch-data');
 
-        //cda bills
+        //cda bills 
         Route::prefix('cda-bills')->group(function () {
             Route::get('/cda-bills-delete/{id}', [CdaBillAuditTeamController::class, 'delete'])->name('cda-bills.delete');
         });

@@ -25,6 +25,60 @@ Certificate Issue Voucher List
     </div>
     <!--  Row 1 -->
 
+    <div class="d-flex justify-content-end mb-3">
+        <!-- Modal trigger button -->
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalId">
+            Import CSV
+        </button>
+
+        <!-- Modal Body -->
+        <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+        <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+            role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md" role="document">
+
+
+                <div class="modal-content">
+                    <form action="" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Import CSV Data
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div>
+                                <p>Download CSV Format : <a href="" class="btn btn-primary btn-sm">file_name.csv</a></p>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Upload CSV File</label>
+                                <input type="file" class="form-control" name="csv_file" id=""
+                                    aria-describedby="helpId" placeholder="" />
+                                <small id="helpId" class="form-text text-muted"></small>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger me-3" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary" disabled>Import</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card w-100">
@@ -274,7 +328,7 @@ Certificate Issue Voucher List
                 var selectedValue = $(this).find(':selected');
                 var quantity = selectedValue.data('hidden-value');
                 // var quantityDiv = $('#quantity');
-                
+
                 var quantityDivSelectBox = [];
                 quantityDivSelectBox.push('<option value="">Select Quantity</option>');
                 for (var i = 1; i <= quantity; i++) {
@@ -283,7 +337,7 @@ Certificate Issue Voucher List
 
                 $('#quantity').empty();
                 $('#quantity').append(quantityDivSelectBox.join(''));
-                
+
             });
         });
 </script>
@@ -341,7 +395,7 @@ Certificate Issue Voucher List
 </script>
 
 <script>
-    // inventory no to get inventory holder name ajax 
+    // inventory no to get inventory holder name ajax
     $(document).ready(function() {
         $('#inv_no').change(function() {
             var inventory_no = $(this).val();
@@ -354,7 +408,7 @@ Certificate Issue Voucher List
                 data: {
                     inventory_no: inventory_no
                 },
-                
+
                 success: function(response) {
                     $('#inventory_holder').val(response.inventoryHolder.member.user_name);
                 },
@@ -384,7 +438,7 @@ Certificate Issue Voucher List
                         $(this).val($('#rin1').val());
                     });
                 }
-                return false;   
+                return false;
             });
 
             $(document).on('click', '.trash', function() {
@@ -424,7 +478,7 @@ Certificate Issue Voucher List
                         quantityOptions.push('<option value="' + i + '">' + i + '</option>');
                     }
                     $row.find('.quantity').empty().append(quantityOptions.join(''));
-                    
+
                 },
                 error: function(xhr) {
                     console.log(xhr);

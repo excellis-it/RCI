@@ -10,7 +10,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="item_code[]" id="item_code"
-                                value="{{ $rin->itemCode->code }}" placeholder="">
+                                value="{{ $rin->itemCode->code }}" placeholder="" readonly>
                             <input type="hidden" class="form-control" name="item_code_id[]" id=""
                                 value="{{ $rin->itemCode->id }}" placeholder="">
                             <span class="text-danger"></span>
