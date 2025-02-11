@@ -58,6 +58,16 @@ class MemberController extends Controller
     public function index()
     {
         $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(10);
+
+        foreach ($members as $member) {
+            $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+            $member->member_debit_info = MemberDebit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+            $member->member_recovery_info = MemberOriginalRecovery::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+            $member->member_core_info = MemberCoreInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+            $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+        }
+
+
         return view('frontend.members.list', compact('members'));
     }
 
@@ -80,6 +90,14 @@ class MemberController extends Controller
             })
                 ->orderBy($sort_by, $sort_type)
                 ->paginate(10);
+
+            foreach ($members as $member) {
+                $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+                $member->member_debit_info = MemberDebit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+                $member->member_recovery_info = MemberOriginalRecovery::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+                $member->member_core_info = MemberCoreInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+                $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+            }
 
             return response()->json(['data' => view('frontend.members.table', compact('members'))->render()]);
         }

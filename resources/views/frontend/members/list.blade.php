@@ -60,7 +60,8 @@
                                                     style="cursor: pointer">Pers No <span id="pers_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Designation </th>
-                                               
+                                                <th>Info</th>
+
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -216,9 +217,9 @@
         });
     </script>
 
-  
 
 
 
-    
+
+
 @endpush
