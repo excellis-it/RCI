@@ -61,8 +61,9 @@
                                                     style="cursor: pointer">PDC<span id="pdc_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th>Code</th> --}}
+                                                <th>Inventory Project Number </th>
                                                 <th>Status </th>
-                                                
+
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -263,6 +264,6 @@
             });
         });
     </script>
-    
-   
+
+
 @endpush
