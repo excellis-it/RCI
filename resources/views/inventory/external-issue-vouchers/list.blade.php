@@ -1,6 +1,6 @@
 @extends('inventory.layouts.master')
 @section('title')
-   External Issue Vouchers
+    External Issue Vouchers
 @endsection
 
 @push('styles')
@@ -50,7 +50,8 @@
                             <div class="modal-body">
 
                                 <div>
-                                    <p>Download CSV Format : <a href="" class="btn btn-primary btn-sm">file_name.csv</a></p>
+                                    <p>Download CSV Format : <a href=""
+                                            class="btn btn-primary btn-sm">file_name.csv</a></p>
 
                                 </div>
 
@@ -107,7 +108,8 @@
                                             </div>
                                             <div>
                                                 <div class="refresh-btn">
-                                                    <a href=""><span><i class="fa fa-refresh" aria-hidden="true"></i></span></a>
+                                                    <a href=""><span><i class="fa fa-refresh"
+                                                                aria-hidden="true"></i></span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,9 +125,9 @@
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
                                                     style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
-                                                        class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="code"
-                                                    >Inv. No.<span id="code_icon"></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="code">Inv.
+                                                    No.<span id="code_icon"></span> </th>
 
                                                 <th></th>
                                             </tr>
@@ -138,7 +140,8 @@
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
                                         value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type"
+                                        value="desc" />
                                 </div>
                             </div>
                         </div>
@@ -374,7 +377,7 @@
                 var id = $(this).data('id');
 
                 $.ajax({
-                    url: "{{ route('reports.external-issue-voucher')}}",
+                    url: "{{ route('reports.external-issue-voucher') }}",
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -401,96 +404,92 @@
         });
     </script>
 
-<script>
-    var select_box_element = document.querySelector('.search-select-box');
-    dselect(select_box_element, {
-        search: true
-    });
-</script>
-
-<script>
-    $('#consignee').change(function() {
-        var consignee = $(this).val();
-        if(consignee == '0')
-        {
-            $('.consignee_other_name').show();
-            $('.consignee_other_number').show();
-        }
-        else
-        {
-            $('.consignee_other_name').hide();
-            $('.consignee_other_number').hide();
-        }
-    });
+    <script>
+        var select_box_element = document.querySelector('.search-select-box');
+        dselect(select_box_element, {
+            search: true
+        });
     </script>
 
-<script>
-    $(document).on('change', '#item_code_id', function() {
-        var item_id = $('#item_code_id').val();
-        $.ajax({
-            url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
-            type: 'GET',
-            data: {
-                item_id: item_id
-            },
-            success: function(response) {
-                $('#item_type').val(response.item_type);
-                $('#description').val(response.item_description);
-                $('#item_unit_price').val(response.item_price);
-            },
-            error: function(xhr) {
-                console.log(xhr);
+    <script>
+        $('#consignee').change(function() {
+            var consignee = $(this).val();
+            if (consignee == '0') {
+                $('.consignee_other_name').show();
+                $('.consignee_other_number').show();
+            } else {
+                $('.consignee_other_name').hide();
+                $('.consignee_other_number').hide();
             }
         });
-    });
-</script>
+    </script>
 
-<script>
-    $(document).ready(function () {
-        $('#item_code_id').change(function(){
-            var selectedValue = $(this).find(':selected');
-            var quantity = selectedValue.data('hidden-value');
-            // var quantityDiv = $('#quantity');
-
-            var quantityDivSelectBox = [];
-            quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-            for (var i = 1; i <= quantity; i++) {
-                quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-            }
-
-            $('#quantity').empty();
-            $('#quantity').append(quantityDivSelectBox.join(''));
-
+    <script>
+        $(document).on('change', '#item_code_id', function() {
+            var item_id = $('#item_code_id').val();
+            $.ajax({
+                url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
+                type: 'GET',
+                data: {
+                    item_id: item_id
+                },
+                success: function(response) {
+                    $('#item_type').val(response.item_type);
+                    $('#description').val(response.item_description);
+                    $('#item_unit_price').val(response.item_price);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    $(document).ready(function(){
-        $('#quantity').change(function(){
-            var quantity = $(this).val();
-            var item_unit_price = $('#item_unit_price').val() ?? 0;
-            var total_price = quantity * item_unit_price;
-            $('#total_price').val(total_price);
+    <script>
+        $(document).ready(function() {
+            $('#item_code_id').change(function() {
+                var selectedValue = $(this).find(':selected');
+                var quantity = selectedValue.data('hidden-value');
+                // var quantityDiv = $('#quantity');
+
+                var quantityDivSelectBox = [];
+                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+                for (var i = 1; i <= quantity; i++) {
+                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+                }
+
+                $('#quantity').empty();
+                $('#quantity').append(quantityDivSelectBox.join(''));
+
+            });
         });
-    });
+    </script>
 
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#quantity').change(function() {
+                var quantity = $(this).val();
+                var item_unit_price = $('#item_unit_price').val() ?? 0;
+                var total_price = quantity * item_unit_price;
+                $('#total_price').val(total_price);
+            });
+        });
+    </script>
 
-<script>
-    // add new row
+    <script>
+        // add new row
         $(document).ready(function() {
             $(document).on('click', '.add-more-eiv', function() {
                 var tr = $('#eiv_new_html').html();
                 $('#credit_form_add_new_row').append(tr);
 
-                if($('#voucher_date_1').val() != '') {
+                if ($('#voucher_date_1').val() != '') {
                     $('.voucher-date').each(function() {
                         $(this).val($('#voucher_date_1').val());
                     });
                 }
 
-                if($('#rin1').val() != '') {
+                if ($('#rin1').val() != '') {
                     $('.rin').each(function() {
                         $(this).val($('#rin1').val());
                     });
@@ -503,66 +502,66 @@
                 return false;
             });
         });
-</script>
+    </script>
 
-<script>
-    $(document).ready(function() {
-        // Handle item code change event dynamically
-        $(document).on('change', '.item_id', function() {
-            var item_code_id = $(this).val();
-            var $this = $(this); // Reference to the selected item
+    <script>
+        $(document).ready(function() {
+            // Handle item code change event dynamically
+            $(document).on('change', '.item_id', function() {
+                var item_code_id = $(this).val();
+                var $this = $(this); // Reference to the selected item
 
-            // Get the row containing this item
-            var $row = $this.closest('.count-class');
+                // Get the row containing this item
+                var $row = $this.closest('.count-class');
 
-            $.ajax({
-                url: "{{ route('rins.get-item-description') }}",
-                type: 'POST',
-                data: {
-                    id: item_code_id,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    // Update the description in the same row
-                    $row.find('.description').val(response.description);
-                    $row.find('.item_price').val(response.price);
+                $.ajax({
+                    url: "{{ route('rins.get-item-description') }}",
+                    type: 'POST',
+                    data: {
+                        id: item_code_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Update the description in the same row
+                        $row.find('.description').val(response.description);
+                        $row.find('.item_price').val(response.price);
 
-                    var selectedOption = $this.find('option:selected');
-                    var quantity = selectedOption.data('hidden-value');
-                    var quantityOptions = [];
-                    quantityOptions.push('<option value="">Select Quantity</option>');
-                    for (var i = 1; i <= quantity; i++) {
-                        quantityOptions.push('<option value="' + i + '">' + i + '</option>');
+                        var selectedOption = $this.find('option:selected');
+                        var quantity = selectedOption.data('hidden-value');
+                        var quantityOptions = [];
+                        quantityOptions.push('<option value="">Select Quantity</option>');
+                        for (var i = 1; i <= quantity; i++) {
+                            quantityOptions.push('<option value="' + i + '">' + i +
+                            '</option>');
+                        }
+                        $row.find('.quantity').empty().append(quantityOptions.join(''));
+
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
                     }
-                    $row.find('.quantity').empty().append(quantityOptions.join(''));
-
-                },
-                error: function(xhr) {
-                    console.log(xhr);
-                }
+                });
             });
-        });
 
-        // Handle "Add More" functionality
-        $(document).on('click', '.add-more', function() {
+            // Handle "Add More" functionality
+            $(document).on('click', '.add-more', function() {
                 // Clone the first row of fields
                 var $clone = $('#rins_new_html .new_html').first().clone();
                 $clone.find('input, select').val(''); // Clear input fields in the cloned row
                 $clone.appendTo('#rins_new_html').show(); // Append the new row to the form and display it
             });
         });
+    </script>
 
-</script>
-
-<script>
-    // quantity change event
-    $(document).ready(function() {
-        $(document).on('change', '.quantity', function() {
-            var quantity = $(this).val();
-            var item_price = $(this).closest('.count-class').find('.item_price').val();
-            var total_price = quantity * item_price;
-            $(this).closest('.count-class').find('.total_price').val(total_price);
+    <script>
+        // quantity change event
+        $(document).ready(function() {
+            $(document).on('change', '.quantity', function() {
+                var quantity = $(this).val();
+                var item_price = $(this).closest('.count-class').find('.item_price').val();
+                var total_price = quantity * item_price;
+                $(this).closest('.count-class').find('.total_price').val(total_price);
+            });
         });
-    });
     </script>
 @endpush

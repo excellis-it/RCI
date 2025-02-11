@@ -50,7 +50,8 @@
                             <div class="modal-body">
 
                                 <div>
-                                    <p>Download CSV Format : <a href="" class="btn btn-primary btn-sm">file_name.csv</a></p>
+                                    <p>Download CSV Format : <a href=""
+                                            class="btn btn-primary btn-sm">file_name.csv</a></p>
 
                                 </div>
 
@@ -125,10 +126,12 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
                                                     style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_type"
-                                                    style="cursor: pointer">Voucher Type<span id="voucher_type_icon"><i
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="voucher_type" style="cursor: pointer">Voucher
+                                                    Type<span id="voucher_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-column_name="inv_no" style="cursor: pointer">Inv.
+                                                <th class="sorting" data-column_name="inv_no" style="cursor: pointer">
+                                                    Inv.
                                                     No.<span id="inv_no_icon"></span> </th>
                                                 <th></th>
                                             </tr>
@@ -141,7 +144,8 @@
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     <input type="hidden" name="hidden_column_name" id="hidden_column_name"
                                         value="id" />
-                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type" value="desc" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type"
+                                        value="desc" />
                                 </div>
                             </div>
                         </div>

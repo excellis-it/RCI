@@ -167,15 +167,4 @@ class Member extends Model
     {
         return $this->hasMany(ReceiptMember::class);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
