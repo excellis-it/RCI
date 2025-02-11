@@ -174,7 +174,7 @@
                                         id="search-by-item-name"></span>)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="" id="select-item-code"></select>
+                                <select class="form-select" name="select_item_code" id="select-item-code"></select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

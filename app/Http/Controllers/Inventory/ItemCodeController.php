@@ -97,12 +97,23 @@ class ItemCodeController extends Controller
         // ], [
         //     'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
         // ]);
+        if (isset($request->select_item_code)) {
+            $request->validate([
+                'item_code' =>  'required|unique:item_codes,code',
+                'uom' => 'required',
+                'item_type' => 'nullable',
+            ]);
+        } else {
 
-        $request->validate([
-            'item_code' =>  'required',
-            'uom' => 'required',
-            'item_type' => 'nullable',
-        ]);
+
+            $request->validate([
+                'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
+                'uom' => 'required',
+                'item_type' => 'nullable',
+            ], [
+                'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
+            ]);
+        }
 
         $itemCode = ItemCode::latest()->first();
         if (isset($itemCode)) {
@@ -113,7 +124,11 @@ class ItemCodeController extends Controller
             $counter = 1;
         }
 
-        $item_code = $request->item_code . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        if (isset($request->select_item_code)) {
+            $item_code = $request->item_code;
+        } else {
+            $item_code = $request->item_code . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        }
 
         $item_code_gen = new ItemCode();
         $item_code_gen->code = $item_code;
