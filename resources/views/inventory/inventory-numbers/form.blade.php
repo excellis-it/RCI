@@ -4,7 +4,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="row">
 
                     <div class="form-group col-md-4 mb-2">
@@ -170,7 +170,7 @@
     <form action="{{ route('inventory-numbers.store') }}" method="POST" id="inventory-numbers-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="row">
 
                     <div class="form-group col-md-4 mb-2">
