@@ -290,19 +290,20 @@ class Helper
         return $logo;
     }
 
-    public static function getFinancialYears($startYear  = null, $endYear  = null)
+    public static function getFinancialYears($startYear = null, $endYear = null)
     {
         $currentYear = date('Y') - 1;
         $startYear = $startYear ?: $currentYear - 10; // default start year
         $endYear = $endYear ?: $currentYear; // default end year
         $financialYears = [];
 
-        for ($year = $startYear; $year <= $endYear; $year++) {
+        for ($year = $endYear; $year >= $startYear; $year--) {
             $financialYears[] = "$year-" . ($year + 1);
         }
 
         return $financialYears;
     }
+
 
     private static $ones = [
         0 => '',
@@ -499,7 +500,8 @@ class Helper
         return $sir;
     }
 
-    public static function numberToWords($num) {
+    public static function numberToWords($num)
+    {
         $words = array(
             0 => 'Zero',
             1 => 'One',
@@ -548,5 +550,4 @@ class Helper
             return self::numberToWords((int)($num / 1000000)) . ' ' . $words[1000000] . ($num % 1000000 ? ' ' . self::numberToWords($num % 1000000) : '');
         }
     }
-
 }

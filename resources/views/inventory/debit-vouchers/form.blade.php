@@ -159,7 +159,7 @@
                                 <label>Voucher Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="voucher_type" id="voucher_type_1"
+                                <select class="form-control" name="voucher_type" id="voucher_type_1"
                                     onchange="getVoucherType(this)">
                                     <option value="">Select</option>
                                     <option value="credit" selected>Credit</option>
@@ -205,7 +205,7 @@
                                 <label>Item List</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select item_code_id" name="item_code_id[]" id="item_code_id_1">
+                                <select class="form-control item_code_id" name="item_code_id[]" id="item_code_id_1">
 
                                 </select>
                                 <span class="text-danger"></span>
@@ -328,7 +328,7 @@
                                 <label>Item List(Quantity)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select item_code_id" name="item_code_id[]" id="item_code_id">
+                                <select class="form-control item_code_id" name="item_code_id[]" id="item_code_id">
 
                                 </select>
                                 <span class="text-danger"></span>

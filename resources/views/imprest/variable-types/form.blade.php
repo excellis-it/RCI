@@ -24,11 +24,9 @@
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
-                                    <option value="1" {{ $variableType->status == 1 ? 'selected' : '' }}>Active
-                                    </option>
-                                    <option value="0" {{ $variableType->status == 0 ? 'selected' : '' }}>Inactive
-                                    </option>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="1" {{ $variableType->status == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ $variableType->status == 0 ? 'selected' : '' }}>Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -76,8 +74,8 @@
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
-                                    <option value="">Select Status</option>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="">Select</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>

@@ -17,6 +17,7 @@ use App\Models\Designation;
 use App\Models\NcStatus;
 use Illuminate\Support\Facades\DB;
 use App\Models\Member;
+use App\Helpers\Helper;
 
 class RinController extends Controller
 {
@@ -43,7 +44,8 @@ class RinController extends Controller
         $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
         $all_members = Member::all();
-        return view('inventory.rins.list', compact('rins', 'all_members', 'items', 'vendors', 'supply_orders', 'sir_nos', 'inventory_nos', 'gsts', 'authorities', 'designations', 'nc_statuses', 'au_statuses'));
+        $financialYears = Helper::getFinancialYears();
+        return view('inventory.rins.list', compact('rins', 'financialYears', 'all_members', 'items', 'vendors', 'supply_orders', 'sir_nos', 'inventory_nos', 'gsts', 'authorities', 'designations', 'nc_statuses', 'au_statuses'));
     }
 
     public function rinsTotalValue() {}
@@ -159,6 +161,7 @@ class RinController extends Controller
                 $rin->authority_id = $request->authority_id;
                 $rin->desig_id = $request->authority_designation;
                 $rin->budget_head_details = $request->budget_head_details;
+                $rin->financial_year = $request->financial_year;
                 $rin->member_id = $request->member_id;
                 $rin->rin_no = $rin_id;
                 $rin->item_id = $item;

@@ -141,7 +141,7 @@
                                 <label>From Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="issuing_inv_no" id="issuing_inv_no"
+                                <select class="form-select" name="issuing_inv_no" id="issuing_inv_no"
                                     onchange="">
                                     <option value="">Select</option>
                                     @foreach ($inventoryNumbers as $inventoryNumber)
@@ -177,7 +177,7 @@
                                 <label>To Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-control" name="receiving_inv_no" id="receiving_inv_no"
+                                <select class="form-select" name="receiving_inv_no" id="receiving_inv_no"
                                     onchange="">
                                     <option value="">Select</option>
                                     @foreach ($inventoryNumbers as $inventoryNumber)

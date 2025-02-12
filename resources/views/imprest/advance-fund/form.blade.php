@@ -167,7 +167,7 @@
                             <label>Project<span class="text-danger">*</span></label>
                         </div>
                         <div class="col-md-12">
-                            <select name="project_id" id="project_id" class="form-control">
+                            <select name="project_id" id="project_id" class="form-select">
                                 <option value="">Select</option>
                                 @foreach ($projects as $project)
                                     <option value="{{ $project->id }}">{{ $project->name }}</option>
@@ -184,7 +184,7 @@
                             <label>Vr Type</label>
                         </div>
                         <div class="col-md-12">
-                            <select name="var_type_id" id="var_type_id" class="form-control">
+                            <select name="var_type_id" id="var_type_id" class="form-select">
                                 <option value="">Select</option>
                                 @foreach ($variable_types as $variable_type)
                                     <option value="{{ $variable_type->id }}">{{ $variable_type->name }}</option>

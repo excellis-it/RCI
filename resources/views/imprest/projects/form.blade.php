@@ -24,7 +24,7 @@
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
+                                <select class="form-control" name="status" id="status">
                                     <option value="1" {{ $project->status == 1 ? 'selected' : '' }}>Active
                                     </option>
                                     <option value="0" {{ $project->status == 0 ? 'selected' : '' }}>Inactive
@@ -76,7 +76,7 @@
                                 <label>Status</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
+                                <select class="form-control" name="status" id="status">
                                     <option value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>

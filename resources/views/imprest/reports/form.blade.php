@@ -5,7 +5,7 @@
 
 @push('styles')
 <style>
- 
+
 </style>
 @endpush
 
@@ -44,7 +44,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
-                                                              
+
                                                         <div class="form-group col-md-6 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Report Date</label>
@@ -56,14 +56,14 @@
                                                             @error('report_date')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
-                                                            
+
                                                         </div>
                                                         <div class="form-group col-md-6 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>A/c Off Sign</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                               <select class="form-select" name="account_officer_sign" id="account_officer_sign">
+                                                               <select class="form-control" name="account_officer_sign" id="account_officer_sign">
                                                                     <option value="">Select Accountant</option>
                                                                     @foreach($accountants as $accountant)
                                                                         <option value="{{ $accountant->id }}">{{ $accountant->user_name }}</option>
@@ -101,11 +101,11 @@
                                                                 @error('bill_type')
                                                                     <span class="text-danger">{{ $message }}</span>
                                                                 @enderror
-                                                                 
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@
                                                     <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
-                                                    
+
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_exit">Cancel</button>
                                                     </div> --}}
@@ -140,5 +140,5 @@
 @endsection
 
 @push('scripts')
-    
+
 @endpush

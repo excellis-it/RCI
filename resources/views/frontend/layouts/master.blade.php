@@ -26,6 +26,8 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('web_assets/css/toastr.min.css') }}">
         {{-- <link rel="stylesheet" href="{{ asset('web_assets/css/sweetalert2.min.css') }}"> --}}
         {{-- <link rel="stylesheet" href="{{ asset('web_assets/css/font-awesome.min.css') }}"> --}}
+        <link rel="stylesheet" href="{{ asset('web_assets/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('web_assets/css/select2-bootstrap4.min.css') }}">
         @stack('styles')
     </head>
 
@@ -65,7 +67,7 @@
         <script src="{{ asset('web_assets/js/toastr.min.js') }}"></script>
         <script src="{{ asset('web_assets/js/jquery.validate.min.js') }}"></script>
         {{-- <script src="{{ asset('web_assets/js/sweetalert2.all.min.js') }}"></script> --}}
-        {{-- <script src="{{ asset('web_assets/js/select2.min.js') }}"></script> --}}
+        <script src="{{ asset('web_assets/js/select2.min.js') }}"></script>
         <script>
             window.addEventListener('load', () => {
                 // $('.select23').select2();
@@ -103,6 +105,18 @@
                 }
                 toastr.warning("{{ session('warning') }}");
             @endif
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.form-select').select2({
+                    width: '100%', // Makes it responsive
+                    placeholder: 'Select', // Placeholder text
+                    allowClear: true, // Allows clearing the selection
+                    minimumResultsForSearch: 0, // Always show search box
+                    theme: 'bootstrap4',
+
+                });
+            });
         </script>
         @stack('scripts')
     </body>
