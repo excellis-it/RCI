@@ -158,6 +158,7 @@ class RinController extends Controller
                 $rin->inventory_id = $request->inventory_no;
                 $rin->authority_id = $request->authority_id;
                 $rin->desig_id = $request->authority_designation;
+                $rin->budget_head_details = $request->budget_head_details;
                 $rin->member_id = $request->member_id;
                 $rin->rin_no = $rin_id;
                 $rin->item_id = $item;

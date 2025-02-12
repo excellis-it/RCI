@@ -14,7 +14,7 @@
         <center>
             <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
         </center>
-        <br>
+        <span style="text-align: right;font-size: 10px; display:flex; justify-content:end;">DRDO.SM.05</span>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto">
             <tbody>
@@ -22,18 +22,7 @@
                     <td style="padding: 0 0px">
                         <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                             <tbody>
-                                <tr style=" padding: 0px 0px 20px 0px; text-align: right; font-weight: 600;">
-                                    <td
-                                        style=" font-size: 10px;
-                                line-height: 18px;
-                                font-weight: 600;
-                                color: #000;
-                                text-align: right;
-                                padding: 0px 0px 10px 0px;
-                                ">
-                                        DRDO.SM.05
-                                    </td>
-                                </tr>
+
 
                                 <tr>
                                     <td
@@ -42,9 +31,9 @@
                                 font-weight: 600;
                                 color: #000;
                                 text-align: center;
-                                padding: 0px 0px 10px 0px;
+                                padding: 0px 0px 5px 0px;
                                 ">
-
+                                        RCI Campus, Hyderabad - 500069 <br>
                                         CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
                                         RECEIPT & INSPECTION NOTE (RIN)
 
@@ -161,7 +150,7 @@
                                     <td colspan="5"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">
                                         Budget
-                                        Head Details
+                                        Head Details : {{ $rin->budget_head_details ?? 'N/A' }}
                                     </td>
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">
@@ -322,7 +311,7 @@
                                         Total Number of <br>
                                         Items:</td>
                                     <td
-                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
+                                        style="text-align:center; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                         {{ $total_item ?? '' }}
                                     </td>
                                     <td colspan="2"
@@ -406,7 +395,7 @@
                                 </tr>
                                 <tr>
 
-                                    <td colspan="4"
+                                    <td colspan="5"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 10px; text-align: left; font-weight: 600;font-size: 10px;">
                                         Certified that above stores have been received and handed over to User Division
                                         Rep.
@@ -416,42 +405,54 @@
                                         Date:___________ <br>
                                         <br>
                                     </td>
-                                    <td colspan="4"
-                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600; border-right: 0;font-size: 10px;">
-                                        <span style="padding-right: 10;">1.</span> Inspection carried out
+                                    <td colspan="6"
+                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 10px; text-align: left; font-weight: 600;font-size: 10px;">
+
+                                        <span style="padding-right: 5;">1.</span> Inspection carried out
                                         satisfactorily **.
                                         <br>
-                                        <span style="padding-right: 10;">2.</span> Certified that the above stores have
+                                        <span style="padding-right: 5;">2.</span> Certified that the above stores have
                                         been
-                                        received, inspected and accepted. <br>
-                                        <span style="padding-right: 10;">3.</span> Installation/Commissioning
+                                        received, inspected and accepted. <br><br>
+                                        <span style="padding-right: 5;">3.</span> Installation/Commissioning
                                         satisfactorily
-                                        completed on (if applicable) <br>
-                                        <br><br>
-                                        Inspection Authority/Division Officer
-                                        <br>
-                                        Name: <span
-                                            style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }}
-                                        </span><br>
-                                        Designation: <span
-                                            style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
-                                        Date: ____________
-                                        <br><br>
-                                    </td>
-                                    <td colspan="3"
-                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
+                                        completed on _____________________ (if applicable) <br>
+                                        <table width="100%" border="0" cellspacing="">
+                                            <tr>
+                                                <td
+                                                    style=" padding: 5px; border-left: 0; font-weight: 600; border-right: 0;font-size: 10px;">
 
-                                        <br><br><br><br><br><br>
-                                        Inspection Authority/Division Officer
-                                        <br>
-                                        Name: <span
-                                            style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }}
-                                        </span><br>
-                                        Designation: <span
-                                            style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
-                                        Date: ____________
-                                        <br><br>
+                                                    <br><br>
+                                                    Inspection Authority/Division Officer
+                                                    <br>
+                                                    Name: <span
+                                                        style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }}
+                                                    </span><br>
+                                                    Designation: <span
+                                                        style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
+                                                    Date: ____________
+                                                    <br><br>
+                                                </td>
+                                                <td
+                                                    style=" padding: 5px; border-left: 0; font-weight: 600;border-right: 0; font-size: 10px;">
+
+                                                    <br><br>
+                                                    Inspection Authority/Division Officer
+                                                    <br>
+                                                    Name: <span
+                                                        style="font-weight: 400; !important">{{ $rin->authority->user_name ?? '' }}
+                                                    </span><br>
+                                                    Designation: <span
+                                                        style="font-weight: 400; !important">{{ $rin->designation->designation ?? '' }}</span><br>
+                                                    Date: ____________
+                                                    <br><br>
+                                                </td>
+                                            </tr>
+                                        </table>
+
                                     </td>
+
+
 
                                 </tr>
                             </tbody>

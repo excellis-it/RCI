@@ -222,14 +222,14 @@
 
 
                                 <!-- <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="form-group col-md-12 mb-2">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-12">
-                                                        <label>Category</label>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        {{-- <select class="form-select" name="category"
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-12 mb-2">
+                                                                                <div class="row align-items-center">
+                                                                                    <div class="col-md-12">
+                                                                                        <label>Category</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-12">
+                                                                                        {{-- <select class="form-select" name="category"
                                                                     id="category">
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
@@ -238,15 +238,15 @@
                                             @endforeach
 
                                             </select> --}}
-                                                        <input type="text" class="form-control"
-                                                            id="category_value" readonly>
-                                                        <input type="hidden" class="form-control" name="category" id="category">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                                                                        <input type="text" class="form-control"
+                                                                                            id="category_value" readonly>
+                                                                                        <input type="hidden" class="form-control" name="category" id="category">
+                                                                                        <span class="text-danger"></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
 
 
                                 <div class="row">
@@ -477,24 +477,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-4 mb-2">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-md-12">
-                                                                <label>Category</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <select class="form-select" name="category_id"
-                                                                    id="category">
-                                                                    <option value="">Select</option>
-                                                                    @foreach ($categories as $category)
-                                                                        <option value="{{ $category->id }}">
-                                                                            {{ $category->category }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <span class="text-danger"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
 
                                                     {{-- <div class="form-group col-md-4 mb-2">
                                                         <div class="row align-items-center">
@@ -550,7 +533,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    <div class="form-group col-md-4 mb-2" hidden>
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Appointment date</label>
@@ -568,7 +551,9 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="row">
-                                                    <div class="form-group col-md-6 mb-2">
+
+
+                                                    <div class="form-group col-md-6 mb-2" hidden>
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>CGEIS</label>
@@ -596,6 +581,25 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group col-md-6 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>Category</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select class="form-select" name="category_id"
+                                                                    id="category">
+                                                                    <option value="">Select</option>
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->id }}">
+                                                                            {{ $category->category }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
@@ -617,9 +621,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-12">
                                                 <div class="row">
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    <div class="form-group col-md-3 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Ex-Service</label>
@@ -638,10 +642,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    <div class="form-group col-md-3 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
-                                                                <label>PG</label>
+                                                                <label>PH</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <select class="form-select" name="pg"
@@ -657,7 +661,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-4 mb-2">
+
+
+                                                    <div class="form-group col-md-3 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>CGEGIS</label>
@@ -672,11 +678,29 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group col-md-3 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>CGEIS</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div type="text" class="form-control  " name=""
+                                                                    placeholder="">
+                                                                    @foreach ($cgegises as $cgegis)
+                                                                        {{ $cgegis->group->value . '-' . $cgegis->value }},
+                                                                    @endforeach
+                                                                </div>
+
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
 
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <div class="row align-items-center">
@@ -720,7 +744,7 @@
 
 
                                 <div class="row mt-3">
-                                    <div class="form-group col-md-3 mb-2">
+                                    <div class="form-group col-md-3 mb-2" hidden>
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label for="PIS">City</label>
@@ -737,7 +761,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-3 mb-2">
+                                    <div class="form-group col-md-3 mb-2" hidden>
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label for="PIS">Rent Payable</label>
