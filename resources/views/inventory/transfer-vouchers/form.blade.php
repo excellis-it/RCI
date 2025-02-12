@@ -138,7 +138,7 @@
                     <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Inventory Number</label>
+                                <label>From Inventory Number</label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control" name="issuing_inv_no" id="issuing_inv_no"
@@ -174,7 +174,7 @@
                     <div class="form-group col-xl-3 col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Inventory Number</label>
+                                <label>To Inventory Number</label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control" name="receiving_inv_no" id="receiving_inv_no"

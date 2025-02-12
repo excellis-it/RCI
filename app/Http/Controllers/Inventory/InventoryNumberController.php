@@ -65,22 +65,23 @@ class InventoryNumberController extends Controller
         // validation
 
         $request->validate([
+            'number' => 'required|unique:inventory_numbers,number',
             'inventory_type' => 'required',
             'holder_id' => 'required',
             'division' => 'required',
             'status' => 'required',
         ]);
 
-        $invNum = InventoryNumber::latest()->first();
-        if (isset($invNum)) {
-            $serial_no = Str::substr($invNum->number, -1);
-            $counter = $serial_no + 1;
-            // dd($serial_no);
-        } else {
-            $counter = 1;
-        }
+        // $invNum = InventoryNumber::latest()->first();
+        // if (isset($invNum)) {
+        //     $serial_no = Str::substr($invNum->number, -1);
+        //     $counter = $serial_no + 1;
+        //     // dd($serial_no);
+        // } else {
+        //     $counter = 1;
+        // }
 
-        $inv_number = str_pad($counter, 4, '0', STR_PAD_LEFT);
+        // $inv_number = str_pad($counter, 4, '0', STR_PAD_LEFT);
 
 
         // store data
@@ -90,7 +91,7 @@ class InventoryNumberController extends Controller
         $inventoryNumber->group_id = $request->group_id;
         $inventoryNumber->division = $request->division;
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
-        $inventoryNumber->number = $inv_number;
+        $inventoryNumber->number = $request->number;
         $inventoryNumber->status = $request->status;
         $inventoryNumber->remarks = $request->remarks;
         $inventoryNumber->save();
@@ -129,6 +130,7 @@ class InventoryNumberController extends Controller
     {
         // validation
         $request->validate([
+           // 'number' => 'required|unique:inventory_numbers,number',
             'holder_id' => 'required',
             'status' => 'required',
             'division' => 'required',
@@ -136,6 +138,7 @@ class InventoryNumberController extends Controller
 
         $inventoryNumber = InventoryNumber::find($id);
         // $inventoryNumber->inventory_type = $request->inventory_type;
+      //  $inventoryNumber->number = $request->number;
         $inventoryNumber->division = $request->division;
         $inventoryNumber->holder_id = $request->holder_id;
         $inventoryNumber->group_id = $request->group_id;

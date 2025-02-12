@@ -68,7 +68,7 @@
                                     Cancel
                                 </button>
                                 <button type="button" class="btn btn-primary" disabled>Import</button>
-                            </div>  
+                            </div>
                         </form>
 
                     </div>

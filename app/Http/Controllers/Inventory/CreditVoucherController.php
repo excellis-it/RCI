@@ -107,6 +107,7 @@ class CreditVoucherController extends Controller
     {
 
         $request->validate([
+            'voucher_number' => 'required|unique:credit_vouchers,voucher_no',
             'rin' => 'required',
             'item_code' => 'required',
             'inv_no' => 'required',
@@ -147,7 +148,8 @@ class CreditVoucherController extends Controller
 
 
         $creditVoucher = new CreditVoucher();
-        $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
+       // $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
+        $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
         $creditVoucher->invoice_no = $request->invoice_no;
         $creditVoucher->invoice_date = $request->invoice_date;

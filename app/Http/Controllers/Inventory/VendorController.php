@@ -54,17 +54,17 @@ class VendorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|string|max:15|unique:vendors,phone',
+            'email' => 'nullable',
+            'phone' => 'nullable',
             'address' => 'required|string|max:255',
             'status' => 'required|boolean',
         ]);
 
         $vendor = new Vendor();
         $vendor->name = $request->name;
-        $vendor->email = $request->email;
-        $vendor->phone = $request->phone;
-        $vendor->address = $request->address;
+        $vendor->email = $request->email ?? '';
+        $vendor->phone = $request->phone ?? '';
+        $vendor->address = $request->address ?? '';
         $vendor->status = $request->status;
         $vendor->save();
 
@@ -98,9 +98,9 @@ class VendorController extends Controller
 
         $vendor = Vendor::findOrFail($id);
         $vendor->name = $request->name;
-        $vendor->email = $request->email;
-        $vendor->phone = $request->phone;
-        $vendor->address = $request->address;
+        $vendor->email = $request->email ?? '';
+        $vendor->phone = $request->phone ?? '';
+        $vendor->address = $request->address ?? '';
         $vendor->status = $request->status;
         $vendor->update();
 

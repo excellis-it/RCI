@@ -651,6 +651,19 @@
                         </div>
                     </div>
 
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Budget Head Details</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="budget_head_details"
+                                    id="budget_head_details" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
                 <hr>

@@ -64,10 +64,10 @@ class InventoryProjectController extends Controller
         ]);
 
         // auto generate project code
-        $project_code = 'PRJ'.date('YmdHis');
+      //  $project_code = 'PRJ'.date('YmdHis');
 
         $inventory_project = new InventoryProject();
-        $inventory_project->project_code = $project_code;
+        $inventory_project->project_code = $request->project_code;
         $inventory_project->project_name = $request->project_name;
         $inventory_project->sanction_amount = $request->sanction_amount;
         $inventory_project->sanction_authority = $request->sanction_authority;
@@ -119,6 +119,7 @@ class InventoryProjectController extends Controller
 
         $inventory_project = InventoryProject::find($id);
         $inventory_project->project_name = $request->project_name;
+        $inventory_project->project_code = $request->project_code;
         $inventory_project->sanction_amount = $request->sanction_amount;
         $inventory_project->sanction_authority = $request->sanction_authority;
         $inventory_project->pdc = $request->pdc;

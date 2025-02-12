@@ -15,7 +15,7 @@ class ItemCodeNameController extends Controller
      */
     public function index()
     {
-        $ItemCodeNames = ItemCodeName::paginate(10);
+        $ItemCodeNames = ItemCodeName::orderBy('id', 'desc')->paginate(10);
 
         return view('inventory.item-code-names.list', compact('ItemCodeNames'));
     }
