@@ -126,8 +126,8 @@ class MemberController extends Controller
         $fundTypes = FundType::orderBy('id', 'desc')->where('status', 1)->get();
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get();
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get();
-        $pgs = Pg::orderBy('id', 'desc')->where('status', 1)->get();
-        $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get();
+        $pgs = Pg::orderBy('id', 'asc')->where('status', 1)->get();
+        $cgegises = Cgegis::orderBy('id', 'asc')->where('status', 1)->get();
         $cities = City::orderBy('id', 'desc')->get();
 
         return view('frontend.members.form', compact('paybands', 'cities', 'categories', 'pmLevels', 'pmIndexes', 'divisions', 'groups', 'cadres', 'designations', 'fundTypes', 'quaters', 'exServices', 'pgs', 'cgegises'));

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   PG List
+   PH List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>PG Listing</h3>
+                    <h3>PH Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">PG Listing</span></li>
+                        <li><span class="bread-blod">PH Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
-                                                    style="cursor: pointer">PG Value <span id="value_icon"><i
+                                                    style="cursor: pointer">PH Value <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Status </th>
                                                 <th></th>
@@ -171,19 +171,19 @@
             $('#pg-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
