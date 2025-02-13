@@ -174,6 +174,11 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <select class="form-select" name="desig" id="desig">
+                                                            <option value="">Select</option>
+                                                            @foreach ($designations as $designation)
+                                                                <option value="{{ $designation->id }}">
+                                                                    {{ $designation->designation }}</option>
+                                                            @endforeach
 
                                                         </select>
                                                         <span class="text-danger"></span>
@@ -222,14 +227,14 @@
 
 
                                 <!-- <div class="col-md-4">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-12 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>Category</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        {{-- <select class="form-select" name="category"
+                                                                                                <div class="row">
+                                                                                                    <div class="form-group col-md-12 mb-2">
+                                                                                                        <div class="row align-items-center">
+                                                                                                            <div class="col-md-12">
+                                                                                                                <label>Category</label>
+                                                                                                            </div>
+                                                                                                            <div class="col-md-12">
+                                                                                                                {{-- <select class="form-select" name="category"
                                                                     id="category">
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
@@ -238,15 +243,15 @@
                                             @endforeach
 
                                             </select> --}}
-                                                                                        <input type="text" class="form-control"
-                                                                                            id="category_value" readonly>
-                                                                                        <input type="hidden" class="form-control" name="category" id="category">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+                                                                                                                <input type="text" class="form-control"
+                                                                                                                    id="category_value" readonly>
+                                                                                                                <input type="hidden" class="form-control" name="category" id="category">
+                                                                                                                <span class="text-danger"></span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div> -->
 
 
                                 <div class="row">
@@ -573,8 +578,14 @@
                                                                 <label>Fund Type</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control"
-                                                                    name="fund_type" id="fund_type">
+
+
+                                                                <select class="form-select" name="fund_type"
+                                                                    id="fund_type">
+                                                                    <option value="">Select</option>
+                                                                    <option value="NPS">NPS</option>
+                                                                    <option value="GPF">GPF</option>
+                                                                </select>
 
                                                                 <span class="text-danger"></span>
                                                             </div>
@@ -988,13 +999,13 @@
                         $('#cgegis_value').val(response.cgegis_value.value);
                         $('#cgegis').val(response.cgegis_value.id);
 
-                        var $desigSelect = $('#desig');
-                        $desigSelect.empty(); // Clear existing options
-                        $desigSelect.append('<option value="">Select</option>');
-                        $.each(response.desigs, function(index, desig) {
-                            $desigSelect.append('<option value="' + desig.id + '">' +
-                                desig.designation + '</option>');
-                        });
+                        // var $desigSelect = $('#desig');
+                        // $desigSelect.empty(); // Clear existing options
+                        // $desigSelect.append('<option value="">Select</option>');
+                        // $.each(response.desigs, function(index, desig) {
+                        //     $desigSelect.append('<option value="' + desig.id + '">' +
+                        //         desig.designation + '</option>');
+                        // });
 
 
                     }

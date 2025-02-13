@@ -56906,3 +56906,8 @@ ul {
         width: 120px;
     }
 }
+
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
+    background-color: #EDF4FA !important;
+}
