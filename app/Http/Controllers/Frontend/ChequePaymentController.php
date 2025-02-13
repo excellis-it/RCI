@@ -185,7 +185,7 @@ class ChequePaymentController extends Controller
     {
         // dd($request->all());
         DB::beginTransaction();
-        
+
         try {
             // Loop through each receipt
             foreach ($request->receipt_id as $index => $receiptId) {

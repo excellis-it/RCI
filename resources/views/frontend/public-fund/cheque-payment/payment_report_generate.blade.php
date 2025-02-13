@@ -135,6 +135,8 @@
                         <th>CBRV</th>
                         <th>DETAILS</th>
                         <th>Cheque No</th>
+                        <th>CASH</th>
+                        <th>BANK</th>
                         @foreach ($category as $cat)
                             <th>{{ strtoupper($cat->name) }}</th>
                         @endforeach
@@ -169,6 +171,7 @@
                         $balanceCarriedForward = [];
                         $totalReceipts = [];
                         $processedReceipts = []; // To track processed receipt IDs
+                        $total_bank_amount = 0;
 
                         foreach ($category as $cat) {
                             $categoryTotals[$cat->id] = 0;
@@ -194,11 +197,29 @@
                                 );
                                 // dd(count($groupedData));
                                 $new_count = 0;
-                                foreach ($groupedData as $get_data) {
+                                $bank_amount = 0;
+
+                                foreach ($groupedData as $vr_key => $get_data) {
+                                    $vr = \App\Models\ChequePayment::with('reciepts')->where('id', $vr_key)->first();
+
+                                    foreach ($get_data as $get_member) {
+                                        // dd($get_member);
+                                        //  echo $get_member['cheque_payment']['category_id'].'<br>';
+                                        foreach ($category as $cat) {
+                                            if (
+                                                isset($get_member['cheque_payment']) &&
+                                                $get_member['cheque_payment']['category_id'] == $cat->id
+                                            ) {
+                                                $bank_amount += $get_member['amount'];
+                                            }
+                                        }
+                                    }
+
                                     if (isset($get_data)) {
                                         $new_count += count($get_data) + 1;
                                     }
                                 }
+
                                 $new_count_cvr = 0;
                             @endphp
                             <tr style="border-top: 0; border-top: 1px solid #000">
@@ -217,6 +238,14 @@
                                 <td
                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
+                                </td>
+                                <td
+                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    0
+                                </td>
+                                <td
+                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    {{ $bank_amount }}
                                 </td>
                                 @foreach ($category as $cat)
                                     <td
@@ -249,6 +278,12 @@
                                         style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                     </td>
+                                    <td
+                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    </td>
                                     @foreach ($category as $cat)
                                         <td
                                             style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -274,6 +309,12 @@
                                             <td
                                                 style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 {{ $new_count_cvr == 0 && $count == 0 ? $key ?? '-' : '' }}
+                                            </td>
+                                            <td
+                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            </td>
+                                            <td
+                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             </td>
                                             @foreach ($category as $cat)
                                                 <td
@@ -313,8 +354,33 @@
                         @endif
                     @endforeach
 
+                    @php
+                        $total_bank_payments = 0;
+                        $total_bank_payments_reciepts = 0;
+                        $total_bank_balnace_forword = 0;
+                        foreach ($category as $cat) {
+                            $total_bank_payments += $categoryTotals[$cat->id];
+                            if ($start > 0) {
+                                $total_bank_payments_reciepts += $total_previous_balance[$cat->id];
+                                $total_bank_balnace_forword +=
+                                    $total_previous_balance[$cat->id] - $categoryTotals[$cat->id];
+                            } else {
+                                $total_bank_payments_reciepts +=
+                                    $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
+                                $total_bank_balnace_forword +=
+                                    $categoryAmounts[$cat->id] +
+                                    Helper::get_openings_balance($cat->id, $pre_vr_date) -
+                                    $categoryTotals[$cat->id];
+                            }
+                        }
+
+                    @endphp
+
+
                     <tr>
                         <td colspan="4">Total Payments</td>
+                        <td>0</td>
+                        <td>{{ $total_bank_payments }}</td>
                         @foreach ($category as $cat)
                             <td>{{ $categoryTotals[$cat->id] }}</td>
                         @endforeach
@@ -322,6 +388,8 @@
                     </tr>
                     <tr>
                         <td colspan="4">Total Receipts</td>
+                        <td>0</td>
+                        <td>{{$total_bank_payments_reciepts}}</td>
                         @foreach ($category as $cat)
                             {{-- <td>{{ $totalReceipts[$cat->id] }}</td> --}}
                             <td>
@@ -346,6 +414,8 @@
                     </tr>
                     <tr>
                         <td colspan="4">Balance Carried Forward</td>
+                        <td>0</td>
+                        <td>{{$total_bank_balnace_forword}}</td>
                         @foreach ($category as $cat)
                             <td>
                                 @if ($start > 0)
@@ -385,6 +455,8 @@
                     <th>CBRV</th>
                     <th>DETAILS</th>
                     <th>Cheque No</th>
+                    <th>CASH</th>
+                    <th>BANK</th>
                     @foreach ($category as $cat)
                         <th>{{ strtoupper($cat->name) }}</th>
                     @endforeach
@@ -542,8 +614,22 @@
                     @endforeach
                 @endforeach
 
+                @php
+                $total_bank_payments = 0;
+                $total_bank_payments_reciepts = 0;
+                $total_bank_balnace_forword = 0;
+                foreach ($category as $cat) {
+                    $total_bank_payments += $categoryTotals[$cat->id];
+                    $total_bank_payments_reciepts += $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
+                    $total_bank_balnace_forword += $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $categoryTotals[$cat->id];
+                }
+
+            @endphp
+
                 <tr>
                     <td colspan="4">Total Payments</td>
+                    <td>{{$total_bank_payments}}</td>
+                    <td></td>
                     @foreach ($category as $cat)
                         <td>{{ $categoryTotals[$cat->id] }}</td>
                     @endforeach
@@ -554,6 +640,8 @@
 
                 <tr>
                     <td colspan="4">Total Receipts</td>
+                    <td>{{$total_bank_payments_reciepts}}</td>
+                    <td></td>
                     @foreach ($category as $cat)
                         {{-- <td>{{ $totalReceipts[$cat->id] }}</td> --}}
                         <td>
@@ -564,6 +652,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">Balance Carried Forward</td>
+                    <td>{{$total_bank_balnace_forword}}</td><td></td>
                     @foreach ($category as $cat)
                         {{-- <td>
                     @php
