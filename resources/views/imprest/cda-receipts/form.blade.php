@@ -141,7 +141,8 @@
                                             <option value="">Select</option>
                                             @foreach ($advance_bills as $advance_bill)
                                                 <option value="{{ $advance_bill->cda_bill_no }}"
-                                                    data-billamount="{{ $advance_bill->total_bill_amount }}">
+                                                    data-billamount="{{ $advance_bill->total_bill_amount }}"
+                                                    data-billdate="{{ $advance_bill->bill_date }}">
                                                     {{ $advance_bill->cda_bill_no }}
                                                 </option>
                                             @endforeach
