@@ -15,6 +15,8 @@ class Member extends Model
         'emp_id',
         'gender',
         'name',
+        'phone_number',
+        'pran_number',
         'pm_level',
         'pm_index',
         'basic',

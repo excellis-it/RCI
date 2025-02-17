@@ -661,6 +661,11 @@ Route::middleware('permssions')->group(function () {
     Route::post('/members-loan-emi-submit', [MemberController::class, 'memberLoanEmiSubmit'])->name('members.loans-emi-submit');
     Route::post('/loan-emi-list', [MemberController::class, 'fetchEmiList'])->name('members.loan-emi-list');
 
+    //import members
+    Route::get('/import-members', [MemberController::class, 'importMembers'])->name('members.import-members');
+    Route::get('/import-members-download-format', [MemberController::class, 'downloadImportFormat'])->name('members.download-import-format');
+    Route::post('/import-members-excel-data', [MemberController::class, 'importExcelData'])->name('members.import-excel-data');
+
 
     //member check credit availability
     Route::post('/members-check-credit-availability', [MemberController::class, 'memberCheckCreditAvailability'])->name('members.check-credit-available');

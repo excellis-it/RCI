@@ -27,6 +27,7 @@
 
         <div class="row">
             <div class="col-md-12 text-end mb-3">
+                <a class="print_btn me-3" href="{{ route('members.import-members') }}">Import members</a>
                 <a class="print_btn" href="{{ route('members.create') }}">Add member</a>
             </div>
             <div class="col-lg-12">
@@ -60,7 +61,7 @@
                                                     style="cursor: pointer">Pers No <span id="pers_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Designation </th>
-                                               
+
 
                                                 <th></th>
                                             </tr>
