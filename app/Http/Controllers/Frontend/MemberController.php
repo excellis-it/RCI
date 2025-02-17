@@ -47,6 +47,8 @@ use App\Models\MemberGpf;
 use App\Models\Cghs;
 use App\Models\Rule;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\MembersImport;
 
 
 
@@ -1526,5 +1528,44 @@ class MemberController extends Controller
     {
         $get_rule_detail = Rule::where('id', $request->rule_id)->first();
         return response()->json(['data' => $get_rule_detail]);
+    }
+
+    public function importMembers()
+    {
+        $members = Member::orderBy('id', 'desc')->get();
+
+
+        return view('frontend.members.import-member', compact('members'));
+    }
+
+    public function downloadImportFormat()
+    {
+        $filePath = storage_path('app/public/members.xlsx');
+
+        if (!file_exists($filePath)) {
+            return back()->with('error', 'Template file not found.');
+        }
+
+        return response()->download($filePath, 'members_import_template.xlsx');
+    }
+
+    public function importExcelData(Request $request)
+    {
+        $request->validate([
+            'member_fund_type' => 'required|in:GPF,NPS',
+            'import_file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        try {
+            // Pass the selected fund type to the import class
+            Excel::import(new MembersImport($request->member_fund_type), $request->file('import_file'));
+            session()->flash('message', 'Member imported successfully');
+            // return back()->with('success', 'Members imported successfully!');
+            return redirect()
+                ->route('members.index')
+                ->with('message', 'Member imported successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error importing file: ' . $e->getMessage());
+        }
     }
 }

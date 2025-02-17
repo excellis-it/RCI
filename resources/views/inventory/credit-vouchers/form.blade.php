@@ -279,7 +279,7 @@
                                 <label>Receipt & Inspection Note (RIN)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select rin" name="rin" id="rin1">
+                                <select class="form-select form-select-search rin" name="rin" id="rin1">
                                     <option value="">Select</option>
                                     @foreach ($rins as $key => $rin)
                                         <option value="{{ $key }}">{{ $key }}
@@ -308,7 +308,7 @@
                                 <label>Inventory Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="inv_no" id="inv_no">
+                                <select class="form-select form-select-search" name="inv_no" id="inv_no">
 
                                 </select>
                                 <span class="text-danger"></span>
@@ -385,7 +385,7 @@
                                 <label>Supply Order Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="supply_order_no" id="supply_order_no">
+                                <select class="form-select form-select-search" name="supply_order_no" id="supply_order_no">
                                     <option value="">Select</option>
                                     @foreach ($supplyOrders as $supplyOrder)
                                         <option value="{{ $supplyOrder->id }}">{{ $supplyOrder->order_number }}

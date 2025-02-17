@@ -42,10 +42,18 @@ class CdaReceiptController extends Controller
         })
             ->select('cda_bill_no', DB::raw('SUM(bill_amount) as total_bill_amount'))
             ->groupBy('cda_bill_no')
-           // ->orderBy('id', 'desc')
+            // ->orderBy('id', 'desc')
             ->get();
 
 
+
+        foreach ($advance_bills as $advance_bill) {
+            $bill_details = CdaBillAuditTeam::where('cda_bill_no', $advance_bill->cda_bill_no)->first();
+            $advance_bill->bill_id = $bill_details->id;
+            $advance_bill->bill_date = $bill_details->cda_bill_date;
+        }
+
+       // return $advance_bills;
 
         // return dd($advance_bills);
 

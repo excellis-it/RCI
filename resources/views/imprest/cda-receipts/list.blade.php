@@ -307,8 +307,27 @@
                 var selectedOption = $(this).find(":selected");
                 // Retrieve the data-billamount attribute
                 var the_bill_amount = selectedOption.data('billamount');
+
                 // alert(the_bill_amount);
                 $("#rct_vr_amount").val(the_bill_amount);
+
+
+                //rct vr date check
+                // var input_rct_date_check = $("#rct_vr_date").val();
+                // var the_bill_date = selectedOption.data('billdate');
+
+                // $("#rct_vr_date").attr("min", the_bill_date);
+                // if (input_rct_date_check > the_bill_date) {
+                //     $("#rct_vr_date").val('');
+                // }
+                var inputRctDateCheck = new Date($("#rct_vr_date").val());
+                var theBillDate = new Date(selectedOption.data('billdate'));
+
+                $("#rct_vr_date").attr("min", theBillDate.toISOString().split("T")[0]);
+
+                if (inputRctDateCheck < theBillDate) {
+                    $("#rct_vr_date").val('');
+                }
 
             });
         });

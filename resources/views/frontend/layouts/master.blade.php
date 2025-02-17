@@ -108,7 +108,7 @@
         </script>
         <script>
             $(document).ready(function() {
-                $('.form-select').select2({
+                $('.form-select-search').select2({
                     width: '100%', // Makes it responsive
                     placeholder: 'Select', // Placeholder text
                     allowClear: true, // Allows clearing the selection
