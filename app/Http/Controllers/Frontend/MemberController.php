@@ -1560,7 +1560,10 @@ class MemberController extends Controller
             // Pass the selected fund type to the import class
             Excel::import(new MembersImport($request->member_fund_type), $request->file('import_file'));
             session()->flash('message', 'Member imported successfully');
-            return back()->with('success', 'Members imported successfully!');
+            // return back()->with('success', 'Members imported successfully!');
+            return redirect()
+                ->route('members.index')
+                ->with('message', 'Member imported successfully');
         } catch (\Exception $e) {
             return back()->with('error', 'Error importing file: ' . $e->getMessage());
         }
