@@ -663,7 +663,7 @@ Route::middleware('permssions')->group(function () {
 
     //import members
     Route::get('/import-members', [MemberController::class, 'importMembers'])->name('members.import-members');
-    Route::get('/import-members-download-format', [MemberController::class, 'downloadImportFormat'])->name('members.download-import-format');
+    Route::get('/import-members-download-format-file', [MemberController::class, 'downloadImportFormatFile'])->name('members.download-import-formatfile');
     Route::post('/import-members-excel-data', [MemberController::class, 'importExcelData'])->name('members.import-excel-data');
 
 

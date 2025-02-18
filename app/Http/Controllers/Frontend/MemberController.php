@@ -1538,15 +1538,15 @@ class MemberController extends Controller
         return view('frontend.members.import-member', compact('members'));
     }
 
-    public function downloadImportFormat()
+    public function downloadImportFormatFile()
     {
-        $filePath = storage_path('app/public/members.xlsx');
+        $filePath = storage_path('app/public/members_format.xlsx');
 
         if (!file_exists($filePath)) {
             return back()->with('error', 'Template file not found.');
         }
 
-        return response()->download($filePath, 'members_import_template.xlsx');
+        return response()->download($filePath, 'members_import_format.xlsx');
     }
 
     public function importExcelData(Request $request)
