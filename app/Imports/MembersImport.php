@@ -17,19 +17,26 @@ class MembersImport implements ToModel
 
     public function model(array $row)
     {
+        if ($row[1] === 'Name') {
+            return null;
+        }
+
         $designationName = $row[3] ?? null;
         $designation = Designation::firstOrCreate(['designation' => $designationName]);
 
         return new Member([
             'name'         => $row[1] ?? null,
             'phone_number' => $row[2] ?? null,
-            'gpf_no'       => $row[4] ?? null,
-            'pran_no'      => $row[5] ?? null,
+            'desig'        => $designation->id,
+            'gpf_number'       => $row[4] ?? null,
+            'pran_number'  => $row[5] ?? null,
             'bank_account' => $row[6] ?? null,
             'bank_name'    => $row[7] ?? null,
             'ifsc_code'    => $row[8] ?? null,
-            'desig'        => $designation->id,
-
+            'status' => 1,
+            'member_status' => 1,
+            'e_status' => 'active',
+            'pay_stop' => 'No',
         ]);
     }
 }

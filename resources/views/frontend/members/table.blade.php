@@ -5,7 +5,7 @@
             <td>{{ $member->emp_id ?? 'N/A' }}</td>
             <td>{{ $member->gender ?? 'N/A' }}</td>
             <td>{{ $member->pers_no ?? 'N/A' }}</td>
-            <td>{{ $member->designation->designation_type ?? 'N/A' }}</td>
+            <td>{{ $member->desigs->designation ?? 'N/A' }}</td>
             {{-- <td>
                 <p class="text-warning">
                     {!! empty($member->member_credit_info) ? 'Credit Info Not Updated <br>' : '' !!}
