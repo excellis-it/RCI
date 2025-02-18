@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
+use App\Imports\CreditVoucherImport;
 use Illuminate\Http\Request;
 use App\Models\CreditVoucher;
 use App\Models\ItemCode;
@@ -19,6 +20,7 @@ use App\Models\Uom;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use App\Models\InventoryItemBalance;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CreditVoucherController extends Controller
 {
@@ -59,16 +61,16 @@ class CreditVoucherController extends Controller
                 $query = str_replace(" ", "%", $query);
                 $creditVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%');
-                       // ->orWhere('voucher_date', 'like', '%' . $query . '%');
-                        // ->orWhere('item_type', 'like', '%' . $query . '%')
-                        // ->orWhere('description', 'like', '%' . $query . '%')
-                        // ->orWhere('total_price', 'like', '%' . $query . '%')
-                        // ->orWhere('quantity', 'like', '%' . $query . '%')
-                        // ->orWhere('supply_order_no', 'like', '%' . $query . '%')
-                        // ->orWhereHas('itemCode', function ($q) use ($query) {
-                        //     $q->where('code', 'like', '%' . $query . '%');
-                        // })
-                        // ->orWhere('rin', 'like', '%' . $query . '%');
+                    // ->orWhere('voucher_date', 'like', '%' . $query . '%');
+                    // ->orWhere('item_type', 'like', '%' . $query . '%')
+                    // ->orWhere('description', 'like', '%' . $query . '%')
+                    // ->orWhere('total_price', 'like', '%' . $query . '%')
+                    // ->orWhere('quantity', 'like', '%' . $query . '%')
+                    // ->orWhere('supply_order_no', 'like', '%' . $query . '%')
+                    // ->orWhereHas('itemCode', function ($q) use ($query) {
+                    //     $q->where('code', 'like', '%' . $query . '%');
+                    // })
+                    // ->orWhere('rin', 'like', '%' . $query . '%');
                 });
             }
 
@@ -148,7 +150,7 @@ class CreditVoucherController extends Controller
 
 
         $creditVoucher = new CreditVoucher();
-       // $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
+        // $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
         $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
         $creditVoucher->invoice_no = $request->invoice_no;
@@ -332,5 +334,30 @@ class CreditVoucherController extends Controller
         }
 
         return response()->json(['message' => 'Inventory not found'], 404);
+    }
+
+
+    public function downloadSample()
+    {
+        // return "dsa";
+        $pathToFile = public_path('sample_excel/sample.xlsx');
+        return response()->download($pathToFile);
+    }
+
+
+
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|mimes:xls,xlsx',
+            'inventory_no' => 'required'
+        ]);
+
+        $inventoryNo = $request->input('inventory_no');
+
+        Excel::import(new CreditVoucherImport($inventoryNo), $request->file('excel_file'));
+
+        return redirect()->back()->with('message', 'Candidate imported successfully');
     }
 }

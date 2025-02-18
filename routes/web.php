@@ -1155,6 +1155,8 @@ Route::middleware('permssions')->group(function () {
             Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
             Route::post('/get-item-type', [CreditVoucherController::class, 'getItemType'])->name('credit-vouchers.get-item-type');
             Route::post('/inventory-number', [CreditVoucherController::class, 'getInventoryDetails'])->name('get.inventory-number');
+            Route::get('/credit-vouchers-download-sample', [CreditVoucherController::class, 'downloadSample'])->name('credit-vouchers.download.sample');
+            Route::post('/credit-vouchers-import', [CreditVoucherController::class, 'import'])->name('credit-vouchers.import');
 
 
             // credit-vouchers.get-rin-details

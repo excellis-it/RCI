@@ -39,10 +39,12 @@
 
 
                     <div class="modal-content">
-                        <form action="" method="post">
+                        <form action="{{ route('credit-vouchers.import') }}" method="post"
+                            id="credit-vouchers-form-import">
+                            @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalTitleId">
-                                    Import CSV Data
+                                    Import XLSX Data
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -50,15 +52,27 @@
                             <div class="modal-body">
 
                                 <div>
-                                    <p>Download CSV Format : <a href="" class="btn btn-primary btn-sm">file_name.csv</a></p>
+                                    <p>Download XLSX Format : <a href="{{ route('credit-vouchers.download.sample') }}"
+                                            class="btn btn-primary btn-sm">Download</a></p>
 
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="" class="form-label">Upload CSV File</label>
-                                    <input type="file" class="form-control" name="csv_file" id=""
+                                    <label for="" class="form-label">Inventory Number</label>
+                                    <select class="form-select " name="inventory_no" id="inventory_no">
+                                        @foreach ($inventoryNumbers as $inventory_number)
+                                            <option value="{{ $inventory_number->id }}">{{ $inventory_number->number }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger" ></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Upload XLSX File</label>
+                                    <input type="file" class="form-control" name="excel_file" id=""
                                         aria-describedby="helpId" placeholder="" />
-                                    <small id="helpId" class="form-text text-muted"></small>
+                                        <span class="text-danger"></span>
                                 </div>
 
 
@@ -67,7 +81,7 @@
                                 <button type="button" class="btn btn-danger me-3" data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="button" class="btn btn-primary" disabled>Import</button>
+                                <button type="submit" class="btn btn-primary" >Import</button>
                             </div>
                         </form>
 
@@ -125,8 +139,9 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="voucher_no"
                                                     style="cursor: pointer">Voucher Number<span id="voucher_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="voucher_date"
-                                                    style="cursor: pointer">Voucher Date<span id="voucher_date_icon"><i
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="voucher_date" style="cursor: pointer">Voucher
+                                                    Date<span id="voucher_date_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 {{-- <th class="sorting" data-sorting_type="desc" data-column_name="inv_no"
                                                 style="cursor: pointer">Rin No.<span id="inv_no_icon"></span> </th> --}}
@@ -168,6 +183,36 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).on('submit', '#credit-vouchers-form-import', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    //windows load with toastr message
+                    window.location.reload();
+
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        console.log(key);
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
