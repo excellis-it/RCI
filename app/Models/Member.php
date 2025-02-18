@@ -47,6 +47,11 @@ class Member extends Model
         'pis_address',
         'sos',
         'sos_address',
+        'gpf_number',
+        'bank_name',
+        'bank_account',
+        'ifsc_code',
+        'member_status',
     ];
 
 
