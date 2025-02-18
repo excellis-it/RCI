@@ -28,7 +28,7 @@
             <div class="col-6">
                 <div class="">
                     <div class="card-body">
-                        <a href="{{ route('members.download-import-format') }}" class="btn btn-success mb-3">Download Excel
+                        <a href="{{ route('members.download-import-formatfile') }}" class="btn btn-success mb-3">Download Excel
                             Format</a>
 
                         <form action="{{ route('members.import-excel-data') }}" method="POST"
