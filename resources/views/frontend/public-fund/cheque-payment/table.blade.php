@@ -48,7 +48,7 @@
                             </td>
                             <td>
                                 @foreach ($payments->chequePaymentMembers as $chqMember)
-                                    <span>{{ $chqMember->member->designation->designation_type ?? 'N/A' }}</span><br>
+                                    <span>{{ $chqMember->member->desigs->designation ?? 'N/A' }}</span><br>
                                 @endforeach
                             </td>
                             {{-- <td>{{ $payments->amount ?? 'N/A' }}</td> --}}

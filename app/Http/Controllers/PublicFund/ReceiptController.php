@@ -115,7 +115,7 @@ class ReceiptController extends Controller
             return response()->json([
                 'data' => [
                     'name' => $member->name,
-                    'desig' => $member->designation->designation_type,
+                    'desig' => $member->desigs->designation,
                     'bank_account' => $member_core,
                 ]
             ]);

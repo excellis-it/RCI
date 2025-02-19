@@ -131,7 +131,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         <input type="text" class="form-control desig" readonly
-                                                            value="{{ $drc_member->member->designation->designation_type ?? '' }}">
+                                                            value="{{ $drc_member->member->desigs->designation ?? '' }}">
                                                         <span class="text-danger"
                                                             style="display:none; color:red;">Desig.
                                                             field is

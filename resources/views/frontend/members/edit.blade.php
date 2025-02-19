@@ -93,7 +93,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <input type="text" class="form-control" name="desig" id="desig"
-                                                        value="{{ $member->designation->designation_type ?? '' }}"
+                                                        value="{{ $member->desigs->designation ?? '' }}"
                                                         placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>

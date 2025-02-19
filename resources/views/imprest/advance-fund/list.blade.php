@@ -200,8 +200,8 @@
                             row.find('.emp_id').val(response.data.member_data.emp_id);
                             row.find('.member_name').val(response.data.name);
                             row.find('.pers_no').val(response.data.member_data.pers_no);
-                            row.find('.desig').val(response.data.member_data.designation
-                                .designation_type);
+                            row.find('.desig').val(response.data.member_data.desigs
+                                .designation);
                             row.find('.basic').val(response.data.member_data.basic);
                             row.find('.groups').val(response.data.groups.value);
                             row.find('.divisions').val(response.data.divisions.value);
