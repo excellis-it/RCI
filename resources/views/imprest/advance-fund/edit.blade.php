@@ -72,7 +72,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control desig" name="desig"
-                                value="{{ $advance_fund->member->designation->designation_type }}" placeholder=""
+                                value="{{ $advance_fund->member->desigs->designation }}" placeholder=""
                                 readonly>
                             <span class="text-danger"></span>
                         </div>

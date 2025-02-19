@@ -151,7 +151,7 @@
                                         ->first();
                                     $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
                                     $memberDesign =
-                                        $members->firstWhere('id', $member->member_id)->designation->designation_type ??
+                                        $members->firstWhere('id', $member->member_id)->desigs->designation ??
                                         'N/A';
                                     // $bankAccountNo = $memberCoreInfo ? $memberCoreInfo->bank_acc_no : 'N/A';
                                 @endphp

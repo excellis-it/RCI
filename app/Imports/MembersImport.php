@@ -37,6 +37,7 @@ class MembersImport implements ToModel
             'member_status' => 1,
             'e_status' => 'active',
             'pay_stop' => 'No',
+            'fund_type' => $this->fund_type,
         ]);
     }
 }

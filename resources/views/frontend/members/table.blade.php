@@ -6,6 +6,9 @@
             <td>{{ $member->gender ?? 'N/A' }}</td>
             <td>{{ $member->pers_no ?? 'N/A' }}</td>
             <td>{{ $member->desigs->designation ?? 'N/A' }}</td>
+            <td>{{ $member->fund_type ?? 'N/A' }}</td>
+            <td>{{ $member->memberCategory->category ?? 'N/A' }}</td>
+
             {{-- <td>
                 <p class="text-warning">
                     {!! empty($member->member_credit_info) ? 'Credit Info Not Updated <br>' : '' !!}

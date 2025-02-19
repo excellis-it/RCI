@@ -12,7 +12,7 @@
             </td>
             <td>
                 @foreach ($receipt->receiptMembers as $rcMember)
-                    <span>{{ $rcMember->member->designation->designation_type ?? 'N/A' }}</span><br>
+                    <span>{{ $rcMember->member->desigs->designation ?? 'N/A' }}</span><br>
                 @endforeach
             </td>
             {{-- <td>{{ $receipt->amount ?? 'N/A' }}</td> --}}

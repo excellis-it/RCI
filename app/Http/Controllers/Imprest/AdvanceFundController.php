@@ -103,7 +103,7 @@ class AdvanceFundController extends Controller
                 'data' => [
                     'member_data' => $member,
                     'name' => $member->name,
-                    'desig' => $member->designation->designation_type,
+                    'desig' => $member->desigs->designation,
                     'bank_account' => $member_core,
                     'personal_info' => $member->memberPersonalInfo,
                     'divisions' => $member->divisions,
