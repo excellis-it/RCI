@@ -339,7 +339,7 @@
                             let options = '<option value="">Select Item Code</option>';
                             $.each(response, function(index, item) {
                                 options +=
-                                    `<option value="${item.item_code}">${item.item_code}</option>`;
+                                    `<option value="${item.item_code}" data-item-name="${item.name}" data-uom-id="${item.uom}" data-nc-status-id="${item.nc_status}" data-au-status-id="${item.au_status}">${item.item_code}</option>`;
                             });
                             $("#select-item-code").html(options);
                             $(".item-code-select").show();
@@ -358,8 +358,16 @@
         // When item code is selected, set it in the item code input
         $("#select-item-code").change(function() {
             var itemCode = $(this).val();
+            var itemname = $(this).find(':selected').data('item-name');
+            var uomId = $(this).find(':selected').data('uom-id');
+            var ncStatusId = $(this).find(':selected').data('nc-status-id');
+            var auStatusId = $(this).find(':selected').data('au-status-id');
             if (itemCode) {
                 $("#item_code").val(itemCode);
+                $("#item_name").val(itemname);
+                $("#uom").val(uomId);
+                $("#nc_status").val(ncStatusId);
+                $("#au_status").val(auStatusId);
             }
         });
     </script>

@@ -59,7 +59,7 @@ class InventoryProjectController extends Controller
             'sanction_authority' => 'required',
             'pdc' => 'required',
             'project_director' => 'required',
-            'end_date' => 'required|date',
+           // 'end_date' => 'required|date',
             'status' => 'required',
         ]);
 

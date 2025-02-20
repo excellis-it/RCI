@@ -519,6 +519,19 @@
                     </div>
 
                     <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Round Figure Amount</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control round_amount" name="round_amount[]"
+                                id="round_amount">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>NC Status</label>
@@ -827,6 +840,10 @@
                 // Calculate total amount after GST
                 var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
                 $row.find('.total_amount').val(totalAmount);
+
+                // Round the total amount to 2 decimal places
+                var roundedTotalAmount = (Math.round(totalAmount * 10) / 10).toFixed(2);
+                $row.find('.round_amount').val(roundedTotalAmount);
             }
 
             // Event listener for changes in received quantity, unit cost, discount, or GST percentage

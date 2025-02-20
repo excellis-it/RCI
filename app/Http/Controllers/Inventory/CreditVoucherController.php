@@ -157,6 +157,7 @@ class CreditVoucherController extends Controller
         $creditVoucher->invoice_date = $request->invoice_date;
         $creditVoucher->supply_order_id = $request->supply_order_no;
         $inventory_number = InventoryNumber::where('id', '=', $request->inv_no)->first();
+        $creditVoucher->remarks = $request->remarks;
         if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
 
@@ -269,6 +270,7 @@ class CreditVoucherController extends Controller
         $creditVoucher->rin = $request->rin;
         // $creditVoucher->member_id = $request->member_id;
         $creditVoucher->order_type = $request->order_type;
+        $creditVoucher->remarks = $request->remarks;
         $creditVoucher->update();
 
         session()->flash('message', 'Credit Voucher updated successfully');

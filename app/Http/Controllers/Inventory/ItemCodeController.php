@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\ItemCodeType;
 use Illuminate\Support\Facades\Auth;
+use App\Models\NcStatus;
+use App\Models\AuStatus;
 
 
 class ItemCodeController extends Controller
@@ -24,8 +26,11 @@ class ItemCodeController extends Controller
         $members = User::role('MATERIAL-MANAGER')->get();
         $item_classifications = ItemCodeType::orderBy('id', 'desc')->get();
         $uoms = Uom::all();
+        $nc_statuses = NcStatus::all();
+        $au_statuses = AuStatus::all();
 
-        return view('inventory.items.list', compact('items', 'members', 'uoms', 'item_classifications'));
+
+        return view('inventory.items.list', compact('items', 'members', 'uoms', 'item_classifications', 'nc_statuses', 'au_statuses'));
     }
 
     public function fetchData(Request $request)
@@ -107,33 +112,33 @@ class ItemCodeController extends Controller
 
 
             $request->validate([
-                'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
+                'item_code' =>  'required|unique:item_codes,code',
                 'uom' => 'required',
                 'item_type' => 'nullable',
-            ], [
-                'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
             ]);
         }
 
-        $itemCode = ItemCode::latest()->first();
-        if (isset($itemCode)) {
-            $serial_no = Str::substr($itemCode->code, -1);
-            $counter = $serial_no + 1;
-            // dd($serial_no);
-        } else {
-            $counter = 1;
-        }
+        // $itemCode = ItemCode::latest()->first();
+        // if (isset($itemCode)) {
+        //     $serial_no = Str::substr($itemCode->code, -1);
+        //     $counter = $serial_no + 1;
+        //     // dd($serial_no);
+        // } else {
+        //     $counter = 1;
+        // }
 
-        if (isset($request->select_item_code)) {
-            $item_code = $request->item_code;
-        } else {
-            $item_code = $request->item_code . str_pad($counter, 4, '0', STR_PAD_LEFT);
-        }
+        // if (isset($request->select_item_code)) {
+        //     $item_code = $request->item_code;
+        // } else {
+        //     $item_code = $request->item_code . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        // }
 
         $item_code_gen = new ItemCode();
-        $item_code_gen->code = $item_code;
+        $item_code_gen->code = $request->item_code;
         $item_code_gen->description = $request->description;
         $item_code_gen->uom = $request->uom;
+        $item_code_gen->nc_status = $request->nc_status;
+        $item_code_gen->au_status = $request->au_status;
         $item_code_gen->item_type = $request->item_type;
         $item_code_gen->item_name = $request->item_name;
         $item_code_gen->item_price = $request->item_price;
@@ -163,9 +168,11 @@ class ItemCodeController extends Controller
         $edit_item_code = ItemCode::find($id);
         $members = User::role('MATERIAL-MANAGER')->get();
         $uoms = Uom::all();
+        $nc_statuses = NcStatus::all();
+        $au_statuses = AuStatus::all();
         $item_classifications = ItemCodeType::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('inventory.items.form', compact('edit', 'edit_item_code', 'members', 'uoms', 'item_classifications'))->render()]);
+        return response()->json(['view' => view('inventory.items.form', compact('edit', 'edit_item_code', 'members', 'uoms', 'item_classifications', 'nc_statuses', 'au_statuses'))->render()]);
     }
 
     /**
@@ -184,6 +191,8 @@ class ItemCodeController extends Controller
         $item_code = ItemCode::find($id);
         $item_code->description = $request->description;
         $item_code->uom = $request->uom;
+        $item_code->nc_status = $request->nc_status;
+        $item_code->au_status = $request->au_status;
         $item_code->item_type = $request->item_type;
         $item_code->item_name = $request->item_name;
         $item_code->item_price = $request->item_price;

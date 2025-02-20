@@ -105,7 +105,7 @@
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
                                 id="disc_percent" value="{{ number_format($sir->discount, 2) ?? 0.0 }}">
                             <input type="hidden" class="form-control discount_amount" name="discount_amount[]"
-                                id="discount_amount" value="{{ $sir->discount_amount ?? 0 }}">
+                                id="discount_amount" value="{{ $sir->discount_amount ?? 0 }}" hidden>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -152,6 +152,20 @@
                         <div class="col-md-12">
                             <input type="text" class="form-control total_amount" name="total_amount[]"
                                 id="total_amount" value="{{ $sir->total_amount ?? 0.0 }}">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Round Figure Amount</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control round_amount" name="round_amount[]"
+                                id="round_amount"
+                                value="{{ number_format(round($sir->total_amount * 10) / 10, 2) }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

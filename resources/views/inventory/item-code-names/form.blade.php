@@ -4,7 +4,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="row">
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
@@ -32,12 +32,69 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>UOM</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="uom">
+                                    <option value="">Select</option>
+                                    @foreach ($uoms as $uom)
+                                        <option value="{{ $uom->id }}"
+                                            {{ $item_code_name->uom == $uom->id ? 'selected' : '' }}>
+                                            {{ $uom->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NC Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="nc_status">
+                                    <option value="">Select</option>
+                                    @foreach ($nc_statuses as $status)
+                                        <option value="{{ $status->id }}"
+                                            {{ $item_code_name->nc_status == $status->id ? 'selected' : '' }}>
+                                            {{ $status->status }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>AU Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status">
+                                    <option value="">Select</option>
+                                    @foreach ($au_statuses as $status)
+                                        <option value="{{ $status->id }}"
+                                            {{ $item_code_name->au_status == $status->id ? 'selected' : '' }}>
+                                            {{ $status->status }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row mt-3 d-flex justify-content-between">
-
             <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
@@ -54,8 +111,7 @@
     <form action="{{ route('item-code-names.store') }}" method="POST" id="item-code-names-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-8">
-
+            <div class="col-md-12">
                 <div class="row">
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
@@ -84,12 +140,62 @@
                     </div>
                 </div>
 
-            </div>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>UOM</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="uom">
+                                    <option value="">Select</option>
+                                    @foreach ($uoms as $uom)
+                                        <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NC Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="nc_status">
+                                    <option value="">Select</option>
+                                    @foreach ($nc_statuses as $status)
+                                        <option value="{{ $status->id }}">{{ $status->status }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>AU Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status">
+                                    <option value="">Select</option>
+                                    @foreach ($au_statuses as $status)
+                                        <option value="{{ $status->id }}">{{ $status->status }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row mt-3 d-flex justify-content-between">
-
             <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
@@ -101,5 +207,9 @@
                 </div>
             </div>
         </div>
+
+
     </form>
+
+
 @endif

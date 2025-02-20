@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ItemCodeName;
 use Illuminate\Http\Request;
 use App\Models\ItemCode;
+use App\Models\NcStatus;
+use App\Models\AuStatus;
+use App\Models\Uom;
 use Illuminate\Support\Str;
 
 class ItemCodeNameController extends Controller
@@ -15,9 +18,12 @@ class ItemCodeNameController extends Controller
      */
     public function index()
     {
+        $uoms = Uom::all();
+        $nc_statuses = NcStatus::all();
+        $au_statuses = AuStatus::all();
         $ItemCodeNames = ItemCodeName::orderBy('id', 'desc')->paginate(10);
 
-        return view('inventory.item-code-names.list', compact('ItemCodeNames'));
+        return view('inventory.item-code-names.list', compact('ItemCodeNames', 'uoms', 'nc_statuses', 'au_statuses'));
     }
 
     public function fetchData(Request $request)
@@ -43,7 +49,10 @@ class ItemCodeNameController extends Controller
      */
     public function create()
     {
-        return view('inventory.item-code-names.form');
+        $uoms = Uom::all();
+        $nc_statuses = NcStatus::all();
+        $au_statuses = AuStatus::all();
+        return view('inventory.item-code-names.form', compact('uoms', 'nc_statuses', 'au_statuses'));
     }
 
     /**
@@ -51,28 +60,29 @@ class ItemCodeNameController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
-            'item_code' =>  ['required', 'regex:/^\d{2}\.\d{2}\.(?![\s\S])/'],
+            'item_code' => 'required',
             'name' => 'required',
-        ], [
-            'item_code.regex' => 'Item Code must be in the format XX.XX., e.g. 01.01.'
+
         ]);
 
-        $itemCode = ItemCode::latest()->first();
-        if (isset($itemCode)) {
-            $serial_no = Str::substr($itemCode->code, -1);
-            $counter = $serial_no + 1;
-            // dd($serial_no);
-        } else {
-            $counter = 1;
-        }
+        // $itemCode = ItemCode::latest()->first();
+        // if (isset($itemCode)) {
+        //     $serial_no = Str::substr($itemCode->code, -1);
+        //     $counter = $serial_no + 1;
+        //     // dd($serial_no);
+        // } else {
+        //     $counter = 1;
+        // }
 
-        $item_code = $request->item_code . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        // $item_code = $request->item_code . str_pad($counter, 4, '0', STR_PAD_LEFT);
 
         $item_code_name = new ItemCodeName();
-        $item_code_name->item_code = $item_code;
+        $item_code_name->item_code = $request->item_code;
         $item_code_name->name = $request->name;
+        $item_code_name->uom = $request->uom;
+        $item_code_name->nc_status = $request->nc_status;
+        $item_code_name->au_status = $request->au_status;
         $item_code_name->save();
 
         session()->flash('message', 'Item Code Type added successfully');
@@ -93,10 +103,12 @@ class ItemCodeNameController extends Controller
     public function edit(string $id)
     {
         $item_code_name = ItemCodeName::find($id);
+        $uoms = Uom::all();
+        $nc_statuses = NcStatus::all();
+        $au_statuses = AuStatus::all();
         $edit = true;
 
-        // return view('inventory.item-code-names.form', compact('item_code_name', 'edit'));
-        return response()->json(['view' => view('inventory.item-code-names.form', compact('edit', 'item_code_name'))->render()]);
+        return response()->json(['view' => view('inventory.item-code-names.form', compact('edit', 'uoms', 'item_code_name', 'nc_statuses', 'au_statuses'))->render()]);
     }
 
     /**
@@ -107,11 +119,15 @@ class ItemCodeNameController extends Controller
         $request->validate([
             'item_code' => 'required|string|max:255',
             'name' => 'required|string|max:255',
+
         ]);
 
         $item_code_name = ItemCodeName::find($id);
         $item_code_name->item_code = $request->item_code;
         $item_code_name->name = $request->name;
+        $item_code_name->uom = $request->uom;
+        $item_code_name->nc_status = $request->nc_status;
+        $item_code_name->au_status = $request->au_status;
         $item_code_name->save();
 
         session()->flash('message', 'Item Code Name updated successfully');
@@ -138,7 +154,7 @@ class ItemCodeNameController extends Controller
     {
         $itemname = $request->itemname;
         $item_codes = ItemCodeName::where('name', 'like', '%' . $itemname . '%')
-            ->get(['item_code']); // Get only the item_code field
+            ->get(); // Get only the item_code field
 
         return response()->json($item_codes); // Return JSON response
     }

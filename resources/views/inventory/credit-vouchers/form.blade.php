@@ -237,6 +237,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Remarks</label>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remarks" id="remarks">{{ $creditVoucher->remarks ?? '' }}</textarea>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -385,7 +396,8 @@
                                 <label>Supply Order Number</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select form-select-search" name="supply_order_no" id="supply_order_no">
+                                <select class="form-select form-select-search" name="supply_order_no"
+                                    id="supply_order_no">
                                     <option value="">Select</option>
                                     @foreach ($supplyOrders as $supplyOrder)
                                         <option value="{{ $supplyOrder->id }}">{{ $supplyOrder->order_number }}
@@ -416,6 +428,17 @@
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="invoice_date" id="invoice_date"
                                     value="" max="{{ date('Y-m-d') }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Remarks</label>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="remarks" id="remarks"></textarea>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
