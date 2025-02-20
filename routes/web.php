@@ -1214,6 +1214,9 @@ Route::middleware('permssions')->group(function () {
 
             Route::post('/get-sir-form', [RinController::class, 'getSirForm'])->name('rins.get-sir-form');
 
+            //sir
+            Route::post('/get-item-description-sir', [InventorySirController::class, 'getItemDescription'])->name('sir.get-item-description');
+
             //supply-orders
             Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');
             Route::prefix('supply-orders')->group(function () {

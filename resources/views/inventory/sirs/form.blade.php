@@ -319,17 +319,18 @@
                                                     </select></label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : '' }}"
+                                                <input
+                                                    type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}"
                                                     class="form-control disc_percent" name="disc_percent[]"
                                                     id="disc_percent" placeholder="Enter percentage"
-                                                    value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : '' }}"
+                                                    value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : 0.0 }}"
                                                     {{ $sirItem->discount_type == 'fixed' ? 'disabled' : '' }}>
 
                                                 <input
-                                                    type="{{ $sirItem->discount_type == 'percentage' ? 'hidden' : '' }}"
+                                                    type="{{ $sirItem->discount_type == 'percentage' || $sirItem->discount_type == '' ? 'hidden' : 'number' }}"
                                                     class="form-control discount_amount mt-2" name="discount_amount[]"
                                                     id="discount_amount" placeholder="Enter fixed amount"
-                                                    value="{{ $sirItem->discount_type == 'fixed' ? $sirItem->discount_amount : '' }}">
+                                                    value="{{ $sirItem->discount_type == 'fixed' ? $sirItem->discount_amount : 0.0 }}">
                                                 <span class="text-danger"></span>
                                             </div>
                                         </div>
@@ -392,17 +393,15 @@
                                                 <label>NC Status</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <select class="form-select" name="nc_status[]" id="nc_status">
-                                                    <option value="">Select NC Status</option>
-                                                    @if (count($nc_statuses) > 0)
-                                                        @foreach ($nc_statuses as $nc_status)
-                                                            <option
-                                                                {{ $sirItem->nc_status == $nc_status['status'] ? 'selected' : '' }}
-                                                                value="{{ $nc_status['status'] }}">
-                                                                {{ $nc_status['status'] }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
+                                                <select class="form-select nc_statuses" name="nc_status[]"
+                                                    id="nc_status">
+                                                    <option value="">Select</option>
+                                                    @foreach ($nc_statuses as $status)
+                                                        <option value="{{ $status->id }}"
+                                                            {{ $sirItem->nc_status == $status->id ? 'selected' : '' }}>
+                                                            {{ $status->status }}
+                                                        </option>
+                                                    @endforeach
 
                                                 </select>
                                                 <span class="text-danger"></span>
@@ -416,17 +415,14 @@
                                                 <label>A/U Status</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <select class="form-select" name="au_status[]" id="au_status">
-                                                    <option value="">Select A/U Status</option>
-                                                    @if (count($au_statuses) > 0)
-                                                        @foreach ($au_statuses as $au_status)
-                                                            <option
-                                                                {{ $sirItem->au_status == $au_status['status'] ? 'selected' : '' }}
-                                                                value="{{ $au_status['status'] }}">
-                                                                {{ $au_status['status'] }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
+                                                <select class="form-select au_statuses" name="au_status[]"
+                                                    id="au_status">
+                                                    <option value="">Select</option>
+                                                    @foreach ($au_statuses as $status)
+                                                        <option value="{{ $status->id }}"
+                                                            {{ $sirItem->au_status == $status->id ? 'selected' : '' }}>
+                                                            {{ $status->status }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <span class="text-danger"></span>
                                             </div>
@@ -777,7 +773,7 @@
                                             </select></label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" value="0" class="form-control disc_percent"
+                                        <input type="number" value="0" class="form-control disc_percent"
                                             name="disc_percent[]" id="disc_percent" placeholder="">
                                         <input type="hidden" class="form-control discount_amount"
                                             name="discount_amount[]" id="discount_amount" placeholder="">
@@ -838,15 +834,14 @@
                                         <label>NC Status</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <select class="form-select" name="nc_status[]" id="nc_status">
-                                            <option value="">Select NC Status</option>
-                                            @if (count($nc_statuses) > 0)
-                                                @foreach ($nc_statuses as $nc_status)
-                                                    <option value="{{ $nc_status['status'] }}">
-                                                        {{ $nc_status['status'] }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
+                                        <select class="form-select nc_status" name="nc_status[]" id="nc_status">
+
+                                            <option value="">Select</option>
+                                            @foreach ($nc_statuses as $status)
+                                                <option value="{{ $status->status }}">
+                                                    {{ $status->status }}
+                                                </option>
+                                            @endforeach
 
                                         </select>
                                         <span class="text-danger"></span>
@@ -860,15 +855,12 @@
                                         <label>A/U Status</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <select class="form-select" name="au_status[]" id="au_status">
-                                            <option value="">Select A/U Status</option>
-                                            @if (count($au_statuses) > 0)
-                                                @foreach ($au_statuses as $au_status)
-                                                    <option value="{{ $au_status['status'] }}">
-                                                        {{ $au_status['status'] }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
+                                        <select class="form-select au_status" name="au_status[]" id="au_status">
+                                            <option value="">Select</option>
+                                            @foreach ($au_statuses as $status)
+                                                <option value="{{ $status->status }}">
+                                                    {{ $status->status }}</option>
+                                            @endforeach
                                         </select>
                                         <span class="text-danger"></span>
                                     </div>
@@ -1112,11 +1104,11 @@
                             <label>NC Status</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="nc_status[]">
-                                <option value="">Select NC Status</option>
-                                <option value="C">C</option>
-                                <option value="NC">NC</option>
-                                <option value="NCF">NCF</option>
+                            <select class="form-select nc_status" name="nc_status[]">
+                                <option value="">Select</option>
+                                @foreach ($nc_statuses as $status)
+                                    <option value="{{ $status->status }}">{{ $status->status }}</option>
+                                @endforeach
                             </select>
                             <span class="text-danger"></span>
                         </div>
@@ -1129,10 +1121,11 @@
                             <label>A/U Status</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="au_status[]">
-                                <option value="">Select A/U Status</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
+                            <select class="form-select au_status" name="au_status[]">
+                                <option value="">Select</option>
+                                @foreach ($au_statuses as $status)
+                                    <option value="{{ $status->status }}">{{ $status->status }}</option>
+                                @endforeach
                             </select>
                             <span class="text-danger"></span>
                         </div>

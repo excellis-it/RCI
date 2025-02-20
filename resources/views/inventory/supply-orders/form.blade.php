@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Status</label>
@@ -102,7 +102,7 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="status" id="status">
                                     <option value="">Select Status</option>
-                                    <option value="1">Active</option>
+                                    <option value="1" selected>Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
                                 <span class="text-danger"></span>
