@@ -105,7 +105,7 @@
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
                                 id="disc_percent" value="{{ number_format($sir->discount, 2) ?? 0.0 }}">
                             <input type="hidden" class="form-control discount_amount" name="discount_amount[]"
-                                id="discount_amount" value="{{ $sir->discount_amount ?? 0 }}">
+                                id="discount_amount" value="{{ $sir->discount_amount ?? 0 }}" hidden>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -160,17 +160,32 @@
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
+                            <label>Round Figure Amount</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control round_amount" name="round_amount[]"
+                                id="round_amount" value="{{ round($sir->total_amount * 10) / 10 }}">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
                             <label>NC Status</label>
                         </div>
                         <div class="col-md-12">
                             <select class="form-select" name="nc_status[]" id="nc_status">
-                                <option value="">Select NC Status</option>
-                                @foreach ($nc_statuses as $nc_status)
-                                    <option value="{{ $nc_status->status }}"
-                                        {{ $sir->nc_status == $nc_status->status ? 'selected' : '' }}>
-                                        {{ $nc_status->status }}
+                                <option value="">Select</option>
+                                @foreach ($nc_statuses as $status)
+                                    <option value="{{ $status->id }}"
+                                        {{ $sir->nc_status == $status->id ? 'selected' : '' }}>
+                                        {{ $status->status }}
                                     </option>
                                 @endforeach
+
+
                             </select>
                             <span class="text-danger"></span>
                         </div>
@@ -184,12 +199,11 @@
                         </div>
                         <div class="col-md-12">
                             <select class="form-select" name="au_status[]" id="au_status">
-                                <option value="">Select A/U Status</option>
-                                @foreach ($au_statuses as $au_status)
-                                    <option value="{{ $au_status->status }}"
-                                        {{ $sir->au_status == $au_status->status ? 'selected' : '' }}>
-                                        {{ $au_status->status }}
-                                    </option>
+                                <option value="">Select</option>
+                                @foreach ($au_statuses as $status)
+                                    <option value="{{ $status->id }}"
+                                        {{ $sir->au_status == $status->id ? 'selected' : '' }}>
+                                        {{ $status->status }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger"></span>

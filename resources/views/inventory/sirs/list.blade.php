@@ -207,7 +207,7 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                        window.location.reload();
+                        //  window.location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -471,44 +471,43 @@
                     </div>
 
                     <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>NC Status</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="nc_status[]">
-                                    <option value="">Select NC Status</option>
-                                     @if (count($nc_statuses) > 0)
-                                            @foreach ($nc_statuses as $nc_status)
-                                                <option value="{{ $nc_status['status'] }}">{{ $nc_status['status'] }}
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>NC Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select nc_status" name="nc_status[]" id="nc_status">
+
+                                            <option value="">Select</option>
+                                            @foreach ($nc_statuses as $status)
+                                                <option value="{{ $status->status }}">
+                                                    {{ $status->status }}
                                                 </option>
                                             @endforeach
-                                        @endif
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>A/U Status</label>
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="au_status[]">
-                                    <option value="">Select A/U Status</option>
-                                      @if (count($au_statuses) > 0)
-                                        @foreach ($au_statuses as $au_status)
-                                            <option value="{{ $au_status['status'] }}">{{ $au_status['status'] }}
-                                            </option>
-                                        @endforeach
-                                        @endif
-                                </select>
-                                <span class="text-danger"></span>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>A/U Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select au_status" name="au_status[]" id="au_status">
+                                            <option value="">Select</option>
+                                            @foreach ($au_statuses as $status)
+                                                <option value="{{ $status->status }}">
+                                                    {{ $status->status }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 ms-auto">
@@ -539,15 +538,18 @@
                 var $row = $this.closest('.new_html');
 
                 $.ajax({
-                    url: "{{ route('rins.get-item-description') }}",
+                    url: "{{ route('sir.get-item-description') }}",
                     type: 'POST',
                     data: {
                         id: item_code_id,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
+                        console.log(response);
                         // Update the description in the same row
                         $row.find('.description').val(response.description);
+                        $row.find('.nc_status').val(response.nc_status);
+                        $row.find('.au_status').val(response.au_status);
                         //   $row.find('.units_cost').val(response.price);
                     },
                     error: function(xhr) {

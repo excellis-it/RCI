@@ -5,18 +5,6 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Code</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="item_code" id="item_code"
-                                    value="{{ $edit_item_code->code ?? '' }}" placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -30,6 +18,21 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Item Code</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="item_code" id="item_code"
+                                    value="{{ $edit_item_code->code ?? '' }}" placeholder="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     {{-- <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -66,6 +69,45 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>NC Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="nc_status" id="nc_status">
+                                    <option value="">Select</option>
+                                    @foreach ($nc_statuses as $status)
+                                        <option value="{{ $status->id }}"
+                                            {{ $edit_item_code->nc_status == $status->id ? 'selected' : '' }}>
+                                            {{ $status->status }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>AU Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status" id="au_status">
+                                    <option value="">Select</option>
+                                    @foreach ($au_statuses as $status)
+                                        <option value="{{ $status->id }}"
+                                            {{ $edit_item_code->au_status == $status->id ? 'selected' : '' }}>
+                                            {{ $status->status }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Item Classification</label>
                             </div>
                             <div class="col-md-12">
@@ -89,7 +131,8 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="item_type" id="item_type">
                                     <option value="Consumable"
-                                        {{ $edit_item_code->item_type == 'Consumable' ? 'selected' : '' }}>Consumable(C)
+                                        {{ $edit_item_code->item_type == 'Consumable' ? 'selected' : '' }}>
+                                        Consumable(C)
                                     </option>
                                     <option value="Non-Consumable"
                                         {{ $edit_item_code->item_type == 'Non-Consumable' ? 'selected' : '' }}>
@@ -170,7 +213,7 @@
                     <div class="form-group col-md-4 mb-2 item-code-select" style="display: none">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Select Item Code (Founds by name : <span
+                                <label>Select Item Code (Founds by name search : <span
                                         id="search-by-item-name"></span>)</label>
                             </div>
                             <div class="col-md-12">
@@ -218,6 +261,40 @@
                                     <option value="">Select</option>
                                     @foreach ($uoms as $uom)
                                         <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NC Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="nc_status" id="nc_status">
+                                    <option value="">Select</option>
+                                    @foreach ($nc_statuses as $status)
+                                        <option value="{{ $status->id }}">{{ $status->status }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>AU Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="au_status" id="au_status">
+                                    <option value="">Select</option>
+                                    @foreach ($au_statuses as $status)
+                                        <option value="{{ $status->id }}">{{ $status->status }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

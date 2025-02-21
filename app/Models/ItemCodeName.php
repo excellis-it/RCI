@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ItemCodeName extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'item_code',
+        'name',
+        'uom',
+        'nc_status',
+        'au_status'
+    ];
 }

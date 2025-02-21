@@ -1,3 +1,6 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
     <title>RCI</title>
@@ -382,13 +385,28 @@
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-weight: 600;font-size: 10px;">
                                         Total Cost Inclusive of Taxes, Duties and Other Charges :</td>
                                     @php
-                                        use App\Helpers\Helper;
 
                                         $words = Helper::convert($total_amount);
                                     @endphp
                                     <td colspan="1"
                                         style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
                                         {{ number_format($total_amount, 2) ?? '' }} <br>({{ $words ?? '' }})
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+
+                                    <td colspan="10"
+                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-weight: 600;font-size: 10px;">
+                                        Round Figure Total Cost :</td>
+                                    @php
+                                        $rounded_total_amount = number_format((round($total_amount * 10) / 10), 2);
+                                        $words = Helper::convert($rounded_total_amount);
+                                    @endphp
+                                    <td colspan="1"
+                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
+                                        {{ $rounded_total_amount }} <br>({{ $words ?? '' }})
                                     </td>
 
 
