@@ -160,8 +160,8 @@ class MemberController extends Controller
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
             'adhar_number' => 'required',
-            'app_date' => 'required',
-            'pran_number' => 'required',
+            //  'app_date' => 'required',
+            // 'pran_number' => 'required',
             'e_status' => 'required',
         ]);
 
@@ -170,10 +170,9 @@ class MemberController extends Controller
         $latest_member = Member::latest()->first();
 
         $constantString = $employeeIdText->employee_id_text ?? 'RCI-CHESS-EMP-';
-        if (isset($latest_member)) {
+        if (isset($latest_member) && !empty($latest_member->emp_id)) {
             $serial_no = Str::substr($latest_member->emp_id, -1);
             $counter = $serial_no + 1;
-            // dd($serial_no);
         } else {
             $counter = 1;
         }
