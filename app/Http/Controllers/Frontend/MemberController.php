@@ -1386,15 +1386,25 @@ class MemberController extends Controller
     {
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $member = Member::where('id', $request->memberID)->first();
-        $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
-        $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
+        $hra_percentage = null;
+        if ($member->cities) {
+            $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
+        }
+        $tptAmount = null;
+        if ($member->cities && $member->cities->tpt_type) {
+            $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
+        }
         $basicPay = $request->basicPay;
 
-        $daAmount = ($basicPay * $da_percentage->percentage) / 100;
-        $hraAmount = ($basicPay * $hra_percentage->percentage) / 100;
+        $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+        $hraAmount = $hra_percentage ? ($basicPay * $hra_percentage->percentage) / 100 : 0;
 
-
-        return response()->json(['daAmount' => $daAmount, 'hraAmount' => $hraAmount, 'tptAmount' => $tptAmount->tpt_allowance, 'tptDa' => $tptAmount->tpt_da]);
+        return response()->json([
+            'daAmount' => $daAmount, 
+            'hraAmount' => $hraAmount, 
+            'tptAmount' => $tptAmount ? $tptAmount->tpt_allowance : 0, 
+            'tptDa' => $tptAmount ? $tptAmount->tpt_da : 0
+        ]);
     }
 
 
