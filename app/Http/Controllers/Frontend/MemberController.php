@@ -159,7 +159,7 @@ class MemberController extends Controller
             'fund_type' => 'required',
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
-            'adhar_number' => 'required',
+           // 'adhar_number' => 'required',
             //  'app_date' => 'required',
             // 'pran_number' => 'required',
             'e_status' => 'required',

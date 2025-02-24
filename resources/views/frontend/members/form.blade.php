@@ -227,14 +227,14 @@
 
 
                                 <!-- <div class="col-md-4">
-                                                                                                <div class="row">
-                                                                                                    <div class="form-group col-md-12 mb-2">
-                                                                                                        <div class="row align-items-center">
-                                                                                                            <div class="col-md-12">
-                                                                                                                <label>Category</label>
-                                                                                                            </div>
-                                                                                                            <div class="col-md-12">
-                                                                                                                {{-- <select class="form-select" name="category"
+                                                                                                        <div class="row">
+                                                                                                            <div class="form-group col-md-12 mb-2">
+                                                                                                                <div class="row align-items-center">
+                                                                                                                    <div class="col-md-12">
+                                                                                                                        <label>Category</label>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-md-12">
+                                                                                                                        {{-- <select class="form-select" name="category"
                                                                     id="category">
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
@@ -243,15 +243,15 @@
                                             @endforeach
 
                                             </select> --}}
-                                                                                                                <input type="text" class="form-control"
-                                                                                                                    id="category_value" readonly>
-                                                                                                                <input type="hidden" class="form-control" name="category" id="category">
-                                                                                                                <span class="text-danger"></span>
+                                                                                                                        <input type="text" class="form-control"
+                                                                                                                            id="category_value" readonly>
+                                                                                                                        <input type="hidden" class="form-control" name="category" id="category">
+                                                                                                                        <span class="text-danger"></span>
+                                                                                                                    </div>
+                                                                                                                </div>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div> -->
+                                                                                                    </div> -->
 
 
                                 <div class="row">
@@ -259,7 +259,7 @@
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <div class="row">
-                                                    <div class="form-group col-md-4 mb-2">
+                                                    <div class="form-group col-md-4 mb-2" hidden>
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Status</label>
@@ -268,7 +268,7 @@
                                                                 <select class="form-select" name="status"
                                                                     id="status">
                                                                     <option value="">Select</option>
-                                                                    <option value="Yes">YES</option>
+                                                                    <option value="Yes" selected>YES</option>
                                                                     <option value="No">NO</option>
                                                                 </select>
                                                                 <span class="text-danger"></span>
