@@ -1200,6 +1200,13 @@ Route::middleware('permssions')->group(function () {
             });
             Route::post('inventory/item-code-names-get-items', [ItemCodeNameController::class, 'getItems'])->name('inventory.item-code-name.get-items');
 
+            Route::post('inventory/item-code-names-store-uom', [ItemCodeNameController::class, 'storeUom'])->name('item-code-names.storeUom');
+
+            Route::post('inventory/item-code-names-store-ncstatus', [ItemCodeNameController::class, 'storeNcStatus'])->name('item-code-names.storeNcStatus');
+
+            Route::post('inventory/item-code-names-store-austatus', [ItemCodeNameController::class, 'storeAuStatus'])->name('item-code-names.storeAuStatus');
+
+
 
             //rins
             Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');

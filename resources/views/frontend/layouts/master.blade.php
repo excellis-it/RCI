@@ -24,7 +24,7 @@
         <link id="themeColors" rel="stylesheet" href="{{ asset('frontend_assets/css/style.min.css') }}">
         {{-- <link id="" rel="" href="{{ asset('frontend_assets/css/dselect.scss') }}"> --}}
         <link rel="stylesheet" type="text/css" href="{{ asset('web_assets/css/toastr.min.css') }}">
-        {{-- <link rel="stylesheet" href="{{ asset('web_assets/css/sweetalert2.min.css') }}"> --}}
+        <link rel="stylesheet" href="{{ asset('web_assets/css/sweetalert2.min.css') }}">
         {{-- <link rel="stylesheet" href="{{ asset('web_assets/css/font-awesome.min.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('web_assets/css/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('web_assets/css/select2-bootstrap4.min.css') }}">
@@ -66,7 +66,7 @@
         <!-- <script src="js/dashboard.js"></script> -->
         <script src="{{ asset('web_assets/js/toastr.min.js') }}"></script>
         <script src="{{ asset('web_assets/js/jquery.validate.min.js') }}"></script>
-        {{-- <script src="{{ asset('web_assets/js/sweetalert2.all.min.js') }}"></script> --}}
+        <script src="{{ asset('web_assets/js/sweetalert2.all.min.js') }}"></script>
         <script src="{{ asset('web_assets/js/select2.min.js') }}"></script>
         <script>
             window.addEventListener('load', () => {

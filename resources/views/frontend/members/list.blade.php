@@ -63,9 +63,6 @@
                                                 <th>Designation </th>
                                                 <th>Fund Type </th>
                                                 <th>Category</th>
-
-
-
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -199,25 +196,29 @@
     </script>
 
     <script>
-        $(document).on('click', '#delete', function(e) {
-            swal({
-                    title: "Are you sure?",
-                    text: "To delete this member.",
-                    type: "warning",
-                    confirmButtonText: "Yes",
-                    showCancelButton: true
-                })
-                .then((result) => {
-                    if (result.value) {
-                        window.location = $(this).data('route');
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
-                    }
-                })
+        $(document).ready(function() {
+            $(document).on('click', '.delete_member', function(e) {
+                e.preventDefault(); // Prevent the default action
+                var route = $(this).data('route'); // Get the route from data attribute
+                swal({
+                        title: "Are you sure?",
+                        text: "To delete this member.",
+                        type: "warning",
+                        confirmButtonText: "Yes",
+                        showCancelButton: true
+                    })
+                    .then((result) => {
+                        if (result.value) {
+                            window.location.href = route; // Use window.location.href to navigate
+                        } else if (result.dismiss === 'cancel') {
+                            swal(
+                                'Cancelled',
+                                'Your stay here :)',
+                                'error'
+                            )
+                        }
+                    })
+            });
         });
     </script>
 @endpush

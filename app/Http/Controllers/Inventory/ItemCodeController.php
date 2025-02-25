@@ -139,7 +139,7 @@ class ItemCodeController extends Controller
         $item_code_gen->uom = $request->uom;
         $item_code_gen->nc_status = $request->nc_status;
         $item_code_gen->au_status = $request->au_status;
-        $item_code_gen->item_type = $request->item_type;
+        $item_code_gen->item_type = $request->item_type ?? '';
         $item_code_gen->item_name = $request->item_name;
         $item_code_gen->item_price = $request->item_price;
         $item_code_gen->item_code_type_id = $request->item_code_type_id;
@@ -183,7 +183,7 @@ class ItemCodeController extends Controller
         $request->validate([
             'item_code' =>  'required',
             'uom' => 'required',
-            'item_type' => 'required',
+            'item_type' => 'nullable',
             'item_name' => 'required',
             'item_price' => 'nullable|numeric',
         ]);
@@ -193,7 +193,7 @@ class ItemCodeController extends Controller
         $item_code->uom = $request->uom;
         $item_code->nc_status = $request->nc_status;
         $item_code->au_status = $request->au_status;
-        $item_code->item_type = $request->item_type;
+        $item_code->item_type = $request->item_type ?? '';
         $item_code->item_name = $request->item_name;
         $item_code->item_price = $request->item_price;
         $item_code->item_code_type_id = $request->item_code_type_id;

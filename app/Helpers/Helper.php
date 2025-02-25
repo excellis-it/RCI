@@ -550,4 +550,10 @@ class Helper
             return self::numberToWords((int)($num / 1000000)) . ' ' . $words[1000000] . ($num % 1000000 ? ' ' . self::numberToWords($num % 1000000) : '');
         }
     }
+
+    // format to decimal 2 number (number_format(floor($original_total_amount * 100) / 100, 2, '.', ''))
+    public static function formatDecimal($number)
+    {
+        return number_format(floor($number * 100) / 100, 2, '.', '');
+    }
 }

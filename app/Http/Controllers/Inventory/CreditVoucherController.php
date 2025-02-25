@@ -114,7 +114,7 @@ class CreditVoucherController extends Controller
             'item_code' => 'required',
             'inv_no' => 'required',
             'supply_order_no' => 'required',
-            'order_type' => 'required',
+            'order_type' => 'nullable',
             'invoice_no' => 'required',
             'invoice_date' => 'required',
         ]);
@@ -158,6 +158,12 @@ class CreditVoucherController extends Controller
         $creditVoucher->supply_order_id = $request->supply_order_no;
         $inventory_number = InventoryNumber::where('id', '=', $request->inv_no)->first();
         $creditVoucher->remarks = $request->remarks;
+        // New fields
+        $creditVoucher->store_receipt_date = $request->store_receipt_date ?? null;
+        $creditVoucher->demand_no = $request->demand_no ?? null;
+        $creditVoucher->icc_no = $request->icc_no ?? null;
+        $creditVoucher->division_group = $request->division_group ?? null;
+        $creditVoucher->division_date = $request->division_date ?? null;
         if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
 
@@ -189,6 +195,8 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->total_price = $request->total_price[$key] ?? null;
                     $creditVoucherDetail->consigner = $request->consigner[$key] ?? null;
                     $creditVoucherDetail->cost_debatable = $request->cost_debatable ?? null;
+                    $creditVoucherDetail->ledger_no = $request->ledger_no[$key] ?? null;
+                    $creditVoucherDetail->folio_no = $request->folio_no[$key] ?? null;
                     $creditVoucherDetail->save();
 
                     $inventoryItem = new InventoryItemBalance();
@@ -234,10 +242,11 @@ class CreditVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $supplyOrders = SupplyOrder::all();
         $members = User::role('MATERIAL-MANAGER')->get();
-        $rins = Rin::all();
+       // $rins = Rin::all();
         $projects = InventoryProject::all();
         $uoms = Uom::all();
         $edit = true;
+        $rins = Rin::get()->groupBy('rin_no');
 
         return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms', 'rins', 'projects'))->render()]);
         // return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
@@ -249,31 +258,81 @@ class CreditVoucherController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            // 'item_code_id' => 'required',
-            // 'inv_no' => 'required',
-
+            'voucher_number' => 'required',
+            'rin' => 'required',
+            'item_code' => 'required',
+            'inv_no' => 'required',
+            'supply_order_no' => 'required',
+            'order_type' => 'nullable',
+            'invoice_no' => 'required',
+            'invoice_date' => 'required',
         ]);
 
         $creditVoucher = CreditVoucher::findOrFail($id);
-        // $creditVoucher->item_code_id = $request->item_code_id;
-        // $creditVoucher->voucher_no = $request->voucher_no;
+        $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
-        // $creditVoucher->inv_no = $request->inv_no;
-        // $creditVoucher->description = $request->description;
-        $creditVoucher->uom = $request->uom_id;
-        // $creditVoucher->item_type = $request->item_type;
-        $creditVoucher->tax = intval($request->tax);
-        $creditVoucher->price = $request->price;
-        $creditVoucher->total_price = $request->total_price;
-        $creditVoucher->quantity = $request->quantity;
-        $creditVoucher->supply_order_no = $request->supply_order_no;
-        $creditVoucher->rin = $request->rin;
-        // $creditVoucher->member_id = $request->member_id;
-        $creditVoucher->order_type = $request->order_type;
+        $creditVoucher->invoice_no = $request->invoice_no;
+        $creditVoucher->invoice_date = $request->invoice_date;
+        $creditVoucher->supply_order_id = $request->supply_order_no;
+        $inventory_number = InventoryNumber::where('id', '=', $request->inv_no)->first();
         $creditVoucher->remarks = $request->remarks;
-        $creditVoucher->update();
+        // New fields
+        $creditVoucher->store_receipt_date = $request->store_receipt_date ?? null;
+        $creditVoucher->demand_no = $request->demand_no ?? null;
+        $creditVoucher->icc_no = $request->icc_no ?? null;
+        $creditVoucher->division_group = $request->division_group ?? null;
+        $creditVoucher->division_date = $request->division_date ?? null;
+        $creditVoucher->save();
 
-        session()->flash('message', 'Credit Voucher updated successfully');
+        // Remove old details
+        CreditVoucherDetail::where('credit_voucher_id', $id)->delete();
+
+        // Insert updated details
+        if ($request->item_code) {
+            foreach ($request->item_code as $key => $value) {
+                $detail = new CreditVoucherDetail();
+                $detail->credit_voucher_id = $creditVoucher->id;
+                $detail->item_code_id = $value;
+                $detail->item_code = $request->item_code_id[$key] ?? null;
+                $detail->inv_no = $request->inv_no ?? null;
+                $detail->description = $request->description[$key] ?? null;
+                $detail->uom = $request->uom_id[$key] ?? null;
+                $detail->item_type = $request->item_type[$key] ?? null;
+                $detail->price = $request->price[$key] ?? null;
+                $detail->quantity = $request->quantity[$key] ?? null;
+                $detail->initial_quantity = $request->quantity[$key] ?? null;
+                $detail->supply_order_no = $request->supply_order_no ?? null;
+                $detail->rin = $request->rin ?? null;
+                $detail->member_id = $inventory_number->holder_id ?? null;
+                $detail->order_type = $request->order_type ?? null;
+                $detail->tax = $request->tax[$key] ?? null;
+                $detail->tax_amt = $request->tax_amt[$key] ?? null;
+                $detail->disc_percent = $request->disc_percent[$key] ?? null;
+                $detail->disc_amt = $request->disc_amt[$key] ?? null;
+                $detail->gst_percent = $request->gst_percent[$key] ?? null;
+                $detail->gst_amt = $request->gst_amt[$key] ?? null;
+                $detail->total_price = $request->total_price[$key] ?? null;
+                $detail->consigner = $request->consigner[$key] ?? null;
+                $detail->cost_debatable = $request->cost_debatable ?? null;
+                $detail->ledger_no = $request->ledger_no[$key] ?? null;
+                $detail->folio_no = $request->folio_no[$key] ?? null;
+                $detail->save();
+
+                $inventoryItem = new InventoryItemBalance();
+                $inventoryItem->voucher_type = 'credit_voucher';
+                $inventoryItem->item_id = $request->item_code_id[$key] ?? null;
+                $inventoryItem->item_code = $request->item_code[$key] ?? null;
+                $inventoryItem->inv_id = $request->inv_no ?? null;
+                $inventoryItem->quantity = $request->quantity[$key] ?? 0;
+                $inventoryItem->unit_cost = $request->price[$key] ?? 0.00;
+                $inventoryItem->total_cost = $request->price[$key] * $request->quantity[$key] ?? 0.00;
+                $inventoryItem->gst_amount = $request->gst_amt[$key] ?? 0.00;
+                $inventoryItem->discount_amount = $request->disc_amt[$key] ?? 0.00;
+                $inventoryItem->total_amount = $request->total_price[$key] ?? 0.00;
+                $inventoryItem->save();
+            }
+        }
+
         return response()->json(['success' => 'Credit Voucher updated successfully']);
     }
 

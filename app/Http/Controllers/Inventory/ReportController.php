@@ -177,6 +177,8 @@ class ReportController extends Controller
                             'disc_amt' => $detail->disc_amt ?? 0,
                             'total_price' => $detail->total_price ?? 0,
                             'total_cost' => $totalCost ?? 0,
+                            'ledger_no' => $detail->ledger_no ?? '',
+                            'folio_no' => $detail->folio_no ?? '',
                         ];
 
                         $totalItemCost += (float)$price;

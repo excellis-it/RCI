@@ -136,19 +136,24 @@ class RinController extends Controller
         ]);
 
 
+
         // auto generate rin id
+        $sir_no = $request->sir_no;
+        $currentYear = date('Y');
         $lastRin = Rin::orderBy('id', 'desc')->first();
 
         if ($lastRin) {
             // Extract the numeric part of rin_no
-            $lastNumber = (int) filter_var($lastRin->rin_no, FILTER_SANITIZE_NUMBER_INT);
+            // $lastNumber = (int) filter_var($lastRin->rin_no, FILTER_SANITIZE_NUMBER_INT);
 
             // Increment the numeric part and format it with leading zeros
-            $rin_id = 'RIN' . str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+            $rin_id = 'RIN_' . $currentYear . '_' . $sir_no;
         } else {
-            // If no RIN exists, start with RIN0001
-            $rin_id = 'RIN' . str_pad(1, 4, '0', STR_PAD_LEFT);
+            // If no RIN exists, start with RIN_year_$sir_no
+            $rin_id = 'RIN_' . $currentYear . '_' . $sir_no;
         }
+
+        $rin_no = $rin_id;
 
         $sir_detail = InventorySir::where('sir_no', $request->sir_no)->first();
 
@@ -163,7 +168,7 @@ class RinController extends Controller
                 $rin->budget_head_details = $request->budget_head_details;
                 $rin->financial_year = $request->financial_year;
                 $rin->member_id = $request->member_id;
-                $rin->rin_no = $rin_id;
+                $rin->rin_no = $rin_no;
                 $rin->item_id = $item;
                 $rin->description = $request->description[$key];
                 $rin->received_quantity = $request->received_quantity[$key];
