@@ -234,10 +234,10 @@
                                         </td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                            {{ number_format($item->unit_cost, 2) ?? '' }}</td>
+                                            {{ Helper::formatDecimal($item->unit_cost) ?? '' }}</td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                            {{ number_format($item->total_cost, 2) ?? '' }}</td>
+                                            {{ Helper::formatDecimal($item->total_cost) ?? '' }}</td>
                                         <td
                                             style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">
                                             {{ $item->itemCode->item_type ?? '' }}</td>
@@ -322,7 +322,7 @@
                                         Total Basic Cost (Rs)</td>
                                     <td
                                         style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                        {{ number_format($total_basic_cost, 2) ?? '' }}
+                                        {{ Helper::formatDecimal($total_basic_cost) ?? '' }}
                                     </td>
 
                                 </tr>
@@ -342,7 +342,7 @@
                                         Applicable Taxes (Tax Type & Percentage):</td>
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                        <span>GST & <br>{{ number_format($rin->gst, 2) ?? '' }} % </span>
+                                        <span>GST & <br>{{ Helper::formatDecimal($rin->gst) ?? '' }} % </span>
 
                                     </td>
                                     <td colspan="2"
@@ -350,7 +350,7 @@
                                         Taxes (Amount):</td>
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right;font-size: 10px;">
-                                        {{ number_format($taxes_amount, 2) ?? '' }}
+                                        {{ Helper::formatDecimal($taxes_amount) ?? '' }}
                                     </td>
 
                                 </tr>
@@ -386,29 +386,58 @@
                                         Total Cost Inclusive of Taxes, Duties and Other Charges :</td>
                                     @php
 
-                                        $words = Helper::convert($total_amount);
+                                        $words = Helper::convert(Helper::formatDecimal($total_amount));
                                     @endphp
                                     <td colspan="1"
                                         style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
-                                        {{ number_format($total_amount, 2) ?? '' }} <br>({{ $words ?? '' }})
+                                        {{ Helper::formatDecimal($total_amount) ?? '' }} <br>({{ $words ?? '' }})
                                     </td>
 
 
                                 </tr>
                                 <tr>
-
-                                    <td colspan="10"
-                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-weight: 600;font-size: 10px;">
-                                        Round Figure Total Cost :</td>
                                     @php
-                                        $rounded_total_amount = number_format((round($total_amount * 10) / 10), 2);
-                                        $words = Helper::convert($rounded_total_amount);
+                                        $original_total_amount = $total_amount;
+                                        $decimal_round_amount = Helper::formatDecimal($original_total_amount);
+                                        $rounded_total_amount = round($decimal_round_amount, 0);
+                                        $deduct_amount = $decimal_round_amount - $rounded_total_amount;
+                                        if ($deduct_amount > 0) {
+                                            $round_txt = 'Round Off';
+                                        } else {
+                                            $round_txt = 'Round To';
+                                        }
                                     @endphp
-                                    <td colspan="1"
-                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
-                                        {{ $rounded_total_amount }} <br>({{ $words ?? '' }})
+                                    <td colspan="10"
+                                        style="border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-weight: 600; font-size: 10px;">
+                                        {{ $round_txt }}
                                     </td>
 
+                                    <td colspan="1"
+                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600; font-size: 10px;">
+
+                                        {{ abs(number_format($deduct_amount, 2)) }} <br>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    @php
+
+                                        $rounded_total_amount_words = Helper::convert($rounded_total_amount);
+                                    @endphp
+                                    <td colspan="10"
+                                        style="border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-weight: 600; font-size: 10px;">
+                                        Total Cost after {{ $round_txt }}
+                                    </td>
+
+                                    <td colspan="1"
+                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600; font-size: 10px;">
+
+                                        {{ $rounded_total_amount }} <br>
+                                        ({{ $rounded_total_amount_words }})
+
+                                    </td>
 
                                 </tr>
                                 <tr>

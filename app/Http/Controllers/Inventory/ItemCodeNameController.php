@@ -158,4 +158,49 @@ class ItemCodeNameController extends Controller
 
         return response()->json($item_codes); // Return JSON response
     }
+
+    public function storeUom(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        // return $request;
+
+        $uom = new Uom();
+        $uom->name = $request->name;
+        $uom->status = 1; // default active
+        $uom->save();
+        //  session()->flash('message', 'UOM added successfully');
+
+        return response()->json(['success' => 'UOM added successfully', 'uom' => $uom]);
+    }
+
+    public function storeNcStatus(Request $request)
+    {
+        $request->validate([
+            'status' => 'required|string|max:255',
+        ]);
+
+        $ncStatus = new NcStatus();
+        $ncStatus->status = $request->status;
+        $ncStatus->save();
+        //  session()->flash('message', 'NC Status added successfully');
+
+        return response()->json(['success' => 'NC Status added successfully', 'nc_status' => $ncStatus]);
+    }
+
+    public function storeAuStatus(Request $request)
+    {
+        $request->validate([
+            'status' => 'required|string|max:255',
+        ]);
+
+        $auStatus = new AuStatus();
+        $auStatus->status = $request->status;
+        $auStatus->save();
+        //  session()->flash('message', 'AU Status added successfully');
+
+        return response()->json(['success' => 'AU Status added successfully', 'au_status' => $auStatus]);
+    }
 }

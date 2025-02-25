@@ -49,6 +49,21 @@ use App\Models\Rule;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\MembersImport;
+use App\Models\MemberAllotedLeave;
+use App\Models\MemberFamily;
+use App\Models\MemberChildrenDetail;
+use App\Models\MemberRetirementInfo;
+use App\Models\MemberMonthlyDataCredit;
+use App\Models\MemberMonthlyDataDebit;
+use App\Models\MemberMonthlyDataRecovery;
+use App\Models\MemberIncomeTax;
+use App\Models\MemberNewspaperAllowance;
+use App\Models\MemberChildAllowance;
+use App\Models\MemberBagPurse;
+use Illuminate\Support\Facades\Schema;
+
+
+
 
 
 
@@ -159,7 +174,7 @@ class MemberController extends Controller
             'fund_type' => 'required',
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
-           // 'adhar_number' => 'required',
+            // 'adhar_number' => 'required',
             //  'app_date' => 'required',
             // 'pran_number' => 'required',
             'e_status' => 'required',
@@ -1337,15 +1352,15 @@ class MemberController extends Controller
         return $id;
     }
 
-    public function deleteMember($id)
-    {
-        $delete_member = Member::where('id', $id)->first();
-        $delete_member->delete();
+    // public function deleteMember($id)
+    // {
+    //     $delete_member = Member::where('id', $id)->first();
+    //     $delete_member->delete();
 
-        return redirect()
-            ->route('members.index')
-            ->with('message', 'Member deleted successfully');
-    }
+    //     return redirect()
+    //         ->route('members.index')
+    //         ->with('message', 'Member deleted successfully');
+    // }
 
     public function getMemberGradePay(Request $request)
     {
@@ -1400,9 +1415,9 @@ class MemberController extends Controller
         $hraAmount = $hra_percentage ? ($basicPay * $hra_percentage->percentage) / 100 : 0;
 
         return response()->json([
-            'daAmount' => $daAmount, 
-            'hraAmount' => $hraAmount, 
-            'tptAmount' => $tptAmount ? $tptAmount->tpt_allowance : 0, 
+            'daAmount' => $daAmount,
+            'hraAmount' => $hraAmount,
+            'tptAmount' => $tptAmount ? $tptAmount->tpt_allowance : 0,
             'tptDa' => $tptAmount ? $tptAmount->tpt_da : 0
         ]);
     }
@@ -1575,6 +1590,105 @@ class MemberController extends Controller
                 ->with('message', 'Member imported successfully');
         } catch (\Exception $e) {
             return back()->with('error', 'Error importing file: ' . $e->getMessage());
+        }
+    }
+
+    // public function deleteMember($id)
+    // {
+    //     $delete_member = Member::where('id', $id)->first();
+    //     $delete_member->delete();
+
+    //     return redirect()
+    //         ->route('members.index')
+    //         ->with('message', 'Member deleted successfully');
+    // }
+
+    public function deleteMember($id)
+    {
+        // Find the member
+        $member = Member::find($id);
+
+        if ($member) {
+            // Delete associated data
+            if (Schema::hasColumn('member_credits', 'member_id')) {
+                MemberCredit::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_debits', 'member_id')) {
+                MemberDebit::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_recoveries', 'member_id')) {
+                MemberRecovery::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_original_recoveries', 'member_id')) {
+                MemberOriginalRecovery::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_core_infos', 'member_id')) {
+                MemberCoreInfo::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_personal_infos', 'member_id')) {
+                MemberPersonalInfo::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_policy_infos', 'member_id')) {
+                MemberPolicyInfo::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_expectations', 'member_id')) {
+                MemberExpectation::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_loan_infos', 'member_id')) {
+                MemberLoanInfo::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_loans', 'member_id')) {
+                MemberLoan::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_gpfs', 'member_id')) {
+                MemberGpf::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_leaves', 'member_id')) {
+                MemberLeave::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_alloted_leaves', 'member_id')) {
+                MemberAllotedLeave::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_families', 'member_id')) {
+                MemberFamily::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_children_details', 'member_id')) {
+                MemberChildrenDetail::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_retirement_infos', 'member_id')) {
+                MemberRetirementInfo::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_monthly_data_credits', 'member_id')) {
+                MemberMonthlyDataCredit::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_monthly_data_debits', 'member_id')) {
+                MemberMonthlyDataDebit::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_monthly_data_recoveries', 'member_id')) {
+                MemberMonthlyDataRecovery::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_income_taxes', 'member_id')) {
+                MemberIncomeTax::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_newspaper_allowances', 'member_id')) {
+                MemberNewspaperAllowance::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_child_allowances', 'member_id')) {
+                MemberChildAllowance::where('member_id', $id)->delete();
+            }
+            if (Schema::hasColumn('member_bag_purses', 'member_id')) {
+                MemberBagPurse::where('member_id', $id)->delete();
+            }
+
+            // Delete the member
+            $member->delete();
+
+            // return response()->json(['message' => 'Member and associated data deleted successfully']);
+            return redirect()
+                ->route('members.index')
+                ->with('message', 'Member deleted successfully');
+        } else {
+            return response()->json(['message' => 'Member not found'], 404);
         }
     }
 }

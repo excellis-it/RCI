@@ -110,3 +110,4 @@ class NcStatusController extends Controller
     }
 
 }
+

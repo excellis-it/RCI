@@ -179,6 +179,77 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                            Store receipt date:
+                                            {{ $creditVoucher->store_receipt_date ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                            Demand no:
+                                            {{ $creditVoucher->demand_no ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                            ICC no: {{ $creditVoucher->icc_no ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                            Division group:
+                                            {{ $creditVoucher->division_group ?? '' }}
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
+                                            Division date:
+                                            {{ $creditVoucher->division_date ?? '' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="5"
                                             style="
                       font-size: 10px;
@@ -632,7 +703,7 @@
                                                     $firstNumber = $parts[0] ?? '-';
                                                 @endphp
 
-                                                {{ $firstNumber }}
+                                                {{ $creditDetail['ledger_no'] ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -651,7 +722,7 @@
                                                     $middleNumber = $parts[1] ?? '-';
                                                 @endphp
 
-                                                {{ $middleNumber }}
+                                                {{ $creditDetail['folio_no'] ?? '' }}
                                             </td>
 
                                             <td
@@ -989,7 +1060,87 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
-                      height: 10px;
+                ">
+                                        </td>
+                                        <td colspan="8"
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                    ">
+                                            SSO-II
+                                        </td>
+                                        <td colspan="3"
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-right: 1px solid #000;
+                    ">
+                                            Stores Officer
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+">
+                                        </td>
+                                        <td colspan="8"
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                    ">
+                                            SSO-II
+                                        </td>
+                                        <td colspan="3"
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-right: 1px solid #000;
+                    ">
+                                            Stores Officer
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+      height: 10px;
                     ">
                                         </td>
                                         <td colspan="8"

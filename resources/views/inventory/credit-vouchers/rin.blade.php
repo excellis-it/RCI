@@ -133,6 +133,33 @@
 
 
 
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Ledger No</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="ledger_no[]" id="ledger_no"
+                                value="" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Folio No</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="folio_no[]" id="folio_no"
+                                value="" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
 
 
 
