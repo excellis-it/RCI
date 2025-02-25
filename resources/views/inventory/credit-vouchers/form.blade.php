@@ -200,7 +200,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Order Type</label>
@@ -360,7 +360,7 @@
                         </div> --}}
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Order Type</label>
@@ -370,7 +370,7 @@
                                     <option value="">Select</option>
                                     <option value="rs">RS</option>
                                     <option value="rv">RV</option>
-                                    <option value="crv">CRV</option>
+                                    <option value="crv" selected>CRV</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

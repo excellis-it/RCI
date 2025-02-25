@@ -114,7 +114,7 @@ class CreditVoucherController extends Controller
             'item_code' => 'required',
             'inv_no' => 'required',
             'supply_order_no' => 'required',
-            'order_type' => 'required',
+            'order_type' => 'nullable',
             'invoice_no' => 'required',
             'invoice_date' => 'required',
         ]);

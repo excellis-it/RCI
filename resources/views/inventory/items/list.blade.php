@@ -90,8 +90,8 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="uom"
                                                     style="cursor: pointer">UOM<span id="uom_icon"><i
                                                             class="fa fa-arrow-down"></i></span></th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="item_type"
-                                                    style="cursor: pointer">Item type<span id="item_type_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="nc_status"
+                                                    style="cursor: pointer">NC Status<span id="item_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="entry_date"
                                                     style="cursor: pointer">Entry Date<span id="entry_date_icon"><i

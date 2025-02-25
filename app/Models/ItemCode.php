@@ -26,5 +26,15 @@ class ItemCode extends Model
         return $this->belongsTo(Uom::class, 'uom');
     }
 
-    
+    public function ncStatus()
+    {
+        return $this->belongsTo(NcStatus::class, 'nc_status');
+    }
+
+    public function auStatus()
+    {
+        return $this->belongsTo(AuStatus::class, 'au_status');
+    }
+
+
 }
