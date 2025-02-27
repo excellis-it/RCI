@@ -755,7 +755,7 @@
 
 
                                 <div class="row mt-3">
-                                    <div class="form-group col-md-3 mb-2" hidden>
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label for="PIS">City</label>
@@ -764,7 +764,7 @@
                                                 <select name="member_city" class="form-select" id="member_city">
                                                     <option value="">Select</option>
                                                     @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                        <option value="{{ $city->id }}" {{ $city->id == 1 ? 'selected' : '' }}>{{ $city->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 <span class="text-danger"></span>
