@@ -169,7 +169,7 @@ class RinController extends Controller
                 $rin->financial_year = $request->financial_year;
                 $rin->member_id = $request->member_id;
                 $rin->rin_no = $rin_no;
-                $rin->item_id = $item;
+                $rin->gem_item_code = $request->item_id[$key];
                 $rin->description = $request->description[$key];
                 $rin->received_quantity = $request->received_quantity[$key];
                 // $rin->accepted_quantity = $request->accepted_quantity[$key];
@@ -237,7 +237,7 @@ class RinController extends Controller
 
                     $rin = new Rin();
                     $rin->rin_no = $rin_no;
-                    $rin->item_id = $item;
+                    $rin->gem_item_code = $request->item_id[$key];
                     $rin->description = $request->description[$key];
                     $rin->received_quantity = $request->received_quantity[$key];
                     $rin->accepted_quantity = $request->accepted_quantity[$key];

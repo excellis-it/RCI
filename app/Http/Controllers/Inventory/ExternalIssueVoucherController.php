@@ -130,7 +130,7 @@ class ExternalIssueVoucherController extends Controller
         if ($request->consignee == 0) {
             $externalIssueVoucher->vendor_id = $vendor->id;
         } else {
-            $externalIssueVoucher->vendor_id = $request->consignee;
+            $externalIssueVoucher->vendor_id = $request->consignee; 
         }
         $externalIssueVoucher->other_consignee_name = $request->other_consignee_name;
         $externalIssueVoucher->other_consignee_number = $request->other_consignee_number;

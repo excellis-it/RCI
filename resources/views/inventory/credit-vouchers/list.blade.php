@@ -65,14 +65,14 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <span class="text-danger" ></span>
+                                    <span class="text-danger"></span>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Upload XLSX File</label>
                                     <input type="file" class="form-control" name="excel_file" id=""
                                         aria-describedby="helpId" placeholder="" />
-                                        <span class="text-danger"></span>
+                                    <span class="text-danger"></span>
                                 </div>
 
 
@@ -81,7 +81,7 @@
                                 <button type="button" class="btn btn-danger me-3" data-bs-dismiss="modal">
                                     Cancel
                                 </button>
-                                <button type="submit" class="btn btn-primary" >Import</button>
+                                <button type="submit" class="btn btn-primary">Import</button>
                             </div>
                         </form>
 
@@ -207,7 +207,7 @@
                         console.log(key);
                         // Assuming you have a div with class "text-danger" next to each input
                         $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            0]);
                     });
                 }
             });
@@ -676,6 +676,9 @@
                         $('#supply_order_no').val(rinItem.supply_order_no).change();
                         $('#invoice_no').val(rinItem.sir_details.invoice_no);
                         $('#invoice_date').val(rinItem.sir_details.invoice_date);
+
+
+
                     } else {
                         console.error("rinData is empty or undefined in the response", response);
                     }
@@ -795,6 +798,24 @@
                     // Hide both divs if no inventory selected
                     $('#member_div, #division').prop('hidden', true);
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.item_code_name', function() {
+                var selectedOption = $(this).find('option:selected');
+                var itemCodeId = selectedOption.data('item-code-id');
+                var itemType = selectedOption.data('item-nc-status-name');
+
+                // Find the parent .rin-items element to scope our search
+                var parent = $(this).closest('.rin-items');
+
+                // Set the hidden item_code_id field value
+                parent.find('.item_code_id').val(itemCodeId);
+
+                // Set the item_type field value
+                parent.find('.item_type').val(itemType);
             });
         });
     </script>

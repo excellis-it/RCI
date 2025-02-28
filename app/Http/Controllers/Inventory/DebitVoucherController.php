@@ -47,7 +47,7 @@ class DebitVoucherController extends Controller
                 $query = str_replace(" ", "%", $query);
                 $debitVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
-                       // ->orWhere('voucher_date', 'like', '%' . $query . '%')
+                        // ->orWhere('voucher_date', 'like', '%' . $query . '%')
                         ->orWhere('voucher_type', 'like', '%' . $query . '%')
                         // inventory number
                         ->orWhereHas('inventoryNumbers', function ($queryBuilder) use ($query) {
@@ -316,8 +316,15 @@ class DebitVoucherController extends Controller
         //  $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('price as unit_rate',), DB::raw('SUM(quantity) as total_quantity',), DB::raw('SUM(total_price) as total_price'))->with('itemCodes')->get();
         $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')
             ->where('inv_no', $request->inv_no)
-            ->with('itemCodes')
+            ->with(['itemCodes', 'itemCodes.ncStatus'])
             ->get();
+        foreach ($creditVouchers as $creditVoucher) {
+            foreach ($creditVoucher->itemCodes as $itemCode) {
+                if (is_object($itemCode)) {
+                    $itemCode->nc_status_name = $itemCode->ncStatus->status ?? '';
+                }
+            }
+        }
         // dd($creditVouchers);
         return response()->json(['creditVouchers' => $creditVouchers]);
     }

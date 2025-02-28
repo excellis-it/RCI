@@ -166,6 +166,7 @@ class ReportController extends Controller
                             'project_code' => $detail->inventoryProjects->project_code ?? '',
                             'member_name' => $detail->members->name ?? '',
                             'item_code' => $detail->item_code_id ?? '',
+                            'gem_item_code' => $detail->gem_item_code ?? '',
                             'description' => $detail->description ?? '',
                             'quantity' => $detail->quantity ?? '',
                             'remarks' => $detail->rins->remarks ?? '',

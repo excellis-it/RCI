@@ -464,7 +464,7 @@
                         var totalQuantity = creditVoucher.quantity;
                         var unitPrice = creditVoucher.price;
                         var totalPrice = totalQuantity * unitPrice;
-                        var itemType = creditVoucher.item_codes.item_type;
+                        var itemType = creditVoucher.item_codes.nc_status.status;
                         var itemDescription = creditVoucher.item_codes.description;
 
 

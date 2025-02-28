@@ -361,6 +361,19 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
+                                            Gem Item Code
+                                        </td>
+                                        <td
+                                            style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: center;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                    ">
                                             Nomenclature/ description of Stores
                                         </td>
                                         <td
@@ -376,7 +389,7 @@
                     ">
                                             C/ NC / NCF
                                         </td>
-                                        <td
+                                        {{-- <td
                                             style="
                       font-size: 10px;
                       line-height: 14px;
@@ -388,7 +401,7 @@
                       border: 1px solid #000;
                     ">
                                             A/U
-                                        </td>
+                                        </td> --}}
                                         <td
                                             style="
                       font-size: 10px;
@@ -493,7 +506,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            Folio <br />No.
+                                            Page <br />No.
                                         </td>
                                         <td
                                             style="
@@ -565,6 +578,20 @@
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
+                                                {{ $creditDetail['gem_item_code'] ?? '-' }}
+                                            </td>
+                                            <td
+                                                style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      padding: 0px 5px !important;
+                      margin: 0px 0px !important;
+                      border-left: 1px solid #000;
+                      border-right: 1px solid #000;
+                    ">
                                                 {{ $creditDetail['description'] ?? '-' }}
                                             </td>
                                             <td
@@ -581,7 +608,7 @@
                     ">
                                                 {{ $creditDetail['nc_status'] ?? '-' }}
                                             </td>
-                                            <td
+                                            {{-- <td
                                                 style="
                       font-size: 10px;
                       line-height: 14px;
@@ -594,7 +621,7 @@
                       border-right: 1px solid #000;
                     ">
                                                 {{ $creditDetail['au_status'] ?? '-' }}
-                                            </td>
+                                            </td> --}}
                                             <td
                                                 style="
                       font-size: 10px;

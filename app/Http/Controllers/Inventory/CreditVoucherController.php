@@ -29,7 +29,7 @@ class CreditVoucherController extends Controller
      */
     public function index()
     {
-        $itemCodes = ItemCode::all();
+        $itemCodes = ItemCode::with('ncStatus')->get();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::orderBy('id', 'desc')->paginate(10);
@@ -175,6 +175,7 @@ class CreditVoucherController extends Controller
                     $creditVoucherDetail->credit_voucher_id = $lastCreditVoucher->id ?? null;
                     $creditVoucherDetail->item_code = $request->item_code_id[$key] ?? null;
                     $creditVoucherDetail->item_code_id = $value ?? null;
+                    $creditVoucherDetail->gem_item_code = $request->gem_item_code[$key] ?? null;
                     $creditVoucherDetail->inv_no = $request->inv_no ?? null;
                     $creditVoucherDetail->description = $request->description[$key] ?? null;
                     $creditVoucherDetail->uom = $request->uom_id[$key] ?? null;
@@ -242,7 +243,7 @@ class CreditVoucherController extends Controller
         $inventoryNumbers = InventoryNumber::all();
         $supplyOrders = SupplyOrder::all();
         $members = User::role('MATERIAL-MANAGER')->get();
-       // $rins = Rin::all();
+        // $rins = Rin::all();
         $projects = InventoryProject::all();
         $uoms = Uom::all();
         $edit = true;
@@ -358,14 +359,13 @@ class CreditVoucherController extends Controller
         $itemCode = ItemCode::findOrFail($request->item_code_id);
         $uom = Uom::findOrFail($itemCode->uom);
         // $inventoryType = InventoryType::findOrFail($itemCode->inventory_type_id);
-        return response()->json(['item_type' => $itemCode->item_type, 'description' => $itemCode->description, 'uom' => $uom->name, 'uom_id' => $uom->id]);
+        return response()->json(['item_type' => $itemCode->ncStatus()->status ?? '', 'description' => $itemCode->description, 'uom' => $uom->name, 'uom_id' => $uom->id]);
     }
 
     public function getRinDetails(Request $request)
     {
         $set_rins = true;
-        $rins = Rin::with('itemCode', 'itemCode.uomajorment', 'inventoryNo', 'supplyOrder', 'sirDetails')->where('rin_no', $request->rin)->get();
-
+        $rins = Rin::with('itemCode', 'itemCode.ncStatus', 'itemCode.uomajorment', 'inventoryNo', 'supplyOrder', 'sirDetails')->where('rin_no', $request->rin)->get();
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
