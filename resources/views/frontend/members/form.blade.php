@@ -304,11 +304,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 mb-2">
+                                                    <div class="form-group col-md-4 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>PayBand</label>
@@ -323,6 +319,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="row">
+
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
@@ -336,7 +337,7 @@
                                                             </div>
                                                         </div>
                                                     </div> --}}
-                                                    <div class="form-group col-md-6 mb-2">
+                                                    <div class="form-group col-md-6 mb-2" hidden>
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Aadhar No.</label>

@@ -129,7 +129,7 @@
                         <label>I.Tax</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="i_tax" id="i_tax"
+                        <input type="number" class="form-control itax_core" name="i_tax" id="i_tax"
                             value="{{ $member_core->i_tax ?? (old('i_tax') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -176,7 +176,7 @@
                         <label>Ecess</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="ecess" id="ecess"
+                        <input type="text" class="form-control ecess_core" name="ecess" id="ecess"
                             value="{{ $member_core->ecess ?? (old('ecess') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -323,3 +323,8 @@
         </div>
     </div>
 </form>
+
+
+@push('scripts')
+
+@endpush

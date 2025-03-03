@@ -141,7 +141,7 @@ class AdvanceFundController extends Controller
         $request->validate([
             'adv_no' => 'required',
             'member_id' => 'required',
-            'emp_id' => 'required',
+            //'emp_id' => 'required',
             // 'name' => 'required',
             // 'desig' => 'required',
             // 'basic' => 'required',
@@ -159,7 +159,7 @@ class AdvanceFundController extends Controller
         // Create the new record
         $advance_fund = AdvanceFundToEmployee::create([
             'member_id' => $request->member_id,
-            'emp_id' => $request->emp_id,
+            'emp_id' => $request->emp_id ?? '',
             'adv_date' => $request->adv_date,
             'adv_amount' => $request->adv_amount,
             'project_id' => $request->project_id,
@@ -237,7 +237,7 @@ class AdvanceFundController extends Controller
         $request->validate([
             'member_id' => 'required',
             // 'pc_no' => 'required',
-            'emp_id' => 'required',
+           // 'emp_id' => 'required',
             // 'name' => 'required',
             // 'desig' => 'required',
             // 'basic' => 'required',

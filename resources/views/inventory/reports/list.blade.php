@@ -259,6 +259,15 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory-items-report') }}">
+                            <div class="card">
+                                <div class="card-body inv-report-card-body">
+                                    <h5 class="card-title inv-report-title">Inventory Items</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
                         <a href="{{ route('reports.ledger-sheet') }}">
                             <div class="card">
                                 <div class="card-body inv-report-card-body">
