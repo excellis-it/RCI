@@ -1122,6 +1122,12 @@ Route::middleware('permssions')->group(function () {
             Route::get('/reports-lvp-list', [InventoryReportController::class, 'lvpList'])->name('reports.lvp-list');
             Route::post('/reports-lvp-list-generate', [InventoryReportController::class, 'lvpListGenerate'])->name('reports.lvp-list-generate');
 
+            Route::get('/item-names-report', [InventoryReportController::class, 'itemNamesReport'])->name('reports.item-names-report');
+            Route::post('/item-names-report-generate', [InventoryReportController::class, 'itemNamesReportGenerate'])->name('reports.item-names-report-generate');
+
+            Route::get('/inventory-items-report', [InventoryReportController::class, 'invntoryItemsReport'])->name('reports.inventory-items-report');
+            Route::post('/inventory-items-generate', [InventoryReportController::class, 'invntoryItemsReportGenerate'])->name('reports.inventory-items-report-generate');
+
 
             //reset item codes
             Route::prefix('reset-codes')->group(function () {

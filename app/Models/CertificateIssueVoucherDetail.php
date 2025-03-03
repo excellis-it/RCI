@@ -15,4 +15,8 @@ class CertificateIssueVoucherDetail extends Model
         return $this->belongsTo(ItemCode::class, 'item_code');
     }
 
+    public function voucherDetail()
+    {
+        return $this->belongsTo(CertificateIssueVoucher::class, 'certicate_issue_voucher_id');
+    }
 }

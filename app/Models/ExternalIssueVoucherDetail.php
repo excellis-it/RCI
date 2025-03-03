@@ -23,5 +23,10 @@ class ExternalIssueVoucherDetail extends Model
         return $this->belongsTo(ItemCode::class, 'item_id');
     }
 
+    
 
+    public function voucherDetail()
+    {
+        return $this->belongsTo(ExternalIssueVoucher::class, 'external_issue_voucher_id');
+    }
 }

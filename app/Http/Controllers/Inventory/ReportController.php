@@ -31,7 +31,9 @@ use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Setting;
-
+use App\Models\TransferVoucherDetail;
+use App\Exports\ItemNameReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -39,6 +41,320 @@ class ReportController extends Controller
     public function inventoryReportGenerate()
     {
         return view('inventory.reports.list');
+    }
+
+    public function itemNamesReport()
+    {
+        return view('inventory.reports.item-name-report');
+    }
+
+    public function itemNamesReportGenerate(Request $request)
+    {
+        $validate = $request->validate([
+            'item_name' => 'required|string|min:2',
+        ]);
+
+        // if validate fail
+        // if (!$validate) {
+        //     session()->flash('error', 'Please enter a valid item name and minimum 2 characters');
+        //     return redirect()->back()->with('error', 'Please enter a valid item name and minimum 2 characters');
+        // }
+
+        $item_name = $request->item_name;
+        $the_items = ItemCode::where('item_name', 'like', '%' . $item_name . '%')->get();
+        if ($the_items->isEmpty()) {
+            return redirect()->back()->with('error', 'No Items Found');
+        }
+
+        $items_data = [];
+
+        foreach ($the_items as $the_item) {
+            $item_id = $the_item->id;
+            $creditVouchers = CreditVoucherDetail::where('item_code', $item_id)->get();
+            $debitVouchers = DebitVoucherDetail::where('item_id', $item_id)->get();
+            $externalIssueVouchers = ExternalIssueVoucherDetail::where('item_id', $item_id)->get();
+            $certificateIssueVouchers = CertificateIssueVoucherDetail::where('item_code', $item_id)->get();
+
+            $conversionVouchersStrikeOff = ConversionVoucherDetail::where('strike_item_id', $item_id)->get();
+            $conversionVouchersBroughtOn = ConversionVoucherDetail::where('brought_item_id', $item_id)->get();
+            $transferVouchers = TransferVoucherDetail::where('item_id', $item_id)->get();
+
+            foreach ($creditVouchers as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => $voucher->description ?? '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->quantity ?? 0,
+                    'rate' => $voucher->price ?? 0,
+                    'value' => $voucher->quantity * $voucher->price,
+                    'remarks' => $voucher->voucherDetail->remarks ?? '',
+                    'from_inv' => $voucher->inventoryNumber->number ?? '',
+                    'to_inv' => '',
+                    'voucher_type' => 'Credit Voucher',
+                    'voucher_no' => $voucher->voucherDetail->voucher_no ?? '',
+                    'voucher_date' => $voucher->voucherDetail->voucher_date ?? '',
+                ];
+            }
+
+            foreach ($debitVouchers as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => $voucher->description ?? '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->quantity ?? 0,
+                    'rate' => $voucher->price ?? 0,
+                    'value' => $voucher->quantity * $voucher->price,
+                    'remarks' => $voucher->remarks ?? '',
+                    'from_inv' => $voucher->inventoryNumber->number ?? '',
+                    'to_inv' => '',
+                    'voucher_type' => 'Debit Voucher',
+                    'voucher_no' => $voucher->debitVoucher->voucher_no ?? '',
+                    'voucher_date' => $voucher->debitVoucher->voucher_date ?? '',
+                ];
+            }
+
+            foreach ($externalIssueVouchers as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => $voucher->description ?? '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->quantity ?? 0,
+                    'rate' => $voucher->unit_price ?? 0,
+                    'value' => $voucher->quantity * $voucher->unit_price,
+                    'remarks' => $voucher->remarks ?? '',
+                    'from_inv' => $voucher->voucherDetail->inventoryNumber->number ?? '',
+                    'to_inv' => '',
+                    'voucher_type' => 'External Issue Voucher',
+                    'voucher_no' => $voucher->voucherDetail->voucher_no ?? '',
+                    'voucher_date' => $voucher->voucherDetail->voucher_date ?? '',
+                ];
+            }
+
+            foreach ($certificateIssueVouchers as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => $voucher->description ?? '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->quantity ?? 0,
+                    'rate' => $voucher->price ?? 0,
+                    'value' => $voucher->quantity * $voucher->price,
+                    'remarks' => $voucher->remarks ?? '',
+                    'from_inv' => $voucher->voucherDetail->inventory->number ?? '',
+                    'to_inv' => '',
+                    'voucher_type' => 'Certificate Issue Voucher',
+                    'voucher_no' => $voucher->voucherDetail->voucher_no ?? '',
+                    'voucher_date' => $voucher->voucherDetail->voucher_date ?? '',
+                ];
+            }
+
+            foreach ($conversionVouchersStrikeOff as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => $voucher->strike_description ?? '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->strike_quantity ?? 0,
+                    'rate' => $voucher->strike_rate ?? 0,
+                    'value' => $voucher->strike_quantity * $voucher->strike_rate,
+                    'remarks' => $voucher->remarks ?? '',
+                    'from_inv' => $voucher->strikeInventoryNumber->number ?? '',
+                    'to_inv' => '',
+                    'voucher_type' => 'Conversion Voucher',
+                    'voucher_no' => $voucher->conversionVoucher->voucher_no ?? '',
+                    'voucher_date' => $voucher->conversionVoucher->voucher_date ?? '',
+                ];
+            }
+
+
+            foreach ($conversionVouchersBroughtOn as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => $voucher->brought_description ?? '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->brought_quantity ?? 0,
+                    'rate' => $voucher->brought_rate ?? 0,
+                    'value' => $voucher->brought_quantity * $voucher->brought_rate,
+                    'remarks' => $voucher->remarks ?? '',
+                    'from_inv' => '',
+                    'to_inv' => $voucher->broughtInventoryNumber->number ?? '',
+                    'voucher_type' => 'Conversion Voucher',
+                    'voucher_no' => $voucher->conversionVoucher->voucher_no ?? '',
+                    'voucher_date' => $voucher->conversionVoucher->voucher_date ?? '',
+                ];
+            }
+
+            foreach ($transferVouchers as $voucher) {
+                $items_data[] = [
+                    'lvp' => $the_item->code ?? '',
+                    'description' => '',
+                    'nc_status' => $the_item->ncStatus?->status ?? '',
+                    'uom' => $the_item->uomajorment?->name ?? '',
+                    'quantity' => $voucher->strike_quantity ?? 0,
+                    'rate' => $voucher->strike_rate ?? 0,
+                    'value' => $voucher->strike_quantity * $voucher->strike_rate,
+                    'remarks' => '',
+                    'from_inv' => $voucher->fromInventoryNumber->number ?? '',
+                    'to_inv' => $voucher->toInventoryNumber->number ?? '',
+                    'voucher_type' => 'Transfer Voucher',
+                    'voucher_no' => $voucher->transferVoucher->voucher_no ?? '',
+                    'voucher_date' => $voucher->transferVoucher->voucher_date ?? '',
+                ];
+            }
+        }
+
+        // for each item data sr no set
+        $i = 1;
+        foreach ($items_data as &$item) {
+            $item['item_name'] = $the_item->item_name ?? '';
+            $item['sr_no'] = $i;
+            $i++;
+        }
+
+        // Check if request wants Excel download
+        if ($request->has('file_type') && $request->file_type === 'Generate Excel') {
+            session()->flash('message', 'Excel Downloaded');
+            $fileName = 'item-name-report-' . date('d-m-Y') . '.xlsx';
+            return Excel::download(new ItemNameReportExport($items_data), $fileName);
+        }
+
+        // Check if request wants PDF download
+        if ($request->has('file_type') && $request->file_type === 'Generate PDF') {
+            session()->flash('message', 'PDF Downloaded');
+            $logo = Helper::logo() ?? '';
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('inventory.reports.item-name-report-generate', compact('logo', 'items_data'))->setPaper('a4', $paperType);
+            return $pdf->download('item-name-report.pdf');
+        }
+
+        // return $items_data;
+
+        //  generate excel
+        // $fileName = 'item-name-report-' . date('d-m-Y') . '.xlsx';
+        // return Excel::download(new ItemNameReportExport($items_data), $fileName);
+    }
+
+    public function invntoryItemsReport()
+    {
+        $inventoryNumbers = InventoryNumber::all();
+        return view('inventory.reports.inventory-items-report', compact('inventoryNumbers'));
+    }
+
+    public function invntoryItemsReportGenerate(Request $request)
+    {
+        $request->validate([
+            'inventory_number' => 'required'
+        ]);
+
+        // Get inventory details
+        $inventory_number = $request->inventory_number;
+        $inventory = InventoryNumber::where('number', $inventory_number)->first();
+
+        if (!$inventory) {
+            return redirect()->back()->with('error', 'Inventory number not found');
+        }
+
+        // Get items from credit voucher details that belong to this inventory
+        $creditItems = CreditVoucherDetail::where('inv_no', $inventory->id)
+            ->with(['itemCodes', 'inventoryNumber'])
+            ->get();
+
+        if ($creditItems->isEmpty()) {
+            return redirect()->back()->with('error', 'No items found for this inventory number');
+        }
+
+        // Collect item IDs from credit voucher details
+        $itemIds = $creditItems->pluck('item_code')->toArray();
+
+        // Get items that exist in other voucher types
+        $debitItems = DebitVoucherDetail::whereIn('item_id', $itemIds)
+            ->pluck('item_id')
+            ->toArray();
+
+        $externalIssueItems = ExternalIssueVoucherDetail::whereIn('item_id', $itemIds)
+            ->pluck('item_id')
+            ->toArray();
+
+        $certificateIssueItems = CertificateIssueVoucherDetail::whereIn('item_code', $itemIds)
+            ->pluck('item_code')
+            ->toArray();
+
+        $conversionStrikeItems = ConversionVoucherDetail::whereIn('strike_item_id', $itemIds)
+            ->pluck('strike_item_id')
+            ->toArray();
+
+        $transferItems = TransferVoucherDetail::whereIn('item_id', $itemIds)
+            ->pluck('item_id')
+            ->toArray();
+
+        // Combine all items that exist in other voucher types
+        $itemsInOtherVouchers = array_merge(
+            $debitItems,
+            $externalIssueItems,
+            $certificateIssueItems,
+            $conversionStrikeItems,
+            $transferItems
+        );
+
+        // Filter to get items that are only in credit voucher but not in other voucher types
+        $finalItems = $creditItems->filter(function ($item) use ($itemsInOtherVouchers) {
+            return !in_array($item->item_code, $itemsInOtherVouchers);
+        });
+
+        // Group items by item_code to consolidate quantities and other details
+        $groupedItems = $finalItems->groupBy('item_code');
+
+        $inventoryItems = [];
+        $totalValue = 0;
+        $index = 1;
+
+        foreach ($groupedItems as $itemCode => $items) {
+            // Get the first item for item details
+            $firstItem = $items->first();
+            $itemCodeDetails = $firstItem->itemCodes;
+
+            if (!$itemCodeDetails) {
+                continue;
+            }
+
+            // Calculate total quantity and value
+            $quantity = $items->sum('quantity');
+            $rate = $firstItem->price ?? 0;
+            $value = $quantity * $rate;
+            $totalValue += $value;
+
+            $inventoryItems[] = [
+                'sl_no' => $index++,
+                'lvp' => $itemCodeDetails->code ?? '',
+                'description' => $firstItem->description ?? $itemCodeDetails->item_name ?? '',
+                'nc_c' => $itemCodeDetails->ncStatus?->status ?? 'NC',
+                'uom' => $itemCodeDetails->uomajorment?->name ?? '',
+                'rate' => $rate,
+                'qty' => $quantity,
+                'value' => $value,
+                'vr_details' => $firstItem->voucherDetail ?
+                    ($firstItem->voucherDetail->voucher_no ?? '') . 'Dt' .
+                    (date('d.m.y', strtotime($firstItem->voucherDetail->voucher_date ?? ''))) : '',
+                'remarks' => $firstItem->remarks ?? ''
+            ];
+        }
+
+        $logo = Helper::logo() ?? '';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+
+        $pdf = PDF::loadView(
+            'inventory.reports.inventory-items-report-generate',
+            compact('logo', 'inventoryItems', 'inventory', 'totalValue')
+        )
+            ->setPaper('a4', $paperType);
+
+        return $pdf->download('inventory-items-report-' . $inventory_number . '.pdf');
     }
 
     public function invReportPage($type)
@@ -630,7 +946,6 @@ class ReportController extends Controller
         $pdf = PDF::loadView('inventory.reports.ledger-sheet-generate')->setPaper('a4', $paperType);
         return $pdf->download('ledger-sheet.pdf');
     }
-
 
     public function binCardReport()
     {

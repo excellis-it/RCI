@@ -172,12 +172,14 @@ class TransferVoucherController extends Controller
 
         $strikeDetails = [];
         foreach ($validatedData['strike_ledger_no'] as $index => $ledgerNo) {
+            $item_id = CreditVoucherDetail::where('id', $ledgerNo)->first()->item_code;
             $strikeDetails[] = [
                 'transfer_voucher_id' => $transfer_voucher->id,
                 'issuing_inv_no' => $validatedData['issuing_inv_no'],
                 'issuing_division' => $validatedData['issuing_division'],
                 'receiving_inv_no' => $validatedData['receiving_inv_no'],
                 'receiving_division' => $validatedData['receiving_division'],
+                'item_id' => $item_id,
                 'strike_ledger_no' => $ledgerNo,
                 'strike_nomenclature' => $validatedData['strike_nomenclature'][$index],
                 'strike_quantity' => $validatedData['strike_quantity'][$index],

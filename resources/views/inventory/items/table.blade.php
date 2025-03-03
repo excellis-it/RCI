@@ -3,6 +3,7 @@
         <tr>
             <td> {{ ($items->currentPage() - 1) * $items->perPage() + $loop->index + 1 ?? 0 }}</td>
             <td>{{ $item->code ?? 'N/A' }}</td>
+            <td>{{ $item->item_name ?? '' }}</td>
             @if ($item->uom != null)
                 @foreach ($uoms as $uom)
                     @if ($uom->id == $item->uom)
