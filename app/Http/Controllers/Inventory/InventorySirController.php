@@ -128,7 +128,8 @@ class InventorySirController extends Controller
                 $sir->status = $request->status;
 
 
-                $sir->item_id = $item ?? null;
+                // $sir->item_id = $request->item_id[$key] ?? null;
+                $sir->gem_item_code = $request->item_id[$key] ?? null;
                 $sir->description = $request->description[$key] ?? null;
                 $sir->received_quantity = $request->received_quantity[$key] ?? null;
                 $sir->remarks = $request->remarks[$key] ?? null;
@@ -249,7 +250,7 @@ class InventorySirController extends Controller
                         $sirItem->sir_type_id = $request->sir_type ?? null;
                         $sirItem->status = $request->status;
 
-                        $sirItem->item_id = $item ?? null;
+                        $sirItem->gem_item_code = $request->item_id[$key] ?? null;
                         $sirItem->description = $request->description[$key] ?? null;
                         $sirItem->received_quantity = $request->received_quantity[$key] ?? null;
                         $sirItem->remarks = $request->remarks[$key] ?? null;

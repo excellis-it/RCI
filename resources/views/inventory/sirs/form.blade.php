@@ -218,7 +218,7 @@
                         @foreach ($sirItems as $sirItem)
                             <div class="new_html">
                                 <div class="row">
-                                    <div class="form-group col-md-4 mb-2">
+                                    {{-- <div class="form-group col-md-4 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label>Item Code </label>
@@ -231,6 +231,20 @@
                                                             value="{{ $item->id }}">{{ $item->code }}</option>
                                                     @endforeach
                                                 </select>
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+
+                                    <div class="form-group col-md-4 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Item Code (Demand No.)</label>
+                                            </div>
+                                            <div class="col-md-12">
+
+                                                <input type="text" name="item_id[]" id="item_id"
+                                                    value="{{ $sirItem->gem_item_code }}" class="form-control item_id">
                                                 <span class="text-danger"></span>
                                             </div>
                                         </div>
@@ -409,7 +423,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-4 mb-2">
+                                    <div class="form-group col-md-4 mb-2" hidden>
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label>A/U Status</label>
@@ -681,7 +695,7 @@
                 <div class="col-md-12" id="credit_form_add_new_row">
                     <div class="new_html">
                         <div class="row">
-                            <div class="form-group col-md-4 mb-2">
+                            {{-- <div class="form-group col-md-4 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Item Code </label>
@@ -693,6 +707,20 @@
                                                 <option value="{{ $item->id }}">{{ $item->code }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Item Code (Demand No.)</label>
+                                    </div>
+                                    <div class="col-md-12">
+
+                                        <input type="text" name="item_id[]" id="item_id" value=""
+                                            class="form-control item_id">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -849,7 +877,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4 mb-2">
+                            <div class="form-group col-md-4 mb-2" hidden>
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>A/U Status</label>
@@ -973,7 +1001,7 @@
         <hr />
         <div class="col-md-12 count-class">
             <div class="row item-row">
-                <div class="form-group col-md-4 mb-2">
+                {{-- <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Item Code</label>
@@ -985,6 +1013,19 @@
                                     <option value="{{ $item->id }}">{{ $item->code }}</option>
                                 @endforeach
                             </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div> --}}
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Item Code (Demand No.)</label>
+                        </div>
+                        <div class="col-md-12">
+
+                            <input type="text" name="item_id[]" id="item_id" class="form-control item_id">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -1115,7 +1156,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-3 mb-2">
+                <div class="form-group col-md-3 mb-2" hidden>
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>A/U Status</label>

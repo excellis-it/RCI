@@ -87,6 +87,7 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="code"
                                                     style="cursor: pointer">Item Code <span id="code_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
+                                                <th>Item Name</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="uom"
                                                     style="cursor: pointer">UOM<span id="uom_icon"><i
                                                             class="fa fa-arrow-down"></i></span></th>

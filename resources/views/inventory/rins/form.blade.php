@@ -12,17 +12,12 @@
                         <div class="form-group col-md-4 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Item Code </label>
+                                    <label>Item Code (Demand No.)</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <select class="form-select" name="item_id[]" id="item_id">
-                                        <option value="">Select Item Code </option>
-                                        @foreach ($items as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ $rin->item_id == $item->id ? 'selected' : '' }}>{{ $item->code }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control"
+                                        value="{{ $rin->item->gem_item_code ?? '' }}" name="item_id[]" id="item_id"
+                                        readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -134,7 +129,7 @@
                     </div>
                     <div class="row">
 
-                        <div class="form-group col-md-3 mb-2">
+                        <div class="form-group col-md-3 mb-2" hidden>
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>A/U Status</label>
@@ -245,15 +240,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code </label>
+                                <label>Item Code (Demand No)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="item_id[]" id="item_id">
-                                    <option value="">Select Item Code </option>
-                                    @foreach ($items as $item)
-                                        <option value="{{ $item->id }}">{{ $item->code }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="item_id[]" id="item_id">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -362,7 +352,7 @@
                 </div>
                 <div class="row">
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-3 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>
@@ -670,7 +660,7 @@
                             <select class="form-select" name="financial_year" id="financial_year">
                                 <option value="">Select Year</option>
                                 @foreach ($financialYears as $financialYear)
-                                    <option value="{{ $financialYear }}" >{{ $financialYear }}</option>
+                                    <option value="{{ $financialYear }}">{{ $financialYear }}</option>
                                 @endforeach
                             </select>
                             @if ($errors->has('financial_year'))

@@ -93,8 +93,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <input type="text" class="form-control" name="desig" id="desig"
-                                                        value="{{ $member->desigs->designation ?? '' }}"
-                                                        placeholder="">
+                                                        value="{{ $member->desigs->designation ?? '' }}" placeholder="">
                                                     <span class="text-danger"></span>
                                                 </div>
                                             </div>
@@ -1711,8 +1710,8 @@
                             toastr.error(response.message);
 
                             //disable debit-button
-                        //    $("#debit-update").prop('disabled', true);
-                        //    $('#recovry-update').prop('disabled', true);
+                            //    $("#debit-update").prop('disabled', true);
+                            //    $('#recovry-update').prop('disabled', true);
                         } else {
                             $("#debit-update").prop('disabled', false);
                             $('#recovry-update').prop('disabled', false);
@@ -1773,6 +1772,18 @@
                         $('#ifsc').val(response.ifsc.ifsc);
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        // if type i_tax then ecess will be 4% of i_tax
+
+        $(document).ready(function() {
+            $('.itax_core').on('keyup', function() {
+                // alert('hi');
+                var i_tax = $(this).val();
+                var ecess = i_tax * 0.04;
+                $('.ecess_core').val(ecess);
             });
         });
     </script>

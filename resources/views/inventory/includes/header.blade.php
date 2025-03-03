@@ -75,10 +75,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gate-passes.index') }}">Gate Passes</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('item-code-types.index') }}">Item Code Classification</a>
-                            </li>
+                            </li> --}}
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -101,10 +101,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('nc-status.index') }}">NC Status</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('au-status.index') }}">AU Status</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gst.index') }}">GSTs</a>

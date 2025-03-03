@@ -19,6 +19,7 @@
         .inv-report-list .card {
             transition: transform 0.3s ease-in-out;
         }
+
         .inv-report-list .card:hover {
             transform: scale(1.1);
         }
@@ -244,6 +245,24 @@
                             <div class="card">
                                 <div class="card-body inv-report-card-body">
                                     <h5 class="card-title inv-report-title">Inventory Numbers (NEW)</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.item-names-report') }}">
+                            <div class="card">
+                                <div class="card-body inv-report-card-body">
+                                    <h5 class="card-title inv-report-title">Item Names</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <a href="{{ route('reports.inventory-items-report') }}">
+                            <div class="card">
+                                <div class="card-body inv-report-card-body">
+                                    <h5 class="card-title inv-report-title">Inventory Items</h5>
                                 </div>
                             </div>
                         </a>

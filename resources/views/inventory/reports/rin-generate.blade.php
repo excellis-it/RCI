@@ -226,11 +226,11 @@
                                             &nbsp;{{ $key + 1 ?? '' }}.</td>
                                         <td
                                             style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">
-                                            {{ $item->itemCode->code ?? '' }}</td>
+                                            {{ $item->gem_item_code ?? '' }}</td>
                                         <td
                                             style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">
-                                            {{ $item->itemCode->item_name ?? '' }},
-                                            {{ $item->itemCode->description ?? '' }}
+                                            {{-- {{ $item->itemCode->item_name ?? '' }}, --}}
+                                            {{ $item->description ?? '' }}
                                         </td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">

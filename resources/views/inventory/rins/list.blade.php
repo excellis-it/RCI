@@ -384,15 +384,10 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item Code</label>
+                                <label>Item Code (Demand No.)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select item_id" name="item_id[]">
-                                    <option value="">Select Item Code</option>
-                                    @foreach ($items as $item)
-                                        <option value="{{ $item->id }}">{{ $item->code }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control item_id" name="item_id[]" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -551,7 +546,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>

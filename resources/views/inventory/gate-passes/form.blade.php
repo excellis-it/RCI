@@ -307,7 +307,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>A/U Status</label>

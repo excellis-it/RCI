@@ -55,4 +55,16 @@ class TransferVoucherDetail extends Model
     {
         return $this->belongsTo(CreditVoucherDetail::class, 'brought_ledger_no');
     }
+
+    //fromInventoryNumber
+    public function fromInventoryNumber()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'issuing_inv_no');
+    }
+
+    //toInventoryNumber
+    public function toInventoryNumber()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'receiving_inv_no');
+    }
 }

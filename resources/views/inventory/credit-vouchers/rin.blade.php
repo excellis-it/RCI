@@ -1,7 +1,7 @@
 @if (isset($set_rins))
     @if (count($rins) > 0)
         @foreach ($rins as $rin)
-            <div class="row count-class">
+            <div class="row count-class rin-items">
                 {{-- @dd($rin->itemCode) --}}
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
@@ -9,10 +9,28 @@
                             <label>Item Code</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="item_code[]" id="item_code"
-                                value="{{ $rin->itemCode->code }}" placeholder="" readonly>
-                            <input type="hidden" class="form-control" name="item_code_id[]" id=""
-                                value="{{ $rin->itemCode->id }}" placeholder="">
+                            <select class="form-control item_code_name" name="item_code[]" id="item_code" required>
+                                <option value="">Select</option>
+                                @foreach ($itemCodes as $itemCode)
+                                    <option value="{{ $itemCode->code }}" data-item-code-id="{{ $itemCode->id }}"
+                                        data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}">
+                                        {{ $itemCode->code }}</option>
+                                @endforeach
+                            </select>
+                            <input class="item_code_id" type="hidden" name="item_code_id[]">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Gem Item Code</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="gem_item_code[]" id="gem_item_code"
+                                value="{{ $rin->gem_item_code }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -24,7 +42,7 @@
                             <label>Description</label>
                         </div>
                         <div class="col-md-12">
-                            <textarea class="form-control" name="description[]" id="description" placeholder="" readonly>{{ $rin->itemCode->description }}</textarea>
+                            <textarea class="form-control" name="description[]" id="description" placeholder="" readonly>{{ $rin->description }}</textarea>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -35,11 +53,11 @@
                             <label>UOM</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="uom[]" id="uom"
-                                value="{{ $rin->itemCode->uomajorment ? $rin->itemCode->uomajorment->name : '' }}"
-                                placeholder="" readonly>
-                            <input type="hidden" name="uom_id[]" id="uom_id"
-                                value="{{ $rin->itemCode->uomajorment ? $rin->itemCode->uomajorment->id : '' }}">
+                            <select class="form-control" name="uom[]" id="uom">
+                                @foreach ($uoms as $uom)
+                                    <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -50,14 +68,9 @@
                             <label>Item Type</label>
                         </div>
                         <div class="col-md-12">
-                            {{-- <select class="form-control" name="item_type" id="item_type">
-                    <option value="">Select</option>
-                    <option value="consumable">Consumable</option>
-                    <option value="non-consumable">Non Consumable</option>
-                </select> --}}
 
-                            <input type="text" class="form-control" name="item_type[]" id="item_type"
-                                value=" {{ $rin->itemCode->item_type }}" placeholder="" readonly>
+                            <input type="text" class="form-control item_type" name="item_type[]" id="item_type"
+                                value="" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -86,7 +99,7 @@
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
                                 id="disc_percent" placeholder=""
-                                value="{{ number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) ?? '0' }}">
+                                value="{{ $rin->discount_amount && $rin->unit_cost && $rin->received_quantity ? number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) : '0' }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -150,7 +163,7 @@
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Folio No</label>
+                            <label>Page No</label>
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="folio_no[]" id="folio_no"
@@ -159,15 +172,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
 
             </div>
             <hr>
