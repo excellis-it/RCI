@@ -368,10 +368,57 @@
                             </div>
 
                         </div>
+
+
+
+
+
+
+                        <div class="row mt-4">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="gross_pay">Gross Pay</label>
+                                    <input type="number" class="form-control" id="total_gross_pay" name="gross_pay"
+                                        value="{{ $member->gross_pay ?? '' }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="total_debits">Total Debits</label>
+                                    <input type="number" class="form-control" id="total_debits" name="total_debits"
+                                        value="{{ $member->total_debits ?? '' }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="net_pay">Net Pay</label>
+                                    <input type="number" class="form-control" id="total_net_pay" name="net_pay"
+                                        value="{{ $member->net_pay ?? '' }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="total_recovery">Total Recovery</label>
+                                    <input type="number" class="form-control" id="total_recovery" name="total_recovery"
+                                        value="{{ $member->total_recovery ?? '' }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="take_home">Take Home</label>
+                                    <input type="number" class="form-control" id="take_home" name="take_home"
+                                        value="{{ $member->take_home ?? '' }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
 @endsection
 
@@ -478,6 +525,10 @@
                         total = total.toFixed(2);
 
                         $('#tot_credits').val(total);
+                        var gross_pay = $('#tot_credits').val();
+
+                        getALlTotal();
+
                     },
                     error: function(xhr) {
                         console.log(xhr);
@@ -496,6 +547,8 @@
                     updateDAPercentage(basicPay, "{{ $member->id }}");
                 });
             });
+
+            getALlTotal();
         });
     </script>
 
@@ -531,6 +584,9 @@
                         },
                         success: function(response) {
                             toastr.success(response.message);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -604,7 +660,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1500);
+                            }, 1200);
 
 
                         },
@@ -654,6 +710,9 @@
                 },
                 success: function(response) {
                     toastr.success(response.message);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
                     // remove value from form
                     $('#v_incr').val('');
                     $('#noi').val('');
@@ -715,6 +774,9 @@
                         },
                         success: function(response) {
                             toastr.success(response.message);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -758,7 +820,9 @@
                         },
                         success: function(response) {
                             toastr.success(response.message);
-                            window.location.reload();
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -872,6 +936,9 @@
 
                             // Show success message if needed
                             toastr.success(response.message);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -972,6 +1039,9 @@
                         }
 
                         toastr.success(response.message);
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1200);
 
                     },
                     error: function(xhr) {
@@ -1043,6 +1113,9 @@
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
                 },
                 error: function(xhr) {
                     // Handle errors
@@ -1131,6 +1204,9 @@
                             $('#amount').val('');
                             $('#rec_stop').val('');
                             // Append new row to table
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
 
                         },
                         error: function(xhr) {
@@ -1216,6 +1292,10 @@
                             $('#policy-table tbody').append(newRow);
                             $('#no-policy').hide();
 
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
+
                         } else {
                             var id = data.id;
                             var row = $('#policy-table tbody').find('tr[data-id="' + id + '"]');
@@ -1286,6 +1366,9 @@
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
                 },
                 error: function(xhr) {
                     // Handle errors
@@ -1369,6 +1452,9 @@
                             $('#no-expectation').remove();
                             // Append new row to table
                             $('#expectation-table tbody').append(newRow);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1490,6 +1576,9 @@
                             $('#no-expectation').remove();
                             // Append new row to table
                             $('#expectation-table tbody').append(newRow);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         } else {
 
 
@@ -1571,6 +1660,9 @@
                     $('#loading').removeClass('loading');
                     $('#loading-content').removeClass('loading-content');
                     // Optionally, remove the deleted item from the UI
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
                 },
                 error: function(xhr) {
                     // Handle errors
@@ -1614,6 +1706,9 @@
                         },
                         success: function(response) {
                             toastr.success(response.message);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1673,8 +1768,12 @@
                 });
 
                 $('#tot_debits').val((total).toFixed(2));
+
+
+
                 const netPay = Math.max(tot_credits - total, 0);
                 $('#net_pay').val(netPay.toFixed(2));
+                getALlTotal();
             }
             // Trigger the AJAX request when the page loads
             updateTotalDebit();
@@ -1685,8 +1784,12 @@
                     updateTotalDebit();
                 });
             });
+
+            getALlTotal();
         });
     </script>
+
+
 
     {{-- call ajax  to check if credit is not add in current month debit tab will open with toaster message --}}
     <script>
@@ -1785,6 +1888,76 @@
                 var ecess = i_tax * 0.04;
                 $('.ecess_core').val(ecess);
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            // Array of all input fields that should be included in the calculation
+            const inputFields = [
+                'ccs_sub', 'mess', 'security', 'misc1',
+                'ccs_rec', 'asso_fee', 'dbf', 'misc2',
+                'wel_sub', 'ben', 'med_ins',
+                'wel_rec', 'hdfc', 'maf', 'final_pay',
+                'lic', 'cort_atch', 'ogpf', 'ntp', 'ptax'
+            ];
+
+            // Function to calculate the total
+            function calculateOrgRecoTotal() {
+                let total = 0;
+
+                inputFields.forEach(fieldId => {
+                    const field = $('#' + fieldId);
+                    if (field.length && field.val().trim() !== '') {
+                        const value = parseFloat(field.val()) || 0;
+                        total += value;
+                    }
+                });
+
+                // Update the tot_rec field with the calculated total
+                const totRecField = $('#tot_rec');
+                if (totRecField.length) {
+                    totRecField.val(total.toFixed(2));
+                }
+                getALlTotal();
+            }
+
+            // Add event listeners to all input fields
+            inputFields.forEach(fieldId => {
+                if (fieldId !== 'tot_rec') { // Don't add listener to the total field
+                    const field = $('#' + fieldId);
+                    if (field.length) {
+                        field.on('input', calculateOrgRecoTotal);
+                    }
+                }
+            });
+
+            // Calculate total on page load
+            calculateOrgRecoTotal();
+            getALlTotal();
+
+
+        });
+    </script>
+
+    <script>
+        // get updated allTotals
+        function getALlTotal() {
+            var total_credits = $('#tot_credits').val();
+            var total_debits = $('#tot_debits').val();
+            var total_net_pay = total_credits - total_debits;
+            var total_recovery = $('#tot_rec').val();
+            var take_home = total_net_pay - total_recovery;
+            // set values
+            $("#total_gross_pay").val(total_credits);
+            $('#total_debits').val(total_debits);
+            $('#total_net_pay').val(total_net_pay.toFixed(2));
+            $('#total_recovery').val(total_recovery);
+            $('#take_home').val(take_home.toFixed(2));
+        }
+        $(document).ready(function() {
+            getALlTotal();
         });
     </script>
 @endpush
