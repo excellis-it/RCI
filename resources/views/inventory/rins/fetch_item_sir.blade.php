@@ -153,11 +153,44 @@
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
+                            <label>Select Round Off/To</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select round_off" name="round_type[]" id="round_off">
+                                <option value="0" selected>Select</option>
+                                <option value="1">
+                                    Round Off
+                                </option>
+                                <option value="2">
+                                    Round To
+                                </option>
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2" style="display: none;">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label id="round_off_to_selectd_id"></label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control round_settle_amount"
+                                name="round_settle_amount[]" id="round_settle_amount" value="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2" style="display: none;">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
                             <label>Round Figure Amount</label>
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control round_amount" name="round_amount[]"
-                                id="round_amount" value="{{ round($sir->total_amount * 10) / 10 }}">
+                                id="round_amount" value="{{ $sir->total_amount ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

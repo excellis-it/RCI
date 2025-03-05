@@ -125,6 +125,7 @@ class InventorySirController extends Controller
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
                 $sir->sir_type_id = $request->sir_type ?? null;
+                $sir->store_received_date = $request->store_received_date;
                 $sir->status = $request->status;
 
 
@@ -227,6 +228,7 @@ class InventorySirController extends Controller
             $sir->supply_order_no = $request->supply_order_no ?? null;
             $sir->inspection_authority = $request->inspection_authority ?? null;
             $sir->sir_type_id = $request->sir_type ?? null;
+            $sir->store_received_date = $request->store_received_date;
             $sir->status = $request->status;
             $sir->save();
 

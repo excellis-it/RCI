@@ -379,35 +379,35 @@
                                 <div class="form-group">
                                     <label for="gross_pay">Gross Pay</label>
                                     <input type="number" class="form-control" id="total_gross_pay" name="gross_pay"
-                                        value="{{ $member->gross_pay ?? '' }}" readonly>
+                                        value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="total_debits">Total Debits</label>
                                     <input type="number" class="form-control" id="total_debits" name="total_debits"
-                                        value="{{ $member->total_debits ?? '' }}" readonly>
+                                        value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="net_pay">Net Pay</label>
                                     <input type="number" class="form-control" id="total_net_pay" name="net_pay"
-                                        value="{{ $member->net_pay ?? '' }}" readonly>
+                                        value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="total_recovery">Total Recovery</label>
                                     <input type="number" class="form-control" id="total_recovery" name="total_recovery"
-                                        value="{{ $member->total_recovery ?? '' }}" readonly>
+                                        value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="take_home">Take Home</label>
                                     <input type="number" class="form-control" id="take_home" name="take_home"
-                                        value="{{ $member->take_home ?? '' }}" readonly>
+                                        value="0" readonly>
                                 </div>
                             </div>
                         </div>
@@ -478,7 +478,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1100);
+                            }, 100);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -586,7 +586,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -660,7 +660,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
 
 
                         },
@@ -712,7 +712,7 @@
                     toastr.success(response.message);
                     setTimeout(() => {
                         window.location.reload();
-                    }, 1200);
+                    }, 200);
                     // remove value from form
                     $('#v_incr').val('');
                     $('#noi').val('');
@@ -776,7 +776,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -822,7 +822,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -938,7 +938,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1041,7 +1041,7 @@
                         toastr.success(response.message);
                         setTimeout(() => {
                             window.location.reload();
-                        }, 1200);
+                        }, 200);
 
                     },
                     error: function(xhr) {
@@ -1115,7 +1115,7 @@
                     // Optionally, remove the deleted item from the UI
                     setTimeout(() => {
                         window.location.reload();
-                    }, 1200);
+                    }, 200);
                 },
                 error: function(xhr) {
                     // Handle errors
@@ -1206,7 +1206,7 @@
                             // Append new row to table
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
 
                         },
                         error: function(xhr) {
@@ -1294,7 +1294,7 @@
 
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
 
                         } else {
                             var id = data.id;
@@ -1368,7 +1368,7 @@
                     // Optionally, remove the deleted item from the UI
                     setTimeout(() => {
                         window.location.reload();
-                    }, 1200);
+                    }, 200);
                 },
                 error: function(xhr) {
                     // Handle errors
@@ -1454,7 +1454,7 @@
                             $('#expectation-table tbody').append(newRow);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');
@@ -1578,7 +1578,7 @@
                             $('#expectation-table tbody').append(newRow);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         } else {
 
 
@@ -1662,7 +1662,7 @@
                     // Optionally, remove the deleted item from the UI
                     setTimeout(() => {
                         window.location.reload();
-                    }, 1200);
+                    }, 200);
                 },
                 error: function(xhr) {
                     // Handle errors
@@ -1708,7 +1708,7 @@
                             toastr.success(response.message);
                             setTimeout(() => {
                                 window.location.reload();
-                            }, 1200);
+                            }, 200);
                         },
                         error: function(xhr) {
                             $('.text-danger').html('');

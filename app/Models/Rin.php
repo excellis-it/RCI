@@ -59,5 +59,11 @@ class Rin extends Model
         return $this->belongsTo(Designation::class, 'desig_id');
     }
 
+    // nc_status
+    public function ncStatus()
+    {
+        return $this->belongsTo(NcStatus::class, 'nc_status');
+    }
+
     // public function supply
 }

@@ -69,8 +69,8 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                            SIR NO: &nbsp;
-                                            {{ Helper::getSIRbyRin($singleData[$creditVoucher->voucher_no]['rin_no'])['sir_no'] ?? '-' }}
+                                            CRV NO: &nbsp;
+                                            {{ $result['voucher_no'] ?? '-' }}
                                         </td>
                                         <td colspan="2"
                                             style="
@@ -102,20 +102,24 @@
                                             RIN NO: &nbsp;
                                             {{ $singleData[$creditVoucher->voucher_no]['rin_no'] ?? '-' }}
                                         </td>
+
                                         <td
                                             style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    ">
-                                            CRV NO: &nbsp; {{ $result['voucher_no'] ?? '-' }}
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                  border: 1px solid #000;
+                ">
+
+
                                         </td>
+
+
                                     </tr>
                                     <tr>
                                         <td
@@ -130,8 +134,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                            SIR DATE: &nbsp;
-                                            {{ Helper::getSIRbyRin($singleData[$creditVoucher->voucher_no]['rin_no'])['sir_date'] ?? '-' }}
+                                            CRV DATE: &nbsp; {{ $creditVoucher->voucher_date ?? '-' }}
                                         </td>
                                         <td colspan="2"
                                             style="
@@ -175,7 +178,6 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                            CRV DATE: &nbsp; {{ $creditVoucher->voucher_date ?? '-' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -218,7 +220,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            ICC no: {{ $creditVoucher->icc_no ?? '' }}
+                                            ICC no: {{ $creditVoucher->invoice_no ?? '' }}
                                         </td>
                                         <td
                                             style="
@@ -231,7 +233,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            Division group:
+                                            Division,group:
                                             {{ $creditVoucher->division_group ?? '' }}
                                         </td>
                                         <td
@@ -1036,86 +1038,7 @@
                     ">
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="3"
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-left: 1px solid #000;
-                    ">
-                                        </td>
-                                        <td colspan="8"
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-left: 1px solid #000;
-                    ">
-                                            SSO-II
-                                        </td>
-                                        <td colspan="3"
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-right: 1px solid #000;
-                    ">
-                                            Stores Officer
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3"
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-left: 1px solid #000;
-                ">
-                                        </td>
-                                        <td colspan="8"
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-left: 1px solid #000;
-                    ">
-                                            SSO-II
-                                        </td>
-                                        <td colspan="3"
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-right: 1px solid #000;
-                    ">
-                                            Stores Officer
-                                        </td>
-                                    </tr>
+                                   
                                     <tr>
                                         <td colspan="3"
                                             style="

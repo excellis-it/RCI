@@ -93,6 +93,7 @@ class RinController extends Controller
     {
         // dd($request->all());
         $request->validate([
+            'rin_no' => 'required',
             'item_id.*' => 'required',
             'received_quantity.*' => 'required',
             // 'accepted_quantity' => 'required',
@@ -138,22 +139,22 @@ class RinController extends Controller
 
 
         // auto generate rin id
-        $sir_no = $request->sir_no;
-        $currentYear = date('Y');
-        $lastRin = Rin::orderBy('id', 'desc')->first();
+        // $sir_no = $request->sir_no;
+        // $currentYear = date('Y');
+        // $lastRin = Rin::orderBy('id', 'desc')->first();
 
-        if ($lastRin) {
-            // Extract the numeric part of rin_no
-            // $lastNumber = (int) filter_var($lastRin->rin_no, FILTER_SANITIZE_NUMBER_INT);
+        // if ($lastRin) {
+        //     // Extract the numeric part of rin_no
+        //     // $lastNumber = (int) filter_var($lastRin->rin_no, FILTER_SANITIZE_NUMBER_INT);
 
-            // Increment the numeric part and format it with leading zeros
-            $rin_id = 'RIN_' . $currentYear . '_' . $sir_no;
-        } else {
-            // If no RIN exists, start with RIN_year_$sir_no
-            $rin_id = 'RIN_' . $currentYear . '_' . $sir_no;
-        }
+        //     // Increment the numeric part and format it with leading zeros
+        //     $rin_id = 'RIN_' . $currentYear . '_' . $sir_no;
+        // } else {
+        //     // If no RIN exists, start with RIN_year_$sir_no
+        //     $rin_id = 'RIN_' . $currentYear . '_' . $sir_no;
+        // }
 
-        $rin_no = $rin_id;
+        $rin_no = $request->rin_no;
 
         $sir_detail = InventorySir::where('sir_no', $request->sir_no)->first();
 
@@ -169,6 +170,7 @@ class RinController extends Controller
                 $rin->financial_year = $request->financial_year;
                 $rin->member_id = $request->member_id;
                 $rin->rin_no = $rin_no;
+                $rin->store_received_date = $request->store_received_date;
                 $rin->gem_item_code = $request->item_id[$key];
                 $rin->description = $request->description[$key];
                 $rin->received_quantity = $request->received_quantity[$key];
@@ -186,6 +188,8 @@ class RinController extends Controller
                 $rin->gst = $request->gst[$key];
                 $rin->gst_amount = $request->gst_amount[$key];
                 $rin->total_amount = $request->total_amount[$key];
+                $rin->round_type = $request->round_type[$key];
+                $rin->round_settle_amount = $request->round_settle_amount[$key] ?? 0;
                 $rin->round_amount = $request->round_amount[$key];
                 $rin->vendor_id = $request->vendor_id;
                 $rin->supply_order_no = $request->supply_order_no;

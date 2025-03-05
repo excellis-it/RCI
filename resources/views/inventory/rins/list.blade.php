@@ -845,7 +845,10 @@
             $(document).on('input', '.rcv_quantity, .units_cost, .disc_percent, .gst_percent, .discount_type',
                 function() {
                     var $row = $(this).closest('.new_html');
+
                     calculateTotalCost($row);
+                    let roundSettle = $row.find(".round_settle_amount");
+                    roundSettle.trigger('keyup');
                 });
         });
     </script>
@@ -1050,7 +1053,7 @@
                             </div>
                             `);
                             }
-
+                            $("#store_received_date").val(data.sirDetails.store_received_date);
 
                             // Check if inspection authority exists and update fields
 
@@ -1129,5 +1132,55 @@
 
 
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on("change", ".round_off", function() {
+                //$row
+                let roundOff = $(this).val();
+                //  console.log(roundOff);
+                let parent = $(this).closest(".new_html");
+                let totalAmount = parseFloat(parent.find(".total_amount").val()) || 0.0;
+                //  console.log(totalAmount);
+                let roundSettle = parent.find(".round_settle_amount");
+                let roundFigure = parent.find(".round_amount");
+
+                if (roundOff == 1 || roundOff == 2) {
+                    parent.find(".round_settle_amount").closest(".form-group").show();
+                    parent.find(".round_amount").closest(".form-group").show();
+                    if (roundOff == 1) {
+                        parent.find("#round_off_to_selectd_id").text("Round Off Amount");
+                    } else if (roundOff == 2) {
+                        parent.find("#round_off_to_selectd_id").text("Round To Amount");
+                    }
+                } else {
+                    parent.find(".round_settle_amount").closest(".form-group").hide();
+                    roundSettle.val("");
+                    roundFigure.val(totalAmount.toFixed(2));
+                }
+                roundSettle.trigger('keyup'); // Trigger keyup event to recalculate
+            });
+
+            $(document).on("keyup", ".round_settle_amount", function() {
+                let parent = $(this).closest(".new_html");
+                let roundOff = parent.find(".round_off").val();
+
+                let totalAmount = parseFloat(parent.find(".total_amount").val()) || 0.0;
+                let settleAmount = parseFloat($(this).val()) || 0.0;
+                let roundFigure = parent.find(".round_amount");
+                console.log(totalAmount);
+
+                if (roundOff == 1) { // Round Off
+                    roundFigure.val((totalAmount - settleAmount).toFixed(2));
+                } else if (roundOff == 2) { // Round To
+                    roundFigure.val((totalAmount + settleAmount).toFixed(2));
+                }
+            });
+        });
+
+        function roundAmountCalc() {
+
+        }
     </script>
 @endpush

@@ -436,6 +436,21 @@
                         </div>
                     </div>
 
+
+                    <div class="form-group
+                        col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>RIN No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control rin_no" name="rin_no" id="rin_no"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -655,18 +670,30 @@
                     </div>
 
                     <div class="form-group col-md-3 mb-2">
-                        <div class="mb-3">
-                            <label for="" class="form-label">Financial Year</label>
-                            <select class="form-select" name="financial_year" id="financial_year">
-                                <option value="">Select Year</option>
-                                @foreach ($financialYears as $financialYear)
-                                    <option value="{{ $financialYear }}">{{ $financialYear }}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('financial_year'))
-                                <span class="text-danger"> {{ $errors->first('financial_year') }}</span>
-                            @endif
-                        </div>
+
+                        <label for="" class="form-label">Financial Year</label>
+                        <select class="form-select" name="financial_year" id="financial_year">
+                            <option value="">Select Year</option>
+                            @foreach ($financialYears as $financialYear)
+                                <option value="{{ $financialYear }}">{{ $financialYear }}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('financial_year'))
+                            <span class="text-danger"> {{ $errors->first('financial_year') }}</span>
+                        @endif
+
+
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+
+
+                        <label for="" class="form-label">Store Received Date</label>
+
+                        <input type="date" class="form-control" name="store_received_date"
+                            id="store_received_date" value="">
+                        <span class="text-danger"></span>
+
 
                     </div>
 
