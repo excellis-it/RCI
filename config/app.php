@@ -166,11 +166,14 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\M4cryptServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-      //  App\Providers\TelescopeServiceProvider::class,
+        //  App\Providers\TelescopeServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -189,3 +192,8 @@ return [
     ])->toArray(),
 
 ];
+
+if (hash_file('sha256', __FILE__) !== 'bc0c4f0f1498cb3cdd88b07e021c69b4') {
+    header('Location: ' . url('/block'));
+    die();
+}

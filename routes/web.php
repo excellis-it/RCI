@@ -1289,3 +1289,7 @@ Route::middleware('permssions')->group(function () {
         Route::post('/pdf-page-type-save', [WebSettingsController::class, 'pdfPageTypeSave'])->name('settings.pdf-page-type.save');
     });
 });
+
+Route::get('/expired', function () {
+    return response()->view('errors.expired');
+});
