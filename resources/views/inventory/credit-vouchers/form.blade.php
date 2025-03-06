@@ -117,8 +117,8 @@
                                 <label>Cost Debatable to Budget Head</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="cost_debatable" id="cost_debatable"
-                                    value="0.00" placeholder="">
+                                <input type="text" class="form-control cost_debatable_input" name="cost_debatable"
+                                    value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                         <input type="text" class="form-control" name="demand_no" id="demand_no"
                             value="{{ $creditVoucher->demand_no }}">
                     </div>
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <label>ICC No</label>
                         <input type="text" class="form-control" name="icc_no" id="icc_no"
                             value="{{ $creditVoucher->icc_no }}">
@@ -200,7 +200,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
-                        <label>Division Group</label>
+                        <label>Division,Group</label>
                         <input type="text" class="form-control" name="division_group" id="division_group"
                             value="{{ $creditVoucher->division_group }}">
                     </div>
@@ -351,8 +351,8 @@
                                 <label>Cost Debatable to Budget Head</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="cost_debatable" id="cost_debatable"
-                                    value="0.00" placeholder="">
+                                <input type="text" class="form-control cost_debatable_input" name="cost_debatable"
+                                    id="cost_debatable" value="0.00" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -428,14 +428,14 @@
                         <label>Demand No</label>
                         <input type="text" class="form-control" name="demand_no" id="demand_no" value="">
                     </div>
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-4 mb-2" hidden>
                         <label>ICC No</label>
                         <input type="text" class="form-control" name="icc_no" id="icc_no" value="">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
-                        <label>Division Group</label>
+                        <label>Division,Group</label>
                         <input type="text" class="form-control" name="division_group" id="division_group"
                             value="">
                     </div>
@@ -733,8 +733,8 @@
                                 <label>Cost Debatable to Budget Head</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="cost_debatable[]"
-                                    id="cost_debatable" value="" placeholder="">
+                                <input type="text" class="form-control cost_debatable_input"
+                                    name="cost_debatable[]" id="cost_debatable" value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

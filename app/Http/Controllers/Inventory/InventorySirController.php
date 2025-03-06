@@ -16,6 +16,7 @@ use App\Models\NcStatus;
 use App\Models\AuStatus;
 use App\Models\SirType;
 use Illuminate\Support\Facades\DB;
+use App\Models\Rin;
 
 class InventorySirController extends Controller
 {
@@ -34,6 +35,18 @@ class InventorySirController extends Controller
             ->orderBy('inventory_sirs.id', 'desc')
             ->paginate(10);
 
+
+        foreach ($sirs as $sir) {
+            $sir->have_rin = 0;
+            $rin = Rin::where('sir_no', $sir->sir_no)->first();
+            if ($rin) {
+                $sir->have_rin = 1;
+            }
+        }
+
+        // return $sirs;
+
+
         $vendors = Vendor::orderBy('id', 'desc')->get();
         $supply_orders = SupplyOrder::all();
         $inventory_nos = InventoryNumber::where('status', 1)->orderBy('id', 'desc')->get();
@@ -50,21 +63,31 @@ class InventorySirController extends Controller
 
     public function fetchData(Request $request)
     {
+
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $sirs = InventorySir::where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('sir_no', 'like', '%' . $query . '%')
-                    ->orWhere('sir_date', 'like', '%' . $query . '%')
-                    ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
-            })
+
+            $sirs = InventorySir::where('inventory_sirs.sir_no', 'like', '%' . $query . '%')->select('inventory_sirs.sir_no', 'inventory_sirs.id', 'inventory_sirs.created_at', 'inventory_sirs.sir_date', 'inventory_sirs.status')
+                ->join(DB::raw('(SELECT sir_no, MAX(id) as max_id FROM inventory_sirs GROUP BY sir_no) as subquery'), function ($join) {
+                    $join->on('inventory_sirs.id', '=', 'subquery.max_id');
+                })
                 ->orderBy($sort_by, $sort_type)
                 ->paginate(10);
 
-            return response()->json(['data' => view('inventory.inventory-types.table', compact('itemTypes'))->render()]);
+            foreach ($sirs as $sir) {
+                $sir->have_rin = 0;
+                $rin = Rin::where('sir_no', $sir->sir_no)->first();
+                if ($rin) {
+                    $sir->have_rin = 1;
+                }
+            }
+
+            //return $sirs;
+
+            return response()->json(['data' => view('inventory.sirs.table', compact('sirs'))->render()]);
         }
     }
 
@@ -125,6 +148,7 @@ class InventorySirController extends Controller
                 $sir->supply_order_no = $request->supply_order_no ?? null;
                 $sir->inspection_authority = $request->inspection_authority ?? null;
                 $sir->sir_type_id = $request->sir_type ?? null;
+                $sir->store_received_date = $request->store_received_date;
                 $sir->status = $request->status;
 
 
@@ -227,6 +251,7 @@ class InventorySirController extends Controller
             $sir->supply_order_no = $request->supply_order_no ?? null;
             $sir->inspection_authority = $request->inspection_authority ?? null;
             $sir->sir_type_id = $request->sir_type ?? null;
+            $sir->store_received_date = $request->store_received_date;
             $sir->status = $request->status;
             $sir->save();
 

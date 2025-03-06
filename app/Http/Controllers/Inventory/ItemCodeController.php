@@ -50,6 +50,8 @@ class ItemCodeController extends Controller
                 $itemsQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('id', 'like', '%' . $query . '%')
                         ->orWhere('code', 'like', '%' . $query . '%')
+                        ->orWhere('description', 'like', '%' . $query . '%')
+                        ->orWhere('item_name', 'like', '%' . $query . '%')
                         ->orWhere('uom', 'like', '%' . $query . '%')
                         ->orWhereHas('createdBy', function ($q) use ($query) {
                             $q->where('user_name', 'like', '%' . $query . '%');
@@ -138,11 +140,11 @@ class ItemCodeController extends Controller
         $item_code_gen->description = $request->description;
         $item_code_gen->uom = $request->uom;
         $item_code_gen->nc_status = $request->nc_status;
-     //   $item_code_gen->au_status = $request->au_status;
+        //   $item_code_gen->au_status = $request->au_status;
         $item_code_gen->item_type = $request->item_type ?? '';
         $item_code_gen->item_name = $request->item_name;
         $item_code_gen->item_price = $request->item_price;
-       // $item_code_gen->item_code_type_id = $request->item_code_type_id;
+        // $item_code_gen->item_code_type_id = $request->item_code_type_id;
         $item_code_gen->member_id = Auth::user()->id;
         $item_code_gen->entry_date = date('Y-m-d');
         $item_code_gen->save();
@@ -180,7 +182,7 @@ class ItemCodeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       // return $request;
+        // return $request;
         $request->validate([
             'item_code' =>  'required',
             'uom' => 'required',
@@ -193,11 +195,11 @@ class ItemCodeController extends Controller
         $item_code->description = $request->description;
         $item_code->uom = $request->uom;
         $item_code->nc_status = $request->nc_status;
-      //  $item_code->au_status = $request->au_status;
+        //  $item_code->au_status = $request->au_status;
         $item_code->item_type = $request->item_type ?? '';
         $item_code->item_name = $request->item_name;
         $item_code->item_price = $request->item_price;
-     //   $item_code->item_code_type_id = $request->item_code_type_id;
+        //   $item_code->item_code_type_id = $request->item_code_type_id;
         $item_code->member_id = Auth::user()->id;
         $item_code->entry_date = date('Y-m-d');
         $item_code->update();
