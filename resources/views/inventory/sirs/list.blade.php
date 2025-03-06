@@ -80,7 +80,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('rins.fetch-data') }}",
+                    url: "{{ route('sir.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
