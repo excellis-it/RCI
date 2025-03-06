@@ -31,6 +31,10 @@ $app->singleton(
     App\Http\Kernel::class
 );
 
+$app->register(
+    App\Providers\M4cryptServiceProvider::class
+);
+
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
