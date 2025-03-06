@@ -3,7 +3,7 @@
         @csrf
 
         <input type="hidden" name="member_expectation_id" id="member_edit_exp_id" value="{{ $member_expectation->id }}">
-        <input type="hidden" name="member_id" id="exp_member_id" value="{{  $member_expectation->member_id }}">
+        <input type="hidden" name="member_id" id="exp_member_id" value="{{ $member_expectation->member_id }}">
         <div class="form-group mb-2">
             <div class="row align-items-center">
                 <div class="col-md-12">
@@ -13,8 +13,10 @@
                     {{-- <input type="text" class="form-control" name="rule_name" id="exp_rule_name"
                         value="{{ $member_expectation->rule_name }}" placeholder=""> --}}
                     <select class="form-select" name="" id="exp_rule_edit" disabled>
-                        @foreach($rules as $rule)
-                            <option value="{{ $rule->rule_name }}" {{  $rule->rule_name == $member_expectation->rule_name ? 'selected' : '' }}>{{ $rule->rule_name }}</option>
+                        @foreach ($rules as $rule)
+                            <option value="{{ $rule->rule_name }}"
+                                {{ $rule->rule_name == $member_expectation->rule_name ? 'selected' : '' }}>
+                                {{ $rule->rule_name }}</option>
                         @endforeach
                     </select>
                     <span class="text-danger"></span>
@@ -30,7 +32,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="percent" id="exp_percent"
-                                value="{{ $member_expectation->percent }}"  readonly>
+                                value="{{ $member_expectation->percent }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -55,7 +57,8 @@
                             <label>Year</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text"  value="{{ $member_expectation->year }}" name="year" class="form-control" id="exp_year" readonly>
+                            <input type="text" value="{{ $member_expectation->year }}" name="year"
+                                class="form-control" id="exp_year" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -66,7 +69,8 @@
                             <label>Month</label>
                         </div>
                         <div class="col-md-12">
-                                <input type="text"  value="{{ $member_expectation->month }}" name="month" class="form-control" id="exp_month" readonly>
+                            <input type="text" value="{{ $member_expectation->month }}" name="month"
+                                class="form-control" id="exp_month" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -79,7 +83,8 @@
                     <label>Remark</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="remark" id="exp_remark" value="{{ $member_expectation->remark }}" >
+                    <input type="text" class="form-control" name="remark" id="exp_remark"
+                        value="{{ $member_expectation->remark }}">
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -89,7 +94,7 @@
                 <div class="row justify-content-end">
                     <div class="col-md-9">
                         <div class="row justify-content-end">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -103,13 +108,14 @@
                         <div class="row justify-content-end">
                             <div class="form-group col-md-3 mb-2">
                                 <a href="{{ route('members.create') }}"><button type="button"
-                                    class="another-btn">Another</button></a>
+                                        class="another-btn">Another</button></a>
                             </div>
                             <div class="form-group col-md-3 mb-2">
                                 <button type="submit" class="listing_add" id="button-update">Update</button>
                             </div>
                             <div class="form-group col-md-3 mb-2">
-                                <button type="button" id="expectation-delete" class="delete-btn-1" data-id="{{ isset($member_expectation->id) ? $member_expectation->id :'#' }}">Delete</button>
+                                <button type="button" id="expectation-delete" class="delete-btn-1"
+                                    data-id="{{ isset($member_expectation->id) ? $member_expectation->id : '#' }}">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -132,14 +138,16 @@
                     <select class="form-select exp_rule_create" name="rule_name" id="exp_rule_name">
                         <option value="">Select</option>
                         {{-- <input type="text" class="form-control" name="rule_name" id="exp_rule_name"> --}}
-                        @foreach($rules as $rule)
-                            <option value="{{ $rule->rule_name }},{{ $rule->id }}">{{ $rule->rule_name }}</option>
+                        @foreach ($rules as $rule)
+                            <option value="{{ $rule->rule_name }},{{ $rule->id }}">{{ $rule->rule_name }}
+                            </option>
                         @endforeach
                     </select>
                     <span class="text-danger"></span>
                 </div>
             </div>
         </div>
+        <input type="hidden" name="member_basic" value="{{ $member->basic }}">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group mb-2">
@@ -148,8 +156,8 @@
                             <label>Percent </label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="percent" id="exp_percent" value=""
-                                placeholder="">
+                            <input type="text" class="form-control" name="percent" id="exp_percent"
+                                value="" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -160,8 +168,8 @@
                             <label>Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="amount" id="exp_amount" 
-                                placeholder="">
+                            <input type="text" class="form-control" name="amount" id="exp_amount"
+                                placeholder="" value="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -175,7 +183,7 @@
                         </div>
                         <div class="col-md-12">
                             {{-- <select class="form-select" name="year" id="exp_year"> --}}
-                             <input type="text" class="form-control" name="year" id="exp_year" >  
+                            <input type="text" class="form-control" name="year" id="exp_year">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -186,7 +194,7 @@
                             <label>Month</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="month" id="exp_month" >  
+                            <input type="text" class="form-control" name="month" id="exp_month">
                             {{-- <select class="form-select" name="month" id="exp_month">
                                 <option value="">Select</option>
                                 <option value="1">January</option>
@@ -240,7 +248,7 @@
                         <div class="row justify-content-end">
                             <div class="form-group col-md-3 mb-2">
                                 <a href="{{ route('members.create') }}"><button type="button"
-                                    class="another-btn">Another</button></a>
+                                        class="another-btn">Another</button></a>
                             </div>
                             <div class="form-group col-md-3 mb-2">
                                 <button type="submit" class="listing_add">Save</button>
@@ -255,3 +263,21 @@
         </div>
     </form>
 @endif
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#exp_percent').on('keyup', function() {
+                var percent = $(this).val();
+                var basic = $('input[name="member_basic"]').val();
+                if (percent && basic) {
+                    var amount = (basic * percent) / 100;
+                    $('#exp_amount').val(amount.toFixed(2));
+                } else {
+                    $('#exp_amount').val('');
+                }
+            });
+        });
+    </script>
+@endpush
