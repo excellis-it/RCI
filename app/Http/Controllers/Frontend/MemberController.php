@@ -284,7 +284,8 @@ class MemberController extends Controller
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $rules = Rule::orderBy('id', 'desc')->get() ?? '';
 
-        $members_loans_info = MemberLoanInfo::where('member_id', $id)->orderBy('id', 'desc')->get();
+        $members_loans_info = MemberLoanInfo::with('loanInfoFirst')->where('member_id', $id)->orderBy('id', 'desc')->get();
+        //  return $members_loans_info;
         $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->latest()->first() ?? '';
 
         $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
@@ -868,6 +869,15 @@ class MemberController extends Controller
             $core_member->save();
         }
 
+        // update member debit if exist, and update this cols : gpa_sub, i_tax and ecess
+        $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+        if ($member_debit) {
+            $member_debit->gpa_sub = $request->gpf_sub;
+            $member_debit->i_tax = $request->i_tax;
+            $member_debit->ecess = $request->ecess;
+            $member_debit->save();
+        }
+
         // session()->flash('message', 'Member recovery updated successfully');
         return response()->json(['message' => 'Member recovery updated successfully']);
     }
@@ -1062,6 +1072,7 @@ class MemberController extends Controller
             $loanInstallment = new MemberLoan();
             $loanInstallment->member_id = $request->member_id;
             $loanInstallment->loan_id = $request->loan_name;
+            $loanInstallment->loan_info_id = $loan_info->id;
             $loanInstallment->interest_rate = $annualRate;
             $loanInstallment->emi_amount = $emiAmount;
             $loanInstallment->interest_amount = $monthlyInterest; // Update this logic if interest changes monthly

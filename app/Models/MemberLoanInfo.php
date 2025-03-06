@@ -20,4 +20,14 @@ class MemberLoanInfo extends Model
     {
         return $this->belongsTo(Member::class, 'member_id', 'id');
     }
+
+    public function allLoans()
+    {
+        return $this->hasMany(MemberLoan::class, 'loan_info_id', 'id');
+    }
+
+    public function loanInfoFirst()
+    {
+        return $this->hasOne(MemberLoan::class, 'loan_info_id', 'id')->latest();
+    }
 }

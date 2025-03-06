@@ -278,15 +278,17 @@
                                         <div class="credit-frm">
 
                                             <div class="row mb-3">
-                                                <div class="col-md-6">
+                                                <div class="col-md-7">
                                                     <div class="recov-table">
                                                         <table class="table customize-table mb-0 align-middle bg_tbody"
                                                             id="loan-table">
                                                             <thead class="text-white fs-4 bg_blue">
                                                                 <tr>
                                                                     <th>Loan Name</th>
-                                                                    <th>Inst Rate</th>
-                                                                    <th>Amount</th>
+                                                                    <th>Loan Amount</th>
+                                                                    <th>Interest Rate</th>
+                                                                    <th>Interest Amount</th>
+                                                                    <th>Inst Amount</th>
                                                                     <th>Start Date</th>
                                                                     <th>Remarks</th>
                                                                 </tr>
@@ -298,7 +300,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6" id="loan-form">
+                                                <div class="col-md-5" id="loan-form">
                                                     @include('frontend.members.loan.form')
                                                 </div>
                                             </div>
@@ -1942,10 +1944,22 @@
     </script>
 
     <script>
+        //
+        function calculateLoanTotal() {
+            let total = 0;
+            $('.loan_inst_amounts').each(function() {
+                let value = parseFloat($(this).val()) || 0; // Get value and convert to float
+                total += value; // Add to total
+            });
+            console.log("Total Loan Amounts: " + total);
+            $('#total_loan_inst_amount').val(total.toFixed(2)); // Set total in any input field
+        }
         // get updated allTotals
         function getALlTotal() {
+            var total_loan_amounts = $('#total_loan_inst_amount').val();
             var total_credits = $('#tot_credits').val();
-            var total_debits = $('#tot_debits').val();
+            var total_debits = parseFloat($('#tot_debits').val()) + parseFloat(total_loan_amounts);
+
             var total_net_pay = total_credits - total_debits;
             var total_recovery = $('#tot_rec').val();
             var take_home = total_net_pay - total_recovery;
@@ -1957,6 +1971,8 @@
             $('#take_home').val(take_home.toFixed(2));
         }
         $(document).ready(function() {
+
+            calculateLoanTotal();
             getALlTotal();
         });
     </script>

@@ -716,402 +716,80 @@
     </div>
 
 
+    {{-- Old Loan Fields --}}
+  
+    {{-- Old Loan Fields --}}
 
-        <div class="row mt-2">
-            <p>Loans :</p>
-            <div class="row">
-                <p hidden>HBA</p>
+    {{-- Loans Dynamic --}}
+    <div class="row mt-2">
+        <p>Loans :</p>
+        <div class="row">
 
+            @if (isset($members_loans_info) && count($members_loans_info) > 0)
+                @foreach ($members_loans_info as $loan_info)
+                    <div class="col-md-2">
+                        <div class="form-group mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>{{ $loan_info->loan->loan_name }} Inst Amount</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control loan_inst_amounts" name="loan_amounts"
+                                        id=""
+                                        value="{{ round($loan_info->loanInfoFirst->emi_amount, 2) ?? 0 }}"
+                                        placeholder="0" readonly>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
 
-                <div class="col-md-2">
+                <div class="col-md-2" hidden>
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>HBA Adv</label>
+                                <label>Total Inst Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="hba" id="hba"
-                                    value="{{ $member_debit->hba ?? '' }}" placeholder="0">
+                                <input type="text" class="form-control loan_inst_amounts"
+                                    name="total_loan_amounts" id="total_loan_inst_amount" value="0"
+                                    placeholder="0" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>HBA Interest</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="hba_interest" id="hba_interest"
-                                    value="{{ $member_debit->hba_int ?? '' }}" placeholder="0">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>HBA Curr Instll</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="hba_cur_instl" id="hba_cur_instl"
-                                    value="{{ $member_debit->hba_cur_instl ?? '' }}" placeholder="0">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>HBA int current instll</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="hba_int_cur_instl"
-                                    id="hba_int_cur_instl" value="{{ $member_debit->hba_int_cur_instl ?? '' }}"
-                                    placeholder="0">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>HBA int total install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="hba_int_total_instl"
-                                    id="hba_int_total_instl" value="{{ $member_debit->hba_int_total_instl ?? '' }}"
-                                    placeholder="0">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <p hidden>Comp</p>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp Adv</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_adv" id="comp_adv"
-                                    value="{{ $member_debit->comp_adv ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp Int</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_int" id="comp_int"
-                                    value="{{ $member_debit->comp_int ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp prin curr install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_prin_curr_instl"
-                                    id="comp_prin_curr_instl" value="{{ $member_debit->comp_prin_curr_instl ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp prin total install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_prin_total_instl"
-                                    id="comp_prin_total_instl"
-                                    value="{{ $member_debit->comp_prin_total_instl ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp adv interest</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_adv_int" id="comp_adv_int"
-                                    value="{{ $member_debit->comp_adv_int ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp int curr install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_int_curr_instl"
-                                    id="comp_int_curr_instl" value="{{ $member_debit->comp_int_curr_instl ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @endif
 
-
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Comp int total install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="comp_int_total_instl"
-                                    id="comp_int_total_instl" value="{{ $member_debit->comp_int_total_instl ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <p hidden>Car</p>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>CAR Adv</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="car" id="car"
-                                    value="{{ $member_debit->car ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>CAR Interest</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="car_interest" id="car_interest"
-                                    value="{{ $member_debit->car_int ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Car adv princ install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="car_adv_prin_instl"
-                                    id="car_adv_prin_instl" value="{{ $member_debit->car_adv_prin_instl ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Car adv total install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="car_adv_total_instl"
-                                    id="car_adv_total_instl" value="{{ $member_debit->car_adv_total_instl ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <p hidden>Scooter</p>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Scooter Adv</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="scooter" id="scooter"
-                                    value="{{ $member_debit->scooter ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Scooter Interest</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="scooter_interest"
-                                    id="scooter_interest" value="{{ $member_debit->sco_int ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Scooter Adv princ instll</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="scot_adv_prin_instl"
-                                    id="scot_adv_prin_instl" value="{{ $member_debit->scot_adv_prin_instl ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Scooter Adv current instll</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="sco_adv_int_curr_instl"
-                                    id="sco_adv_int_curr_instl"
-                                    value="{{ $member_debit->sco_adv_int_curr_instl ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Scooter adv total install</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="sco_adv_int_total_instl"
-                                    id="sco_adv_int_total_instl"
-                                    value="{{ $member_debit->sco_adv_int_total_instl ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <p hidden>Festival</p>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Fest adv</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="fadv" id="fadv"
-                                    value="{{ $member_debit->fadv ?? '' }}" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Festival adv prin curr</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="fest_adv_prin_cur"
-                                    id="fest_adv_prin_cur" value="{{ $member_debit->fest_adv_prin_cur ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Festival adv total curr</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="fest_adv_total_cur"
-                                    id="fest_adv_total_cur" value="{{ $member_debit->fest_adv_total_cur ?? '' }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
+    </div>
 
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <div class="row justify-content-end">
-                    <div class="col-md-6">
-                        <div class="row justify-content-end">
-                            <div class="form-group col-md-3 mb-2">
-                                <a href="{{ route('members.create') }}"><button type="button"
-                                        class="another-btn">Another</button></a>
-                            </div>
-                            <div class="form-group col-md-3 mb-2">
-                                <button type="submit" class="listing_add" id="debit-update">Update</button>
-                            </div>
-                            <div class="form-group col-md-3 mb-2">
-                                <button type="reset" class="listing_exit">Cancel</button>
-                            </div>
+
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="row justify-content-end">
+                <div class="col-md-6">
+                    <div class="row justify-content-end">
+                        <div class="form-group col-md-3 mb-2">
+                            <a href="{{ route('members.create') }}"><button type="button"
+                                    class="another-btn">Another</button></a>
+                        </div>
+                        <div class="form-group col-md-3 mb-2">
+                            <button type="submit" class="listing_add" id="debit-update">Update</button>
+                        </div>
+                        <div class="form-group col-md-3 mb-2">
+                            <button type="reset" class="listing_exit">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <input type="hidden" name="tot_credits" value="{{ $member_credit->tot_credits ?? '' }}">
+    <input type="hidden" name="tot_credits" value="{{ $member_credit->tot_credits ?? '' }}">
 
 
 </form>
