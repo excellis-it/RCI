@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" hidden>
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -106,10 +106,10 @@
                 <div class="row justify-content-end">
                     <div class="col-md-9">
                         <div class="row justify-content-end">
-                            <div class="form-group col-md-3 mb-2">
+                            {{-- <div class="form-group col-md-3 mb-2">
                                 <a href="{{ route('members.create') }}"><button type="button"
                                         class="another-btn">Another</button></a>
-                            </div>
+                            </div> --}}
                             <div class="form-group col-md-3 mb-2">
                                 <button type="submit" class="listing_add" id="button-update">Update</button>
                             </div>
@@ -149,7 +149,7 @@
         </div>
         <input type="hidden" name="member_basic" value="{{ $member->basic }}">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -175,7 +175,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" hidden>
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -244,23 +244,36 @@
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="row justify-content-end">
-                    <div class="col-md-9">
-                        <div class="row justify-content-end">
-                            <div class="form-group col-md-3 mb-2">
-                                <a href="{{ route('members.create') }}"><button type="button"
-                                        class="another-btn">Another</button></a>
+                    <div class="col-md-12">
+                        @if (empty($member->member_credit_info) ||
+                                empty($member->member_debit_info) ||
+                                empty($member->member_recovery_info) ||
+                                empty($member->member_core_info_data) ||
+                                empty($member->member_personal_info))
+                            <div class="alert alert-warning">
+                                <h6>Please complete member information before updating rules!</h6>
+                                {!! empty($member->member_credit_info) ? 'Credit Info Not Updated <br>' : '' !!}
+                                {!! empty($member->member_debit_info) ? 'Debit Info Not Updated <br>' : '' !!}
+                                {!! empty($member->member_recovery_info) ? 'Recovery Info Not Updated <br>' : '' !!}
+                                {!! empty($member->member_core_info_data) ? 'Core Info Not Updated <br>' : '' !!}
+                                {!! empty($member->member_personal_info) ? 'Personal Info Not Updated <br>' : '' !!}
                             </div>
-                            <div class="form-group col-md-3 mb-2">
-                                <button type="submit" class="listing_add">Save</button>
+                        @else
+                            <div class="row justify-content-end">
+                                <div class="form-group col-md-3 mb-2">
+                                    <button type="submit" class="listing_add">Save</button>
+                                </div>
+                                <div class="form-group col-md-3 mb-2">
+                                    <button type="reset" class="listing_exit">Cancel</button>
+                                </div>
                             </div>
-                            <div class="form-group col-md-3 mb-2">
-                                <button type="reset" class="listing_exit">Cancel</button>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
+
+
     </form>
 @endif
 

@@ -331,7 +331,7 @@
                                         aria-labelledby="exp-tab" tabindex="0">
                                         <div class="credit-frm">
                                             <div class="row mb-3">
-                                                <div class="col-md-6">
+                                                <div class="col-md-7">
                                                     <div class="recov-table">
                                                         <table class="table customize-table mb-0 align-middle bg_tbody"
                                                             id="expectation-table">
@@ -357,7 +357,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6" id="expectation-form">
+                                                <div class="col-md-5" id="expectation-form">
                                                     @include('frontend.members.expectation.form')
 
                                                 </div>
