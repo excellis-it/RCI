@@ -52,7 +52,8 @@
                                 <label>Sanction Authority</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="sanction_authority" id="sanction_authority">
+                                <select class="form-select form-select-search" name="sanction_authority"
+                                    id="sanction_authority">
                                     <option value="">Select Authority</option>
                                     @foreach ($sanction_authorities as $sanction_authority)
                                         <option value="{{ $sanction_authority->id }}"
@@ -210,7 +211,7 @@
                                 <label>Sanction Authority</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="sanction_authority" id="sanction_authority">
+                                <select class="form-select-search" name="sanction_authority" id="sanction_authority">
                                     <option value="">Select Authority</option>
                                     @foreach ($sanction_authorities as $sanction_authority)
                                         <option value="{{ $sanction_authority->id }}">{{ $sanction_authority->name }}

@@ -186,7 +186,7 @@
                             <label>Designation</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="member_id" id="member_id">
+                            <select class="form-select form-select-search" name="member_id" id="member_id">
                                 <option value="">Select Member</option>
                                 @foreach ($all_members as $member)
                                     <option value="{{ $member->id }}"

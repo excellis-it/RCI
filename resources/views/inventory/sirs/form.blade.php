@@ -232,23 +232,7 @@
                         @foreach ($sirItems as $sirItem)
                             <div class="new_html">
                                 <div class="row">
-                                    {{-- <div class="form-group col-md-4 mb-2">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-12">
-                                                <label>Item Code </label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <select class="form-select item_id" name="item_id[]" id="item_id">
-                                                    <option value="">Select Item Code </option>
-                                                    @foreach ($items as $item)
-                                                        <option {{ $sirItem->item_id == $item->id ? 'selected' : '' }}
-                                                            value="{{ $item->id }}">{{ $item->code }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <span class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+                                   
 
                                     <div class="form-group col-md-4 mb-2">
                                         <div class="row align-items-center">
@@ -258,7 +242,8 @@
                                             <div class="col-md-12">
 
                                                 <input type="text" name="item_id[]" id="item_id"
-                                                    value="{{ $sirItem->gem_item_code }}" class="form-control item_id">
+                                                    value="{{ $sirItem->gem_item_code }}"
+                                                    class="form-control item_id">
                                                 <span class="text-danger"></span>
                                             </div>
                                         </div>
@@ -425,8 +410,8 @@
                                                     id="nc_status">
                                                     <option value="">Select</option>
                                                     @foreach ($nc_statuses as $status)
-                                                        <option value="{{ $status->id }}"
-                                                            {{ $sirItem->nc_status == $status->id ? 'selected' : '' }}>
+                                                        <option value="{{ $status->status }}"
+                                                            {{ $sirItem->nc_status == $status->status ? 'selected' : '' }}>
                                                             {{ $status->status }}
                                                         </option>
                                                     @endforeach

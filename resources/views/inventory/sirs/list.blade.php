@@ -207,7 +207,7 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                        //  window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

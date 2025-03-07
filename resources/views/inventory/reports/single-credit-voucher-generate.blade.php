@@ -84,7 +84,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                            DC/INVOICE NO: &nbsp; {{ $creditVoucher->invoice_no ?? '-' }}
+
                                         </td>
                                         <td
                                             style="
@@ -148,8 +148,7 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-                                            DC/INVOICE NO DATE: &nbsp;
-                                            {{ $creditVoucher->invoice_date ? date('d-m-Y', strtotime($creditVoucher->invoice_date)) : '-' }}
+
                                         </td>
                                         <td
                                             style="
@@ -339,10 +338,10 @@
                     ">
                                             SI.No.
                                         </td>
-                                        <td
+                                        <td colspan="2"
                                             style="
                       font-size: 10px;
-                      line-height: 14px;
+                      line-height: 14px; 
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -352,19 +351,7 @@
                     ">
                                             Item Code
                                         </td>
-                                        <td
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: center;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                    ">
-                                            Gem Item Code
-                                        </td>
+
                                         <td
                                             style="
                       font-size: 10px;
@@ -554,7 +541,7 @@
                                                 {{ $index ?? '-' }}
                                             </td>
                                             @php $index++; @endphp
-                                            <td
+                                            <td colspan="2"
                                                 style="
                       font-size: 10px;
                       line-height: 14px;
@@ -568,20 +555,7 @@
                     ">
                                                 {{ $creditDetail['item_code'] ?? '-' }}
                                             </td>
-                                            <td
-                                                style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border-left: 1px solid #000;
-                      border-right: 1px solid #000;
-                    ">
-                                                {{ $creditDetail['gem_item_code'] ?? '-' }}
-                                            </td>
+
                                             <td
                                                 style="
                       font-size: 10px;
@@ -1038,7 +1012,7 @@
                     ">
                                         </td>
                                     </tr>
-                                   
+
                                     <tr>
                                         <td colspan="3"
                                             style="
