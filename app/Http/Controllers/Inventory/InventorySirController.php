@@ -106,6 +106,7 @@ class InventorySirController extends Controller
     {
         // validation
         $request->validate([
+            //  'item_id.*' => 'required',
             'sir_no' => 'required',
             'sir_date' => 'required',
             'demand_no' => 'required',
@@ -134,7 +135,7 @@ class InventorySirController extends Controller
         // ]);
 
         if ($request->item_id) {
-            foreach ($request->item_id as $key => $item) {
+            foreach ($request->item_id as $key => $itemId) {
                 $sir = new InventorySir();
 
                 $sir->sir_no = $request->sir_no;
@@ -153,7 +154,7 @@ class InventorySirController extends Controller
 
 
                 // $sir->item_id = $request->item_id[$key] ?? null;
-                $sir->gem_item_code = $request->item_id[$key] ?? null;
+                $sir->gem_item_code = $itemId ?? null;
                 $sir->description = $request->description[$key] ?? null;
                 $sir->received_quantity = $request->received_quantity[$key] ?? null;
                 $sir->remarks = $request->remarks[$key] ?? null;
@@ -171,6 +172,8 @@ class InventorySirController extends Controller
                 $sir->save();
             }
         } else {
+            // Only create record if there are no items
+            // This prevents duplicate records when only one item exists
             $sir = new InventorySir();
 
             $sir->sir_no = $request->sir_no;
@@ -227,6 +230,7 @@ class InventorySirController extends Controller
     {
         // validation
         $request->validate([
+            // 'item_id.*' => 'required',
             'sir_no' => 'required',
             'sir_date' => 'required',
             'status' => 'required',
@@ -237,65 +241,62 @@ class InventorySirController extends Controller
             'inventory_no' => 'required',
         ]);
 
-        $sir = InventorySir::find($id);
+        $sir_data = InventorySir::find($id);
 
-        if ($sir) {
-            $sir->sir_no = $request->sir_no;
-            $sir->sir_date = $request->sir_date;
-            $sir->demand_no = $request->demand_no;
-            $sir->demand_date = $request->demand_date;
-            $sir->invoice_no = $request->invoice_no;
-            $sir->invoice_date = $request->invoice_date;
-            $sir->inventory_no = $request->inventory_no;
-            $sir->supplier_id = $request->supplier_id ?? null;
-            $sir->supply_order_no = $request->supply_order_no ?? null;
-            $sir->inspection_authority = $request->inspection_authority ?? null;
-            $sir->sir_type_id = $request->sir_type ?? null;
-            $sir->store_received_date = $request->store_received_date;
-            $sir->status = $request->status;
-            $sir->save();
+        $sir_data_sir_no = $sir_data->sir_no;
 
-            // Update existing items
-            if ($request->item_id) {
-                foreach ($request->item_id as $key => $item) {
-                    $sirItem = InventorySir::where('sir_no', $sir->sir_no)
-                        ->where('item_id', $item)
-                        ->first();
-                    if ($sirItem) {
-                        $sirItem->sir_no = $request->sir_no;
-                        $sirItem->sir_date = $request->sir_date;
-                        $sirItem->demand_no = $request->demand_no;
-                        $sirItem->demand_date = $request->demand_date;
-                        $sirItem->invoice_no = $request->invoice_no;
-                        $sirItem->invoice_date = $request->invoice_date;
-                        $sirItem->inventory_no = $request->inventory_no;
-                        $sirItem->supplier_id = $request->supplier_id ?? null;
-                        $sirItem->supply_order_no = $request->supply_order_no ?? null;
-                        $sirItem->inspection_authority = $request->inspection_authority ?? null;
-                        $sirItem->sir_type_id = $request->sir_type ?? null;
-                        $sirItem->status = $request->status;
+        $all_sir = InventorySir::where('sir_no', $sir_data_sir_no)->get();
 
-                        $sirItem->gem_item_code = $request->item_id[$key] ?? null;
-                        $sirItem->description = $request->description[$key] ?? null;
-                        $sirItem->received_quantity = $request->received_quantity[$key] ?? null;
-                        $sirItem->remarks = $request->remarks[$key] ?? null;
-                        $sirItem->discount = $request->disc_percent[$key] ?? null;
-                        $sirItem->discount_amount = $request->discount_amount[$key] ?? null;
-                        $sirItem->discount_type = $request->discount_type[$key] ?? null;
+        // delete all sir items and add new
+        foreach ($all_sir as $sir_item) {
+            $sir_item->delete();
+        }
 
-                        $sirItem->unit_cost = $request->unit_cost[$key] ?? null;
-                        $sirItem->total_cost = $request->total_cost[$key] ?? null;
-                        $sirItem->nc_status = $request->nc_status[$key] ?? null;
-                        $sirItem->au_status = $request->au_status[$key] ?? null;
-                        $sirItem->gst = $request->gst[$key] ?? null;
-                        $sirItem->gst_amount = $request->gst_amount[$key] ?? null;
-                        $sirItem->total_amount = $request->total_amount[$key] ?? null;
-
-                        $sirItem->save();
-                    }
+        // $items = [];
+        if ($request->item_id) {
+            foreach ($request->item_id as $key => $itemId) {
+                if ($itemId == null) {
+                    continue;
                 }
+                $sir = new InventorySir();
+                //   $items[] = $itemId;
+                $sir->sir_no = $request->sir_no;
+                $sir->sir_date = $request->sir_date;
+                $sir->demand_no = $request->demand_no;
+                $sir->demand_date = $request->demand_date;
+                $sir->invoice_no = $request->invoice_no;
+                $sir->invoice_date = $request->invoice_date;
+                $sir->inventory_no = $request->inventory_no;
+                $sir->supplier_id = $request->supplier_id ?? null;
+                $sir->supply_order_no = $request->supply_order_no ?? null;
+                $sir->inspection_authority = $request->inspection_authority ?? null;
+                $sir->sir_type_id = $request->sir_type ?? null;
+                $sir->store_received_date = $request->store_received_date;
+                $sir->status = $request->status;
+
+
+                // $sir->item_id = $request->item_id[$key] ?? null;
+                $sir->gem_item_code = $itemId ?? null;
+                $sir->description = $request->description[$key] ?? null;
+                $sir->received_quantity = $request->received_quantity[$key] ?? null;
+                $sir->remarks = $request->remarks[$key] ?? null;
+                $sir->discount = $request->disc_percent[$key] ?? null;
+                $sir->discount_amount = $request->discount_amount[$key] ?? null;
+                $sir->discount_type = $request->discount_type[$key] ?? null;
+
+                $sir->unit_cost = $request->unit_cost[$key] ?? null;
+                $sir->total_cost = $request->total_cost[$key] ?? null;
+                $sir->nc_status = $request->nc_status[$key] ?? null;
+                $sir->au_status = $request->au_status[$key] ?? null;
+                $sir->gst = $request->gst[$key] ?? null;
+                $sir->gst_amount = $request->gst_amount[$key] ?? null;
+                $sir->total_amount = $request->total_amount[$key] ?? null;
+                $sir->save();
             }
         }
+
+        //  return $items;
+
 
         session()->flash('message', 'Sir updated successfully');
         return response()->json(['success' => 'Sir updated successfully']);

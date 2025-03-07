@@ -256,6 +256,16 @@ class MemberController extends Controller
     public function edit(string $id)
     {
         $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal', 'gPay')->first();
+
+        //checks
+        $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_debit_info = MemberDebit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_recovery_info = MemberOriginalRecovery::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_core_info_data = MemberCoreInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+
+
+
         $member_credit = MemberCredit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_debit = MemberDebit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $member_recovery = MemberRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -282,7 +292,7 @@ class MemberController extends Controller
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $rules = Rule::orderBy('id', 'desc')->get() ?? '';
+        $rules = Rule::orderBy('id', 'asc')->get() ?? '';
 
         $members_loans_info = MemberLoanInfo::with('loanInfoFirst')->where('member_id', $id)->orderBy('id', 'desc')->get();
         //  return $members_loans_info;
@@ -317,9 +327,23 @@ class MemberController extends Controller
         $member->var_inc_amount = $var_inc_amount;
         $member->basic_with_noi = $member->basic + $noi_amount;
 
+        // nps sub val if member fund type nps
+        $nps_sub_val = 0;
+        if ($member->fund_type == 'NPS') {
+            $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
+            $basicPay = $member->basic;
+            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+            $nsv1 = ($daAmount + $member->basic) * 10 / 100;
+            $nsv2 = ($daAmount + $member->basic) * 14 / 100;
+            $nps_sub_val = $nsv1 + $nsv2;
+        }
+        $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $basicPay = $member->basic;
+        $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+
         // return $member;
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules'));
     }
 
     public function memberCreditUpdate(Request $request)
@@ -526,6 +550,9 @@ class MemberController extends Controller
         if (count($check_debit_member) > 0) {
             $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
             $update_debit_member->gpa_sub = $request->gpa_sub;
+            $update_debit_member->nps_sub = $request->nps_sub;
+            $update_debit_member->nps_rec = $request->nps_rec;
+            $update_debit_member->nps_arr = $request->nps_arr;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->ccl = $request->ccl;
             $update_debit_member->rent = $request->rent;
@@ -610,6 +637,9 @@ class MemberController extends Controller
             $debit_member = new MemberDebit();
             $debit_member->member_id = $request->member_id;
             $debit_member->gpa_sub = $request->gpa_sub;
+            $debit_member->nps_sub = $request->nps_sub;
+            $debit_member->nps_rec = $request->nps_rec;
+            $debit_member->nps_arr = $request->nps_arr;
             $debit_member->eol = $request->eol;
             $debit_member->ccl = $request->ccl;
             $debit_member->rent = $request->rent;
@@ -1234,6 +1264,57 @@ class MemberController extends Controller
         $expectation_store->remark = $request->remark;
         $expectation_store->save();
 
+        if ($rule_name == 'GPF') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->gpa_sub = $request->amount;
+                $member_debit->update();
+            }
+            $member_core = MemberCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_core) {
+                $member_core->gpf_sub = $request->amount;
+                $member_core->update();
+            }
+        }
+
+        if ($rule_name == 'GMC') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->cmg = $request->amount;
+                $member_debit->update();
+            }
+        }
+
+        if ($rule_name == 'Wellfare') {
+            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_original_recovery) {
+                $member_original_recovery->wel_sub = $request->amount;
+                $member_original_recovery->update();
+            }
+        }
+
+        if ($rule_name == 'MESS') {
+            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_original_recovery) {
+                $member_original_recovery->mess = $request->amount;
+                $member_original_recovery->update();
+            }
+        }
+
+        if ($rule_name == 'Prof TAX') {
+            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_original_recovery) {
+                $member_original_recovery->ptax = $request->amount;
+                $member_original_recovery->update();
+            }
+        }
+
+        $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+        if ($member_debit) {
+            $member_debit->gpa_sub = $request->comp_prin_curr_instl;
+            $member_debit->update();
+        }
+
         return response()->json(['message' => 'Member expectation added successfully', 'data' => $expectation_store]);
     }
 
@@ -1279,6 +1360,19 @@ class MemberController extends Controller
         $expectation_info->month = $request->month;
         $expectation_info->remark = $request->remark;
         $expectation_info->update();
+
+        if ($rule_name == 'GPF') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->gpa_sub = $request->amount;
+                $member_debit->update();
+            }
+            $member_core = MemberCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_core) {
+                $member_core->gpf_sub = $request->amount;
+                $member_core->update();
+            }
+        }
 
         session()->flash('message', 'Member expectation updated successfully');
         return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info]);
@@ -1416,9 +1510,18 @@ class MemberController extends Controller
         if ($member->cities) {
             $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
         }
+        $member_expectation_hra = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->first();
+        if ($member_expectation_hra) {
+            $hra_percentage->percentage = $member_expectation_hra->percent;
+        }
         $tptAmount = null;
         if ($member->cities && $member->cities->tpt_type) {
             $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
+        }
+        $member_expectation_tpt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'TPT')->first();
+        if ($member_expectation_tpt) {
+            $tptAmount->tpt_allowance = $member_expectation_tpt->amount;
+            $tptAmount->tpt_da = ($tptAmount->tpt_allowance * $da_percentage->percentage) / 100;
         }
         $basicPay = $request->basicPay;
 
@@ -1701,5 +1804,64 @@ class MemberController extends Controller
         } else {
             return response()->json(['message' => 'Member not found'], 404);
         }
+    }
+
+    // member store all data after new member create
+    public function memberStoreAllData($id)
+    {
+        $member = Member::where('id', $id)->first();
+        // $member->status = 1;
+        // $member->update();
+
+        //credit data update or create by member id, use updateOrCreate method
+
+        // DA
+        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $basicPay = $member->basic;
+        $da_val = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+
+        $member_credit_data = [
+            'member_id' => $member->id,
+            'pay' => $member->basic,
+            'da' => $da_val,
+
+        ];
+
+        $member_credit = MemberCredit::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_credit_data
+        );
+
+        return $member_credit_data;
+
+
+
+
+
+        // $member_core_info = new MemberCoreInfo();
+        // $member_core_info->member_id = $request->member_id;
+        // $member_core_info->fund_type = $request->member_fund_type;
+        // $member_core_info->pran_no = $request->pran_no;
+        // $member_core_info->pan_no = $request->pan_no;
+        // $member_core_info->bank_id = $request->bank_id;
+        // $member_core_info->ifsc_code = $request->ifsc_code;
+        // $member_core_info->account_no = $request->account_no;
+        // $member_core_info->branch_name = $request->branch_name;
+        // $member_core_info->save();
+
+        // $member_personal_info = new MemberPersonalInfo();
+        // $member_personal_info->member_id = $request->member_id;
+        // $member_personal_info->basic = $request->basic;
+        // $member_personal_info->emp_id = $request->emp_id;
+        // $member_personal_info->name = $request->name;
+        // $member_personal_info->g_pay = $request->g_pay;
+        // $member_personal_info->cadre = $request->cadre;
+        // $member_personal_info->dob = $request->dob;
+        // $member_personal_info->next_inr = $request->next_inr;
+        // $member_personal_info->ex_service = $request->ex_service;
+        // $member_personal_info->payband = $request->payband;
+        // $member_personal_info->pm_level = $request->pm_level;
+        // $member_personal_info
+        //     ->save();
     }
 }

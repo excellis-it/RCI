@@ -3,34 +3,111 @@
 
     <input type="hidden" name="member_id" value="{{ $member->id }}">
     <div class="row">
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>GPF Sub</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="gpa_sub" id="gpa_sub"
-                            value="{{ $member_debit->gpa_sub ?? ($member_core->gpf_sub ?? '') }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>GPF Adv</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="gpa_adv" id="gpa_adv"
-                            value="{{ $member_debit->gpf_adv ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+
+        @if ($member->fund_type == 'GPF')
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GPF Sub</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="gpa_sub" id="gpa_sub"
+                                value="{{ $member_debit->gpa_sub ?? ($member_core->gpf_sub ?? '') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GPF Adv</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="gpa_adv" id="gpa_adv"
+                                value="{{ $member_debit->gpf_adv ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GPF Rec</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="gpf_rec" id="gpf_rec"
+                                value="{{ $member_debit->gpf_rec ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GPF Arr</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="gpf_arr" id="gpf_arr"
+                                value="{{ $member_debit->gpf_arr ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @else
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Sub</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nps_sub" id="nps_sub"
+                                value="{{ $member_debit->nps_sub ?? ($nps_sub_val ?? '') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Rec</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nps_rec" id="nps_rec"
+                                value="{{ $member_debit->nps_rec ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Arr</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nps_arr" id="nps_arr"
+                                value="{{ $member_debit->nps_arr ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -149,20 +226,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>GPF Rec</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="gpf_rec" id="gpf_rec"
-                            value="{{ $member_debit->gpf_rec ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -560,7 +624,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>CMG</label>
+                        <label>GMC</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="cmg" id="cmg"
@@ -717,7 +781,7 @@
 
 
     {{-- Old Loan Fields --}}
-  
+
     {{-- Old Loan Fields --}}
 
     {{-- Loans Dynamic --}}

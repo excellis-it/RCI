@@ -48,7 +48,7 @@
                                 <label>Inv Holder</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="holder_id" id="holder_id">
+                                <select class="form-select form-select-search" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
@@ -209,7 +209,7 @@
                                 <label>Inv Holder</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="holder_id" id="holder_id">
+                                <select class="form-select form-select-search" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}">{{ $member->name }}</option>

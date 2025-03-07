@@ -778,6 +778,14 @@ class ReportController extends Controller
         $logo = Helper::logo() ?? '';
         $setting = Setting::first();
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        // First render the view to inspect the HTML
+      //  $html = view('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->render();
+
+        // For debugging: you can log or output this HTML
+        // Log::info($html); // If you want to log it
+      //  return ($html); // If you want to dump and die to see the HTML output
+
+        // Then proceed with PDF generation
         $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->setPaper('a4', $paperType);
         return $pdf->download('rin.pdf');
     }

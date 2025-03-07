@@ -331,7 +331,7 @@
                                         aria-labelledby="exp-tab" tabindex="0">
                                         <div class="credit-frm">
                                             <div class="row mb-3">
-                                                <div class="col-md-6">
+                                                <div class="col-md-7">
                                                     <div class="recov-table">
                                                         <table class="table customize-table mb-0 align-middle bg_tbody"
                                                             id="expectation-table">
@@ -357,7 +357,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6" id="expectation-form">
+                                                <div class="col-md-5" id="expectation-form">
                                                     @include('frontend.members.expectation.form')
 
                                                 </div>
@@ -497,10 +497,31 @@
     </script>
     <script>
         $(document).ready(function() {
-            const fields = ["#basic-pay", "#da_percentage", "#hra", "#tpt", "#da_on_tpt", "#s_pay",
+            const fields = [
+                "#basic-pay",
+                "#da_percentage",
+                "#hra",
+                "#tpt",
+                "#da_on_tpt",
+                "#s_pay",
                 "#spl_incentive",
-                "#incentive", "#dis_alw", "#var_amount", "#arrs_pay_allowance", "#risk_alw", "#misc_1",
-                "#misc_2", "#var_incr"
+                "#incentive",
+                "#dis_alw",
+                "#var_amount",
+                "#arrs_pay_allowance",
+                "#risk_alw",
+                "#misc_1",
+                "#misc_2",
+                "#var_incr",
+                "#cr_rent",
+                "#g_pay",
+                "#cr_elec",
+                "#fpa",
+                "#hindi",
+                "#npa",
+                "#deptn_alw",
+                "#wash_alw",
+                "#pua",
             ];
 
             function updateDAPercentage(basicPay, memberID) {
@@ -1752,11 +1773,65 @@
 
     <script>
         $(document).ready(function() {
-            const fields = ["#gpa_sub", "#gpa_adv", "#gpf_arr", "#cgegis", "#cghs", "#hba",
+            const fields = [
+                "#gpa_sub",
+                "#gpa_adv",
+                "#gpf_arr",
+                "#cgegis",
+                "#cghs",
+                "#hba",
                 "#hba_interest",
-                "#car", "#car_interest", "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#ptax",
-                "#fadv", "#ltc", "#medi", "#tada", "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli",
-                "#misc1", "#misc2", "#quarter_charge", "#cghs", "#cgeis_arr", "#penal_interest"
+                "#car",
+                "#car_interest",
+                "#scooter",
+                "#scooter_interest",
+                "#comp_adv",
+                "#comp_int",
+                "#ptax",
+                "#fadv",
+                "#ltc",
+                "#medi",
+                "#tada",
+                "#leave_rec",
+                "#pension_rec",
+                "#i_tax",
+                "#ecess",
+                "#pli",
+                "#misc1",
+                "#misc2",
+                "#quarter_charge",
+                "#cghs",
+                "#cgeis_arr",
+                "#penal_interest",
+                "#nps_sub",
+                "#nps_rec",
+                "#nps_arr",
+                "#eol",
+                "#ccl",
+                "#rent",
+                "#lf_arr",
+                "#elec",
+                "#elec_arr",
+                "#pc",
+                "#water_arr",
+                "#water",
+                "#arrear_pay",
+                "#npsg",
+                "#npsg_arr",
+                "#npsg_adj",
+                "#ltc_rec",
+                "#medical_rec",
+                "#tada_rec",
+                "#misc3",
+                "#cda",
+                "#furn",
+                "#furn_arr",
+                "#hra_rec",
+                "#cmg",
+                "#tpt_rec",
+                "#cghs_arr",
+                "#society",
+
             ];
 
             var tot_credits = parseInt($('#tot_credits').val()) || 0;
@@ -1898,11 +1973,26 @@
 
             // Array of all input fields that should be included in the calculation
             const inputFields = [
-                'ccs_sub', 'mess', 'security', 'misc1',
-                'ccs_rec', 'asso_fee', 'dbf', 'misc2',
-                'wel_sub', 'ben', 'med_ins',
-                'wel_rec', 'hdfc', 'maf', 'final_pay',
-                'lic', 'cort_atch', 'ogpf', 'ntp', 'ptax'
+                'ccs_sub',
+                'mess',
+                'security',
+                'misc1',
+                'ccs_rec',
+                'asso_fee',
+                'dbf',
+                'misc2',
+                'wel_sub',
+                'ben',
+                'med_ins',
+                'wel_rec',
+                'hdfc',
+                'maf',
+                'final_pay',
+                'lic',
+                'cort_atch',
+                'ogpf',
+                'ntp',
+                'ptax'
             ];
 
             // Function to calculate the total

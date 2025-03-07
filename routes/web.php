@@ -212,7 +212,7 @@ Route::middleware('permssions')->group(function () {
         'gpfs' => GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
-        'rules' => RuleController::class,
+        //  'rules' => RuleController::class,
         'member-family' => MemberFamilyController::class,
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
@@ -1282,6 +1282,8 @@ Route::middleware('permssions')->group(function () {
     });
 
     Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
+    Route::get('/member-alldata-update/{id}', [MemberController::class, 'memberStoreAllData'])->name('member-alldata-update');
+
 
     // Settings
     Route::prefix('web-settings')->group(function () {
