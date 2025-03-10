@@ -706,18 +706,18 @@
                 var divisionValue = selectedOption.data('division');
                 $("#issuing_division").val(divisionValue);
 
-                var crvData = selectedOption.data('crvs');
-                console.log(crvData);
+                var invstock = selectedOption.data('invstock');
+                console.log(invstock);
 
-                if (crvData && crvData !== null && (crvData).length > 0) {
+                if (invstock && invstock !== null && (invstock).length > 0) {
                     $('#item_code_list').append(
                         `<option selected disabled>Select Item</option>`
                     );
-                    $.each(crvData, function(index, value) {
-                        console.log('Index: ' + index + ', Value: ' + value.item_code_id);
-                        var crvDataString = JSON.stringify(value);
+                    $.each(invstock, function(index, value) {
+                        console.log('Index: ' + index + ', Value: ' + value.item_id);
+                        var invstockString = JSON.stringify(value);
                         $('#item_code_list').append(
-                            `<option value="${value.id}" data-crvdata='${crvDataString}'>${value.item_code_id} (${value.voucher_detail.voucher_no})</option>`
+                            `<option value="${value.item_id}" data-stockdata='${invstockString}'>${value.item_code.code}</option>`
                         );
                     });
                     setItemCodeList();
@@ -755,16 +755,16 @@
 
         $(document).on('change', '.item_code_list', function(e) {
             e.preventDefault();
-            var thisData = $(this).find('option:selected').data('crvdata');
+            var thisData = $(this).find('option:selected').data('stockdata');
             if (thisData) {
                 console.log(thisData); // Access the ID from the data
             }
             var parentElement = $(this).closest('.new_html');
-            parentElement.find('.item_code').val(thisData.item_code_id + '(' + thisData.voucher_detail.voucher_no +
-                ')');
-            parentElement.find('.item_description').val(thisData.description);
-            parentElement.find('.item_quantity').val(thisData.quantity);
-            parentElement.find('.item_rate').val(thisData.price);
+            parentElement.find('.item_code').val(thisData.item_code.code);
+            parentElement.find('.item_description').val(thisData.item_code.description);
+            parentElement.find('.item_quantity').val(thisData.quantity_balance);
+            parentElement.find('.item_quantity').attr('max', thisData.quantity_balance);
+            parentElement.find('.item_rate').val(0);
 
         });
     </script>

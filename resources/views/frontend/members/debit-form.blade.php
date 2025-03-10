@@ -612,7 +612,7 @@
                         <label>P.Tax</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="ptax" id="ptax"
+                        <input type="text" class="form-control" name="ptax" id="ptax-debit"
                             value="{{ $member_debit->ptax ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>

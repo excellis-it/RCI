@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\InventoryItemBalance;
 use App\Helpers\Helper;
+use App\Models\InventoryItemStock;
 
 class DebitVoucherController extends Controller
 {
@@ -180,11 +181,11 @@ class DebitVoucherController extends Controller
                     //     }
                     // }
 
-                    $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
-                    if ($creditV->quantity >= $item['quantity']) {
-                        $creditV->quantity -= $item['quantity'];
-                        $creditV->save();
-                    }
+                    // $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
+                    // if ($creditV->quantity >= $item['quantity']) {
+                    //     $creditV->quantity -= $item['quantity'];
+                    //     $creditV->save();
+                    // }
 
 
                     $inventoryItem = new InventoryItemBalance();
@@ -199,6 +200,18 @@ class DebitVoucherController extends Controller
                     $inventoryItem->discount_amount = 0.00;
                     $inventoryItem->total_amount = $item['price'] ?? 0.00;
                     $inventoryItem->save();
+
+
+                    // update stock
+                    $existingStock = InventoryItemStock::where('inv_id', $request->inv_no)
+                        ->where('item_id', $itemCode)
+                        ->first();
+
+                    if ($existingStock) {
+                        // If stock exists, add to the quantity balance
+                        $existingStock->quantity_balance -= $item['quantity'] ?? 0;
+                        $existingStock->save();
+                    }
                 }
             }
         }
@@ -314,19 +327,22 @@ class DebitVoucherController extends Controller
 
 
         //  $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')->where('inv_no', $request->inv_no)->groupBy('item_code')->select('item_code', DB::raw('price as unit_rate',), DB::raw('SUM(quantity) as total_quantity',), DB::raw('SUM(total_price) as total_price'))->with('itemCodes')->get();
-        $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')
-            ->where('inv_no', $request->inv_no)
-            ->with(['itemCodes', 'itemCodes.ncStatus'])
-            ->get();
-        foreach ($creditVouchers as $creditVoucher) {
-            foreach ($creditVoucher->itemCodes as $itemCode) {
-                if (is_object($itemCode)) {
-                    $itemCode->nc_status_name = $itemCode->ncStatus->status ?? '';
-                }
-            }
-        }
+        // $creditVouchers = CreditVoucherDetail::where('item_type', 'Consumable')
+        //     ->where('inv_no', $request->inv_no)
+        //     ->with(['itemCodes', 'itemCodes.ncStatus'])
+        //     ->get();
+        // foreach ($creditVouchers as $creditVoucher) {
+        //     foreach ($creditVoucher->itemCodes as $itemCode) {
+        //         if (is_object($itemCode)) {
+        //             $itemCode->nc_status_name = $itemCode->ncStatus->status ?? '';
+        //         }
+        //     }
+        // }
+
+        $invStocks = InventoryItemStock::with('itemCode.ncStatus')->where('inv_id', $request->inv_no)->get();
+        // return $invStocks;
         // dd($creditVouchers);
-        return response()->json(['creditVouchers' => $creditVouchers]);
+        return response()->json(['invStocks' => $invStocks]);
     }
 
     public function getItemDetails(Request $request)

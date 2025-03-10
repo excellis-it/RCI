@@ -500,16 +500,16 @@
                     var options = '<option value="">Select Item</option>';
                     var itemType = ''; // Initialize itemType outside the loop
 
-                    $.each(response.creditVouchers, function(index, creditVoucher) {
+                    $.each(response.invStocks, function(index, invStocks) {
                         // console.log(creditVoucher);
-                        var itemCode = creditVoucher.item_codes.code;
-                        var itemName = creditVoucher.item_codes.item_name;
-                        var itemCodeId = creditVoucher.item_code;
-                        var totalQuantity = creditVoucher.quantity;
-                        var unitPrice = creditVoucher.price;
+                        var itemCode = invStocks.item_code.code;
+                        var itemName = invStocks.item_code.item_name;
+                        var itemCodeId = invStocks.item_id;
+                        var totalQuantity = invStocks.quantity_balance;
+                        var unitPrice = 0;
                         var totalPrice = totalQuantity * unitPrice;
-                        var itemType = creditVoucher.item_codes.item_type;
-                        var itemDescription = creditVoucher.item_codes.description;
+                        var itemType = invStocks.item_code.nc_status.status;
+                        var itemDescription = invStocks.item_code.description;
 
 
                         options +=

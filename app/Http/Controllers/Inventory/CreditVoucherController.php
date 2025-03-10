@@ -215,12 +215,23 @@ class CreditVoucherController extends Controller
                     $inventoryItem->save();
 
                     // update stock
-                    $inventoryItemStock = new InventoryItemStock();
-                    $inventoryItemStock->inv_id = $request->inv_no ?? null;
-                    $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
-                    $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
-                    $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
-                    $inventoryItemStock->save();
+                    $existingStock = InventoryItemStock::where('inv_id', $request->inv_no)
+                        ->where('item_id', $request->item_code_id[$key])
+                        ->first();
+
+                    if ($existingStock) {
+                        // If stock exists, add to the quantity balance
+                        $existingStock->quantity_balance += $request->quantity[$key] ?? 0;
+                        $existingStock->save();
+                    } else {
+                        // Create new stock record
+                        $inventoryItemStock = new InventoryItemStock();
+                        $inventoryItemStock->inv_id = $request->inv_no ?? null;
+                        $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
+                        $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
+                        $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                        $inventoryItemStock->save();
+                    }
                 }
             }
         }
@@ -342,12 +353,23 @@ class CreditVoucherController extends Controller
                 $inventoryItem->save();
 
                 // update stock
-                $inventoryItemStock = new InventoryItemStock();
-                $inventoryItemStock->inv_id = $request->inv_no ?? null;
-                $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
-                $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
-                $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
-                $inventoryItemStock->save();
+                $existingStock = InventoryItemStock::where('inv_id', $request->inv_no)
+                    ->where('item_id', $request->item_code_id[$key])
+                    ->first();
+
+                if ($existingStock) {
+                    // If stock exists, add to the quantity balance
+                    $existingStock->quantity_balance += $request->quantity[$key] ?? 0;
+                    $existingStock->save();
+                } else {
+                    // Create new stock record
+                    $inventoryItemStock = new InventoryItemStock();
+                    $inventoryItemStock->inv_id = $request->inv_no ?? null;
+                    $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
+                    $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
+                    $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                    $inventoryItemStock->save();
+                }
             }
         }
 

@@ -1295,3 +1295,38 @@ Route::middleware('permssions')->group(function () {
 Route::get('/expired', function () {
     return response()->view('errors.expired');
 });
+
+
+// Add this temporary route - make sure to remove it after use
+// ex to run : http://127.0.0.1:8000/update-all-members-data?key=updateallmembers2025
+Route::get('/update-all-members-data', function () {
+    // Password protection for this sensitive operation
+    if (request()->query('key') != 'updateallmembers2025') {
+        return response()->json(['error' => 'Unauthorized access'], 401);
+    }
+
+    $memberController = new \App\Http\Controllers\Frontend\MemberController();
+    $members = \App\Models\Member::all();
+    $count = 0;
+    $errors = [];
+
+    foreach ($members as $member) {
+        try {
+            $memberController->memberStoreAllData($member->id);
+            $count++;
+        } catch (\Exception $e) {
+            $errors[] = [
+                'member_id' => $member->id,
+                'name' => $member->name,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => "Processed {$count} members out of {$members->count()} total members",
+        'errors' => $errors,
+        'note' => 'Please remove this temporary route after use for security reasons'
+    ]);
+});

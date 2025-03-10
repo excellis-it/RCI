@@ -34,6 +34,7 @@ use App\Models\Setting;
 use App\Models\TransferVoucherDetail;
 use App\Exports\ItemNameReportExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\InventoryItemStock;
 
 class ReportController extends Controller
 {
@@ -271,39 +272,46 @@ class ReportController extends Controller
         // Collect item IDs from credit voucher details
         $itemIds = $creditItems->pluck('item_code')->toArray();
 
+        // inv stocks
+        $invStocks = InventoryItemStock::whereIn('item_id', $itemIds)
+            ->where('quantity_balance', '>', 0)
+            ->pluck('item_id')
+            ->toArray();
+
         // Get items that exist in other voucher types
-        $debitItems = DebitVoucherDetail::whereIn('item_id', $itemIds)
-            ->pluck('item_id')
-            ->toArray();
+        // $debitItems = DebitVoucherDetail::whereIn('item_id', $itemIds)
+        //     ->pluck('item_id')
+        //     ->toArray();
 
-        $externalIssueItems = ExternalIssueVoucherDetail::whereIn('item_id', $itemIds)
-            ->pluck('item_id')
-            ->toArray();
+        // $externalIssueItems = ExternalIssueVoucherDetail::whereIn('item_id', $itemIds)
+        //     ->pluck('item_id')
+        //     ->toArray();
 
-        $certificateIssueItems = CertificateIssueVoucherDetail::whereIn('item_code', $itemIds)
-            ->pluck('item_code')
-            ->toArray();
+        // $certificateIssueItems = CertificateIssueVoucherDetail::whereIn('item_code', $itemIds)
+        //     ->pluck('item_code')
+        //     ->toArray();
 
-        $conversionStrikeItems = ConversionVoucherDetail::whereIn('strike_item_id', $itemIds)
-            ->pluck('strike_item_id')
-            ->toArray();
+        // $conversionStrikeItems = ConversionVoucherDetail::whereIn('strike_item_id', $itemIds)
+        //     ->pluck('strike_item_id')
+        //     ->toArray();
 
-        $transferItems = TransferVoucherDetail::whereIn('item_id', $itemIds)
-            ->pluck('item_id')
-            ->toArray();
+        // $transferItems = TransferVoucherDetail::whereIn('item_id', $itemIds)
+        //     ->pluck('item_id')
+        //     ->toArray();
 
         // Combine all items that exist in other voucher types
         $itemsInOtherVouchers = array_merge(
-            $debitItems,
-            $externalIssueItems,
-            $certificateIssueItems,
-            $conversionStrikeItems,
-            $transferItems
+            // $debitItems,
+            // $externalIssueItems,
+            // $certificateIssueItems,
+            // $conversionStrikeItems,
+            // $transferItems
+            $invStocks
         );
 
         // Filter to get items that are only in credit voucher but not in other voucher types
         $finalItems = $creditItems->filter(function ($item) use ($itemsInOtherVouchers) {
-            return !in_array($item->item_code, $itemsInOtherVouchers);
+            return in_array($item->item_code, $itemsInOtherVouchers);
         });
 
         // Group items by item_code to consolidate quantities and other details
@@ -779,11 +787,11 @@ class ReportController extends Controller
         $setting = Setting::first();
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
         // First render the view to inspect the HTML
-      //  $html = view('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->render();
+        //  $html = view('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->render();
 
         // For debugging: you can log or output this HTML
         // Log::info($html); // If you want to log it
-      //  return ($html); // If you want to dump and die to see the HTML output
+        //  return ($html); // If you want to dump and die to see the HTML output
 
         // Then proceed with PDF generation
         $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->setPaper('a4', $paperType);

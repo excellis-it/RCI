@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MemberLoan extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     //member loan belongs loan name
 

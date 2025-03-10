@@ -159,6 +159,27 @@
 
 @push('scripts')
     <script>
+        function updateItemDropdowns() {
+            var selectedItems = [];
+            $('.item_code_id').each(function() {
+                var selectedValue = $(this).val();
+                if (selectedValue) {
+                    selectedItems.push(selectedValue);
+                }
+            });
+
+            $('.item_code_id').each(function() {
+                var currentDropdown = $(this);
+                currentDropdown.find('option').each(function() {
+                    var optionValue = $(this).val();
+                    if (selectedItems.includes(optionValue) && optionValue !== currentDropdown.val()) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
+            });
+        }
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
@@ -371,6 +392,7 @@
             $(document).on('click', '#add-row', function() {
                 var tr = $('#debit_new_html').html();
                 $('#debit_form_add_new_row').append(tr);
+                updateItemDropdowns();
 
                 if ($('#voucher_date_1').val() != '') {
                     $('.voucher-date').each(function() {
@@ -430,6 +452,7 @@
 
             $(document).on('click', '.trash', function() {
                 $(this).closest('.new_html').remove();
+                updateItemDropdowns();
                 return false;
             });
         });
@@ -456,16 +479,16 @@
                     var options = '<option value="">Select Item</option>';
                     var itemType = ''; // Initialize itemType outside the loop
 
-                    $.each(response.creditVouchers, function(index, creditVoucher) {
+                    $.each(response.invStocks, function(index, invStocks) {
                         // console.log(creditVoucher);
-                        var itemCode = creditVoucher.item_codes.code;
-                        var itemName = creditVoucher.item_codes.item_name;
-                        var itemCodeId = creditVoucher.item_code;
-                        var totalQuantity = creditVoucher.quantity;
-                        var unitPrice = creditVoucher.price;
+                        var itemCode = invStocks.item_code.code;
+                        var itemName = invStocks.item_code.item_name;
+                        var itemCodeId = invStocks.item_id;
+                        var totalQuantity = invStocks.quantity_balance;
+                        var unitPrice = 0;
                         var totalPrice = totalQuantity * unitPrice;
-                        var itemType = creditVoucher.item_codes.nc_status.status;
-                        var itemDescription = creditVoucher.item_codes.description;
+                        var itemType = invStocks.item_code.nc_status.status;
+                        var itemDescription = invStocks.item_code.description;
 
 
                         options +=
@@ -613,11 +636,14 @@
             parentElement.find('.item-code-no').val(desc);
             parentElement.find('.item-desc').val(desc);
             parentElement.find('.item-quantity').val(quantity);
+            parentElement.find('.item-quantity').attr('max', quantity);
             parentElement.find('.init-item-quantity').val(quantity);
             parentElement.find('.item-quantity').attr('max', quantity);
             parentElement.find('.item-price').val(price);
             parentElement.find('.init-item-price').val(price);
             parentElement.find('.item-type').val(type);
+
+            updateItemDropdowns();
         });
     </script>
     <script>
@@ -652,21 +678,36 @@
     </script>
 
     <script>
-        $(document).on('keyup', '.item-quantity', function() {
-            console.log('hello');
-            const $row = $(this).closest('.new_html'); // Get the current row
-            const enteredQuantity = parseFloat($(this).val()); // Get the entered quantity
-            const initialQuantity = parseFloat($row.find('.init-item-quantity').val()); // Get the initial quantity
-            const initialPrice = parseFloat($row.find('.init-item-price').val()); // Get the initial price
+        // $(document).on('keyup', '.item-quantity', function() {
+        //     console.log('hello');
+        //     const $row = $(this).closest('.new_html'); // Get the current row
+        //     const enteredQuantity = parseFloat($(this).val()); // Get the entered quantity
+        //     const initialQuantity = parseFloat($row.find('.init-item-quantity').val()); // Get the initial quantity
+        //     const initialPrice = parseFloat($row.find('.init-item-price').val()); // Get the initial price
 
-            if (enteredQuantity > 0 && initialQuantity > 0) {
-                // Calculate the price based on the entered quantity and initial quantity
-                const updatedPrice = (initialPrice / initialQuantity) * enteredQuantity;
-                $row.find('.item-price').val(updatedPrice.toFixed(2)); // Update the price field
-            } else {
-                // Reset the price if the quantity is invalid
-                $row.find('.item-price').val('');
-            }
+        //     if (enteredQuantity > 0 && initialQuantity > 0) {
+        //         // Calculate the price based on the entered quantity and initial quantity
+        //         const updatedPrice = (initialPrice / initialQuantity) * enteredQuantity;
+        //         $row.find('.item-price').val(updatedPrice.toFixed(2)); // Update the price field
+        //     } else {
+        //         // Reset the price if the quantity is invalid
+        //         $row.find('.item-price').val('');
+        //     }
+        // });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('keyup change', '.item-unit-price, .item-quantity', function() {
+                let row = $(this).closest('.new_html');
+                let quantity = parseFloat(row.find('.item-quantity').val()) || 0;
+                let unitPrice = parseFloat(row.find('.item-unit-price').val()) || 0;
+                let totalPrice = quantity * unitPrice;
+                row.find('.item-price').val(totalPrice.toFixed(2));
+            });
+
+            // trigger the item-unit-price
+            $('.item-unit-price').trigger('change');
         });
     </script>
 @endpush

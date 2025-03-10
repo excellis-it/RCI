@@ -148,7 +148,7 @@
                                         <option value="{{ $inventoryNumber->id }}"
                                             data-hidden-value="{{ $inventoryNumber->inventory_type }}"
                                             data-division="{{ $inventoryNumber->division }}"
-                                            data-crvs="{{ $inventoryNumber->creditVoucherDetails }}">
+                                            data-crvs="{{ $inventoryNumber->creditVoucherDetails }}" data-invstock="{{ $inventoryNumber->inventoryStocks }}">
                                             {{ $inventoryNumber->number }}</option>
                                     @endforeach
                                 </select>
