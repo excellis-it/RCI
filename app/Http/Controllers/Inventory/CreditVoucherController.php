@@ -20,6 +20,7 @@ use App\Models\Uom;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use App\Models\InventoryItemBalance;
+use App\Models\InventoryItemStock;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CreditVoucherController extends Controller
@@ -212,6 +213,14 @@ class CreditVoucherController extends Controller
                     $inventoryItem->discount_amount = $request->disc_amt[$key] ?? 0.00;
                     $inventoryItem->total_amount = $request->total_price[$key] ?? 0.00;
                     $inventoryItem->save();
+
+                    // update stock
+                    $inventoryItemStock = new InventoryItemStock();
+                    $inventoryItemStock->inv_id = $request->inv_no ?? null;
+                    $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
+                    $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
+                    $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                    $inventoryItemStock->save();
                 }
             }
         }
@@ -331,6 +340,14 @@ class CreditVoucherController extends Controller
                 $inventoryItem->discount_amount = $request->disc_amt[$key] ?? 0.00;
                 $inventoryItem->total_amount = $request->total_price[$key] ?? 0.00;
                 $inventoryItem->save();
+
+                // update stock
+                $inventoryItemStock = new InventoryItemStock();
+                $inventoryItemStock->inv_id = $request->inv_no ?? null;
+                $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
+                $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
+                $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                $inventoryItemStock->save();
             }
         }
 
