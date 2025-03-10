@@ -5,10 +5,14 @@ namespace App\Imports;
 use App\Models\Member;
 use App\Models\Designation;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterImport;
+use App\Http\Controllers\Frontend\MemberController;
 
 class MembersImport implements ToModel
 {
     protected $fund_type;
+    protected $importedMemberIds = [];
 
     public function __construct($fund_type)
     {
@@ -24,7 +28,7 @@ class MembersImport implements ToModel
         $designationName = $row[3] ?? null;
         $designation = Designation::firstOrCreate(['designation' => $designationName]);
 
-        return new Member([
+        $member = new Member([
             'name'         => $row[1] ?? null,
             'phone_number' => $row[2] ?? null,
             'desig'        => $designation->id,
@@ -40,5 +44,29 @@ class MembersImport implements ToModel
             'fund_type' => $this->fund_type,
             'member_city' => 1,
         ]);
+
+        $member->save();
+        $this->importedMemberIds[] = $member->id;
+
+        return $member;
+    }
+
+    /**
+     * Register events for the import.
+     *
+     * @return array
+     */
+    public function registerEvents(): array
+    {
+        return [
+            AfterImport::class => function (AfterImport $event) {
+                $memberController = new MemberController();
+
+                // Process each imported member
+                foreach ($this->importedMemberIds as $memberId) {
+                    $memberController->memberStoreAllData($memberId);
+                }
+            }
+        ];
     }
 }

@@ -1787,7 +1787,6 @@
                 "#scooter_interest",
                 "#comp_adv",
                 "#comp_int",
-                "#ptax",
                 "#fadv",
                 "#ltc",
                 "#medi",
@@ -1840,8 +1839,15 @@
             function updateTotalDebit() {
                 let total = 0;
                 fields.forEach(field => {
-                    const value = $(field).val();
-                    total += Number(value) || 0;
+                    // Check if the field exists in the DOM
+                    if ($(field).length) {
+                        const value = $(field).val();
+                        // If the value is empty, null, undefined or NaN, use 0
+                        total += (value && !isNaN(parseFloat(value))) ? parseFloat(value) : 0;
+                    } else {
+                        // Field doesn't exist, add 0
+                        total += 0;
+                    }
                 });
 
                 $('#tot_debits').val((total).toFixed(2));
@@ -2037,16 +2043,26 @@
         //
         function calculateLoanTotal() {
             let total = 0;
-            $('.loan_inst_amounts').each(function() {
-                let value = parseFloat($(this).val()) || 0; // Get value and convert to float
-                total += value; // Add to total
-            });
-            console.log("Total Loan Amounts: " + total);
-            $('#total_loan_inst_amount').val(total.toFixed(2)); // Set total in any input field
+            // Check if loan_inst_amounts elements exist
+            if ($('.loan_inst_amounts').length > 0) {
+                $('.loan_inst_amounts').each(function() {
+                    let value = parseFloat($(this).val()) || 0; // Get value and convert to float
+                    total += value; // Add to total
+                });
+                console.log("Total Loan Amounts: " + total);
+            } else {
+                console.log("No loan installment amounts found");
+            }
+            // Check if the target element exists before setting value
+            if ($('#total_loan_inst_amount').length > 0) {
+                $('#total_loan_inst_amount').val(total.toFixed(2)); // Set total in any input field
+            }
+            return total; // Return the total for use in other functions
         }
         // get updated allTotals
         function getALlTotal() {
-            var total_loan_amounts = $('#total_loan_inst_amount').val();
+            var total_loan_amounts = $('#total_loan_inst_amount').length ? (parseFloat($('#total_loan_inst_amount')
+            .val()) || 0) : 0;
             var total_credits = $('#tot_credits').val();
             var total_debits = parseFloat($('#tot_debits').val()) + parseFloat(total_loan_amounts);
 

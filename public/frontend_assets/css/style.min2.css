@@ -56494,7 +56494,6 @@ ul {
     display: inline-block;
     text-align: center;
     border: none;
-    min-width: 105px;
 }
 .listing_add:hover{
    color: #fff;
@@ -56510,7 +56509,6 @@ ul {
     width: 100%;
     display: inline-block;
     text-align: center;
-    min-width:105px
 }
 
 .listing_exit:hover {
@@ -56739,8 +56737,6 @@ ul {
     display: inline-block;
     text-align: center;
     border: 1px solid #000;
-    max-width: 170px;
-    min-width: 105px;
 }
 .delete-btn-1{
      padding: 7px 17px;

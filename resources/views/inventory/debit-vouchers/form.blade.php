@@ -274,6 +274,20 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Unit Price</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="hidden" class="init-item-unit-price">
+                                <input type="text" value="0.00" class="form-control item-unit-price"
+                                    name="unit_price[]" id="unit_price">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Price</label>
                             </div>
                             <div class="col-md-12">
@@ -287,8 +301,8 @@
 
                     <div class="col-md-2 ms-auto">
                         <div class="add-more form-group mt-4">
-                            <a href="javascript:void(0);" class="listing_add add-pre_qualification add-more-sm" id="add-row"><i
-                                    class="fas fa-plus-circle"></i> Add More</a>
+                            <a href="javascript:void(0);" class="listing_add add-pre_qualification add-more-sm"
+                                id="add-row"><i class="fas fa-plus-circle"></i> Add More</a>
                         </div>
                     </div>
                 </div>
@@ -325,7 +339,7 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Item List(Quantity)</label>
+                                <label>Item List</label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-control item_code_id" name="item_code_id[]" id="item_code_id">
@@ -393,6 +407,20 @@
                                 <input type="number" value="0" class="form-control item-quantity"
                                     name="quantity[]" id="quantity" oninput="checkMax(this)">
                                 <div class="text-danger" id="quantity_no"></div>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Unit Price</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="hidden" class="init-item-unit-price">
+                                <input type="text" value="0.00" class="form-control item-unit-price"
+                                    name="unit_price[]" id="unit_price">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

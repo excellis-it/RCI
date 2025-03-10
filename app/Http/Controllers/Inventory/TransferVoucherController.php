@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\TransferVoucherDetail;
 use App\Models\InventoryItemBalance;
 use App\Helpers\Helper;
+use App\Models\InventoryItemStock;
 
 
 
@@ -27,6 +28,10 @@ class TransferVoucherController extends Controller
         //     $inv['crv_voucher_no'] = $inv->creditVoucherDetails->voucherDetail->voucher_no;
         // }
         // return $inventoryNumbers;
+        foreach ($inventoryNumbers as $inv) {
+            $invStocks = InventoryItemStock::with('itemCode.ncStatus')->where('inv_id', $inv->id)->get();
+            $inv['inventoryStocks'] = $invStocks;
+        }
         $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         return view('inventory.transfer-vouchers.list', compact('transferVouchers', 'inventoryNumbers', 'creditVouchers'));
     }
@@ -46,7 +51,7 @@ class TransferVoucherController extends Controller
                 $transferVoucherQuery->where(function ($queryBuilder) use ($query) {
                     $queryBuilder->where('voucher_no', 'like', '%' . $query . '%')
                         ->orWhere('voucher_no', 'like', '%' . $query . '%');
-                     //   ->orWhere('voucher_date', 'like', '%' . $query . '%');
+                    //   ->orWhere('voucher_date', 'like', '%' . $query . '%');
                 });
             }
 
@@ -172,7 +177,7 @@ class TransferVoucherController extends Controller
 
         $strikeDetails = [];
         foreach ($validatedData['strike_ledger_no'] as $index => $ledgerNo) {
-            $item_id = CreditVoucherDetail::where('id', $ledgerNo)->first()->item_code;
+            $item_id = ItemCode::where('id', $ledgerNo)->first()->id;
             $strikeDetails[] = [
                 'transfer_voucher_id' => $transfer_voucher->id,
                 'issuing_inv_no' => $validatedData['issuing_inv_no'],
@@ -191,10 +196,42 @@ class TransferVoucherController extends Controller
                 'updated_at' => now(),
             ];
 
-            $creditV = CreditVoucherDetail::where('id', $ledgerNo)->where('inv_no', $validatedData['issuing_inv_no'])->first();
-            if ($creditV->quantity >= $validatedData['strike_quantity'][$index]) {
-                $creditV->quantity -= $validatedData['strike_quantity'][$index];
-                $creditV->save();
+            // $creditV = CreditVoucherDetail::where('id', $ledgerNo)->where('inv_no', $validatedData['issuing_inv_no'])->first();
+            // if ($creditV->quantity >= $validatedData['strike_quantity'][$index]) {
+            //     $creditV->quantity -= $validatedData['strike_quantity'][$index];
+            //     $creditV->save();
+            // }
+
+            // update stock
+            // from inv stock
+            $existingStockFrom = InventoryItemStock::where('inv_id', $validatedData['issuing_inv_no'])
+                ->where('item_id', $item_id)
+                ->first();
+
+            if ($existingStockFrom) {
+
+                $existingStockFrom->quantity_balance = $existingStockFrom->quantity_balance - $validatedData['strike_quantity'][$index];
+                $existingStockFrom->save();
+
+                // to inv stock
+
+                $existingStockTo = InventoryItemStock::where('inv_id', $validatedData['receiving_inv_no'])
+                    ->where('item_id', $item_id)
+                    ->first();
+
+                if ($existingStockTo) {
+                    // If stock exists, add to the quantity balance
+                    $existingStockTo->quantity_balance += $validatedData['strike_quantity'][$index] ?? 0;
+                    $existingStockTo->save();
+                } else {
+                    // Create new stock record
+                    $inventoryItemStock = new InventoryItemStock();
+                    $inventoryItemStock->inv_id = $validatedData['receiving_inv_no'] ?? null;
+                    $inventoryItemStock->item_id = $item_id ?? null;
+                    $inventoryItemStock->quantity = $validatedData['strike_quantity'][$index] ?? 0;
+                    $inventoryItemStock->quantity_balance = $validatedData['strike_quantity'][$index] ?? 0;
+                    $inventoryItemStock->save();
+                }
             }
         }
 

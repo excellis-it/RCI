@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class MemberDebit extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }

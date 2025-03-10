@@ -238,6 +238,8 @@ class MemberController extends Controller
         $member->member_status = 1;
         $member->save();
 
+        $this->memberStoreAllData($member->id);
+
         session()->flash('message', 'Member added successfully');
         return response()->json(['success' => 'Member added successfully']);
     }
@@ -1810,21 +1812,74 @@ class MemberController extends Controller
     public function memberStoreAllData($id)
     {
         $member = Member::where('id', $id)->first();
-        // $member->status = 1;
-        // $member->update();
+        if (!$member) {
+            return redirect()->route('members.index')->with('error', 'Member not found');
+        }
 
-        //credit data update or create by member id, use updateOrCreate method
-
-        // DA
+        // 1. Credit data update - Calculate various allowances
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $basicPay = $member->basic;
-        $da_val = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+        $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+
+        // HRA calculation based on city category
+        $hraAmount = 0;
+        if ($member->member_city) {
+            $city = City::find($member->member_city);
+            if ($city) {
+                $hraPercentage = Hra::where('city_category', $city->city_type)
+                    ->where('status', 1)
+                    ->first();
+                $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
+            }
+        }
+
+        // TPT calculation
+        $tptAmount = 0;
+        $tptDa = 0;
+        if ($member->member_city) {
+            $city = City::find($member->member_city);
+            if ($city && $city->tpt_type) {
+                $tptData = Tpta::where('tpt_type', $city->tpt_type)
+                    ->where('pay_level_id', $member->pm_level)
+                    ->where('status', 1)
+                    ->first();
+                if ($tptData) {
+                    $tptAmount = $tptData->tpt_allowance;
+                    $tptDa = ($tptAmount * $da_percentage->percentage) / 100;
+                }
+            }
+        }
 
         $member_credit_data = [
             'member_id' => $member->id,
             'pay' => $member->basic,
-            'da' => $da_val,
-
+            'da' => $daAmount,
+            'tpt' => $tptAmount,
+            'cr_rent' => 0,
+            'g_pay' => $member->g_pay,
+            'hra' => $hraAmount,
+            'da_on_tpt' => $tptDa,
+            'cr_elec' => 0,
+            'fpa' => 0,
+            's_pay' => 0,
+            'pua' => 0,
+            'hindi' => 0,
+            'cr_water' => 0,
+            'add_inc2' => 0,
+            'npa' => 0,
+            'deptn_alw' => 0,
+            'misc1' => 0,
+            'var_incr' => 0,
+            'wash_alw' => 0,
+            'dis_alw' => 0,
+            'misc2' => 0,
+            'risk_alw' => 0,
+            'spl_incentive' => 0,
+            'incentive' => 0,
+            'variable_amount' => 0,
+            'arrs_pay_alw' => 0,
+            'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay,
+            'remarks' => 'Initial credit data created'
         ];
 
         $member_credit = MemberCredit::updateOrCreate(
@@ -1832,36 +1887,239 @@ class MemberController extends Controller
             $member_credit_data
         );
 
-        return $member_credit_data;
+        // 2. Debit data update - Calculate various deductions
+        $deductionsTotal = 0;
 
+        // NPS calculations if applicable
+        $npsDeduction = 0;
+        $npsDeductionGovt = 0;
+        $npsSubTotal = 0;
+        if ($member->fund_type == 'NPS') {
+            $npsDeduction = ($basicPay + $daAmount) * 10 / 100;
+            $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
+            $npsSubTotal = $npsDeduction + $npsDeductionGovt;
+            $deductionsTotal += $npsSubTotal;
+        }
 
+        // GPF calculations if applicable
+        $gpfDeduction = 0;
+        if ($member->fund_type == 'GPF') {
+            $gpfDeduction = ($basicPay + $daAmount) * 10 / 100;
+            $deductionsTotal += $gpfDeduction;
+        }
 
+        // CGEGIS calculation
+        $cgegisDeduction = 0;
+        if ($member->cgegis) {
+            $cgegisData = Cgegis::find($member->cgegis);
+            if ($cgegisData) {
+                $cgegisDeduction = $cgegisData->amount;
+                $deductionsTotal += $cgegisDeduction;
+            }
+        }
 
+        $member_debit_data = [
+            'member_id' => $member->id,
+            'gpa_sub' => $gpfDeduction,
+            'nps_sub' => $npsSubTotal,
+            'nps_rec' => 0,
+            'nps_arr' => 0,
+            'eol' => 0,
+            'ccl' => 0,
+            'rent' => 0,
+            'lf_arr' => 0,
+            'tada' => 0,
+            'hba' => 0,
+            'misc1' => 0,
+            'gpf_rec' => 0,
+            'i_tax' => 0,
+            'elec' => 0,
+            'elec_arr' => 0,
+            'medi' => 0,
+            'pc' => 0,
+            'misc2' => 0,
+            'gpf_arr' => 0,
+            'ecess' => 0,
+            'water' => 0,
+            'water_arr' => 0,
+            'ltc' => 0,
+            'fadv' => 0,
+            'misc3' => 0,
+            'cgegis' => $cgegisDeduction,
+            'cda' => 0,
+            'furn' => 0,
+            'furn_arr' => 0,
+            'car' => 0,
+            'hra_rec' => 0,
+            'cghs' => 0,
+            'ptax' => 0,
+            'cmg' => 0,
+            'pli' => 0,
+            'scooter' => 0,
+            'tpt_rec' => 0,
+            'tot_debits' => $deductionsTotal,
+            'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay) - $deductionsTotal,
+            'basic' => $basicPay,
+            'gpf_adv' => 0,
+            'hba_int' => 0,
+            'comp_adv' => 0,
+            'comp_int' => 0,
+            'leave_rec' => 0,
+            'pension_rec' => 0,
+            'car_int' => 0,
+            'sco_int' => 0,
+            'quarter_charges' => 0,
+            'cgeis_arr' => 0,
+            'cghs_arr' => 0,
+            'penal_intr' => 0,
+            'society' => 0,
+            'arrear_pay' => 0,
+            'npsg' => 0,
+            'npsg_arr' => 0,
+            'npsg_adj' => 0,
+            'hba_cur_instl' => 0,
+            'hba_total_instl' => 0,
+            'hba_int_cur_instl' => 0,
+            'hba_int_total_instl' => 0,
+            'car_adv_prin_instl' => 0,
+            'car_adv_total_instl' => 0,
+            'scot_adv_prin_instl' => 0,
+            'sco_adv_int_curr_instl' => 0,
+            'sco_adv_int_total_instl' => 0,
+            'comp_prin_curr_instl' => 0,
+            'comp_prin_total_instl' => 0,
+            'comp_adv_int' => 0,
+            'comp_int_curr_instl' => 0,
+            'comp_int_total_instl' => 0,
+            'fest_adv_prin_cur' => 0,
+            'fest_adv_total_cur' => 0,
+            'ltc_rec' => 0,
+            'medical_rec' => 0,
+            'tada_rec' => 0,
+            'remarks' => 'Initial debit data created'
+        ];
 
-        // $member_core_info = new MemberCoreInfo();
-        // $member_core_info->member_id = $request->member_id;
-        // $member_core_info->fund_type = $request->member_fund_type;
-        // $member_core_info->pran_no = $request->pran_no;
-        // $member_core_info->pan_no = $request->pan_no;
-        // $member_core_info->bank_id = $request->bank_id;
-        // $member_core_info->ifsc_code = $request->ifsc_code;
-        // $member_core_info->account_no = $request->account_no;
-        // $member_core_info->branch_name = $request->branch_name;
-        // $member_core_info->save();
+        $member_debit = MemberDebit::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_debit_data
+        );
 
-        // $member_personal_info = new MemberPersonalInfo();
-        // $member_personal_info->member_id = $request->member_id;
-        // $member_personal_info->basic = $request->basic;
-        // $member_personal_info->emp_id = $request->emp_id;
-        // $member_personal_info->name = $request->name;
-        // $member_personal_info->g_pay = $request->g_pay;
-        // $member_personal_info->cadre = $request->cadre;
-        // $member_personal_info->dob = $request->dob;
-        // $member_personal_info->next_inr = $request->next_inr;
-        // $member_personal_info->ex_service = $request->ex_service;
-        // $member_personal_info->payband = $request->payband;
-        // $member_personal_info->pm_level = $request->pm_level;
-        // $member_personal_info
-        //     ->save();
+        // 3. Recovery data - variable increments
+        $pmLevelData = PmLevel::find($member->pm_level);
+        if ($pmLevelData && $pmLevelData->var_incr > 0 && $pmLevelData->noi > 0) {
+            $recovery_data = [
+                'member_id' => $member->id,
+                'v_incr' => $pmLevelData->var_incr,
+                'noi' => $pmLevelData->noi,
+                'noi_pending' => $pmLevelData->noi,
+                'total' => $pmLevelData->var_incr * $pmLevelData->noi,
+                'stop' => 'No'
+            ];
+
+            $member_recovery = MemberRecovery::updateOrCreate(
+                ['member_id' => $member->id],
+                $recovery_data
+            );
+        }
+
+        // 4. Original recovery data
+        $member_org_recovery_data = [
+            'member_id' => $member->id,
+            'ccs_sub' => 0,
+            'mess' => 0,
+            'security' => 0,
+            'misc1' => 0,
+            'ccs_rec' => 0,
+            'asso_fee' => 0,
+            'dbf' => 0,
+            'misc2' => 0,
+            'wel_sub' => 0,
+            'ben' => 0,
+            'med_ins' => 0,
+            'tot_rec' => 0,
+            'wel_rec' => 0,
+            'hdfc' => 0,
+            'maf' => 0,
+            'final_pay' => 0,
+            'lic' => 0,
+            'cort_atch' => 0,
+            'ogpf' => 0,
+            'ntp' => 0,
+            'ptax' => 200,
+            'remarks' => 'Initial recovery data created'
+        ];
+
+        $member_org_recovery = MemberOriginalRecovery::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_org_recovery_data
+        );
+
+        // 5. Core info data
+        $member_core_data = [
+            'member_id' => $member->id,
+            'bank_acc_no' => '',
+            'ccs_mem_no' => '',
+            'fpa' => 0,
+            'bank' => null,
+            'gpf_sub' => $member->fund_type == 'GPF' ? ($basicPay * 10 / 100) : 0,
+            'add2' => 0,
+            'gpf_acc_no' => $member->gpf_number ?? '',
+            'i_tax' => 0,
+            'pran_no' => $member->pran_number ?? '',
+            'pan_no' => '',
+            'ecess' => 0,
+            'ben_acc_no' => '',
+            'dcmaf_no' => '',
+            's_pay' => 0,
+            'ifsc' => ''
+        ];
+
+        $member_core = MemberCoreInfo::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_core_data
+        );
+
+        // 6. Personal info data
+        $member_personal_data = [
+            'member_id' => $member->id,
+            'basic' => $member->basic,
+            'emp_id' => $member->emp_id,
+            'name' => $member->name,
+            'g_pay' => $member->g_pay,
+            'cadre' => $member->cadre,
+            'dob' => $member->dob,
+            'next_inr' => $member->next_inr,
+            'ex_service' => $member->ex_service,
+            'payband' => $member->pay_band,
+            'pm_level' => $member->pm_level,
+            'gender' => $member->gender,
+            'status' => $member->status,
+            'doj_lab' => $member->doj_lab,
+            'quater' => $member->quater,
+            'ph' => null,
+            'old_basic' => $member->old_bp,
+            'pm_index' => $member->pm_index,
+            'desig' => $member->desig,
+            'category' => $member->category,
+            'doj_service' => $member->doj_service1,
+            'quater_no' => $member->quater_no,
+            'dop' => $member->dop,
+            'fund_type' => $member->fund_type,
+            'cgegis' => $member->cgegis,
+            'cgegis_text' => '',
+            'pay_stop' => $member->pay_stop,
+            'landline_no' => '',
+            'mobile_no' => '',
+            'mobile_allowance' => 0,
+            'broadband_allowance' => 0,
+            'landline_allowance' => 0,
+            'cr_water' => 0,
+            'e_status' => $member->e_status
+        ];
+
+        $member_personal = MemberPersonalInfo::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_personal_data
+        );
     }
 }
