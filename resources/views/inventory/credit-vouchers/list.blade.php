@@ -674,10 +674,12 @@
                             );
                         }
                         $('#supply_order_no').val(rinItem.supply_order_no).change();
-                        $('#invoice_no').val(rinItem.sir_details?.invoice_no ?? '');
-                        $('#invoice_date').val(rinItem.sir_details?.invoice_date ?? '');
+                        $('#invoice_no').val(rinItem.invoice_no ?? '');
+                        $('#invoice_date').val(rinItem.invoice_date ?? '');
                         //  alert(rinItem.budget_head_details);
                         $(".cost_debatable_input").val(rinItem.budget_head_details);
+                        // store_receipt_date
+                        $('#store_receipt_date').val(rinItem.store_received_date ?? '');
 
 
 

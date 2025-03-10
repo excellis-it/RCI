@@ -138,30 +138,7 @@
                                     </div>
                                 </div>
 
-                                {{-- finacial year --}}
-                                <div class="col-md-12 mt-4">
-                                    <div class="row">
-                                        <div class="form-group col-md-6 mb-2">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-3">
-                                                    <label>Financial Year:</label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <select class="form-select" name="financial_year"
-                                                        id="financial_year">
-                                                        <option value="">Select Financial Year</option>
-                                                        @foreach ($financialYears as $financialYear)
-                                                            <option value="{{ $financialYear }}">
-                                                                {{ $financialYear }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <hr />
                                 <div class="edit-mem-tab">
                                     <div class="tab-content" id="myTabContent">
@@ -228,11 +205,14 @@
                             $('#pers_no').val(data.member.pers_no || '');
                             $('#emp_id').val(data.member.emp_id || '');
                             $('#name').val(data.member.name || '');
-                            $('#desig').val(data.member.designation ? (data.member.designation.designation_type ||
+                            $('#desig').val(data.member.designation ? (data.member.designation
+                                .designation_type ||
                                 data.member.designation) : '');
                             $('#basic').val(data.member.basic || '');
-                            $('#group').val(data.member.groups ? data.member.groups.value || '' : '');
-                            $('#section').val(data.member.divisions ? data.member.divisions.value || '' : '');
+                            $('#group').val(data.member.groups ? data.member.groups.value || '' :
+                                '');
+                            $('#section').val(data.member.divisions ? data.member.divisions.value ||
+                                '' : '');
                             $('#form-table').html(data.view);
                             $('#loading').removeClass('loading');
                             $('#loading-content').removeClass('loading-content');
@@ -248,7 +228,7 @@
         </script>
         <script>
             $(document).ready(function() {
-                $(document).on('submit','#arrears-form',function(e) {
+                $(document).on('submit', '#arrears-form', function(e) {
                     e.preventDefault();
                     var form = $(this);
                     var url = form.attr('action');
@@ -366,5 +346,4 @@
                 });
             });
         </script>
-        
     @endpush

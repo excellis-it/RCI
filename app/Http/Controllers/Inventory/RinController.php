@@ -191,6 +191,8 @@ class RinController extends Controller
                 $rin->member_id = $request->member_id;
                 $rin->rin_no = $rin_no;
                 $rin->store_received_date = $request->store_received_date;
+                $rin->invoice_no = $request->invoice_no;
+                $rin->invoice_date = $request->invoice_date;
                 $rin->gem_item_code = $request->item_id[$key];
                 $rin->description = $request->description[$key];
                 $rin->received_quantity = $request->received_quantity[$key];
@@ -338,6 +340,8 @@ class RinController extends Controller
                 $newRin->member_id = $request->member_id;
                 $newRin->rin_no = $rin_no;
                 $newRin->store_received_date = $request->store_received_date;
+                $newRin->invoice_no = $request->invoice_no;
+                $newRin->invoice_date = $request->invoice_date;
                 $newRin->gem_item_code = $request->item_id[$key];
                 $newRin->description = $request->description[$key];
                 $newRin->received_quantity = $request->received_quantity[$key];
