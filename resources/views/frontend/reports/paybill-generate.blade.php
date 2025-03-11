@@ -235,6 +235,8 @@
                                     $totalEduInst = 0;
                                     $totalCarBikeInst = 0;
 
+                                    $totalLoans = 0;
+
                                 @endphp
 
 
@@ -292,14 +294,19 @@
                                                 ($member_info['details']['member_recovery']?->wel_sub ?? 0) +
                                                 ($member_info['details']['member_recovery']?->ptax ?? 0);
 
+                                            // totalcredit total credits and totalDebit total debits
+
+
                                             //Loans
-                                            $totalHbaInst += $member_info['member_data']->hba_inst ?? 0;
-                                            $totalCompInst += $member_info['member_data']->comp_inst ?? 0;
-                                            $totalEduInst += $member_info['member_data']->edu_inst ?? 0;
-                                            $totalCarBikeInst += $member_info['member_data']->car_inst ?? 0;
+                                            $totalHbaInst += $member_info['details']['member_loans']['hba_inst'] ?? 0;
+                                            $totalCompInst += $member_info['details']['member_loans']['comp_inst'] ?? 0;
+                                            $totalEduInst += $member_info['details']['member_loans']['edu_inst'] ?? 0;
+                                            $totalCarBikeInst +=
+                                                $member_info['details']['member_loans']['car_inst'] ?? 0;
 
                                             // total loans
-                                            $totalLoans = $totalHbaInst + $totalCompInst + $totalEduInst + $totalCarBikeInst;
+                                            $totalLoans +=
+                                                $totalHbaInst + $totalCompInst + $totalEduInst + $totalCarBikeInst;
                                         @endphp
 
                                         <tr>
@@ -409,10 +416,18 @@
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                                {{ $member_info['member_data']->hba_inst ?? '0' }} <br>
-                                                {{ $member_info['member_data']->comp_inst ?? '0' }} <br>
-                                                {{ $member_info['member_data']->edu_inst ?? '0' }} <br>
-                                                {{ $member_info['member_data']->car_inst ?? '0' }}
+                                                {{ $member_info['details']['member_loans']['hba_inst'] ?? '0' }} <br>
+                                                {{ $member_info['details']['member_loans']['comp_inst'] ?? '0' }} <br>
+                                                {{ $member_info['details']['member_loans']['edu_inst'] ?? '0' }} <br>
+                                                {{ $member_info['details']['member_loans']['car_inst'] ?? '0' }}
+                                                @php
+
+                                                    $allLoans =
+                                                        $member_info['details']['member_loans']['hba_inst'] +
+                                                        $member_info['details']['member_loans']['comp_inst'] +
+                                                        $member_info['details']['member_loans']['edu_inst'] +
+                                                        $member_info['details']['member_loans']['car_inst'];
+                                                @endphp
                                             </td>
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
@@ -428,8 +443,9 @@
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                                 {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr ?? '0' }}
                                                 <br>
-                                                {{ $member_info['details']['member_debit']->tot_debits ?? '0' }} <br>
-                                                {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr - $member_info['details']['member_debit']->tot_debits ?? '0' }}
+                                                {{ $member_info['details']['member_debit']->tot_debits + $allLoans ?? '0' }}
+                                                <br>
+                                                {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr - ($member_info['details']['member_debit']->tot_debits + $allLoans) ?? '0' }}
                                                 <br>
 
                                                 {{ ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
@@ -558,8 +574,9 @@
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ $totalcredit + $totalVarIncr ?? 0 }}.00 <br>
-                                            {{ $totalDebit ?? 0 }} <br>
-                                            {{ $totalcredit + $totalVarIncr - $totalDebit ?? 0 }} <br>
+                                            {{ $totalDebit + $totalLoans ?? 0 }} <br>
+                                            {{ $totalcredit + $totalVarIncr - ($totalDebit + $totalLoans) ?? 0 }}
+                                            <br>
                                             {{ $totalTableRec ?? 0 }}
                                         </td>
                                         <td valign="top"

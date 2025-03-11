@@ -49,6 +49,7 @@ use App\Models\PayMatrixRow;
 use App\Models\PayMatrixBasic;
 use App\Models\PmIndex;
 use App\Models\Hra;
+use App\Models\MemberMonthlyData;
 use App\Models\Pension;
 use App\Models\MemberOriginalRecovery;
 use App\Models\MemberMonthlyDataCredit;
@@ -173,11 +174,17 @@ class ReportController extends Controller
         ]);
 
         $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
-       // return $themonth;
+        // return $themonth;
 
         $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
         $all_members_info = [];
-        $member_datas = Member::where('e_status', $request->e_status)
+
+        $monthly_members_data = MemberMonthlyData::where('year', $request->year)
+            ->where('month', $themonth)
+            ->pluck('member_id');
+
+        $member_datas = Member::whereIn('id', $monthly_members_data)
+            ->where('e_status', $request->e_status)
             ->where('category', $request->category)
             ->where('member_status', 1)
             ->where('pay_stop', 'No')
@@ -191,6 +198,7 @@ class ReportController extends Controller
         }
 
         foreach ($member_datas as $member_data) {
+
             $member_details = [
                 'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
@@ -207,14 +215,16 @@ class ReportController extends Controller
                 'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
                     ->with('banks')
                     ->first(),
+                'member_loans' => [
+                    'hba_inst' => Helper::getLoanInstalment($member_data->id, 4, $themonth, $request->year),
+                    'car_inst' => Helper::getLoanInstalment($member_data->id, 1, $themonth, $request->year),
+                    'edu_inst' => Helper::getLoanInstalment($member_data->id, 2, $themonth, $request->year),
+                    'comp_inst' => Helper::getLoanInstalment($member_data->id, 3, $themonth, $request->year),
+                ],
 
             ];
 
-            // get loans
-            $member_data->hba_inst = Helper::getLoanInstalment($member_data->id, 1, $themonth, $request->year);
-            $member_data->car_inst = Helper::getLoanInstalment($member_data->id, 2, $themonth, $request->year);
-            $member_data->edu_inst = Helper::getLoanInstalment($member_data->id, 3, $themonth, $request->year);
-            $member_data->comp_inst = Helper::getLoanInstalment($member_data->id, 4, $themonth, $request->year);
+
 
             $combined_member_info = [
                 'member_data' => $member_data,
@@ -224,7 +234,7 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
-      //  return $all_members_info;
+
 
         // Convert the array to a Laravel Collection to use chunk method
         $groupedData = collect($all_members_info)->chunk(3);
@@ -239,6 +249,7 @@ class ReportController extends Controller
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
         // dd($member_datas);
         //  return $all_members_info;
+       // return $all_members_info;
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no', 'month', 'year', 'logo', 'da_percent', 'all_members_info', 'groupedData'));
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
