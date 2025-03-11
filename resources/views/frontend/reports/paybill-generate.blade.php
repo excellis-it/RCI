@@ -91,9 +91,13 @@
                                             style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                             CREDITS
                                         </th>
-                                        <th colspan="6"
+                                        <th colspan="5"
                                             style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                             DEBITS
+                                        </th>
+                                        <th
+                                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                            Loans
                                         </th>
                                         <th
                                             style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
@@ -121,7 +125,7 @@
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                             BASIC PAY<br>DA ({{ $da_percent->percentage ?? 'N/A' }}%)<br>HRA<br>TPT
-                                            ALLOW<br>TPTDA<br>SPL PAY
+                                            ALLOW<br>TPTDA<br>SPL PAY<br>Var Incr
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
@@ -136,10 +140,11 @@
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                             GPF SUB<br>GPF ADV<br>GPF ARRS<br>CCEGIS<br>CGHS<br>HBA ADV
                                         </td>
-                                        <td valign="top"
+                                        {{-- <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                             HBA INT<br>CAR ADV<br>CAR INT<br>SCO ADV<br>SCO INT<br>COMP ADV
-                                        </td>
+                                        </td> --}}
+
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                             COMP INT<br>FEST ADV<br>LTC<br>MED DEBIT<br>TADA<br>LEAVE REC
@@ -158,6 +163,10 @@
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                             CGHS ARR<br>CGEIS ARR<br>PENAL INTR
+                                        </td>
+                                        <td valign="top"
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                            HBA Inst<br>Comp Inst<br>Edu Inst<br>Car/Bike Inst
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
@@ -182,6 +191,7 @@
                                     $totalTpt = 0;
                                     $totalDaOnTpt = 0;
                                     $totalSpay = 0;
+                                    $totalVarIncr = 0;
                                     $totalSplIncent = 0;
                                     $totalIncentive = 0;
                                     $totaldressAllow = 0;
@@ -194,15 +204,7 @@
                                     $totalGpfAdv = 0;
                                     $totalCgegis = 0;
                                     $totalCghs = 0;
-                                    $totalHba = 0;
-                                    $totalHbaInt = 0;
-                                    $totalCarAdv = 0;
-                                    $totalCarInt = 0;
-                                    $totalScoAdv = 0;
-                                    $totalScoInt = 0;
-                                    $totalCompAdv = 0;
-                                    $totalCompInt = 0;
-                                    $totalFestAdv = 0;
+
                                     $totalLtc = 0;
                                     $totalMedDebit = 0;
                                     $totalTada = 0;
@@ -227,6 +229,12 @@
                                     $totalNetPay = 0;
                                     $totalTableRec = 0;
 
+                                    //Loans
+                                    $totalHbaInst = 0;
+                                    $totalCompInst = 0;
+                                    $totalEduInst = 0;
+                                    $totalCarBikeInst = 0;
+
                                 @endphp
 
 
@@ -239,6 +247,7 @@
                                             $totalTpt += $member_info['details']['member_credit']->tpt ?? 0; // total tpt
                                             $totalDaOnTpt += $member_info['details']['member_credit']->da_on_tpt ?? 0; // total da on
                                             $totalSpay += $member_info['details']['member_credit']->s_pay ?? 0;
+                                            $totalVarIncr += $member_info['details']['member_credit']->var_incr ?? 0;
                                             $totalSplIncent +=
                                                 $member_info['details']['member_credit']->spl_incentive ?? 0;
                                             $totalIncentive += $member_info['details']['member_credit']->incentive ?? 0;
@@ -254,15 +263,7 @@
                                             $totalGpfAdv += $member_info['details']['member_debit']->gpf_adv ?? 0;
                                             $totalCgegis += $member_info['details']['member_debit']->cgegis ?? 0;
                                             $totalCghs += $member_info['details']['member_debit']->cghs ?? 0;
-                                            $totalHba += $member_info['details']['member_debit']->hba_adv ?? 0;
-                                            $totalHbaInt += $member_info['details']['member_debit']->hba_int ?? 0;
-                                            $totalCarAdv += $member_info['details']['member_debit']->car_adv ?? 0;
-                                            $totalCarInt += $member_info['details']['member_debit']->car_int ?? 0;
-                                            $totalScoAdv += $member_info['details']['member_debit']->sco_adv ?? 0;
-                                            $totalScoInt += $member_info['details']['member_debit']->sco_int ?? 0;
-                                            $totalCompAdv += $member_info['details']['member_debit']->comp_adv ?? 0;
-                                            $totalCompInt += $member_info['details']['member_debit']->comp_int ?? 0;
-                                            $totalFestAdv += $member_info['details']['member_debit']->fadv ?? 0;
+
                                             $totalLtc += $member_info['details']['member_debit']->ltc ?? 0;
                                             $totalMedDebit += $member_info['details']['member_debit']->medi ?? 0;
                                             $totalTada += $member_info['details']['member_debit']->tada ?? 0;
@@ -290,6 +291,15 @@
                                                 ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
                                                 ($member_info['details']['member_recovery']?->wel_sub ?? 0) +
                                                 ($member_info['details']['member_recovery']?->ptax ?? 0);
+
+                                            //Loans
+                                            $totalHbaInst += $member_info['member_data']->hba_inst ?? 0;
+                                            $totalCompInst += $member_info['member_data']->comp_inst ?? 0;
+                                            $totalEduInst += $member_info['member_data']->edu_inst ?? 0;
+                                            $totalCarBikeInst += $member_info['member_data']->car_inst ?? 0;
+
+                                            // total loans
+                                            $totalLoans = $totalHbaInst + $totalCompInst + $totalEduInst + $totalCarBikeInst;
                                         @endphp
 
                                         <tr>
@@ -324,7 +334,8 @@
                                                 {{ $member_info['details']['member_credit']->hra ?? '0' }}<br>
                                                 {{ $member_info['details']['member_credit']->tpt ?? '0' }}<br>
                                                 {{ $member_info['details']['member_credit']->da_on_tpt ?? '0' }}<br>
-                                                {{ $member_info['details']['member_credit']->s_pay ?? '0' }}
+                                                {{ $member_info['details']['member_credit']->s_pay ?? '0' }}<br>
+                                                {{ $member_info['details']['member_credit']->var_incr ?? '0' }}
                                             </td>
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
@@ -354,24 +365,14 @@
                                                 {{ $member_info['details']['member_debit']->gpf_adv ?? '0' }}<br>
                                                 {{ $member_info['details']['member_debit']->cgegis ?? '0' }}<br>
                                                 {{ $member_info['details']['member_debit']->cghs ?? '0' }}<br>
-                                                {{ $member_info['details']['member_debit']->hba_adv ?? '0' }}<br>
+
 
                                             </td>
+
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                                {{ $member_info['details']['member_debit']->hba_int ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->car_adv ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->car_int ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->sco_adv ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->sco_int ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->comp_adv ?? '0' }}
-                                            </td>
-                                            <td valign="top"
-                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
-                             margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                                {{ $member_info['details']['member_debit']->comp_int ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->fadv ?? '0' }} <br>
+
                                                 {{ $member_info['details']['member_debit']->ltc ?? '0' }} <br>
                                                 {{ $member_info['details']['member_debit']->medi ?? '0' }} <br>
                                                 {{ $member_info['details']['member_debit']->tada ?? '0' }} <br>
@@ -407,6 +408,14 @@
                                             </td>
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                         margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                                {{ $member_info['member_data']->hba_inst ?? '0' }} <br>
+                                                {{ $member_info['member_data']->comp_inst ?? '0' }} <br>
+                                                {{ $member_info['member_data']->edu_inst ?? '0' }} <br>
+                                                {{ $member_info['member_data']->car_inst ?? '0' }}
+                                            </td>
+                                            <td valign="top"
+                                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                                 0 <br>
                                                 {{ $member_info['details']['member_debit']->elec ?? '0' }} <br>
@@ -417,9 +426,12 @@
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                                {{ $member_info['details']['member_credit']->tot_credits ?? '0' }} <br>
+                                                {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr ?? '0' }}
+                                                <br>
                                                 {{ $member_info['details']['member_debit']->tot_debits ?? '0' }} <br>
-                                                {{ $member_info['details']['member_debit']->net_pay ?? '0' }} <br>
+                                                {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr - $member_info['details']['member_debit']->tot_debits ?? '0' }}
+                                                <br>
+
                                                 {{ ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
                                                     ($member_info['details']['member_recovery']?->wel_sub ?? 0) +
                                                     ($member_info['details']['member_recovery']?->ptax ?? 0) }}
@@ -453,7 +465,8 @@
                                             {{ $totalHra ?? 0 }}<br>
                                             {{ $totalTpt ?? 0 }} <br>
                                             {{ $totalDaOnTpt ?? 0 }} </br>
-                                            {{ $totalSpay ?? 0 }}
+                                            {{ $totalSpay ?? 0 }}<br>
+                                            {{ $totalVarIncr ?? 0 }}
 
                                         </td>
                                         <td valign="top"
@@ -484,23 +497,13 @@
                                             {{ $totalGpfAdv ?? 0 }}<br>
                                             {{ $totalCgegis ?? 0 }}<br>
                                             {{ $totalCghs ?? 0 }}<br>
-                                            {{ $totalHba ?? 0 }}
+
                                         </td>
+
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            {{ $totalHbaInt ?? 0 }} <br>
-                                            {{ $totalCarAdv ?? 0 }} <br>
-                                            {{ $totalCarInt ?? 0 }} <br>
-                                            {{ $totalScoAdv ?? 0 }} <br>
-                                            {{ $totalScoInt ?? 0 }} <br>
-                                            {{ $totalCompAdv ?? 0 }}
-                                        </td>
-                                        <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
-                             margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            {{ $totalCompInt ?? 0 }} <br>
-                                            {{ $totalFestAdv ?? 0 }} <br>
+
                                             {{ $totalLtc ?? 0 }} <br>
                                             {{ $totalMedDebit ?? 0 }} <br>
                                             {{ $totalTada ?? 0 }} <br>
@@ -535,6 +538,15 @@
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                         margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                            {{ $totalHbaInst }}<br>
+                                            {{ $totalCompInst }}<br>
+                                            {{ $totalEduInst }}<br>
+                                            {{ $totalCarBikeInst }}
+
+                                        </td>
+                                        <td valign="top"
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             0 <br>
                                             {{ $totalElec ?? 0 }}<br>
@@ -545,9 +557,9 @@
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            {{ $totalcredit ?? 0 }} <br>
+                                            {{ $totalcredit + $totalVarIncr ?? 0 }}.00 <br>
                                             {{ $totalDebit ?? 0 }} <br>
-                                            {{ $totalNetPay ?? 0 }} <br>
+                                            {{ $totalcredit + $totalVarIncr - $totalDebit ?? 0 }} <br>
                                             {{ $totalTableRec ?? 0 }}
                                         </td>
                                         <td valign="top"
