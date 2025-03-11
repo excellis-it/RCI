@@ -556,4 +556,20 @@ class Helper
     {
         return number_format(floor($number * 100) / 100, 2, '.', '');
     }
+
+    // getLoanInstalment
+    public static function getLoanInstalment($member_id, $loan_id, $month, $year)
+    {
+        $loan = MemberLoan::where('member_id', $member_id)
+            ->whereMonth('emi_date', $month)
+            ->whereYear('emi_date', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($loan) {
+            return number_format($loan->emi_amount, 2, '.', '');
+        } else {
+            return 0;
+        }
+    }
 }

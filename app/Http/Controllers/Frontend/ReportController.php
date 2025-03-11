@@ -210,6 +210,12 @@ class ReportController extends Controller
 
             ];
 
+            // get loans
+            $member_data->hba_inst = Helper::getLoanInstalment($member_data->id, 1, $themonth, $request->year);
+            $member_data->car_inst = Helper::getLoanInstalment($member_data->id, 2, $themonth, $request->year);
+            $member_data->edu_inst = Helper::getLoanInstalment($member_data->id, 3, $themonth, $request->year);
+            $member_data->comp_inst = Helper::getLoanInstalment($member_data->id, 4, $themonth, $request->year);
+
             $combined_member_info = [
                 'member_data' => $member_data,
                 'details' => $member_details,
@@ -217,6 +223,8 @@ class ReportController extends Controller
 
             $all_members_info[] = $combined_member_info;
         }
+
+      //  return $all_members_info;
 
         // Convert the array to a Laravel Collection to use chunk method
         $groupedData = collect($all_members_info)->chunk(3);
