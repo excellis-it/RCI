@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Arrears</h3>
+                    <h3>Member Income Tax</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Arrears Edit</span></li>
+                        <li><span class="bread-blod">Member Income Tax</span></li>
                     </ul>
                 </div>
             </div>
@@ -155,11 +155,13 @@
                                                     <label>Financial Year:</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <select class="form-select" name="financial_year" id="financial_year">
+                                                    <select class="form-select" name="financial_year"
+                                                        id="financial_year">
                                                         <option value="">Select Financial Year</option>
                                                         @foreach (\App\Helpers\Helper::getNewFinancialYears(20) as $year)
-                                                        <option value="{{ $year }}">{{ $year }}</option>
-                                                    @endforeach
+                                                            <option value="{{ $year }}">{{ $year }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -225,114 +227,85 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>Var Incr</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>Var Incr</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="var_incr" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>Misc</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>Misc</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="misc" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>PTax</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>PTax</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="p_tax" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>HDFC</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>HDFC</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="hdfc" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>Basic</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>Basic</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="basic" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>DA</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>DA</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="da" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
+                                                                                    <div class="col-md-12"><label>OT</label></div>
                                                                                     <div class="col-md-12">
-                                                                                        <label>OT</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="ot" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
                                                                                     <div class="col-md-12">
                                                                                         <label>ITax</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="i_tax" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -343,10 +316,7 @@
                                                                                         <label>DMisc</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="d_misc" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -357,10 +327,7 @@
                                                                                         <label>D.Pay</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="d_pay" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -371,10 +338,7 @@
                                                                                         <label>HRA</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="hra" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -385,10 +349,7 @@
                                                                                         <label>Arrears</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="arrears" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -399,10 +360,7 @@
                                                                                         <label>HBA</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="hba" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -413,10 +371,7 @@
                                                                                         <label>GMC</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="gmc" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -427,10 +382,7 @@
                                                                                         <label>S.Pay</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="s_pay" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -441,10 +393,7 @@
                                                                                         <label>CCA</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="cca" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -455,10 +404,7 @@
                                                                                         <label>GPF</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="gpf" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -469,24 +415,19 @@
                                                                                         <label>PLI</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="pli" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="form-group col-md-3 mb-2">
                                                                                 <div class="row align-items-center">
                                                                                     <div class="col-md-12">
                                                                                         <label>E.Pay</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="e_pay" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -497,10 +438,7 @@
                                                                                         <label>TPT</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="tpt" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -511,10 +449,7 @@
                                                                                         <label>CGEIS</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="cgeis" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -525,10 +460,7 @@
                                                                                         <label>LIC</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="lic" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -539,10 +471,7 @@
                                                                                         <label>Add Incr</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="add_incr" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -553,10 +482,7 @@
                                                                                         <label>Wash AJW</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="wash_ajw" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -567,10 +493,7 @@
                                                                                         <label>CGHS</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="cghs" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -581,14 +504,12 @@
                                                                                         <label>EOL/HPL</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <input type="text" class="form-control" name="eol_hpl" value="">
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
 
                                                                         </div>
                                                                         <div class="row justify-content-end mt-4">
@@ -596,10 +517,10 @@
                                                                                 <button type="submit"
                                                                                     class="listing_add">Save</button>
                                                                             </div>
-                                                                            <div class="col-auto mb-2">
+                                                                            {{-- <div class="col-auto mb-2">
                                                                                 <button type="button"
                                                                                     class="another-btn">Another</button>
-                                                                            </div>
+                                                                            </div> --}}
                                                                             <div class="col-auto mb-2">
                                                                                 <button type="reset"
                                                                                     class="listing_exit">Cancel</button>
@@ -910,8 +831,12 @@
                                                                                         <label>Month Year</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <select class="form-select month_year" name="month_year" id="month_year">
-                                                                                            <option value="">Select Month Year</option>
+                                                                                        <select
+                                                                                            class="form-select month_year"
+                                                                                            name="month_year"
+                                                                                            id="month_year">
+                                                                                            <option value="">Select
+                                                                                                Month Year</option>
                                                                                         </select>
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
@@ -1645,40 +1570,170 @@
     @endsection
 
     @push('scripts')
-    <script>
-        $(document).ready(function () {
-            $("#financial_year").change(function () {
-                let selectedYear = $(this).val();
-                let monthDropdown = $(".month_year");
-                monthDropdown.empty().append('<option value="">Select Month Year</option>');
+        <script>
+            $(document).ready(function() {
+                $("#financial_year").change(function() {
+                    let selectedYear = $(this).val();
+                    let monthDropdown = $(".month_year");
+                    monthDropdown.empty().append('<option value="">Select Month Year</option>');
 
-                if (selectedYear) {
-                    let years = selectedYear.split("-");
-                    let startYear = parseInt(years[0]);
-                    let endYear = parseInt(years[1]);
+                    if (selectedYear) {
+                        let years = selectedYear.split("-");
+                        let startYear = parseInt(years[0]);
+                        let endYear = parseInt(years[1]);
 
-                    let months = [
-    { name: "March", year: startYear, number: 3 },
-    { name: "April", year: startYear, number: 4 },
-    { name: "May", year: startYear, number: 5 },
-    { name: "June", year: startYear, number: 6 },
-    { name: "July", year: startYear, number: 7 },
-    { name: "August", year: startYear, number: 8 },
-    { name: "September", year: startYear, number: 9 },
-    { name: "October", year: startYear, number: 10 },
-    { name: "November", year: startYear, number: 11 },
-    { name: "December", year: startYear, number: 12 },
-    { name: "January", year: endYear, number: 1 },
-    { name: "February", year: endYear, number: 2 }
-];
+                        let months = [{
+                                name: "March",
+                                year: startYear,
+                                number: "03"
+                            },
+                            {
+                                name: "April",
+                                year: startYear,
+                                number: "04"
+                            },
+                            {
+                                name: "May",
+                                year: startYear,
+                                number: "05"
+                            },
+                            {
+                                name: "June",
+                                year: startYear,
+                                number: "06"
+                            },
+                            {
+                                name: "July",
+                                year: startYear,
+                                number: "07"
+                            },
+                            {
+                                name: "August",
+                                year: startYear,
+                                number: "08"
+                            },
+                            {
+                                name: "September",
+                                year: startYear,
+                                number: "09"
+                            },
+                            {
+                                name: "October",
+                                year: startYear,
+                                number: "10"
+                            },
+                            {
+                                name: "November",
+                                year: startYear,
+                                number: "11"
+                            },
+                            {
+                                name: "December",
+                                year: startYear,
+                                number: "12"
+                            },
+                            {
+                                name: "January",
+                                year: endYear,
+                                number: "01"
+                            },
+                            {
+                                name: "February",
+                                year: endYear,
+                                number: "02"
+                            }
+                        ];
 
-                    // Populate the month dropdown
-                    $.each(months, function (index, item) {
-                        monthDropdown.append(`<option value="${item.number}-${item.year}">${item.name} ${item.year}</option>`);
-                    });
-                }
+                        // Populate the month dropdown
+                        $.each(months, function(index, item) {
+                            monthDropdown.append(
+                                `<option value="${item.number}-${item.year}">${item.name} ${item.year}</option>`
+                            );
+                        });
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 
+        <script>
+            $(document).ready(function() {
+                $('#month_year').change(function() {
+                    var monthYear = $(this).val();
+                    if (monthYear) {
+                        $.ajax({
+                            url: '{{ route('income-tax.members-income-tax.get-pay-details') }}',
+                            type: 'GET',
+                            data: {
+                                month_year: monthYear,
+                                member_id : {{ $member->id }}
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    // Function to safely get value or default to 0
+                                    function getValue(key) {
+                                        return response.data[key] !== null ? response.data[key] : 0;
+                                    }
+
+                                    // Populate the fields with response data, defaulting to 0 if null
+                                    $('input[name="var_incr"]').val(getValue("var_incr"));
+                                    $('input[name="misc"]').val(getValue("misc"));
+                                    $('input[name="p_tax"]').val(getValue("p_tax"));
+                                    $('input[name="hdfc"]').val(getValue("hdfc"));
+                                    $('input[name="basic"]').val(getValue("basic"));
+                                    $('input[name="da"]').val(getValue("da"));
+                                    $('input[name="ot"]').val(getValue("ot"));
+                                    $('input[name="i_tax"]').val(getValue("i_tax"));
+                                    $('input[name="d_misc"]').val(getValue("d_misc"));
+                                    $('input[name="d_pay"]').val(getValue("d_pay"));
+                                    $('input[name="hra"]').val(getValue("hra"));
+                                    $('input[name="arrears"]').val(getValue("arrears"));
+                                    $('input[name="hba"]').val(getValue("hba"));
+                                    $('input[name="gmc"]').val(getValue("gmc"));
+                                    $('input[name="s_pay"]').val(getValue("s_pay"));
+                                    $('input[name="cca"]').val(getValue("cca"));
+                                    $('input[name="gpf"]').val(getValue("gpf"));
+                                    $('input[name="pli"]').val(getValue("pli"));
+                                    $('input[name="e_pay"]').val(getValue("e_pay"));
+                                    $('input[name="tpt"]').val(getValue("tpt"));
+                                    $('input[name="cgeis"]').val(getValue("cgeis"));
+                                    $('input[name="lic"]').val(getValue("lic"));
+                                    $('input[name="add_incr"]').val(getValue("add_incr"));
+                                    $('input[name="wash_ajw"]').val(getValue("wash_ajw"));
+                                    $('input[name="cghs"]').val(getValue("cghs"));
+                                    $('input[name="eol_hpl"]').val(getValue("eol_hpl"));
+                                } else {
+                                    $('input[name="var_incr"]').val(0);
+                                    $('input[name="misc"]').val(0);
+                                    $('input[name="p_tax"]').val(0);
+                                    $('input[name="hdfc"]').val(0);
+                                    $('input[name="basic"]').val(0);
+                                    $('input[name="da"]').val(0);
+                                    $('input[name="ot"]').val(0);
+                                    $('input[name="i_tax"]').val(0);
+                                    $('input[name="d_misc"]').val(0);
+                                    $('input[name="d_pay"]').val(0);
+                                    $('input[name="hra"]').val(0);
+                                    $('input[name="arrears"]').val(0);
+                                    $('input[name="hba"]').val(0);
+                                    $('input[name="gmc"]').val(0);
+                                    $('input[name="s_pay"]').val(0);
+                                    $('input[name="cca"]').val(0);
+                                    $('input[name="gpf"]').val(0);
+                                    $('input[name="pli"]').val(0);
+                                    $('input[name="e_pay"]').val(0);
+                                    $('input[name="tpt"]').val(0);
+                                    $('input[name="cgeis"]').val(0);
+                                    $('input[name="lic"]').val(0);
+                                    $('input[name="add_incr"]').val(0);
+                                    $('input[name="wash_ajw"]').val(0);
+                                    $('input[name="cghs"]').val(0);
+                                    $('input[name="eol_hpl"]').val(0);
+                                    toastr.error(response.message)
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
     @endpush

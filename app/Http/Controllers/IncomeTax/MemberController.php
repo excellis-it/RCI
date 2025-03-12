@@ -4,6 +4,7 @@ namespace App\Http\Controllers\IncomeTax;
 
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\PayDetail;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -67,5 +68,23 @@ class MemberController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function getPayDetails(Request $request)
+    {
+        $monthYear = $request->input('month_year');
+        $explode = explode('-', $monthYear);
+        $payDetail = PayDetail::where('month', $explode[0])
+                              ->where('year', $explode[1])
+                              ->where('member_id', $request->input('member_id'))
+                              ->first();
+        // dd($explode[0], $explode[1]);
+
+        if ($payDetail) {
+            return response()->json(['success' => true, 'data' => $payDetail]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'No data found']);
+        }
     }
 }

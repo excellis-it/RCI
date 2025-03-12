@@ -881,6 +881,8 @@ Route::middleware('permssions')->group(function () {
             'members-income-tax' => IncomeTaxMemberController::class,
         ]);
 
+        Route::get('/getPayDetails', [IncomeTaxMemberController::class, 'getPayDetails'])->name('income-tax.members-income-tax.get-pay-details');
+
         Route::post('/arrears-member-details', [ArrearsController::class, 'memberDetails'])->name('arrears.member-details');
         Route::get('/arrears-fetch-data', [ArrearsController::class, 'fetchData'])->name('arrears.fetch-data');
 
