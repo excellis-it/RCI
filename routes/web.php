@@ -130,6 +130,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Settings\CsvController;
 use App\Http\Controllers\LinkScannerController;
 use App\Http\Controllers\AutoRun\MemberPayGenerate;
+use App\Http\Controllers\Frontend\BackupController;
+use App\Http\Controllers\IncomeTax\MemberController as IncomeTaxMemberController;
 use App\Models\InventorySir;
 use App\Http\Controllers\Inventory\ItemCodeNameController;
 use App\Http\Controllers\WebSettingsController;
@@ -231,7 +233,7 @@ Route::middleware('permssions')->group(function () {
 
         'settings' => SettingController::class,
 
-
+        'backups' => BackupController::class,
 
 
     ]);
@@ -875,7 +877,8 @@ Route::middleware('permssions')->group(function () {
     Route::prefix('income-tax')->group(function () {
         Route::resources([
             'arrears' => ArrearsController::class,
-            'rents' => RentController::class
+            'rents' => RentController::class,
+            'members-income-tax' => IncomeTaxMemberController::class,
         ]);
 
         Route::post('/arrears-member-details', [ArrearsController::class, 'memberDetails'])->name('arrears.member-details');

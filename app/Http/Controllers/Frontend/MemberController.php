@@ -74,7 +74,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(10);
+        $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(15);
 
         foreach ($members as $member) {
             $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
@@ -106,7 +106,7 @@ class MemberController extends Controller
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
                 ->orderBy($sort_by, $sort_type)
-                ->paginate(10);
+                ->paginate(15);
 
             foreach ($members as $member) {
                 $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
@@ -116,7 +116,7 @@ class MemberController extends Controller
                 $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
             }
 
-            return response()->json(['data' => view('frontend.members.table', compact('members'))->render()]);
+            return response()->json(['data' => view('frontend.members.table', compact('members'))->render(), 'data1' => view('income-tax.members.table', compact('members'))->render()]);
         }
     }
 

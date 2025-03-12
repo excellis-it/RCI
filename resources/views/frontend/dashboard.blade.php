@@ -58,7 +58,7 @@
                         </a>
                     </div> --}}
                     <div class="col-lg-3 col-md-6">
-                        <a href="{{ route('arrears.index') }}">
+                        <a href="{{ route('members-income-tax.index') }}">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Income tax</h5>

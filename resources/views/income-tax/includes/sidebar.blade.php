@@ -34,6 +34,15 @@ use App\Helpers\Helper;
                     </li>
 
                     <li class="sidebar-item">
+                        <a class="sidebar-link {{Request::is('income-tax/members-income-tax*') ? 'active' : ''}}" href="{{route('members-income-tax.index')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Members</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
                         {{-- <a class="sidebar-link {{ Request::is('income-tax/arrears*') ? 'active' : '' }}"  href="{{ route('arrears.index') }}" >
                             <span>
                                 <i class="ti ti-brand-cashapp"></i>
