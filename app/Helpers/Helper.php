@@ -573,4 +573,20 @@ class Helper
             return 0;
         }
     }
+
+    public static function getNewFinancialYears($years = 20)
+    {
+        $currentYear = date('Y');
+        $startYear = $currentYear - ($years - 1); // Adjust to get past X years
+        $financialYears = [];
+
+        for ($i = 0; $i < $years; $i++) {
+            $fyStart = $startYear + $i;
+            $fyEnd = $fyStart + 1;
+            $financialYears[] = "$fyStart-$fyEnd";
+        }
+
+        return array_reverse($financialYears); // Show latest first
+    }
+
 }

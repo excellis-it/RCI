@@ -155,42 +155,11 @@
                                                     <label>Financial Year:</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <select class="form-select" name="financial_year"
-                                                        id="financial_year">
+                                                    <select class="form-select" name="financial_year" id="financial_year">
                                                         <option value="">Select Financial Year</option>
-                                                        <option value="2024-2025">
-                                                            2024-2025
-                                                        </option>
-                                                        <option value="2023-2024">
-                                                            2023-2024
-                                                        </option>
-                                                        <option value="2022-2023">
-                                                            2022-2023
-                                                        </option>
-                                                        <option value="2021-2022">
-                                                            2021-2022
-                                                        </option>
-                                                        <option value="2020-2021">
-                                                            2020-2021
-                                                        </option>
-                                                        <option value="2019-2020">
-                                                            2019-2020
-                                                        </option>
-                                                        <option value="2018-2019">
-                                                            2018-2019
-                                                        </option>
-                                                        <option value="2017-2018">
-                                                            2017-2018
-                                                        </option>
-                                                        <option value="2016-2017">
-                                                            2016-2017
-                                                        </option>
-                                                        <option value="2015-2016">
-                                                            2015-2016
-                                                        </option>
-                                                        <option value="2014-2015">
-                                                            2014-2015
-                                                        </option>
+                                                        @foreach (\App\Helpers\Helper::getNewFinancialYears(20) as $year)
+                                                        <option value="{{ $year }}">{{ $year }}</option>
+                                                    @endforeach
                                                     </select>
                                                     <span class="text-danger"></span>
                                                 </div>
@@ -249,10 +218,9 @@
                                                                                         <label>Month Year</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <select class="form-select month_year" name="month_year" id="month_year">
+                                                                                            <option value="">Select Month Year</option>
+                                                                                        </select>
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -942,10 +910,9 @@
                                                                                         <label>Month Year</label>
                                                                                     </div>
                                                                                     <div class="col-md-12">
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            name="" id=""
-                                                                                            value="">
+                                                                                        <select class="form-select month_year" name="month_year" id="month_year">
+                                                                                            <option value="">Select Month Year</option>
+                                                                                        </select>
                                                                                         <span class="text-danger"></span>
                                                                                     </div>
                                                                                 </div>
@@ -1678,4 +1645,40 @@
     @endsection
 
     @push('scripts')
+    <script>
+        $(document).ready(function () {
+            $("#financial_year").change(function () {
+                let selectedYear = $(this).val();
+                let monthDropdown = $(".month_year");
+                monthDropdown.empty().append('<option value="">Select Month Year</option>');
+
+                if (selectedYear) {
+                    let years = selectedYear.split("-");
+                    let startYear = parseInt(years[0]);
+                    let endYear = parseInt(years[1]);
+
+                    let months = [
+    { name: "March", year: startYear, number: 3 },
+    { name: "April", year: startYear, number: 4 },
+    { name: "May", year: startYear, number: 5 },
+    { name: "June", year: startYear, number: 6 },
+    { name: "July", year: startYear, number: 7 },
+    { name: "August", year: startYear, number: 8 },
+    { name: "September", year: startYear, number: 9 },
+    { name: "October", year: startYear, number: 10 },
+    { name: "November", year: startYear, number: 11 },
+    { name: "December", year: startYear, number: 12 },
+    { name: "January", year: endYear, number: 1 },
+    { name: "February", year: endYear, number: 2 }
+];
+
+                    // Populate the month dropdown
+                    $.each(months, function (index, item) {
+                        monthDropdown.append(`<option value="${item.number}-${item.year}">${item.name} ${item.year}</option>`);
+                    });
+                }
+            });
+        });
+    </script>
+
     @endpush
