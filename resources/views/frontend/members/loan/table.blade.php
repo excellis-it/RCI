@@ -4,8 +4,8 @@
             data-route="{{ route('members.loan.edit', $loan_info->id) }}">
             <td>{{ $loan_info->loan_name ?? 'N/A' }}</td>
             <td>{{ round($loan_info->total_amount, 2) ?? 'N/A' }}</td>
-            <td>{{ round($loan_info->loanInfoFirst->interest_rate, 2) ?? 'N/A' }}</td>
-            <td>{{ round($loan_info->loanInfoFirst->interest_amount, 2) ?? 'N/A' }}</td>
+            {{-- <td>{{ round($loan_info->loanInfoFirst->interest_rate, 2) ?? 'N/A' }}</td>
+            <td>{{ round($loan_info->loanInfoFirst->interest_amount, 2) ?? 'N/A' }}</td> --}}
             <td>{{ round($loan_info->loanInfoFirst->emi_amount, 2) ?? 'N/A' }}</td>
             <td>{{ date('d-m-Y', strtotime($loan_info->start_date)) ?? 'N/A' }}</td>
             <td>{{ $loan_info->remark ?? 'N/A' }}</td>
