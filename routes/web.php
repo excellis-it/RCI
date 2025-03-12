@@ -881,6 +881,10 @@ Route::middleware('permssions')->group(function () {
             'members-income-tax' => IncomeTaxMemberController::class,
         ]);
 
+        // Add these new routes for savings
+        Route::post('/saving-store', [IncomeTaxMemberController::class, 'savingStore'])->name('income-tax.saving.store');
+        Route::post('/get-saving-data', [IncomeTaxMemberController::class, 'getSavingData'])->name('income-tax.saving.get-data');
+
         Route::post('/arrears-member-details', [ArrearsController::class, 'memberDetails'])->name('arrears.member-details');
         Route::get('/arrears-fetch-data', [ArrearsController::class, 'fetchData'])->name('arrears.fetch-data');
 
