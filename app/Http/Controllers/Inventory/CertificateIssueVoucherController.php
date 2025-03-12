@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\InventoryNumber;
 use App\Models\InventoryItemBalance;
+use App\Models\InventoryItemStock;
 use App\Helpers\Helper;
 
 class CertificateIssueVoucherController extends Controller
@@ -35,9 +36,17 @@ class CertificateIssueVoucherController extends Controller
 
     public function getInventoryHolder(Request $request)
     {
-
         $inventoryHolder = InventoryNumber::where('id', $request->inventory_no)->with('member')->latest()->first();
         return response()->json(['inventoryHolder' => $inventoryHolder]);
+    }
+
+    public function getItemsByInvNo(Request $request)
+    {
+        $invStocks = InventoryItemStock::with('itemCode.ncStatus')
+            ->where('inv_id', $request->inv_no)
+            ->where('quantity_balance', '>', 0)
+            ->get();
+        return response()->json(['invStocks' => $invStocks]);
     }
 
     public function fetchData(Request $request)
@@ -115,35 +124,35 @@ class CertificateIssueVoucherController extends Controller
             $certificateIssueVoucherDetail->description = $request->description[$key];
             $certificateIssueVoucherDetail->quantity = $request->quantity[$key];
             $certificateIssueVoucherDetail->total_price = $request->total_price[$key];
-            $certificateIssueVoucherDetail->au_status = $request->au_status[$key];
+          //  $certificateIssueVoucherDetail->au_status = $request->au_status[$key];
             $certificateIssueVoucherDetail->remarks = $request->remarks[$key];
             $certificateIssueVoucherDetail->save();
 
-            $creditVouchers = CreditVoucherDetail::where('item_code', $itemCode)
-                ->where('inv_no', $request->inv_no)
-                ->orderBy('id', 'asc') // Assuming you want to reduce from the oldest records first
-                ->get();
+            $inventoryItem = new InventoryItemBalance();
+            $inventoryItem->voucher_type = 'certificate_issue_voucher';
+            $inventoryItem->item_id = $itemCode ?? null;
+            $inventoryItem->item_code = Helper::getItemCode($itemCode) ?? null;
+            $inventoryItem->inv_id = $request->inv_no ?? null;
+            $inventoryItem->quantity = $request->quantity[$key] ?? 0;
+            $inventoryItem->unit_cost = $request->price[$key] / $request->quantity[$key] ?? 0.00;
+            $inventoryItem->total_cost = $request->total_price[$key] ?? 0.00;
+            $inventoryItem->gst_amount = 0.00;
+            $inventoryItem->discount_amount = 0.00;
+            $inventoryItem->total_amount = $request->total_price[$key] ?? 0.00;
+            $inventoryItem->save();
 
-            // $remainingQuantity = $request->quantity[$key];
 
-            // // Iterate over the credit vouchers and reduce the quantity
-            // foreach ($creditVouchers as $credit) {
-            //     if ($credit->quantity >= $remainingQuantity) {
-            //         $credit->quantity -= $remainingQuantity;
-            //         $credit->save();
-            //         $remainingQuantity = 0;
-            //         break; // Exit the loop once quantity is reduced
-            //     } else {
-            //         $remainingQuantity -= $credit->quantity;
-            //         $credit->quantity = 0;
-            //         $credit->save();
-            //     }
-            // }
+            // update stock
+            $existingStock = InventoryItemStock::where('inv_id', $request->inv_no)
+                ->where('item_id', $itemCode)
+                ->first();
 
-            $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
-            if ($creditV->quantity >= $request->quantity[$key]) {
-                $creditV->quantity -= $request->quantity[$key];
-                $creditV->save();
+           // return $existingStock;
+
+            if ($existingStock) {
+                // If stock exists, add to the quantity balance
+                $existingStock->quantity_balance -= $request->quantity[$key] ?? 0;
+                $existingStock->save();
             }
         }
 

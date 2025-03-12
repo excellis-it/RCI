@@ -1092,22 +1092,25 @@ class MemberController extends Controller
         $period = new \DatePeriod($startDate, $monthInterval, $endDate);
 
         $totalAmount = $request->total_amount; // Principal amount
-        $annualRate = $request->inst_rate; // Annual interest rate
-        $monthlyRate = $annualRate / 12 / 100; // Monthly interest rate
+        //   $annualRate = $request->inst_rate; // Annual interest rate
+        //  $monthlyRate = $annualRate / 12 / 100; // Monthly interest rate
 
         // EMI Calculation using the corrected monthly interest rate
-        $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
+        // $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
 
         // Monthly interest for the first month
-        $monthlyInterest = $totalAmount * $monthlyRate;
+        // $monthlyInterest = $totalAmount * $monthlyRate;
+
+        $emiAmount = $request->inst_amount;
+
         foreach ($period as $date) {
             $loanInstallment = new MemberLoan();
             $loanInstallment->member_id = $request->member_id;
             $loanInstallment->loan_id = $request->loan_name;
             $loanInstallment->loan_info_id = $loan_info->id;
-            $loanInstallment->interest_rate = $annualRate;
+            $loanInstallment->interest_rate = 0;
             $loanInstallment->emi_amount = $emiAmount;
-            $loanInstallment->interest_amount = $monthlyInterest; // Update this logic if interest changes monthly
+            $loanInstallment->interest_amount = $emiAmount; // Update this logic if interest changes monthly
             $loanInstallment->emi_month = $date->format('F Y');
             $loanInstallment->emi_date = $date->format('Y-m-d');
             $loanInstallment->penal_interest = ''; // Handle penal interest logic if needed
@@ -1508,7 +1511,7 @@ class MemberController extends Controller
     {
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $member = Member::where('id', $request->memberID)->first();
-        $hra_percentage = null;
+        $hra_percentage = 0;
         if ($member->cities) {
             $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
         }
@@ -1516,7 +1519,7 @@ class MemberController extends Controller
         if ($member_expectation_hra) {
             $hra_percentage->percentage = $member_expectation_hra->percent;
         }
-        $tptAmount = null;
+        $tptAmount = 0;
         if ($member->cities && $member->cities->tpt_type) {
             $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
         }
@@ -1845,7 +1848,7 @@ class MemberController extends Controller
                     ->first();
                 if ($tptData) {
                     $tptAmount = $tptData->tpt_allowance;
-                    $tptDa = ($tptAmount * $da_percentage->percentage) / 100;
+                    $tptDa = $tptData->tpt_da;
                 }
             }
         }

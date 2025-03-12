@@ -286,8 +286,8 @@
                                                                 <tr>
                                                                     <th>Loan Name</th>
                                                                     <th>Loan Amount</th>
-                                                                    <th>Interest Rate</th>
-                                                                    <th>Interest Amount</th>
+                                                                    {{-- <th>Interest Rate</th>
+                                                                    <th>Interest Amount</th> --}}
                                                                     <th>Inst Amount</th>
                                                                     <th>Start Date</th>
                                                                     <th>Remarks</th>

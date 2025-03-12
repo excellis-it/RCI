@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Models\InventoryItemBalance;
 use App\Helpers\Helper;
+use App\Models\InventoryItemStock;
 
 
 class ExternalIssueVoucherController extends Controller
@@ -31,6 +32,7 @@ class ExternalIssueVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $gatePasses = GatePass::where('gate_pass_type', 'non-returnable')->orderBy('id', 'desc')->get();
         $vendors = Vendor::orderBy('id', 'desc')->get();
+        // $invStocks = InventoryItemStock::with('itemCode.ncStatus')->where('inv_id', $request->inv_no)->get();
         $creditVouchers = CreditVoucherDetail::groupBy('item_code_id', 'item_code')->select('item_code_id', 'item_code', DB::raw('SUM(quantity) as total_quantity'))->get();
         return view('inventory.external-issue-vouchers.list', compact('externalIssueVouchers', 'creditVouchers', 'inventoryNumbers', 'itemCodes', 'gatePasses', 'vendors'));
     }
@@ -130,7 +132,7 @@ class ExternalIssueVoucherController extends Controller
         if ($request->consignee == 0) {
             $externalIssueVoucher->vendor_id = $vendor->id;
         } else {
-            $externalIssueVoucher->vendor_id = $request->consignee; 
+            $externalIssueVoucher->vendor_id = $request->consignee;
         }
         $externalIssueVoucher->other_consignee_name = $request->other_consignee_name;
         $externalIssueVoucher->other_consignee_number = $request->other_consignee_number;
@@ -149,16 +151,37 @@ class ExternalIssueVoucherController extends Controller
             $externalIssueVoucherDetail->item_id = $itemCode;
             $externalIssueVoucherDetail->unit_price = $request->unit_price[$key];
             $externalIssueVoucherDetail->description = $request->description[$key];
-            $externalIssueVoucherDetail->au_status = $request->au_status[$key];
+           // $externalIssueVoucherDetail->au_status = $request->au_status[$key];
             $externalIssueVoucherDetail->quantity = $request->quantity[$key];
             $externalIssueVoucherDetail->total_cost = $request->total_price[$key];
             $externalIssueVoucherDetail->remarks = $request->remarks[$key];
             $externalIssueVoucherDetail->save();
 
-            $creditV = CreditVoucherDetail::where('item_code', $itemCode)->where('inv_no', $request->inv_no)->first();
-            if ($creditV->quantity >= $request->quantity[$key]) {
-                $creditV->quantity -= $request->quantity[$key];
-                $creditV->save();
+            $inventoryItem = new InventoryItemBalance();
+            $inventoryItem->voucher_type = 'external_issue_voucher';
+            $inventoryItem->item_id = $itemCode ?? null;
+            $inventoryItem->item_code = Helper::getItemCode($itemCode) ?? null;
+            $inventoryItem->inv_id = $request->inv_no ?? null;
+            $inventoryItem->quantity = $request->quantity[$key] ?? 0;
+            $inventoryItem->unit_cost = $request->unit_price[$key] / $request->quantity[$key] ?? 0.00;
+            $inventoryItem->total_cost = $request->total_price[$key] ?? 0.00;
+            $inventoryItem->gst_amount = 0.00;
+            $inventoryItem->discount_amount = 0.00;
+            $inventoryItem->total_amount = $request->total_price[$key] ?? 0.00;
+            $inventoryItem->save();
+
+
+            // update stock
+            $existingStock = InventoryItemStock::where('inv_id', $request->inv_no)
+                ->where('item_id', $itemCode)
+                ->first();
+
+           // return $existingStock;
+
+            if ($existingStock) {
+                // If stock exists, add to the quantity balance
+                $existingStock->quantity_balance -= $request->quantity[$key] ?? 0;
+                $existingStock->save();
             }
         }
 
@@ -223,5 +246,12 @@ class ExternalIssueVoucherController extends Controller
         $externalIssueVoucher->delete();
 
         return redirect()->back()->with('message', 'External Issue Voucher deleted successfully.');
+    }
+
+    public function getItemsByInvNo(Request $request)
+    {
+
+        $invStocks = InventoryItemStock::with('itemCode.ncStatus')->where('inv_id', $request->inv_no)->get();
+        return response()->json(['invStocks' => $invStocks]);
     }
 }

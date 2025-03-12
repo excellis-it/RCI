@@ -4,7 +4,7 @@
 
 <form action="{{ route('members.loan.create') }}" id="member-loan-edit-form" method="post">
     @csrf
-    
+
     <input type="text" name="member_id" value="vxcfxc">
     <div class="row">
         <div class="col-md-6">
@@ -134,10 +134,10 @@
 
 <form action="{{ route('members.loan.create') }}" id="member-loan-info-form" method="post">
     @csrf
-    
+
     <input type="text" name="member_id" value="create">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-2">
+            <div class="form-group mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Present InstNo</label>
@@ -166,7 +166,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-2">
+            <div class="form-group mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Tot No of Inst</label>
@@ -190,8 +190,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
+
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -216,7 +215,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-2">
+            <div class="form-group mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Balance</label>

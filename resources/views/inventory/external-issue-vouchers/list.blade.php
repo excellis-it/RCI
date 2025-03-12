@@ -346,30 +346,6 @@
             });
         });
     </script>
-    {{-- <script>
-        $(document).ready(function(){
-            $('#item_code_id').change(function() {
-                var item_code_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('debit-vouchers.get-item-quantity')}}",
-                    type: 'POST',
-                    data: {
-                        item_code_id: item_code_id,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        // $('#quantity_no').val(parseInt(response.quantity));
-                        var quantity = parseInt(response.quantity);
-                        var text = `Quantity should be less than or equal to ${quantity}`; // Using template literals for string interpolation
-                        $('#quantity_no').text(text);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                 });
-            });
-        });
-    </script> --}}
 
     <script>
         $(document).ready(function() {
@@ -477,34 +453,6 @@
     </script>
 
     <script>
-        // add new row
-        $(document).ready(function() {
-            $(document).on('click', '.add-more-eiv', function() {
-                var tr = $('#eiv_new_html').html();
-                $('#credit_form_add_new_row').append(tr);
-
-                if ($('#voucher_date_1').val() != '') {
-                    $('.voucher-date').each(function() {
-                        $(this).val($('#voucher_date_1').val());
-                    });
-                }
-
-                if ($('#rin1').val() != '') {
-                    $('.rin').each(function() {
-                        $(this).val($('#rin1').val());
-                    });
-                }
-                return false;
-            });
-
-            $(document).on('click', '.trash', function() {
-                $(this).closest('.new_html').remove();
-                return false;
-            });
-        });
-    </script>
-
-    <script>
         $(document).ready(function() {
             // Handle item code change event dynamically
             $(document).on('change', '.item_id', function() {
@@ -532,7 +480,7 @@
                         quantityOptions.push('<option value="">Select Quantity</option>');
                         for (var i = 1; i <= quantity; i++) {
                             quantityOptions.push('<option value="' + i + '">' + i +
-                            '</option>');
+                                '</option>');
                         }
                         $row.find('.quantity').empty().append(quantityOptions.join(''));
 
@@ -543,13 +491,7 @@
                 });
             });
 
-            // Handle "Add More" functionality
-            $(document).on('click', '.add-more', function() {
-                // Clone the first row of fields
-                var $clone = $('#rins_new_html .new_html').first().clone();
-                $clone.find('input, select').val(''); // Clear input fields in the cloned row
-                $clone.appendTo('#rins_new_html').show(); // Append the new row to the form and display it
-            });
+
         });
     </script>
 
@@ -561,6 +503,215 @@
                 var item_price = $(this).closest('.count-class').find('.item_price').val();
                 var total_price = quantity * item_price;
                 $(this).closest('.count-class').find('.total_price').val(total_price);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Track selected items to prevent duplicate selection
+            let selectedItems = [];
+
+            // Fetch items when inventory number changes
+            $(document).on('change', '#inv_no', function() {
+                const invNo = $(this).val();
+                if (invNo) {
+                    // Clear previous selections when inventory changes
+                    selectedItems = [];
+
+                    $.ajax({
+                        url: "{{ route('external-issue-vouchers.get-items-by-inv-no') }}",
+                        type: 'POST',
+                        data: {
+                            inv_no: invNo,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            // Clear all item dropdowns
+                            $('.item_id').empty().append('<option value="">Select</option>');
+                            $('.item_code_id').empty().append(
+                                '<option value="">Select</option>');
+
+                            if (response.invStocks && response.invStocks.length > 0) {
+                                $.each(response.invStocks, function(index, item) {
+                                    const optionHtml = `<option value="${item.item_id}"
+                                        data-hidden-value="${item.quantity_balance}"
+                                        data-description="${item.description || ''}"
+                                        data-price="${item.unit_price || 0.00}">
+                                        ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
+                                    </option>`;
+
+                                    // Append to all item dropdowns
+                                    $('.item_id').append(optionHtml);
+                                    $('.item_code_id').append(optionHtml);
+                                });
+                            }
+
+                            // Store inventory items for future use
+                            window.inventoryItems = response.invStocks;
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
+                } else {
+                    // Clear all dropdowns when no inventory is selected
+                    $('.item_id, #item_code_id').empty().append('<option value="">Select</option>');
+                    window.inventoryItems = [];
+                }
+            });
+
+            // Function to update a specific dropdown based on currently selected items
+            function updateDropdown($dropdown) {
+                const currentValue = $dropdown.val();
+
+                // Store original options
+                if (!$dropdown.data('original-options') && window.inventoryItems) {
+                    const originalOptions = '<option value="">Select</option>' +
+                        window.inventoryItems.map(item =>
+                            `<option value="${item.item_id}"
+                                data-hidden-value="${item.quantity_balance}"
+                                data-description="${item.description || ''}"
+                                data-price="${item.unit_price || 0.00}">
+                                ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
+                            </option>`
+                        ).join('');
+
+                    $dropdown.data('original-options', originalOptions);
+                }
+
+                // Reset dropdown to original state
+                if ($dropdown.data('original-options')) {
+                    $dropdown.html($dropdown.data('original-options'));
+                }
+
+                // Disable already selected items
+                selectedItems.forEach(function(itemId) {
+                    if (itemId !== currentValue) {
+                        $dropdown.find(`option[value="${itemId}"]`).prop('disabled', true);
+                    }
+                });
+
+                // Restore previously selected value if it exists
+                if (currentValue && $dropdown.find(`option[value="${currentValue}"]`).length) {
+                    $dropdown.val(currentValue);
+                }
+            }
+
+            // When an item is selected in any dropdown
+            $(document).on('change', '.item_id, .item_code_id', function() {
+                const $this = $(this);
+                const itemId = $this.val();
+                const previousValue = $this.data('previous-value');
+
+                // Remove the previous value from selectedItems if it exists
+                if (previousValue) {
+                    const index = selectedItems.indexOf(previousValue);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                    }
+                }
+
+                // Add the new value to selectedItems if it's not empty
+                if (itemId) {
+                    selectedItems.push(itemId);
+                    $this.data('previous-value', itemId);
+                }
+
+                // Update all other dropdowns to reflect the new selection state
+                $('.item_id, .item_code_id').each(function() {
+                    updateDropdown($(this));
+                });
+
+                // Get item details as before
+                var item_code_id = itemId; // Use the already retrieved value instead of getting it again
+                if (!item_code_id) return;
+
+                // Get the row containing this item - reusing the existing $this reference
+                var $row = $this.closest('.count-class');
+                if (!$row.length) {
+                    // For the first row which might not have .count-class
+                    $row = $this.closest('.row');
+                }
+
+                // Find selected option
+                var $selectedOption = $this.find('option:selected');
+                var description = $selectedOption.data('description') || '';
+                var price = $selectedOption.data('price') || 0;
+                var quantity = $selectedOption.data('hidden-value') || 0;
+
+                // Update fields in this row
+                $row.find('.description').val(description);
+                $row.find('.item_price').val(price);
+
+                // Build quantity dropdown
+                var $quantitySelect = $row.find('.quantity');
+                $quantitySelect.empty().append('<option value="">Select Quantity</option>');
+                for (var i = 1; i <= quantity; i++) {
+                    $quantitySelect.append('<option value="' + i + '">' + i + '</option>');
+                }
+            });
+
+            // Modify the add-more-eiv click handler to respect selected items
+            $(document).on('click', '.add-more-eiv', function() {
+                var tr = $('#eiv_new_html').html();
+                $('#credit_form_add_new_row').append(tr);
+
+                // Set date and other fields for the new row if they exist in the first row
+                if ($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if ($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+
+                // Update the new dropdown to exclude already selected items
+                const $newDropdown = $('.item_code_id').last();
+                updateDropdown($newDropdown);
+
+                return false;
+            });
+
+            // When removing a row, update the selectedItems array
+            $(document).on('click', '.trash', function() {
+                const $row = $(this).closest('.new_html');
+                const itemId = $row.find('.item_code_id').val();
+
+                // Remove this item ID from the selectedItems array
+                if (itemId) {
+                    const index = selectedItems.indexOf(itemId);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                    }
+                }
+
+                $row.remove();
+
+                // Update all dropdowns after removal to make the item available again
+                $('.item_id, .item_code_id').each(function() {
+                    updateDropdown($(this));
+                });
+
+                return false;
+            });
+
+            // quantity change event - update calculated price
+            $(document).on('change', '.quantity', function() {
+                var quantity = $(this).val();
+                var $row = $(this).closest('.count-class');
+                if (!$row.length) {
+                    // For the first row which might not have .count-class
+                    $row = $(this).closest('.row');
+                }
+
+                var item_price = $row.find('.item_price').val() || 0;
+                var total_price = quantity * item_price;
+                $row.find('.total_price').val(total_price.toFixed(2));
             });
         });
     </script>

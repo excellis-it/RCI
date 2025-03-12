@@ -561,6 +561,7 @@ class Helper
     public static function getLoanInstalment($member_id, $loan_id, $month, $year)
     {
         $loan = MemberLoan::where('member_id', $member_id)
+            ->where('loan_id', $loan_id)
             ->whereMonth('emi_date', $month)
             ->whereYear('emi_date', $year)
             ->orderBy('id', 'desc')
