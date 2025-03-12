@@ -205,13 +205,30 @@
                             <select class="form-select" name="nc_status[]" id="nc_status">
                                 <option value="">Select</option>
                                 @foreach ($nc_statuses as $status)
-                                    <option value="{{ $status->id }}"
-                                        {{ $sir->nc_status == $status->id ? 'selected' : '' }}>
+                                    <option value="{{ $status->status }}"
+                                        {{ $sir->nc_status == $status->status ? 'selected' : '' }}>
                                         {{ $status->status }}
                                     </option>
                                 @endforeach
 
 
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UOM</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select" name="uom[]">
+                                <option value="">Select UOM</option>
+                                @foreach ($uoms as $uom)
+                                    <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                                @endforeach
                             </select>
                             <span class="text-danger"></span>
                         </div>

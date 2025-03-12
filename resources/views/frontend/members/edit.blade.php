@@ -1599,9 +1599,7 @@
                             $('#no-expectation').remove();
                             // Append new row to table
                             $('#expectation-table tbody').append(newRow);
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 200);
+
                         } else {
 
 
@@ -1614,6 +1612,10 @@
                             row.find('td:eq(3)').text(data.remark);
 
                         }
+
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 800);
 
                     },
                     error: function(xhr) {
@@ -2062,7 +2064,7 @@
         // get updated allTotals
         function getALlTotal() {
             var total_loan_amounts = $('#total_loan_inst_amount').length ? (parseFloat($('#total_loan_inst_amount')
-            .val()) || 0) : 0;
+                .val()) || 0) : 0;
             var total_credits = $('#tot_credits').val();
             var total_debits = parseFloat($('#tot_debits').val()) + parseFloat(total_loan_amounts);
 

@@ -143,7 +143,7 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strikeLedgerDetail->item_code_id }}
+                                                {{ $vouchers->strikeLedgerDetail->item_id }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
@@ -159,7 +159,7 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->broughtLedgerDetail->item_code_id }}
+                                                {{ $vouchers->broughtLedgerDetail->item_id }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">

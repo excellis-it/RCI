@@ -169,7 +169,7 @@
                                 <tr
                                     style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
                                     <th rowspan="2"
-                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left;font-size: 10px;">
+                                        style="width:30px; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left;font-size: 10px;">
                                         SI.
                                         No.</th>
                                     <th rowspan="2"
@@ -198,7 +198,7 @@
                                         NCF)</th>
                                     <th rowspan="2"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left;font-size: 10px;">
-                                        A/U
+                                        UOM
                                     </th>
                                     <th colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">
@@ -254,7 +254,7 @@
 
                                         <td
                                             style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-size: 10px;">
-                                            {{ $item->au_status ?? '' }}</td>
+                                            {{ $item->uoMs?->name ?? '' }}</td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">
                                             {{ $item->received_quantity ?? '' }}</td>
@@ -269,9 +269,10 @@
                                             {{ Str::of($item->remarks)->limit(20) ?? '' }}</td>
                                     </tr>
                                     @php
-                                        $total_basic_cost += $item->round_amount;
+
+                                        $total_amount += $item->round_amount;
                                         $taxes_amount += $item->gst_amount;
-                                        $total_amount += $item->round_amount + $item->gst_amount;
+                                        $total_basic_cost += $item->round_amount - $item->gst_amount;
                                     @endphp
                                 @endforeach
                                 {{-- <tr>

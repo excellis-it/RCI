@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="percent" id="exp_percent"
-                                value="{{ $member_expectation->percent }}" readonly>
+                                value="{{ $member_expectation->percent }}" >
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="amount" id="exp_amount"
-                                value="{{ $member_expectation->amount }}" readonly>
+                                value="{{ $member_expectation->amount }}" >
                             <span class="text-danger"></span>
                         </div>
                     </div>

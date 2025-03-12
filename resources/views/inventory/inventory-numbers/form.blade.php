@@ -68,14 +68,23 @@
                                     <label>Group</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <select class="form-select" name="group_id" id="group_id">
-                                        <option value="">Select Group</option>
-                                        @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}"
-                                                {{ $inventory_number->group_id == $group->id ? 'selected' : '' }}>
-                                                {{ $group->value }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="group_name" id="group_name" class="form-control"
+                                        value="{{ $inventory_number->group_name ?? '' }}">
+
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 mb-2 group-div">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Designation</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" name="desig_name" id="desig_name" class="form-control"
+                                        value="{{ $inventory_number->desig_name ?? '' }}">
+
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -209,6 +218,7 @@
                                 <label>Inv Holder</label>
                             </div>
                             <div class="col-md-12">
+
                                 <select class="form-select form-select-search" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach ($members as $member)
@@ -226,12 +236,23 @@
                                 <label>Group</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="group_id" id="group_id">
-                                    <option value="">Select Group</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">{{ $group->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" name="group_name" id="group_name" class="form-control"
+                                    value="">
+
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2 group-div">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" name="desig_name" id="desig_name" class="form-control"
+                                    value="">
+
                                 <span class="text-danger"></span>
                             </div>
                         </div>

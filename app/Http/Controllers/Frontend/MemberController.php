@@ -1333,51 +1333,16 @@ class MemberController extends Controller
 
     public function memberExpectationUpdate(Request $request)
     {
-        // $validated = $request->validate([
-        //     'rule_name' => 'required',
-        //     'percent' => 'required',
-        //     'amount' => 'required',
-        // ]);
-
-        $selectedValue = $request->rule_name;
-        $data = explode(',', $selectedValue);
-        $rule_name = $data[0];
-
-        if (!isset($request->member_expectation_id)) {
-
-            $expectation_info = new MemberExpectation;
-            $expectation_info->member_id = $request->member_id;
-            $expectation_info->rule_name = $rule_name;
-            $expectation_info->percent = $request->percent;
-            $expectation_info->amount = $request->amount;
-            $expectation_info->year = $request->year;
-            $expectation_info->month = $request->month;
-            $expectation_info->remark = $request->remark;
-            $expectation_info->save();
-
-            return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info, 'save' => true]);
-        }
+        $validated = $request->validate([
+            'percent' => 'required',
+            'amount' => 'required',
+        ]);
 
         $expectation_info = MemberExpectation::where('id', $request->member_expectation_id)->first();
         $expectation_info->percent = $request->percent;
         $expectation_info->amount = $request->amount;
-        $expectation_info->year = $request->year;
-        $expectation_info->month = $request->month;
         $expectation_info->remark = $request->remark;
         $expectation_info->update();
-
-        if ($rule_name == 'GPF') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_debit) {
-                $member_debit->gpa_sub = $request->amount;
-                $member_debit->update();
-            }
-            $member_core = MemberCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_core) {
-                $member_core->gpf_sub = $request->amount;
-                $member_core->update();
-            }
-        }
 
         session()->flash('message', 'Member expectation updated successfully');
         return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info]);
@@ -1520,13 +1485,16 @@ class MemberController extends Controller
             $hra_percentage->percentage = $member_expectation_hra->percent;
         }
         $tptAmount = 0;
+        $tptDaAmount = 0;
         if ($member->cities && $member->cities->tpt_type) {
             $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
+            $tptDaAmount = ($tptAmount->tpt_allowance) / 2;
         }
         $member_expectation_tpt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'TPT')->first();
         if ($member_expectation_tpt) {
             $tptAmount->tpt_allowance = $member_expectation_tpt->amount;
-            $tptAmount->tpt_da = ($tptAmount->tpt_allowance * $da_percentage->percentage) / 100;
+            $tptdaec = $member_expectation_tpt->amount;
+            $tptDaAmount = ($tptdaec) / 2; // 50% of the allowance
         }
         $basicPay = $request->basicPay;
 
@@ -1537,7 +1505,7 @@ class MemberController extends Controller
             'daAmount' => $daAmount,
             'hraAmount' => $hraAmount,
             'tptAmount' => $tptAmount ? $tptAmount->tpt_allowance : 0,
-            'tptDa' => $tptAmount ? $tptAmount->tpt_da : 0
+            'tptDa' => $tptDaAmount ?? 0,
         ]);
     }
 
@@ -1848,7 +1816,7 @@ class MemberController extends Controller
                     ->first();
                 if ($tptData) {
                     $tptAmount = $tptData->tpt_allowance;
-                    $tptDa = $tptData->tpt_da;
+                    $tptDa = ($tptAmount) / 2;
                 }
             }
         }
