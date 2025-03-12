@@ -762,10 +762,30 @@
             var parentElement = $(this).closest('.new_html');
             parentElement.find('.item_code').val(thisData.item_code.code);
             parentElement.find('.item_description').val(thisData.item_code.description);
-            parentElement.find('.item_quantity').val(thisData.quantity_balance);
             parentElement.find('.item_quantity').attr('max', thisData.quantity_balance);
+            parentElement.find('.item_quantity').val(thisData.quantity_balance);
+
             parentElement.find('.item_rate').val(0);
 
+            parentElement.find('.item_quantity').on('input', function() {
+                var max = parseFloat($(this).attr('max'));
+                var value = parseFloat($(this).val());
+
+                if (value > max) {
+                    $(this).val(max);
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on("input", ".new_html .item_quantity[name='strike_quantity[]']", function() {
+                var strikeQuantity = $(this).val();
+                $(this).closest(".new_html").find(".item_quantity[name='brought_quantity[]']").val(
+                    strikeQuantity);
+            });
         });
     </script>
 @endpush

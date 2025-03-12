@@ -54,7 +54,16 @@
                                         @endif
                                     </div>
 
+                                </div> 
+
+
+                                <div class="form-group col-md-3">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Date</label>
+                                        <input type="text" name="date_range" id="daterange" class="form-control">
+                                    </div>
                                 </div>
+
 
                                 <div class="form-group col-md-3 ">
                                     <div class="mb-3">
@@ -74,4 +83,14 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#daterange').daterangepicker({
+                opens: 'right', // Position of the picker
+                locale: {
+                    format: 'YYYY-MM-DD' // Date format
+                }
+            });
+        });
+    </script>
 @endpush

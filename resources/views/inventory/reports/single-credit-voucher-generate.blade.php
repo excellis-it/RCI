@@ -1,5 +1,6 @@
 @php
     use App\Helpers\Helper;
+    use Illuminate\Support\Str;
 @endphp
 @foreach ($creditVouchers as $key => $creditVoucher)
     @if ($key > 0)
@@ -84,24 +85,10 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-
-                                        </td>
-                                        <td
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    ">
-
                                             RIN NO: &nbsp;
                                             {{ $singleData[$creditVoucher->voucher_no]['rin_no'] ?? '-' }}
                                         </td>
+
 
                                         <td
                                             style="
@@ -112,10 +99,12 @@
                   text-align: left;
                   padding: 0px 5px !important;
                   margin: 0px 0px !important;
-                  text-transform: uppercase;
                   border: 1px solid #000;
+                  border-right:1px solid #000;
                 ">
 
+                                            Division Name:
+                                            {{ Str::before($creditVoucher->division_group ?? '', ',') }}
 
                                         </td>
 
@@ -148,23 +137,11 @@
                       text-transform: uppercase;
                       border: 1px solid #000;
                     ">
-
-                                        </td>
-                                        <td
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                    ">
                                             RIN DATE: &nbsp;
                                             {{ isset($singleData[$creditVoucher->voucher_no]['rin_date']) && $singleData[$creditVoucher->voucher_no]['rin_date'] ? date('d-m-Y', strtotime($singleData[$creditVoucher->voucher_no]['rin_date'])) : '-' }}
                                         </td>
+
+
                                         <td
                                             style="
                       font-size: 10px;
@@ -174,9 +151,12 @@
                       text-align: left;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
-                      text-transform: uppercase;
+border-right:1px solid #000;
                       border: 1px solid #000;
                     ">
+                                            Group Name:
+                                            {{ Str::after($creditVoucher->division_group ?? '', ',') }}
+
                                         </td>
                                     </tr>
                                     <tr>
@@ -221,6 +201,7 @@
                     ">
                                             ICC no: {{ $creditVoucher->invoice_no ?? '' }}
                                         </td>
+
                                         <td
                                             style="
                       font-size: 10px;
@@ -231,27 +212,14 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
-                    ">
-                                            Division,group:
-                                            {{ $creditVoucher->division_group ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      padding: 0px 5px !important;
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
+                      border-right:1px solid #000;
                     ">
                                             Division date:
                                             {{ $creditVoucher->division_date ?? '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5"
+                                        <td colspan="4"
                                             style="
                       font-size: 10px;
                       line-height: 14px;
@@ -261,6 +229,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+
                     ">
                                             Consignor's Name & address: M/S. &nbsp;
                                             {{ Str::ucfirst($result['consigner_name']) ?? '-' }} &
@@ -341,7 +310,7 @@
                                         <td colspan="2"
                                             style="
                       font-size: 10px;
-                      line-height: 14px; 
+                      line-height: 14px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;

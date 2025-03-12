@@ -163,9 +163,9 @@ class TransferVoucherController extends Controller
 
         $validatedData = $request->validate([
             'issuing_inv_no' => 'required',
-            'issuing_division' => 'required',
+            // 'issuing_division' => 'required',
             'receiving_inv_no' => 'required',
-            'receiving_division' => 'required',
+            // 'receiving_division' => 'required',
             'strike_ledger_no' => 'required',
             'strike_nomenclature' => 'required',
             'strike_quantity' => 'required',
@@ -181,9 +181,9 @@ class TransferVoucherController extends Controller
             $strikeDetails[] = [
                 'transfer_voucher_id' => $transfer_voucher->id,
                 'issuing_inv_no' => $validatedData['issuing_inv_no'],
-                'issuing_division' => $validatedData['issuing_division'],
+                'issuing_division' => $validatedData['issuing_division'] ?? '',
                 'receiving_inv_no' => $validatedData['receiving_inv_no'],
-                'receiving_division' => $validatedData['receiving_division'],
+                'receiving_division' => $validatedData['receiving_division'] ?? '',
                 'item_id' => $item_id,
                 'strike_ledger_no' => $ledgerNo,
                 'strike_nomenclature' => $validatedData['strike_nomenclature'][$index],

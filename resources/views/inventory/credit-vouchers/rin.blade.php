@@ -125,7 +125,7 @@
                         <div class="col-md-12">
                             <input type="number" class="form-control total_price" name="total_price[]" id="total_price"
                                 placeholder=""
-                                value="{{ $rin->unit_cost * $rin->received_quantity - ($rin->discount_amount ?? 0) ?? 0.0 }}">
+                                value="{{ $rin->round_amount ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

@@ -20,6 +20,7 @@ use App\Models\Member;
 use App\Helpers\Helper;
 use App\Models\CreditVoucher;
 use App\Models\CreditVoucherDetail;
+use App\Models\Uom;
 
 class RinController extends Controller
 {
@@ -57,7 +58,8 @@ class RinController extends Controller
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
         $all_members = Member::all();
         $financialYears = Helper::getFinancialYears();
-        return view('inventory.rins.list', compact('rins', 'financialYears', 'all_members', 'items', 'vendors', 'supply_orders', 'sir_nos', 'inventory_nos', 'gsts', 'authorities', 'designations', 'nc_statuses', 'au_statuses'));
+        $uoms = Uom::all();
+        return view('inventory.rins.list', compact('rins', 'uoms', 'financialYears', 'all_members', 'items', 'vendors', 'supply_orders', 'sir_nos', 'inventory_nos', 'gsts', 'authorities', 'designations', 'nc_statuses', 'au_statuses'));
     }
 
     public function rinsTotalValue() {}
@@ -206,11 +208,12 @@ class RinController extends Controller
                 $rin->unit_cost = $request->unit_cost[$key];
                 $rin->total_cost = $request->total_cost[$key];
                 $rin->nc_status = $request->nc_status[$key];
+                $rin->uom = $request->uom[$key] ?? null;
                 $rin->au_status = $request->au_status[$key];
                 $rin->gst = $request->gst[$key];
                 $rin->gst_amount = $request->gst_amount[$key];
                 $rin->total_amount = $request->total_amount[$key];
-                $rin->round_type = $request->round_type[$key];
+                $rin->round_type = $request->round_type[$key] ?? 0;
                 $rin->round_settle_amount = $request->round_settle_amount[$key] ?? 0;
                 $rin->round_amount = $request->round_amount[$key];
                 $rin->vendor_id = $request->vendor_id;
@@ -251,12 +254,14 @@ class RinController extends Controller
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
         $all_members = Member::all();
         $financialYears = Helper::getFinancialYears();
+        $uoms = Uom::all();
         $edit = true;
 
         return response()->json(['view' => view('inventory.rins.edit_form', compact(
             'edit',
             'rin',
             'all_rins',
+            'uoms',
             'items',
             'vendors',
             'supply_orders',
@@ -352,6 +357,7 @@ class RinController extends Controller
                 $newRin->unit_cost = $request->unit_cost[$key] ?? 0;
                 $newRin->total_cost = $request->total_cost[$key] ?? 0;
                 $newRin->nc_status = $request->nc_status[$key] ?? null;
+                $rin->uom = $request->uom[$key] ?? null;
                 $newRin->au_status = $request->au_status[$key] ?? null;
                 $newRin->gst = $request->gst[$key] ?? 0;
                 $newRin->gst_amount = $request->gst_amount[$key] ?? 0;
@@ -434,11 +440,13 @@ class RinController extends Controller
         $designations = Designation::orderBy('id', 'desc')->paginate(10);
         $nc_statuses = NcStatus::orderBy('status', 'asc')->get();
         $au_statuses = AuStatus::orderBy('status', 'asc')->get();
+        $uoms = Uom::all();
 
         // Render the view and return JSON response
         $view = view('inventory.rins.fetch_item_sir', compact(
             'sirDetails',
             'allSirDetails',
+            'uoms',
             'items',
             'vendors',
             'supply_orders',
