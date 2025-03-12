@@ -1192,6 +1192,7 @@ Route::middleware('permssions')->group(function () {
             //external-issue-vouchers
             Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
             Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
+            Route::post('/external-issue-vouchers-get-items-by-inv-no', [ExternalIssueVoucherController::class, 'getItemsByInvNo'])->name('external-issue-vouchers.get-items-by-inv-no');
 
             //item-code-types
             Route::get('/item-code-types-fetch-data', [ItemCodeTypeController::class, 'fetchData'])->name('item-code-types.fetch-data');
@@ -1212,7 +1213,7 @@ Route::middleware('permssions')->group(function () {
 
             Route::post('inventory/item-code-names-store-austatus', [ItemCodeNameController::class, 'storeAuStatus'])->name('item-code-names.storeAuStatus');
 
-
+            Route::post('/certificate-issue-vouchers-get-items-by-inv-no', [CertificateIssueVoucherController::class, 'getItemsByInvNo'])->name('certificate-issue-vouchers.get-items-by-inv-no');
 
             //rins
             Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
