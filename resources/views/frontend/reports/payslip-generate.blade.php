@@ -10,10 +10,18 @@
             margin: 10px;
             padding: 10px;
         }
+
+        @font-face {
+            font-family: 'NotoSansDevanagari';
+            src: url({{ public_path('fonts/NotoSansDevanagari-Regular.ttf') }}) format('truetype');
+        }
+
+        body {
+            font-family: 'NotoSansDevanagari', sans-serif;
+        }
     </style>
 
     <body style="background: #fff; font-family: 'Noto Sans', sans-serif;">
-
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center;">
             <tbody>

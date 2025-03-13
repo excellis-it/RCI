@@ -150,6 +150,8 @@ class ReportController extends Controller
             $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
             $logo = Helper::logo() ?? '';
 
+          //  return view('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
+
             $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
             return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
         }
@@ -249,7 +251,7 @@ class ReportController extends Controller
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
         // dd($member_datas);
         //  return $all_members_info;
-       // return $all_members_info;
+        // return $all_members_info;
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no', 'month', 'year', 'logo', 'da_percent', 'all_members_info', 'groupedData'));
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
@@ -678,13 +680,14 @@ class ReportController extends Controller
             'month' => 'required',
         ]);
 
+
         $month = $request->month;
+        $month = sprintf("%02d", $request->month);
         $get_month_name = date('F', mktime(0, 0, 0, $month, 10));
         $year = $request->year;
         $cat = $request->category;
         $category = Category::where('id', $cat)->first()->category;
         $today = Carbon::now()->format('d/m/Y g:i:s A');
-
 
         // return $request->all();
         $total = [
@@ -749,68 +752,68 @@ class ReportController extends Controller
         $members = Member::where('category', $request->category)->where('e_status', $request->e_status)->where('pay_stop', 'No')->get();
         foreach ($members as $member) {
             // sum value of basicpay this month of this category member
-            $total['basic'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pay') ?? 0;
-            $total['special'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('s_pay');
-            $total['2incr'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('add_inc2');
-            $total['var_incr'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('var_incr');
-            $total['da'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('da');
-            $total['house_rent'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hra');
-            $total['transport'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tpt');
-            // $total['family_alw'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('wash_alw');
-            $total['hindi'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hindi');
-            $total['deptn_alw'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('deptn_alw');
-            // $total['disable_alw'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('');
-            $total['wash_alwn'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('wash_alw');
-            $total['risk_alwn'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('risk_alw');
-            $total['non_pract_alwn'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('npa');
-            $total['cr_rent'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('cr_rent');
-            $total['cr_elec'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('cr_elec');
-            $total['cr_water'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('cr_water');
-            $total['misc1'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc1');
-            $total['misc2'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
+            $total['basic'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('pay') ?? 0;
+            $total['special'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('s_pay');
+            $total['2incr'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('add_inc2');
+            $total['var_incr'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('var_incr');
+            $total['da'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('da');
+            $total['house_rent'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('hra');
+            $total['transport'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('tpt');
+            // $total['family_alw'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('wash_alw');
+            $total['hindi'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('hindi');
+            $total['deptn_alw'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('deptn_alw');
+            // $total['disable_alw'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('');
+            $total['wash_alwn'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('wash_alw');
+            $total['risk_alwn'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('risk_alw');
+            $total['non_pract_alwn'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('npa');
+            $total['cr_rent'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('cr_rent');
+            $total['cr_elec'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('cr_elec');
+            $total['cr_water'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('cr_water');
+            $total['misc1'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc1');
+            $total['misc2'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc2');
             $total['gross'] += $total['basic'] + $total['special'] + $total['2incr'] + $total['var_incr'] + $total['da'] + $total['house_rent'] + $total['transport'] + $total['hindi'] + $total['deptn_alw'] + $total['wash_alwn'] + $total['risk_alwn'] + $total['non_pract_alwn'] + $total['cr_rent'] + $total['cr_elec'] + $total['cr_water'] + $total['misc1'] + $total['misc2'];
 
             //deductions
 
-            // $total['nps_subsc'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
-            // $total['nps_refunds'] += MemberCredit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
-            $total['rent'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('rent');
-            $total['elec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('elec');
-            $total['water'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('water');
-            $total['furn'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('furn');
-            // $total['rent_arr'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('furn');
-            $total['elec_arr'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('elec_arr');
-            $total['water_arr'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('water_arr');
-            $total['furn_arr'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('furn_arr');
-            $total['car_adv'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('car_adv');
-            $total['car_adv_intrst'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('car_int');
-            $total['sctr_adv_intrst'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('sco_int');
-            //    $total['cycle_adv'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('sco_int');
-            //  $total['cycle_adv_intrst'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('sco_int');
-            $total['hba_adv'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hba_adv');
-            $total['hba_adv_int'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hba_int');
-            $total['pli'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pli');
-            $total['cgegis'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('cgegis');
-            $total['cghs'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('cghs');
-            $total['it'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('i_tax');
-            $total['ecess'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('ecess');
-            //  $total['it_surcharge'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('ecess');
-            $total['tada'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tada');
-            $total['ltc'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('ltc');
-            $total['medical'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('medi');
-            $total['eol_hpl'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('eol');
-            $total['pc_adv'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
-            // $total[' '] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('pc');
-            $total['festival_adv_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('fadv');
-            $total['professional_tx'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('ptax');
-            $total['hra_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('hra_rec');
-            $total['tpt_rec'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tpt_rec');
-            $total['misc1_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc1');
-            $total['misc2_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc2');
-            $total['misc3_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc3');
-            // $total['nps_arr'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('misc3');
-            $total['total_debit'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('tot_debits');
-            $total['net_pay'] += MemberDebit::where('member_id', $member->id)->whereYear('created_at', $request->year)->whereMonth('created_at', $request->month)->sum('net_pay');
+            // $total['nps_subsc'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc2');
+            // $total['nps_refunds'] += MemberMonthlyDataCredit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc2');
+            $total['rent'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('rent');
+            $total['elec'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('elec');
+            $total['water'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('water');
+            $total['furn'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('furn');
+            // $total['rent_arr'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('furn');
+            $total['elec_arr'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('elec_arr');
+            $total['water_arr'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('water_arr');
+            $total['furn_arr'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('furn_arr');
+            $total['car_adv'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('car_adv');
+            $total['car_adv_intrst'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('car_int');
+            $total['sctr_adv_intrst'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('sco_int');
+            //    $total['cycle_adv'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('sco_int');
+            //  $total['cycle_adv_intrst'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('sco_int');
+            $total['hba_adv'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('hba_adv');
+            $total['hba_adv_int'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('hba_int');
+            $total['pli'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('pli');
+            $total['cgegis'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('cgegis');
+            $total['cghs'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('cghs');
+            $total['it'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('i_tax');
+            $total['ecess'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('ecess');
+            //  $total['it_surcharge'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('ecess');
+            $total['tada'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('tada');
+            $total['ltc'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('ltc');
+            $total['medical'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('medi');
+            $total['eol_hpl'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('eol');
+            $total['pc_adv'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('pc');
+            // $total[' '] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('pc');
+            $total['festival_adv_rec'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('fadv');
+            $total['professional_tx'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('ptax');
+            $total['hra_rec'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('hra_rec');
+            $total['tpt_rec'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('tpt_rec');
+            $total['misc1_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc1');
+            $total['misc2_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc2');
+            $total['misc3_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc3');
+            // $total['nps_arr'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc3');
+            $total['total_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('tot_debits');
+            $total['net_pay'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('net_pay');
         }
 
         $pdf = PDF::loadView('frontend.reports.payroll-generate', compact('total', 'get_month_name', 'year', 'category', 'today'));
