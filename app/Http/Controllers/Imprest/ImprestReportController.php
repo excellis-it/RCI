@@ -179,7 +179,7 @@ class ImprestReportController extends Controller
         } else if ($request->bill_type == 'out_standing') {
 
             // Step 1: Fetch AdvanceFundToEmployee data with condition
-            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', $request_date)->get();
+            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $request_date)->get();
 
             $totalOutStandAmount = 0;
 
@@ -202,7 +202,7 @@ class ImprestReportController extends Controller
             return $pdf->download('out-standing-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'bill_hand') {
 
-            $settleBills = AdvanceSettlement::whereDate('var_date', $request_date)->where('bill_status', 0)->where('receipt_status', 0)->get();
+            $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->where('bill_status', 0)->where('receipt_status', 0)->get();
 
             // return $settleBills;
             // return view('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
@@ -210,7 +210,7 @@ class ImprestReportController extends Controller
             return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'cda_bill') {
 
-            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date', $request_date)->get();
+            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date','<=', $request_date)->get();
 
             foreach ($cdaReceipts as $cdaReceipt) {
                 $settle_id = $cdaReceipt->settle_id;

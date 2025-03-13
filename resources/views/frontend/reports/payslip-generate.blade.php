@@ -52,7 +52,7 @@
                                 <tr>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
-                                    margin: 0px 0px !important;">
+                                    margin: 0px 0px !important; width:20%">
                                         कर्मचारी संकेत Ecode:<br>
                                         नाम Name:<br>
                                         पदनाम Rank(level)<br>
@@ -61,20 +61,20 @@
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
-                                    margin: 0px 0px !important;">
+                                    margin: 0px 0px !important; width:15%">
                                         {{ $member_data->emp_id ?? '' }}<br>
                                         {{ $member_data->name ?? '' }} <br>
                                         {{ $member_data->desigs->designation ?? '' }}({{ $member_data->payLevels->value ?? '' }})<br>
                                         {{ $member_core_info->pan_no ?? '' }}<br>
                                     </td>
-                                    <td>
-
-                                        <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px !important;"
+                                    <td
+                                        style="text-align: center; vertical-align: middle; padding: 0px 5px !important; margin: 0px 100px 0px 0px!important;">
+                                        <img style="width: 50px; height: 50px;"
                                             src="{{ public_path('storage/' . $logo->logo) }}" />
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
-                                    margin: 0px 0px !important;">
+                                    margin: 0px 0px !important; width:20%">
                                         भ. नि. नि. संख्या Gpfno:<br>
                                         bank name: <br>
                                         Account no:<br>
@@ -82,7 +82,7 @@
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left;  text-transform: uppercase; padding: 0px 0px !important;
-                                    margin: 0px 0px !important;">
+                                    margin: 0px 0px !important; width:20%">
                                         {{ $member_core_info->gpf_acc_no ?? '' }}<br>
                                         {{ $member_core_info->banks->bank_name ?? '' }} <br>
                                         {{ $member_core_info->bank_acc_no ?? '' }}<br>
