@@ -51,7 +51,7 @@
                         <div class="form-group col-md-6 mb-2">
                             <label>Date</label>
                             <input type="date" class="form-control" name="date" id="date-arr">
-                            <span class="text-danger"></span>
+                            <span class="text-danger date-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label>Name</label>
@@ -61,32 +61,32 @@
                                 <option value="DA2">DA2</option>
                                 <option value="Update Allw">Update Allw</option>
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger name-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label>Amt</label>
                             <input type="text" class="form-control" name="amt">
-                            <span class="text-danger"></span>
+                            <span class="text-danger amt-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label>CPS</label>
                             <input type="text" class="form-control" name="cps">
-                            <span class="text-danger"></span>
+                            <span class="text-danger cps-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label>I.Tax</label>
                             <input type="text" class="form-control" name="i_tax">
-                            <span class="text-danger"></span>
+                            <span class="text-danger  i_tax-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label>CGHS</label>
                             <input type="text" class="form-control" name="cghs">
-                            <span class="text-danger"></span>
+                            <span class="text-danger cghs-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
                             <label>GMC</label>
                             <input type="text" class="form-control" name="gmc">
-                            <span class="text-danger"></span>
+                            <span class="text-danger gmc-err"></span>
                         </div>
                     </div>
                     <div class="row justify-content-end">
@@ -96,7 +96,7 @@
                                     <button type="submit" class="listing_add">Save</button>
                                 </div>
                                 <div class="form-group col-md-4 mb-2">
-                                    <button type="reset" class="listing_exit">Reset</button>
+                                    <button type="reset" class="listing_exit">Cancel</button>
                                 </div>
                             </div>
                         </div>

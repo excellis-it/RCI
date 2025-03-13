@@ -75,7 +75,7 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             <input type="text" class="form-control" name="name_edit"
-                                                                id="name" value="{{ $member->name ?? '' }}"
+                                                                id="name_edit" value="{{ $member->name ?? '' }}"
                                                                 placeholder="">
                                                             <span class="text-danger"></span>
                                                         </div>
@@ -205,9 +205,9 @@
                                                                 </li>
                                                                 <li class="nav-item" role="presentation">
                                                                     <button class="nav-link" id="rent-tab"
-                                                                        data-bs-toggle="tab" data-bs-target="#rent"
+                                                                        data-bs-toggle="tab" data-bs-target="#rents"
                                                                         type="button" role="tab"
-                                                                        aria-controls="rent" aria-selected="false"
+                                                                        aria-controls="rents" aria-selected="false"
                                                                         tabindex="-1">Rent</button>
                                                                 </li>
                                                             </ul>
@@ -524,116 +524,7 @@
         </script>
 
 
-        <script>
-            $(document).ready(function() {
-                function loadRentTable(financialYear) {
-                    if (!financialYear) return;
 
-                    $.ajax({
-                        url: "{{ route('income-tax.members-income-tax.rent.data') }}", // Replace with your actual route
-                        type: "GET",
-                        data: {
-                            financial_year: financialYear,
-                            member_id: "{{ $member->id }}",
-                        },
-                        beforeSend: function() {
-                            $("#rent-table-body").html(
-                                '<tr><td colspan="3" class="text-center">Loading...</td></tr>');
-                        },
-                        success: function(response) {
-                            let tbody = $("#rent-table-body");
-                            tbody.empty();
-
-                            if (response.rents.length > 0) {
-                                $.each(response.rents, function(index, rent) {
-                                    let monthName = new Date(2000, rent.month - 1, 1)
-                                        .toLocaleString('en-US', {
-                                            month: 'long'
-                                        });
-
-                                    tbody.append(`
-                            <tr class="edit-route-loan">
-                                <td>${monthName}</td>
-                                <td>${rent.year}</td>
-                                <td>${parseFloat(rent.rent).toFixed(2)}</td>
-                            </tr>
-                        `);
-                                });
-                            } else {
-                                tbody.html(
-                                    '<tr><td colspan="3" class="text-center">No rent data available</td></tr>'
-                                );
-                            }
-                        },
-                        error: function() {
-                            $("#rent-table-body").html(
-                                '<tr><td colspan="3" class="text-center text-danger">Error loading data</td></tr>'
-                            );
-                        }
-                    });
-                }
-
-                // When financial year is changed
-                $(document).on("change", "#financial_year", function() {
-                    let selectedYear = $(this).val();
-                    loadRentTable(selectedYear);
-                });
-
-                // Load rent table when the page loads if a financial year is selected
-                let preSelectedYear = $("#financial_year").val();
-                if (preSelectedYear) {
-                    loadRentTable(preSelectedYear);
-                }
-            });
-        </script>
-        <script>
-            $(document).ready(function() {
-                $(document).on("submit", "#rentForm", function(e) {
-                    e.preventDefault();
-
-                    let formData = $(this).serialize();
-
-                    $.ajax({
-                        url: "{{ route('income-tax.members-income-tax.rent') }}", // Replace with your actual route
-                        type: "POST",
-                        data: formData,
-                        beforeSend: function() {
-                            $(".text-danger").text(""); // Clear previous errors
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                let monthName = new Date(2000, response.rent.month - 1, 1)
-                                    .toLocaleString('en-US', {
-                                        month: 'long'
-                                    });
-
-                                let newRow = `
-    <tr class="edit-route-loan">
-        <td>${monthName}</td>
-        <td>${response.rent.year}</td>
-        <td>${parseFloat(response.rent.rent).toFixed(2)}</td>
-    </tr>
-    `;
-
-                                $("#rent-table-body").append(newRow); // Append new row to table
-
-                                $("#rentForm")[0].reset(); // Reset the form
-                                toastr.success("Rent added successfully!"); // Show success message
-                            }
-                        },
-                        error: function(xhr) {
-                            let errors = xhr.responseJSON.errors;
-                            if (errors) {
-                                $.each(errors, function(key, value) {
-                                    $(`input[name="${key}"], select[name="${key}"]`).next(
-                                        ".text-danger").text(value[0]);
-                                });
-                            }
-                        }
-                    });
-                });
-            });
-        </script>
 
         <script>
             $(document).ready(function() {
@@ -741,8 +632,8 @@
                         error: function(xhr) {
                             if (xhr.responseJSON && xhr.responseJSON.errors) {
                                 $.each(xhr.responseJSON.errors, function(key, value) {
-                                    $(`input[name="${key}"]`).next(".text-danger").text(
-                                        value);
+                                    $(`.${key}-err`).text(value[0]);
+
                                 });
                             } else {
                                 toastr.error("An unexpected error occurred.");
