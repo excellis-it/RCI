@@ -82,7 +82,7 @@ class MemberController extends Controller
             })
             ->get();
 
-            $arrears = IncomeTaxArrears::where('member_id', $id)
+        $arrears = IncomeTaxArrears::where('member_id', $id)
             ->whereYear('date', '>=', $startYear)
             ->whereYear('date', '<=', $endYear)
             ->get();
@@ -366,6 +366,38 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'rent' => $rent
+        ]);
+    }
+
+    public function rent_update(Request $request)
+    {
+        $validated = $request->validate([
+            'rent_id' => 'required|exists:incomt_tax_rents,id',
+            'rent' => 'required|numeric|min:0',
+        ]);
+
+        $rent = IncomtTaxRent::find($request->rent_id);
+        $rent->rent = $request->rent;
+        $rent->save();
+
+        return response()->json([
+            'success' => true,
+            'rent' => $rent
+        ]);
+    }
+
+    public function rent_delete(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:incomt_tax_rents,id',
+        ]);
+
+        $rent = IncomtTaxRent::find($request->id);
+        $rent->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Rent record deleted successfully'
         ]);
     }
 

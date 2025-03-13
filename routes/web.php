@@ -886,6 +886,8 @@ Route::middleware('permssions')->group(function () {
 
         Route::get('/get-rent-data', [IncomeTaxMemberController::class, 'getRentData'])->name('income-tax.members-income-tax.rent.data');
         Route::post('/store-rent', [IncomeTaxMemberController::class, 'rent_store'])->name('income-tax.members-income-tax.rent');
+        Route::put('/store-rent-update', [IncomeTaxMemberController::class, 'rent_update'])->name('income-tax.members-income-tax.rent.update');
+        Route::delete('/delete-rent', [IncomeTaxMemberController::class, 'rent_delete'])->name('income-tax.members-income-tax.rent.delete');
 
         Route::post('/store-arrears', [IncomeTaxMemberController::class, 'arrears_store'])->name('income-tax.members-income-tax.arrears.store');
 
