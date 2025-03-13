@@ -1,5 +1,7 @@
 <div class="tab-pane fade" id="arrears" role="tabpanel" aria-labelledby="arrears-tab">
-    <form>
+    <form id="arrearsForm">
+        @csrf
+        <input type="hidden" name="member_id" value="{{ $member->id }}">
         <div class="credit-frm">
             <div class="row mb-3">
                 <div class="col-md-7">
@@ -17,53 +19,20 @@
                                 </tr>
                             </thead>
                             <tbody class="tbody_height_scroll">
-                                <tr class="edit-route-loan">
-                                    <td>18/02/2025</td>
-                                    <td>DA2</td>
-                                    <td>20796</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr class="edit-route-loan">
-                                    <td>18/02/2025</td>
-                                    <td>DA2</td>
-                                    <td>20796</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr class="edit-route-loan">
-                                    <td>18/02/2025</td>
-                                    <td>DA2</td>
-                                    <td>20796</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr class="edit-route-loan">
-                                    <td>18/02/2025</td>
-                                    <td>DA2</td>
-                                    <td>20796</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr class="edit-route-loan">
-                                    <td>18/02/2025</td>
-                                    <td>DA2</td>
-                                    <td>20796</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
+                                @foreach($arrears as $arrear)
+                                    <tr class="edit-route-loan">
+                                        <td>{{ $arrear->date ? \Carbon\Carbon::parse($arrear->date)->format('d/m/Y') : 'N/A' }}</td>
+                                        <td>{{ $arrear->name ?? 'N/A' }}</td>
+                                        <td>{{ number_format($arrear->amt ?? 0, 2) }}</td>
+                                        <td>{{ number_format($arrear->cps ?? 0, 2) }}</td>
+                                        <td>{{ number_format($arrear->i_tax ?? 0, 2) }}</td>
+                                        <td>{{ number_format($arrear->cghs ?? 0, 2) }}</td>
+                                        <td>{{ number_format($arrear->gmc ?? 0, 2) }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+
                     </div>
                 </div>
                 <div class="col-md-5" id="loan-form">
@@ -169,15 +138,15 @@
             </div>
         </div>
         <div class="row justify-content-end mt-4">
-            <div class="col-auto mb-2">
+            {{-- <div class="col-auto mb-2">
                 <button type="submit" class="listing_add">Save</button>
-            </div>
-            <div class="col-auto mb-2">
+            </div> --}}
+            {{-- <div class="col-auto mb-2">
                 <button type="button" class="another-btn">Another</button>
-            </div>
-            <div class="col-auto mb-2">
+            </div> --}}
+            {{-- <div class="col-auto mb-2">
                 <button type="reset" class="listing_exit">Cancel</button>
-            </div>
+            </div> --}}
             <div class="col-auto mb-2">
                 <button type="button" class="another-btn">Report</button>
             </div>

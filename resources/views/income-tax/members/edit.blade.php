@@ -159,7 +159,9 @@
                                                         id="financial_year">
                                                         <option value="">Select Financial Year</option>
                                                         @foreach (\App\Helpers\Helper::getNewFinancialYears(20) as $year)
-                                                            <option value="{{ $year }}">{{ $year }}
+                                                            <option value="{{ $year }}"
+                                                                {{ $year == $financialYear ? 'selected' : '' }}>
+                                                                {{ $year }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -210,353 +212,8 @@
                                                                 </li>
                                                             </ul>
                                                             <div class="tab-content" id="myTabContent">
-                                                                <div class="tab-pane fade show active" id="pay_details"
-                                                                    role="tabpanel" aria-labelledby="pay_details-tab">
-                                                                    <form>
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>Month Year</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <select
-                                                                                            class="form-select month_year"
-                                                                                            name="month_year"
-                                                                                            id="month_year">
-                                                                                            <option value="">Select
-                                                                                                Month Year</option>
-                                                                                        </select>
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
 
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>Var Incr</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="var_incr" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>Misc</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="misc" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>PTax</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="p_tax" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>HDFC</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="hdfc" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>Basic</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="basic" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>DA</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="da" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12"><label>OT</label></div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="ot" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>ITax</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="i_tax" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>DMisc</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="d_misc" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>D.Pay</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="d_pay" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>HRA</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="hra" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>Arrears</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="arrears" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>HBA</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="hba" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>GMC</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="gmc" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>S.Pay</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="s_pay" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>CCA</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="cca" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>GPF</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="gpf" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>PLI</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="pli" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>E.Pay</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="e_pay" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>TPT</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="tpt" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>CGEIS</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="cgeis" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>LIC</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="lic" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>Add Incr</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="add_incr" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>Wash AJW</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="wash_ajw" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>CGHS</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="cghs" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3 mb-2">
-                                                                                <div class="row align-items-center">
-                                                                                    <div class="col-md-12">
-                                                                                        <label>EOL/HPL</label>
-                                                                                    </div>
-                                                                                    <div class="col-md-12">
-                                                                                        <input type="text" class="form-control" name="eol_hpl" value="">
-                                                                                        <span class="text-danger"></span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-
-                                                                        </div>
-                                                                        <div class="row justify-content-end mt-4">
-                                                                            <div class="col-auto mb-2">
-                                                                                <button type="submit"
-                                                                                    class="listing_add">Save</button>
-                                                                            </div>
-                                                                            {{-- <div class="col-auto mb-2">
-                                                                                <button type="button"
-                                                                                    class="another-btn">Another</button>
-                                                                            </div> --}}
-                                                                            <div class="col-auto mb-2">
-                                                                                <button type="reset"
-                                                                                    class="listing_exit">Cancel</button>
-                                                                            </div>
-                                                                            <div class="col-auto mb-2">
-                                                                                <button type="button"
-                                                                                    class="another-btn">Report</button>
-                                                                            </div>
-                                                                            <div class="col-auto mb-2">
-                                                                                <button type="button"
-                                                                                    class="another-btn">FORM16</button>
-                                                                            </div>
-                                                                            <div class="col-auto mb-2">
-                                                                                Recovey Form
-                                                                                <select class="p-2 rounded">
-                                                                                    <option>Jan</option>
-                                                                                    <option>Feb</option>
-                                                                                    <option>Mar</option>
-                                                                                    <option>Apr</option>
-                                                                                    <option>May</option>
-                                                                                    <option>Jun</option>
-                                                                                    <option>Jul</option>
-                                                                                    <option>Aug</option>
-                                                                                    <option>Sep</option>
-                                                                                    <option>Oct</option>
-                                                                                    <option>Nov</option>
-                                                                                    <option>Dec</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
+                                                                @include('income-tax.members.pay-details')
 
                                                                 @include('income-tax.members.arrears')
 
@@ -585,8 +242,194 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                $("#financial_year").change(function() {
-                    let selectedYear = $(this).val();
+                $('#month_year').change(function() {
+                    var monthYear = $(this).val();
+                    if (monthYear) {
+                        $.ajax({
+                            url: '{{ route('income-tax.members-income-tax.get-pay-details') }}',
+                            type: 'GET',
+                            data: {
+                                month_year: monthYear,
+                                member_id: {{ $member->id }}
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    // Function to safely get value or default to 0
+                                    function getValue(key) {
+                                        return response.data[key] !== null ? response.data[key] : 0;
+                                    }
+
+                                    // Populate the fields with response data, defaulting to 0 if null
+                                    $('input[name="var_incr"]').val(getValue("var_incr"));
+                                    $('input[name="misc"]').val(getValue("misc"));
+                                    $('input[name="p_tax"]').val(getValue("p_tax"));
+                                    $('input[name="hdfc"]').val(getValue("hdfc"));
+                                    $('input[name="basic"]').val(getValue("basic"));
+                                    $('input[name="da"]').val(getValue("da"));
+                                    $('input[name="ot"]').val(getValue("ot"));
+                                    $('input[name="i_tax"]').val(getValue("i_tax"));
+                                    $('input[name="d_misc"]').val(getValue("d_misc"));
+                                    $('input[name="d_pay"]').val(getValue("d_pay"));
+                                    $('input[name="hra"]').val(getValue("hra"));
+                                    $('input[name="arrears"]').val(getValue("arrears"));
+                                    $('input[name="hba"]').val(getValue("hba"));
+                                    $('input[name="gmc"]').val(getValue("gmc"));
+                                    $('input[name="s_pay"]').val(getValue("s_pay"));
+                                    $('input[name="cca"]').val(getValue("cca"));
+                                    $('input[name="gpf"]').val(getValue("gpf"));
+                                    $('input[name="pli"]').val(getValue("pli"));
+                                    $('input[name="e_pay"]').val(getValue("e_pay"));
+                                    $('input[name="tpt"]').val(getValue("tpt"));
+                                    $('input[name="cgeis"]').val(getValue("cgeis"));
+                                    $('input[name="lic"]').val(getValue("lic"));
+                                    $('input[name="add_incr"]').val(getValue("add_incr"));
+                                    $('input[name="wash_ajw"]').val(getValue("wash_ajw"));
+                                    $('input[name="cghs"]').val(getValue("cghs"));
+                                    $('input[name="eol_hpl"]').val(getValue("eol_hpl"));
+                                } else {
+                                    $('input[name="var_incr"]').val(0);
+                                    $('input[name="misc"]').val(0);
+                                    $('input[name="p_tax"]').val(0);
+                                    $('input[name="hdfc"]').val(0);
+                                    $('input[name="basic"]').val(0);
+                                    $('input[name="da"]').val(0);
+                                    $('input[name="ot"]').val(0);
+                                    $('input[name="i_tax"]').val(0);
+                                    $('input[name="d_misc"]').val(0);
+                                    $('input[name="d_pay"]').val(0);
+                                    $('input[name="hra"]').val(0);
+                                    $('input[name="arrears"]').val(0);
+                                    $('input[name="hba"]').val(0);
+                                    $('input[name="gmc"]').val(0);
+                                    $('input[name="s_pay"]').val(0);
+                                    $('input[name="cca"]').val(0);
+                                    $('input[name="gpf"]').val(0);
+                                    $('input[name="pli"]').val(0);
+                                    $('input[name="e_pay"]').val(0);
+                                    $('input[name="tpt"]').val(0);
+                                    $('input[name="cgeis"]').val(0);
+                                    $('input[name="lic"]').val(0);
+                                    $('input[name="add_incr"]').val(0);
+                                    $('input[name="wash_ajw"]').val(0);
+                                    $('input[name="cghs"]').val(0);
+                                    $('input[name="eol_hpl"]').val(0);
+                                    toastr.error(response.message)
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                function populateMonths(financialYear) {
+                    if (financialYear) {
+                        var years = financialYear.split("-");
+                        var startYear = parseInt(years[0]); // First part of financial year
+                        var endYear = parseInt(years[1]); // Second part of financial year
+
+                        var months = [{
+                                name: "April",
+                                value: "04",
+                                year: startYear
+                            },
+                            {
+                                name: "May",
+                                value: "05",
+                                year: startYear
+                            },
+                            {
+                                name: "June",
+                                value: "06",
+                                year: startYear
+                            },
+                            {
+                                name: "July",
+                                value: "07",
+                                year: startYear
+                            },
+                            {
+                                name: "August",
+                                value: "08",
+                                year: startYear
+                            },
+                            {
+                                name: "September",
+                                value: "09",
+                                year: startYear
+                            },
+                            {
+                                name: "October",
+                                value: "10",
+                                year: startYear
+                            },
+                            {
+                                name: "November",
+                                value: "11",
+                                year: startYear
+                            },
+                            {
+                                name: "December",
+                                value: "12",
+                                year: startYear
+                            },
+                            {
+                                name: "January",
+                                value: "01",
+                                year: endYear
+                            },
+                            {
+                                name: "February",
+                                value: "02",
+                                year: endYear
+                            },
+                            {
+                                name: "March",
+                                value: "03",
+                                year: endYear
+                            }
+                        ];
+
+                        $("#month").empty().append('<option value="">Select Month</option>');
+                        $.each(months, function(index, month) {
+                            $("#month").append(
+                                `<option value="${month.value}" data-year="${month.year}">${month.name}</option>`
+                            );
+                        });
+
+                        // Reset year field
+                        $("#year").val("");
+                    } else {
+                        $("#month").empty().append('<option value="">Select Month</option>');
+                        $("#year").val("");
+                    }
+                }
+
+                // Trigger financial year selection on page load if already selected
+                var preselectedFinancialYear = $("#financial_year").val();
+
+                if (preselectedFinancialYear) {
+                    populateMonths(preselectedFinancialYear);
+                }
+
+                // When financial year changes, update month list
+                $(document).on('change', "#financial_year", function() {
+                    populateMonths($(this).val());
+                });
+
+                // When month is selected, update year field
+                $(document).on('change', "#month", function() {
+                    var selectedYear = $(this).find(":selected").data("year");
+                    $("#year").val(selectedYear);
+                });
+            });
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
+                function populateMonths(selectedYear) {
                     let monthDropdown = $(".month_year");
                     monthDropdown.empty().append('<option value="">Select Month Year</option>');
 
@@ -664,91 +507,175 @@
                             );
                         });
                     }
+                }
+
+                // Trigger when the financial year is changed
+                $("#financial_year").change(function() {
+                    let selectedYear = $(this).val();
+                    populateMonths(selectedYear);
+                });
+
+                // Call on page load if financial year is already selected
+                let preSelectedYear = $("#financial_year").val();
+                if (preSelectedYear) {
+                    populateMonths(preSelectedYear);
+                }
+            });
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
+                function loadRentTable(financialYear) {
+                    if (!financialYear) return;
+
+                    $.ajax({
+                        url: "{{ route('income-tax.members-income-tax.rent.data') }}", // Replace with your actual route
+                        type: "GET",
+                        data: {
+                            financial_year: financialYear
+                        },
+                        beforeSend: function() {
+                            $("#rent-table-body").html(
+                                '<tr><td colspan="3" class="text-center">Loading...</td></tr>');
+                        },
+                        success: function(response) {
+                            let tbody = $("#rent-table-body");
+                            tbody.empty();
+
+                            if (response.rents.length > 0) {
+                                $.each(response.rents, function(index, rent) {
+                                    let monthName = new Date(2000, rent.month - 1, 1)
+                                        .toLocaleString('en-US', {
+                                            month: 'long'
+                                        });
+
+                                    tbody.append(`
+                            <tr class="edit-route-loan">
+                                <td>${monthName}</td>
+                                <td>${rent.year}</td>
+                                <td>${parseFloat(rent.rent).toFixed(2)}</td>
+                            </tr>
+                        `);
+                                });
+                            } else {
+                                tbody.html(
+                                    '<tr><td colspan="3" class="text-center">No rent data available</td></tr>'
+                                );
+                            }
+                        },
+                        error: function() {
+                            $("#rent-table-body").html(
+                                '<tr><td colspan="3" class="text-center text-danger">Error loading data</td></tr>'
+                            );
+                        }
+                    });
+                }
+
+                // When financial year is changed
+                $(document).on("change", "#financial_year", function() {
+                    let selectedYear = $(this).val();
+                    loadRentTable(selectedYear);
+                });
+
+                // Load rent table when the page loads if a financial year is selected
+                let preSelectedYear = $("#financial_year").val();
+                if (preSelectedYear) {
+                    loadRentTable(preSelectedYear);
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $(document).on("submit", "#rentForm", function(e) {
+                    e.preventDefault();
+
+                    let formData = $(this).serialize();
+
+                    $.ajax({
+                        url: "{{ route('income-tax.members-income-tax.rent') }}", // Replace with your actual route
+                        type: "POST",
+                        data: formData,
+                        beforeSend: function() {
+                            $(".text-danger").text(""); // Clear previous errors
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                let monthName = new Date(2000, response.rent.month - 1, 1)
+                                    .toLocaleString('en-US', {
+                                        month: 'long'
+                                    });
+
+                                let newRow = `
+    <tr class="edit-route-loan">
+        <td>${monthName}</td>
+        <td>${response.rent.year}</td>
+        <td>${parseFloat(response.rent.rent).toFixed(2)}</td>
+    </tr>
+    `;
+
+                                $("#rent-table-body").append(newRow); // Append new row to table
+
+                                $("#rentForm")[0].reset(); // Reset the form
+                                toastr.success("Rent added successfully!"); // Show success message
+                            }
+                        },
+                        error: function(xhr) {
+                            let errors = xhr.responseJSON.errors;
+                            if (errors) {
+                                $.each(errors, function(key, value) {
+                                    $(`input[name="${key}"], select[name="${key}"]`).next(
+                                        ".text-danger").text(value[0]);
+                                });
+                            }
+                        }
+                    });
                 });
             });
         </script>
 
         <script>
             $(document).ready(function() {
-                $('#month_year').change(function() {
-                    var monthYear = $(this).val();
-                    if (monthYear) {
-                        $.ajax({
-                            url: '{{ route('income-tax.members-income-tax.get-pay-details') }}',
-                            type: 'GET',
-                            data: {
-                                month_year: monthYear,
-                                member_id : {{ $member->id }}
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    // Function to safely get value or default to 0
-                                    function getValue(key) {
-                                        return response.data[key] !== null ? response.data[key] : 0;
-                                    }
+                $(document).on("submit", "#arrearsForm", function(e) {
+                    e.preventDefault(); // Prevent default form submission
 
-                                    // Populate the fields with response data, defaulting to 0 if null
-                                    $('input[name="var_incr"]').val(getValue("var_incr"));
-                                    $('input[name="misc"]').val(getValue("misc"));
-                                    $('input[name="p_tax"]').val(getValue("p_tax"));
-                                    $('input[name="hdfc"]').val(getValue("hdfc"));
-                                    $('input[name="basic"]').val(getValue("basic"));
-                                    $('input[name="da"]').val(getValue("da"));
-                                    $('input[name="ot"]').val(getValue("ot"));
-                                    $('input[name="i_tax"]').val(getValue("i_tax"));
-                                    $('input[name="d_misc"]').val(getValue("d_misc"));
-                                    $('input[name="d_pay"]').val(getValue("d_pay"));
-                                    $('input[name="hra"]').val(getValue("hra"));
-                                    $('input[name="arrears"]').val(getValue("arrears"));
-                                    $('input[name="hba"]').val(getValue("hba"));
-                                    $('input[name="gmc"]').val(getValue("gmc"));
-                                    $('input[name="s_pay"]').val(getValue("s_pay"));
-                                    $('input[name="cca"]').val(getValue("cca"));
-                                    $('input[name="gpf"]').val(getValue("gpf"));
-                                    $('input[name="pli"]').val(getValue("pli"));
-                                    $('input[name="e_pay"]').val(getValue("e_pay"));
-                                    $('input[name="tpt"]').val(getValue("tpt"));
-                                    $('input[name="cgeis"]').val(getValue("cgeis"));
-                                    $('input[name="lic"]').val(getValue("lic"));
-                                    $('input[name="add_incr"]').val(getValue("add_incr"));
-                                    $('input[name="wash_ajw"]').val(getValue("wash_ajw"));
-                                    $('input[name="cghs"]').val(getValue("cghs"));
-                                    $('input[name="eol_hpl"]').val(getValue("eol_hpl"));
-                                } else {
-                                    $('input[name="var_incr"]').val(0);
-                                    $('input[name="misc"]').val(0);
-                                    $('input[name="p_tax"]').val(0);
-                                    $('input[name="hdfc"]').val(0);
-                                    $('input[name="basic"]').val(0);
-                                    $('input[name="da"]').val(0);
-                                    $('input[name="ot"]').val(0);
-                                    $('input[name="i_tax"]').val(0);
-                                    $('input[name="d_misc"]').val(0);
-                                    $('input[name="d_pay"]').val(0);
-                                    $('input[name="hra"]').val(0);
-                                    $('input[name="arrears"]').val(0);
-                                    $('input[name="hba"]').val(0);
-                                    $('input[name="gmc"]').val(0);
-                                    $('input[name="s_pay"]').val(0);
-                                    $('input[name="cca"]').val(0);
-                                    $('input[name="gpf"]').val(0);
-                                    $('input[name="pli"]').val(0);
-                                    $('input[name="e_pay"]').val(0);
-                                    $('input[name="tpt"]').val(0);
-                                    $('input[name="cgeis"]').val(0);
-                                    $('input[name="lic"]').val(0);
-                                    $('input[name="add_incr"]').val(0);
-                                    $('input[name="wash_ajw"]').val(0);
-                                    $('input[name="cghs"]').val(0);
-                                    $('input[name="eol_hpl"]').val(0);
-                                    toastr.error(response.message)
-                                }
+                    let formData = $(this).serialize(); // Serialize form data
+
+                    $.ajax({
+                        url: "{{ route('arrears.store') }}", // Change to your Laravel route
+                        type: "POST",
+                        data: formData,
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.success) {
+                                let newRow = `
+                            <tr class="edit-route-loan">
+                                <td>${response.data.date}</td>
+                                <td>${response.data.name}</td>
+                                <td>${parseFloat(response.data.amt).toFixed(2)}</td>
+                                <td>${parseFloat(response.data.cps).toFixed(2)}</td>
+                                <td>${parseFloat(response.data.i_tax).toFixed(2)}</td>
+                                <td>${parseFloat(response.data.cghs).toFixed(2)}</td>
+                                <td>${parseFloat(response.data.gmc).toFixed(2)}</td>
+                            </tr>
+                        `;
+                                $("#loan-table tbody").append(newRow); // Append new row
+                                $("#arrearsForm")[0].reset(); // Reset form after success
+                                alert("Record added successfully!");
+                            } else {
+                                alert("Failed to save data.");
                             }
-                        });
-                    }
+                        },
+                        error: function(xhr) {
+                            let errors = xhr.responseJSON.errors;
+                            $(".text-danger").text(""); // Clear previous errors
+
+                            $.each(errors, function(key, value) {
+                                $(`input[name="${key}"]`).next(".text-danger").text(value);
+                            });
+                        }
+                    });
                 });
             });
         </script>
     @endpush
-
-   

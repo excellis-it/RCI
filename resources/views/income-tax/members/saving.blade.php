@@ -416,9 +416,9 @@
             <div class="col-auto mb-2">
                 <button type="submit" id="saveSavingsBtn" class="listing_add">Save</button>
             </div>
-            <div class="col-auto mb-2">
+            {{-- <div class="col-auto mb-2">
                 <button type="button" id="anotherSavingsBtn" class="another-btn">Another</button>
-            </div>
+            </div> --}}
             <div class="col-auto mb-2">
                 <button type="reset" class="listing_exit">Cancel</button>
             </div>
@@ -503,32 +503,32 @@
 
             // Function to populate the savings form with data
             function populateSavingsForm(data) {
-                $("#savings_var_incr").val(data.var_incr || '');
-                $("#savings_misc").val(data.misc || '');
-                $("#savings_p_tax").val(data.p_tax || '');
-                $("#savings_hdfc").val(data.hdfc || '');
-                $("#savings_basic").val(data.basic || '');
-                $("#savings_da").val(data.da || '');
-                $("#savings_ot").val(data.ot || '');
-                $("#savings_i_tax").val(data.i_tax || '');
-                $("#savings_d_misc").val(data.d_misc || '');
-                $("#savings_d_pay").val(data.d_pay || '');
-                $("#savings_hra").val(data.hra || '');
-                $("#savings_arrears").val(data.arrears || '');
-                $("#savings_hba").val(data.hba || '');
-                $("#savings_gmc").val(data.gmc || '');
-                $("#savings_s_pay").val(data.s_pay || '');
-                $("#savings_cca").val(data.cca || '');
-                $("#savings_gpf").val(data.gpf || '');
-                $("#savings_pli").val(data.pli || '');
-                $("#savings_e_pay").val(data.e_pay || '');
-                $("#savings_tpt").val(data.tpt || '');
-                $("#savings_cgeis").val(data.cgeis || '');
-                $("#savings_lic").val(data.lic || '');
-                $("#savings_add_incr").val(data.add_incr || '');
-                $("#savings_wash_ajw").val(data.wash_ajw || '');
-                $("#savings_cghs").val(data.cghs || '');
-                $("#savings_eol_hpl").val(data.eol_hpl || '');
+                $("#savings_var_incr").val(data.var_incr || 0);
+                $("#savings_misc").val(data.misc || 0);
+                $("#savings_p_tax").val(data.p_tax || 0);
+                $("#savings_hdfc").val(data.hdfc || 0);
+                $("#savings_basic").val(data.basic || 0);
+                $("#savings_da").val(data.da || 0);
+                $("#savings_ot").val(data.ot || 0);
+                $("#savings_i_tax").val(data.i_tax || 0);
+                $("#savings_d_misc").val(data.d_misc || 0);
+                $("#savings_d_pay").val(data.d_pay || 0);
+                $("#savings_hra").val(data.hra || 0);
+                $("#savings_arrears").val(data.arrears || 0);
+                $("#savings_hba").val(data.hba || 0);
+                $("#savings_gmc").val(data.gmc || 0);
+                $("#savings_s_pay").val(data.s_pay || 0);
+                $("#savings_cca").val(data.cca || 0);
+                $("#savings_gpf").val(data.gpf || 0);
+                $("#savings_pli").val(data.pli || 0);
+                $("#savings_e_pay").val(data.e_pay || 0);
+                $("#savings_tpt").val(data.tpt || 0);
+                $("#savings_cgeis").val(data.cgeis || 0);
+                $("#savings_lic").val(data.lic || 0);
+                $("#savings_add_incr").val(data.add_incr || 0);
+                $("#savings_wash_ajw").val(data.wash_ajw || 0);
+                $("#savings_cghs").val(data.cghs || 0);
+                $("#savings_eol_hpl").val(data.eol_hpl || 0);
 
                 // Radio buttons
                 if (data.med_ins_80d) {
@@ -591,7 +591,7 @@
                     success: function(response) {
                         if (response.status) {
                             // Show success message
-                            alert(response.message);
+                            toastr.success(response.message)
                         }
                     },
                     error: function(xhr) {
