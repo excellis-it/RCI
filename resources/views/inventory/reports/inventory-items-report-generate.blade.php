@@ -2,8 +2,17 @@
 <html lang="en">
     <title>RCI - Inventory Items Report</title>
     <meta charset="utf-8" />
-
+    <style>
+        @page {
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
     <body style="background: #fff">
+        <center>
+            <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+        </center>
+        <br>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -14,22 +23,25 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 22px;
+                      font-size: 10px;
                       line-height: 14px;
-                      font-weight: 500;
+                      font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px 10px !important;
+                      padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
+                      text-decoration: underline;
                     ">
-                                        CENTER FOR HIGH ENERGY SYSTEMS & SCIENCES
+                                        CENTER FOR HIGH ENERGY SYSTEMS & SCIENCES<br>
+                                        RCI CAMPUS, HYDERABAD - 500 069 <br />
+                                        <br>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         style="
-                      font-size: 14px;
+                      font-size: 12px;
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;

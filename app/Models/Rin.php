@@ -66,4 +66,10 @@ class Rin extends Model
     }
 
     // public function supply
+
+    // uom
+    public function uoMs()
+    {
+        return $this->belongsTo(Uom::class, 'uom');
+    }
 }

@@ -88,7 +88,9 @@ class InventoryNumberController extends Controller
         $inventoryNumber = new InventoryNumber();
         $inventoryNumber->inventory_type = $request->inventory_type;
         $inventoryNumber->holder_id = $request->holder_id;
-        $inventoryNumber->group_id = $request->group_id;
+        $inventoryNumber->group_id = $request->group_id ?? 0;
+        $inventoryNumber->group_name = $request->group_name ?? '';
+        $inventoryNumber->desig_name = $request->desig_name ?? '';
         $inventoryNumber->division = $request->division;
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
         $inventoryNumber->number = $request->number;
@@ -130,7 +132,7 @@ class InventoryNumberController extends Controller
     {
         // validation
         $request->validate([
-           // 'number' => 'required|unique:inventory_numbers,number',
+            // 'number' => 'required|unique:inventory_numbers,number',
             'holder_id' => 'required',
             'status' => 'required',
             'division' => 'required',
@@ -138,10 +140,12 @@ class InventoryNumberController extends Controller
 
         $inventoryNumber = InventoryNumber::find($id);
         // $inventoryNumber->inventory_type = $request->inventory_type;
-      //  $inventoryNumber->number = $request->number;
+        //  $inventoryNumber->number = $request->number;
         $inventoryNumber->division = $request->division;
         $inventoryNumber->holder_id = $request->holder_id;
-        $inventoryNumber->group_id = $request->group_id;
+        $inventoryNumber->group_id = $request->group_id ?? 0;
+        $inventoryNumber->group_name = $request->group_name ?? '';
+        $inventoryNumber->desig_name = $request->desig_name ?? '';
         $inventoryNumber->inventory_project_id = $request->inventory_project_id;
         $inventoryNumber->status = $request->status;
         $inventoryNumber->remarks = $request->remarks;

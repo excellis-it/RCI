@@ -148,7 +148,8 @@
                                         <option value="{{ $inventoryNumber->id }}"
                                             data-hidden-value="{{ $inventoryNumber->inventory_type }}"
                                             data-division="{{ $inventoryNumber->division }}"
-                                            data-crvs="{{ $inventoryNumber->creditVoucherDetails }}" data-invstock="{{ $inventoryNumber->inventoryStocks }}">
+                                            data-crvs="{{ $inventoryNumber->creditVoucherDetails }}"
+                                            data-invstock="{{ $inventoryNumber->inventoryStocks }}">
                                             {{ $inventoryNumber->number }}</option>
                                     @endforeach
                                 </select>
@@ -256,8 +257,8 @@
                                         <label>Quantity</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control item_quantity"
-                                            name="strike_quantity[]" value="0">
+                                        <input type="number" class="form-control item_quantity"
+                                            name="strike_quantity[]" step="any">
                                         <div class="text-danger" id="quantity_no"></div>
                                         <span class="text-danger"></span>
                                     </div>
@@ -270,7 +271,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" value="0.00" class="form-control item_rate"
-                                            name="strike_rate[]" readonly>
+                                            name="strike_rate[]">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -311,7 +312,7 @@
                                         <label>Quantity</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" value="0" class="form-control item_quantity"
+                                        <input type="number" value="0" class="form-control item_quantity"
                                             name="brought_quantity[]" readonly>
                                         <div class="text-danger" id="quantity_no"></div>
                                         <span class="text-danger"></span>
@@ -394,8 +395,8 @@
                                     <label>Quantity</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" value="0" class="form-control item_quantity"
-                                        name="strike_quantity[]">
+                                    <input type="number" value="0" class="form-control item_quantity"
+                                        name="strike_quantity[]" step="any">
                                     <div class="text-danger" id="quantity_no"></div>
                                     <span class="text-danger"></span>
                                 </div>
@@ -408,7 +409,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" value="0.00" class="form-control item_rate"
-                                        name="strike_rate[]" readonly>
+                                        name="strike_rate[]">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -449,7 +450,7 @@
                                     <label>Quantity</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" value="0" class="form-control item_quantity"
+                                    <input type="number" value="0" class="form-control item_quantity"
                                         name="brought_quantity[]" readonly>
                                     <div class="text-danger" id="quantity_no"></div>
                                     <span class="text-danger"></span>
