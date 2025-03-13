@@ -74,7 +74,7 @@
                                                             <label>Name</label>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <input type="text" class="form-control" name="name"
+                                                            <input type="text" class="form-control" name="name_edit"
                                                                 id="name" value="{{ $member->name ?? '' }}"
                                                                 placeholder="">
                                                             <span class="text-danger"></span>
@@ -533,7 +533,8 @@
                         url: "{{ route('income-tax.members-income-tax.rent.data') }}", // Replace with your actual route
                         type: "GET",
                         data: {
-                            financial_year: financialYear
+                            financial_year: financialYear,
+                            member_id: "{{ $member->id }}",
                         },
                         beforeSend: function() {
                             $("#rent-table-body").html(
@@ -636,45 +637,259 @@
 
         <script>
             $(document).ready(function() {
-                $(document).on("submit", "#arrearsForm", function(e) {
-                    e.preventDefault(); // Prevent default form submission
+                // Handle edit click
+                $(document).on("click", ".edit-route-arrear-form", function(e) {
+                    e.preventDefault();
 
-                    let formData = $(this).serialize(); // Serialize form data
+                    let editUrl = $(this).attr("href");
 
                     $.ajax({
-                        url: "{{ route('arrears.store') }}", // Change to your Laravel route
-                        type: "POST",
-                        data: formData,
+                        url: editUrl,
+                        type: "GET",
                         dataType: "json",
                         success: function(response) {
                             if (response.success) {
-                                let newRow = `
-                            <tr class="edit-route-loan">
-                                <td>${response.data.date}</td>
-                                <td>${response.data.name}</td>
-                                <td>${parseFloat(response.data.amt).toFixed(2)}</td>
-                                <td>${parseFloat(response.data.cps).toFixed(2)}</td>
-                                <td>${parseFloat(response.data.i_tax).toFixed(2)}</td>
-                                <td>${parseFloat(response.data.cghs).toFixed(2)}</td>
-                                <td>${parseFloat(response.data.gmc).toFixed(2)}</td>
-                            </tr>
-                        `;
-                                $("#loan-table tbody").append(newRow); // Append new row
-                                $("#arrearsForm")[0].reset(); // Reset form after success
-                                alert("Record added successfully!");
+                                let arrear = response.data;
+
+                                // Populate form fields
+                                $("input[name='arrear_id']").val(arrear.id);
+                                $("input[name='date']").val(arrear.date);
+                                $("select[name='name']").val(arrear.name);
+                                $("input[name='amt']").val(arrear.amt);
+                                $("input[name='cps']").val(arrear.cps);
+                                $("input[name='i_tax']").val(arrear.i_tax);
+                                $("input[name='cghs']").val(arrear.cghs);
+                                $("input[name='gmc']").val(arrear.gmc);
+
+                                // Store ID in form for update
+                                $("#arrearsForm").attr("data-update-id", arrear.id);
+
+                                toastr.info("Editing record. Make changes and save.");
                             } else {
-                                alert("Failed to save data.");
+                                toastr.error("Failed to fetch arrear details.");
+                            }
+                        },
+                        error: function() {
+                            toastr.error("An error occurred while fetching the record.");
+                        }
+                    });
+                });
+
+                // Form submission handling
+                $(document).on("submit", "#arrearsForm", function(e) {
+                    e.preventDefault();
+
+                    let form = $(this);
+                    let formData = form.serialize();
+                    let updateId = form.attr("data-update-id"); // Get update ID if exists
+
+                    let url = updateId ?
+                        `{{ route('income-tax.members-income-tax.arrears.update', '') }}/${updateId}` :
+                        "{{ route('income-tax.members-income-tax.arrears.store') }}";
+                    let method = updateId ? "PUT" : "POST";
+
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: formData,
+                        dataType: "json",
+                        beforeSend: function() {
+                            $(".text-danger").text("");
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                let formattedDate = response.data.date ?? "N/A";
+                                let editRoute =
+                                        `{{ route('income-tax.members-income-tax.arrears.edit', ':id') }}`
+                                        .replace(':id', response.data.id);
+                                    let deleteRoute =
+                                        `{{ route('income-tax.members-income-tax.arrears.delete', ':id') }}`
+                                        .replace(':id', response.data.id);
+
+                                let updatedRow = `
+                        <tr data-id="${response.data.id}">
+                            <td>${formattedDate}</td>
+                            <td>${response.data.name ?? 'N/A'}</td>
+                            <td>${parseFloat(response.data.amt ?? 0).toFixed(2)}</td>
+                            <td>${parseFloat(response.data.cps ?? 0).toFixed(2)}</td>
+                            <td>${parseFloat(response.data.i_tax ?? 0).toFixed(2)}</td>
+                            <td>${parseFloat(response.data.cghs ?? 0).toFixed(2)}</td>
+                            <td>${parseFloat(response.data.gmc ?? 0).toFixed(2)}</td>
+                            <td class="sepharate">
+                                <a href="${editRoute}" class="edit_pencil edit-route-arrear-form"><i class="ti ti-pencil"></i></a>
+                                <a type="button" class="delete_arrear delete" data-route="${deleteRoute}"><i class="ti ti-trash"></i></a>
+                            </td>
+                        </tr>
+                    `;
+
+                                if (updateId) {
+                                    // Update existing row
+                                    $(`#arrear-table tbody tr[data-id='${updateId}']`).replaceWith(
+                                        updatedRow);
+                                } else {
+                                    // Append new row
+                                    $("#arrear-table tbody").append(updatedRow);
+                                }
+
+                                form[0].reset();
+                                form.removeAttr("data-update-id"); // Reset form mode
+                                toastr.success("Record saved successfully!");
+                            } else {
+                                toastr.error("Failed to save data.");
                             }
                         },
                         error: function(xhr) {
-                            let errors = xhr.responseJSON.errors;
-                            $(".text-danger").text(""); // Clear previous errors
-
-                            $.each(errors, function(key, value) {
-                                $(`input[name="${key}"]`).next(".text-danger").text(value);
-                            });
+                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                $.each(xhr.responseJSON.errors, function(key, value) {
+                                    $(`input[name="${key}"]`).next(".text-danger").text(
+                                        value);
+                                });
+                            } else {
+                                toastr.error("An unexpected error occurred.");
+                            }
                         }
                     });
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                function updateMonthRange(financialYear) {
+                    if (!financialYear) return;
+
+                    // Extract start and end year (e.g., "2024-2025" → startYear = 2024, endYear = 2025)
+                    let years = financialYear.split('-');
+                    let startYear = parseInt(years[0]);
+                    let endYear = parseInt(years[1]);
+
+                    // Define the start and end date range (April 1st - March 31st)
+                    let startDate = `${startYear}-03-01`;
+                    let endDate = `${endYear}-02-31`;
+
+                    // Update the date input field
+                    $("#date-arr").attr("min", startDate);
+                    $("#date-arr").attr("max", endDate);
+                    $("#date-arr").val(startDate); // Set default to April 1st
+                }
+
+                // On page load, set the financial year range based on the default selection
+                let defaultFinancialYear = $("#financial_year").val();
+                updateMonthRange(defaultFinancialYear);
+
+                // On change event for financial year dropdown
+                $(document).on("change", "#financial_year", function() {
+                    let selectedYear = $(this).val();
+                    updateMonthRange(selectedYear);
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                function loadArrearTable(financialYear) {
+                    if (!financialYear) return;
+
+                    $.ajax({
+                        url: "{{ route('income-tax.members-income-tax.arrear.data') }}",
+                        type: "GET",
+                        data: {
+                            financial_year: financialYear,
+                            member_id: "{{ $member->id }}",
+                        },
+                        beforeSend: function() {
+                            $("#arrear-table tbody").html(
+                                '<tr><td colspan="8" class="text-center">Loading...</td></tr>'
+                            );
+                        },
+                        success: function(response) {
+                            let tbody = $("#arrear-table tbody");
+                            tbody.empty();
+
+                            if (response.arrears.length > 0) {
+                                $.each(response.arrears, function(index, arrear) {
+                                    let formattedDate = arrear.date ? new Date(arrear.date)
+                                        .toLocaleDateString('en-GB') : 'N/A';
+
+                                    let editRoute =
+                                        `{{ route('income-tax.members-income-tax.arrears.edit', ':id') }}`
+                                        .replace(':id', arrear.id);
+                                    let deleteRoute =
+                                        `{{ route('income-tax.members-income-tax.arrears.delete', ':id') }}`
+                                        .replace(':id', arrear.id);
+
+                                    tbody.append(`
+                            <tr class="edit-route-arrear" data-id="${arrear.id}">
+                                <td>${formattedDate}</td>
+                                <td>${arrear.name ?? 'N/A'}</td>
+                                <td>${parseFloat(arrear.amt ?? 0).toFixed(2)}</td>
+                                <td>${parseFloat(arrear.cps ?? 0).toFixed(2)}</td>
+                                <td>${parseFloat(arrear.i_tax ?? 0).toFixed(2)}</td>
+                                <td>${parseFloat(arrear.cghs ?? 0).toFixed(2)}</td>
+                                <td>${parseFloat(arrear.gmc ?? 0).toFixed(2)}</td>
+                                <td class="sepharate">
+                                    <a href="${editRoute}" class="edit_pencil edit-route-arrear-form"><i class="ti ti-pencil"></i></a>
+                                    <a type="button" class="delete_arrear delete" data-route="${deleteRoute}">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        `);
+                                });
+                            } else {
+                                tbody.html(
+                                    '<tr><td colspan="8" class="text-center">No data available</td></tr>'
+                                );
+                            }
+                        },
+                        error: function() {
+                            $("#arrear-table tbody").html(
+                                '<tr><td colspan="8" class="text-center text-danger">Error loading data</td></tr>'
+                            );
+                        }
+                    });
+                }
+
+                // When financial year is changed
+                $(document).on("change", "#financial_year", function() {
+                    let selectedYear = $(this).val();
+                    loadArrearTable(selectedYear);
+                });
+
+                // Load arrears table when the page loads if a financial year is selected
+                let preSelectedYear = $("#financial_year").val();
+                if (preSelectedYear) {
+                    loadArrearTable(preSelectedYear);
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $(document).on("click", ".delete_arrear", function(e) {
+                    e.preventDefault();
+
+                    let deleteUrl = $(this).data("route"); // Get delete route
+                    let row = $(this).closest("tr"); // Get the table row
+
+                    if (confirm("Are you sure you want to delete this record?")) {
+                        $.ajax({
+                            url: deleteUrl,
+                            type: "GET",
+                            data: {
+                                _token: "{{ csrf_token() }}" // Laravel CSRF token
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    row.remove(); // Remove the row from the table
+                                    toastr.success("Record deleted successfully!");
+                                } else {
+                                    toastr.error("Something went wrong!");
+                                }
+                            },
+                            error: function(xhr) {
+                                toastr.error("Error: " + xhr.responseText);
+                            }
+                        });
+                    }
                 });
             });
         </script>

@@ -82,7 +82,7 @@ class MemberController extends Controller
             })
             ->get();
 
-            $arrears = IncomeTaxArrears::where('member_id', $id)
+        $arrears = IncomeTaxArrears::where('member_id', $id)
             ->whereYear('date', '>=', $startYear)
             ->whereYear('date', '<=', $endYear)
             ->get();
@@ -335,7 +335,7 @@ class MemberController extends Controller
         $startYear = (int) $years[0];
         $endYear = (int) $years[1];
 
-        $rents = IncomtTaxRent::where(function ($query) use ($startYear, $endYear) {
+        $rents = IncomtTaxRent::where('member_id', $request->member_id)->where(function ($query) use ($startYear, $endYear) {
             $query->where(function ($q) use ($startYear) {
                 $q->whereIn('month', ['03', '04', '05', '06', '07', '08', '09', '10', '11', '12'])
                     ->where('year', $startYear);
@@ -386,6 +386,7 @@ class MemberController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
+                'id' => $arrear->id,
                 'date' => \Carbon\Carbon::parse($arrear->date)->format('d/m/Y'),
                 'name' => $arrear->name,
                 'amt' => $arrear->amt,
@@ -395,5 +396,78 @@ class MemberController extends Controller
                 'gmc' => $arrear->gmc,
             ]
         ]);
+    }
+
+    public function arrearsFetchData(Request $request)
+    {
+        $financialYear = $request->input('financial_year');
+
+        if (!$financialYear) {
+            return response()->json(['status' => false, 'message' => 'Financial year is required'], 400);
+        }
+
+        // Extract start and end year from the financial year (e.g., "2023-2024")
+        $years = explode('-', $financialYear);
+        if (count($years) !== 2) {
+            return response()->json(['status' => false, 'message' => 'Invalid financial year format'], 400);
+        }
+
+        $startYear = (int) trim($years[0]);
+        $endYear = (int) trim($years[1]);
+
+        // Fetch arrears data within the financial year range
+        $arrears = IncomeTaxArrears::where('member_id', $request->member_id)->whereYear('date', '>=', $startYear)
+            ->whereYear('date', '<=', $endYear)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'arrears' => $arrears
+        ]);
+    }
+
+    public function arrearsDestroy($id)
+    {
+        $arrear = IncomeTaxArrears::find($id);
+
+        if (!$arrear) {
+            return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+        }
+
+        $arrear->delete();
+
+        return response()->json(['success' => true, 'message' => 'Record deleted successfully']);
+    }
+
+
+    public function arrearsEdit($id)
+    {
+        $arrear = IncomeTaxArrears::find($id);
+        if (!$arrear) {
+            return response()->json(['success' => false, 'message' => 'Record not found']);
+        }
+
+        return response()->json(['success' => true, 'data' => $arrear]);
+    }
+
+
+    public function arrears_update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'arrear_id' => 'required|exists:income_tax_arrears,id',
+            'date' => 'required|date',
+            'name' => 'required|string',
+            'amt' => 'required|numeric',
+            'cps' => 'nullable|numeric',
+            'i_tax' => 'nullable|numeric',
+            'cghs' => 'nullable|numeric',
+            'gmc' => 'nullable|numeric',
+        ]);
+
+        $arrear = IncomeTaxArrears::findOrFail($id);
+        $arrear->update($validated);
+
+        return response()->json(['success' => true, 'data' => $arrear]);
     }
 }

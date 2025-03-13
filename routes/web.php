@@ -889,6 +889,17 @@ Route::middleware('permssions')->group(function () {
 
         Route::post('/store-arrears', [IncomeTaxMemberController::class, 'arrears_store'])->name('income-tax.members-income-tax.arrears.store');
 
+
+        Route::put('/update-arrears/{id}', [IncomeTaxMemberController::class, 'arrears_update'])->name('income-tax.members-income-tax.arrears.update');
+        // edit
+        Route::get('/arrears-edit/{id}', [IncomeTaxMemberController::class, 'arrearsEdit'])->name('income-tax.members-income-tax.arrears.edit');
+        // delete
+        Route::get('/arrears-delete/{id}', [IncomeTaxMemberController::class, 'arrearsDestroy'])->name('income-tax.members-income-tax.arrears.delete');
+        // income-tax.members-income-tax.arrear.data
+        Route::get('/get-arrears-data', [IncomeTaxMemberController::class, 'arrearsFetchData'])->name('income-tax.members-income-tax.arrear.data');
+
+
+
         // Add these new routes for savings
         Route::post('/saving-store', [IncomeTaxMemberController::class, 'savingStore'])->name('income-tax.saving.store');
         Route::post('/get-saving-data', [IncomeTaxMemberController::class, 'getSavingData'])->name('income-tax.saving.get-data');
