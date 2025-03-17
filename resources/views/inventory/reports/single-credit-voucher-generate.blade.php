@@ -104,7 +104,7 @@
                 ">
 
                                             Division Name:
-                                            {{ Str::before($creditVoucher->division_group ?? '', ',') }}
+                                            {{ $creditVoucher->division_name ?? '' }}
 
                                         </td>
 
@@ -155,7 +155,7 @@ border-right:1px solid #000;
                       border: 1px solid #000;
                     ">
                                             Group Name:
-                                            {{ Str::after($creditVoucher->division_group ?? '', ',') }}
+                                            {{ $creditVoucher->division_group ?? '' }}
 
                                         </td>
                                     </tr>
@@ -199,7 +199,7 @@ border-right:1px solid #000;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            ICC no: {{ $creditVoucher->invoice_no ?? '' }}
+                                            ICC no: {{ $creditVoucher->invNo?->number ?? '' }}
                                         </td>
 
                                         <td
@@ -214,8 +214,8 @@ border-right:1px solid #000;
                       border: 1px solid #000;
                       border-right:1px solid #000;
                     ">
-                                            Division date:
-                                            {{ $creditVoucher->division_date ?? '' }}
+                                            {{-- Division date:
+                                            {{ $creditVoucher->division_date ?? '' }} --}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -607,7 +607,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ number_format($creditDetail['tax'], 2) . '%' ?? '-' }}
+                                                {{ $creditDetail['tax'] ?? 0 }} %
                                             </td>
                                             <td
                                                 style="

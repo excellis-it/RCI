@@ -219,10 +219,11 @@
                             </div>
                             <div class="col-md-12">
 
-                                <select class="form-select form-select-search" name="holder_id" id="holder_id">
+                                <select class="form-select form-select-search holder_id" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach ($members as $member)
-                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                        <option value="{{ $member->id }}" data-member-desig={{ $member->desigs->designation }}>{{ $member->name }}
+                                            </option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -250,7 +251,7 @@
                                 <label>Designation</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" name="desig_name" id="desig_name" class="form-control"
+                                <input type="text" name="desig_name" id="desig_name" class="form-control holder_desig"
                                     value="">
 
                                 <span class="text-danger"></span>

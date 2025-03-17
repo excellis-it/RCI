@@ -60,7 +60,9 @@ class UomController extends Controller
         $uom->save();
 
         session()->flash('success', 'UOM created successfully');
-        return response()->json(['success' => 'UOM created successfully']);
+        return response()->json(['success' => 'UOM created successfully','status' => true,
+            'message' => 'UOM added successfully',
+            'uom' => $uom]);
     }
 
     /**

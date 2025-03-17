@@ -1,10 +1,9 @@
 @if (isset($edit))
-  
 @else
     <form action="{{ route('certificate-issue-vouchers.store') }}" method="POST"
         id="certificate-issue-vouchers-create-form">
         @csrf
-        <div class="row">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
@@ -13,10 +12,12 @@
                                 <label>Inventory number </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select search-select-box2" name="inv_no" id="inv_no">
+                                <select class="form-select search-select-box2 inv_no" name="inv_no" id="inv_no">
                                     <option value="">Select No </option>
                                     @foreach ($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}
+                                        <option value="{{ $inventoryNumber->id }}"
+                                            data-holder-name="{{ $inventoryNumber->member->name }} ({{ $inventoryNumber->member->desigs?->designation }})">
+                                            {{ $inventoryNumber->number }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -31,7 +32,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" name="inventory_holder" id="inventory_holder"
-                                    class="form-control">
+                                    class="form-control inventory_holder">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -55,7 +56,7 @@
 
 
 
-                <div class="row">
+                <div class="row count-class">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -89,8 +90,7 @@
                                 <label>Description</label>
                             </div>
                             <div class="col-md-12">
-                                <input class="form-control description" name="description[]" id="description"
-                                    readonly>
+                                <input class="form-control description" name="description[]" id="description" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
