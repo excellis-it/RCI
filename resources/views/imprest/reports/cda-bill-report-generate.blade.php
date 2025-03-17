@@ -10,12 +10,40 @@
 </style>
 <body style="background: #fff">
     <center>
-        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
+        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;padding-bottom: 5px">
     </center>
-    <br>
+   
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
         <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td
+                                    style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+          text-decoration: underline;
+        ">
+                                    CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                                    RCI CAMPUS, HYDERABAD - 500 069 <br />
+
+                                    <br>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
             <tr>
                 <td style="padding: 0 0px">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
