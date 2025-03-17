@@ -298,56 +298,19 @@ class ReportController extends Controller
         // Collect item IDs from credit voucher details
         $itemIds = $creditItems->pluck('item_code')->toArray();
 
-        // inv stocks
-        $invStocks = InventoryItemStock::whereIn('item_id', $itemIds)
-            ->where('quantity_balance', '>', 0)
-            ->pluck('item_id')
-            ->toArray();
 
-        // Get items that exist in other voucher types
-        // $debitItems = DebitVoucherDetail::whereIn('item_id', $itemIds)
-        //     ->pluck('item_id')
-        //     ->toArray();
 
-        // $externalIssueItems = ExternalIssueVoucherDetail::whereIn('item_id', $itemIds)
-        //     ->pluck('item_id')
-        //     ->toArray();
-
-        // $certificateIssueItems = CertificateIssueVoucherDetail::whereIn('item_code', $itemIds)
-        //     ->pluck('item_code')
-        //     ->toArray();
-
-        // $conversionStrikeItems = ConversionVoucherDetail::whereIn('strike_item_id', $itemIds)
-        //     ->pluck('strike_item_id')
-        //     ->toArray();
-
-        // $transferItems = TransferVoucherDetail::whereIn('item_id', $itemIds)
-        //     ->pluck('item_id')
-        //     ->toArray();
-
-        // Combine all items that exist in other voucher types
-        $itemsInOtherVouchers = array_merge(
-            // $debitItems,
-            // $externalIssueItems,
-            // $certificateIssueItems,
-            // $conversionStrikeItems,
-            // $transferItems
-            $invStocks
-        );
-
-        // Filter to get items that are only in credit voucher but not in other voucher types
-        $finalItems = $creditItems->filter(function ($item) use ($itemsInOtherVouchers) {
-            return in_array($item->item_code, $itemsInOtherVouchers);
-        });
 
         // Group items by item_code to consolidate quantities and other details
-        $groupedItems = $finalItems->groupBy('item_code');
+        $groupedItems = $creditItems->groupBy('item_code');
 
         $inventoryItems = [];
         $totalValue = 0;
         $index = 1;
 
-        foreach ($groupedItems as $itemCode => $items) {
+
+
+        foreach ($groupedItems as $key => $items) {
             // Get the first item for item details
             $firstItem = $items->first();
             $itemCodeDetails = $firstItem->itemCodes;
@@ -356,8 +319,17 @@ class ReportController extends Controller
                 continue;
             }
 
+            // return $itemCodeDetails;
+
+            // inv stocks to get the quantity
+            $invStocks = InventoryItemStock::where('item_id', $itemCodeDetails->id)->where('inv_id', $inventory->id)->first();
+
+
             // Calculate total quantity and value
-            $quantity = $items->sum('quantity');
+            $quantity_balance = $invStocks->quantity_balance ?? 0;
+            //  return $quantity_balance;
+            $quantity = $quantity_balance;
+           // return $quantity;
             $rate = $firstItem->price ?? 0;
             $value = $quantity * $rate;
             $totalValue += $value;
