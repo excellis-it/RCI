@@ -8,6 +8,7 @@
             padding: 10px;
         }
     </style>
+
     <body style="background: #fff">
         <center>
             <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -50,8 +51,8 @@
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                     ">
-                                        Annual Stock Verification Report for the Year
-                                        {{ date('Y') }}-{{ date('Y') + 1 }}
+                                        Annual Stock Verification Report For {{ date('Y-m-d', strtotime($startDate)) }}
+                                        to {{ date('Y-m-d', strtotime($endDate)) }}
                                     </td>
                                 </tr>
                             </tbody>

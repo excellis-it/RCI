@@ -308,43 +308,43 @@
     </script>
 
     <script>
-        $(document).on('change', '#item_id', function() {
-            var item_id = $('#item_id').val();
-            $.ajax({
-                url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
-                type: 'GET',
-                data: {
-                    item_id: item_id
-                },
-                success: function(response) {
-                    $('#item_type').val(response.item_type);
-                    $('#description').val(response.item_description);
-                    $('#item_price').val(response.item_price);
-                },
-                error: function(xhr) {
-                    console.log(xhr);
-                }
-            });
-        });
+        // $(document).on('change', '#item_id', function() {
+        //     var item_id = $('#item_id').val();
+        //     $.ajax({
+        //         url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
+        //         type: 'GET',
+        //         data: {
+        //             item_id: item_id
+        //         },
+        //         success: function(response) {
+        //             $('#item_type').val(response.item_type);
+        //             $('#description').val(response.item_description);
+        //             $('#item_price').val(response.item_price);
+        //         },
+        //         error: function(xhr) {
+        //             console.log(xhr);
+        //         }
+        //     });
+        // });
     </script>
 
     <script>
         $(document).ready(function() {
-            $('#item_id').change(function() {
-                var selectedValue = $(this).find(':selected');
-                var quantity = selectedValue.data('hidden-value');
-                // var quantityDiv = $('#quantity');
+            // $('#item_id').change(function() {
+            //     var selectedValue = $(this).find(':selected');
+            //     var quantity = selectedValue.data('hidden-value');
+            //     // var quantityDiv = $('#quantity');
 
-                var quantityDivSelectBox = [];
-                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                for (var i = 1; i <= quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
+            //     var quantityDivSelectBox = [];
+            //     quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+            //     for (var i = 1; i <= quantity; i++) {
+            //         quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+            //     }
 
-                $('#quantity').empty();
-                $('#quantity').append(quantityDivSelectBox.join(''));
+            //     $('#quantity').empty();
+            //     $('#quantity').append(quantityDivSelectBox.join(''));
 
-            });
+            // });
         });
     </script>
 
@@ -404,23 +404,25 @@
         $(document).ready(function() {
             $('#inv_no').change(function() {
                 var inventory_no = $(this).val();
-                $.ajax({
-                    url: "{{ route('certificate-issue-vouchers.get-inventory-holder') }}",
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        inventory_no: inventory_no
-                    },
+                // $.ajax({
+                //     url: "{{ route('certificate-issue-vouchers.get-inventory-holder') }}",
+                //     type: 'POST',
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     },
+                //     data: {
+                //         inventory_no: inventory_no
+                //     },
 
-                    success: function(response) {
-                        $('#inventory_holder').val(response.inventoryHolder.member.user_name);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
+                //     success: function(response) {
+                //         $('#inventory_holder').val(response.inventoryHolder.member.user_name);
+                //     },
+                //     error: function(xhr) {
+                //         console.log(xhr);
+                //     }
+                // });
+                var holdername = $(this).find(':selected').data('holder-name');
+                $('.inventory_holder').val(holdername);
             });
         });
     </script>
@@ -514,7 +516,7 @@
                                 $.each(response.invStocks, function(index, item) {
                                     const optionHtml = `<option value="${item.item_id}"
                                         data-hidden-value="${item.quantity_balance}"
-                                        data-description="${item.description || ''}"
+                                        data-description="${item.item_code.description || ''}"
                                         data-price="${item.unit_price || 0.00}">
                                         ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
                                     </option>`;
@@ -548,7 +550,7 @@
                         window.inventoryItems.map(item =>
                             `<option value="${item.item_id}"
                                 data-hidden-value="${item.quantity_balance}"
-                                data-description="${item.description || ''}"
+                                data-description="${item.item_code.description || ''}"
                                 data-price="${item.unit_price || 0.00}">
                                 ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
                             </option>`
@@ -684,5 +686,15 @@
                 $row.find('.total_price').val(total_price.toFixed(2));
             });
         });
+    </script>
+    <script>
+        // $(document).ready(function() {
+        //     $('.inv_no').change(function(e) {
+        //         e.preventDefault();
+        //         var holdername = $(this).find(':selected').data('holder-name');
+        //         $('.inventory_holder').val(holdername);
+
+        //     });
+        // });
     </script>
 @endpush

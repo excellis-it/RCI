@@ -24,13 +24,8 @@
                                 <label>Receipt & Inspection Note (RIN)</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select form-select-search rin" name="rin" id="rin1">
-                                    <option value="">Select</option>
-                                    @foreach ($rins as $key => $rin)
-                                        <option value="{{ $key }}">{{ $key }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="rin" id="rin1"
+                                    value="{{ $creditVoucher->rin_no }}" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -54,6 +49,9 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select form-select-search" name="inv_no" id="inv_no">
+                                    <option value="{{ $creditVoucher->inv_id }}" selected>
+                                        {{ $creditVoucher->invNumber?->number }}
+                                    </option>
 
                                 </select>
                                 <span class="text-danger"></span>
@@ -118,7 +116,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control cost_debatable_input" name="cost_debatable"
-                                    value="" placeholder="">
+                                    value="{{ $creditVoucher->budget_head }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -200,20 +198,21 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
-                        <label>Division,Group</label>
+                        <label>Division Name</label>
+                        <input type="text" class="form-control" name="division_name" id="division_name"
+                            value="{{ $creditVoucher->division_name }}">
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label>Group Name</label>
                         <input type="text" class="form-control" name="division_group" id="division_group"
                             value="{{ $creditVoucher->division_group }}">
                     </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <label>Division Date</label>
-                        <input type="date" class="form-control" name="division_date" id="division_date"
-                            value="{{ $creditVoucher->division_date }}">
-                    </div>
+
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12" id="receipt-and-inspection">
-                        @include('inventory.credit-vouchers.rin')
+                        @include('inventory.credit-vouchers.edit-rins')
 
                     </div>
                 </div>
@@ -435,15 +434,16 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-4 mb-2">
-                        <label>Division,Group</label>
-                        <input type="text" class="form-control" name="division_group" id="division_group"
+                        <label>Division Name</label>
+                        <input type="text" class="form-control" name="division_name" id="division_name"
                             value="">
                     </div>
                     <div class="form-group col-md-4 mb-2">
-                        <label>Division Date</label>
-                        <input type="date" class="form-control" name="division_date" id="division_date"
+                        <label>Group Name</label>
+                        <input type="text" class="form-control" name="division_group" id="division_group"
                             value="">
                     </div>
+
                 </div>
                 <hr>
                 <div class="row">
@@ -549,7 +549,7 @@
                                 <label>UOM</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="uom[]" id="uom"
+                                <input type="text" class="form-control uom_id" name="uom[]" id="uom"
                                     value="" placeholder="">
                                 <input type="hidden" name="uom_id[]" id="uom_id">
                                 <span class="text-danger"></span>

@@ -54,13 +54,27 @@
                                         @endif
                                     </div>
 
-                                </div> 
+                                </div>
 
 
                                 <div class="form-group col-md-3">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Date</label>
                                         <input type="text" name="date_range" id="daterange" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group col-md-3">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Item Type</label>
+                                        <select name="item_nc_type" id="item_type" class="form-select-search">
+                                            <option value="">Select Item Type</option>
+                                            @foreach ($nc_statuses as $nc_statuse)
+                                                <option value="{{ $nc_statuse->id }}">
+                                                    {{ $nc_statuse->status }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

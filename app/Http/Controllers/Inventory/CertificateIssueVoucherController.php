@@ -124,7 +124,7 @@ class CertificateIssueVoucherController extends Controller
             $certificateIssueVoucherDetail->description = $request->description[$key];
             $certificateIssueVoucherDetail->quantity = $request->quantity[$key];
             $certificateIssueVoucherDetail->total_price = $request->total_price[$key];
-          //  $certificateIssueVoucherDetail->au_status = $request->au_status[$key];
+            //  $certificateIssueVoucherDetail->au_status = $request->au_status[$key];
             $certificateIssueVoucherDetail->remarks = $request->remarks[$key];
             $certificateIssueVoucherDetail->save();
 
@@ -147,7 +147,7 @@ class CertificateIssueVoucherController extends Controller
                 ->where('item_id', $itemCode)
                 ->first();
 
-           // return $existingStock;
+            // return $existingStock;
 
             if ($existingStock) {
                 // If stock exists, add to the quantity balance
@@ -208,6 +208,13 @@ class CertificateIssueVoucherController extends Controller
     public function getItemDetail(Request $request)
     {
         $item = ItemCode::findOrFail($request->item_id);
+        $item_stock = InventoryItemStock::where('item_id', $request->item_id)->where('inv_id', $request->inv_id)->first();
+        if ($item_stock) {
+            $item->item_price = $item_stock->unit_price;
+        } else {
+            $item->item_price = 0;
+        }
+
         return response()->json(['item_type' => $item->item_type, 'item_description' => $item->description, 'item_price' => $item->item_price]);
     }
 

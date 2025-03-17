@@ -12,11 +12,12 @@
                 padding: 10px;
             }
         </style>
+
         <body style="background: #fff;">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
+
             <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
                 style="border-radius: 0px; margin: 0 auto;">
                 <tbody>
@@ -54,19 +55,15 @@
                                     <tr>
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            Voucher Type<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ 'Debit' }}</span>
+                                            Voucher Type : {{ 'Debit' }}
                                         </td>
                                         <td
-                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            Holder / Inventory No<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $debitVoucher->inventoryNumbers->number }}</span>
-                                            </span>
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            Holder / Inventory No : {{ $debitVoucher->inventoryNumbers->number }}
                                         </td>
                                         <td
-                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; ">
-                                            No of Items in Voucher<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ count($debitVoucher['details']) }}</span>
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                                            No of Items in Voucher : {{ count($debitVoucher['details']) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -77,20 +74,17 @@
                                     <tr>
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            Voucher No<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $debitVoucher['voucher_no'] }}</span>
+                                            Voucher No : {{ $debitVoucher['voucher_no'] }}
                                         </td>
                                         <td
-                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            Voucher Date<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">{{ $debitVoucher['voucher_date'] }}
-                                            </span>
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            Voucher Date : {{ $debitVoucher['voucher_date'] }}
+
                                         </td>
                                         <td
-                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; ">
-                                            Cost Center Division<span
-                                                style="border: 1px solid #000; width: 100px; height: 20px; margin-left: 10px; text-align: left;display: inline-block;">HYDERABAD
-                                            </span>
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                                            Cost Center Division : HYDERABAD
+
                                         </td>
                                     </tr>
                                 </tbody>

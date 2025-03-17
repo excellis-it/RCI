@@ -246,7 +246,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control item_description"
-                                            name="strike_nomenclature[]" readonly>
+                                            name="strike_nomenclature[]" >
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -301,7 +301,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control item_description"
-                                            name="brought_nomenclature[]" readonly>
+                                            name="brought_nomenclature[]" >
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -313,7 +313,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <input type="number" value="0" class="form-control item_quantity"
-                                            name="brought_quantity[]" readonly>
+                                            name="brought_quantity[]" >
                                         <div class="text-danger" id="quantity_no"></div>
                                         <span class="text-danger"></span>
                                     </div>
@@ -384,7 +384,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control item_description"
-                                        name="strike_nomenclature[]" readonly>
+                                        name="strike_nomenclature[]">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -439,7 +439,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control item_description"
-                                        name="brought_nomenclature[]" readonly>
+                                        name="brought_nomenclature[]" >
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
@@ -451,7 +451,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="number" value="0" class="form-control item_quantity"
-                                        name="brought_quantity[]" readonly>
+                                        name="brought_quantity[]" >
                                     <div class="text-danger" id="quantity_no"></div>
                                     <span class="text-danger"></span>
                                 </div>

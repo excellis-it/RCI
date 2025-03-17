@@ -811,6 +811,7 @@
                 var selectedOption = $(this).find('option:selected');
                 var itemCodeId = selectedOption.data('item-code-id');
                 var itemType = selectedOption.data('item-nc-status-name');
+                var itemUom = selectedOption.data('item-uom');
 
                 // Find the parent .rin-items element to scope our search
                 var parent = $(this).closest('.rin-items');
@@ -820,6 +821,9 @@
 
                 // Set the item_type field value
                 parent.find('.item_type').val(itemType);
+
+                // Set the uom field value
+                parent.find('.uom_id').val(itemUom);
             });
         });
     </script>

@@ -1,8 +1,8 @@
-@if (isset($set_rins))
-    @if (count($rins) > 0)
-        @foreach ($rins as $rin)
+@if (isset($creditVoucherItems))
+    @if (count($creditVoucherItems) > 0)
+        @foreach ($creditVoucherItems as $creditVoucherItem)
             <div class="row count-class rin-items">
-                {{-- @dd($rin->itemCode) --}}
+                {{-- @dd($creditVoucherItem->itemCode) --}}
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -10,14 +10,12 @@
                         </div>
                         <div class="col-md-12">
                             <select class="form-control item_code_name" name="item_code[]" id="item_code" required>
-                                <option value="">Select</option>
-                                @foreach ($itemCodes as $itemCode)
-                                    <option value="{{ $itemCode->code }}" data-item-code-id="{{ $itemCode->id }}"
-                                        data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}" data-item-uom="{{ $itemCode->uom ?? '' }}">
-                                        {{ $itemCode->code }}</option>
-                                @endforeach
+                                <option value="{{ $creditVoucherItem->item_code_id }}" selected>
+                                    {{ $creditVoucherItem->item_code_id }}</option>
+
                             </select>
-                            <input class="item_code_id" type="hidden" name="item_code_id[]">
+                            <input class="item_code_id" type="hidden" name="item_code_id[]"
+                                value="{{ $creditVoucherItem->item_code }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -30,7 +28,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="gem_item_code[]" id="gem_item_code"
-                                value="{{ $rin->gem_item_code }}" placeholder="" readonly>
+                                value="{{ $creditVoucherItem->gem_item_code }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -42,7 +40,7 @@
                             <label>Description</label>
                         </div>
                         <div class="col-md-12">
-                            <textarea class="form-control" name="description[]" id="description" placeholder="" readonly>{{ $rin->description }}</textarea>
+                            <textarea class="form-control" name="description[]" id="description" placeholder="" readonly>{{ $creditVoucherItem->description }}</textarea>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -53,9 +51,11 @@
                             <label>UOM</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-control uom_id" name="uom_id[]" id="uom">
+                            <select class="form-control" name="uom_id[]" id="uom">
                                 @foreach ($uoms as $uom)
-                                    <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                                    <option value="{{ $uom->id }}"
+                                        {{ $creditVoucherItem->uom == $uom->id ? 'selected' : '' }}>{{ $uom->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <span class="text-danger"></span>
@@ -70,7 +70,7 @@
                         <div class="col-md-12">
 
                             <input type="text" class="form-control item_type" name="item_type[]" id="item_type"
-                                value="" placeholder="" readonly>
+                                value="{{ $creditVoucherItem->item_type }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control price" name="price[]" id="price"
-                                value="{{ $rin->unit_cost ?? 0.0 }}" placeholder="">
+                                value="{{ $creditVoucherItem->price ?? 0.0 }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -98,8 +98,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
-                                id="disc_percent" placeholder=""
-                                value="{{ $rin->discount_amount && $rin->unit_cost && $rin->received_quantity ? number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) : '0' }}">
+                                id="disc_percent" placeholder="" value="{{ $creditVoucherItem->disc_percent ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -111,7 +110,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                placeholder="" value="{{ $rin->discount_amount ?? 0 }}">
+                                placeholder="" value="{{ $creditVoucherItem->disc_amt ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -124,8 +123,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="number" class="form-control total_price" name="total_price[]" id="total_price"
-                                placeholder=""
-                                value="{{ $rin->round_amount ?? 0.0 }}">
+                                placeholder="" value="{{ $creditVoucherItem->total_price ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -138,7 +136,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control quantity" name="quantity[]" id="quantity"
-                                placeholder="" value="{{ $rin->received_quantity ?? 0 }}">
+                                placeholder="" value="{{ $creditVoucherItem->quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -153,7 +151,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="ledger_no[]" id="ledger_no"
-                                value="" placeholder="">
+                                value="{{ $creditVoucherItem->ledger_no ?? '' }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -167,7 +165,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="folio_no[]" id="folio_no"
-                                value="" placeholder="">
+                                value="{{ $creditVoucherItem->folio_no ?? '' }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>

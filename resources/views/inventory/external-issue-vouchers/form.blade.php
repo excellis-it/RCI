@@ -112,7 +112,7 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row count-class">
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -159,7 +159,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="quantity[]" id="quantity">
+                                <select class="form-select quantity" name="quantity[]" id="quantity">
                                     <option value="">Select Quantity</option>
 
                                 </select>

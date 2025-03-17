@@ -506,14 +506,14 @@
                         var itemName = invStocks.item_code.item_name;
                         var itemCodeId = invStocks.item_id;
                         var totalQuantity = invStocks.quantity_balance;
-                        var unitPrice = 0;
+                        var unitPrice = invStocks.unit_price;
                         var totalPrice = totalQuantity * unitPrice;
                         var itemType = invStocks.item_code.nc_status.status;
                         var itemDescription = invStocks.item_code.description;
 
 
                         options +=
-                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-rate="${unitPrice}" data-item-quantity="${totalQuantity}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
+                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-rate="${unitPrice}" data-item-quantity="${totalQuantity}" data-item-unit-price="${unitPrice}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
                     });
                     // console.log(options);
                     // $('#item_code_id_1').html(options);

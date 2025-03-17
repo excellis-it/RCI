@@ -36,5 +36,7 @@ class ItemCode extends Model
         return $this->belongsTo(AuStatus::class, 'au_status');
     }
 
+    // itemStocks
+    
 
 }

@@ -35,6 +35,7 @@ use App\Models\TransferVoucherDetail;
 use App\Exports\ItemNameReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\InventoryItemStock;
+use App\Models\NcStatus;
 
 class ReportController extends Controller
 {
@@ -243,15 +244,20 @@ class ReportController extends Controller
     public function invntoryItemsReport()
     {
         $inventoryNumbers = InventoryNumber::all();
-        return view('inventory.reports.inventory-items-report', compact('inventoryNumbers'));
+        $nc_statuses = NcStatus::all();
+        return view('inventory.reports.inventory-items-report', compact('inventoryNumbers', 'nc_statuses'));
     }
 
     public function invntoryItemsReportGenerate(Request $request)
     {
         $request->validate([
-            'inventory_number' => 'required'
+            'inventory_number' => 'required',
+            'date_range' => 'nullable|string',
+            'item_nc_type' => 'nullable|exists:nc_statuses,id'
         ]);
 
+        $startDate = null;
+        $endDate = null;
         // Get inventory details
         $inventory_number = $request->inventory_number;
         $inventory = InventoryNumber::where('number', $inventory_number)->first();
@@ -260,13 +266,33 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Inventory number not found');
         }
 
-        // Get items from credit voucher details that belong to this inventory
-        $creditItems = CreditVoucherDetail::where('inv_no', $inventory->id)
-            ->with(['itemCodes', 'inventoryNumber'])
-            ->get();
+        // Start building query
+        $query = CreditVoucherDetail::where('inv_no', $inventory->id)
+            ->with(['itemCodes', 'inventoryNumber']);
+
+        // Apply date range filter if provided
+        if ($request->filled('date_range')) {
+            $dates = explode(' - ', $request->date_range);
+            if (count($dates) == 2) {
+                $startDate = Carbon::parse($dates[0])->startOfDay();
+                $endDate = Carbon::parse($dates[1])->endOfDay();
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
+        }
+
+        // Apply item NC type filter if provided
+        if ($request->filled('item_nc_type')) {
+            $ncTypeId = $request->item_nc_type;
+            $query->whereHas('itemCodes', function ($q) use ($ncTypeId) {
+                $q->where('nc_status', $ncTypeId);
+            });
+        }
+
+        // Execute the query
+        $creditItems = $query->get();
 
         if ($creditItems->isEmpty()) {
-            return redirect()->back()->with('error', 'No items found for this inventory number');
+            return redirect()->back()->with('error', 'No items found for this inventory number with the selected filters');
         }
 
         // Collect item IDs from credit voucher details
@@ -358,7 +384,7 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView(
             'inventory.reports.inventory-items-report-generate',
-            compact('logo', 'inventoryItems', 'inventory', 'totalValue')
+            compact('logo', 'inventoryItems', 'inventory', 'totalValue', 'startDate', 'endDate')
         )
             ->setPaper('a4', $paperType);
 
@@ -497,7 +523,7 @@ class ReportController extends Controller
                             'nc_status' => $detail->rins->nc_status ?? '',
                             'au_status' => $detail->rins->au_status ?? '',
                             'rate' => $price ?? 0,
-                            'tax' => $detail->rins->gst ?? 0,
+                            'tax' => $detail->gst ?? 0,
                             'disc_percent' => $detail->disc_percent ?? 0,
                             'disc_amt' => $detail->disc_amt ?? 0,
                             'total_price' => $detail->total_price ?? 0,
@@ -535,9 +561,9 @@ class ReportController extends Controller
 
             // return $paperType;
 
-          //  return view('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
+            //  return view('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
 
-                $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
             return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
         } catch (\Exception $e) {
             //   return response()->json(['error' => $e->getMessage()], 201);

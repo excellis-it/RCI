@@ -765,7 +765,7 @@
             parentElement.find('.item_quantity').attr('max', thisData.quantity_balance);
             parentElement.find('.item_quantity').val(thisData.quantity_balance);
 
-            parentElement.find('.item_rate').val(0);
+            parentElement.find('.item_rate').val(thisData.unit_price);
 
             parentElement.find('.item_quantity').on('input', function() {
                 var max = parseFloat($(this).attr('max'));
