@@ -134,6 +134,7 @@ use App\Http\Controllers\Frontend\BackupController;
 use App\Http\Controllers\IncomeTax\MemberController as IncomeTaxMemberController;
 use App\Models\InventorySir;
 use App\Http\Controllers\Inventory\ItemCodeNameController;
+use App\Http\Controllers\Inventory\MemberController as InventoryMemberController;
 use App\Http\Controllers\WebSettingsController;
 
 /*
@@ -1036,7 +1037,12 @@ Route::middleware('permssions')->group(function () {
                 'nc-status' => NcStatusController::class,
                 'au-status' => AuStatusController::class,
                 'item-code-names' => ItemCodeNameController::class,
+                'inventory-members' => InventoryMemberController::class,
             ]);
+
+            // memeber route
+            Route::get('/inventory-members-delete/{id}', [InventoryMemberController::class, 'deleteMember'])->name('inventory-members.delete');
+            Route::get('/inventory-members-fetch-data', [InventoryMemberController::class, 'fetchData'])->name('inventory-members.fetch-data');
 
             // nc-status.fetch-data
             Route::get('/nc-status-fetch-data', [NcStatusController::class, 'fetchData'])->name('nc-status.fetch-data');

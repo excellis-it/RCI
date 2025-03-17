@@ -57,6 +57,10 @@
                             </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('inventory-members.index') }}">Members</a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('uom.index') }}">UOMs</a>
                             </li>
                             <li class="mb-2">
