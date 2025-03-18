@@ -10,15 +10,9 @@
                     <label>Rule Name</label>
                 </div>
                 <div class="col-md-12">
-                    {{-- <input type="text" class="form-control" name="rule_name" id="exp_rule_name"
-                        value="{{ $member_expectation->rule_name }}" placeholder=""> --}}
-                    <select class="form-select" name="" id="exp_rule_edit" disabled>
-                        @foreach ($rules as $rule)
-                            <option value="{{ $rule->rule_name }}"
-                                {{ $rule->rule_name == $member_expectation->rule_name ? 'selected' : '' }}>
-                                {{ $rule->rule_name }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" class="form-control" name="rule_name" id="exp_rule_name"
+                        value="{{ $member_expectation->rule_name }}" placeholder="" readonly>
+
                     <span class="text-danger"></span>
                 </div>
             </div>
@@ -32,7 +26,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="percent" id="exp_percent"
-                                value="{{ $member_expectation->percent }}" >
+                                value="{{ $member_expectation->percent }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -44,34 +38,35 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="amount" id="exp_amount"
-                                value="{{ $member_expectation->amount }}" >
+                                value="{{ $member_expectation->amount }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6" hidden>
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Year</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" value="{{ $member_expectation->year }}" name="year"
-                                class="form-control" id="exp_year" readonly>
-                            <span class="text-danger"></span>
+
+                <div class="row">
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" value="{{ $member_expectation->year }}" name="year"
+                                    class="form-control" id="exp_year" readonly>
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Month</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" value="{{ $member_expectation->month }}" name="month"
-                                class="form-control" id="exp_month" readonly>
-                            <span class="text-danger"></span>
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Month</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" value="{{ $member_expectation->month }}" name="month"
+                                    class="form-control" id="exp_month" readonly>
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,7 +152,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="percent" id="exp_percent"
-                                value="" placeholder="">
+                                value="0" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -169,48 +164,68 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="amount" id="exp_amount"
-                                placeholder="" value="">
+                                placeholder="" value="0">
                             <span class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6" hidden>
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Year</label>
-                        </div>
-                        <div class="col-md-12">
-                            {{-- <select class="form-select" name="year" id="exp_year"> --}}
-                            <input type="text" class="form-control" name="year" id="exp_year">
-                            <span class="text-danger"></span>
+
+                <div class="row">
+
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Month</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="month" id="exp_month">
+                                    <option value="">Select</option>
+                                    @php
+                                        $monthsSe = [
+                                            1 => 'January',
+                                            2 => 'February',
+                                            3 => 'March',
+                                            4 => 'April',
+                                            5 => 'May',
+                                            6 => 'June',
+                                            7 => 'July',
+                                            8 => 'August',
+                                            9 => 'September',
+                                            10 => 'October',
+                                            11 => 'November',
+                                            12 => 'December',
+                                        ];
+                                        $currentMonth = (int) date('m');
+                                    @endphp
+
+                                    @foreach ($monthsSe as $num => $name)
+                                        <option value="{{ $num }}"
+                                            {{ $num == $currentMonth ? 'selected' : '' }}>{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Month</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="month" id="exp_month">
-                            {{-- <select class="form-select" name="month" id="exp_month">
-                                <option value="">Select</option>
-                                <option value="1">January</option>
-                                <option value="2">February</option>
-                                <option value="3">March</option>
-                                <option value="4">April</option>
-                                <option value="5">May</option>
-                                <option value="6">June</option>
-                                <option value="7">July</option>
-                                <option value="8">August</option>
-                                <option value="9">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select> --}}
-                            <span class="text-danger"></span>
+                    <div class="form-group col-md-6 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Year</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="year" id="exp_year">
+                                    <option value="">Select</option>
+                                    @php
+                                        $currentYear = date('Y');
+                                        for ($i = 0; $i < 5; $i++) {
+                                            $year = $currentYear - $i;
+                                            $selected = $year == $currentYear ? 'selected' : '';
+                                            echo "<option value='{$year}' {$selected}>{$year}</option>";
+                                        }
+                                    @endphp
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

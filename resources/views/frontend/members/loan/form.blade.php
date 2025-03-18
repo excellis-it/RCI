@@ -39,10 +39,10 @@
                 </div>
             </div>
 
-            <div class="form-group mb-2" hidden>
+            <div class="form-group col-md-6 mb-2" >
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Present InstNo</label>
+                        <label>Present Inst No</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
@@ -78,14 +78,27 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" hidden>
+            <div class="form-group col-md-6 mb-2" >
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Balance</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="balance" id="balance" 
+                        <input type="text" class="form-control" name="balance" id="balance"
                             value="{{ $member_loan->balance }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2" >
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Recovery Type</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="recovery_type" id="recovery_type" value="{{ $member_loan->recovery_type }}"
+                            placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -123,14 +136,14 @@
                         <label>End Date</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="date" class="form-control" name="end_date" id="end_date" 
+                        <input type="date" class="form-control" name="end_date" id="end_date"
                             value="{{ $member_loan->end_date }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" hidden>
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Tot No of Inst</label>
@@ -149,7 +162,7 @@
                         <label>Remarks</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="remark" id="remark" 
+                        <input type="text" class="form-control" name="remark" id="remark"
                             value="{{ $member_loan->remark }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -215,10 +228,10 @@
                 </div>
             </div>
 
-            <div class="form-group mb-2" hidden>
+            <div class="form-group col-md-6 mb-2" >
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Present InstNo</label>
+                        <label>Present Inst No</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
@@ -229,7 +242,7 @@
             </div>
 
 
-            <div class="form-group mb-2" hidden>
+            <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Inst Rate</label>
@@ -254,13 +267,26 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-6 mb-2" hidden>
+            <div class="form-group col-md-6 mb-2" >
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Balance</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="balance" id="balance" value=""
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2" >
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Recovery Type</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="recovery_type" id="recovery_type" value=""
                             placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -305,7 +331,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" hidden>
+            <div class="form-group col-md-6 mb-2" >
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Tot No of Inst</label>

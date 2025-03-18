@@ -34,6 +34,17 @@ class CreditVoucherController extends Controller
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::orderBy('id', 'desc')->paginate(10);
+
+        foreach ($creditVouchers as $creditVoucher) {
+            // check inv item balance have other vouchers then do not show edit button
+            $creditVoucher->edit_button = true;
+            $creditVoucher_item_balance = InventoryItemBalance::where('voucher_type','!=', 'credit_voucher')->where('inv_id', $creditVoucher->inv_id)->get();
+            if($creditVoucher_item_balance->count() > 0) {
+                $creditVoucher->edit_button = false;
+            }
+        }
+
+
         $members = User::role('MATERIAL-MANAGER')->get();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();

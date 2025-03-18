@@ -341,7 +341,13 @@ class MemberController extends Controller
         }
         $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
         $basicPay = $member->basic;
-        $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+        $member_expectation_da = MemberExpectation::where('member_id', $member->id)->where('rule_name', 'DA')->first();
+        if ($member_expectation_da) {
+            $daAmount = $member_expectation_da->amount;
+        } else {
+            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+        }
+
 
         // return $member;
 
@@ -1075,6 +1081,7 @@ class MemberController extends Controller
         $loan_info->inst_rate = $request->inst_rate;
         $loan_info->total_amount = $request->total_amount;
         $loan_info->balance = $request->balance;
+        $loan_info->recovery_type = $request->recovery_type;
         $loan_info->penal_inst_rate = $request->penal_inst_rate;
         $loan_info->start_date = $request->start_date;
         $loan_info->end_date = $request->end_date;
@@ -1149,6 +1156,7 @@ class MemberController extends Controller
             $loan_info->inst_rate = $request->inst_rate;
             $loan_info->total_amount = $request->total_amount;
             $loan_info->balance = $request->balance;
+            $loan_info->recovery_type = $request->recovery_type;
             $loan_info->penal_inst_rate = $request->penal_inst_rate;
             $loan_info->start_date = $request->start_date;
             $loan_info->end_date = $request->end_date;
@@ -1168,6 +1176,7 @@ class MemberController extends Controller
         $loan_info->inst_rate = $request->inst_rate;
         $loan_info->total_amount = $request->total_amount;
         $loan_info->balance = $request->balance;
+        $loan_info->recovery_type = $request->recovery_type;
         $loan_info->penal_inst_rate = $request->penal_inst_rate;
         $loan_info->start_date = $request->start_date;
         $loan_info->end_date = $request->end_date;
@@ -1251,7 +1260,7 @@ class MemberController extends Controller
     {
         $validated = $request->validate([
             'rule_name' => 'required',
-            'percent' => 'required',
+            // 'percent' => 'required',
             'amount' => 'required',
         ]);
 
@@ -1290,6 +1299,16 @@ class MemberController extends Controller
             }
         }
 
+        // TPT on credit
+        if ($rule_name == 'TPT') {
+            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_credit) {
+                $member_credit->tpt = $request->amount;
+                $member_credit->da_on_tpt = $request->amount / 2;
+                $member_credit->update();
+            }
+        }
+
         if ($rule_name == 'Wellfare') {
             $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
             if ($member_original_recovery) {
@@ -1314,10 +1333,39 @@ class MemberController extends Controller
             }
         }
 
-        $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-        if ($member_debit) {
-            $member_debit->gpa_sub = $request->comp_prin_curr_instl;
-            $member_debit->update();
+        if ($rule_name == 'DA') {
+            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_credit) {
+                $member_credit->da = $request->amount;
+                $member_credit->update();
+            }
+        }
+
+        // HRA in credit
+        if ($rule_name == 'HRA') {
+            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_credit) {
+                $member_credit->hra = $request->amount;
+                $member_credit->update();
+            }
+        }
+
+        // CGHS in debit
+        if ($rule_name == 'CGHS') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->cghs = $request->amount;
+                $member_debit->update();
+            }
+        }
+
+        // CGEGIS in debit
+        if ($rule_name == 'CGEGIS') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->cgegis = $request->amount;
+                $member_debit->update();
+            }
         }
 
         return response()->json(['message' => 'Member expectation added successfully', 'data' => $expectation_store]);
@@ -1334,15 +1382,110 @@ class MemberController extends Controller
     public function memberExpectationUpdate(Request $request)
     {
         $validated = $request->validate([
-            'percent' => 'required',
+            'rule_name' => 'required',
+            //  'percent' => 'required',
             'amount' => 'required',
         ]);
+
+        $selectedValue = $request->rule_name;
+        $data = explode(',', $selectedValue);
+        $rule_name = $data[0];
 
         $expectation_info = MemberExpectation::where('id', $request->member_expectation_id)->first();
         $expectation_info->percent = $request->percent;
         $expectation_info->amount = $request->amount;
         $expectation_info->remark = $request->remark;
         $expectation_info->update();
+
+        if ($rule_name == 'GPF') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->gpa_sub = $request->amount;
+                $member_debit->update();
+            }
+            $member_core = MemberCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_core) {
+                $member_core->gpf_sub = $request->amount;
+                $member_core->update();
+            }
+        }
+
+        if ($rule_name == 'GMC') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->cmg = $request->amount;
+                $member_debit->update();
+            }
+        }
+
+        // TPT on credit
+        if ($rule_name == 'TPT') {
+            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_credit) {
+                $member_credit->tpt = $request->amount;
+                $member_credit->da_on_tpt = $request->amount / 2;
+                $member_credit->update();
+            }
+        }
+
+        if ($rule_name == 'Wellfare') {
+            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_original_recovery) {
+                $member_original_recovery->wel_sub = $request->amount;
+                $member_original_recovery->update();
+            }
+        }
+
+        if ($rule_name == 'MESS') {
+            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_original_recovery) {
+                $member_original_recovery->mess = $request->amount;
+                $member_original_recovery->update();
+            }
+        }
+
+        if ($rule_name == 'Prof TAX') {
+            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_original_recovery) {
+                $member_original_recovery->ptax = $request->amount;
+                $member_original_recovery->update();
+            }
+        }
+
+        if ($rule_name == 'DA') {
+            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_credit) {
+                $member_credit->da = $request->amount;
+                $member_credit->update();
+            }
+        }
+
+        // HRA in credit
+        if ($rule_name == 'HRA') {
+            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_credit) {
+                $member_credit->hra = $request->amount;
+                $member_credit->update();
+            }
+        }
+
+        // CGHS in debit
+        if ($rule_name == 'CGHS') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->cghs = $request->amount;
+                $member_debit->update();
+            }
+        }
+
+        // CGEGIS in debit
+        if ($rule_name == 'CGEGIS') {
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $member_debit->cgegis = $request->amount;
+                $member_debit->update();
+            }
+        }
 
         session()->flash('message', 'Member expectation updated successfully');
         return response()->json(['message' => 'Member expectation updated successfully', 'data' => $expectation_info]);
@@ -1480,7 +1623,7 @@ class MemberController extends Controller
         if ($member->cities) {
             $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
         }
-        $member_expectation_hra = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->first();
+        $member_expectation_hra = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->where('percent', '!=', 0)->first();
         if ($member_expectation_hra) {
             $hra_percentage->percentage = $member_expectation_hra->percent;
         }
@@ -1497,9 +1640,21 @@ class MemberController extends Controller
             $tptDaAmount = ($tptdaec) / 2; // 50% of the allowance
         }
         $basicPay = $request->basicPay;
+        $member_expectation_da = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'DA')->first();
+        if ($member_expectation_da) {
+            $daAmount = $member_expectation_da->amount;
+        } else {
+            $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+        }
 
-        $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
-        $hraAmount = $hra_percentage ? ($basicPay * $hra_percentage->percentage) / 100 : 0;
+        $member_expectation_hra_amt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->where('amount', '!=', 0)->first();
+        if ($member_expectation_hra_amt) {
+            $hraAmount = $member_expectation_hra_amt->amount;
+        } else {
+            $hraAmount = $hra_percentage ? ($basicPay * $hra_percentage->percentage) / 100 : 0;
+        }
+
+
 
         return response()->json([
             'daAmount' => $daAmount,
