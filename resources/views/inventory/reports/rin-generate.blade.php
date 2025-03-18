@@ -62,7 +62,7 @@
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px;">
                                         RIN
                                         Date:
-                                        {{ isset($rin->sirNo->sir_date) && $rin->sirNo->sir_date ? date('d-m-Y', strtotime($rin->sirNo->sir_date)) : 'N/A' }}
+                                        {{ isset($rin->rin_date) && $rin->rin_date ? date('d-m-Y', strtotime($rin->rin_date)) : 'N/A' }}
                                     </th>
                                     <th colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px;">
@@ -409,7 +409,7 @@
                                         $words = Helper::convert(Helper::formatDecimal($total_amount));
                                     @endphp
                                     <td colspan="3"
-                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
+                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 12px;">
                                         {{ Helper::formatDecimal($total_amount) ?? '' }} <br>({{ $words ?? '' }})
                                     </td>
 

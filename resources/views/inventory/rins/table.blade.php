@@ -4,7 +4,7 @@
             {{-- @dd($rin) --}}
             <td> {{ ($rins->currentPage() - 1) * $rins->perPage() + $loop->index + 1 }}</td>
             <td>{{ $rin->rin_no ?? 'N/A' }}</td>
-            <td>{{ $rin->created_at ? date('d-m-Y', strtotime($rin->created_at)) : 'N/A' }}</td>
+            <td>{{ $rin->rin_date ? date('d-m-Y', strtotime($rin->rin_date)) : 'N/A' }}</td>
             {{-- @if ($rin->item_id != null)
                 @foreach ($items as $item)
                     @if ($item->id == $rin->item_id)
@@ -22,8 +22,8 @@
             <td>{{ $rin->au_status ?? 'N/A'}}</td> --}}
             <td class="sepharate">
                 @if ($rin->have_credit == 0)
-                <a data-route="{{ route('rins.edit', $rin->id) }}" href="javascript:void(0);"
-                    class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+                    <a data-route="{{ route('rins.edit', $rin->id) }}" href="javascript:void(0);"
+                        class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
                 @endif
                 <a href="{{ route('rins.report', $rin->id) }}" class="edit_pencil edit-route print-route print-btn"
                     id="print_id" data-id="{{ $rin->id }}"><i class="fa fa-print"></i></a>
