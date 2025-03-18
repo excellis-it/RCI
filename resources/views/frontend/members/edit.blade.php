@@ -1495,27 +1495,27 @@
 
     <script>
         $(document).ready(function() {
-            $('.exp_rule_create').change(function() {
-                var rule_data = $(this).val();
-                var rule_id = rule_data.split(',')[1].trim();
+            // $('.exp_rule_create').change(function() {
+            //     var rule_data = $(this).val();
+            //     var rule_id = rule_data.split(',')[1].trim();
 
-                $.ajax({
-                    url: "{{ route('members.expectation.get-rule-detail') }}",
-                    type: 'POST',
-                    data: {
-                        rule_id: rule_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        $('#exp_percent').val(response.data.percent);
-                        $('#exp_amount').val(response.data.amount);
-                        $('#exp_year').val(response.data.year);
-                        $('#exp_month').val(response.data.month);
-                    }
-                });
-            });
+            //     $.ajax({
+            //         url: "{{ route('members.expectation.get-rule-detail') }}",
+            //         type: 'POST',
+            //         data: {
+            //             rule_id: rule_id
+            //         },
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         success: function(response) {
+            //             $('#exp_percent').val(response.data.percent);
+            //             $('#exp_amount').val(response.data.amount);
+            //             $('#exp_year').val(response.data.year);
+            //             $('#exp_month').val(response.data.month);
+            //         }
+            //     });
+            // });
 
 
         });
@@ -1524,7 +1524,7 @@
     <script>
         $(document).ready(function() {
             $('#exp_rule_edit').change(function() {
-                alert();
+              //  alert();
 
             });
 

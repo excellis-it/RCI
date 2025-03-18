@@ -215,7 +215,7 @@ Route::middleware('permssions')->group(function () {
         'gpfs' => GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
-        //  'rules' => RuleController::class,
+      //    'rules' => RuleController::class,
         'member-family' => MemberFamilyController::class,
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
