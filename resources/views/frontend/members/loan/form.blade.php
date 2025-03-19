@@ -17,7 +17,8 @@
                         <select class="form-select" name="loan_name" id="loan_name">
                             <option value="">Select Loan</option>
                             @foreach ($loans as $loan)
-                                <option value="{{ $loan->id }}" {{ isset($member_loan->loan_id) && $loan->id == $member_loan->loan_id ? 'selected' : '' }}>
+                                <option value="{{ $loan->id }}"
+                                    {{ isset($member_loan->loan_id) && $loan->id == $member_loan->loan_id ? 'selected' : '' }}>
                                     {{ $loan->loan_name }}</option>
                             @endforeach
                         </select>
@@ -39,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" >
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Present Inst No</label>
@@ -78,7 +79,20 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" >
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Tot No of Inst</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
+                            value="{{ $member_loan->tot_no_of_inst }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Balance</label>
@@ -91,14 +105,14 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" >
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Recovery Type</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="recovery_type" id="recovery_type" value="{{ $member_loan->recovery_type }}"
-                            placeholder="">
+                        <input type="text" class="form-control" name="recovery_type" id="recovery_type"
+                            value="{{ $member_loan->recovery_type }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -117,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
+            <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Start Date</label>
@@ -130,7 +144,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
+            <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>End Date</label>
@@ -143,18 +157,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Tot No of Inst</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
-                            value="{{ $member_loan->tot_no_of_inst }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="form-group col-md-12 mb-2">
                 <div class="row align-items-center">
@@ -228,7 +231,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" >
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Present Inst No</label>
@@ -267,7 +270,21 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-6 mb-2" >
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Tot No of Inst</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Balance</label>
@@ -280,14 +297,14 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" >
+            <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Recovery Type</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="recovery_type" id="recovery_type" value=""
-                            placeholder="">
+                        <input type="text" class="form-control" name="recovery_type" id="recovery_type"
+                            value="" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -306,7 +323,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
+            <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Start Date</label>
@@ -319,7 +336,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
+            <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>End Date</label>
@@ -331,18 +348,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2" >
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Tot No of Inst</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
-                            placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="form-group col-md-12 mb-2">
                 <div class="row align-items-center">
