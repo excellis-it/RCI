@@ -878,11 +878,7 @@
                         required: true,
                         number: true
                     },
-                    'inst_rate': {
-                        required: true,
-                        number: true
-                    },
-                    'penal_inst_rate': {
+                    'tot_no_of_inst': {
                         required: true,
                         number: true
                     },
@@ -903,12 +899,10 @@
                     'inst_amount': {
                         required: "Please enter installment amount",
                     },
-                    'inst_rate': {
-                        required: "Please enter installment rate",
+                    'tot_no_of_inst': {
+                        required: "Please enter total number of installment",
                     },
-                    'penal_inst_rate': {
-                        required: "Please enter penal installment rate",
-                    },
+
                     'total_amount': {
                         required: "Please enter total amount",
                         number: "Please enter valid number"

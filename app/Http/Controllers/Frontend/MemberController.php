@@ -1069,6 +1069,13 @@ class MemberController extends Controller
 
     public function memberLoanInfoStore(Request $request)
     {
+        $validated = $request->validate([
+            'loan_name' => 'required',
+            'present_inst_no' => 'required',
+            'tot_no_of_inst' => 'required',
+            'total_amount' => 'required',
+        ]);
+
         $loan_detail = Loan::where('id', $request->loan_name)->first() ?? '';
 
         $loan_info = new MemberLoanInfo;
@@ -1083,45 +1090,42 @@ class MemberController extends Controller
         $loan_info->balance = $request->balance;
         $loan_info->recovery_type = $request->recovery_type;
         $loan_info->penal_inst_rate = $request->penal_inst_rate;
-        $loan_info->start_date = $request->start_date;
-        $loan_info->end_date = $request->end_date;
+        $loan_info->start_date = $request->start_date ?? now()->format('Y-m-d');
+        $loan_info->end_date = $request->end_date ?? null;
         $loan_info->remark = $request->remark;
         $loan_info->save();
 
-        $startDate = new \DateTime($request->start_date);
-        $endDate = new \DateTime($request->end_date);
-        $interval = $startDate->diff($endDate);
-        $totalMonths = ($interval->y * 12) + $interval->m;
+        // Start from current month
+        $startDate = new \DateTime(now()->format('Y-m-01'));
+        $totalInstallments = $request->tot_no_of_inst ?? 0;
 
-        // Creating a monthly interval
-        $monthInterval = new \DateInterval('P1M');
-        $endDate->modify('+1 day'); // To include the end date in the period
-        $period = new \DatePeriod($startDate, $monthInterval, $endDate);
-
-        $totalAmount = $request->total_amount; // Principal amount
-        //   $annualRate = $request->inst_rate; // Annual interest rate
-        //  $monthlyRate = $annualRate / 12 / 100; // Monthly interest rate
-
-        // EMI Calculation using the corrected monthly interest rate
-        // $emiAmount = $totalAmount * $monthlyRate * pow(1 + $monthlyRate, $totalMonths) / (pow(1 + $monthlyRate, $totalMonths) - 1);
-
-        // Monthly interest for the first month
-        // $monthlyInterest = $totalAmount * $monthlyRate;
-
+        // Calculate EMI amount from total amount and number of installments
         $emiAmount = $request->inst_amount;
 
-        foreach ($period as $date) {
+        // Create installments for the specified number of months
+        for ($i = 0; $i < $totalInstallments; $i++) {
+            $currentDate = clone $startDate;
+            $currentDate->modify("+{$i} month");
+
             $loanInstallment = new MemberLoan();
             $loanInstallment->member_id = $request->member_id;
             $loanInstallment->loan_id = $request->loan_name;
             $loanInstallment->loan_info_id = $loan_info->id;
-            $loanInstallment->interest_rate = 0;
+            $loanInstallment->interest_rate = $request->inst_rate ?? 0;
             $loanInstallment->emi_amount = $emiAmount;
-            $loanInstallment->interest_amount = $emiAmount; // Update this logic if interest changes monthly
-            $loanInstallment->emi_month = $date->format('F Y');
-            $loanInstallment->emi_date = $date->format('Y-m-d');
-            $loanInstallment->penal_interest = ''; // Handle penal interest logic if needed
+            $loanInstallment->interest_amount = $emiAmount;
+            $loanInstallment->emi_month = $currentDate->format('F Y');
+            $loanInstallment->emi_date = $currentDate->format('Y-m-d');
+            $loanInstallment->penal_interest = '';
             $loanInstallment->save();
+        }
+
+        // If end_date is not provided, calculate it based on the last installment
+        if (!$request->end_date) {
+            $endDate = clone $startDate;
+            $endDate->modify("+" . ($totalInstallments - 1) . " month");
+            $loan_info->end_date = $endDate->format('Y-m-d');
+            $loan_info->save();
         }
 
         return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
@@ -1129,7 +1133,6 @@ class MemberController extends Controller
 
     public function memberLoanEdit($id)
     {
-
         $member_loan = MemberLoanInfo::find($id);
         $edit = true;
         $loans = Loan::orderBy('id', 'desc')->get();
@@ -1141,33 +1144,25 @@ class MemberController extends Controller
         $validated = $request->validate([
             'loan_name' => 'required',
             'present_inst_no' => 'required',
+            'tot_no_of_inst' => 'required',
             'total_amount' => 'required',
         ]);
 
         if (!isset($request->member_loan_id)) {
-            $loan_detail = Loan::where('id', $request->loan_name)->first() ?? '';
-            $loan_info = new MemberLoanInfo;
-            $loan_info->member_id = $request->member_id;
-            $loan_info->loan_id = $request->loan_name;
-            $loan_info->loan_name = $loan_detail->loan_name;
-            $loan_info->present_inst_no = $request->present_inst_no;
-            $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
-            $loan_info->inst_amount = $request->inst_amount;
-            $loan_info->inst_rate = $request->inst_rate;
-            $loan_info->total_amount = $request->total_amount;
-            $loan_info->balance = $request->balance;
-            $loan_info->recovery_type = $request->recovery_type;
-            $loan_info->penal_inst_rate = $request->penal_inst_rate;
-            $loan_info->start_date = $request->start_date;
-            $loan_info->end_date = $request->end_date;
-            $loan_info->remark = $request->remark;
-            $loan_info->save();
-
-            return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info, 'save' => true]);
+            // This is actually a new loan record, use store method instead
+            return $this->memberLoanInfoStore($request);
         }
 
-        $loan_detail = Loan::where('id', $request->loan_name)->first() ?? '';
+        // Get the existing loan info
         $loan_info = MemberLoanInfo::where('id', $request->member_loan_id)->first();
+        if (!$loan_info) {
+            return response()->json(['message' => 'Member loan info not found'], 404);
+        }
+
+        // Get loan details
+        $loan_detail = Loan::where('id', $request->loan_name)->first() ?? '';
+
+        // Update the loan information
         $loan_info->loan_id = $request->loan_name;
         $loan_info->loan_name = $loan_detail->loan_name;
         $loan_info->present_inst_no = $request->present_inst_no;
@@ -1178,20 +1173,63 @@ class MemberController extends Controller
         $loan_info->balance = $request->balance;
         $loan_info->recovery_type = $request->recovery_type;
         $loan_info->penal_inst_rate = $request->penal_inst_rate;
-        $loan_info->start_date = $request->start_date;
-        $loan_info->end_date = $request->end_date;
+        $loan_info->start_date = $request->start_date ?? $loan_info->start_date;
+        $loan_info->end_date = $request->end_date ?? $loan_info->end_date;
         $loan_info->remark = $request->remark;
         $loan_info->update();
+
+        // Delete existing installments
+        MemberLoan::where('loan_info_id', $loan_info->id)->delete();
+
+        // Re-create installments
+        $startDate = new \DateTime($loan_info->start_date ?? now()->format('Y-m-01'));
+        $totalInstallments = $request->tot_no_of_inst ?? 0;
+        $emiAmount = $request->inst_amount;
+
+        // Create installments for the specified number of months
+        for ($i = 0; $i < $totalInstallments; $i++) {
+            $currentDate = clone $startDate;
+            $currentDate->modify("+{$i} month");
+
+            $loanInstallment = new MemberLoan();
+            $loanInstallment->member_id = $loan_info->member_id;
+            $loanInstallment->loan_id = $loan_info->loan_id;
+            $loanInstallment->loan_info_id = $loan_info->id;
+            $loanInstallment->interest_rate = $request->inst_rate ?? 0;
+            $loanInstallment->emi_amount = $emiAmount;
+            $loanInstallment->interest_amount = $emiAmount;
+            $loanInstallment->emi_month = $currentDate->format('F Y');
+            $loanInstallment->emi_date = $currentDate->format('Y-m-d');
+            $loanInstallment->penal_interest = '';
+            $loanInstallment->save();
+        }
+
+        // If end_date is not provided, calculate it based on the last installment
+        if (!$request->end_date) {
+            $endDate = clone $startDate;
+            $endDate->modify("+" . ($totalInstallments - 1) . " month");
+            $loan_info->end_date = $endDate->format('Y-m-d');
+            $loan_info->save();
+        }
 
         return response()->json(['message' => 'Member loan info updated successfully', 'data' => $loan_info]);
     }
 
     public function memberLoanDelete($id)
     {
-        $delete_loan = MemberLoanInfo::where('id', $id)->first();
-        $delete_loan->delete();
+        $loanInfo = MemberLoanInfo::find($id);
+        
+        if (!$loanInfo) {
+            return response()->json(['message' => 'Member loan not found'], 404);
+        }
 
-        return response()->json(['message' => 'Member loan deleted successfully']);
+        // Delete all associated installments first
+        MemberLoan::where('loan_info_id', $id)->delete();
+        
+        // Then delete the loan info
+        $loanInfo->delete();
+
+        return response()->json(['message' => 'Member loan and all installments deleted successfully']);
     }
 
     public function memberPolicyInfoStore(Request $request)
