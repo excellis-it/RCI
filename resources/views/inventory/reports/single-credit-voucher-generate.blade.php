@@ -42,7 +42,7 @@
                     ">
                                             CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                             RCI CAMPUS, HYDERABAD - 500 069 <br /><br />
-                                            CERTIFICATE RECEIPT VOUCHER (CRV) <br />
+                                            CREDIT VOUCHER (CRV) <br />
                                             <br>
 
                                         </td>
