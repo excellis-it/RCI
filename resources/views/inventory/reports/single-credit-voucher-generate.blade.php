@@ -21,7 +21,6 @@
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
                 style="border-radius: 0px; margin: 0 auto">
                 <tbody>
@@ -37,13 +36,12 @@
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+                      padding: 5px 5px 0px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
                     ">
                                             CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
-                                            RCI CAMPUS, HYDERABAD - 500 069 <br />
+                                            RCI CAMPUS, HYDERABAD - 500 069 <br /><br />
                                             CERTIFICATE RECEIPT VOUCHER (CRV) <br />
                                             <br>
 
@@ -304,6 +302,8 @@ border-right:1px solid #000;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      width:30px;
+
                     ">
                                             SI.No.
                                         </td>
@@ -436,6 +436,7 @@ border-right:1px solid #000;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                      white-space: nowrap;
                     ">
                                             Total Cost <br />
                                             (Rs.)
@@ -774,11 +775,11 @@ border-right:1px solid #000;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
-                      height: 100px;
+                      height: 50px;
                     ">
-                                            <br /><br /><br /><br /><br /><br />
-                                            O I/c.<br /><br />
-                                            Stores Officer <br /><br />
+                                            <br />
+                                            O I/c.<br />
+                                            Stores Officer <br />
                                             Date:
                                         </td>
                                         @php

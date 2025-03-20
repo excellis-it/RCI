@@ -21,7 +21,6 @@
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                 <tbody>
                     <tr>
@@ -30,8 +29,7 @@
                                 <tbody>
                                     <tr>
                                         <td></td>
-
-                                        <td style="font-size: 14px; text-align: right; font-weight: bold;">DRDO.SM.27
+                                        <td style="font-size: 10px; text-align: right; font-weight: bold;">DRDO.SM.27
                                         </td>
                                     </tr>
                                     <tr>
@@ -43,7 +41,8 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                                            (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES) <br>
+                                            CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br>
+                                            RCI CAMPUS, HYDERABAD - 500 069<br><br>
                                             Conversion Voucher
                                         </td>
                                         <td style="font-size: 14px; text-align: right"></td>
@@ -96,9 +95,8 @@
                                 <tbody>
                                     <tr>
                                         <th valign="top" rowspan="2"
-                                            style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">
-                                            SL.N <br>
-                                            O.
+                                            style="border: 1px solid #000; padding: 5px 0; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">
+                                            SL.NO.
                                         </th>
                                         <th valign="top" colspan="6"
                                             style="border: 1px solid #000; padding: 5px; font-size: 14px; text-align: center; font-weight: 600; font-size: 10px;">

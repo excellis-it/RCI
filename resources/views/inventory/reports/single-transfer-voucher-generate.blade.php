@@ -16,7 +16,6 @@
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                 <tbody>
                     <tr>
@@ -26,7 +25,7 @@
                                     <tr>
                                         <td></td>
 
-                                        <td style="font-size: 14px; text-align: right; font-weight: bold;">DRDO.SM.34
+                                        <td style="font-size: 12px; text-align: right; font-weight: bold;">DRDO.SM.34
                                         </td>
                                     </tr>
                                     <tr>
@@ -37,7 +36,8 @@
                       font-weight: bold;
                       font-size: 14px;
                       width: 100%;
-                    ">
+                    ">                      CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)<br />
+                                            RCI CAMPUS, HYDERABAD - 500 069<br /><br />
                                             TRANSFER VOUCHER (TRVR)
                                         </td>
                                         <td style="font-size: 14px; text-align: right"></td>
@@ -101,75 +101,142 @@
                                     <tr>
 
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; width:30px;">
                                             SL.No.
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Ledger No. <br> Page No.
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Nomenclature
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Qty
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Rate per <br> unit (all <br> inclusive)
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Ledger No. <br> Page No.
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Nomenclature
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Qty
                                         </td>
 
                                     </tr>
-                                    @foreach ($transferVoucher->voucherDetails as $index => $vouchers)
+                                    @php
+                                        $counter = 1;
+                                        $broughtItems = $conversionVoucher->details
+                                            ->whereNotNull('brought_item_id')
+                                            ->first();
+                                        $strikeItems = $conversionVoucher->details->whereNotNull('strike_item_id');
+                                        $strikeCount = $strikeItems->count();
+                                    @endphp
+
+                                    @foreach ($strikeItems as $index => $value)
                                         <tr>
-
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $index + 1 }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $counter++ }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strikeLedgerDetail->itemCode->code ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_item_code ?? '' }}</td>
+                                            <td
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_ledger ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strike_nomenclature ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_description ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ $vouchers->strike_quantity ?? 0 }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_c_nc ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ number_format($vouchers->strike_rate, 2) }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                {{ $value->strike_quantity ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->broughtLedgerDetail->itemCode->code ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->brought_nomenclature ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ $vouchers->brought_quantity ?? 0 }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                {{ ($value->strike_rate != '' ? number_format($value->strike_rate, 2) : '') ?? '' }}
                                             </td>
 
+                                            @if ($index === 0 && $broughtItems)
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_item_code ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_ledger ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_description ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_c_nc ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                    {{ $broughtItems->brought_quantity ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                    {{ ($broughtItems->brought_rate != '' ? number_format($broughtItems->brought_rate, 2) : '') ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->reason ?? '' }}
+                                                </td>
+                                            @elseif ($index !== 0 || !$broughtItems)
+                                                <!-- Empty cells for rows after the first one when there's a brought item -->
+                                                @if ($index !== 0 && $broughtItems)
+                                                    <!-- These cells are covered by the rowspan above -->
+                                                @else
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_item_code ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_ledger ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_description ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_c_nc ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                        {{ $value->brought_quantity ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                        {{ ($value->brought_rate != '' ? number_format($value->brought_rate, 2) : '') ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->reason ?? '' }}
+                                                    </td>
+                                                @endif
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
