@@ -12,6 +12,7 @@
                 padding: 10px;
             }
         </style>
+
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -103,7 +104,7 @@
                                             <br />
                                             Authority for Issue:{{ $externalIssueVoucher->authority_of_issue ?? '' }}
                                             <br />
-                                            ICC No.:<br />
+                                            ICC No.: {{ $externalIssueVoucher->inventoryNumber->number ?? '' }}<br />
                                             Division Name:
                                         </td>
                                     </tr>
@@ -258,7 +259,7 @@
                       font-weight: 600;
                       height: 100px;
                     ">
-                                                {{ $external_issue_voucher_detail->description ?? '' }}
+                                                {{ $external_issue_voucher_detail->item->description ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -268,7 +269,7 @@
                       font-weight: 600;
                       height: 100px;
                     ">
-                                                {{ $external_issue_voucher_detail->au_status ?? '' }}
+                                                {{ $external_issue_voucher_detail->item->auStatus->status ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -278,7 +279,7 @@
                       font-weight: 600;
                       height: 100px;
                     ">
-                                                {{ $external_issue_voucher_detail->item->code ?? '' }}
+                                                {{ $external_issue_voucher_detail->item->ncStatus->status ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -318,7 +319,7 @@
                       font-weight: 600;
                       height: 100px;
                     ">
-                                                {{ $external_issue_voucher_detail->remarks ?? '' }}
+                                            {{ $external_issue_voucher_detail->created_at ? $external_issue_voucher_detail->created_at->format('d-m-Y') : '' }}
                                             </td>
                                             <td
                                                 style="
@@ -328,7 +329,7 @@
                       font-weight: 600;
                       height: 100px;
                     ">
-                                                dff</td>
+                                                {{ $external_issue_voucher_detail->remarks ?? '' }}</td>
                                         </tr>
                                         @php
                                             $total_cost += $external_issue_voucher_detail->total_cost;

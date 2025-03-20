@@ -143,15 +143,15 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strikeLedgerDetail->item_id }}
+                                                {{ $vouchers->strikeLedgerDetail->itemCode->code ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strike_nomenclature }}
+                                                {{ $vouchers->strike_nomenclature ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ $vouchers->strike_quantity }}
+                                                {{ $vouchers->strike_quantity ?? 0 }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
@@ -159,15 +159,15 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->broughtLedgerDetail->item_id }}
+                                                {{ $vouchers->broughtLedgerDetail->itemCode->code ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->brought_nomenclature }}
+                                                {{ $vouchers->brought_nomenclature ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ $vouchers->brought_quantity }}
+                                                {{ $vouchers->brought_quantity ?? 0 }}
                                             </td>
 
                                         </tr>

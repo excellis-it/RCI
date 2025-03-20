@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    CSS List
+    CCS List
 @endsection
 
 @push('styles')
@@ -21,10 +21,10 @@
                 <div class="arrow_left"><a href="{{ route('dashboard') }}" class="text-white"><i
                             class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>CSS</h3>
+                    <h3>CCS</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="{{ route('dashboard') }}">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">CSS</span></li>
+                        <li><span class="bread-blod">CCS</span></li>
                     </ul>
                 </div>
             </div>

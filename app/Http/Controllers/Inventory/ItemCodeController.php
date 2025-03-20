@@ -137,7 +137,7 @@ class ItemCodeController extends Controller
 
         $item_code_gen = new ItemCode();
         $item_code_gen->code = $request->item_code;
-        $item_code_gen->description = $request->description;
+        $item_code_gen->description = $request->description ?? $request->item_name;
         $item_code_gen->uom = $request->uom;
         $item_code_gen->nc_status = $request->nc_status;
         //   $item_code_gen->au_status = $request->au_status;

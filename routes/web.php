@@ -1322,10 +1322,10 @@ Route::middleware('permssions')->group(function () {
     Route::get('/member-alldata-update/{id}', [MemberController::class, 'memberStoreAllData'])->name('member-alldata-update');
 
     // CSS Sub routes
-    Route::get('/css-subs-fetch-data', [CssSubController::class, 'fetchData'])->name('css-subs.fetch-data');
-    Route::put('/css-subs-update', [CssSubController::class, 'update'])->name('css-subs.update');
-    Route::get('/css-subs-edit/{id}', [CssSubController::class, 'edit'])->name('css-subs.edit');
-    Route::get('/css-subs-find-member', [CssSubController::class, 'findMember'])->name('css-subs.find-member');
+    Route::get('/ccs-subs-fetch-data', [CssSubController::class, 'fetchData'])->name('css-subs.fetch-data');
+    Route::put('/ccs-subs-update', [CssSubController::class, 'update'])->name('css-subs.update');
+    Route::get('/ccs-subs-edit/{id}', [CssSubController::class, 'edit'])->name('css-subs.edit');
+    Route::get('/ccs-subs-find-member', [CssSubController::class, 'findMember'])->name('css-subs.find-member');
     Route::get('/members/{id}', [MemberController::class, 'show'])->name('members.show');
 
     // Settings
