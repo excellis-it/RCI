@@ -596,13 +596,13 @@
         });
 
         function getBroughtRate() {
-            let quantity_sum = 0;
+            let quantity_sum = 1;
             let price_sum = 0;
             let unit_rate = 0;
 
             $(".item-quantity").each(function() {
                 let val = parseFloat($(this).val()) || 0; // Parse and handle non-numeric cases
-                quantity_sum += val;
+                quantity_sum = 1;
             });
 
             $(".item-price").each(function() {

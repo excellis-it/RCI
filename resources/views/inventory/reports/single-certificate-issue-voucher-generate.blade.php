@@ -136,7 +136,7 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                {{ $certificateIssuevoucherDetail->au_status ?? '' }}
+                                                {{ $certificateIssuevoucherDetail->item->auStatus->status ?? '' }}
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
@@ -148,7 +148,7 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                {{ $certificateIssueVoucher->inventory->number ?? '' }}
+                                                
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">

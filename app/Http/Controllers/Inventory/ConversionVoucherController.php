@@ -26,8 +26,9 @@ class ConversionVoucherController extends Controller
      */
     public function index()
     {
-        $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+       // $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         // $inventoryNumbers = InventoryNumber::all();
+        $itemCodes = ItemCode::all();
         $conversionVouchers = ConversionVoucher::orderBy('id', 'desc')->paginate(10);
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
         $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();

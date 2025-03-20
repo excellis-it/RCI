@@ -331,7 +331,8 @@ class ReportController extends Controller
             $quantity = $quantity_balance;
            // return $quantity;
             $rate = $firstItem->price ?? 0;
-            $value = $quantity * $rate;
+            $gst = $firstItem->gst_percent ?? 0;
+            $value = $quantity * $rate * (1 + ($gst/100));
             $totalValue += $value;
 
             $inventoryItems[] = [
@@ -342,6 +343,7 @@ class ReportController extends Controller
                 'uom' => $itemCodeDetails->uomajorment?->name ?? '',
                 'rate' => $rate,
                 'qty' => $quantity,
+                'gst' => $gst,
                 'value' => $value,
                 'vr_details' => $firstItem->voucherDetail ?
                     ($firstItem->voucherDetail->voucher_no ?? '') . 'Dt' .
