@@ -1,3 +1,7 @@
+@php
+    use App\Helpers\Helper;
+@endphp
+
 @foreach ($conversionVouchers as $key => $conversionVoucher)
     @if ($key > 0)
         <div style="page-break-before: always;"></div>
@@ -12,6 +16,7 @@
                 padding: 10px;
             }
         </style>
+
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -60,12 +65,15 @@
                         font-weight: 400;
                         color: #000;
                         text-align: left;">
-                                            Group/ Division: <br> <br>
+                                            Group/ Division:
+                                            {{ Helper::getCrvDetaisByInv($conversionVoucher->id)->division_group ?? '' }}<br>
+                                            <br>
                                             Type of Voucher: {{ $conversionVoucher->voucher_type ?? '' }}
                                             &nbsp;&nbsp;&nbsp; Date:
                                             {{ $conversionVoucher->voucher_date ? date('d-m-Y', strtotime($conversionVoucher->voucher_date)) : '' }}<br>
                                             <br>
                                             ICC No.
+                                            {{ Helper::getCrvDetaisByInv($conversionVoucher->id)->invNumber?->number ?? '' }}
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; width: 30%;
@@ -160,67 +168,111 @@
 
 
                                     </tr>
-                                    @foreach ($conversionVoucher->details as $key => $value)
+                                    @php
+                                        $counter = 1;
+                                        $broughtItems = $conversionVoucher->details
+                                            ->whereNotNull('brought_item_id')
+                                            ->first();
+                                        $strikeItems = $conversionVoucher->details->whereNotNull('strike_item_id');
+                                        $strikeCount = $strikeItems->count();
+                                    @endphp
+
+                                    @foreach ($strikeItems as $index => $value)
                                         <tr>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $key + 1 }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $value->strike_item_code ?? '' }}</td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $value->strike_ledger ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;  font-size: 10px;">
-                                                {{ $value->strike_description ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;  font-size: 10px;">
-                                                {{ $value->strike_c_nc ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;   font-size: 10px;">
-                                                {{ $value->strike_quantity ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;   font-size: 10px;">
-                                                {{ ($value->strike_rate != '' ? number_format($value->strike_rate, 2) : '') ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;  font-size: 10px;">
-                                                {{ $value->brought_item_code ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $counter++ }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
-                                                {{ $value->brought_ledger ?? '' }}
+                                                {{ $value->strike_item_code ?? '' }}</td>
+                                            <td
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_ledger ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $value->brought_description ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_description ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $value->brought_c_nc ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                {{ $value->strike_c_nc ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;   font-size: 10px;">
-                                                {{ $value->brought_quantity ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                {{ $value->strike_quantity ?? '' }}
                                             </td>
                                             <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: right;  font-size: 10px;">
-                                                {{ $value->brought_rate ?? '' }}
-                                            </td>
-                                            <td
-                                                style="border: 1px solid #000; padding: 5px; text-align: center;   font-size: 10px;">
-                                                {{ $value->reason ?? '' }}
+                                                style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                {{ ($value->strike_rate != '' ? number_format($value->strike_rate, 2) : '') ?? '' }}
                                             </td>
 
+                                            @if ($index === 0 && $broughtItems)
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_item_code ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_ledger ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_description ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->brought_c_nc ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                    {{ $broughtItems->brought_quantity ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                    {{ ($broughtItems->brought_rate != '' ? number_format($broughtItems->brought_rate, 2) : '') ?? '' }}
+                                                </td>
+                                                <td rowspan="{{ $strikeCount }}"
+                                                    style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                    {{ $broughtItems->reason ?? '' }}
+                                                </td>
+                                            @elseif ($index !== 0 || !$broughtItems)
+                                                <!-- Empty cells for rows after the first one when there's a brought item -->
+                                                @if ($index !== 0 && $broughtItems)
+                                                    <!-- These cells are covered by the rowspan above -->
+                                                @else
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_item_code ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_ledger ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_description ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->brought_c_nc ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                        {{ $value->brought_quantity ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
+                                                        {{ ($value->brought_rate != '' ? number_format($value->brought_rate, 2) : '') ?? '' }}
+                                                    </td>
+                                                    <td
+                                                        style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 10px;">
+                                                        {{ $value->reason ?? '' }}
+                                                    </td>
+                                                @endif
+                                            @endif
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </td>
