@@ -38,12 +38,13 @@ class CreditVoucherController extends Controller
         foreach ($creditVouchers as $creditVoucher) {
             // check inv item balance have other vouchers then do not show edit button
             $creditVoucher->edit_button = true;
-            $creditVoucher_item_balance = InventoryItemBalance::where('voucher_type','!=', 'credit_voucher')->where('inv_id', $creditVoucher->inv_id)->get();
-            if($creditVoucher_item_balance->count() > 0) {
+            $creditVoucher_item_balance = InventoryItemBalance::where('voucher_type', '!=', 'credit_voucher')->where('inv_id', $creditVoucher->inv_id)->get();
+            if ($creditVoucher_item_balance->count() > 0) {
                 $creditVoucher->edit_button = false;
             }
         }
 
+        //return $creditVouchers;
 
         $members = User::role('MATERIAL-MANAGER')->get();
         $lastVoucher = CreditVoucher::latest()->first();
@@ -53,7 +54,8 @@ class CreditVoucherController extends Controller
         $uoms = Uom::all();
         $gstPercentages = GstPercentage::all();
         $vendors = Vendor::all();
-        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
+        $gsts = GstPercentage::orderBy('id', 'desc')->get();
+        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'gsts', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
     }
 
 
@@ -91,6 +93,15 @@ class CreditVoucherController extends Controller
             }
 
             $creditVouchers = $creditVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
+
+            foreach ($creditVouchers as $creditVoucher) {
+                // check inv item balance have other vouchers then do not show edit button
+                $creditVoucher->edit_button = true;
+                $creditVoucher_item_balance = InventoryItemBalance::where('voucher_type', '!=', 'credit_voucher')->where('inv_id', $creditVoucher->inv_id)->get();
+                if ($creditVoucher_item_balance->count() > 0) {
+                    $creditVoucher->edit_button = false;
+                }
+            }
 
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
@@ -289,7 +300,8 @@ class CreditVoucherController extends Controller
 
         $creditVoucherItems = CreditVoucherDetail::where('credit_voucher_id', $id)->get();
 
-        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'creditVoucherItems', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms', 'rins', 'projects'))->render()]);
+        $gstPercentages = GstPercentage::all();
+        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'gstPercentages', 'creditVoucherItems', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms', 'rins', 'projects'))->render()]);
         // return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 

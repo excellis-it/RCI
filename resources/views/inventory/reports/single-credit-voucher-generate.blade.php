@@ -398,7 +398,7 @@ border-right:1px solid #000;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            Tax %
+                                            GST %
                                         </td>
                                         <td
                                             style="
@@ -608,7 +608,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ $creditDetail['tax'] ?? 0 }} %
+                                                {{ $creditDetail['gst_percent'] ?? 0 }} %
                                             </td>
                                             <td
                                                 style="

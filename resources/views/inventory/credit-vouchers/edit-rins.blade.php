@@ -119,6 +119,39 @@
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
+                            <label>GST</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select gst_percent" name="gst_percent[]" id="gst">
+                                <option value="">Select GST</option>
+                                @foreach ($gstPercentages as $gst)
+                                    <option value="{{ $gst->gst_percent }}"
+                                        {{ $creditVoucherItem->gst == $gst->gst_percent ? 'selected' : '' }}>
+                                        {{ $gst->gst_percent }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GST Amount</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control gst_amount" name="gst_amt[]" id="gst_amount"
+                                value="{{ $creditVoucherItem->gst_amount ?? 0.0 }}">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
                             <label>Total Unit Price</label>
                         </div>
                         <div class="col-md-12">
