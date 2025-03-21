@@ -497,7 +497,7 @@ class ReportController extends Controller
                             'nc_status' => $detail->rins->nc_status ?? '',
                             'au_status' => $detail->rins->au_status ?? '',
                             'rate' => $price ?? 0,
-                            'tax' => $detail->gst ?? 0,
+                            'gst_percent' => $detail->gst_percent ?? 0,
                             'disc_percent' => $detail->disc_percent ?? 0,
                             'disc_amt' => $detail->disc_amt ?? 0,
                             'total_price' => $detail->total_price ?? 0,

@@ -232,6 +232,7 @@ class CdaReceiptController extends Controller
         $advBills = CdaBillAuditTeam::where('cda_bill_no', $request->bill_no)->get();
 
         foreach ($advBills as $advBill) {
+           // return $advBill->id;
             $cdreceipt = CDAReceipt::create([
                 'bill_id' => $advBill->id, // Use the current bill ID from CdaBillAuditTeam
                 'rct_vr_no' => $request->rct_vr_no,

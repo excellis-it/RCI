@@ -327,11 +327,12 @@
                         <label>Item Code</label>
                     </div>
                     <div class="col-md-12">
-                        <select class="form-select item_code_id" name="brought_item_id[]"
-                            id="brought_item_code">
+                        <select class="form-select item_code_id" name="brought_item_id[]" id="brought_item_code">
                             <option value="">Select</option>
                             @foreach ($itemCodes as $itemCode)
-                                <option value="{{ $itemCode->id }}">{{ $itemCode->code }}
+                                <option value="{{ $itemCode->id }}" data-item-desc="{{ $itemCode->description }}"
+                                    data-item-type="{{ $itemCode->ncStatus?->status }}"> 
+                                    {{ $itemCode->code }}
                                 </option>
                             @endforeach
                         </select>

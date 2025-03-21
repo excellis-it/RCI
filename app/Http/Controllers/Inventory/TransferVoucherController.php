@@ -230,6 +230,7 @@ class TransferVoucherController extends Controller
                     $inventoryItemStock->item_id = $item_id ?? null;
                     $inventoryItemStock->quantity = $validatedData['strike_quantity'][$index] ?? 0;
                     $inventoryItemStock->quantity_balance = $validatedData['strike_quantity'][$index] ?? 0;
+                    $inventoryItemStock->unit_price = $validatedData['strike_rate'][$index] ?? 0;
                     $inventoryItemStock->save();
                 }
             }

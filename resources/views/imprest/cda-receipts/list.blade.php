@@ -89,9 +89,9 @@
                                 @if (isset($receipt_bills) && count($receipt_bills) > 0)
                                     @foreach ($receipt_bills as $key => $receipt_bill)
                                         <tr>
-                                            <td>{{ $receipt_bill->cdaBill->cda_bill_no }}</td>
-                                            <td>{{ $receipt_bill->rct_vr_no }}</td>
-                                            <td>{{ $receipt_bill->rct_vr_date }}</td>
+                                            <td>{{ $receipt_bill->cdaBill?->cda_bill_no ?? '' }}</td>
+                                            <td>{{ $receipt_bill->rct_vr_no ?? '' }}</td>
+                                            <td>{{ $receipt_bill->rct_vr_date ?? '' }}</td>
 
                                             <td>{{ $receipt_bill->dv_no ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->dv_date ?? 'N/A' }}</td>
