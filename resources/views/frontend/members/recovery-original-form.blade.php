@@ -52,7 +52,7 @@
                         <label>Misc 1</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="misc1" id="misc1"
+                        <input type="text" class="form-control" name="misc1" id="misc7"
                             value="{{ $member_original_recovery->misc1 ?? (old('misc1') ?? '') }}">
                         <span class="text-danger"></span>
                     </div>
@@ -111,7 +111,7 @@
                         <label>Misc 2</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="misc2" id="misc2"
+                        <input type="text" class="form-control" name="misc2" id="misc8"
                             value="{{ $member_original_recovery->misc2 ?? (old('misc2') ?? '') }}">
                         <span class="text-danger"></span>
                     </div>
