@@ -23,9 +23,10 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+                      
                     ">
-                                    CENTER FOR HIGH ENERGY SYSTEMS & SCIENCES (CHESS)
+                                    CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                                    RCI CAMPUS, HYDERABAD - 500 069 <br />
                                 </td>
                             </tr>
                             <tr>
@@ -1022,9 +1023,9 @@
                             </tr>
                             <tr>
                               <td style="width: 5%"></td>
-                              <td 
+                              <td
                                     style="
-                       width: 5%;             
+                       width: 5%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -1052,9 +1053,9 @@
                             </tr>
                             <tr>
                               <td style="width: 5%"></td>
-                              <td 
+                              <td
                                     style="
-                       width: 5%;             
+                       width: 5%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -1082,9 +1083,9 @@
                             </tr>
                             <tr>
                               <td style="width: 5%"></td>
-                              <td 
+                              <td
                                     style="
-                       width: 5%;             
+                       width: 5%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -1111,9 +1112,9 @@
                             </tr>
                             <tr>
                               <td style="width: 5%"></td>
-                              <td 
+                              <td
                                     style="
-                       width: 5%;             
+                       width: 5%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -1165,7 +1166,7 @@
                                 </td>
                                 <td
                                     style="
-                      width: 5%;              
+                      width: 5%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -1216,11 +1217,11 @@
                       text-decoration: underline;
                     ">
                                     Date<span style="margin-right: 15px"></span><span
-                                        style="margin-right: 15px"></span> 
+                                        style="margin-right: 15px"></span>
                                 </td>
                                 <td
                                 style="
-                  width: 5%;              
+                  width: 5%;
                   font-size: 10px;
                   line-height: 14px;
                   font-weight: 400;

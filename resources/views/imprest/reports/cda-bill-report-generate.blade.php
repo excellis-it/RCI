@@ -12,7 +12,7 @@
     <center>
         <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;padding-bottom: 5px">
     </center>
-   
+
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
         <tbody>
@@ -31,7 +31,7 @@
           padding: 0px 5px !important;
           margin: 0px 0px !important;
           text-transform: uppercase;
-          text-decoration: underline;
+          
         ">
                                     CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                     RCI CAMPUS, HYDERABAD - 500 069 <br />

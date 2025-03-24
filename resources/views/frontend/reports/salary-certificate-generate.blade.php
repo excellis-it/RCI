@@ -7,7 +7,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto">
         <tbody>
-            
+
             <tr>
                 <td style="padding: 0 0px">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
@@ -23,13 +23,13 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+                      
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                       border-top: 1px solid #000;
                     ">
-                                    CENTRE FOR HIGH ENERGY SYSTEMS & SCIENCES VIGVANANKANCIIA<br />
-                                    HYDERABAD - 500 069
+                                    CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                                    RCI CAMPUS, HYDERABAD - 500 069 <br />
                                 </td>
                             </tr>
                             <tr>
@@ -589,7 +589,7 @@
                             <tr>
                                 <td
                                     style="
-                      width: 50%;              
+                      width: 50%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -603,7 +603,7 @@
                                 </td>
                                 <td
                                     style="
-                      width: 50%;  
+                      width: 50%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -620,7 +620,7 @@
                             <tr>
                                 <td
                                     style="
-                       width: 50%;                   
+                       width: 50%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -635,7 +635,7 @@
                                 </td>
                                 <td
                                     style="
-                       width: 50%;                   
+                       width: 50%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -652,7 +652,7 @@
                             <tr>
                                 <td
                                     style="
-                       width: 50%;                   
+                       width: 50%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -662,13 +662,13 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border-left: 1px solid #000;
-                     
+
                     ">
                                     Net Pay
                                 </td>
                                 <td
                                     style="
-                       width: 50%;                   
+                       width: 50%;
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -711,7 +711,7 @@
                     </table>
                 </td>
             </tr>
-  
+
             <tr>
                 <td style="padding: 0 0px">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">

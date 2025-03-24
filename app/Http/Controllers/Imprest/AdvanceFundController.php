@@ -41,7 +41,7 @@ class AdvanceFundController extends Controller
 
         $lastAdv = AdvanceFundToEmployee::whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->lockForUpdate()
             ->first();
 
@@ -237,7 +237,7 @@ class AdvanceFundController extends Controller
         $request->validate([
             'member_id' => 'required',
             // 'pc_no' => 'required',
-           // 'emp_id' => 'required',
+            // 'emp_id' => 'required',
             // 'name' => 'required',
             // 'desig' => 'required',
             // 'basic' => 'required',

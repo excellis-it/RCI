@@ -36,7 +36,8 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                                        CENTER FOR HIGH ENERGY SYSTEM & SCIENCES, Hyderabad<br />
+                                        CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                                        RCI CAMPUS, HYDERABAD - 500 069 <br />
                                         RIN CONTROL REGISTER
                                     </td>
                                     <td style="font-size: 14px; text-align: right"></td>

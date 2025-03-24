@@ -1218,14 +1218,14 @@ class MemberController extends Controller
     public function memberLoanDelete($id)
     {
         $loanInfo = MemberLoanInfo::find($id);
-        
+
         if (!$loanInfo) {
             return response()->json(['message' => 'Member loan not found'], 404);
         }
 
         // Delete all associated installments first
         MemberLoan::where('loan_info_id', $id)->delete();
-        
+
         // Then delete the loan info
         $loanInfo->delete();
 
@@ -1655,49 +1655,55 @@ class MemberController extends Controller
 
     public function memberCreditDaPercentage(Request $request)
     {
-        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        // $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        // $member = Member::where('id', $request->memberID)->first();
+        // $hra_percentage = 0;
+        // if ($member->cities) {
+        //     $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
+        // }
+        // $member_expectation_hra = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->where('percent', '!=', 0)->first();
+        // if ($member_expectation_hra) {
+        //     $hra_percentage->percentage = $member_expectation_hra->percent;
+        // }
+        // $tptAmount = 0;
+        // $tptDaAmount = 0;
+        // if ($member->cities && $member->cities->tpt_type) {
+        //     $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
+        //     $tptDaAmount = ($tptAmount->tpt_allowance) / 2;
+        // }
+        // $member_expectation_tpt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'TPT')->first();
+        // if ($member_expectation_tpt) {
+        //     $tptAmount->tpt_allowance = $member_expectation_tpt->amount;
+        //     $tptdaec = $member_expectation_tpt->amount;
+        //     $tptDaAmount = ($tptdaec) / 2; // 50% of the allowance
+        // }
+        // $basicPay = $request->basicPay;
+        // $member_expectation_da = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'DA')->first();
+        // if ($member_expectation_da) {
+        //     $daAmount = $member_expectation_da->amount;
+        // } else {
+        //     $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+        // }
+
+        // $member_expectation_hra_amt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->where('amount', '!=', 0)->first();
+        // if ($member_expectation_hra_amt) {
+        //     $hraAmount = $member_expectation_hra_amt->amount;
+        // } else {
+        //     $hraAmount = $hra_percentage ? ($basicPay * $hra_percentage->percentage) / 100 : 0;
+        // }
+
         $member = Member::where('id', $request->memberID)->first();
-        $hra_percentage = 0;
-        if ($member->cities) {
-            $hra_percentage = Hra::where('city_category', $member->cities->city_type)->where('status', 1)->first();
-        }
-        $member_expectation_hra = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->where('percent', '!=', 0)->first();
-        if ($member_expectation_hra) {
-            $hra_percentage->percentage = $member_expectation_hra->percent;
-        }
-        $tptAmount = 0;
-        $tptDaAmount = 0;
-        if ($member->cities && $member->cities->tpt_type) {
-            $tptAmount = Tpta::where('tpt_type', $member->cities->tpt_type)->where('pay_level_id', $member->pm_level)->where('status', 1)->first();
-            $tptDaAmount = ($tptAmount->tpt_allowance) / 2;
-        }
-        $member_expectation_tpt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'TPT')->first();
-        if ($member_expectation_tpt) {
-            $tptAmount->tpt_allowance = $member_expectation_tpt->amount;
-            $tptdaec = $member_expectation_tpt->amount;
-            $tptDaAmount = ($tptdaec) / 2; // 50% of the allowance
-        }
-        $basicPay = $request->basicPay;
-        $member_expectation_da = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'DA')->first();
-        if ($member_expectation_da) {
-            $daAmount = $member_expectation_da->amount;
-        } else {
-            $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
-        }
 
-        $member_expectation_hra_amt = MemberExpectation::where('member_id', $request->memberID)->where('rule_name', 'HRA')->where('amount', '!=', 0)->first();
-        if ($member_expectation_hra_amt) {
-            $hraAmount = $member_expectation_hra_amt->amount;
-        } else {
-            $hraAmount = $hra_percentage ? ($basicPay * $hra_percentage->percentage) / 100 : 0;
-        }
-
-
+        $member_credit = MemberCredit::where('member_id', $request->memberID)->orderBy('id', 'desc')->first() ?? '';
+        $daAmount = $member_credit->da ?? 0;
+        $hraAmount = $member_credit->hra ?? 0;
+        $tptAmount = $member_credit->tpt ?? 0;
+        $tptDaAmount = $member_credit->da_on_tpt ?? 0;
 
         return response()->json([
             'daAmount' => $daAmount,
             'hraAmount' => $hraAmount,
-            'tptAmount' => $tptAmount ? $tptAmount->tpt_allowance : 0,
+            'tptAmount' => $tptAmount,
             'tptDa' => $tptDaAmount ?? 0,
         ]);
     }

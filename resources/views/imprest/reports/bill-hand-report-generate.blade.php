@@ -31,7 +31,7 @@
               padding: 0px 0px !important;
               margin: 0px 0px !important;
               text-transform: uppercase;
-              text-decoration: underline;
+              
             ">
                                         CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />
