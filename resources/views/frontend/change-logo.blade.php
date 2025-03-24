@@ -1,4 +1,8 @@
-@extends('frontend.layouts.master')
+@php
+    $layout = Auth::user()->hasRole('ADMIN') ? 'frontend.layouts.master' : 'inventory.layouts.master';
+@endphp
+
+@extends($layout)
 @section('title')
     logo
 @endsection
@@ -53,7 +57,7 @@
                                                 width="200px" height="180px" alt=""></a>
                                         @endif
                                     </div>
-                                    
+
                                 </div>
                                 <div class="w-100 text-end">
                                     <button class="print_btn" type="submit">Update</button>

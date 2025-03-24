@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Permissions
+class Common
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Permissions
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->hasRole('ADMIN')) {
+        if (Auth::check()) {
             return $next($request);
         } else {
             return redirect()->route('login')->with('error', 'Unauthorized access.');

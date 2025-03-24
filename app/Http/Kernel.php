@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'permssions' => \App\Http\Middleware\Permissions::class, // Add this line to middlewareAliases array
         'material' => \App\Http\Middleware\MaterialManager::class,
+        'common' => \App\Http\Middleware\Common::class,
     ];
 }

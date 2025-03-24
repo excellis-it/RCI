@@ -1,4 +1,8 @@
-@extends('frontend.layouts.master')
+@php
+    $layout = Auth::user()->hasRole('ADMIN') ? 'frontend.layouts.master' : 'inventory.layouts.master';
+@endphp
+
+@extends($layout)
 @section('title')
     Profile
 @endsection
@@ -31,15 +35,16 @@
                                     <div class="left_img me-3 profile_img">
                                         <span>
                                             @if (Auth::user()->profile_picture)
-                                                <img src="{{ Storage::url(Auth::user()->profile_picture) }}"
-                                                    alt="" id="blah">
+                                                <img src="{{ Storage::url(Auth::user()->profile_picture) }}" alt=""
+                                                    id="blah">
                                             @else
                                                 <img src="{{ asset('frontend_assets/images/profile.png') }}" alt=""
                                                     id="blah" />
                                             @endif
                                         </span>
                                         <div class="profile_eidd">
-                                            <input type="file" id="edit_profile" onchange="readURL(this);" name="profile_picture"/>
+                                            <input type="file" id="edit_profile" onchange="readURL(this);"
+                                                name="profile_picture" />
                                             <label for="edit_profile"><i class="ti ti-edit"></i></label>
                                         </div>
                                     </div>

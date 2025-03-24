@@ -158,8 +158,7 @@ Route::get('/', function () {
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login-check', [AuthController::class, 'loginCheck'])->name('login-check');
 
-Route::middleware('permssions')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::middleware('common')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
@@ -173,6 +172,10 @@ Route::middleware('permssions')->group(function () {
         Route::get('/', [LogoController::class, 'dashboardLogo'])->name('logo.dashboard');
         Route::post('/update',  [LogoController::class, 'logoUpdate'])->name('logo.update');
     });
+});
+
+Route::middleware('permssions')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::resources([
         'categories' => CategoryController::class,
@@ -1006,319 +1009,320 @@ Route::middleware('permssions')->group(function () {
     Route::get('/grade-pays-fetch-data', [GradePayController::class, 'fetchData'])->name('grade-pays.fetch-data');
 
 
-    // inventory routes
-    Route::prefix('inventory')->group(function () {
-        Route::group(['middleware' => 'material'], function () {
-            Route::resources([
-                'item-codes' => ItemCodeController::class,
-                'inventory-types' => InventoryTypeController::class,
-                'inventory-projects' => InventoryProjectController::class,
-                'inventory-numbers' => InventoryNumberController::class,
-                'inventory-loans' => InventoryLoanController::class,
-                'credit-vouchers' => CreditVoucherController::class,
-                'debit-vouchers' => DebitVoucherController::class,
-                'reset-codes' => ResetItemCodeController::class,
-                'gate-passes' => GatePassController::class,
-                'conversion-vouchers' => ConversionVoucherController::class,
-                'external-issue-vouchers' => ExternalIssueVoucherController::class,
-                'transfer-vouchers' => TransferVoucherController::class,
-                'item-code-types' => ItemCodeTypeController::class,
-                'rins' => RinController::class,
-                'supply-orders' => SupplyOrderController::class,
-                'credit-voucher-numbers' => CreditVoucherNumberController::class,
-                'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
-                'uom' => UomController::class,
-                'vendors' => VendorController::class,
-                'transports' => TransportController::class,
-                'gst' => GstController::class,
-                'sirs' => InventorySirController::class,
-                'traffic-controls' => TrafficControlController::class,
-                'security-gate-stores' => SecurityGateStoresController::class,
-                'nc-status' => NcStatusController::class,
-                'au-status' => AuStatusController::class,
-                'item-code-names' => ItemCodeNameController::class,
-                'inventory-members' => InventoryMemberController::class,
-            ]);
 
-            // memeber route
-            Route::get('/inventory-members-delete/{id}', [InventoryMemberController::class, 'deleteMember'])->name('inventory-members.delete');
-            Route::get('/inventory-members-fetch-data', [InventoryMemberController::class, 'fetchData'])->name('inventory-members.fetch-data');
-
-            // nc-status.fetch-data
-            Route::get('/nc-status-fetch-data', [NcStatusController::class, 'fetchData'])->name('nc-status.fetch-data');
-            // nc-status.delete', $nc_status->id
-            Route::get('/nc-status-delete/{id}', [NcStatusController::class, 'deleteNcStatus'])->name('nc-status.delete');
-
-            Route::get('/au-status-fetch-data', [AuStatusController::class, 'fetchData'])->name('au-status.fetch-data');
-            // nc-status.delete', $nc_status->id
-            Route::get('/au-status-delete/{id}', [AuStatusController::class, 'deleteNcStatus'])->name('au-status.delete');
-
-            Route::post('/vendors/model-store', [VendorController::class, 'modelStore'])->name('vendors.model-store');
-            Route::post('/supply_orders/model-store', [SupplyOrderController::class, 'modelStore'])->name('supply_orders.model-store');
-
-
-            Route::get('/inventory-loan-fetch-data', [InventoryLoanController::class, 'inventoryLoanFetchData'])->name('inventory-loans.fetch-data');
-            Route::post('/inventory-loans-get-data', [InventoryLoanController::class, 'inventoryLoanItemData'])->name('inventory-loans.get-item-detail');
-
-            Route::get('/conversion-get-item-details', [ConversionVoucherController::class, 'conversionGetItemDetails'])->name('conversions.item.details');
-            Route::post('/inventory-holder', [CertificateIssueVoucherController::class, 'getInventoryHolder'])->name('certificate-issue-vouchers.get-inventory-holder');
-            Route::get('/security-gate-stores-fetch-data', [SecurityGateStoresController::class, 'fetchData'])->name('security-gate-stores.fetch-data');
-            Route::get('/report-generate', [InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
-            Route::get('/traffic-control-reports', [InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
-            Route::get('/reports-security-gate-store', [InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
-            Route::post('/reports-store-inward', [InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
-            Route::get('/reports-store-inward-list', [InventoryReportController::class, 'storeInwardReportList'])->name('reports.store-inward-list');
-            Route::get('/reports-rin-controller-list', [InventoryReportController::class, 'rinControllerReportList'])->name('reports.rin-controller-list');
-            Route::post('/reports-rin-controller', [InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
-            Route::get('/reports-certificate-receipt', [InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
-
-
-            Route::get('/reports-iventory/{type}', [InventoryReportController::class, 'invReportPage'])->name('reports.inventory');
-            Route::post('/reports-iventory-generate', [InventoryReportController::class, 'invReportGenerate'])->name('reports.inventory.generate');
-
-            // Ledger Sheet Report
-            Route::get('/ledger-sheet-report', [InventoryReportController::class, 'ledgerSheetReport'])->name('reports.ledger-sheet');
-            // Bin Card Report
-            Route::get('/bin-card-report', [InventoryReportController::class, 'binCardReport'])->name('reports.bin-card');
-            //Register for inventories report
-            Route::get('/register-for-inventories', [InventoryReportController::class, 'registerForInventories'])->name('reports.register-for-inventories');
-            //Stock sheet
-            Route::get('/reports-stock-sheet', [InventoryReportController::class, 'stockSheetReport'])->name('reports.stock-sheet');
-            //Inventory Loan register report
-            Route::get('/inventory-loan-register', [InventoryReportController::class, 'inventoryLoanRegister'])->name('reports.inventory-loan-register');
-            //Discrepancy report
-            Route::get('/discrepancy-report', [InventoryReportController::class, 'discrepancyReport'])->name('reports.discrepancy-report');
-            //Internal demand & issue voucher report
-            Route::get('/internal-demand-issue-voucher', [InventoryReportController::class, 'internalDemandIssueVoucher'])->name('reports.internal-demand-issue-voucher');
-            // Internal return & receipt voucher report
-            Route::get('/internal-return-receipt-voucher', [InventoryReportController::class, 'internalReturnReceiptVoucher'])->name('reports.internal-return-receipt-voucher');
-            // Trial store gate pass report
-            Route::get('/trial-store-gate-pass', [InventoryReportController::class, 'trialStoreGatePass'])->name('reports.trial-store-gate-pass');
-            //Armaments and Ammunition register report
-            Route::get('/armaments-ammunition-register', [InventoryReportController::class, 'armamentsAmmunitionRegister'])->name('reports.armaments-ammunition-register');
-            //Disposal Item report
-            Route::get('/disposal-item-report', [InventoryReportController::class, 'disposalItemReport'])->name('reports.disposal-item-report');
-            //Statement of damaged report
-            Route::get('/statement-of-damaged', [InventoryReportController::class, 'statementOfDamaged'])->name('reports.statement-of-damaged');
-            //Cash purchase control register report
-            Route::get('/cash-purchase-control-register', [InventoryReportController::class, 'cashPurchaseControlRegister'])->name('reports.cash-purchase-control-register');
-            //Stores outward register report
-            Route::get('/stores-outward-register', [InventoryReportController::class, 'storesOutwardRegister'])->name('reports.stores-outward-register');
-            // Record of transaction report
-            Route::get('/record-of-transaction', [InventoryReportController::class, 'recordOfTransaction'])->name('reports.record-of-transaction');
-            //Loan out ledger register report
-            Route::get('/loan-out-ledger-register', [InventoryReportController::class, 'loanOutLedgerRegister'])->name('reports.loan-out-ledger-register');
-            //Loan in ledger register report
-            Route::get('/loan-in-ledger-register', [InventoryReportController::class, 'loanInLedgerRegister'])->name('reports.loan-in-ledger-register');
-            //CPRV control register
-            Route::get('/cprv-control-register', [InventoryReportController::class, 'cprvControlRegister'])->name('reports.cprv-control-register');
-            // CPIV control register report
-            Route::get('/cpiv-control-register', [InventoryReportController::class, 'cpivControlRegister'])->name('reports.cpiv-control-register');
-            //Contingent bill report
-            Route::get('/contingent-bill', [InventoryReportController::class, 'contingentBill'])->name('reports.contingent-bill');
-            // Contractor's bill report
-            Route::get('/contractors-bill', [InventoryReportController::class, 'contractorsBill'])->name('reports.contractors-bill');
-            // Certified issue voucher report
-            Route::get('/certified-issue-voucher', [InventoryReportController::class, 'certifiedIssueVoucher'])->name('reports.certified-issue-voucher');
-            //Expendable store issue voucher report
-            Route::get('/expendable-store-issue-voucher', [InventoryReportController::class, 'expendableStoreIssueVoucher'])->name('reports.expendable-store-issue-voucher');
-            //Fitment Voucher report
-            Route::get('/fitment-voucher', [InventoryReportController::class, 'fitmentVoucher'])->name('reports.fitment-voucher');
-
-
-            //rins routes
-            Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');
-
-
-
-            //gate pass report
-            Route::get('/gate-pass-report/{id}', [InventoryReportController::class, 'gatePassReport'])->name('gate-passes.report');
-
-            // report routes
-            // credit voucher
-            Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
-            // debit voucher
-            Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
-
-            // inventory report
-            Route::post('/reports-inventory-crv', [InventoryReportController::class, 'inventoryCRVGenerate'])->name('reports.iventory-crv');
-
-
-            // transfer voucher
-            Route::post('/reports-transfer-voucher', [InventoryReportController::class, 'transferVoucherGenerate'])->name('reports.transfer-voucher');
-            // conversion voucher
-            Route::post('/reports-conversion-voucher', [InventoryReportController::class, 'conversionVoucherGenerate'])->name('reports.conversion-voucher');
-            // external issue voucher
-            Route::post('/reports-external-issue-voucher', [InventoryReportController::class, 'externalIssueVoucherGenerate'])->name('reports.external-issue-voucher');
-            // certificate issue voucher
-            Route::post('/reports-certificate-issue-voucher', [InventoryReportController::class, 'certificateIssueVoucherGenerate'])->name('reports.certificate-issue-voucher');
-            // lvp list
-            Route::get('/reports-lvp-list', [InventoryReportController::class, 'lvpList'])->name('reports.lvp-list');
-            Route::post('/reports-lvp-list-generate', [InventoryReportController::class, 'lvpListGenerate'])->name('reports.lvp-list-generate');
-
-            Route::get('/item-names-report', [InventoryReportController::class, 'itemNamesReport'])->name('reports.item-names-report');
-            Route::post('/item-names-report-generate', [InventoryReportController::class, 'itemNamesReportGenerate'])->name('reports.item-names-report-generate');
-
-            Route::get('/inventory-items-report', [InventoryReportController::class, 'invntoryItemsReport'])->name('reports.inventory-items-report');
-            Route::post('/inventory-items-generate', [InventoryReportController::class, 'invntoryItemsReportGenerate'])->name('reports.inventory-items-report-generate');
-
-
-            //reset item codes
-            Route::prefix('reset-codes')->group(function () {
-                Route::get('/delete/{id}', [ResetItemCodeController::class, 'delete'])->name('reset-codes.delete');
-            });
-            Route::get('/reset-codes-fetch-data', [ResetItemCodeController::class, 'fetchData'])->name('reset-codes.fetch-data');
-
-            //item-codes
-            Route::get('/item-codes-fetch-data', [ItemCodeController::class, 'fetchData'])->name('item-codes.fetch-data');
-            Route::prefix('item-codes')->group(function () {
-                Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
-            });
-
-            Route::get('/inventory-types-fetch-data', [InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
-            Route::prefix('inventory-types')->group(function () {
-                Route::get('/delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
-            });
-
-            Route::get('/inventory-projects-fetch-data', [InventoryProjectController::class, 'fetchData'])->name('inventory-projects.fetch-data');
-            Route::prefix('inventory-projects')->group(function () {
-                Route::get('/delete/{id}', [InventoryProjectController::class, 'delete'])->name('inventory-projects.delete');
-            });
-
-            Route::get('/inventory-numbers-fetch-data', [InventoryNumberController::class, 'fetchData'])->name('inventory-numbers.fetch-data');
-            Route::prefix('inventory-numbers')->group(function () {
-                Route::get('/delete/{id}', [InventoryNumberController::class, 'delete'])->name('inventory-numbers.delete');
-            });
-
-            //credit-vouchers
-            Route::get('/credit-vouchers-fetch-data', [CreditVoucherController::class, 'fetchData'])->name('credit-vouchers.fetch-data');
-            Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
-            Route::post('/get-item-type', [CreditVoucherController::class, 'getItemType'])->name('credit-vouchers.get-item-type');
-            Route::post('/inventory-number', [CreditVoucherController::class, 'getInventoryDetails'])->name('get.inventory-number');
-            Route::get('/credit-vouchers-download-sample', [CreditVoucherController::class, 'downloadSample'])->name('credit-vouchers.download.sample');
-            Route::post('/credit-vouchers-import', [CreditVoucherController::class, 'import'])->name('credit-vouchers.import');
-
-
-            // credit-vouchers.get-rin-details
-            Route::post('/credit-vouchers.get-rin-details', [CreditVoucherController::class, 'getRinDetails'])->name('credit-vouchers.get-rin-details');
-
-            //debit-vouchers
-            Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
-            Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
-            Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
-            Route::post('/get-items-by-inv-no', [DebitVoucherController::class, 'getItemsByInvNo'])->name('debit-vouchers.get-items-by-inv-no');
-            Route::post('/debit-vouchers/get-item-details', [DebitVoucherController::class, 'getItemDetails'])->name('debit-vouchers.get-item-details');
-            //gate-passes
-            Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');
-            Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
-
-            //conversion-vouchers
-            Route::post('/conversion-items-by-inv-no', [ConversionVoucherController::class, 'getItemsByInvNo'])->name('conversion.get-items-by-inv-no');
-            Route::get('/conversion-vouchers-fetch-data', [ConversionVoucherController::class, 'fetchData'])->name('conversion-vouchers.fetch-data');
-            Route::post('/conversion-vouchers-item-quant', [ConversionVoucherController::class, 'getItemQuantity'])->name('conversion-vouchers.get-item-quantity');
-            Route::post('/conversion-vouchers-quantity-validation', [ConversionVoucherController::class, 'getItemQuantityValidation'])->name('conversion-vouchers.quantity-validation');
-            Route::get('/conversion-vouchers-delete/{id}', [ConversionVoucherController::class, 'deleteConversionVoucher'])->name('conversion-vouchers.delete');
-
-            //transfer voucher
-            Route::get('/transfer-vouchers-fetch-data', [TransferVoucherController::class, 'fetchData'])->name('transfer-vouchers.fetch-data');
-            Route::get('/transfer-vouchers-delete/{id}', [TransferVoucherController::class, 'delete'])->name('transfer-vouchers.delete');
-
-            //external-issue-vouchers
-            Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
-            Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
-            Route::post('/external-issue-vouchers-get-items-by-inv-no', [ExternalIssueVoucherController::class, 'getItemsByInvNo'])->name('external-issue-vouchers.get-items-by-inv-no');
-
-            //item-code-types
-            Route::get('/item-code-types-fetch-data', [ItemCodeTypeController::class, 'fetchData'])->name('item-code-types.fetch-data');
-            Route::prefix('item-code-types')->group(function () {
-                Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
-            });
-
-            //item-code-names
-            Route::get('/item-code-names-fetch-data', [ItemCodeNameController::class, 'fetchData'])->name('item-code-names.fetch-data');
-            Route::prefix('item-code-names')->group(function () {
-                Route::get('/delete/{id}', [ItemCodeNameController::class, 'delete'])->name('item-code-names.delete');
-            });
-            Route::post('inventory/item-code-names-get-items', [ItemCodeNameController::class, 'getItems'])->name('inventory.item-code-name.get-items');
-
-            Route::post('inventory/item-code-names-store-uom', [ItemCodeNameController::class, 'storeUom'])->name('item-code-names.storeUom');
-
-            Route::post('inventory/item-code-names-store-ncstatus', [ItemCodeNameController::class, 'storeNcStatus'])->name('item-code-names.storeNcStatus');
-
-            Route::post('inventory/item-code-names-store-austatus', [ItemCodeNameController::class, 'storeAuStatus'])->name('item-code-names.storeAuStatus');
-
-            Route::post('/certificate-issue-vouchers-get-items-by-inv-no', [CertificateIssueVoucherController::class, 'getItemsByInvNo'])->name('certificate-issue-vouchers.get-items-by-inv-no');
-
-            //rins
-            Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
-            Route::prefix('rins')->group(function () {
-                Route::get('/delete/{id}', [RinController::class, 'delete'])->name('rins.delete');
-            });
-            Route::post('/get-item-description', [RinController::class, 'getItemDescription'])->name('rins.get-item-description');
-
-            Route::post('/rins-total-reports/{id}', [RinController::class, 'rinsTotalValue'])->name('rins.get-total-amount');
-
-            Route::post('/get-sir-details', [RinController::class, 'getSirDetails'])->name('rins.get-sir-details');
-
-            Route::post('/get-sir-form', [RinController::class, 'getSirForm'])->name('rins.get-sir-form');
-
-            //sir
-            Route::get('/sirs-fetch-data', [InventorySirController::class, 'fetchData'])->name('sir.fetch-data');
-            Route::post('/get-item-description-sir', [InventorySirController::class, 'getItemDescription'])->name('sir.get-item-description');
-
-            //supply-orders
-            Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');
-            Route::prefix('supply-orders')->group(function () {
-                Route::get('/delete/{id}', [SupplyOrderController::class, 'delete'])->name('supply-orders.delete');
-            });
-
-            // traffic-controls
-            Route::get('/traffic-controls-fetch-data', [TrafficControlController::class, 'fetchData'])->name('traffic-controls.fetch-data');
-            Route::prefix('traffic-controls')->group(function () {
-                Route::get('/delete/{id}', [TrafficControlController::class, 'delete'])->name('traffic-controls.delete');
-            });
-
-
-            //credit-voucher-numbers
-            Route::get('/credit-voucher-numbers-fetch-data', [CreditVoucherNumberController::class, 'fetchData'])->name('credit-voucher-numbers.fetch-data');
-            Route::prefix('credit-voucher-numbers')->group(function () {
-                Route::get('/delete/{id}', [CreditVoucherNumberController::class, 'delete'])->name('credit-voucher-numbers.delete');
-            });
-
-            //certificate-issue-vouchers
-            Route::get('/certificate-issue-vouchers-fetch-data', [CertificateIssueVoucherController::class, 'fetchData'])->name('certificate-issue-vouchers.fetch-data');
-            Route::prefix('certificate-issue-vouchers')->group(function () {
-                Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
-            });
-            Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemDetail'])->name('certificate-issue-vouchers.get-item-type');
-
-            // uoms
-            Route::get('/uom-fetch-data', [UomController::class, 'fetchData'])->name('uom.fetch-data');
-
-            // vendors
-            Route::get('/vendors-fetch-data', [VendorController::class, 'fetchData'])->name('vendors.fetch-data');
-
-            // transports
-            Route::get('/transports-fetch-data', [TransportController::class, 'fetchData'])->name('transports.fetch-data');
-
-            // sir type
-            Route::get('/sir-type', [InventorySirController::class, 'sirType'])->name('sir-type.index');
-            Route::post('/sir-type-store', [InventorySirController::class, 'sirTypeStore'])->name('sir-type.store');
-            Route::get('/sir-type-edit/{id}', [InventorySirController::class, 'sirTypeEdit'])->name('sir-type.edit');
-            Route::put('/sir-type-update/{id}', [InventorySirController::class, 'sirTypeUpdate'])->name('sir-type.update');
-
-
-            // gst
-            Route::get('/gst-fetch-data', [GstController::class, 'fetchData'])->name('gst.fetch-data');
-            Route::prefix('gst')->group(function () {
-                Route::get('/delete/{id}', [GstController::class, 'delete'])->name('gst.delete');
-            });
-        });
-    });
 
     Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
     Route::get('/member-alldata-update/{id}', [MemberController::class, 'memberStoreAllData'])->name('member-alldata-update');
+});
 
+/************************************************************* Meterial Part *********************************************************************/
+Route::prefix('inventory')->group(function () {
+    Route::group(['middleware' => 'material'], function () {
+        Route::resources([
+            'item-codes' => ItemCodeController::class,
+            'inventory-types' => InventoryTypeController::class,
+            'inventory-projects' => InventoryProjectController::class,
+            'inventory-numbers' => InventoryNumberController::class,
+            'inventory-loans' => InventoryLoanController::class,
+            'credit-vouchers' => CreditVoucherController::class,
+            'debit-vouchers' => DebitVoucherController::class,
+            'reset-codes' => ResetItemCodeController::class,
+            'gate-passes' => GatePassController::class,
+            'conversion-vouchers' => ConversionVoucherController::class,
+            'external-issue-vouchers' => ExternalIssueVoucherController::class,
+            'transfer-vouchers' => TransferVoucherController::class,
+            'item-code-types' => ItemCodeTypeController::class,
+            'rins' => RinController::class,
+            'supply-orders' => SupplyOrderController::class,
+            'credit-voucher-numbers' => CreditVoucherNumberController::class,
+            'certificate-issue-vouchers' => CertificateIssueVoucherController::class,
+            'uom' => UomController::class,
+            'vendors' => VendorController::class,
+            'transports' => TransportController::class,
+            'gst' => GstController::class,
+            'sirs' => InventorySirController::class,
+            'traffic-controls' => TrafficControlController::class,
+            'security-gate-stores' => SecurityGateStoresController::class,
+            'nc-status' => NcStatusController::class,
+            'au-status' => AuStatusController::class,
+            'item-code-names' => ItemCodeNameController::class,
+            'inventory-members' => InventoryMemberController::class,
+        ]);
+
+        // memeber route
+        Route::get('/inventory-members-delete/{id}', [InventoryMemberController::class, 'deleteMember'])->name('inventory-members.delete');
+        Route::get('/inventory-members-fetch-data', [InventoryMemberController::class, 'fetchData'])->name('inventory-members.fetch-data');
+
+        // nc-status.fetch-data
+        Route::get('/nc-status-fetch-data', [NcStatusController::class, 'fetchData'])->name('nc-status.fetch-data');
+        // nc-status.delete', $nc_status->id
+        Route::get('/nc-status-delete/{id}', [NcStatusController::class, 'deleteNcStatus'])->name('nc-status.delete');
+
+        Route::get('/au-status-fetch-data', [AuStatusController::class, 'fetchData'])->name('au-status.fetch-data');
+        // nc-status.delete', $nc_status->id
+        Route::get('/au-status-delete/{id}', [AuStatusController::class, 'deleteNcStatus'])->name('au-status.delete');
+
+        Route::post('/vendors/model-store', [VendorController::class, 'modelStore'])->name('vendors.model-store');
+        Route::post('/supply_orders/model-store', [SupplyOrderController::class, 'modelStore'])->name('supply_orders.model-store');
+
+
+        Route::get('/inventory-loan-fetch-data', [InventoryLoanController::class, 'inventoryLoanFetchData'])->name('inventory-loans.fetch-data');
+        Route::post('/inventory-loans-get-data', [InventoryLoanController::class, 'inventoryLoanItemData'])->name('inventory-loans.get-item-detail');
+
+        Route::get('/conversion-get-item-details', [ConversionVoucherController::class, 'conversionGetItemDetails'])->name('conversions.item.details');
+        Route::post('/inventory-holder', [CertificateIssueVoucherController::class, 'getInventoryHolder'])->name('certificate-issue-vouchers.get-inventory-holder');
+        Route::get('/security-gate-stores-fetch-data', [SecurityGateStoresController::class, 'fetchData'])->name('security-gate-stores.fetch-data');
+        Route::get('/report-generate', [InventoryReportController::class, 'inventoryReportGenerate'])->name('inventory.reports');
+        Route::get('/traffic-control-reports', [InventoryReportController::class, 'trafficControlReport'])->name('reports.traffic-control');
+        Route::get('/reports-security-gate-store', [InventoryReportController::class, 'securityGateReport'])->name('reports.security-gate');
+        Route::post('/reports-store-inward', [InventoryReportController::class, 'storeInwardReport'])->name('reports.store-inward');
+        Route::get('/reports-store-inward-list', [InventoryReportController::class, 'storeInwardReportList'])->name('reports.store-inward-list');
+        Route::get('/reports-rin-controller-list', [InventoryReportController::class, 'rinControllerReportList'])->name('reports.rin-controller-list');
+        Route::post('/reports-rin-controller', [InventoryReportController::class, 'rinControllerReport'])->name('reports.rin-controller');
+        Route::get('/reports-certificate-receipt', [InventoryReportController::class, 'certificateReceiptVoucher'])->name('reports.certificate-receipt-voucher');
+
+
+        Route::get('/reports-iventory/{type}', [InventoryReportController::class, 'invReportPage'])->name('reports.inventory');
+        Route::post('/reports-iventory-generate', [InventoryReportController::class, 'invReportGenerate'])->name('reports.inventory.generate');
+
+        // Ledger Sheet Report
+        Route::get('/ledger-sheet-report', [InventoryReportController::class, 'ledgerSheetReport'])->name('reports.ledger-sheet');
+        // Bin Card Report
+        Route::get('/bin-card-report', [InventoryReportController::class, 'binCardReport'])->name('reports.bin-card');
+        //Register for inventories report
+        Route::get('/register-for-inventories', [InventoryReportController::class, 'registerForInventories'])->name('reports.register-for-inventories');
+        //Stock sheet
+        Route::get('/reports-stock-sheet', [InventoryReportController::class, 'stockSheetReport'])->name('reports.stock-sheet');
+        //Inventory Loan register report
+        Route::get('/inventory-loan-register', [InventoryReportController::class, 'inventoryLoanRegister'])->name('reports.inventory-loan-register');
+        //Discrepancy report
+        Route::get('/discrepancy-report', [InventoryReportController::class, 'discrepancyReport'])->name('reports.discrepancy-report');
+        //Internal demand & issue voucher report
+        Route::get('/internal-demand-issue-voucher', [InventoryReportController::class, 'internalDemandIssueVoucher'])->name('reports.internal-demand-issue-voucher');
+        // Internal return & receipt voucher report
+        Route::get('/internal-return-receipt-voucher', [InventoryReportController::class, 'internalReturnReceiptVoucher'])->name('reports.internal-return-receipt-voucher');
+        // Trial store gate pass report
+        Route::get('/trial-store-gate-pass', [InventoryReportController::class, 'trialStoreGatePass'])->name('reports.trial-store-gate-pass');
+        //Armaments and Ammunition register report
+        Route::get('/armaments-ammunition-register', [InventoryReportController::class, 'armamentsAmmunitionRegister'])->name('reports.armaments-ammunition-register');
+        //Disposal Item report
+        Route::get('/disposal-item-report', [InventoryReportController::class, 'disposalItemReport'])->name('reports.disposal-item-report');
+        //Statement of damaged report
+        Route::get('/statement-of-damaged', [InventoryReportController::class, 'statementOfDamaged'])->name('reports.statement-of-damaged');
+        //Cash purchase control register report
+        Route::get('/cash-purchase-control-register', [InventoryReportController::class, 'cashPurchaseControlRegister'])->name('reports.cash-purchase-control-register');
+        //Stores outward register report
+        Route::get('/stores-outward-register', [InventoryReportController::class, 'storesOutwardRegister'])->name('reports.stores-outward-register');
+        // Record of transaction report
+        Route::get('/record-of-transaction', [InventoryReportController::class, 'recordOfTransaction'])->name('reports.record-of-transaction');
+        //Loan out ledger register report
+        Route::get('/loan-out-ledger-register', [InventoryReportController::class, 'loanOutLedgerRegister'])->name('reports.loan-out-ledger-register');
+        //Loan in ledger register report
+        Route::get('/loan-in-ledger-register', [InventoryReportController::class, 'loanInLedgerRegister'])->name('reports.loan-in-ledger-register');
+        //CPRV control register
+        Route::get('/cprv-control-register', [InventoryReportController::class, 'cprvControlRegister'])->name('reports.cprv-control-register');
+        // CPIV control register report
+        Route::get('/cpiv-control-register', [InventoryReportController::class, 'cpivControlRegister'])->name('reports.cpiv-control-register');
+        //Contingent bill report
+        Route::get('/contingent-bill', [InventoryReportController::class, 'contingentBill'])->name('reports.contingent-bill');
+        // Contractor's bill report
+        Route::get('/contractors-bill', [InventoryReportController::class, 'contractorsBill'])->name('reports.contractors-bill');
+        // Certified issue voucher report
+        Route::get('/certified-issue-voucher', [InventoryReportController::class, 'certifiedIssueVoucher'])->name('reports.certified-issue-voucher');
+        //Expendable store issue voucher report
+        Route::get('/expendable-store-issue-voucher', [InventoryReportController::class, 'expendableStoreIssueVoucher'])->name('reports.expendable-store-issue-voucher');
+        //Fitment Voucher report
+        Route::get('/fitment-voucher', [InventoryReportController::class, 'fitmentVoucher'])->name('reports.fitment-voucher');
+
+
+        //rins routes
+        Route::get('/rins-reports/{id}', [InventoryReportController::class, 'rinsReport'])->name('rins.report');
+
+
+
+        //gate pass report
+        Route::get('/gate-pass-report/{id}', [InventoryReportController::class, 'gatePassReport'])->name('gate-passes.report');
+
+        // report routes
+        // credit voucher
+        Route::post('/reports-credit-voucher', [InventoryReportController::class, 'creditVoucherGenerate'])->name('reports.credit-voucher');
+        // debit voucher
+        Route::post('/reports-debit-voucher', [InventoryReportController::class, 'debitVoucherGenerate'])->name('reports.debit-voucher');
+
+        // inventory report
+        Route::post('/reports-inventory-crv', [InventoryReportController::class, 'inventoryCRVGenerate'])->name('reports.iventory-crv');
+
+
+        // transfer voucher
+        Route::post('/reports-transfer-voucher', [InventoryReportController::class, 'transferVoucherGenerate'])->name('reports.transfer-voucher');
+        // conversion voucher
+        Route::post('/reports-conversion-voucher', [InventoryReportController::class, 'conversionVoucherGenerate'])->name('reports.conversion-voucher');
+        // external issue voucher
+        Route::post('/reports-external-issue-voucher', [InventoryReportController::class, 'externalIssueVoucherGenerate'])->name('reports.external-issue-voucher');
+        // certificate issue voucher
+        Route::post('/reports-certificate-issue-voucher', [InventoryReportController::class, 'certificateIssueVoucherGenerate'])->name('reports.certificate-issue-voucher');
+        // lvp list
+        Route::get('/reports-lvp-list', [InventoryReportController::class, 'lvpList'])->name('reports.lvp-list');
+        Route::post('/reports-lvp-list-generate', [InventoryReportController::class, 'lvpListGenerate'])->name('reports.lvp-list-generate');
+
+        Route::get('/item-names-report', [InventoryReportController::class, 'itemNamesReport'])->name('reports.item-names-report');
+        Route::post('/item-names-report-generate', [InventoryReportController::class, 'itemNamesReportGenerate'])->name('reports.item-names-report-generate');
+
+        Route::get('/inventory-items-report', [InventoryReportController::class, 'invntoryItemsReport'])->name('reports.inventory-items-report');
+        Route::post('/inventory-items-generate', [InventoryReportController::class, 'invntoryItemsReportGenerate'])->name('reports.inventory-items-report-generate');
+
+
+        //reset item codes
+        Route::prefix('reset-codes')->group(function () {
+            Route::get('/delete/{id}', [ResetItemCodeController::class, 'delete'])->name('reset-codes.delete');
+        });
+        Route::get('/reset-codes-fetch-data', [ResetItemCodeController::class, 'fetchData'])->name('reset-codes.fetch-data');
+
+        //item-codes
+        Route::get('/item-codes-fetch-data', [ItemCodeController::class, 'fetchData'])->name('item-codes.fetch-data');
+        Route::prefix('item-codes')->group(function () {
+            Route::get('/delete/{id}', [ItemCodeController::class, 'delete'])->name('item-codes.delete');
+        });
+
+        Route::get('/inventory-types-fetch-data', [InventoryTypeController::class, 'fetchData'])->name('inventory-types.fetch-data');
+        Route::prefix('inventory-types')->group(function () {
+            Route::get('/delete/{id}', [InventoryTypeController::class, 'delete'])->name('inventory-types.delete');
+        });
+
+        Route::get('/inventory-projects-fetch-data', [InventoryProjectController::class, 'fetchData'])->name('inventory-projects.fetch-data');
+        Route::prefix('inventory-projects')->group(function () {
+            Route::get('/delete/{id}', [InventoryProjectController::class, 'delete'])->name('inventory-projects.delete');
+        });
+
+        Route::get('/inventory-numbers-fetch-data', [InventoryNumberController::class, 'fetchData'])->name('inventory-numbers.fetch-data');
+        Route::prefix('inventory-numbers')->group(function () {
+            Route::get('/delete/{id}', [InventoryNumberController::class, 'delete'])->name('inventory-numbers.delete');
+        });
+
+        //credit-vouchers
+        Route::get('/credit-vouchers-fetch-data', [CreditVoucherController::class, 'fetchData'])->name('credit-vouchers.fetch-data');
+        Route::get('/credit-vouchers-delete/{id}', [CreditVoucherController::class, 'delete'])->name('credit-vouchers.delete');
+        Route::post('/get-item-type', [CreditVoucherController::class, 'getItemType'])->name('credit-vouchers.get-item-type');
+        Route::post('/inventory-number', [CreditVoucherController::class, 'getInventoryDetails'])->name('get.inventory-number');
+        Route::get('/credit-vouchers-download-sample', [CreditVoucherController::class, 'downloadSample'])->name('credit-vouchers.download.sample');
+        Route::post('/credit-vouchers-import', [CreditVoucherController::class, 'import'])->name('credit-vouchers.import');
+
+
+        // credit-vouchers.get-rin-details
+        Route::post('/credit-vouchers.get-rin-details', [CreditVoucherController::class, 'getRinDetails'])->name('credit-vouchers.get-rin-details');
+
+        //debit-vouchers
+        Route::get('/debit-vouchers-fetch-data', [DebitVoucherController::class, 'fetchData'])->name('debit-vouchers.fetch-data');
+        Route::get('/debit-vouchers-delete/{id}', [DebitVoucherController::class, 'delete'])->name('debit-vouchers.delete');
+        Route::post('/get-item-quantity', [DebitVoucherController::class, 'getItemQuantity'])->name('debit-vouchers.get-item-quantity');
+        Route::post('/get-items-by-inv-no', [DebitVoucherController::class, 'getItemsByInvNo'])->name('debit-vouchers.get-items-by-inv-no');
+        Route::post('/debit-vouchers/get-item-details', [DebitVoucherController::class, 'getItemDetails'])->name('debit-vouchers.get-item-details');
+        //gate-passes
+        Route::get('/gate-passes-fetch-data', [GatePassController::class, 'fetchData'])->name('gate-passes.fetch-data');
+        Route::get('/gate-passes-delete/{id}', [GatePassController::class, 'delete'])->name('gate-passes.delete');
+
+        //conversion-vouchers
+        Route::post('/conversion-items-by-inv-no', [ConversionVoucherController::class, 'getItemsByInvNo'])->name('conversion.get-items-by-inv-no');
+        Route::get('/conversion-vouchers-fetch-data', [ConversionVoucherController::class, 'fetchData'])->name('conversion-vouchers.fetch-data');
+        Route::post('/conversion-vouchers-item-quant', [ConversionVoucherController::class, 'getItemQuantity'])->name('conversion-vouchers.get-item-quantity');
+        Route::post('/conversion-vouchers-quantity-validation', [ConversionVoucherController::class, 'getItemQuantityValidation'])->name('conversion-vouchers.quantity-validation');
+        Route::get('/conversion-vouchers-delete/{id}', [ConversionVoucherController::class, 'deleteConversionVoucher'])->name('conversion-vouchers.delete');
+
+        //transfer voucher
+        Route::get('/transfer-vouchers-fetch-data', [TransferVoucherController::class, 'fetchData'])->name('transfer-vouchers.fetch-data');
+        Route::get('/transfer-vouchers-delete/{id}', [TransferVoucherController::class, 'delete'])->name('transfer-vouchers.delete');
+
+        //external-issue-vouchers
+        Route::get('/external-issue-vouchers-fetch-data', [ExternalIssueVoucherController::class, 'fetchData'])->name('external-issue-vouchers.fetch-data');
+        Route::get('/external-issue-vouchers-delete/{id}', [ExternalIssueVoucherController::class, 'delete'])->name('external-issue-vouchers.delete');
+        Route::post('/external-issue-vouchers-get-items-by-inv-no', [ExternalIssueVoucherController::class, 'getItemsByInvNo'])->name('external-issue-vouchers.get-items-by-inv-no');
+
+        //item-code-types
+        Route::get('/item-code-types-fetch-data', [ItemCodeTypeController::class, 'fetchData'])->name('item-code-types.fetch-data');
+        Route::prefix('item-code-types')->group(function () {
+            Route::get('/delete/{id}', [ItemCodeTypeController::class, 'delete'])->name('item-code-types.delete');
+        });
+
+        //item-code-names
+        Route::get('/item-code-names-fetch-data', [ItemCodeNameController::class, 'fetchData'])->name('item-code-names.fetch-data');
+        Route::prefix('item-code-names')->group(function () {
+            Route::get('/delete/{id}', [ItemCodeNameController::class, 'delete'])->name('item-code-names.delete');
+        });
+        Route::post('inventory/item-code-names-get-items', [ItemCodeNameController::class, 'getItems'])->name('inventory.item-code-name.get-items');
+
+        Route::post('inventory/item-code-names-store-uom', [ItemCodeNameController::class, 'storeUom'])->name('item-code-names.storeUom');
+
+        Route::post('inventory/item-code-names-store-ncstatus', [ItemCodeNameController::class, 'storeNcStatus'])->name('item-code-names.storeNcStatus');
+
+        Route::post('inventory/item-code-names-store-austatus', [ItemCodeNameController::class, 'storeAuStatus'])->name('item-code-names.storeAuStatus');
+
+        Route::post('/certificate-issue-vouchers-get-items-by-inv-no', [CertificateIssueVoucherController::class, 'getItemsByInvNo'])->name('certificate-issue-vouchers.get-items-by-inv-no');
+
+        //rins
+        Route::get('/rins-fetch-data', [RinController::class, 'fetchData'])->name('rins.fetch-data');
+        Route::prefix('rins')->group(function () {
+            Route::get('/delete/{id}', [RinController::class, 'delete'])->name('rins.delete');
+        });
+        Route::post('/get-item-description', [RinController::class, 'getItemDescription'])->name('rins.get-item-description');
+
+        Route::post('/rins-total-reports/{id}', [RinController::class, 'rinsTotalValue'])->name('rins.get-total-amount');
+
+        Route::post('/get-sir-details', [RinController::class, 'getSirDetails'])->name('rins.get-sir-details');
+
+        Route::post('/get-sir-form', [RinController::class, 'getSirForm'])->name('rins.get-sir-form');
+
+        //sir
+        Route::get('/sirs-fetch-data', [InventorySirController::class, 'fetchData'])->name('sir.fetch-data');
+        Route::post('/get-item-description-sir', [InventorySirController::class, 'getItemDescription'])->name('sir.get-item-description');
+
+        //supply-orders
+        Route::get('/supply-orders-fetch-data', [SupplyOrderController::class, 'fetchData'])->name('supply-orders.fetch-data');
+        Route::prefix('supply-orders')->group(function () {
+            Route::get('/delete/{id}', [SupplyOrderController::class, 'delete'])->name('supply-orders.delete');
+        });
+
+        // traffic-controls
+        Route::get('/traffic-controls-fetch-data', [TrafficControlController::class, 'fetchData'])->name('traffic-controls.fetch-data');
+        Route::prefix('traffic-controls')->group(function () {
+            Route::get('/delete/{id}', [TrafficControlController::class, 'delete'])->name('traffic-controls.delete');
+        });
+
+
+        //credit-voucher-numbers
+        Route::get('/credit-voucher-numbers-fetch-data', [CreditVoucherNumberController::class, 'fetchData'])->name('credit-voucher-numbers.fetch-data');
+        Route::prefix('credit-voucher-numbers')->group(function () {
+            Route::get('/delete/{id}', [CreditVoucherNumberController::class, 'delete'])->name('credit-voucher-numbers.delete');
+        });
+
+        //certificate-issue-vouchers
+        Route::get('/certificate-issue-vouchers-fetch-data', [CertificateIssueVoucherController::class, 'fetchData'])->name('certificate-issue-vouchers.fetch-data');
+        Route::prefix('certificate-issue-vouchers')->group(function () {
+            Route::get('/delete/{id}', [CertificateIssueVoucherController::class, 'delete'])->name('certificate-issue-vouchers.delete');
+        });
+        Route::get('/get-item-type', [CertificateIssueVoucherController::class, 'getItemDetail'])->name('certificate-issue-vouchers.get-item-type');
+
+        // uoms
+        Route::get('/uom-fetch-data', [UomController::class, 'fetchData'])->name('uom.fetch-data');
+
+        // vendors
+        Route::get('/vendors-fetch-data', [VendorController::class, 'fetchData'])->name('vendors.fetch-data');
+
+        // transports
+        Route::get('/transports-fetch-data', [TransportController::class, 'fetchData'])->name('transports.fetch-data');
+
+        // sir type
+        Route::get('/sir-type', [InventorySirController::class, 'sirType'])->name('sir-type.index');
+        Route::post('/sir-type-store', [InventorySirController::class, 'sirTypeStore'])->name('sir-type.store');
+        Route::get('/sir-type-edit/{id}', [InventorySirController::class, 'sirTypeEdit'])->name('sir-type.edit');
+        Route::put('/sir-type-update/{id}', [InventorySirController::class, 'sirTypeUpdate'])->name('sir-type.update');
+
+
+        // gst
+        Route::get('/gst-fetch-data', [GstController::class, 'fetchData'])->name('gst.fetch-data');
+        Route::prefix('gst')->group(function () {
+            Route::get('/delete/{id}', [GstController::class, 'delete'])->name('gst.delete');
+        });
+    });
 
     // Settings
     Route::prefix('web-settings')->group(function () {
