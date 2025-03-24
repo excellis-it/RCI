@@ -41,13 +41,13 @@ class AdvanceFundController extends Controller
 
         $lastAdv = AdvanceFundToEmployee::whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->lockForUpdate()
             ->first();
 
         $lastAdvNo = $lastAdv ? $lastAdv->adv_no : 0;
 
-        $last_withdraw = CashWithdrawal::orderBy('vr_date', 'desc')->first();
+        $last_withdraw = CashWithdrawal::orderBy('vr_date', 'asc')->first();
         if ($last_withdraw) {
             $last_withdraw_date = $last_withdraw->vr_date;
         } else {

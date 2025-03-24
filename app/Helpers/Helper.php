@@ -85,12 +85,12 @@ class Helper
 
     public static function getLastImprestBalance($date)
     {
-        return ImprestBalance::where('date', '<=', $date)->latest('date')->latest('time')->orderBy('id', 'desc')->first();
+        return ImprestBalance::where('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->first();
     }
 
     public static function updateBalancesAfterDate($date, $updates)
     {
-        $records = ImprestBalance::where('date', '>', $date)->orderBy('date')->orderBy('time')->orderBy('id', 'desc')->get();
+        $records = ImprestBalance::where('date', '>', $date)->orderBy('date')->latest('created_at')->orderBy('id', 'desc')->get();
         foreach ($records as $record) {
             foreach ($updates as $key => $value) {
                 $record->{$key} += $value;
@@ -101,14 +101,14 @@ class Helper
 
     public static function getCashInBank($date = null)
     {
-        $lastIMBRecord = ImprestBalance::latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_bank');
+        $lastIMBRecord = ImprestBalance::latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank');
         // dd($lastIMBRecord); die;
         return $lastIMBRecord ?? 0;
     }
 
     public static function getCashInHand($date = null)
     {
-        $lastIMBRecord = ImprestBalance::latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_hand');
+        $lastIMBRecord = ImprestBalance::latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand');
         return $lastIMBRecord ?? 0;
     }
 
