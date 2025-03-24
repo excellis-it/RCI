@@ -22,7 +22,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+                      
                     ">
                   CALCULATION OF EL/HPL ENCASHMENT IN R/0 {{ $member->name }}, {{ $member->desigs->designation }} RETIRED ON
                   {{ \Carbon\Carbon::parse($member_retirement_info->retirement_date)->format('d/m/Y') }} @if($member_retirement_info->retirement_type == 'voluntary') UNDER {{ $retirement_type }} @endif
@@ -686,7 +686,7 @@
           <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
             <tbody>
               <tr>
-                @php 
+                @php
                     use App\Helpers\Helper;
 
                     $words = Helper::convert($total_encashment);

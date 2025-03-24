@@ -35,12 +35,11 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+
                     "
                   >
-                    CENTRE FOR HIGH ENERGY SYSTEMS & SCIENCES <br />
-                    OLD RCI UTIl,17 Y BUILDING, RCI CAMPUS, PO <br />
-                    VIGYANAKANCHA
+                  CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                  RCI CAMPUS, HYDERABAD - 500 069 <br />
                   </td>
                 </tr>
               </tbody>

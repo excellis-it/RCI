@@ -23,7 +23,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+                      
                     ">
                                     CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                     RCI CAMPUS, HYDERABAD - 500 069 <br />
@@ -690,7 +690,7 @@
                                     Date:
                                 </td>
                                 @php
-                                      
+
                                       $words = App\Helpers\Helper::convert($total_amt);
                                 @endphp
                                 <td colspan="7"
@@ -1058,5 +1058,5 @@
 </body>
 
 </html>
-<div style="page-break-before: always;"></div> 
+<div style="page-break-before: always;"></div>
 @endforeach

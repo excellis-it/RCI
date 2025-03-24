@@ -5275,7 +5275,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+                      
                     ">
                                         RECOVERY SCHEDULE OF QUARTER CHARGES IN R/O GPF OFFICER FOR THE MONTH OF
                                         {{ $month_name }}-{{ $year }}
