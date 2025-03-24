@@ -309,6 +309,8 @@
                                             // total loans
                                             $totalLoans +=
                                                 $totalHbaInst + $totalCompInst + $totalEduInst + $totalCarBikeInst;
+                                            $total_credits_first = $member_info['details']['member_credit']->tot_credits ?? 0;
+
                                         @endphp
 
                                         <tr>
@@ -443,11 +445,11 @@
                                             <td valign="top"
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                                {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr ?? '0' }}
+                                                {{ $total_credits_first + ($member_info['details']['member_credit']->var_incr ?? 0) }}
                                                 <br>
-                                                {{ $member_info['details']['member_debit']->tot_debits + $allLoans ?? '0' }}
+                                                {{ ($member_info['details']['member_debit']->tot_debits ?? 0) + $allLoans ?? '0' }}
                                                 <br>
-                                                {{ $member_info['details']['member_credit']->tot_credits + $member_info['details']['member_credit']->var_incr - ($member_info['details']['member_debit']->tot_debits + $allLoans) ?? '0' }}
+                                                {{ ($total_credits_first +( $member_info['details']['member_credit']->var_incr ?? 0)) - (($member_info['details']['member_debit']->tot_debits ?? 0) + $allLoans) ?? '0' }}
                                                 <br>
 
                                                 {{ ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
