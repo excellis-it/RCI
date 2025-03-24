@@ -562,6 +562,15 @@
     <script>
         $(document).ready(function() {
             function calculateTotalCost($row) {
+
+                document.querySelectorAll('.disc_percent').forEach(input => {
+                    input.addEventListener('input', function() {
+                        if (parseFloat(this.value) > 100) {
+                            this.value = 100;
+                        }
+                    });
+                });
+
                 var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
                 var unitCost = parseFloat($row.find('.units_cost').val()) || 0;
                 var discPercent = parseFloat($row.find('.disc_percent').val()) || 0;
@@ -589,6 +598,8 @@
                 // Calculate total amount after GST
                 var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
                 $row.find('.total_amount').val(totalAmount);
+
+
             }
 
             // Event listener for changes in received quantity, unit cost, discount, or GST percentage
@@ -597,6 +608,15 @@
                     var $row = $(this).closest('.new_html');
                     calculateTotalCost($row);
                 });
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.disc_percent').forEach(input => {
+            input.addEventListener('input', function() {
+                if (parseFloat(this.value) > 100) {
+                    this.value = 100;
+                }
+            });
         });
     </script>
 @endpush

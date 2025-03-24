@@ -329,27 +329,29 @@ class ReportController extends Controller
             $quantity_balance = $invStocks->quantity_balance ?? 0;
             //  return $quantity_balance;
             $quantity = $quantity_balance;
-           // return $quantity;
+            // return $quantity;
             $rate = $firstItem->price ?? 0;
             $gst = $firstItem->gst_percent ?? 0;
-            $value = $quantity * $rate * (1 + ($gst/100));
-            $totalValue += $value;
-
-            $inventoryItems[] = [
-                'sl_no' => $index++,
-                'lvp' => $itemCodeDetails->code ?? '',
-                'description' => $firstItem->description ?? $itemCodeDetails->item_name ?? '',
-                'nc_c' => $itemCodeDetails->ncStatus?->status ?? 'NC',
-                'uom' => $itemCodeDetails->uomajorment?->name ?? '',
-                'rate' => $rate,
-                'qty' => $quantity,
-                'gst' => $gst,
-                'value' => $value,
-                'vr_details' => $firstItem->voucherDetail ?
-                    ($firstItem->voucherDetail->voucher_no ?? '') . 'Dt' .
-                    (date('d.m.y', strtotime($firstItem->voucherDetail->voucher_date ?? ''))) : '',
-                'remarks' => $firstItem->remarks ?? ''
-            ];
+            $value = $quantity * $rate * (1 + ($gst / 100));
+            
+            if ($quantity_balance > 0) {
+                $totalValue += $value;
+                $inventoryItems[] = [
+                    'sl_no' => $index++,
+                    'lvp' => $itemCodeDetails->code ?? '',
+                    'description' => $firstItem->description ?? $itemCodeDetails->item_name ?? '',
+                    'nc_c' => $itemCodeDetails->ncStatus?->status ?? 'NC',
+                    'uom' => $itemCodeDetails->uomajorment?->name ?? '',
+                    'rate' => $rate,
+                    'qty' => $quantity,
+                    'gst' => $gst,
+                    'value' => $value,
+                    'vr_details' => $firstItem->voucherDetail ?
+                        ($firstItem->voucherDetail->voucher_no ?? '') . 'Dt' .
+                        (date('d.m.y', strtotime($firstItem->voucherDetail->voucher_date ?? ''))) : '',
+                    'remarks' => $firstItem->remarks ?? ''
+                ];
+            }
         }
 
         $logo = Helper::logo() ?? '';

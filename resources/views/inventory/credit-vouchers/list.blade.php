@@ -528,6 +528,15 @@
         $(document).ready(function() {
             // Function to update discount, GST amount and total price
             function updateTotalPrice(inputElement) {
+
+                document.querySelectorAll('.disc_percent').forEach(input => {
+                    input.addEventListener('input', function() {
+                        if (parseFloat(this.value) > 100) {
+                            this.value = 100;
+                        }
+                    });
+                });
+
                 var $row = $(inputElement).closest('.count-class'); // Find the closest row
 
                 // Get values for price, discount percentage, GST percentage, and quantity
@@ -554,14 +563,15 @@
                 // Update the discount amount, GST amount, and total price fields
                 $row.find('.disc_amt').val(disc_amt.toFixed(2)); // Discount amount rounded to 2 decimal places
                 $row.find('.gst_amount').val(gst_amount.toFixed(2)); // GST amount rounded to 2 decimal places
-                $row.find('.total_price').val(total_price.toFixed(2)); // Total price after discount and GST, rounded to 2 decimal places
+                $row.find('.total_price').val(total_price.toFixed(
+                2)); // Total price after discount and GST, rounded to 2 decimal places
             }
 
             // Bind change event to input fields (price, discount percent, GST percent, and quantity)
             $(document).on('keyup change', '.price, .disc_percent, .quantity', function() {
                 updateTotalPrice(this);
             });
-            
+
             // Also trigger calculation when GST percentage changes (using change event as it's a select box)
             $(document).on('change', '.gst_percent', function() {
                 updateTotalPrice(this);

@@ -232,7 +232,7 @@
                         @foreach ($sirItems as $sirItem)
                             <div class="new_html">
                                 <div class="row">
-                                   
+
 
                                     <div class="form-group col-md-4 mb-2">
                                         <div class="row align-items-center">
@@ -334,7 +334,7 @@
                                             <div class="col-md-12">
                                                 <input
                                                     type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}"
-                                                    class="form-control disc_percent" name="disc_percent[]"
+                                                    class="form-control disc_percent" name="disc_percent[]" max="100"
                                                     id="disc_percent" placeholder="Enter percentage"
                                                     value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : 0.0 }}"
                                                     {{ $sirItem->discount_type == 'fixed' ? 'disabled' : '' }}>
@@ -815,8 +815,8 @@
                                             </select></label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0" class="form-control disc_percent"
-                                            name="disc_percent[]" id="disc_percent" placeholder="">
+                                        <input type="number" max="100" step="1" value="0" class="form-control disc_percent"
+                                            name="disc_percent[]" id="disc_percent" placeholder="" >
                                         <input type="hidden" class="form-control discount_amount"
                                             name="discount_amount[]" id="discount_amount" placeholder="">
                                         <span class="text-danger"></span>
