@@ -181,10 +181,10 @@ class ImprestReportController extends Controller
             // Step 1: Fetch AdvanceFundToEmployee data with condition
             $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $request_date)
                 ->get()
-                ->filter(function($advanceFund) {
+                ->filter(function ($advanceFund) {
                     $paid_amount = AdvanceSettlement::where('af_id', $advanceFund->id)
-                      //  ->where('bill_status', 1)
-                      //  ->where('receipt_status', 1)
+                        //  ->where('bill_status', 1)
+                        //  ->where('receipt_status', 1)
                         ->sum('bill_amount');
 
                     // Keep only entries that have pending amounts
@@ -220,7 +220,9 @@ class ImprestReportController extends Controller
             return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'cda_bill') {
 
-            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date','<=', $request_date)->get();
+            $settleBillsCheck = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->where('receipt_status', 1)->pluck('id');
+
+            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $request_date)->whereNotIn('settle_id', $settleBillsCheck)->get();
 
             foreach ($cdaReceipts as $cdaReceipt) {
                 $settle_id = $cdaReceipt->settle_id;
