@@ -13,7 +13,7 @@
                         <tbody>
                             <tr>
                                 <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; text-decoration: underline;">
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase;">
                                     CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br>
                                     RCI CAMPUS, HYDERABAD - 500 069 <br>
                                     CERTIFICATE RECEIPT VOUCHER (CRV) <br>
@@ -352,7 +352,7 @@
                                 </td>
                                 <td colspan="8"
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: 1px solid #000; height: 10px;">
-                                  
+
                                 </td>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-right: 1px solid #000; height: 10px;">
@@ -364,7 +364,7 @@
                                 </td>
                                 <td colspan="8"
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: 1px solid #000; height: 10px;">
-                                  
+
                                 </td>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-right: 1px solid #000; height: 10px;">
@@ -389,7 +389,7 @@
                                 </td>
                                 <td colspan="8"
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: 1px solid #000; height: 10px;">
-                                  
+
                                 </td>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-right: 1px solid #000; height: 10px;">
@@ -401,7 +401,7 @@
                                 </td>
                                 <td colspan="8"
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-left: 1px solid #000; height: 10px;">
-                                  
+
                                 </td>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-right: 1px solid #000; height: 10px;">

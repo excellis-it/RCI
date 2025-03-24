@@ -35,6 +35,7 @@ use App\Models\TransferVoucherDetail;
 use App\Exports\ItemNameReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\InventoryItemStock;
+use App\Models\NcStatus;
 
 class ReportController extends Controller
 {
@@ -243,15 +244,20 @@ class ReportController extends Controller
     public function invntoryItemsReport()
     {
         $inventoryNumbers = InventoryNumber::all();
-        return view('inventory.reports.inventory-items-report', compact('inventoryNumbers'));
+        $nc_statuses = NcStatus::all();
+        return view('inventory.reports.inventory-items-report', compact('inventoryNumbers', 'nc_statuses'));
     }
 
     public function invntoryItemsReportGenerate(Request $request)
     {
         $request->validate([
-            'inventory_number' => 'required'
+            'inventory_number' => 'required',
+            'date_range' => 'nullable|string',
+            'item_nc_type' => 'nullable|exists:nc_statuses,id'
         ]);
 
+        $startDate = null;
+        $endDate = null;
         // Get inventory details
         $inventory_number = $request->inventory_number;
         $inventory = InventoryNumber::where('number', $inventory_number)->first();
@@ -260,68 +266,51 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Inventory number not found');
         }
 
-        // Get items from credit voucher details that belong to this inventory
-        $creditItems = CreditVoucherDetail::where('inv_no', $inventory->id)
-            ->with(['itemCodes', 'inventoryNumber'])
-            ->get();
+        // Start building query
+        $query = CreditVoucherDetail::where('inv_no', $inventory->id)
+            ->with(['itemCodes', 'inventoryNumber']);
+
+        // Apply date range filter if provided
+        if ($request->filled('date_range')) {
+            $dates = explode(' - ', $request->date_range);
+            if (count($dates) == 2) {
+                $startDate = Carbon::parse($dates[0])->startOfDay();
+                $endDate = Carbon::parse($dates[1])->endOfDay();
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
+        }
+
+        // Apply item NC type filter if provided
+        if ($request->filled('item_nc_type')) {
+            $ncTypeId = $request->item_nc_type;
+            $query->whereHas('itemCodes', function ($q) use ($ncTypeId) {
+                $q->where('nc_status', $ncTypeId);
+            });
+        }
+
+        // Execute the query
+        $creditItems = $query->get();
 
         if ($creditItems->isEmpty()) {
-            return redirect()->back()->with('error', 'No items found for this inventory number');
+            return redirect()->back()->with('error', 'No items found for this inventory number with the selected filters');
         }
 
         // Collect item IDs from credit voucher details
         $itemIds = $creditItems->pluck('item_code')->toArray();
 
-        // inv stocks
-        $invStocks = InventoryItemStock::whereIn('item_id', $itemIds)
-            ->where('quantity_balance', '>', 0)
-            ->pluck('item_id')
-            ->toArray();
 
-        // Get items that exist in other voucher types
-        // $debitItems = DebitVoucherDetail::whereIn('item_id', $itemIds)
-        //     ->pluck('item_id')
-        //     ->toArray();
 
-        // $externalIssueItems = ExternalIssueVoucherDetail::whereIn('item_id', $itemIds)
-        //     ->pluck('item_id')
-        //     ->toArray();
-
-        // $certificateIssueItems = CertificateIssueVoucherDetail::whereIn('item_code', $itemIds)
-        //     ->pluck('item_code')
-        //     ->toArray();
-
-        // $conversionStrikeItems = ConversionVoucherDetail::whereIn('strike_item_id', $itemIds)
-        //     ->pluck('strike_item_id')
-        //     ->toArray();
-
-        // $transferItems = TransferVoucherDetail::whereIn('item_id', $itemIds)
-        //     ->pluck('item_id')
-        //     ->toArray();
-
-        // Combine all items that exist in other voucher types
-        $itemsInOtherVouchers = array_merge(
-            // $debitItems,
-            // $externalIssueItems,
-            // $certificateIssueItems,
-            // $conversionStrikeItems,
-            // $transferItems
-            $invStocks
-        );
-
-        // Filter to get items that are only in credit voucher but not in other voucher types
-        $finalItems = $creditItems->filter(function ($item) use ($itemsInOtherVouchers) {
-            return in_array($item->item_code, $itemsInOtherVouchers);
-        });
 
         // Group items by item_code to consolidate quantities and other details
-        $groupedItems = $finalItems->groupBy('item_code');
+        $groupedItems = $creditItems->groupBy('item_code');
 
         $inventoryItems = [];
         $totalValue = 0;
         $index = 1;
 
-        foreach ($groupedItems as $itemCode => $items) {
+
+
+        foreach ($groupedItems as $key => $items) {
             // Get the first item for item details
             $firstItem = $items->first();
             $itemCodeDetails = $firstItem->itemCodes;
@@ -330,10 +319,20 @@ class ReportController extends Controller
                 continue;
             }
 
+            // return $itemCodeDetails;
+
+            // inv stocks to get the quantity
+            $invStocks = InventoryItemStock::where('item_id', $itemCodeDetails->id)->where('inv_id', $inventory->id)->first();
+
+
             // Calculate total quantity and value
-            $quantity = $items->sum('quantity');
+            $quantity_balance = $invStocks->quantity_balance ?? 0;
+            //  return $quantity_balance;
+            $quantity = $quantity_balance;
+           // return $quantity;
             $rate = $firstItem->price ?? 0;
-            $value = $quantity * $rate;
+            $gst = $firstItem->gst_percent ?? 0;
+            $value = $quantity * $rate * (1 + ($gst/100));
             $totalValue += $value;
 
             $inventoryItems[] = [
@@ -344,6 +343,7 @@ class ReportController extends Controller
                 'uom' => $itemCodeDetails->uomajorment?->name ?? '',
                 'rate' => $rate,
                 'qty' => $quantity,
+                'gst' => $gst,
                 'value' => $value,
                 'vr_details' => $firstItem->voucherDetail ?
                     ($firstItem->voucherDetail->voucher_no ?? '') . 'Dt' .
@@ -358,7 +358,7 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView(
             'inventory.reports.inventory-items-report-generate',
-            compact('logo', 'inventoryItems', 'inventory', 'totalValue')
+            compact('logo', 'inventoryItems', 'inventory', 'totalValue', 'startDate', 'endDate')
         )
             ->setPaper('a4', $paperType);
 
@@ -497,7 +497,7 @@ class ReportController extends Controller
                             'nc_status' => $detail->rins->nc_status ?? '',
                             'au_status' => $detail->rins->au_status ?? '',
                             'rate' => $price ?? 0,
-                            'tax' => $detail->rins->gst ?? 0,
+                            'gst_percent' => $detail->gst_percent ?? 0,
                             'disc_percent' => $detail->disc_percent ?? 0,
                             'disc_amt' => $detail->disc_amt ?? 0,
                             'total_price' => $detail->total_price ?? 0,
@@ -535,9 +535,9 @@ class ReportController extends Controller
 
             // return $paperType;
 
-          //  return view('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
+            //  return view('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'));
 
-                $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('inventory.reports.single-credit-voucher-generate', compact('logo', 'creditVouchers', 'creditVoucherDetails', 'result', 'totalItemCost', 'total', 'singleData', 'itemCount', 'singleCreditVoucher', 'get_sir'))->setPaper('a4', $paperType);
             return $pdf->download('credit-voucher-' . $creditVoucher->voucher_no . '.pdf');
         } catch (\Exception $e) {
             //   return response()->json(['error' => $e->getMessage()], 201);

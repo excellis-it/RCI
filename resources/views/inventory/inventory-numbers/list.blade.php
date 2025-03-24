@@ -335,4 +335,15 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.holder_id').change(function(e) {
+                e.preventDefault();
+                var holder_id = $(this).val();
+                var holder_desig = $(this).find(':selected').data('member-desig');
+                $('.holder_desig').val(holder_desig);
+
+            });
+        });
+    </script>
 @endpush

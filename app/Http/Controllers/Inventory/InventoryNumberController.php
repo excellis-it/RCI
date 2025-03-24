@@ -22,7 +22,7 @@ class InventoryNumberController extends Controller
         $inventoryNumbers = InventoryNumber::orderBy('id', 'desc')->paginate(10);
         $itemTypes = InventoryType::orderBy('id', 'desc')->get();
         // $members = User::role('MATERIAL-MANAGER')->get();
-        $members = Member::all();
+        $members = Member::with('desigs')->get();
         $groups = Group::orderBy('id', 'desc')->get();
         $invProjects = InventoryProject::orderBy('id', 'desc')->where('status', 1)->get();
 

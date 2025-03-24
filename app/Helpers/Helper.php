@@ -19,11 +19,13 @@ use App\Models\CDAReceipt;
 use App\Models\CashWithdrawal;
 use App\Models\AdvanceSettlement;
 use App\Models\AdvanceFundToEmployee;
+use App\Models\ConversionVoucherDetail;
 use Illuminate\Support\Facades\DB;
 use App\Models\ImprestBalance;
 use App\Models\InventorySir;
 use App\Models\ItemCode;
 use App\Models\Rin;
+use App\Models\CreditVoucher;
 
 class Helper
 {
@@ -589,4 +591,17 @@ class Helper
         return array_reverse($financialYears); // Show latest first
     }
 
+    public static function getCrvDetaisByInv($cnvid)
+    {
+        $cnv = ConversionVoucherDetail::where('conversion_voucher_id', $cnvid)->where('brought_inv_id', '!=', null)->first();
+        $inv_id = $cnv->brought_inv_id ?? 0;
+        // return $inv_id;
+        $crv = CreditVoucher::where('inv_id', $inv_id)->first();
+        // return $crv;
+        if ($crv) {
+            return $crv;
+        } else {
+            return 'abc';
+        }
+    }
 }

@@ -392,14 +392,14 @@
             var this_adv_amount = parseFloat($(this).val()) || 0;
             var main_cashinhand = parseFloat($("#main_cashinhand_balance").val()) || 0;
 
-            if (this_adv_amount > main_cashinhand) {
-                toastr.error('Cash In Hand Balance is Low');
-                $("#save_settle_btn").attr('disabled', true);
-                $(".advamnt_msg").text('Cash In Hand Balance is Low');
-            } else {
-                $("#save_settle_btn").removeAttr('disabled');
-                $(".advamnt_msg").text('');
-            }
+            // if (this_adv_amount > main_cashinhand) {
+            //     toastr.error('Cash In Hand Balance is Low');
+            //     $("#save_settle_btn").attr('disabled', true);
+            //     $(".advamnt_msg").text('Cash In Hand Balance is Low');
+            // } else {
+            //     $("#save_settle_btn").removeAttr('disabled');
+            //     $(".advamnt_msg").text('');
+            // }
 
 
 
@@ -452,14 +452,14 @@
             var this_adv_amount = parseFloat($(this).val()) || 0;
             var main_cashinhand = parseFloat($("#main_cashinhand_balance").val()) || 0;
 
-            if (this_adv_amount > main_cashinhand) {
-                toastr.error('Cash In Hand Balance is Low');
-                $("#save_settle_btn").attr('disabled', true);
-                $(".advamnt_msg").text('Cash In Hand Balance is Low');
-            } else {
-                $("#save_settle_btn").removeAttr('disabled');
-                $(".advamnt_msg").text('');
-            }
+            // if (this_adv_amount > main_cashinhand) {
+            //     toastr.error('Cash In Hand Balance is Low');
+            //     $("#save_settle_btn").attr('disabled', true);
+            //     $(".advamnt_msg").text('Cash In Hand Balance is Low');
+            // } else {
+            //     $("#save_settle_btn").removeAttr('disabled');
+            //     $(".advamnt_msg").text('');
+            // }
 
 
 

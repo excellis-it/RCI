@@ -20,9 +20,9 @@
                             </tr>
                             <tr>
                                 <td
-                                    style="font-size: 14px; line-height: 18px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; text-decoration: underline;">
-                                    CENTER FOR HIGH ENERGY SYSTEM & SCIENCES (CHESS),<br> VIGNYAA KANCHA POST, HYDERABAD
-                                    —500069 <br>
+                                    style="font-size: 14px; line-height: 18px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase;">
+                                    CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                                        RCI CAMPUS, HYDERABAD - 500 069 <br />
                                     EXPENSE VOUCHER
                                 </td>
                             </tr>
@@ -178,7 +178,7 @@
                                     @endforeach
                                 @endif
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </td>
@@ -210,7 +210,7 @@
                             <tr>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase;">
-                                    
+
                                 </td>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase;">
@@ -222,7 +222,7 @@
                                 </td>
                                 <td
                                     style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase;">
-                                   
+
                                 </td>
                             </tr>
                         </tbody>
@@ -274,7 +274,7 @@
                     </table>
                 </td>
             </tr>
-            
+
         </tbody>
     </table>
 </body>

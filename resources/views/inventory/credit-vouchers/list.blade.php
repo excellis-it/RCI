@@ -526,13 +526,14 @@
 
     <script>
         $(document).ready(function() {
-            // Function to update discount amount and total price
+            // Function to update discount, GST amount and total price
             function updateTotalPrice(inputElement) {
                 var $row = $(inputElement).closest('.count-class'); // Find the closest row
 
-                // Get values for price, discount percentage, and quantity
+                // Get values for price, discount percentage, GST percentage, and quantity
                 var price = parseFloat($row.find('.price').val()) || 0;
                 var disc_percent = parseFloat($row.find('.disc_percent').val()) || 0;
+                var gst_percent = parseFloat($row.find('.gst_percent').val()) || 0;
                 var quantity = parseInt($row.find('.quantity').val()) || 0;
 
                 // Calculate the total price before discount (price * quantity)
@@ -541,17 +542,28 @@
                 // Calculate discount amount (percentage of total price)
                 var disc_amt = total_price_before_discount * disc_percent / 100;
 
-                // Calculate total price after discount
-                var total_price = total_price_before_discount - disc_amt;
+                // Calculate discounted price
+                var discounted_price = total_price_before_discount - disc_amt;
 
-                // Update the discount amount and total price fields
+                // Calculate GST amount (percentage of discounted price)
+                var gst_amount = discounted_price * gst_percent / 100;
+
+                // Calculate total price after discount and GST
+                var total_price = discounted_price + gst_amount;
+
+                // Update the discount amount, GST amount, and total price fields
                 $row.find('.disc_amt').val(disc_amt.toFixed(2)); // Discount amount rounded to 2 decimal places
-                $row.find('.total_price').val(total_price.toFixed(
-                    2)); // Total price after discount, rounded to 2 decimal places
+                $row.find('.gst_amount').val(gst_amount.toFixed(2)); // GST amount rounded to 2 decimal places
+                $row.find('.total_price').val(total_price.toFixed(2)); // Total price after discount and GST, rounded to 2 decimal places
             }
 
-            // Bind change event to input fields (price, discount percent, and quantity)
-            $(document).on('keyup', '.price, .disc_percent, .quantity', function() {
+            // Bind change event to input fields (price, discount percent, GST percent, and quantity)
+            $(document).on('keyup change', '.price, .disc_percent, .quantity', function() {
+                updateTotalPrice(this);
+            });
+            
+            // Also trigger calculation when GST percentage changes (using change event as it's a select box)
+            $(document).on('change', '.gst_percent', function() {
                 updateTotalPrice(this);
             });
         });
@@ -811,6 +823,7 @@
                 var selectedOption = $(this).find('option:selected');
                 var itemCodeId = selectedOption.data('item-code-id');
                 var itemType = selectedOption.data('item-nc-status-name');
+                var itemUom = selectedOption.data('item-uom');
 
                 // Find the parent .rin-items element to scope our search
                 var parent = $(this).closest('.rin-items');
@@ -820,6 +833,9 @@
 
                 // Set the item_type field value
                 parent.find('.item_type').val(itemType);
+
+                // Set the uom field value
+                parent.find('.uom_id').val(itemUom);
             });
         });
     </script>

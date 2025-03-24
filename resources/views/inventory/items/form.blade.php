@@ -49,8 +49,10 @@
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-flex justify-content-between">
                                 <label>UOM(Unit Of Measurement)</label>
+                                <a href="javascript:void(0);" class="edit_pencil add-uom-btn"><i
+                                        class="fa fa-plus"></i></a>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="uom" id="uom">
@@ -253,8 +255,10 @@
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
-                            <div class="col-md-12">
+                            <div class="col-md-12 d-flex justify-content-between">
                                 <label>UOM(Unit Of Measurement)</label>
+                                <a href="javascript:void(0);" class="edit_pencil add-uom-btn"><i
+                                        class="fa fa-plus"></i></a>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="uom" id="uom">
@@ -386,3 +390,36 @@
 
     </form>
 @endif
+
+<!-- UOM Modal -->
+<div class="modal fade" id="uomModal" tabindex="-1" aria-labelledby="uomModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uomModalLabel">Add New UOM</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uom-form">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="uom_name" class="form-label">UOM Name</label>
+                        <input type="text" class="form-control" id="uom_name" name="name" required>
+                        <span class="text-danger uom-error" id="name-error"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uom_status" class="form-label">Status</label>
+                        <select class="form-select" id="uom_status" name="status">
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-uom">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

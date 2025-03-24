@@ -401,44 +401,46 @@
     </script>
 
     <script>
-        $(document).on('change', '#item_code_id', function() {
-            var item_id = $('#item_code_id').val();
-            $.ajax({
-                url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
-                type: 'GET',
-                data: {
-                    item_id: item_id
-                },
-                success: function(response) {
-                    $('#item_type').val(response.item_type);
-                    $('#description').val(response.item_description);
-                    $('#item_unit_price').val(response.item_price);
-                },
-                error: function(xhr) {
-                    console.log(xhr);
-                }
-            });
-        });
+        // $(document).on('change', '#item_code_id', function() {
+        //     var item_id = $('#item_code_id').val();
+        //     var inv_id = $('#inv_no').val();
+        //     $.ajax({
+        //         url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
+        //         type: 'GET',
+        //         data: {
+        //             item_id: item_id,
+        //             inv_id: inv_id
+        //         },
+        //         success: function(response) {
+        //             $('#item_type').val(response.item_type);
+        //             $('#description').val(response.item_description);
+        //             $('#item_unit_price').val(response.item_price);
+        //         },
+        //         error: function(xhr) {
+        //             console.log(xhr);
+        //         }
+        //     });
+        // });
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('#item_code_id').change(function() {
-                var selectedValue = $(this).find(':selected');
-                var quantity = selectedValue.data('hidden-value');
-                // var quantityDiv = $('#quantity');
+        // $(document).ready(function() {
+        //     $('#item_code_id').change(function() {
+        //         var selectedValue = $(this).find(':selected');
+        //         var quantity = selectedValue.data('hidden-value');
+        //         // var quantityDiv = $('#quantity');
 
-                var quantityDivSelectBox = [];
-                quantityDivSelectBox.push('<option value="">Select Quantity</option>');
-                for (var i = 1; i <= quantity; i++) {
-                    quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
-                }
+        //         var quantityDivSelectBox = [];
+        //         quantityDivSelectBox.push('<option value="">Select Quantity</option>');
+        //         for (var i = 1; i <= quantity; i++) {
+        //             quantityDivSelectBox.push('<option value="' + i + '">' + i + '</option>');
+        //         }
 
-                $('#quantity').empty();
-                $('#quantity').append(quantityDivSelectBox.join(''));
+        //         $('#quantity').empty();
+        //         $('#quantity').append(quantityDivSelectBox.join(''));
 
-            });
-        });
+        //     });
+        // });
     </script>
 
     <script>
@@ -463,16 +465,18 @@
                 var $row = $this.closest('.count-class');
 
                 $.ajax({
-                    url: "{{ route('rins.get-item-description') }}",
+                    url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
                     type: 'POST',
                     data: {
-                        id: item_code_id,
+                       // id: item_code_id,
+                        item_id: item_code_id,
+                    inv_id: inv_id
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         // Update the description in the same row
-                        $row.find('.description').val(response.description);
-                        $row.find('.item_price').val(response.price);
+                        $row.find('.description').val(response.item_description);
+                        $row.find('.item_price').val(response.item_price);
 
                         var selectedOption = $this.find('option:selected');
                         var quantity = selectedOption.data('hidden-value');
@@ -536,7 +540,7 @@
                                 $.each(response.invStocks, function(index, item) {
                                     const optionHtml = `<option value="${item.item_id}"
                                         data-hidden-value="${item.quantity_balance}"
-                                        data-description="${item.description || ''}"
+                                        data-description="${item.item_code.description || ''}"
                                         data-price="${item.unit_price || 0.00}">
                                         ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
                                     </option>`;
@@ -571,7 +575,7 @@
                         window.inventoryItems.map(item =>
                             `<option value="${item.item_id}"
                                 data-hidden-value="${item.quantity_balance}"
-                                data-description="${item.description || ''}"
+                                data-description="${item.item_code.description || ''}"
                                 data-price="${item.unit_price || 0.00}">
                                 ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
                             </option>`

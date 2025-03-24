@@ -62,7 +62,7 @@
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px;">
                                         RIN
                                         Date:
-                                        {{ isset($rin->sirNo->sir_date) && $rin->sirNo->sir_date ? date('d-m-Y', strtotime($rin->sirNo->sir_date)) : 'N/A' }}
+                                        {{ isset($rin->rin_date) && $rin->rin_date ? date('d-m-Y', strtotime($rin->rin_date)) : 'N/A' }}
                                     </th>
                                     <th colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px;">
@@ -74,7 +74,7 @@
                                         Date :
                                         {{ isset($rin->sirNo->sir_date) && $rin->sirNo->sir_date ? date('d-m-Y', strtotime($rin->sirNo->sir_date)) : 'N/A' }}
                                     </th>
-                                    <th colspan="2"
+                                    <th colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left; font-size: 10px; border-right:1px solid #000;">
                                         Demand No.: {{ $rin->sirNo->demand_no ?? 'N/A' }}</th>
                                 </tr>
@@ -108,7 +108,7 @@
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-size: 10px;">
                                     </td>
-                                    <td colspan="2"
+                                    <td colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-size: 10px;">
                                         Inventory No (ICC): {{ $rin->sirNo->inventoryNumber->number ?? 'N/A' }}</td>
                                 </tr>
@@ -133,7 +133,7 @@
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">
                                     </td>
-                                    <td colspan="2"
+                                    <td colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                         SO/Contract/ <br> Authority Date:
                                         {{ isset($rin->sirNo?->supplyOrder?->created_at) && $rin->sirNo?->supplyOrder?->created_at ? date('d-m-Y', strtotime($rin->sirNo?->supplyOrder?->created_at)) : 'N/A' }}
@@ -161,7 +161,7 @@
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0;font-size: 10px;">
                                         &nbsp;</td>
-                                    <td colspan="2"
+                                    <td colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                         Project No.: {{ $rin->sirNo->inventoryNumber->project->project_code ?? 'N/A' }}
                                     </td>
@@ -184,6 +184,9 @@
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left;font-size: 10px;">
                                         Unit
                                         Cost</th>
+                                    <th rowspan="2"
+                                        style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left;font-size: 10px;">
+                                        GST %</th>
                                     <th rowspan="2"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: left;font-size: 10px;">
                                         GST</th>
@@ -243,8 +246,13 @@
                                             {{ Helper::formatDecimal($item->unit_cost) ?? '' }}</td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
+                                            {{ $item->gst ?? 0 }}%
+                                        </td>
+                                        <td
+                                            style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                             {{ Helper::formatDecimal($item->gst_amount) ?? '' }}
                                         </td>
+
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                             {{ Helper::formatDecimal($item->round_amount) ?? '' }}</td>
@@ -332,7 +340,7 @@
                                     <td colspan="2"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
                                         Total Basic Cost (Rs)</td>
-                                    <td colspan="2"
+                                    <td colspan="3"
                                         style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
                                         {{ Helper::formatDecimal($total_basic_cost) ?? '' }}
                                     </td>
@@ -360,7 +368,7 @@
                                     <td colspan="2"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
                                         Taxes (Amount):</td>
-                                    <td colspan="2"
+                                    <td colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right;font-size: 10px;">
                                         {{ Helper::formatDecimal($taxes_amount) ?? '' }}
                                     </td>
@@ -386,7 +394,7 @@
                                     <td colspan="2"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
                                         Other Charges (Amount):</td>
-                                    <td colspan="2"
+                                    <td colspan="3"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: center;font-size: 10px;">
                                     </td>
 
@@ -400,8 +408,8 @@
 
                                         $words = Helper::convert(Helper::formatDecimal($total_amount));
                                     @endphp
-                                    <td colspan="2"
-                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
+                                    <td colspan="3"
+                                        style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 12px;">
                                         {{ Helper::formatDecimal($total_amount) ?? '' }} <br>({{ $words ?? '' }})
                                     </td>
 
@@ -421,7 +429,7 @@
                                         Date:___________ <br>
                                         <br>
                                     </td>
-                                    <td colspan="6"
+                                    <td colspan="7"
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 10px; text-align: left; font-weight: 600;font-size: 10px;">
 
                                         <span style="padding-right: 5;">1.</span> Inspection carried out

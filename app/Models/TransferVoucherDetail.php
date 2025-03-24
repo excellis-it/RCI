@@ -48,12 +48,12 @@ class TransferVoucherDetail extends Model
 
     public function strikeLedgerDetail()
     {
-        return $this->belongsTo(InventoryItemStock::class, 'strike_ledger_no');
+        return $this->belongsTo(InventoryItemStock::class, 'strike_ledger_no', 'item_id');
     }
 
     public function broughtLedgerDetail()
     {
-        return $this->belongsTo(InventoryItemStock::class, 'brought_ledger_no');
+        return $this->belongsTo(InventoryItemStock::class, 'brought_ledger_no', 'item_id');
     }
 
     //fromInventoryNumber

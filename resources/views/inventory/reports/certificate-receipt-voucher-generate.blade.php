@@ -39,7 +39,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      text-decoration: underline;
+                      
                     "
                   >
                   CENTER FOR HIGH ENERGY SYSTEM & SCIENCES (CHESS) <br />

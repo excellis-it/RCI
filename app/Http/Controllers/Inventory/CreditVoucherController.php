@@ -34,6 +34,18 @@ class CreditVoucherController extends Controller
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::all();
         $creditVouchers = CreditVoucher::orderBy('id', 'desc')->paginate(10);
+
+        foreach ($creditVouchers as $creditVoucher) {
+            // check inv item balance have other vouchers then do not show edit button
+            $creditVoucher->edit_button = true;
+            $creditVoucher_item_balance = InventoryItemBalance::where('voucher_type', '!=', 'credit_voucher')->where('inv_id', $creditVoucher->inv_id)->get();
+            if ($creditVoucher_item_balance->count() > 0) {
+                $creditVoucher->edit_button = false;
+            }
+        }
+
+        //return $creditVouchers;
+
         $members = User::role('MATERIAL-MANAGER')->get();
         $lastVoucher = CreditVoucher::latest()->first();
         $supplyOrders = SupplyOrder::all();
@@ -42,7 +54,8 @@ class CreditVoucherController extends Controller
         $uoms = Uom::all();
         $gstPercentages = GstPercentage::all();
         $vendors = Vendor::all();
-        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
+        $gsts = GstPercentage::orderBy('id', 'desc')->get();
+        return view('inventory.credit-vouchers.list', compact('creditVouchers', 'gsts', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
     }
 
 
@@ -80,6 +93,15 @@ class CreditVoucherController extends Controller
             }
 
             $creditVouchers = $creditVoucherQuery->orderBy($sort_by, $sort_type)->paginate(10);
+
+            foreach ($creditVouchers as $creditVoucher) {
+                // check inv item balance have other vouchers then do not show edit button
+                $creditVoucher->edit_button = true;
+                $creditVoucher_item_balance = InventoryItemBalance::where('voucher_type', '!=', 'credit_voucher')->where('inv_id', $creditVoucher->inv_id)->get();
+                if ($creditVoucher_item_balance->count() > 0) {
+                    $creditVoucher->edit_button = false;
+                }
+            }
 
             $itemCodes = ItemCode::all();
             $inventoryTypes = InventoryType::all();
@@ -154,6 +176,9 @@ class CreditVoucherController extends Controller
         // $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
         $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
+        $creditVoucher->rin_no = $request->rin;
+        $creditVoucher->inv_id = $request->inv_no;
+        $creditVoucher->budget_head = $request->cost_debatable;
         $creditVoucher->invoice_no = $request->invoice_no;
         $creditVoucher->invoice_date = $request->invoice_date;
         $creditVoucher->supply_order_id = $request->supply_order_no;
@@ -162,9 +187,10 @@ class CreditVoucherController extends Controller
         // New fields
         $creditVoucher->store_receipt_date = $request->store_receipt_date ?? null;
         $creditVoucher->demand_no = $request->demand_no ?? null;
-        $creditVoucher->icc_no = $request->icc_no ?? null;
+        $creditVoucher->icc_no = $request->inv_no ?? null;
+        $creditVoucher->division_name = $request->division_name ?? null;
         $creditVoucher->division_group = $request->division_group ?? null;
-        $creditVoucher->division_date = $request->division_date ?? null;
+        //  $creditVoucher->division_date = $request->division_date ?? null;
         if ($creditVoucher->save()) {
             $lastCreditVoucher = CreditVoucher::latest()->first();
 
@@ -222,6 +248,7 @@ class CreditVoucherController extends Controller
                     if ($existingStock) {
                         // If stock exists, add to the quantity balance
                         $existingStock->quantity_balance += $request->quantity[$key] ?? 0;
+                        $existingStock->unit_price = $request->price[$key] ?? 0.00;
                         $existingStock->save();
                     } else {
                         // Create new stock record
@@ -230,6 +257,8 @@ class CreditVoucherController extends Controller
                         $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
                         $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
                         $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                        // unit_price
+                        $inventoryItemStock->unit_price = $request->price[$key] ?? 0.00;
                         $inventoryItemStock->save();
                     }
                 }
@@ -269,7 +298,10 @@ class CreditVoucherController extends Controller
         $edit = true;
         $rins = Rin::get()->groupBy('rin_no');
 
-        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms', 'rins', 'projects'))->render()]);
+        $creditVoucherItems = CreditVoucherDetail::where('credit_voucher_id', $id)->get();
+
+        $gstPercentages = GstPercentage::all();
+        return response()->json(['view' => view('inventory.credit-vouchers.form', compact('creditVoucher', 'gstPercentages', 'creditVoucherItems', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'supplyOrders', 'members', 'uoms', 'rins', 'projects'))->render()]);
         // return view('inventory.credit-vouchers.form', compact('creditVoucher', 'edit', 'itemCodes', 'inventoryTypes', 'inventoryNumbers'));
     }
 
@@ -292,6 +324,9 @@ class CreditVoucherController extends Controller
         $creditVoucher = CreditVoucher::findOrFail($id);
         $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
+        $creditVoucher->rin_no = $request->rin;
+        $creditVoucher->inv_id = $request->inv_no;
+        $creditVoucher->budget_head = $request->cost_debatable;
         $creditVoucher->invoice_no = $request->invoice_no;
         $creditVoucher->invoice_date = $request->invoice_date;
         $creditVoucher->supply_order_id = $request->supply_order_no;
@@ -300,9 +335,10 @@ class CreditVoucherController extends Controller
         // New fields
         $creditVoucher->store_receipt_date = $request->store_receipt_date ?? null;
         $creditVoucher->demand_no = $request->demand_no ?? null;
-        $creditVoucher->icc_no = $request->icc_no ?? null;
+        $creditVoucher->icc_no = $request->inv_no ?? null;
+        $creditVoucher->division_name = $request->division_name ?? null;
         $creditVoucher->division_group = $request->division_group ?? null;
-        $creditVoucher->division_date = $request->division_date ?? null;
+        //   $creditVoucher->division_date = $request->division_date ?? null;
         $creditVoucher->save();
 
         // Remove old details
@@ -315,6 +351,7 @@ class CreditVoucherController extends Controller
                 $detail->credit_voucher_id = $creditVoucher->id;
                 $detail->item_code_id = $value;
                 $detail->item_code = $request->item_code_id[$key] ?? null;
+                $detail->gem_item_code = $request->gem_item_code[$key] ?? null;
                 $detail->inv_no = $request->inv_no ?? null;
                 $detail->description = $request->description[$key] ?? null;
                 $detail->uom = $request->uom_id[$key] ?? null;
@@ -373,6 +410,7 @@ class CreditVoucherController extends Controller
             }
         }
 
+        session()->flash('message', 'Credit Voucher updated successfully');
         return response()->json(['success' => 'Credit Voucher updated successfully']);
     }
 

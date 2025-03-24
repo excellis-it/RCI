@@ -372,4 +372,64 @@
             }
         });
     </script>
+    <script>
+        // Add UOM modal functionality
+        $(document).ready(function() {
+            // Open modal when add-uom-btn is clicked
+            $(document).on('click', '.add-uom-btn', function(e) {
+                e.preventDefault();
+                $('#uomModal').modal('show');
+            });
+
+            // Handle save UOM button click
+            $('#save-uom').on('click', function() {
+                // Clear previous error messages
+                $('.uom-error').html('');
+
+                // Get form data
+                const formData = {
+                    name: $('#uom_name').val(),
+                    status: $('#uom_status').val(),
+                    _token: $('input[name="_token"]').val()
+                };
+
+                // Send AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('uom.store') }}",
+                    data: formData,
+                    success: function(response) {
+                        if (response.status) {
+                            // Create new option element
+                            const newOption = $('<option>', {
+                                value: response.uom.id,
+                                text: response.uom.name
+                            });
+
+                            // Append to UOM select and select the new option
+                            $('#uom').append(newOption);
+                            $('#uom').val(response.uom.id);
+
+                            // Close modal and reset form
+                            $('#uomModal').modal('hide');
+                            $('#uom-form')[0].reset();
+
+                            // Show success message
+                            toastr.success(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                $('#' + key + '-error').html(value[0]);
+                            });
+                        } else {
+                            toastr.error('Something went wrong. Please try again.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

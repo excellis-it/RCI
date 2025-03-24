@@ -13,7 +13,7 @@
                                 <option value="">Select</option>
                                 @foreach ($itemCodes as $itemCode)
                                     <option value="{{ $itemCode->code }}" data-item-code-id="{{ $itemCode->id }}"
-                                        data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}">
+                                        data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}" data-item-uom="{{ $itemCode->uom ?? '' }}">
                                         {{ $itemCode->code }}</option>
                                 @endforeach
                             </select>
@@ -53,7 +53,7 @@
                             <label>UOM</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-control" name="uom[]" id="uom">
+                            <select class="form-control uom_id" name="uom_id[]" id="uom">
                                 @foreach ($uoms as $uom)
                                     <option value="{{ $uom->id }}">{{ $uom->name }}</option>
                                 @endforeach
@@ -112,6 +112,39 @@
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
                                 placeholder="" value="{{ $rin->discount_amount ?? 0 }}">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GST</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-select gst_percent" name="gst_percent[]" id="gst">
+                                <option value="">Select GST</option>
+                                @foreach ($gstPercentages as $gst)
+                                    <option value="{{ $gst->gst_percent }}"
+                                        {{ $rin->gst == $gst->gst_percent ? 'selected' : '' }}>
+                                        {{ $gst->gst_percent }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GST Amount</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control gst_amount" name="gst_amt[]" id="gst_amount"
+                                value="{{ $rin->gst_amount ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

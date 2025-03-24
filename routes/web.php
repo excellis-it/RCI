@@ -136,6 +136,7 @@ use App\Models\InventorySir;
 use App\Http\Controllers\Inventory\ItemCodeNameController;
 use App\Http\Controllers\Inventory\MemberController as InventoryMemberController;
 use App\Http\Controllers\WebSettingsController;
+use App\Http\Controllers\Frontend\CssSubController;
 
 /*
 |--------------------------------------------------------------------------
@@ -218,7 +219,7 @@ Route::middleware('permssions')->group(function () {
         'gpfs' => GpfController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
-        //  'rules' => RuleController::class,
+        //    'rules' => RuleController::class,
         'member-family' => MemberFamilyController::class,
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
@@ -239,6 +240,7 @@ Route::middleware('permssions')->group(function () {
 
         'backups' => BackupController::class,
 
+        'css-subs' => CssSubController::class,
 
     ]);
 
@@ -1323,6 +1325,12 @@ Route::prefix('inventory')->group(function () {
             Route::get('/delete/{id}', [GstController::class, 'delete'])->name('gst.delete');
         });
     });
+    // CSS Sub routes
+    Route::get('/ccs-subs-fetch-data', [CssSubController::class, 'fetchData'])->name('css-subs.fetch-data');
+    Route::put('/ccs-subs-update', [CssSubController::class, 'update'])->name('css-subs.update');
+    Route::get('/ccs-subs-edit/{id}', [CssSubController::class, 'edit'])->name('css-subs.edit');
+    Route::get('/ccs-subs-find-member', [CssSubController::class, 'findMember'])->name('css-subs.find-member');
+    Route::get('/members/{id}', [MemberController::class, 'show'])->name('members.show');
 
     // Settings
     Route::prefix('web-settings')->group(function () {

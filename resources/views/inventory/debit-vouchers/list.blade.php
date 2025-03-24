@@ -485,14 +485,14 @@
                         var itemName = invStocks.item_code.item_name;
                         var itemCodeId = invStocks.item_id;
                         var totalQuantity = invStocks.quantity_balance;
-                        var unitPrice = 0;
+                        var unitPrice = invStocks.unit_price;
                         var totalPrice = totalQuantity * unitPrice;
                         var itemType = invStocks.item_code.nc_status.status;
                         var itemDescription = invStocks.item_code.description;
 
 
                         options +=
-                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-quantity="${totalQuantity}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
+                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-quantity="${totalQuantity}" data-item-unit-price="${unitPrice}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
                     });
                     console.log(itemType);
                     $('#item_code_id_1').html(options);
@@ -626,6 +626,7 @@
 
             var itemcode = $(this).find('option:selected').data('item-code');
             var quantity = $(this).find('option:selected').data('item-quantity');
+            var unit_price = $(this).find('option:selected').data('item-unit-price');
             var type = $(this).find('option:selected').data('item-type');
             var desc = $(this).find('option:selected').data('item-desc');
             var price = $(this).find('option:selected').data('item-price');
@@ -639,6 +640,7 @@
             parentElement.find('.item-quantity').attr('max', quantity);
             parentElement.find('.init-item-quantity').val(quantity);
             parentElement.find('.item-quantity').attr('max', quantity);
+            parentElement.find('.item-unit-price').val(unit_price);
             parentElement.find('.item-price').val(price);
             parentElement.find('.init-item-price').val(price);
             parentElement.find('.item-type').val(type);

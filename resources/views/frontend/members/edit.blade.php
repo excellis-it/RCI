@@ -878,11 +878,7 @@
                         required: true,
                         number: true
                     },
-                    'inst_rate': {
-                        required: true,
-                        number: true
-                    },
-                    'penal_inst_rate': {
+                    'tot_no_of_inst': {
                         required: true,
                         number: true
                     },
@@ -903,12 +899,10 @@
                     'inst_amount': {
                         required: "Please enter installment amount",
                     },
-                    'inst_rate': {
-                        required: "Please enter installment rate",
+                    'tot_no_of_inst': {
+                        required: "Please enter total number of installment",
                     },
-                    'penal_inst_rate': {
-                        required: "Please enter penal installment rate",
-                    },
+
                     'total_amount': {
                         required: "Please enter total amount",
                         number: "Please enter valid number"
@@ -1495,27 +1489,27 @@
 
     <script>
         $(document).ready(function() {
-            $('.exp_rule_create').change(function() {
-                var rule_data = $(this).val();
-                var rule_id = rule_data.split(',')[1].trim();
+            // $('.exp_rule_create').change(function() {
+            //     var rule_data = $(this).val();
+            //     var rule_id = rule_data.split(',')[1].trim();
 
-                $.ajax({
-                    url: "{{ route('members.expectation.get-rule-detail') }}",
-                    type: 'POST',
-                    data: {
-                        rule_id: rule_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        $('#exp_percent').val(response.data.percent);
-                        $('#exp_amount').val(response.data.amount);
-                        $('#exp_year').val(response.data.year);
-                        $('#exp_month').val(response.data.month);
-                    }
-                });
-            });
+            //     $.ajax({
+            //         url: "{{ route('members.expectation.get-rule-detail') }}",
+            //         type: 'POST',
+            //         data: {
+            //             rule_id: rule_id
+            //         },
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         success: function(response) {
+            //             $('#exp_percent').val(response.data.percent);
+            //             $('#exp_amount').val(response.data.amount);
+            //             $('#exp_year').val(response.data.year);
+            //             $('#exp_month').val(response.data.month);
+            //         }
+            //     });
+            // });
 
 
         });
@@ -1524,7 +1518,7 @@
     <script>
         $(document).ready(function() {
             $('#exp_rule_edit').change(function() {
-                alert();
+              //  alert();
 
             });
 

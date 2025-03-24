@@ -18,4 +18,14 @@ class CreditVoucher extends Model
     {
         return $this->belongsTo(SupplyOrder::class, 'supply_order_id');
     }
+
+    public function invNo()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'icc_no');
+    }
+
+    public function invNumber()
+    {
+        return $this->belongsTo(InventoryNumber::class, 'inv_id');
+    }
 }

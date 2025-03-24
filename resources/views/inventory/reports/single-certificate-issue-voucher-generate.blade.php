@@ -16,7 +16,6 @@
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                 <tbody>
                     <tr>
@@ -38,7 +37,8 @@
                       font-size: 12px;
                       width: 100%;
                     ">
-                                            (CENTER FOR HIGH ENERGY SYSTEM & SCIENCES) <br>
+                                            CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)<br />
+                                            RCI CAMPUS, HYDERABAD - 500 069<br /><br />
                                             Certified Issue Voucher (CIV)
                                         </td>
                                         <td style="font-size: 12px; text-align: right"></td>
@@ -58,7 +58,7 @@
                                             style="font-size: 12px;  width: 70%;
                         line-height: 16px;
                         font-weight: 400;
-                        color: #000; padding-bottom: 10px;
+                        color: #000;
                         text-align: left;">
                                             {{-- Group/Division :......... <br> <br> --}}
                                             Date:
@@ -69,7 +69,7 @@
                         line-height: 16px;
                         font-weight: 400;
                         color: #000;
-                        text-align: left; padding-left: 10px; padding-bottom: 10px;">
+                        text-align: left; padding-left: 10px;">
                                             Voucher No.{{ $certificateIssueVoucher->voucher_no ?? '' }} <br>
                                             ICC No.: {{ $certificateIssueVoucher->inventory->number ?? '' }}
                                         </td>
@@ -86,7 +86,7 @@
                                 <tbody>
                                     <tr>
                                         <th valign="top"
-                                            style="border: 1px solid #000; padding: 5px; font-size: 12px; text-align: left; font-weight: 600;">
+                                            style="border: 1px solid #000; padding: 5px; font-size: 12px; text-align: left; font-weight: 600; width:30px">
                                             S.No
                                         </th>
                                         <th valign="top"
@@ -136,7 +136,7 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                {{ $certificateIssuevoucherDetail->au_status ?? '' }}
+                                                {{ $certificateIssuevoucherDetail->item->auStatus->status ?? '' }}
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
@@ -148,7 +148,7 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                {{ $certificateIssueVoucher->inventory->number ?? '' }}
+                                                
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">

@@ -29,7 +29,7 @@ class RinController extends Controller
      */
     public function index()
     {
-        $rins = Rin::select('rins.rin_no', 'rins.id', 'rins.created_at')
+        $rins = Rin::select('rins.rin_no', 'rins.id', 'rins.created_at', 'rins.rin_date')
             ->join(DB::raw('(SELECT rin_no, MAX(id) as max_id FROM rins GROUP BY rin_no) as subquery'), function ($join) {
                 $join->on('rins.id', '=', 'subquery.max_id');
             })
@@ -74,7 +74,7 @@ class RinController extends Controller
             $query = str_replace(" ", "%", $query);
 
             // Fetching latest unique RIN entries based on rin_no
-            $rins = Rin::select('rins.rin_no', 'rins.id', 'rins.created_at')
+            $rins = Rin::select('rins.rin_no', 'rins.id', 'rins.created_at', 'rins.rin_date')
                 ->join(DB::raw('(SELECT rin_no, MAX(id) as max_id FROM rins GROUP BY rin_no) as subquery'), function ($join) {
                     $join->on('rins.id', '=', 'subquery.max_id');
                 })
@@ -192,6 +192,7 @@ class RinController extends Controller
                 $rin->financial_year = $request->financial_year;
                 $rin->member_id = $request->member_id;
                 $rin->rin_no = $rin_no;
+                $rin->rin_date = $request->rin_date;
                 $rin->store_received_date = $request->store_received_date;
                 $rin->invoice_no = $request->invoice_no;
                 $rin->invoice_date = $request->invoice_date;
@@ -344,6 +345,7 @@ class RinController extends Controller
                 $newRin->financial_year = $request->financial_year;
                 $newRin->member_id = $request->member_id;
                 $newRin->rin_no = $rin_no;
+                $newRin->rin_date = $request->rin_date;
                 $newRin->store_received_date = $request->store_received_date;
                 $newRin->invoice_no = $request->invoice_no;
                 $newRin->invoice_date = $request->invoice_date;

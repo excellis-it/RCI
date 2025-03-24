@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   TPTA List
+    TPTA List
 @endsection
 
 @push('styles')
@@ -53,8 +53,8 @@
                                                     style="cursor: pointer">Pay Level </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="tpt_type"
                                                     style="cursor: pointer"> Type </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="tpt_allowance"
-                                                    style="cursor: pointer">Allowance  </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="tpt_allowance" style="cursor: pointer">Allowance </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="tpt_da"
                                                     style="cursor: pointer">DA </th>
                                                 <th>Status </th>
@@ -176,19 +176,19 @@
             $('#tpta-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -257,7 +257,7 @@
 
     <script>
         $(document).ready(function() {
-            $(document).on('change', '#tpt_allowance', function() {
+            $(document).on('keyup change', '#tpt_allowance', function() {
                 var allowance = $(this).val();
                 $.ajax({
                     url: "{{ route('tptas.da-percentage') }}",

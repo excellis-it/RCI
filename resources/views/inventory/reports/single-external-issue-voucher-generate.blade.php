@@ -12,11 +12,11 @@
                 padding: 10px;
             }
         </style>
+
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                 <tbody>
                     <tr>
@@ -28,7 +28,7 @@
 
                                         <td
                                             style="
-                      font-size: 14px;
+                      font-size: 10px;
                       text-align: right;
                       font-weight: bold;
                     ">
@@ -44,8 +44,8 @@
                       font-size: 14px;
                       width: 100%;
                     ">
-                                            CENTER FOR HIGH ENERGY STSTEMS & SCIENCES<br />
-                                            RCI CAMPUS, HYDERABAD - 500 069<br />
+                                            CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)<br />
+                                            RCI CAMPUS, HYDERABAD - 500 069<br /><br />
                                             EXTERNAL ISSUE VOUCHER (EIV)
                                         </td>
                                         <td style="font-size: 14px; text-align: right"></td>
@@ -62,7 +62,7 @@
                                     <tr>
                                         <td
                                             style="
-                      font-size: 16px;
+                      font-size: 14px;
                       width: 70%;
                       line-height: 18px;
                       font-weight: 600;
@@ -87,7 +87,7 @@
                                         </td>
                                         <td
                                             style="
-                      font-size: 16px;
+                      font-size: 14px;
                       line-height: 18px;
                       width: 30%;
                       font-weight: 600;
@@ -103,7 +103,7 @@
                                             <br />
                                             Authority for Issue:{{ $externalIssueVoucher->authority_of_issue ?? '' }}
                                             <br />
-                                            ICC No.:<br />
+                                            ICC No.: {{ $externalIssueVoucher->inventoryNumber->number ?? '' }}<br />
                                             Division Name:
                                         </td>
                                     </tr>
@@ -122,7 +122,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -132,7 +132,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -142,7 +142,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -152,7 +152,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -162,7 +162,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -175,7 +175,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                     ">
                                             Ledger & <br />
@@ -185,7 +185,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -196,7 +196,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -208,7 +208,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -220,7 +220,7 @@
                                             style="
                       border: 1px solid #000;
                       padding: 5px;
-                      font-size: 14px;
+                      font-size: 12px;
                       text-align: center;
                       font-weight: 600;
                     ">
@@ -236,7 +236,8 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
                                                 {{ $loop->iteration }}
                                             </td>
@@ -246,7 +247,8 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
                                                 {{ $external_issue_voucher_detail->item->code ?? '' }}
                                             </td>
@@ -256,9 +258,10 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
-                                                {{ $external_issue_voucher_detail->description ?? '' }}
+                                                {{ $external_issue_voucher_detail->item->description ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -266,9 +269,10 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
-                                                {{ $external_issue_voucher_detail->au_status ?? '' }}
+                                                {{ $external_issue_voucher_detail->item->auStatus->status ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -276,9 +280,10 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
-                                                {{ $external_issue_voucher_detail->item->code ?? '' }}
+                                                {{ $external_issue_voucher_detail->item->ncStatus->status ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -286,7 +291,8 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
                                                 {{ $external_issue_voucher_detail->unit_price ?? '' }}
                                             </td>
@@ -296,7 +302,8 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
                                                 {{ $external_issue_voucher_detail->quantity ?? '' }}
                                             </td>
@@ -306,7 +313,8 @@
                       padding: 5px;
                       text-align: right;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
                                                 {{ number_format($external_issue_voucher_detail->total_cost, 2) ?? '' }}
                                             </td>
@@ -316,9 +324,10 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
-                                                {{ $external_issue_voucher_detail->remarks ?? '' }}
+                                            {{ $external_issue_voucher_detail->created_at ? $external_issue_voucher_detail->created_at->format('d-m-Y') : '' }}
                                             </td>
                                             <td
                                                 style="
@@ -326,9 +335,10 @@
                       padding: 5px;
                       text-align: center;
                       font-weight: 600;
-                      height: 100px;
+                      height: 50px;
+                      font-size: 12px;
                     ">
-                                                dff</td>
+                                                {{ $external_issue_voucher_detail->remarks ?? '' }}</td>
                                         </tr>
                                         @php
                                             $total_cost += $external_issue_voucher_detail->total_cost;
@@ -347,7 +357,7 @@
                                     <tr>
                                         <td
                                             style="
-                      font-size: 16px;
+                      font-size: 14px;
                       width: 80%;
                       line-height: 18px;
                       font-weight: 600;
@@ -357,7 +367,7 @@
                                         </td>
                                         <td
                                             style="
-                      font-size: 16px;
+                      font-size: 14px;
                       line-height: 18px;
                       width: 20%;
                       font-weight: 600;
@@ -381,7 +391,7 @@
                                     <tr>
                                         <td valign="middle"
                                             style="
-                      font-size: 16px;
+                      font-size: 14px;
                       width: 33%;
                       line-height: 18px;
                       font-weight: 600;
@@ -406,7 +416,7 @@
                                         </td>
                                         <td valign="top"
                                             style="
-                      font-size: 16px;
+                      font-size: 14px;
                       width: 33%;
                       line-height: 18px;
 

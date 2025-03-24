@@ -12,11 +12,11 @@
                 padding: 10px;
             }
         </style>
+
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
             </center>
-            <br>
             <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                 <tbody>
                     <tr>
@@ -26,7 +26,7 @@
                                     <tr>
                                         <td></td>
 
-                                        <td style="font-size: 14px; text-align: right; font-weight: bold;">DRDO.SM.34
+                                        <td style="font-size: 12px; text-align: right; font-weight: bold;">DRDO.SM.34
                                         </td>
                                     </tr>
                                     <tr>
@@ -38,6 +38,8 @@
                       font-size: 14px;
                       width: 100%;
                     ">
+                                            CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)<br />
+                                            RCI CAMPUS, HYDERABAD - 500 069<br /><br />
                                             TRANSFER VOUCHER (TRVR)
                                         </td>
                                         <td style="font-size: 14px; text-align: right"></td>
@@ -101,35 +103,35 @@
                                     <tr>
 
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; width:30px;">
                                             SL.No.
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Ledger No. <br> Page No.
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Nomenclature
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Qty
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Rate per <br> unit (all <br> inclusive)
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Ledger No. <br> Page No.
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Nomenclature
                                         </td>
                                         <td valign="top"
-                                            style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
+                                            style="border: 1px solid #000; padding: 5px; text-align: left; font-size: 14px; font-weight: 600; ">
                                             Qty
                                         </td>
 
@@ -143,15 +145,15 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strikeLedgerDetail->item_id }}
+                                                {{ $vouchers->strikeLedgerDetail->itemCode->code ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->strike_nomenclature }}
+                                                {{ $vouchers->strike_nomenclature ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ $vouchers->strike_quantity }}
+                                                {{ $vouchers->strike_quantity ?? 0 }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
@@ -159,15 +161,15 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->broughtLedgerDetail->item_id }}
+                                                {{ $vouchers->broughtLedgerDetail->itemCode->code ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">
-                                                {{ $vouchers->brought_nomenclature }}
+                                                {{ $vouchers->brought_nomenclature ?? '' }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ $vouchers->brought_quantity }}
+                                                {{ $vouchers->brought_quantity ?? 0 }}
                                             </td>
 
                                         </tr>
