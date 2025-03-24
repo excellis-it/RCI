@@ -77,8 +77,8 @@ class ImprestReportController extends Controller
 
             //////// book 1
 
-            $opening_blanace_cash_in_hand = ImprestBalance::whereDate('date', '<', $request_date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_hand');
-            $opening_blanace_cash_in_bank = ImprestBalance::whereDate('date', '<', $request_date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_bank');
+            $opening_blanace_cash_in_hand = ImprestBalance::whereDate('date', '<', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand');
+            $opening_blanace_cash_in_bank = ImprestBalance::whereDate('date', '<', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank');
 
             $cash_withdraws = CashWithdrawal::whereDate('vr_date', $request_date)->get();
             $total_withdraw_balance = 0;
@@ -116,10 +116,10 @@ class ImprestReportController extends Controller
             }
             $totalPaymentsForTheDay =  $total_bill_balance + 0;
 
-            $opening_blanace_cash_in_hand = ImprestBalance::whereDate('date', '<=', $request_date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_hand');
-            $blanace_cash_in_bank = ImprestBalance::whereDate('date', '<=', $request_date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_bank');
+            $opening_blanace_cash_in_hand = ImprestBalance::whereDate('date', '<=', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand');
+            $blanace_cash_in_bank = ImprestBalance::whereDate('date', '<=', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank');
 
-            $cash_in_hand = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_hand') ?? 0;
+            $cash_in_hand = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand') ?? 0;
 
             $closing_balance_cash_in_hand = $cash_in_hand;
             $grand_total_cash_in_hand = $closing_balance_cash_in_hand + $totalPaymentsForTheDay;
@@ -140,7 +140,7 @@ class ImprestReportController extends Controller
 
             //////// book 3
 
-            $imp_balances = ImprestBalance::where('date', '<=', $date)->latest('date')->latest('time')->orderBy('id', 'desc')->first();
+            $imp_balances = ImprestBalance::where('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->first();
 
             // dd($imp_balances);
 
@@ -151,8 +151,8 @@ class ImprestReportController extends Controller
             $advance_slips = 0;
             $all_totals = 0;
 
-            $cash_in_hand = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_hand') ?? 0;
-            $cash_in_bank = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('time')->orderBy('id', 'desc')->value('cash_in_bank') ?? 0;
+            $cash_in_hand = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand') ?? 0;
+            $cash_in_bank = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank') ?? 0;
 
             if ($imp_balances) {
 
