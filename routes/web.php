@@ -173,6 +173,12 @@ Route::middleware('common')->group(function () {
         Route::get('/', [LogoController::class, 'dashboardLogo'])->name('logo.dashboard');
         Route::post('/update',  [LogoController::class, 'logoUpdate'])->name('logo.update');
     });
+
+     // Settings
+     Route::prefix('web-settings')->group(function () {
+        Route::get('/pdf-page-type', [WebSettingsController::class, 'pdfPageType'])->name('settings.pdf-page-type.form');
+        Route::post('/pdf-page-type-save', [WebSettingsController::class, 'pdfPageTypeSave'])->name('settings.pdf-page-type.save');
+    });
 });
 
 Route::middleware('permssions')->group(function () {
@@ -1332,11 +1338,7 @@ Route::prefix('inventory')->group(function () {
     Route::get('/ccs-subs-find-member', [CssSubController::class, 'findMember'])->name('css-subs.find-member');
     Route::get('/members/{id}', [MemberController::class, 'show'])->name('members.show');
 
-    // Settings
-    Route::prefix('web-settings')->group(function () {
-        Route::get('/pdf-page-type', [WebSettingsController::class, 'pdfPageType'])->name('settings.pdf-page-type.form');
-        Route::post('/pdf-page-type-save', [WebSettingsController::class, 'pdfPageTypeSave'])->name('settings.pdf-page-type.save');
-    });
+
 });
 
 Route::get('/expired', function () {

@@ -1,4 +1,8 @@
-@extends('inventory.layouts.master')
+@php
+    $layout = Auth::user()->hasRole('ADMIN') ? 'frontend.layouts.master' : 'inventory.layouts.master';
+@endphp
+
+@extends($layout)
 @section('title')
     Settings - PDF Paper Type
 @endsection
