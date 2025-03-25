@@ -148,7 +148,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" value="0.00" class="form-control item_price"
-                                    name="unit_price[]" id="item_unit_price" placeholder="">
+                                    name="unit_price[]" id="item_unit_price" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -172,11 +172,12 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Price</label>
+                                <label>Total Price (GST : <span class="item_gst_percent">0</span>% , Discount :
+                                    <span class="item_discount_percent">0</span>%)</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" value="0.00" class="form-control" name="total_price[]"
-                                    id="total_price" placeholder="">
+                                <input type="text" value="0.00" class="form-control total_price" name="total_price[]"
+                                     placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -283,7 +284,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" value="0.00" class="form-control item_price"
-                                    name="unit_price[]" id="item_unit_price" placeholder="">
+                                    name="unit_price[]" id="item_unit_price" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -305,7 +306,8 @@
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Price</label>
+                                <label>Total Price (GST : <span class="item_gst_percent">0</span>% , Discount :
+                                    <span class="item_discount_percent">0</span>%)</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" value="0.00" class="form-control total_price"

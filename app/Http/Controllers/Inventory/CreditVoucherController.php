@@ -248,7 +248,16 @@ class CreditVoucherController extends Controller
                     if ($existingStock) {
                         // If stock exists, add to the quantity balance
                         $existingStock->quantity_balance += $request->quantity[$key] ?? 0;
+                        // gst and discount
+                        $existingStock->gst_percent = $request->gst_percent[$key] ?? 0.00;
+                        $existingStock->gst_amount = $request->gst_amt[$key] ?? 0.00;
+                        $existingStock->discount_percent = $request->disc_percent[$key] ?? 0.00;
+                        $existingStock->discount_amount = $request->disc_amt[$key] ?? 0.00;
+                        // unit_price
                         $existingStock->unit_price = $request->price[$key] ?? 0.00;
+                        // ledger_no and page_no
+                        $existingStock->ledger_no = $request->ledger_no[$key] ?? null;
+                        $existingStock->page_no = $request->folio_no[$key] ?? null;
                         $existingStock->save();
                     } else {
                         // Create new stock record
@@ -257,8 +266,16 @@ class CreditVoucherController extends Controller
                         $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
                         $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
                         $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                        // gst and discount
+                        $inventoryItemStock->gst_percent = $request->gst_percent[$key] ?? 0.00;
+                        $inventoryItemStock->gst_amount = $request->gst_amt[$key] ?? 0.00;
+                        $inventoryItemStock->discount_percent = $request->disc_percent[$key] ?? 0.00;
+                        $inventoryItemStock->discount_amount = $request->disc_amt[$key] ?? 0.00;
                         // unit_price
                         $inventoryItemStock->unit_price = $request->price[$key] ?? 0.00;
+                        // ledger_no and page_no
+                        $inventoryItemStock->ledger_no = $request->ledger_no[$key] ?? null;
+                        $inventoryItemStock->page_no = $request->folio_no[$key] ?? null;
                         $inventoryItemStock->save();
                     }
                 }
@@ -396,7 +413,17 @@ class CreditVoucherController extends Controller
 
                 if ($existingStock) {
                     // If stock exists, add to the quantity balance
-                    $existingStock->quantity_balance += $request->quantity[$key] ?? 0;
+                    $existingStock->quantity_balance = $request->quantity[$key] ?? 0;
+                    // gst and discount
+                    $existingStock->gst_percent = $request->gst_percent[$key] ?? 0.00;
+                    $existingStock->gst_amount = $request->gst_amt[$key] ?? 0.00;
+                    $existingStock->discount_percent = $request->disc_percent[$key] ?? 0.00;
+                    $existingStock->discount_amount = $request->disc_amt[$key] ?? 0.00;
+                    // unit_price
+                    $existingStock->unit_price = $request->price[$key] ?? 0.00;
+                    // ledger_no and page_no
+                    $existingStock->ledger_no = $request->ledger_no[$key] ?? null;
+                    $existingStock->page_no = $request->folio_no[$key] ?? null;
                     $existingStock->save();
                 } else {
                     // Create new stock record
@@ -405,6 +432,16 @@ class CreditVoucherController extends Controller
                     $inventoryItemStock->item_id = $request->item_code_id[$key] ?? null;
                     $inventoryItemStock->quantity = $request->quantity[$key] ?? 0;
                     $inventoryItemStock->quantity_balance = $request->quantity[$key] ?? 0;
+                    // gst and discount
+                    $inventoryItemStock->gst_percent = $request->gst_percent[$key] ?? 0.00;
+                    $inventoryItemStock->gst_amount = $request->gst_amt[$key] ?? 0.00;
+                    $inventoryItemStock->discount_percent = $request->disc_percent[$key] ?? 0.00;
+                    $inventoryItemStock->discount_amount = $request->disc_amt[$key] ?? 0.00;
+                    // unit_price
+                    $inventoryItemStock->unit_price = $request->price[$key] ?? 0.00;
+                    // ledger_no and page_no
+                    $inventoryItemStock->ledger_no = $request->ledger_no[$key] ?? null;
+                    $inventoryItemStock->page_no = $request->folio_no[$key] ?? null;
                     $inventoryItemStock->save();
                 }
             }

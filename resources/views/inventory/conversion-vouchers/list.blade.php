@@ -508,12 +508,34 @@
                         var totalQuantity = invStocks.quantity_balance;
                         var unitPrice = invStocks.unit_price;
                         var totalPrice = totalQuantity * unitPrice;
-                        var itemType = invStocks.item_code.nc_status.status;
+                        var itemType = invStocks.item_code.nc_status?.status ?? '';
                         var itemDescription = invStocks.item_code.description;
+                        var itemLedger = invStocks.ledger_no;
+
+                        var gst_percent = invStocks.gst_percent ?? 0;
+                        var gst_amount = invStocks.gst_amount ?? 0;
+                        var discount_percent = invStocks.discount_percent ?? 0;
+                        var discount_amount = invStocks.discount_amount ?? 0;
+
+                        var invstockString = JSON.stringify(invStocks);
 
 
                         options +=
-                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-rate="${unitPrice}" data-item-quantity="${totalQuantity}" data-item-unit-price="${unitPrice}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
+                            `<option value="${itemCodeId}"
+                            data-hidden-value="${totalQuantity}"
+                            data-item-code="${itemCode}"
+                            data-item-rate="${unitPrice}"
+                            data-item-quantity="${totalQuantity}"
+                            data-item-unit-price="${unitPrice}"
+                            data-item-gst-percent="${gst_percent}"
+                            data-item-gst-amount="${gst_amount}"
+                            data-item-discount-percent="${discount_percent}"
+                            data-item-discount-amount="${discount_amount}"
+                            data-item-type="${itemType}"
+                            data-item-desc="${itemDescription}"
+                            data-item-ledger="${itemLedger}"
+                            data-item-price="${totalPrice}"
+                            data-stockdata='${invstockString}'>${itemCode}</option>`;
                     });
                     // console.log(options);
                     // $('#item_code_id_1').html(options);
@@ -521,6 +543,7 @@
                     var upperElement = currentElement.closest('.new_html');
                     upperElement.find('.item_list').html(options);
                     console.log(upperElement);
+
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -534,8 +557,10 @@
         $(document).on('change', '.item_code_id', function(e) {
             e.preventDefault();
 
-            //  `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-quantity="${totalQuantity}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
-
+            var thisData = $(this).find('option:selected').data('stockdata');
+            if (thisData) {
+                console.log(thisData); // Access the ID from the data
+            }
 
             var itemcode = $(this).find('option:selected').data('item-code');
 
@@ -544,19 +569,38 @@
             var quantity = $(this).find('option:selected').data('item-quantity');
             var rate = $(this).find('option:selected').data('item-rate');
             var price = $(this).find('option:selected').data('item-price');
+            var ledger = $(this).find('option:selected').data('item-ledger');
 
             // console.log(price);
 
             var parentElement = $(this).closest('.new_html');
             parentElement.find('.item-code-no').val(desc);
             parentElement.find('.item-desc').val(desc);
+            parentElement.find('.item-ledger').val(ledger);
             parentElement.find('.item-rate').val(rate);
             parentElement.find('.item-quantity').val(quantity);
             parentElement.find('.init-item-quantity').val(quantity);
             parentElement.find('.item-quantity').attr('max', quantity);
+            parentElement.find('.item_quantity_stock').text(quantity);
             parentElement.find('.item-price').val(price);
             parentElement.find('.init-item-price').val(price);
             parentElement.find('.item-type').val(type);
+
+            calculateTotalPrice(parentElement, thisData);
+
+            // Add input event for quantity changes
+            parentElement.find('.item-quantity').on('input', function() {
+                var max = parseFloat($(this).attr('max'));
+                var value = parseFloat($(this).val());
+
+                if (value > max) {
+                    $(this).val(max);
+                }
+
+                // Recalculate total price when quantity changes
+                calculateTotalPrice(parentElement, thisData);
+                getBroughtRate();
+            });
 
             getBroughtRate();
         });
@@ -574,26 +618,26 @@
         }
     </script>
     <script>
-        $(document).on('keyup', '.item-quantity', function() {
-            console.log('hello');
-            const $row = $(this).closest('.new_html'); // Get the current row
-            const enteredQuantity = parseFloat($(this).val()); // Get the entered quantity
-            const initialQuantity = parseFloat($row.find('.init-item-quantity').val()); // Get the initial quantity
-            const initialPrice = parseFloat($row.find('.init-item-price').val()); // Get the initial price
+        // $(document).on('keyup', '.item-quantity', function() {
+        //     console.log('hello');
+        //     // const $row = $(this).closest('.new_html'); // Get the current row
+        //     // const enteredQuantity = parseFloat($(this).val()); // Get the entered quantity
+        //     // const initialQuantity = parseFloat($row.find('.init-item-quantity').val()); // Get the initial quantity
+        //     // const initialPrice = parseFloat($row.find('.init-item-price').val()); // Get the initial price
 
-            if (enteredQuantity > 0 && initialQuantity > 0) {
-                // Calculate the price based on the entered quantity and initial quantity
-                const updatedPrice = (initialPrice / initialQuantity) * enteredQuantity;
-                $row.find('.item-price').val(updatedPrice.toFixed(2)); // Update the price field
-            } else {
-                // Reset the price if the quantity is invalid
-                $row.find('.item-price').val('');
-            }
+        //     // if (enteredQuantity > 0 && initialQuantity > 0) {
+        //     //     // Calculate the price based on the entered quantity and initial quantity
+        //     //     const updatedPrice = (initialPrice / initialQuantity) * enteredQuantity;
+        //     //     $row.find('.item-price').val(updatedPrice.toFixed(2)); // Update the price field
+        //     // } else {
+        //     //     // Reset the price if the quantity is invalid
+        //     //     $row.find('.item-price').val('');
+        //     // }
 
-            getBroughtRate();
+        //     getBroughtRate();
 
 
-        });
+        // });
 
         function getBroughtRate() {
             let quantity_sum = 1;
@@ -620,6 +664,32 @@
             $("#brought_total_rate").val(price_sum);
 
             // $("#result").text("Sum: " + sum);
+        }
+
+        function calculateTotalPrice(parentElement, itemData) {
+            var gstPercent = parseFloat(itemData.gst_percent) || 0;
+            var discountPercent = parseFloat(itemData.discount_percent) || 0;
+            var itemRate = parseFloat(itemData.unit_price) || 0;
+            var quantity = parseFloat(parentElement.find('.item-quantity').val()) || 0;
+
+            parentElement.find('.item_gst_percent').text(gstPercent);
+            parentElement.find('.item_discount_percent').text(discountPercent);
+
+            // Calculate subtotal
+            var subtotal = itemRate * quantity;
+
+            // Apply discount first
+            var discountAmount = subtotal * (discountPercent / 100);
+            var afterDiscount = subtotal - discountAmount;
+
+            // Then apply GST on the discounted amount
+            var gstAmount = afterDiscount * (gstPercent / 100);
+            var totalPrice = afterDiscount + gstAmount;
+
+            // Round to 2 decimal places for currency
+            totalPrice = parseFloat(totalPrice.toFixed(2));
+
+            parentElement.find('.item-price').val(totalPrice);
         }
     </script>
 @endpush

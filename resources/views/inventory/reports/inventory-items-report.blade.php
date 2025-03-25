@@ -103,7 +103,17 @@
                 opens: 'right', // Position of the picker
                 locale: {
                     format: 'YYYY-MM-DD' // Date format
-                }
+                },
+                autoUpdateInput: false // This will make the input blank by default
+            });
+
+            // Add event listeners to handle when a date range is selected
+            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+            });
+
+            $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
             });
         });
     </script>

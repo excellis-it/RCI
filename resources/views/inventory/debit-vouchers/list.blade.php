@@ -431,6 +431,14 @@
                             // var $row = $(this).closest('.count-class');
                             // $row.find('#item_code_id').html(options);
                             // $('.item_code_id').html(options);
+
+                            // Allow time for the new row to be added to DOM
+                            setTimeout(function() {
+                                $('.new_html').each(function() {
+                                    calculateTotalPrice(this);
+                                });
+                            }, 100);
+
                         },
                         error: function(xhr) {
                             console.log(xhr);
@@ -487,12 +495,29 @@
                         var totalQuantity = invStocks.quantity_balance;
                         var unitPrice = invStocks.unit_price;
                         var totalPrice = totalQuantity * unitPrice;
-                        var itemType = invStocks.item_code.nc_status.status;
+                        var itemType = invStocks.item_code.nc_status?.status ?? '';
                         var itemDescription = invStocks.item_code.description;
+                        // gst and discount from inv stock
+                        var gst_percent = invStocks.gst_percent ?? 0;
+                        var gst_amount = invStocks.gst_amount ?? 0;
+                        var discount_percent = invStocks.discount_percent ?? 0;
+                        var discount_amount = invStocks.discount_amount ?? 0;
+
 
 
                         options +=
-                            `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-code="${itemCode}" data-item-quantity="${totalQuantity}" data-item-unit-price="${unitPrice}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
+                            `<option value="${itemCodeId}"
+                            data-hidden-value="${totalQuantity}"
+                            data-item-code="${itemCode}"
+                            data-item-quantity="${totalQuantity}"
+                            data-item-unit-price="${unitPrice}"
+                            data-item-gst-percent="${gst_percent}"
+                            data-item-gst-amount="${gst_amount}"
+                            data-item-discount-percent="${discount_percent}"
+                            data-item-discount-amount="${discount_amount}"
+                            data-item-type="${itemType}"
+                            data-item-desc="${itemDescription}"
+                            data-item-price="${totalPrice}">${itemCode}</option>`;
                     });
                     console.log(itemType);
                     $('#item_code_id_1').html(options);
@@ -503,6 +528,14 @@
                     //         $(this).val(itemType);
                     //     });
                     // }
+
+                    // Allow time for the new row to be added to DOM
+                    setTimeout(function() {
+                        $('.new_html').each(function() {
+                            calculateTotalPrice(this);
+                        });
+                    }, 100);
+
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -621,12 +654,17 @@
         $(document).on('change', '.item_code_id', function(e) {
             e.preventDefault();
 
-            //  `<option value="${itemCodeId}" data-hidden-value="${totalQuantity}" data-item-quantity="${totalQuantity}" data-item-type="${itemType}" data-item-desc="${itemDescription}" data-item-price="${totalPrice}">${itemCode}</option>`;
-
-
             var itemcode = $(this).find('option:selected').data('item-code');
             var quantity = $(this).find('option:selected').data('item-quantity');
             var unit_price = $(this).find('option:selected').data('item-unit-price');
+
+            // gst and discount
+            var gst_percent = $(this).find('option:selected').data('item-gst-percent');
+            var gst_amount = $(this).find('option:selected').data('item-gst-amount');
+            var discount_percent = $(this).find('option:selected').data('item-discount-percent');
+            var discount_amount = $(this).find('option:selected').data('item-discount-amount');
+
+
             var type = $(this).find('option:selected').data('item-type');
             var desc = $(this).find('option:selected').data('item-desc');
             var price = $(this).find('option:selected').data('item-price');
@@ -641,11 +679,24 @@
             parentElement.find('.init-item-quantity').val(quantity);
             parentElement.find('.item-quantity').attr('max', quantity);
             parentElement.find('.item-unit-price').val(unit_price);
+            // gst and discount
+            parentElement.find('.item-gst-percent').val(gst_percent);
+            parentElement.find('.item-gst-amount').val(gst_amount);
+            parentElement.find('.item-discount-percent').val(discount_percent);
+            parentElement.find('.item-discount-amount').val(discount_amount);
+
             parentElement.find('.item-price').val(price);
             parentElement.find('.init-item-price').val(price);
             parentElement.find('.item-type').val(type);
 
             updateItemDropdowns();
+
+            // Allow time for the new row to be added to DOM
+            setTimeout(function() {
+                $('.new_html').each(function() {
+                    calculateTotalPrice(this);
+                });
+            }, 100);
         });
     </script>
     <script>
@@ -700,16 +751,62 @@
 
     <script>
         $(document).ready(function() {
-            $(document).on('keyup change', '.item-unit-price, .item-quantity', function() {
-                let row = $(this).closest('.new_html');
-                let quantity = parseFloat(row.find('.item-quantity').val()) || 0;
-                let unitPrice = parseFloat(row.find('.item-unit-price').val()) || 0;
-                let totalPrice = quantity * unitPrice;
-                row.find('.item-price').val(totalPrice.toFixed(2));
-            });
+            // $(document).on('keyup change', '.item-unit-price, .item-quantity', function() {
+            //     let row = $(this).closest('.new_html');
+            //     let quantity = parseFloat(row.find('.item-quantity').val()) || 0;
+            //     let unitPrice = parseFloat(row.find('.item-unit-price').val()) || 0;
+            //     let totalPrice = quantity * unitPrice;
+            //     row.find('.item-price').val(totalPrice.toFixed(2));
+            // });
 
             // trigger the item-unit-price
             $('.item-unit-price').trigger('change');
+        });
+    </script>
+    <script>
+        function calculateTotalPrice(row) {
+            var quantity = parseFloat($(row).find('.item-quantity').val()) || 0;
+            var unitPrice = parseFloat($(row).find('.item-unit-price').val()) || 0;
+            var gstPercent = parseFloat($(row).find('.item-gst-percent').val()) || 0;
+            var discountPercent = parseFloat($(row).find('.item-discount-percent').val()) || 0;
+
+            // Calculate base price
+            var basePrice = quantity * unitPrice;
+
+            // Calculate discount amount
+            var discountAmount = (basePrice * discountPercent) / 100;
+            $(row).find('.item-discount-amount').val(discountAmount.toFixed(2));
+
+            // Calculate price after discount
+            var priceAfterDiscount = basePrice - discountAmount;
+
+            // Calculate GST amount
+            var gstAmount = (priceAfterDiscount * gstPercent) / 100;
+            $(row).find('.item-gst-amount').val(gstAmount.toFixed(2));
+
+            // Calculate total price with GST
+            var totalPrice = priceAfterDiscount + gstAmount;
+            $(row).find('.item-price').val(totalPrice.toFixed(2));
+        }
+
+        $(document).ready(function() {
+            // Function to calculate price based on quantity, unit price, GST and discount
+
+
+            // Event handler for form fields that affect price calculation
+            $(document).on('input change keyup',
+                '.item-quantity, .item-unit-price, .item-gst-percent, .item-discount-percent',
+                function() {
+                    var row = $(this).closest('.new_html');
+                    calculateTotalPrice(row);
+                });
+
+            // Initialize calculations for existing rows
+            $('.new_html').each(function() {
+                calculateTotalPrice(this);
+            });
+
+
         });
     </script>
 @endpush

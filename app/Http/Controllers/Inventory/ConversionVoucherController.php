@@ -26,7 +26,7 @@ class ConversionVoucherController extends Controller
      */
     public function index()
     {
-       // $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
+        // $itemCodes = CreditVoucherDetail::groupBy('item_code', 'item_code_id')->select('item_code', 'item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
         // $inventoryNumbers = InventoryNumber::all();
         $itemCodes = ItemCode::all();
         $conversionVouchers = ConversionVoucher::orderBy('id', 'desc')->paginate(10);
@@ -243,7 +243,7 @@ class ConversionVoucherController extends Controller
      */
     public function edit(string $id)
     {
-        $conversionVoucher = ConversionVoucher::find($id);
+        $conversionVoucher = ConversionVoucher::with('conversionVoucherDetails')->find($id);
         $itemCodes = ItemCode::all();
         $inventoryNumbers = InventoryNumber::all();
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
@@ -257,9 +257,116 @@ class ConversionVoucherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $conversionVoucherUpdate =  ConversionVoucher::where('id', $id)->first();
-        $conversionVoucherUpdate->remarks = $request->remark;
+        $conversionVoucherUpdate = ConversionVoucher::findOrFail($id);
+        $conversionVoucherUpdate->voucher_type = $request->voucher_type;
+        $conversionVoucherUpdate->voucher_date = $request->voucher_date;
         $conversionVoucherUpdate->update();
+
+        // Delete existing details to replace with new ones
+        $conversionVoucherDetails = ConversionVoucherDetail::where('conversion_voucher_id', $id)->get();
+
+        // Revert stock changes from original details
+        foreach ($conversionVoucherDetails as $detail) {
+            if (!empty($detail->strike_item_id) && !empty($detail->strike_inv_id)) {
+                // Add back to inventory what was previously removed
+                $existingStockFrom = InventoryItemStock::where('inv_id', $detail->strike_inv_id)
+                    ->where('item_id', $detail->strike_item_id)
+                    ->first();
+
+                if ($existingStockFrom) {
+                    $existingStockFrom->quantity_balance = $existingStockFrom->quantity_balance + $detail->strike_quantity;
+                    $existingStockFrom->save();
+                }
+            }
+
+            if (!empty($detail->brought_item_id) && !empty($detail->brought_inv_id)) {
+                // Remove from inventory what was previously added
+                $existingStockTo = InventoryItemStock::where('inv_id', $detail->brought_inv_id)
+                    ->where('item_id', $detail->brought_item_id)
+                    ->first();
+
+                if ($existingStockTo) {
+                    $existingStockTo->quantity_balance -= $detail->brought_quantity;
+                    $existingStockTo->save();
+                }
+            }
+        }
+
+        // Delete old details
+        ConversionVoucherDetail::where('conversion_voucher_id', $id)->delete();
+
+        // Create new Strike Off entries
+        if ($request->strike_inv_id) {
+            foreach ($request->strike_inv_id as $key => $val) {
+                if (!empty($val) && !empty($request->strike_item_id[$key])) {
+                    $conversionVoucherDetail = new ConversionVoucherDetail;
+                    $conversionVoucherDetail->conversion_voucher_id = $id;
+                    $conversionVoucherDetail->strike_inv_id = $request->strike_inv_id[$key] ?? null;
+                    $conversionVoucherDetail->strike_item_id = $request->strike_item_id[$key] ?? null;
+                    $conversionVoucherDetail->strike_item_code = Helper::getItemCode($request->strike_item_id[$key]) ?? null;
+                    $conversionVoucherDetail->strike_ledger = $request->strike_ledger[$key] ?? null;
+                    $conversionVoucherDetail->strike_description = $request->strike_description[$key] ?? null;
+                    $conversionVoucherDetail->strike_c_nc = $request->strike_c_nc[$key] ?? null;
+                    $conversionVoucherDetail->strike_quantity = $request->strike_quantity[$key] ?? null;
+                    $conversionVoucherDetail->strike_rate = $request->strike_rate[$key] ?? null;
+                    $conversionVoucherDetail->strike_price = $request->strike_price[$key] ?? null;
+                    $conversionVoucherDetail->reason = $request->reason[$key] ?? null;
+                    $conversionVoucherDetail->save();
+
+                    // Update stock
+                    $existingStockFrom = InventoryItemStock::where('inv_id', $request->strike_inv_id[$key])
+                        ->where('item_id', $request->strike_item_id[$key])
+                        ->first();
+
+                    if ($existingStockFrom) {
+                        $existingStockFrom->quantity_balance = $existingStockFrom->quantity_balance - $request->strike_quantity[$key];
+                        $existingStockFrom->save();
+                    }
+                }
+            }
+        }
+
+        // Create new Brought On entries
+        if ($request->brought_inv_id) {
+            foreach ($request->brought_inv_id as $key => $val) {
+                if (!empty($val) && !empty($request->brought_item_id[$key])) {
+                    $conversionVoucherDetail = new ConversionVoucherDetail;
+                    $conversionVoucherDetail->conversion_voucher_id = $id;
+                    $conversionVoucherDetail->brought_inv_id = $request->brought_inv_id[$key] ?? null;
+                    $conversionVoucherDetail->brought_item_id = $request->brought_item_id[$key] ?? null;
+                    $conversionVoucherDetail->brought_item_code = $request->brought_item_id[$key]
+                        ? Helper::getItemCode($request->brought_item_id[$key])
+                        : null;
+                    $conversionVoucherDetail->brought_ledger = $request->brought_ledger[$key] ?? null;
+                    $conversionVoucherDetail->brought_description = $request->brought_description[$key] ?? null;
+                    $conversionVoucherDetail->brought_c_nc = $request->brought_c_nc[$key] ?? null;
+                    $conversionVoucherDetail->brought_quantity = $request->brought_quantity[$key] ?? null;
+                    $conversionVoucherDetail->brought_rate = $request->brought_rate[$key] ?? null;
+                    $conversionVoucherDetail->brought_price = $request->brought_price[$key] ?? null;
+                    $conversionVoucherDetail->reason = $request->reason[$key] ?? null;
+                    $conversionVoucherDetail->save();
+
+                    // Update stock
+                    $existingStockTo = InventoryItemStock::where('inv_id', $request->brought_inv_id[$key])
+                        ->where('item_id', $request->brought_item_id[$key])
+                        ->first();
+
+                    if ($existingStockTo) {
+                        // If stock exists, add to the quantity balance
+                        $existingStockTo->quantity_balance += $request->brought_quantity[$key] ?? 0;
+                        $existingStockTo->save();
+                    } else {
+                        // Create new stock record
+                        $inventoryItemStock = new InventoryItemStock();
+                        $inventoryItemStock->inv_id = $request->brought_inv_id[$key] ?? null;
+                        $inventoryItemStock->item_id = $request->brought_item_id[$key] ?? null;
+                        $inventoryItemStock->quantity = $request->brought_quantity[$key] ?? 0;
+                        $inventoryItemStock->quantity_balance = $request->brought_quantity[$key] ?? 0;
+                        $inventoryItemStock->save();
+                    }
+                }
+            }
+        }
 
         session()->flash('message', 'Conversion Voucher updated successfully');
         return response()->json(['success' => 'Conversion Voucher updated successfully']);
@@ -282,3 +389,4 @@ class ConversionVoucherController extends Controller
         return redirect()->back()->with('error', 'Conversion Voucher deleted successfully');
     }
 }
+ 

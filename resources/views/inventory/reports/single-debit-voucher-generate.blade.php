@@ -66,6 +66,10 @@
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
                                             No of Items in Voucher : {{ count($debitVoucher['details']) }}
                                         </td>
+                                        <td
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                                            Group : {{ $debitVoucher->group ?? '' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="height: 10px;">
@@ -84,7 +88,12 @@
                                         </td>
                                         <td
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
-                                            Cost Center Division : HYDERABAD
+                                            Cost Center Division : MMG
+
+                                        </td>
+                                        <td
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                                            Division : {{ $debitVoucher->division ?? '' }}
 
                                         </td>
                                     </tr>

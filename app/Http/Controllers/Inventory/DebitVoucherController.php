@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use App\Models\InventoryItemBalance;
 use App\Helpers\Helper;
 use App\Models\InventoryItemStock;
+use App\Models\GstPercentage;
 
 class DebitVoucherController extends Controller
 {
@@ -28,9 +29,10 @@ class DebitVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $inventoryTypes = InventoryType::all();
         $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
+        $gstPercentages = GstPercentage::all();
         $creditVouchers = CreditVoucherDetail::where('item_type', 'consumable')->groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
 
-        return view('inventory.debit-vouchers.list', compact('debitVouchers', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
+        return view('inventory.debit-vouchers.list', compact('debitVouchers', 'gstPercentages', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'creditVouchers'));
     }
 
     public function fetchData(Request $request)
@@ -128,7 +130,9 @@ class DebitVoucherController extends Controller
         $debitVoucher->inv_no = $request->inv_no;
         $debitVoucher->voucher_no = $voucherNo;
         $debitVoucher->voucher_date = $request->voucher_date;
-        $debitVoucher->voucher_type = $request->voucher_type;
+        $debitVoucher->group = $request->group;
+        $debitVoucher->division = $request->division;
+        $debitVoucher->voucher_type = 'debit';
 
         if ($debitVoucher->save()) {
             $latestVoucher = DebitVoucher::latest()->first();
@@ -194,7 +198,7 @@ class DebitVoucherController extends Controller
                     $inventoryItem->item_code = Helper::getItemCode($itemCode) ?? null;
                     $inventoryItem->inv_id = $request->inv_no ?? null;
                     $inventoryItem->quantity = $item['quantity'] ?? 0;
-                    $inventoryItem->unit_cost = $item['price'] / $item['quantity'] ?? 0.00;
+                    $inventoryItem->unit_cost = $item['unit_price'] ?? 0.00;
                     $inventoryItem->total_cost = $item['price'] ?? 0.00;
                     $inventoryItem->gst_amount = 0.00;
                     $inventoryItem->discount_amount = 0.00;
@@ -210,6 +214,7 @@ class DebitVoucherController extends Controller
                     if ($existingStock) {
                         // If stock exists, add to the quantity balance
                         $existingStock->quantity_balance -= $item['quantity'] ?? 0;
+                        $existingStock->updated_at = Carbon::now();
                         $existingStock->save();
                     }
                 }
@@ -266,6 +271,9 @@ class DebitVoucherController extends Controller
         $debitVoucher->voucher_date = $request->voucher_date;
         $debitVoucher->voucher_type = $request->voucher_type;
         $debitVoucher->remarks = $request->remarks;
+        $debitVoucher->group = $request->group;
+        $debitVoucher->division = $request->division;
+        $debitVoucher->voucher_type = 'debit';
         $debitVoucher->update();
 
         // //credit voucher quantity reduce and increase

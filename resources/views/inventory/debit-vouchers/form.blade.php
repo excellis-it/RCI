@@ -55,6 +55,32 @@
                         </div>
                     </div>
 
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Group</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="group" id="group"
+                                    value="{{ $debitVoucher->group ?? '' }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Division</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="division" id="division"
+                                    value="{{ $debitVoucher->division ?? '' }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
                 <div class="row">
@@ -138,9 +164,9 @@
     <form action="{{ route('debit-vouchers.store') }}" method="POST" id="debit-vouchers-create-form">
         @csrf
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher date</label>
@@ -153,7 +179,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2" hidden>
+                    <div class="form-group col-md-3 mb-2" hidden>
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Voucher Type</label>
@@ -171,7 +197,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Inv. No.</label>
@@ -188,6 +214,34 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Group</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="group" id="group"
+                                    value="{{ $debitVoucher->group ?? '' }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Division</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="division" id="division"
+                                    value="{{ $debitVoucher->division ?? '' }}" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -279,7 +333,7 @@
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-unit-price">
                                 <input type="text" value="0.00" class="form-control item-unit-price"
-                                    name="unit_price[]" id="unit_price">
+                                    name="unit_price[]" id="unit_price" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -288,7 +342,59 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Price</label>
+                                <label>GST(%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-gst-percent" name="gst_percent[]"
+                                    id="gst_percent" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-gst-amount" name="gst_amt[]"
+                                    id="gst_amount" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Discount(%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-discount-percent"
+                                    name="disc_percent[]" id="disc_percent" placeholder="" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Discount Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-discount-amount" name="disc_amt[]"
+                                    id="disc_amt" placeholder="" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-price">
@@ -420,7 +526,7 @@
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-unit-price">
                                 <input type="text" value="0.00" class="form-control item-unit-price"
-                                    name="unit_price[]" id="unit_price">
+                                    name="unit_price[]" id="unit_price" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -429,7 +535,59 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Price</label>
+                                <label>GST(%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-gst-percent" name="gst_percent[]"
+                                    id="gst_percent" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>GST Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-gst-amount" name="gst_amt[]"
+                                    id="gst_amount" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Discount(%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-discount-percent"
+                                    name="disc_percent[]" id="disc_percent" placeholder="" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Discount Amt</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control item-discount-amount" name="disc_amt[]"
+                                    id="disc_amt" placeholder="" value="" readonly>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-price">

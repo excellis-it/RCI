@@ -445,55 +445,56 @@
 
     <script>
         $(document).ready(function() {
-            $('#quantity').change(function() {
-                var quantity = $(this).val();
-                var item_unit_price = $('#item_unit_price').val() ?? 0;
-                var total_price = quantity * item_unit_price;
-                $('#total_price').val(total_price);
-            });
+            // $('#quantity').change(function() {
+            //     var quantity = $(this).val();
+            //     var item_unit_price = $('#item_unit_price').val() ?? 0;
+            //     var total_price = quantity * item_unit_price;
+            //     $('#total_price').val(total_price);
+            // });
         });
     </script>
 
     <script>
         $(document).ready(function() {
             // Handle item code change event dynamically
-            $(document).on('change', '.item_id', function() {
-                var item_code_id = $(this).val();
-                var $this = $(this); // Reference to the selected item
+            // $(document).on('change', '.item_id', function() {
+            //     var item_code_id = $(this).val();
+            //     var $this = $(this); // Reference to the selected item
 
-                // Get the row containing this item
-                var $row = $this.closest('.count-class');
+            //     // Get the row containing this item
+            //     var $row = $this.closest('.count-class');
 
-                $.ajax({
-                    url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
-                    type: 'POST',
-                    data: {
-                       // id: item_code_id,
-                        item_id: item_code_id,
-                    inv_id: inv_id
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        // Update the description in the same row
-                        $row.find('.description').val(response.item_description);
-                        $row.find('.item_price').val(response.item_price);
+            //     $.ajax({
+            //         url: "{{ route('certificate-issue-vouchers.get-item-type') }}",
+            //         type: 'POST',
+            //         data: {
+            //             // id: item_code_id,
+            //             item_id: item_code_id,
+            //             inv_id: inv_id
+            //             _token: '{{ csrf_token() }}'
+            //         },
+            //         success: function(response) {
+            //             console.log('dhfigdakdafgagksf');
+            //             // Update the description in the same row
+            //             $row.find('.description').val(response.item_description);
+            //             $row.find('.item_price').val(response.item_price);
 
-                        var selectedOption = $this.find('option:selected');
-                        var quantity = selectedOption.data('hidden-value');
-                        var quantityOptions = [];
-                        quantityOptions.push('<option value="">Select Quantity</option>');
-                        for (var i = 1; i <= quantity; i++) {
-                            quantityOptions.push('<option value="' + i + '">' + i +
-                                '</option>');
-                        }
-                        $row.find('.quantity').empty().append(quantityOptions.join(''));
+            //             var selectedOption = $this.find('option:selected');
+            //             var quantity = selectedOption.data('hidden-value');
+            //             var quantityOptions = [];
+            //             quantityOptions.push('<option value="">Select Quantity</option>');
+            //             for (var i = 1; i <= quantity; i++) {
+            //                 quantityOptions.push('<option value="' + i + '">' + i +
+            //                     '</option>');
+            //             }
+            //             $row.find('.quantity').empty().append(quantityOptions.join(''));
 
-                    },
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
-            });
+            //         },
+            //         error: function(xhr) {
+            //             console.log(xhr);
+            //         }
+            //     });
+            // });
 
 
         });
@@ -502,12 +503,12 @@
     <script>
         // quantity change event
         $(document).ready(function() {
-            $(document).on('change', '.quantity', function() {
-                var quantity = $(this).val();
-                var item_price = $(this).closest('.count-class').find('.item_price').val();
-                var total_price = quantity * item_price;
-                $(this).closest('.count-class').find('.total_price').val(total_price);
-            });
+            // $(document).on('change', '.quantity', function() {
+            //     var quantity = $(this).val();
+            //     var item_price = $(this).closest('.count-class').find('.item_price').val();
+            //     var total_price = quantity * item_price;
+            //     $(this).closest('.count-class').find('.total_price').val(total_price);
+            // });
         });
     </script>
 
@@ -536,12 +537,19 @@
                             $('.item_code_id').empty().append(
                                 '<option value="">Select</option>');
 
+
+
                             if (response.invStocks && response.invStocks.length > 0) {
                                 $.each(response.invStocks, function(index, item) {
+
+                                    var invstockString = JSON.stringify(item);
+
                                     const optionHtml = `<option value="${item.item_id}"
                                         data-hidden-value="${item.quantity_balance}"
                                         data-description="${item.item_code.description || ''}"
-                                        data-price="${item.unit_price || 0.00}">
+                                        data-price="${item.unit_price || 0.00}"
+                                        data-stockdata='${invstockString}'
+                                        >
                                         ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
                                     </option>`;
 
@@ -572,14 +580,16 @@
                 // Store original options
                 if (!$dropdown.data('original-options') && window.inventoryItems) {
                     const originalOptions = '<option value="">Select</option>' +
-                        window.inventoryItems.map(item =>
-                            `<option value="${item.item_id}"
+                        window.inventoryItems.map(item => {
+                            const invstockString = JSON.stringify(item);
+                            return `<option value="${item.item_id}"
                                 data-hidden-value="${item.quantity_balance}"
                                 data-description="${item.item_code.description || ''}"
-                                data-price="${item.unit_price || 0.00}">
+                                data-price="${item.unit_price || 0.00}"
+                                data-stockdata='${invstockString}'>
                                 ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
-                            </option>`
-                        ).join('');
+                            </option>`;
+                        }).join('');
 
                     $dropdown.data('original-options', originalOptions);
                 }
@@ -608,6 +618,11 @@
                 const itemId = $this.val();
                 const previousValue = $this.data('previous-value');
 
+                var thisData = $(this).find('option:selected').data('stockdata');
+                if (thisData) {
+                    console.log(thisData); // Access the ID from the data
+                }
+
                 // Remove the previous value from selectedItems if it exists
                 if (previousValue) {
                     const index = selectedItems.indexOf(previousValue);
@@ -633,9 +648,11 @@
 
                 // Get the row containing this item - reusing the existing $this reference
                 var $row = $this.closest('.count-class');
+                var parentElement = $(this).closest('.count-class');
                 if (!$row.length) {
                     // For the first row which might not have .count-class
                     $row = $this.closest('.row');
+                    parentElement = $(this).closest('.count-class');
                 }
 
                 // Find selected option
@@ -654,6 +671,25 @@
                 for (var i = 1; i <= quantity; i++) {
                     $quantitySelect.append('<option value="' + i + '">' + i + '</option>');
                 }
+
+
+                calculateTotalPrice(parentElement, thisData);
+
+                // Add input event for quantity changes
+                parentElement.find('.quantity').on('input', function() {
+                    var max = parseFloat($(this).attr('max'));
+                    var value = parseFloat($(this).val());
+
+                    if (value > max) {
+                        $(this).val(max);
+                    }
+
+                    // Recalculate total price when quantity changes
+                    calculateTotalPrice(parentElement, thisData);
+
+                });
+
+
             });
 
             // Modify the add-more-eiv click handler to respect selected items
@@ -705,18 +741,47 @@
             });
 
             // quantity change event - update calculated price
-            $(document).on('change', '.quantity', function() {
-                var quantity = $(this).val();
-                var $row = $(this).closest('.count-class');
-                if (!$row.length) {
-                    // For the first row which might not have .count-class
-                    $row = $(this).closest('.row');
-                }
+            // $(document).on('change', '.quantity', function() {
+            //     var quantity = $(this).val();
+            //     var $row = $(this).closest('.count-class');
+            //     if (!$row.length) {
+            //         // For the first row which might not have .count-class
+            //         $row = $(this).closest('.row');
+            //     }
 
-                var item_price = $row.find('.item_price').val() || 0;
-                var total_price = quantity * item_price;
-                $row.find('.total_price').val(total_price.toFixed(2));
-            });
+            //     var item_price = $row.find('.item_price').val() || 0;
+            //     var total_price = quantity * item_price;
+            //     $row.find('.total_price').val(total_price.toFixed(2));
+            // });
         });
+
+
+        function calculateTotalPrice(parentElement, itemData) {
+            var gstPercent = parseFloat(itemData.gst_percent) || 0;
+            var discountPercent = parseFloat(itemData.discount_percent) || 0;
+            var itemRate = parseFloat(itemData.unit_price) || 0;
+            var quantity = parseFloat(parentElement.find('.quantity').val()) || 0;
+
+            parentElement.find('.item_gst_percent').text(gstPercent);
+            parentElement.find('.item_discount_percent').text(discountPercent);
+
+            // Calculate subtotal
+            var subtotal = itemRate * quantity;
+
+            // Apply discount first
+            var discountAmount = subtotal * (discountPercent / 100);
+            var afterDiscount = subtotal - discountAmount;
+
+            // Then apply GST on the discounted amount
+            var gstAmount = afterDiscount * (gstPercent / 100);
+            var totalPrice = afterDiscount + gstAmount;
+
+            // Round to 2 decimal places for currency
+            totalPrice = parseFloat(totalPrice.toFixed(2));
+
+            parentElement.find('.total_price').val(totalPrice);
+
+            console.log('totalPrice: ', totalPrice);
+        }
     </script>
 @endpush
