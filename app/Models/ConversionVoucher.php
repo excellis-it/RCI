@@ -25,4 +25,9 @@ class ConversionVoucher extends Model
     {
         return $this->hasMany(ConversionVoucherDetail::class, 'conversion_voucher_id');
     }
+
+    public function conversionVoucherDetails()
+    {
+        return $this->hasMany(ConversionVoucherDetail::class, 'conversion_voucher_id');
+    }
 }

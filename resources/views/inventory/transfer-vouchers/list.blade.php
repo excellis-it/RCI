@@ -763,10 +763,15 @@
             parentElement.find('.item_code').val(thisData.item_code.code);
             parentElement.find('.item_description').val(thisData.item_code.description);
             parentElement.find('.item_quantity').attr('max', thisData.quantity_balance);
+            parentElement.find('.item_quantity_stock').text(thisData.quantity_balance);
             parentElement.find('.item_quantity').val(thisData.quantity_balance);
 
             parentElement.find('.item_rate').val(thisData.unit_price);
 
+            // Calculate and set the initial total price
+            calculateTotalPrice(parentElement, thisData);
+
+            // Add input event for quantity changes
             parentElement.find('.item_quantity').on('input', function() {
                 var max = parseFloat($(this).attr('max'));
                 var value = parseFloat($(this).val());
@@ -774,9 +779,38 @@
                 if (value > max) {
                     $(this).val(max);
                 }
+                
+                // Recalculate total price when quantity changes
+                calculateTotalPrice(parentElement, thisData);
             });
-
         });
+
+        // Function to calculate total price based on quantity and other factors
+        function calculateTotalPrice(parentElement, itemData) {
+            var gstPercent = parseFloat(itemData.gst_percent) || 0;
+            var discountPercent = parseFloat(itemData.discount_percent) || 0;
+            var itemRate = parseFloat(itemData.unit_price) || 0;
+            var quantity = parseFloat(parentElement.find('.item_quantity').val()) || 0;
+            
+            parentElement.find('.item_gst_percent').text(gstPercent);
+            parentElement.find('.item_discount_percent').text(discountPercent);
+            
+            // Calculate subtotal
+            var subtotal = itemRate * quantity;
+            
+            // Apply discount first
+            var discountAmount = subtotal * (discountPercent / 100);
+            var afterDiscount = subtotal - discountAmount;
+            
+            // Then apply GST on the discounted amount
+            var gstAmount = afterDiscount * (gstPercent / 100);
+            var totalPrice = afterDiscount + gstAmount;
+            
+            // Round to 2 decimal places for currency
+            totalPrice = parseFloat(totalPrice.toFixed(2));
+            
+            parentElement.find('.item_total_price').val(totalPrice);
+        }
     </script>
 
     <script>

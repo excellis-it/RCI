@@ -1,3 +1,6 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 @foreach ($certificateIssueVouchers as $key => $certificateIssueVoucher)
     @if ($key > 0)
         <div style="page-break-before: always;"></div>
@@ -12,6 +15,7 @@
                 padding: 10px;
             }
         </style>
+
         <body style="background: #fff">
             <center>
                 <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;">
@@ -136,7 +140,7 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                {{ $certificateIssuevoucherDetail->item->auStatus->status ?? '' }}
+                                                {{ $certificateIssuevoucherDetail->item->ncStatus->status ?? '' }}
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
@@ -148,7 +152,9 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">
-                                                
+                                                {{ Helper::getStockByInvId($certificateIssueVoucher->inventory->id, $certificateIssuevoucherDetail->item->id)['ledger_no'] ?? '' }}
+                                                <br>
+                                                {{ Helper::getStockByInvId($certificateIssueVoucher->inventory->id, $certificateIssuevoucherDetail->item->id)['page_no'] ?? '' }}
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">

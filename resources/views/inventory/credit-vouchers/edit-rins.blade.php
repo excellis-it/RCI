@@ -126,7 +126,7 @@
                                 <option value="">Select GST</option>
                                 @foreach ($gstPercentages as $gst)
                                     <option value="{{ $gst->gst_percent }}"
-                                        {{ $creditVoucherItem->gst == $gst->gst_percent ? 'selected' : '' }}>
+                                        {{ $creditVoucherItem->gst_percent == $gst->gst_percent ? 'selected' : '' }}>
                                         {{ $gst->gst_percent }}
                                     </option>
                                 @endforeach
@@ -143,7 +143,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control gst_amount" name="gst_amt[]" id="gst_amount"
-                                value="{{ $creditVoucherItem->gst_amount ?? 0.0 }}">
+                                value="{{ $creditVoucherItem->gst_amt ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -155,8 +155,9 @@
                             <label>Total Unit Price</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control total_price" name="total_price[]" id="total_price"
-                                placeholder="" value="{{ $creditVoucherItem->total_price ?? 0.0 }}">
+                            <input type="number" class="form-control total_price" name="total_price[]"
+                                id="total_price" placeholder=""
+                                value="{{ $creditVoucherItem->total_price ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

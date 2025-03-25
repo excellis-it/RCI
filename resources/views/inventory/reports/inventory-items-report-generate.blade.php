@@ -32,7 +32,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      
+
                     ">
                                         CENTER FOR HIGH ENERGY SYSTEMS & SCIENCES<br>
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />
@@ -266,7 +266,23 @@
                   border-top: 1px solid #000;
                   border-bottom: 1px solid #000;
                 ">
-                                        GST
+                                        GST(%)
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              vertical-align: top;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-bottom: 1px solid #000;
+            ">
+                                        Discount(%)
                                     </th>
                                     <th
                                         style="
@@ -444,6 +460,21 @@
                                         </td>
                                         <td
                                             style="
+            font-size: 10px;
+            vertical-align: top;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+          ">
+                                            {{ $item['discount'] }}
+                                        </td>
+                                        <td
+                                            style="
                 font-size: 10px;
                 vertical-align: top;
                 line-height: 14px;
@@ -493,7 +524,7 @@
 
                                 @if (count($inventoryItems) == 0)
                                     <tr>
-                                        <td colspan="11"
+                                        <td colspan="12"
                                             style="text-align: center; border-left: 1px solid #000; border-right: 1px solid #000; padding: 10px;">
                                             No inventory items found
                                         </td>
@@ -501,7 +532,7 @@
                                 @endif
 
                                 <tr>
-                                    <td colspan="8"
+                                    <td colspan="9"
                                         style="
                 font-size: 10px;
                 vertical-align: top;
@@ -552,7 +583,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="11"
+                                    <td colspan="12"
                                         style="
                 padding: 0px 5px !important;
                 margin: 0px 0px !important;

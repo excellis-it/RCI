@@ -36,7 +36,11 @@ class ItemCode extends Model
         return $this->belongsTo(AuStatus::class, 'au_status');
     }
 
-    // itemStocks
-    
+    // item stock
+    public function itemStocks()
+    {
+        return $this->hasMany(InventoryItemStock::class, 'item_id');
+    }
+
 
 }

@@ -1,3 +1,6 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 @foreach ($externalIssueVouchers as $key => $externalIssueVoucher)
     @if ($key > 0)
         <div style="page-break-before: always;"></div>
@@ -148,6 +151,7 @@
                     ">
                                             Nomenclature
                                         </th>
+
                                         <th valign="top"
                                             style="
                       border: 1px solid #000;
@@ -156,17 +160,7 @@
                       text-align: center;
                       font-weight: 600;
                     ">
-                                            A/U
-                                        </th>
-                                        <th valign="top"
-                                            style="
-                      border: 1px solid #000;
-                      padding: 5px;
-                      font-size: 12px;
-                      text-align: center;
-                      font-weight: 600;
-                    ">
-                                            Item <br />
+                                            A/U / Item <br />
                                             Type (C <br />
                                             /NC <br />
                                             (NCF)
@@ -180,6 +174,15 @@
                     ">
                                             Ledger & <br />
                                             page No.
+                                        </th>
+                                        <th valign="top"
+                                            style="
+                  border: 1px solid #000;
+                  padding: 5px;
+                  font-size: 12px;
+                  text-align: center;
+                ">
+                                            Unit Rate
                                         </th>
                                         <th valign="top"
                                             style="
@@ -263,17 +266,7 @@
                     ">
                                                 {{ $external_issue_voucher_detail->item->description ?? '' }}
                                             </td>
-                                            <td
-                                                style="
-                      border: 1px solid #000;
-                      padding: 5px;
-                      text-align: center;
-                      font-weight: 600;
-                      height: 50px;
-                      font-size: 12px;
-                    ">
-                                                {{ $external_issue_voucher_detail->item->auStatus->status ?? '' }}
-                                            </td>
+
                                             <td
                                                 style="
                       border: 1px solid #000;
@@ -284,6 +277,20 @@
                       font-size: 12px;
                     ">
                                                 {{ $external_issue_voucher_detail->item->ncStatus->status ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
+                      border: 1px solid #000;
+                      padding: 5px;
+                      text-align: center;
+                      font-weight: 600;
+                      height: 50px;
+                      font-size: 12px;
+                    ">
+                                                {{ Helper::getStockByInvId($externalIssueVoucher->inventoryNumber->id, $external_issue_voucher_detail->item->id)['ledger_no'] ?? '' }}
+                                                <br>
+                                                {{ Helper::getStockByInvId($externalIssueVoucher->inventoryNumber->id, $external_issue_voucher_detail->item->id)['page_no'] ?? '' }}
+
                                             </td>
                                             <td
                                                 style="
@@ -327,7 +334,6 @@
                       height: 50px;
                       font-size: 12px;
                     ">
-                                            {{ $external_issue_voucher_detail->created_at ? $external_issue_voucher_detail->created_at->format('d-m-Y') : '' }}
                                             </td>
                                             <td
                                                 style="

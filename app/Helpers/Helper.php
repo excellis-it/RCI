@@ -26,6 +26,7 @@ use App\Models\InventorySir;
 use App\Models\ItemCode;
 use App\Models\Rin;
 use App\Models\CreditVoucher;
+use App\Models\InventoryItemStock;
 
 class Helper
 {
@@ -603,5 +604,12 @@ class Helper
         } else {
             return 'abc';
         }
+    }
+
+    // get stock by inv id and item id
+    public static function getStockByInvId($inv_id, $item_id)
+    {
+        $stock = InventoryItemStock::where('inv_id', $inv_id)->where('item_id', $item_id)->first();
+        return $stock;
     }
 }

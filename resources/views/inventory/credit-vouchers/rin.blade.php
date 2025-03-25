@@ -13,7 +13,8 @@
                                 <option value="">Select</option>
                                 @foreach ($itemCodes as $itemCode)
                                     <option value="{{ $itemCode->code }}" data-item-code-id="{{ $itemCode->id }}"
-                                        data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}" data-item-uom="{{ $itemCode->uom ?? '' }}">
+                                        data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}"
+                                        data-item-uom="{{ $itemCode->uom ?? '' }}">
                                         {{ $itemCode->code }}</option>
                                 @endforeach
                             </select>
@@ -89,33 +90,22 @@
                     </div>
                 </div>
 
-
-
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Discount(%)</label>
+                            <label>Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control disc_percent" name="disc_percent[]"
-                                id="disc_percent" placeholder=""
-                                value="{{ $rin->discount_amount && $rin->unit_cost && $rin->received_quantity ? number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) : '0' }}">
+                            <input type="text" class="form-control quantity" name="quantity[]" id="quantity"
+                                placeholder="" value="{{ $rin->received_quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Discount Amt</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                placeholder="" value="{{ $rin->discount_amount ?? 0 }}">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
+
+
+
+
 
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
@@ -150,28 +140,43 @@
                     </div>
                 </div>
 
+
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Total Unit Price</label>
+                            <label>Discount(%)</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control total_price" name="total_price[]" id="total_price"
-                                placeholder=""
-                                value="{{ $rin->round_amount ?? 0.0 }}">
+                            <input type="text" class="form-control disc_percent" name="disc_percent[]"
+                                id="disc_percent" placeholder=""
+                                value="{{ $rin->discount_amount && $rin->unit_cost && $rin->received_quantity ? number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) : '0' }}">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Discount Amt</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
+                                placeholder="" value="{{ $rin->discount_amount ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>Quantity</label>
+                            <label>Total Price</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control quantity" name="quantity[]" id="quantity"
-                                placeholder="" value="{{ $rin->received_quantity ?? 0 }}">
+                            <input type="number" step="any" class="form-control total_price"
+                                name="total_price[]" id="total_price" placeholder=""
+                                value="{{ $rin->round_amount ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

@@ -382,14 +382,14 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('#quantity').change(function() {
-                var quantity = $(this).val();
-                var item_unit_price = $('#item_price').val() ?? 0;
-                var total_price = quantity * item_unit_price;
-                $('#total_price').val(total_price);
-            });
-        });
+        // $(document).ready(function() {
+        //     // $('#quantity').change(function() {
+        //     //     var quantity = $(this).val();
+        //     //     var item_unit_price = $('#item_price').val() ?? 0;
+        //     //     var total_price = quantity * item_unit_price;
+        //     //     $('#total_price').val(total_price);
+        //     // });
+        // });
     </script>
 
     <script>
@@ -478,14 +478,14 @@
 
     <script>
         // quantity change event
-        $(document).ready(function() {
-            $(document).on('change', '.quantity', function() {
-                var quantity = $(this).val();
-                var item_price = $(this).closest('.count-class').find('.item_price').val();
-                var total_price = quantity * item_price;
-                $(this).closest('.count-class').find('.total_price').val(total_price);
-            });
-        });
+        // $(document).ready(function() {
+        //     $(document).on('change', '.quantity', function() {
+        //         var quantity = $(this).val();
+        //         var item_price = $(this).closest('.count-class').find('.item_price').val();
+        //         var total_price = quantity * item_price;
+        //         $(this).closest('.count-class').find('.total_price').val(total_price);
+        //     });
+        // });
     </script>
 
     <script>
@@ -514,10 +514,13 @@
 
                             if (response.invStocks && response.invStocks.length > 0) {
                                 $.each(response.invStocks, function(index, item) {
+                                    var invstockString = JSON.stringify(item);
                                     const optionHtml = `<option value="${item.item_id}"
                                         data-hidden-value="${item.quantity_balance}"
                                         data-description="${item.item_code.description || ''}"
-                                        data-price="${item.unit_price || 0.00}">
+                                        data-price="${item.unit_price || 0.00}"
+                                        data-stockdata='${invstockString}'
+                                        >
                                         ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
                                     </option>`;
 
@@ -547,14 +550,16 @@
                 // Store original options
                 if (!$dropdown.data('original-options') && window.inventoryItems) {
                     const originalOptions = '<option value="">Select</option>' +
-                        window.inventoryItems.map(item =>
-                            `<option value="${item.item_id}"
+                        window.inventoryItems.map(item => {
+                            const invstockString = JSON.stringify(item);
+                            return `<option value="${item.item_id}"
                                 data-hidden-value="${item.quantity_balance}"
                                 data-description="${item.item_code.description || ''}"
-                                data-price="${item.unit_price || 0.00}">
+                                data-price="${item.unit_price || 0.00}"
+                                data-stockdata='${invstockString}'>
                                 ${item.item_code?.code || 'Unknown'} (${item.quantity_balance})
-                            </option>`
-                        ).join('');
+                            </option>`;
+                        }).join('');
 
                     $dropdown.data('original-options', originalOptions);
                 }
@@ -583,6 +588,11 @@
                 const itemId = $this.val();
                 const previousValue = $this.data('previous-value');
 
+                var thisData = $(this).find('option:selected').data('stockdata');
+                if (thisData) {
+                    console.log(thisData); // Access the ID from the data
+                }
+
                 // Remove the previous value from selectedItems if it exists
                 if (previousValue) {
                     const index = selectedItems.indexOf(previousValue);
@@ -607,6 +617,7 @@
 
                 // Get the row containing this item
                 var $row = $this.closest('.count-class');
+                var parentElement = $(this).closest('.count-class');
                 if (!$row.length) {
                     // For the first row which might not have .count-class
                     $row = $this.closest('.row');
@@ -628,6 +639,32 @@
                 for (var i = 1; i <= quantity; i++) {
                     $quantitySelect.append('<option value="' + i + '">' + i + '</option>');
                 }
+
+
+                calculateTotalPrice(parentElement, thisData);
+
+                // Add input event for quantity changes
+                parentElement.find('.quantity').on('input', function() {
+                    var max = parseFloat($(this).attr('max'));
+                    var value = parseFloat($(this).val());
+
+                    if (value > max) {
+                        $(this).val(max);
+                    }
+
+                    // Recalculate total price when quantity changes
+                    calculateTotalPrice(parentElement, thisData);
+
+                });
+
+
+                parentElement.find('.item_price').on('input', function() {
+
+                    calculateTotalPrice(parentElement, thisData);
+
+                });
+
+
             });
 
             // Modify add-more-civ click handler to respect selected items
@@ -673,28 +710,49 @@
             });
 
             // quantity change event - update calculated price
-            $(document).on('change', '.quantity', function() {
-                var quantity = $(this).val();
-                var $row = $(this).closest('.count-class');
-                if (!$row.length) {
-                    // For the first row which might not have .count-class
-                    $row = $(this).closest('.row');
-                }
+            // $(document).on('change', '.quantity', function() {
+            //     var quantity = $(this).val();
+            //     var $row = $(this).closest('.count-class');
+            //     if (!$row.length) {
+            //         // For the first row which might not have .count-class
+            //         $row = $(this).closest('.row');
+            //     }
 
-                var item_price = $row.find('.item_price').val() || 0;
-                var total_price = quantity * item_price;
-                $row.find('.total_price').val(total_price.toFixed(2));
-            });
+            //     var item_price = $row.find('.item_price').val() || 0;
+            //     var total_price = quantity * item_price;
+            //     $row.find('.total_price').val(total_price.toFixed(2));
+            // });
         });
     </script>
     <script>
-        // $(document).ready(function() {
-        //     $('.inv_no').change(function(e) {
-        //         e.preventDefault();
-        //         var holdername = $(this).find(':selected').data('holder-name');
-        //         $('.inventory_holder').val(holdername);
+        function calculateTotalPrice(parentElement, itemData) {
+            var gstPercent = parseFloat(itemData.gst_percent) || 0;
+            var discountPercent = parseFloat(itemData.discount_percent) || 0;
+            var itemRateInput = parentElement.find('.item_price');
+            var itemRate = parseFloat(itemRateInput.val()) || 0;
+          //  var itemRate = parseFloat(itemData.unit_price) || 0;
+            var quantity = parseFloat(parentElement.find('.quantity').val()) || 0;
 
-        //     });
-        // });
+            parentElement.find('.item_gst_percent').text(gstPercent);
+            parentElement.find('.item_discount_percent').text(discountPercent);
+
+            // Calculate subtotal
+            var subtotal = itemRate * quantity;
+
+            // Apply discount first
+            var discountAmount = subtotal * (discountPercent / 100);
+            var afterDiscount = subtotal - discountAmount;
+
+            // Then apply GST on the discounted amount
+            var gstAmount = afterDiscount * (gstPercent / 100);
+            var totalPrice = afterDiscount + gstAmount;
+
+            // Round to 2 decimal places for currency
+            totalPrice = parseFloat(totalPrice.toFixed(2));
+
+            parentElement.find('.total_price').val(totalPrice);
+
+            console.log('totalPrice: ', totalPrice);
+        }
     </script>
 @endpush

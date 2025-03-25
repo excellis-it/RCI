@@ -226,7 +226,7 @@
                             <div class="col-md-12">
                                 <h5>Strike off Charge</h5>
                             </div>
-                            <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="form-group col-md-2 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Ledger Number</label>
@@ -239,22 +239,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="form-group col-md-2 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Nomenclature</label>
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control item_description"
-                                            name="strike_nomenclature[]" >
+                                            name="strike_nomenclature[]">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="form-group col-md-2 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
-                                        <label>Quantity</label>
+                                        <label>Quantity (Stock : <span class="item_quantity_stock">0</span>)</label>
                                     </div>
                                     <div class="col-md-12">
                                         <input type="number" class="form-control item_quantity"
@@ -264,24 +264,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-xl-3 col-md-4 mb-2">
+                            <div class="form-group col-md-3 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
-                                        <label>Rate</label>
+                                        <label>Unit Rate</label>
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" value="0.00" class="form-control item_rate"
-                                            name="strike_rate[]">
+                                            name="strike_rate[]" readonly>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group col-md-3 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Total Price (GST : <span class="item_gst_percent">0</span>% , Discount :
+                                            <span class="item_discount_percent">0</span>%)</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" value="0.00" class="form-control item_total_price"
+                                            name="total_price[]">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <h5>Broght on change</h5>
                             </div>
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-2 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Ledger Number</label>
@@ -294,26 +312,26 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-2 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Nomenclature</label>
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control item_description"
-                                            name="brought_nomenclature[]" >
+                                            name="brought_nomenclature[]">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3 mb-2">
+                            <div class="form-group col-md-2 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Quantity</label>
                                     </div>
                                     <div class="col-md-12">
                                         <input type="number" value="0" class="form-control item_quantity"
-                                            name="brought_quantity[]" >
+                                            name="brought_quantity[]" readonly>
                                         <div class="text-danger" id="quantity_no"></div>
                                         <span class="text-danger"></span>
                                     </div>
@@ -366,7 +384,7 @@
                         <div class="col-md-12">
                             <h5>Strike off Charge</h5>
                         </div>
-                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="form-group col-md-2 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>Ledger Number</label>
@@ -377,7 +395,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="form-group col-md-2 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>Nomenclature</label>
@@ -389,7 +407,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="form-group col-md-2 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>Quantity</label>
@@ -402,24 +420,40 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-xl-3 col-md-4 mb-2">
+                        <div class="form-group col-md-3 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>Rate</label>
+                                    <label>Unit Rate</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" value="0.00" class="form-control item_rate"
-                                        name="strike_rate[]">
+                                        name="strike_rate[]" readonly>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="form-group col-md-3 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <label>Total Price (GST : <span class="item_gst_percent">0</span>% , Discount :
+                                        <span class="item_discount_percent">0</span>%)</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" value="0.00" class="form-control item_total_price"
+                                        name="total_price[]">
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <h5>Broght on change</h5>
                         </div>
-                        <div class="form-group col-md-3 mb-2">
+                        <div class="form-group col-md-2 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>Ledger Number</label>
@@ -432,26 +466,26 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3 mb-2">
+                        <div class="form-group col-md-2 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>Nomenclature</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control item_description"
-                                        name="brought_nomenclature[]" >
+                                        name="brought_nomenclature[]">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-3 mb-2">
+                        <div class="form-group col-md-2 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <label>Quantity</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="number" value="0" class="form-control item_quantity"
-                                        name="brought_quantity[]" >
+                                        name="brought_quantity[]" readonly>
                                     <div class="text-danger" id="quantity_no"></div>
                                     <span class="text-danger"></span>
                                 </div>
