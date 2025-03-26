@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
 
     <style>
-        @page {
+        /* @page {
             size: 29.7cm 42cm
-        }
+        } */
 
         .page-break {
             page-break-before: always;
@@ -69,13 +69,13 @@
                                             PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF {{ $month ?? 'N/A' }}
                                             - {{ $year ?? 'N/A' }} </br>GPF OFFICER
                                         </td>
-                                        <td colspan="4"
-                                            style="text-align: center;border-left:0px;border-right:0px;">
+                                        <td colspan="4" style="text-align: center;border-left:0px;border-right:0px;">
                                             <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;border-right:0px;border-left:0px;"
                                                 border="0" src="{{ public_path('storage/' . $logo->logo) }}"
                                                 alt="">
                                         </td>
-                                        <td colspan="1" style="text-align: center;border-left:0px;border-right:0px;"></td>
+                                        <td colspan="1" style="text-align: center;border-left:0px;border-right:0px;">
+                                        </td>
                                         <td colspan="5"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-right: none !important;border-left:0px;">
                                             Center For High Energy Systems and Science<br>
@@ -309,8 +309,8 @@
                                             // total loans
                                             $totalLoans +=
                                                 $totalHbaInst + $totalCompInst + $totalEduInst + $totalCarBikeInst;
-                                            $total_credits_first = $member_info['details']['member_credit']->tot_credits ?? 0;
-
+                                            $total_credits_first =
+                                                $member_info['details']['member_credit']->tot_credits ?? 0;
                                         @endphp
 
                                         <tr>
@@ -449,7 +449,7 @@
                                                 <br>
                                                 {{ ($member_info['details']['member_debit']->tot_debits ?? 0) + $allLoans ?? '0' }}
                                                 <br>
-                                                {{ ($total_credits_first +( $member_info['details']['member_credit']->var_incr ?? 0)) - (($member_info['details']['member_debit']->tot_debits ?? 0) + $allLoans) ?? '0' }}
+                                                {{ $total_credits_first + ($member_info['details']['member_credit']->var_incr ?? 0) - (($member_info['details']['member_debit']->tot_debits ?? 0) + $allLoans) ?? '0' }}
                                                 <br>
 
                                                 {{ ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +

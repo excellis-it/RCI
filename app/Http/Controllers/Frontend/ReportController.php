@@ -55,6 +55,7 @@ use App\Models\MemberOriginalRecovery;
 use App\Models\MemberMonthlyDataCredit;
 use App\Models\MemberMonthlyDataDebit;
 use App\Models\MemberMonthlyDataRecovery;
+use App\Models\Setting;
 
 class ReportController extends Controller
 {
@@ -128,8 +129,9 @@ class ReportController extends Controller
             }
 
 
-
-            $pdf = PDF::loadView('frontend.reports.group-payslip-generate', compact('member_data_collection', 'monthName', 'year'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.group-payslip-generate', compact('member_data_collection', 'monthName', 'year'))->setPaper('a4', $paperType);
             return $pdf->download('payslip-' . $monthName . '-' . $year . '.pdf');
         } else {
 
@@ -151,8 +153,9 @@ class ReportController extends Controller
             $logo = Helper::logo() ?? '';
 
           //  return view('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
-
-            $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
+          $setting = Setting::first();
+          $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'))->setPaper('a4', $paperType);
             return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
         }
     }
@@ -252,7 +255,9 @@ class ReportController extends Controller
         // dd($member_datas);
         //  return $all_members_info;
         // return $all_members_info;
-        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no', 'month', 'year', 'logo', 'da_percent', 'all_members_info', 'groupedData'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no', 'month', 'year', 'logo', 'da_percent', 'all_members_info', 'groupedData'))->setPaper('a4', $paperType);
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
     }
@@ -483,8 +488,9 @@ class ReportController extends Controller
         }
 
         $logo = Helper::logo() ?? '';
-
-        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'year', 'months', 'result', 'total_credit', 'total_debit', 'total_policy', 'standard_deduction', 'professional_update_allowance', 'member_loan_info', 'hbaInterest', 'member_it_exemption_info', 'exemption_result', 'total_exemption', 'ceaus', 'fixed_deposit', 'nsc', 'letOutProperty', 'pensionIncome', 'savingsInterest', 'ppf', 'otherBonds', 'nsc_ctd', 'hbaRefund', 'tutionFee', 'jeevanSuraksha', 'ulip', 'otherSavings', 'incometaxRate', 'relief87A', 'relief89'))->setPaper('a3', 'landscape');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'year', 'months', 'result', 'total_credit', 'total_debit', 'total_policy', 'standard_deduction', 'professional_update_allowance', 'member_loan_info', 'hbaInterest', 'member_it_exemption_info', 'exemption_result', 'total_exemption', 'ceaus', 'fixed_deposit', 'nsc', 'letOutProperty', 'pensionIncome', 'savingsInterest', 'ppf', 'otherBonds', 'nsc_ctd', 'hbaRefund', 'tutionFee', 'jeevanSuraksha', 'ulip', 'otherSavings', 'incometaxRate', 'relief87A', 'relief89'))->setPaper('a3', $paperType);
         return $pdf->download('income-tax-' . $member_data->name . '-' . $request->report_year . '.pdf');
     }
 
@@ -517,8 +523,9 @@ class ReportController extends Controller
         $requestMonth = $request->month;
         $dateStr = sprintf('2024-%02d-01', $requestMonth);
         $month = date('M', strtotime($dateStr));
-
-        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'year', 'month', 'accountant'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.salary-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'year', 'month', 'accountant'))->setPaper('a4', $paperType);
         return $pdf->download('salary-certificate-' . $member_data->name . '.pdf');
     }
 
@@ -623,8 +630,9 @@ class ReportController extends Controller
             $total_debit = [];
             $category = '';
         }
-
-        $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit', 'category'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.bonus-schedule-generate', compact('member_data', 'member_credit_data', 'member_debit_data', 'year', 'months', 'unitCode', 'result', 'total_credit', 'total_debit', 'category'))->setPaper('a4', $paperType);
         return $pdf->download('bonus-schedule-' . $request->report_year . '.pdf');
     }
 
@@ -647,8 +655,9 @@ class ReportController extends Controller
         $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
         $drdoPin = $dojYear . 'AD' . str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
-
-        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'))->setPaper('a4', $paperType);
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
 
@@ -815,8 +824,9 @@ class ReportController extends Controller
             $total['total_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('tot_debits');
             $total['net_pay'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('net_pay');
         }
-
-        $pdf = PDF::loadView('frontend.reports.payroll-generate', compact('total', 'get_month_name', 'year', 'category', 'today'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.payroll-generate', compact('total', 'get_month_name', 'year', 'category', 'today'))->setPaper('a4', $paperType);
         return $pdf->download('payroll-' . $month . '-' . $year . '.pdf');
     }
 
@@ -885,8 +895,9 @@ class ReportController extends Controller
             if (empty($children)) {
                 return redirect()->back()->with('error', 'No children data found.');
             }
-
-            $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('data', 'total', 'bill_no', 'today', 'children', 'member_detail', 'accountant'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('data', 'total', 'bill_no', 'today', 'children', 'member_detail', 'accountant'))->setPaper('a4', $paperType);
             return $pdf->download('children-allowance-report-' . $member_detail->name . '.pdf');
         } else {
             // call this function groupChildrenAllowanceGenerate()
@@ -911,8 +922,9 @@ class ReportController extends Controller
                     $total += ($child->allowance_amount ?? 0);
                 }
             }
-
-            $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members_data', 'data', 'total', 'bill_no', 'today', 'accountant'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members_data', 'data', 'total', 'bill_no', 'today', 'accountant'))->setPaper('a4', $paperType);
             return $pdf->download('group-children-allowance-report-' . 'all members' . '.pdf');
         }
     }
@@ -1015,8 +1027,9 @@ class ReportController extends Controller
             }
             // dd($member_data);
         }
-
-        $pdf = PDF::loadView('frontend.reports.professional-update-allowance-generate', compact('member_data', 'type', 'category', 'year'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.professional-update-allowance-generate', compact('member_data', 'type', 'category', 'year'))->setPaper('a4', $paperType);
 
         return $pdf->download('professional-update-allowance' . $year . '.pdf');
     }
@@ -1055,8 +1068,9 @@ class ReportController extends Controller
             $total_sub_amt += $gpf_data->monthly_subscription;
             $total_refund += $gpf_data->refund;
         }
-
-        $pdf = PDF::loadView('frontend.reports.gpf-withdrawal-generate', compact('member', 'apply_date', 'required_date', 'required_amount', 'received_amount', 'reason', 'member_core_data', 'gpf_data', 'total_sub_amt', 'member_credit_data', 'month', 'total_refund'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.gpf-withdrawal-generate', compact('member', 'apply_date', 'required_date', 'required_amount', 'received_amount', 'reason', 'member_core_data', 'gpf_data', 'total_sub_amt', 'member_credit_data', 'month', 'total_refund'))->setPaper('a4', $paperType);
         return $pdf->download('gpf-withdrawal-' . $member->name . '.pdf');
     }
 
@@ -1106,8 +1120,9 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'No data found for the selected month');
         }
 
-
-        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt', 'start_date', 'end_date', 'accountant'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.gpf-subscription-generate', compact('member', 'totalGpfDetails', 'gpfData', 'member', 'from_year', 'from_month', 'to_year', 'to_month', 'member_core_info', 'total_refund', 'total_sub_amt', 'start_date', 'end_date', 'accountant'))->setPaper('a4', $paperType);
         return $pdf->download('gpf-subscription-' . $member->name . '.pdf');
     }
 
@@ -1170,8 +1185,9 @@ class ReportController extends Controller
 
         $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')
             ->get();
-
-        $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months', 'months', 'year', 'report_quarter', 'report_year', 'number_months'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months', 'months', 'year', 'report_quarter', 'report_year', 'number_months'))->setPaper('a4', $paperType);
         return $pdf->download('quaterly-tds-report-' . $report_quarter . '-' . $report_year . '.pdf');
     }
     public function groupChildrenAllowance()
@@ -1196,8 +1212,9 @@ class ReportController extends Controller
             $member_children = MemberFamily::where('member_id', $member->id)->first();
             $total += ($member_children->child1_amount ?? 0) + ($member_children->child2_amount ?? 0);
         }
-
-        $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members', 'data', 'total', 'bill_no', 'today'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members', 'data', 'total', 'bill_no', 'today'))->setPaper('a4', $paperType);
         return $pdf->download('group-children-allowance-report-' . 'fgd' . '.pdf');
     }
 
@@ -1230,7 +1247,9 @@ class ReportController extends Controller
 
         if ($request->report_type == 'individual') {
             $member_detail = Member::where('id', $request->member_id)->first();
-            $pdf = PDF::loadView('frontend.reports.newspaper-allowance-report-generate', compact('member_detail', 'data'));
+            $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.newspaper-allowance-report-generate', compact('member_detail', 'data'))->setPaper('a4', $paperType);
             return $pdf->download('newspaper-allowance-report-' . $member_detail->name . '.pdf');
         } else {
 
@@ -1240,8 +1259,9 @@ class ReportController extends Controller
                 $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
                 $total += $amount->amount ?? 0;
             }
-
-            $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members', 'total'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members', 'total'))->setPaper('a4', $paperType);
             return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
         }
     }
@@ -1260,8 +1280,9 @@ class ReportController extends Controller
             $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
             $total += $amount->amount;
         }
-
-        $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members', 'total'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members', 'total'))->setPaper('a4', $paperType);
         return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
     }
 
@@ -1292,8 +1313,9 @@ class ReportController extends Controller
         $landline_allowance = LandlineAllowance::where('category_id', $member_detail->category)->orderBy('id', 'desc')->first() ?? 0;
         $member_all_allowance = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->month)->first() ?? 0;
         $total = ($member_all_allowance->landline_allow ?? 0) + ($member_all_allowance->mobile_allow ?? 0) + ($member_all_allowance->broad_band_allow ?? 0);
-
-        $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail', 'member_all_allowance', 'data', 'total', 'landline_allowance', 'month_name'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail', 'member_all_allowance', 'data', 'total', 'landline_allowance', 'month_name'))->setPaper('a4', $paperType);
         return $pdf->download('landline-allowance-report-' . $member_detail->name . '.pdf');
     }
 
@@ -1320,8 +1342,9 @@ class ReportController extends Controller
         if ($request->report_type == 'individual') {
             $member_detail = Member::where('id', $request->member_id)->first();
             $member_purse_allowances = MemberBagPurse::where('member_id', $request->member_id)->where('year', $request->year)->get();
-
-            $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('member_purse_allowances', 'member_detail', 'data'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('member_purse_allowances', 'member_detail', 'data'))->setPaper('a4', $paperType);
             return $pdf->download('bag-purse-allowance-report-' . '.pdf');
         } else {
 
@@ -1351,8 +1374,9 @@ class ReportController extends Controller
                     $member_purse_allowances[] = $member_details;
                 }
             }
-
-            $pdf = PDF::loadView('frontend.reports.group-bag-purse-report-generate', compact('member_purse_allowances', 'total'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $pdf = PDF::loadView('frontend.reports.group-bag-purse-report-generate', compact('member_purse_allowances', 'total'))->setPaper('a4', $paperType);
             return $pdf->download('bag-purse-allowance-report-' . 'all-members' . '.pdf');
         }
     }
@@ -1383,8 +1407,9 @@ class ReportController extends Controller
         } else {
             $retirement_type = '';
         }
-
-        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage', 'accountant'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.terminal-benefits-generate', compact('member', 'member_retirement_info', 'member_credit_data', 'retirement_type', 'da_percentage', 'accountant'))->setPaper('a4', $paperType);
         return $pdf->download('terminal-benefits-' . $member->name . '.pdf');
     }
 
@@ -1428,8 +1453,9 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'No data found for the selected year');
         }
 
-
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year', 'income_from_other_sources', 'income_from_house_property', 'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'incometaxRate', 'surcharge'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year', 'income_from_other_sources', 'income_from_house_property', 'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'incometaxRate', 'surcharge'))->setPaper('a4', $paperType);
         return $pdf->download('form-sixteen-b-' . $member->name . '.pdf');
     }
 
@@ -1465,7 +1491,9 @@ class ReportController extends Controller
     public function ltcAdvanceReportGenerate(Request $request)
     {
         $member = Member::where('id', $request->member_id)->first();
-        $pdf = PDF::loadView('frontend.reports.ltc-advance-report-generate', compact('member'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.ltc-advance-report-generate', compact('member'))->setPaper('a4', $paperType);
         return $pdf->download('ltc-advance-' . '.pdf');
     }
 
@@ -1510,8 +1538,9 @@ class ReportController extends Controller
         if ($member_it_exemption->count() == 0) {
             return redirect()->back()->with('error', 'No data found for the selected year');
         }
-
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'))->setPaper('a4', $paperType);
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
     }
 
@@ -1546,8 +1575,9 @@ class ReportController extends Controller
         $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
         $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
         $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
-
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-a-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-a-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear'))->setPaper('a4', $paperType);
         return $pdf->download('form-sixteen-a-' . $member->name . '.pdf');
     }
 
@@ -1611,7 +1641,9 @@ class ReportController extends Controller
         ];
 
         // dd($level_array);
-        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands', 'pay_level_counts', 'pm_levels', 'structuredArray'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.pay-matrix-report-generate', compact('pay_bands', 'pay_level_counts', 'pm_levels', 'structuredArray'))->setPaper('a4', $paperType);
         return $pdf->download('pay-matrix-commission-report-' . $request->financial_year . '.pdf');
     }
 
@@ -1795,8 +1827,9 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'No data found');
         }
 
-
-        $pdf = PDF::loadView('frontend.reports.da-arrears-generate-new', compact('report', 'da_percentage_diff_heading', 'due_da_percentage_for_heading', 'drawn_da_percentage_for_heading', 'start_date', 'end_date', 'chunkedMembers'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.da-arrears-generate-new', compact('report', 'da_percentage_diff_heading', 'due_da_percentage_for_heading', 'drawn_da_percentage_for_heading', 'start_date', 'end_date', 'chunkedMembers'))->setPaper('a4', $paperType);
         return $pdf->download('da-arrears-' . Carbon::parse($start_date)->format('M-Y') . 'to' . Carbon::parse($end_date)->format('M-Y') . '.pdf');
     }
 
@@ -1827,7 +1860,9 @@ class ReportController extends Controller
         $month = $request->month;
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-        $pdf = PDF::loadView('frontend.reports.i-tax-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.i-tax-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('i-tax-recovery-report-' . '.pdf');
     }
 
@@ -1869,7 +1904,9 @@ class ReportController extends Controller
         }
 
         // Generate the PDF
-        $pdf = PDF::loadView('frontend.reports.lf-chnages-reports', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.lf-chnages-reports', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'))->setPaper('a4', $paperType);
 
         return $pdf->download('lf-chnages-recovery-report-' . '.pdf');
     }
@@ -1892,7 +1929,9 @@ class ReportController extends Controller
         if ($members->count() == 0) {
             return redirect()->back()->with('error', 'No data found');
         }
-        $pdf = PDF::loadView('frontend.reports.misc-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.misc-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('misc-report-' . '.pdf');
     }
 
@@ -1916,7 +1955,9 @@ class ReportController extends Controller
         if ($members->count() == 0) {
             return redirect()->back()->with('error', 'No data found');
         }
-        $pdf = PDF::loadView('frontend.reports.nps-report-generate', compact('chunkedMembers', 'financial_year', 'month_name', 'year', 'da', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.nps-report-generate', compact('chunkedMembers', 'financial_year', 'month_name', 'year', 'da', 'accountant', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('nps-report-' . '.pdf');
     }
 
@@ -1945,7 +1986,9 @@ class ReportController extends Controller
         $month = $request->month;
         $accountant = $request->accountant;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-        $pdf = PDF::loadView('frontend.reports.cgegis-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.cgegis-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('cgegis-report-' . '.pdf');
     }
 
@@ -1968,7 +2011,9 @@ class ReportController extends Controller
         if ($members->count() == 0) {
             return redirect()->back()->with('error', 'No data found');
         }
-        $pdf = PDF::loadView('frontend.reports.cghs-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.cghs-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('cghs-report-' . '.pdf');
     }
 
@@ -1991,7 +2036,9 @@ class ReportController extends Controller
         if ($members->count() == 0) {
             return redirect()->back()->with('error', 'No data found');
         }
-        $pdf = PDF::loadView('frontend.reports.hba-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.hba-report-generate', compact('chunkedMembers', 'category', 'month_name', 'year', 'accountant', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('hba-report-' . '.pdf');
     }
 
@@ -2111,8 +2158,9 @@ class ReportController extends Controller
 
         // The $monthlyData array now contains all the data for each month within the specified range
 
-
-        $pdf = PDF::loadView('frontend.reports.pay-fixation-arrears-generate', compact('monthlyData', 'member', 'accountant', 'pran_no', 'start_date', 'end_date'))->setPaper('a4', 'landscape');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.pay-fixation-arrears-generate', compact('monthlyData', 'member', 'accountant', 'pran_no', 'start_date', 'end_date'))->setPaper('a4', $paperType);
         return $pdf->download('pay-fixation-arrears-' . '.pdf');
     }
 
@@ -2184,8 +2232,9 @@ class ReportController extends Controller
         }
 
         //  return $all_members_info;
-
-        $pdf = PDF::loadView('frontend.reports.cgeg_gpf_generate', compact('all_members_info', 'month_name', 'year', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.cgeg_gpf_generate', compact('all_members_info', 'month_name', 'year', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('CGEF-GPF-Report-' . $month . '-' . $year . '.pdf');
     }
 
@@ -2249,8 +2298,9 @@ class ReportController extends Controller
         }
 
         // return $all_members_info;
-
-        $pdf = PDF::loadView('frontend.reports.recovery-gpf-generate', compact('all_members_info', 'month_name', 'year', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.recovery-gpf-generate', compact('all_members_info', 'month_name', 'year', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('RECOVERY-SCHEDULE-GPF-' . $month . '-' . $year . '.pdf');
     }
 
@@ -2313,8 +2363,9 @@ class ReportController extends Controller
         }
 
         // return $all_members_info;
-
-        $pdf = PDF::loadView('frontend.reports.recovery-nps-generate', compact('all_members_info', 'month_name', 'year', 'month'));
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.recovery-nps-generate', compact('all_members_info', 'month_name', 'year', 'month'))->setPaper('a4', $paperType);
         return $pdf->download('RECOVERY-SCHEDULE-NPS-' . $month . '-' . $year . '.pdf');
     }
 
@@ -2377,8 +2428,9 @@ class ReportController extends Controller
         }
 
         // return $all_members_info;
-
-        $pdf = PDF::loadView('frontend.reports.income-tax-calculation-generate', compact('all_members_info', 'month_name', 'year', 'month'))->setPaper('a4', 'landscape')->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.income-tax-calculation-generate', compact('all_members_info', 'month_name', 'year', 'month'))->setPaper('a4', $paperType)->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
         $pdf->setOption('margin-top', 0)
             ->setOption('margin-right', 0)
             ->setOption('margin-bottom', 0)
