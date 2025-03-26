@@ -64,6 +64,8 @@ class ImprestReportController extends Controller
         // how to add this format like d/m/y
 
         $logo = Helper::logo() ?? '';
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
 
 
         $request_date = $request->report_date;
@@ -161,14 +163,14 @@ class ImprestReportController extends Controller
                 $bills_submitted_to_cda_init_query->whereDate('cda_bill_date', '<=', $request_date);
             }
             $bills_submitted_to_cda_init = $bills_submitted_to_cda_init_query->sum('bill_amount');
-            
+
             $amount_receipt_query = CDAReceipt::query();
             if ($request_date) {
                 $amount_receipt_query->whereDate('rct_vr_date', '<=', $request_date);
             }
             $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
 
-            $bills_submitted_to_cda = $bills_submitted_to_cda_init - $amount_receipt; 
+            $bills_submitted_to_cda = $bills_submitted_to_cda_init - $amount_receipt;
 
             $bills_on_hand_init_query = AdvanceSettlement::query();
             if ($request_date) {
@@ -202,14 +204,14 @@ class ImprestReportController extends Controller
             //  return view('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
 
 
-            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
+            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'))->setPaper('a4', $paperType);
             return $pdf->download('cash-book-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'out_standing') {
             $totalOutStandAmount = 0;
 
             $adv_settles_check = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->pluck('af_id');
-            
-            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $request_date)->whereNotIn('id', $adv_settles_check)->get();           
+
+            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $request_date)->whereNotIn('id', $adv_settles_check)->get();
 
             foreach ($advanceFunds as $advanceFund) {
 
@@ -221,7 +223,7 @@ class ImprestReportController extends Controller
 
             // return $advanceFunds;
 
-            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'));
+            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'))->setPaper('a4', $paperType);
             return $pdf->download('out-standing-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'bill_hand') {
 
@@ -231,7 +233,7 @@ class ImprestReportController extends Controller
 
             // return $settleBills;
             // return view('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
-            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
+            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'))->setPaper('a4', $paperType);
             return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'cda_bill') {
 
@@ -265,7 +267,7 @@ class ImprestReportController extends Controller
             // return $cdaReceipts;
 
 
-            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date', 'logo', 'cdaReceipts', 'totalAmount'));
+            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date', 'logo', 'cdaReceipts', 'totalAmount'))->setPaper('a4', $paperType);
             return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
         } else {
             return redirect()->back()->with('error', 'Invalid Bill Type');
