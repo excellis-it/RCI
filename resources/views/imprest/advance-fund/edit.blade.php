@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control emp_id" name="emp_id"
-                                value="{{ $advance_fund->member->emp_id }}" placeholder="" readonly>
+                                value="{{ $advance_fund->member->emp_id ?? '' }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control pers_no" name="pers_no"
-                                value="{{ $advance_fund->member->pers_no }}" placeholder="" readonly>
+                                value="{{ $advance_fund->member->pers_no ?? '' }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control desig" name="desig"
-                                value="{{ $advance_fund->member->desigs->designation }}" placeholder=""
+                                value="{{ $advance_fund->member->desigs?->designation ?? '' }}" placeholder=""
                                 readonly>
                             <span class="text-danger"></span>
                         </div>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control basic" name="basic"
-                                value="{{ $advance_fund->member->basic }}" placeholder="" readonly>
+                                value="{{ $advance_fund->member->basic ?? 0 }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control groups" name="groups"
-                                value="{{ $advance_fund->member->groups?->value }}" placeholder="" readonly>
+                                value="{{ $advance_fund->member->groups?->value ?? '' }}" placeholder="" readonly>
 
                             <span class="text-danger"></span>
                         </div>
@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control divisions" name="divisions"
-                                value="{{ $advance_fund->member->divisions->value }}" placeholder="" readonly>
+                                value="{{ $advance_fund->member->divisions?->value ?? '' }}" placeholder="" readonly>
 
                             <span class="text-danger"></span>
                         </div>
