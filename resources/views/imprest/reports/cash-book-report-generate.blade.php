@@ -1198,7 +1198,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        Total Payments for the Day
+                                        Total Payments
                                     </td>
                                     <td
                                         style="
@@ -1331,7 +1331,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }}
+                                        {{-- {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }} --}}
+                                        {{ number_format($book2_data['closing_balance_cash_in_hand'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1345,7 +1346,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book2_data['grand_total_cash_in_bank'], 2) ?? 0 }}
+                                        {{-- {{ number_format($book2_data['grand_total_cash_in_bank'], 2) ?? 0 }} --}}
+                                        {{ number_format($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
