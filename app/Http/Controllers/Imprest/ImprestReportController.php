@@ -77,8 +77,8 @@ class ImprestReportController extends Controller
 
             //////// book 1
 
-            $opening_blanace_cash_in_hand = ImprestBalance::whereDate('date', '<', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand');
-            $opening_blanace_cash_in_bank = ImprestBalance::whereDate('date', '<', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank');
+            $opening_blanace_cash_in_hand = Helper::getImprestCashInHandOpening($request_date);
+            $opening_blanace_cash_in_bank = Helper::getImprestCashInBankOpening($request_date);
 
             $cash_withdraws = CashWithdrawal::whereDate('vr_date', $request_date)->get();
             $total_withdraw_balance = 0;
@@ -105,10 +105,12 @@ class ImprestReportController extends Controller
 
             //////// book 2
 
-            $settle_bill_ids = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 0)->pluck('id');
+          //  $settle_bill_ids = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 0)->pluck('id');
+
+            $cda_bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $request_date)->pluck('bill_id');
 
 
-            $cda_bills = CdaBillAuditTeam::whereIn('settle_id', $settle_bill_ids)->whereDate('cda_bill_date', $request_date)->get();
+            $cda_bills = CdaBillAuditTeam::whereNotIn('settle_id', $cda_bill_receipts_check)->whereDate('cda_bill_date',  '<=', $request_date)->get();
 
             $total_bill_balance = 0;
             foreach ($cda_bills as $cda_bill) {
@@ -116,10 +118,9 @@ class ImprestReportController extends Controller
             }
             $totalPaymentsForTheDay =  $total_bill_balance + 0;
 
-            $opening_blanace_cash_in_hand = ImprestBalance::whereDate('date', '<=', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand');
-            $blanace_cash_in_bank = ImprestBalance::whereDate('date', '<=', $request_date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank');
+            $blanace_cash_in_bank = Helper::getImprestCashInBank($request_date);
 
-            $cash_in_hand = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand') ?? 0;
+            $cash_in_hand = Helper::getImprestCashInHand($request_date);
 
             $closing_balance_cash_in_hand = $cash_in_hand;
             $grand_total_cash_in_hand = $closing_balance_cash_in_hand + $totalPaymentsForTheDay;
@@ -140,26 +141,53 @@ class ImprestReportController extends Controller
 
             //////// book 3
 
-            $imp_balances = ImprestBalance::where('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->first();
-
-            // dd($imp_balances);
-
             $cash_in_hand = 0;
             $cash_in_bank = 0;
+            $bills_submitted_to_init = 0;
             $bills_submitted_to_cda = 0;
+            $bills_on_hand_init = 0;
             $bills_on_hand = 0;
+            $advance_slips_init = 0;
             $advance_slips = 0;
             $all_totals = 0;
 
-            $cash_in_hand = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand') ?? 0;
-            $cash_in_bank = ImprestBalance::whereDate('date', '<=', $date)->latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_bank') ?? 0;
+            $amount_receipt = 0;
 
-            if ($imp_balances) {
+            $cash_in_hand = Helper::getImprestCashInHand($request_date);
+            $cash_in_bank = Helper::getImprestCashInBank($request_date);
 
-                $bills_submitted_to_cda = $imp_balances->cda_bill_outstand;
-                $bills_on_hand = $imp_balances->adv_settle_outstand;
-                $advance_slips = $imp_balances->adv_fund_outstand;
+            $bills_submitted_to_cda_init_query = CdaBillAuditTeam::query();
+            if ($request_date) {
+                $bills_submitted_to_cda_init_query->whereDate('cda_bill_date', '<=', $request_date);
             }
+            $bills_submitted_to_cda_init = $bills_submitted_to_cda_init_query->sum('bill_amount');
+            
+            $amount_receipt_query = CDAReceipt::query();
+            if ($request_date) {
+                $amount_receipt_query->whereDate('rct_vr_date', '<=', $request_date);
+            }
+            $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
+
+            $bills_submitted_to_cda = $bills_submitted_to_cda_init - $amount_receipt; 
+
+            $bills_on_hand_init_query = AdvanceSettlement::query();
+            if ($request_date) {
+                $bills_on_hand_init_query->whereDate('var_date', '<=', $request_date);
+            }
+            $bills_on_hand_init = $bills_on_hand_init_query->sum('bill_amount');
+
+            $bills_on_hand = $bills_on_hand_init - $bills_submitted_to_cda_init;
+
+            $all_adv_settles_af = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->pluck('af_id');
+
+            $advance_slips_init_query = AdvanceFundToEmployee::query();
+            if ($request_date) {
+                $advance_slips_init_query->whereDate('adv_date', '<=', $request_date);
+            }
+            $advance_slips_init = $advance_slips_init_query->whereNotIn('id', $all_adv_settles_af)->sum('adv_amount');
+
+            $advance_slips = $advance_slips_init;
+
             $all_totals = $cash_in_hand + $cash_in_bank + $bills_submitted_to_cda + $bills_on_hand + $advance_slips;
 
             $book3_data = [
@@ -177,30 +205,15 @@ class ImprestReportController extends Controller
             $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
             return $pdf->download('cash-book-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'out_standing') {
-
-            // Step 1: Fetch AdvanceFundToEmployee data with condition
-            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $request_date)
-                ->get()
-                ->filter(function ($advanceFund) {
-                    $paid_amount = AdvanceSettlement::where('af_id', $advanceFund->id)
-                        //  ->where('bill_status', 1)
-                        //  ->where('receipt_status', 1)
-                        ->sum('bill_amount');
-
-                    // Keep only entries that have pending amounts
-                    return $paid_amount < $advanceFund->adv_amount;
-                })
-                ->values();
-
             $totalOutStandAmount = 0;
 
-            foreach ($advanceFunds as $advanceFund) {
-                $paid_amount = AdvanceSettlement::where('af_id', $advanceFund->id)
-                    ->where('bill_status', 1)
-                    ->where('receipt_status', 1)
-                    ->sum('bill_amount');
+            $adv_settles_check = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->pluck('af_id');
+            
+            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $request_date)->whereNotIn('id', $adv_settles_check)->get();           
 
-                $advanceFund->outstand_amount = $advanceFund->adv_amount - $paid_amount;
+            foreach ($advanceFunds as $advanceFund) {
+
+                $advanceFund->outstand_amount = $advanceFund->adv_amount;
                 $totalOutStandAmount += $advanceFund->outstand_amount;
             }
 
@@ -212,7 +225,9 @@ class ImprestReportController extends Controller
             return $pdf->download('out-standing-report-' . $report_date . '.pdf');
         } else if ($request->bill_type == 'bill_hand') {
 
-            $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->where('bill_status', 0)->where('receipt_status', 0)->get();
+            $cda_bills_check = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $request_date)->pluck('settle_id');
+
+            $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->whereNotIn('id', $cda_bills_check)->get();
 
             // return $settleBills;
             // return view('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
@@ -222,7 +237,9 @@ class ImprestReportController extends Controller
 
             $settleBillsCheck = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->where('receipt_status', 1)->pluck('id');
 
-            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $request_date)->whereNotIn('settle_id', $settleBillsCheck)->get();
+            $bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $request_date)->pluck('bill_id');
+
+            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $request_date)->whereNotIn('id', $bill_receipts_check)->get();
 
             foreach ($cdaReceipts as $cdaReceipt) {
                 $settle_id = $cdaReceipt->settle_id;

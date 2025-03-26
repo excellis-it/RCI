@@ -27,6 +27,9 @@ use App\Models\ItemCode;
 use App\Models\Rin;
 use App\Models\CreditVoucher;
 use App\Models\InventoryItemStock;
+use App\Models\Amount;
+use App\Models\Setting;
+use App\Models\CdaBillAuditTeam;
 
 class Helper
 {
@@ -111,6 +114,127 @@ class Helper
     {
         $lastIMBRecord = ImprestBalance::latest('date')->latest('created_at')->orderBy('id', 'desc')->value('cash_in_hand');
         return $lastIMBRecord ?? 0;
+    }
+
+    public static function getImprestCashInBank($date = null)
+    {
+        $amount_credit = 0;
+        $amount_withdraw = 0;
+        $amount_receipt = 0;
+
+        $amount_credit_query = Amount::query();
+        if ($date) {
+            $amount_credit_query->whereDate('created_at', '<=', $date);
+        }
+        $amount_credit = $amount_credit_query->sum('amount');
+
+        $amount_withdraw_query = CashWithdrawal::query();
+        if ($date) {
+            $amount_withdraw_query->whereDate('vr_date', '<=', $date);
+        }
+        $amount_withdraw = $amount_withdraw_query->sum('amount');
+
+        $amount_receipt_query = CDAReceipt::query();
+        if ($date) {
+            $amount_receipt_query->whereDate('rct_vr_date', '<=', $date);
+        }
+        $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
+
+        $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt;
+
+        return $final_cash_in_bank;
+    }
+
+    public static function getImprestCashInBankOpening($date = null)
+    {
+        $date = $date ?? now()->toDateString();
+        $amount_credit = 0;
+        $amount_withdraw = 0;
+        $amount_receipt = 0;
+
+        $amount_credit_query = Amount::query();
+        if ($date) {
+            $amount_credit_query->whereDate('created_at', '<', $date);
+        }
+        $amount_credit = $amount_credit_query->sum('amount');
+
+        $amount_withdraw_query = CashWithdrawal::query();
+        if ($date) {
+            $amount_withdraw_query->whereDate('vr_date', '<', $date);
+        }
+        $amount_withdraw = $amount_withdraw_query->sum('amount');
+
+        $amount_receipt_query = CDAReceipt::query();
+        if ($date) {
+            $amount_receipt_query->whereDate('rct_vr_date', '<', $date);
+        }
+        $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
+
+        $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt;
+
+        return $final_cash_in_bank;
+    }
+
+
+    public static function getImprestCashInHand($date = null)
+    {
+        $amount_withdraw = 0;
+        $amount_advance = 0;
+        $amount_settled_partial_returned = 0;
+        $amount_receipt = 0;
+
+        $amount_withdraw_query = CashWithdrawal::query();
+        if ($date) {
+            $amount_withdraw_query->whereDate('vr_date', '<=', $date);
+        }
+        $amount_withdraw = $amount_withdraw_query->sum('amount');
+
+        $amount_advance_query = AdvanceFundToEmployee::query();
+        if ($date) {
+            $amount_advance_query->whereDate('adv_date', '<=', $date);
+        }
+        $amount_advance = $amount_advance_query->sum('adv_amount');
+
+        $amount_settled_partial_returned_query = AdvanceSettlement::query();
+        if ($date) {
+            $amount_settled_partial_returned_query->whereDate('var_date', '<=', $date);
+        }
+        $amount_settled_partial_returned = $amount_settled_partial_returned_query->sum('balance');
+
+        $final_cash_in_hand = ($amount_withdraw - $amount_advance) + $amount_settled_partial_returned;
+
+        return $final_cash_in_hand;
+    }
+
+    public static function getImprestCashInHandOpening($date = null)
+    {
+        $date = $date ?? now()->toDateString();
+        $amount_withdraw = 0;
+        $amount_advance = 0;
+        $amount_settled_partial_returned = 0;
+        $amount_receipt = 0;
+
+        $amount_withdraw_query = CashWithdrawal::query();
+        if ($date) {
+            $amount_withdraw_query->whereDate('vr_date', '<', $date);
+        }
+        $amount_withdraw = $amount_withdraw_query->sum('amount');
+
+        $amount_advance_query = AdvanceFundToEmployee::query();
+        if ($date) {
+            $amount_advance_query->whereDate('adv_date', '<', $date);
+        }
+        $amount_advance = $amount_advance_query->sum('adv_amount');
+
+        $amount_settled_partial_returned_query = AdvanceSettlement::query();
+        if ($date) {
+            $amount_settled_partial_returned_query->whereDate('var_date', '<', $date);
+        }
+        $amount_settled_partial_returned = $amount_settled_partial_returned_query->sum('balance');
+
+        $final_cash_in_hand = ($amount_withdraw - $amount_advance) + $amount_settled_partial_returned;
+
+        return $final_cash_in_hand;
     }
 
     public static function getBankBalance($date = null)
