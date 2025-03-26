@@ -31,7 +31,8 @@ class ConversionVoucherController extends Controller
         $itemCodes = ItemCode::all();
         $conversionVouchers = ConversionVoucher::orderBy('id', 'desc')->paginate(10);
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
-        $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
+        $crvitems = CreditVoucherDetail::pluck('inv_no');
+        $inventoryNumbers = InventoryNumber::whereIn('id', $crvitems)->with('creditVoucherDetails.voucherDetail')->get();
         return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers', 'transferVouchers'));
     }
 
@@ -245,7 +246,8 @@ class ConversionVoucherController extends Controller
     {
         $conversionVoucher = ConversionVoucher::with('conversionVoucherDetails')->find($id);
         $itemCodes = ItemCode::all();
-        $inventoryNumbers = InventoryNumber::all();
+        $crvitems = CreditVoucherDetail::pluck('inv_no');
+        $inventoryNumbers = InventoryNumber::whereIn('id', $crvitems)->get();
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
         $edit = true;
 
@@ -253,7 +255,7 @@ class ConversionVoucherController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. 
      */
     public function update(Request $request, string $id)
     {
@@ -389,4 +391,3 @@ class ConversionVoucherController extends Controller
         return redirect()->back()->with('error', 'Conversion Voucher deleted successfully');
     }
 }
- 
