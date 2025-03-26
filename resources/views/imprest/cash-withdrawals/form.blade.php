@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="amount" id="amount" placeholder=""
-                            value="{{ $cashwithdrawal->amount }}">
+                            value="{{ $cashwithdrawal->amount }}" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

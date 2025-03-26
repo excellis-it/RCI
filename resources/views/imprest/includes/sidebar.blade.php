@@ -88,6 +88,16 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ Request::is('imprest/cash-deposits*') ? 'active' : '' }}"
+                        href="{{ route('cash-deposits.index') }}">
+                        <span>
+                            <i class="ti ti-receipt"></i>
+                        </span>
+                        <span class="hide-menu">Cash Deposit</span>
+                    </a>
+                </li>
+
             </ul>
 
         </nav>
