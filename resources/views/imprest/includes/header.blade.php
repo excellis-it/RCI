@@ -80,12 +80,12 @@
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block ms-5">
-                <span class="nav-link text-primary">Cash In Bank : {{ Helper::getCashInBank() }}</span>
+                <span class="nav-link text-primary">Cash In Bank : {{ Helper::getImprestCashInBank() }}</span>
                 <input type="hidden" id="main_cashinbank_balance" value="{{ Helper::getBankBalance() }}">
             </li>
 
             <li class="nav-item dropdown-hover d-none d-lg-block">
-                <span class="nav-link text-primary">Cash In Hand : {{ Helper::getCashInHand() }}</span>
+                <span class="nav-link text-primary">Cash In Hand : {{ Helper::getImprestCashInHand() }}</span>
                 <input type="hidden" id="main_cashinhand_balance" value="{{ Helper::getCashBalance() }}">
             </li>
 
