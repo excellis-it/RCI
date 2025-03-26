@@ -23,7 +23,8 @@ class TransferVoucherController extends Controller
     public function index()
     {
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->paginate(10);
-        $inventoryNumbers = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
+        $crvitems = CreditVoucherDetail::pluck('inv_no');
+        $inventoryNumbers = InventoryNumber::whereIn('id', $crvitems)->with('creditVoucherDetails.voucherDetail')->get();
         // foreach ($inventoryNumbers as $inv) {
         //     $inv['crv_voucher_no'] = $inv->creditVoucherDetails->voucherDetail->voucher_no;
         // }
