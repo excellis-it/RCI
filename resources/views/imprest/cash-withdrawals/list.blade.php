@@ -78,7 +78,7 @@
                                                     style="cursor: pointer">AMOUNT<span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
 
-                                                {{-- <th></th> --}}
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">

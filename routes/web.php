@@ -174,8 +174,8 @@ Route::middleware('common')->group(function () {
         Route::post('/update',  [LogoController::class, 'logoUpdate'])->name('logo.update');
     });
 
-     // Settings
-     Route::prefix('web-settings')->group(function () {
+    // Settings
+    Route::prefix('web-settings')->group(function () {
         Route::get('/pdf-page-type', [WebSettingsController::class, 'pdfPageType'])->name('settings.pdf-page-type.form');
         Route::post('/pdf-page-type-save', [WebSettingsController::class, 'pdfPageTypeSave'])->name('settings.pdf-page-type.save');
     });
@@ -1013,6 +1013,11 @@ Route::middleware('permssions')->group(function () {
         Route::post('/advance-settlement-get-adv', [AdvanceSettlementController::class, 'getAdv'])->name('advance-settle-bills.get-adv');
     });
 
+    // Cash Deposit Routes
+    Route::group(['prefix' => 'imprest', 'middleware' => ['auth']], function () {
+        Route::resource('cash-deposits', \App\Http\Controllers\Imprest\CashDepositController::class)->except(['edit', 'update', 'destroy']);
+    });
+
     //grade pay routes
     Route::get('/grade-pays-fetch-data', [GradePayController::class, 'fetchData'])->name('grade-pays.fetch-data');
 
@@ -1337,8 +1342,6 @@ Route::prefix('inventory')->group(function () {
     Route::get('/ccs-subs-edit/{id}', [CssSubController::class, 'edit'])->name('css-subs.edit');
     Route::get('/ccs-subs-find-member', [CssSubController::class, 'findMember'])->name('css-subs.find-member');
     Route::get('/members/{id}', [MemberController::class, 'show'])->name('members.show');
-
-
 });
 
 Route::get('/expired', function () {

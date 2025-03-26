@@ -30,6 +30,7 @@ use App\Models\InventoryItemStock;
 use App\Models\Amount;
 use App\Models\Setting;
 use App\Models\CdaBillAuditTeam;
+use App\Models\CashDeposit;
 
 class Helper
 {
@@ -121,6 +122,7 @@ class Helper
         $amount_credit = 0;
         $amount_withdraw = 0;
         $amount_receipt = 0;
+        $amount_deposit = 0;
 
         $amount_credit_query = Amount::query();
         if ($date) {
@@ -140,7 +142,13 @@ class Helper
         }
         $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
 
-        $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt;
+        $amount_deposit_query = CashDeposit::query();
+        if ($date) {
+            $amount_deposit_query->whereDate('vr_date', '<=', $date);
+        }
+        $amount_deposit = $amount_deposit_query->sum('amount');
+
+        $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt + $amount_deposit;
 
         return $final_cash_in_bank;
     }
@@ -151,6 +159,7 @@ class Helper
         $amount_credit = 0;
         $amount_withdraw = 0;
         $amount_receipt = 0;
+        $amount_deposit = 0;
 
         $amount_credit_query = Amount::query();
         if ($date) {
@@ -170,7 +179,13 @@ class Helper
         }
         $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
 
-        $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt;
+        $amount_deposit_query = CashDeposit::query();
+        if ($date) {
+            $amount_deposit_query->whereDate('vr_date', '<', $date);
+        }
+        $amount_deposit = $amount_deposit_query->sum('amount');
+
+        $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt + $amount_deposit;
 
         return $final_cash_in_bank;
     }
@@ -182,6 +197,7 @@ class Helper
         $amount_advance = 0;
         $amount_settled_partial_returned = 0;
         $amount_receipt = 0;
+        $amount_deposit = 0;
 
         $amount_withdraw_query = CashWithdrawal::query();
         if ($date) {
@@ -201,7 +217,13 @@ class Helper
         }
         $amount_settled_partial_returned = $amount_settled_partial_returned_query->sum('balance');
 
-        $final_cash_in_hand = ($amount_withdraw - $amount_advance) + $amount_settled_partial_returned;
+        $amount_deposit_query = CashDeposit::query();
+        if ($date) {
+            $amount_deposit_query->whereDate('vr_date', '<=', $date);
+        }
+        $amount_deposit = $amount_deposit_query->sum('amount');
+
+        $final_cash_in_hand = (($amount_withdraw - $amount_advance) + $amount_settled_partial_returned) - $amount_deposit;
 
         return $final_cash_in_hand;
     }
@@ -213,6 +235,7 @@ class Helper
         $amount_advance = 0;
         $amount_settled_partial_returned = 0;
         $amount_receipt = 0;
+        $amount_deposit = 0;
 
         $amount_withdraw_query = CashWithdrawal::query();
         if ($date) {
@@ -232,7 +255,13 @@ class Helper
         }
         $amount_settled_partial_returned = $amount_settled_partial_returned_query->sum('balance');
 
-        $final_cash_in_hand = ($amount_withdraw - $amount_advance) + $amount_settled_partial_returned;
+        $amount_deposit_query = CashDeposit::query();
+        if ($date) {
+            $amount_deposit_query->whereDate('vr_date', '<', $date);
+        }
+        $amount_deposit = $amount_deposit_query->sum('amount');
+
+        $final_cash_in_hand = (($amount_withdraw - $amount_advance) + $amount_settled_partial_returned) - $amount_deposit;
 
         return $final_cash_in_hand;
     }
