@@ -137,6 +137,7 @@ use App\Http\Controllers\Inventory\ItemCodeNameController;
 use App\Http\Controllers\Inventory\MemberController as InventoryMemberController;
 use App\Http\Controllers\WebSettingsController;
 use App\Http\Controllers\Frontend\CssSubController;
+use App\Http\Controllers\Imprest\CashDepositController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1015,7 +1016,7 @@ Route::middleware('permssions')->group(function () {
 
     // Cash Deposit Routes
     Route::group(['prefix' => 'imprest', 'middleware' => ['auth']], function () {
-        Route::resource('cash-deposits', \App\Http\Controllers\Imprest\CashDepositController::class)->except(['edit', 'update', 'destroy']);
+        Route::resource('cash-deposits', CashDepositController::class)->except(['edit', 'update', 'destroy']);
     });
 
     //grade pay routes
