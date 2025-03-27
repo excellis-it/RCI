@@ -107,12 +107,14 @@ class ImprestReportController extends Controller
 
             //////// book 2
 
-          //  $settle_bill_ids = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 0)->pluck('id');
+            //  $settle_bill_ids = AdvanceSettlement::where('bill_status', 1)->where('receipt_status', 0)->pluck('id');
 
             $cda_bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $request_date)->pluck('bill_id');
 
 
-            $cda_bills = CdaBillAuditTeam::whereNotIn('settle_id', $cda_bill_receipts_check)->whereDate('cda_bill_date',  '<=', $request_date)->get();
+            $cda_bills = CdaBillAuditTeam::whereNotIn('settle_id', $cda_bill_receipts_check)->whereDate('cda_bill_date',  '=', $request_date)->get();
+
+          //  return $cda_bills;
 
             $total_bill_balance = 0;
             foreach ($cda_bills as $cda_bill) {

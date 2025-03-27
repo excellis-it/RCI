@@ -341,6 +341,9 @@
             $('#rins-create-form').submit(function(e) {
                 e.preventDefault();
 
+                var $row = $(this).closest('.new_html');
+                calculateTotalCost($row);
+
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -650,6 +653,10 @@
             // Handle the form submission
             $(document).on('submit', '#rins-edit-form', function(e) {
                 e.preventDefault();
+
+                var $row = $(this).closest('.new_html');
+                calculateTotalCost($row);
+
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -823,55 +830,55 @@
         });
     </script> --}}
     <script>
-        $(document).ready(function() {
-            function calculateTotalCost($row) {
+        function calculateTotalCost($row) {
 
-                document.querySelectorAll('.disc_percent').forEach(input => {
-                    input.addEventListener('input', function() {
-                        if (parseFloat(this.value) > 100) {
-                            this.value = 100;
-                        }
-                    });
+            document.querySelectorAll('.disc_percent').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (parseFloat(this.value) > 100) {
+                        this.value = 100;
+                    }
                 });
+            });
 
-                var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
-                var unitCost = parseFloat($row.find('.units_cost').val()) || 0;
-                var discPercent = parseFloat($row.find('.disc_percent').val()) || 0;
-                var gstPercent = parseFloat($row.find('.gst_percent').val()) || 0;
-                var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
+            var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
+            var unitCost = parseFloat($row.find('.units_cost').val()) || 0;
+            var discPercent = parseFloat($row.find('.disc_percent').val()) || 0;
+            var gstPercent = parseFloat($row.find('.gst_percent').val()) || 0;
+            var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
 
-                var totalCost = unitCost * received;
-                $row.find('.total_cost').val(totalCost.toFixed(2));
+            var totalCost = unitCost * received;
+            $row.find('.total_cost').val(totalCost.toFixed(2));
 
-                var discountedCost = totalCost; // Start with the total cost
+            var discountedCost = totalCost; // Start with the total cost
 
-                // Apply discount based on discount type
-                if (discountType === 'percentage') {
-                    discountedCost = totalCost - (totalCost * (discPercent / 100));
-                    var discount = (totalCost * (discPercent / 100));
-                } else if (discountType === 'fixed') {
-                    discountedCost = totalCost - discPercent;
-                    var discount = discPercent;
-                }
-                $row.find('.discount_amount').val(discount.toFixed(2));
-                // Calculate GST on the discounted amount
-                var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
-                $row.find('.gst_amount').val(gstAmount);
-
-                // Calculate total amount after GST
-                var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
-                $row.find('.total_amount').val(totalAmount);
-
-                // Round the total amount to 2 decimal places
-                var roundedTotalAmount = (Math.round(totalAmount * 10) / 10).toFixed(2);
-                $row.find('.round_amount').val(roundedTotalAmount);
+            // Apply discount based on discount type
+            if (discountType === 'percentage') {
+                discountedCost = totalCost - (totalCost * (discPercent / 100));
+                var discount = (totalCost * (discPercent / 100));
+            } else if (discountType === 'fixed') {
+                discountedCost = totalCost - discPercent;
+                var discount = discPercent;
             }
+            discount = parseFloat(discount) || 0;
+            $row.find('.discount_amount').val(discount.toFixed(2));
+            // Calculate GST on the discounted amount
+            var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
+            $row.find('.gst_amount').val(gstAmount);
 
+            // Calculate total amount after GST
+            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
+            $row.find('.total_amount').val(totalAmount);
+
+            // Round the total amount to 2 decimal places
+            var roundedTotalAmount = (Math.round(totalAmount * 10) / 10).toFixed(2);
+            $row.find('.round_amount').val(roundedTotalAmount);
+        }
+
+        $(document).ready(function() {
             // Event listener for changes in received quantity, unit cost, discount, or GST percentage
             $(document).on('input', '.rcv_quantity, .units_cost, .disc_percent, .gst_percent, .discount_type',
                 function() {
                     var $row = $(this).closest('.new_html');
-
                     calculateTotalCost($row);
                     let roundSettle = $row.find(".round_settle_amount");
                     roundSettle.trigger('keyup');
