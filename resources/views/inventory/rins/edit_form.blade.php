@@ -302,7 +302,7 @@
                                         <label>Received Quantity</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control rcv_quantity"
+                                        <input type="number" class="form-control rcv_quantity"
                                             name="received_quantity[]" value="{{ $item->received_quantity }}">
                                         <span class="text-danger"></span>
                                     </div>
@@ -329,7 +329,7 @@
                                         <label>Unit Cost</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control units_cost" name="unit_cost[]"
+                                        <input type="number" class="form-control units_cost" name="unit_cost[]"
                                             value="{{ $item->unit_cost }}" placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
@@ -342,7 +342,7 @@
                                         <label>Total Unit Cost</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control total_cost" name="total_cost[]"
+                                        <input type="number" class="form-control total_cost" name="total_cost[]"
                                             value="{{ $item->total_cost }}" placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
@@ -399,8 +399,8 @@
                                         <label>GST Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control gst_amount" name="gst_amount[]"
-                                            value="{{ $item->gst_amount }}" placeholder="">
+                                        <input type="number" class="form-control gst_amount" name="gst_amount[]"
+                                            value="{{ $item->gst_amount }}" placeholder="" readonly>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -412,7 +412,7 @@
                                         <label>Total Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control total_amount" name="total_amount[]"
+                                        <input type="number" class="form-control total_amount" name="total_amount[]"
                                             value="{{ $item->total_amount }}" placeholder="" readonly>
                                         <span class="text-danger"></span>
                                     </div>
@@ -425,7 +425,7 @@
                                         <label>Round Figure Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control round_amount" name="round_amount[]"
+                                        <input type="number" class="form-control round_amount" name="round_amount[]"
                                             id="round_amount" value="{{ $item->round_amount }}">
                                         <span class="text-danger"></span>
                                     </div>

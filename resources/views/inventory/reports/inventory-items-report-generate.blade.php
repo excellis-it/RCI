@@ -131,7 +131,7 @@
                   border-top: 1px solid #000;
                   border-right: 1px solid #000;
                 ">
-                                        Division <b>{{ $inventory->group->name ?? 'N/A' }}</b>
+                                        Division <b>{{ $inventory->divisions?->value ?? 'N/A' }}</b>
                                     </td>
 
                                 </tr>

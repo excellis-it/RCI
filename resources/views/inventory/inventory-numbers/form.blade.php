@@ -222,7 +222,7 @@
                                 <select class="form-select form-select-search holder_id" name="holder_id" id="holder_id">
                                     <option value="">Select Holder</option>
                                     @foreach ($members as $member)
-                                        <option value="{{ $member->id }}" data-member-desig={{ $member->desigs->designation }}>{{ $member->name }}
+                                        <option value="{{ $member->id }}" data-member-desig={{ $member->desigs?->designation ?? '' }} data-member-division={{ $member->divisions?->value ?? '' }}>{{ $member->name }}
                                             </option>
                                     @endforeach
                                 </select>
@@ -298,7 +298,7 @@
                                 <label>Division</label>
                             </div>
                             <div class="col-md-12">
-                                <input name="division" class="form-control" value="">
+                                <input name="division" id="division" class="form-control holder_division" value="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

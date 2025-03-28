@@ -33,7 +33,8 @@ class ConversionVoucherController extends Controller
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->get();
         $crvitems = CreditVoucherDetail::pluck('inv_no');
         $inventoryNumbers = InventoryNumber::whereIn('id', $crvitems)->with('creditVoucherDetails.voucherDetail')->get();
-        return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers', 'transferVouchers'));
+        $inventoryNumbersTo = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
+        return view('inventory.conversion-vouchers.list', compact('conversionVouchers', 'itemCodes', 'inventoryNumbers', 'inventoryNumbersTo', 'transferVouchers'));
     }
 
     public function getItemsByInvNo(Request $request)
@@ -223,6 +224,7 @@ class ConversionVoucherController extends Controller
                 $inventoryItemStock->item_id = $request->brought_item_id[$key] ?? null;
                 $inventoryItemStock->quantity = $request->brought_quantity[$key] ?? 0;
                 $inventoryItemStock->quantity_balance = $request->brought_quantity[$key] ?? 0;
+                $inventoryItemStock->unit_price = $request->brought_rate[$key] ?? 0;
                 $inventoryItemStock->save();
             }
         }
@@ -255,7 +257,7 @@ class ConversionVoucherController extends Controller
     }
 
     /**
-     * Update the specified resource in storage. 
+     * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {

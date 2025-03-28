@@ -114,7 +114,7 @@ class ImprestReportController extends Controller
 
             $cda_bills = CdaBillAuditTeam::whereNotIn('settle_id', $cda_bill_receipts_check)->whereDate('cda_bill_date',  '=', $request_date)->get();
 
-          //  return $cda_bills;
+            //  return $cda_bills;
 
             $total_bill_balance = 0;
             foreach ($cda_bills as $cda_bill) {

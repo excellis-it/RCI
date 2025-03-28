@@ -616,7 +616,7 @@
                                 <label>Discount(%)</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control disc_percent" name="disc_percent[]"
+                                <input type="number" class="form-control disc_percent" name="disc_percent[]"
                                     id="disc_percent" value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -628,7 +628,7 @@
                                 <label>Discount Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
+                                <input type="number" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
                                     value="" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -661,7 +661,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control gst_amt" name="gst_amt[]" id="gst_amt"
-                                    value="" placeholder="">
+                                    value="" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -672,7 +672,7 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control total_price" name="total_price[]"
+                                <input type="number" class="form-control total_price" name="total_price[]"
                                     id="total_price" value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
@@ -685,7 +685,7 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="quantity[]" id="quantity"
+                                <input type="number" class="form-control" name="quantity[]" id="quantity"
                                     value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>

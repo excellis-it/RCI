@@ -127,6 +127,13 @@
 
                 });
             });
+            $(document).ready(function() {
+                $('input[type="number"]').on('input change', function() {
+                    if ($(this).val() < 0) {
+                        $(this).val(0);
+                    }
+                });
+            });
         </script>
         @stack('scripts')
     </body>

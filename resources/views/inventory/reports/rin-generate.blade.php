@@ -362,7 +362,18 @@
                                         Applicable Taxes (Tax Type & Percentage):</td>
                                     <td
                                         style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                        <span>GST</span>
+                                        @php
+                                            $average_gst = 0;
+                                            $total_items = count($all_items);
+                                            if ($total_items > 0) {
+                                                $sum_gst = 0;
+                                                foreach ($all_items as $item) {
+                                                    $sum_gst += $item->gst ?? 0;
+                                                }
+                                                $average_gst = round($sum_gst / $total_items, 2);
+                                            }
+                                        @endphp
+                                        <span>GST {{ $average_gst }}%</span>
 
                                     </td>
                                     <td colspan="2"

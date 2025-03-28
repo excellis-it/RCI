@@ -258,6 +258,7 @@ class ReportController extends Controller
 
         $startDate = null;
         $endDate = null;
+
         // Get inventory details
         $inventory_number = $request->inventory_number;
         $inventory = InventoryNumber::where('number', $inventory_number)->first();
@@ -266,94 +267,119 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Inventory number not found');
         }
 
-        // Start building query
-        $query = CreditVoucherDetail::where('inv_no', $inventory->id)
-            ->with(['itemCodes', 'inventoryNumber']);
-
-        // Apply date range filter if provided
+        // Process date range if provided
         if ($request->filled('date_range')) {
             $dates = explode(' - ', $request->date_range);
             if (count($dates) == 2) {
                 $startDate = Carbon::parse($dates[0])->startOfDay();
                 $endDate = Carbon::parse($dates[1])->endOfDay();
-                $query->whereBetween('created_at', [$startDate, $endDate]);
             }
         }
 
-        // Apply item NC type filter if provided
+        // First get all inventory stocks for this inventory
+        $inventoryStocksQuery = InventoryItemStock::where('inv_id', $inventory->id)
+            ->where('quantity_balance', '>', 0)
+            ->with(['itemCode', 'itemCode.ncStatus', 'itemCode.uomajorment']);
+
+        // Apply NC status filter if provided
         if ($request->filled('item_nc_type')) {
             $ncTypeId = $request->item_nc_type;
-            $query->whereHas('itemCodes', function ($q) use ($ncTypeId) {
+            $inventoryStocksQuery->whereHas('itemCode', function ($q) use ($ncTypeId) {
                 $q->where('nc_status', $ncTypeId);
             });
         }
 
-        // Execute the query
-        $creditItems = $query->get();
+        // Get inventory stocks
+        $inventoryStocks = $inventoryStocksQuery->get();
 
-        if ($creditItems->isEmpty()) {
+        if ($inventoryStocks->isEmpty()) {
             return redirect()->back()->with('error', 'No items found for this inventory number with the selected filters');
         }
 
-        // Collect item IDs from credit voucher details
-        $itemIds = $creditItems->pluck('item_code')->toArray();
+        // Get all item IDs from inventory stocks
+        $itemIds = $inventoryStocks->pluck('item_id')->toArray();
 
-
-
-
-        // Group items by item_code to consolidate quantities and other details
-        $groupedItems = $creditItems->groupBy('item_code');
+        // Get credit voucher details for items in the inventory to add additional information if needed
+        $creditVoucherDetails = [];
+        if ($request->filled('date_range')) {
+            $creditVoucherDetails = CreditVoucherDetail::where('inv_no', $inventory->id)
+                ->whereIn('item_code', $itemIds)
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->with(['voucherDetail'])
+                ->get()
+                ->groupBy('item_code');
+        }
 
         $inventoryItems = [];
         $totalValue = 0;
         $index = 1;
 
-
-
-        foreach ($groupedItems as $key => $items) {
-            // Get the first item for item details
-            $firstItem = $items->first();
-            $itemCodeDetails = $firstItem->itemCodes;
-
-            if (!$itemCodeDetails) {
+        foreach ($inventoryStocks as $stock) {
+            // Skip if balance is zero or negative
+            if ($stock->quantity_balance <= 0) {
                 continue;
             }
 
-            // return $itemCodeDetails;
+            $itemId = $stock->item_id;
+            $itemCode = $stock->itemCode;
 
-            // inv stocks to get the quantity
-            $invStocks = InventoryItemStock::where('item_id', $itemCodeDetails->id)->where('inv_id', $inventory->id)->first();
-
-
-            // Calculate total quantity and value
-            $quantity_balance = $invStocks->quantity_balance ?? 0;
-            //  return $quantity_balance;
-            $quantity = $quantity_balance;
-            // return $quantity;
-            $rate = $firstItem->price ?? 0;
-            $gst = $firstItem->gst_percent ?? 0;
-            $discount = $firstItem->disc_percent ?? 0;
-            $value = $quantity * $rate * (1 + $gst / 100) * (1 - $discount / 100);
-
-            if ($quantity_balance > 0) {
-                $totalValue += $value;
-                $inventoryItems[] = [
-                    'sl_no' => $index++,
-                    'lvp' => $itemCodeDetails->code ?? '',
-                    'description' => $firstItem->description ?? $itemCodeDetails->item_name ?? '',
-                    'nc_c' => $itemCodeDetails->ncStatus?->status ?? 'NC',
-                    'uom' => $itemCodeDetails->uomajorment?->name ?? '',
-                    'rate' => $rate,
-                    'qty' => $quantity,
-                    'gst' => $gst,
-                    'discount' => $discount,
-                    'value' => $value,
-                    'vr_details' => $firstItem->voucherDetail ?
-                        ($firstItem->voucherDetail->voucher_no ?? '') . 'Dt' .
-                        (date('d.m.y', strtotime($firstItem->voucherDetail->voucher_date ?? ''))) : '',
-                    'remarks' => $firstItem->remarks ?? ''
-                ];
+            if (!$itemCode) {
+                continue;
             }
+
+            $quantity = $stock->quantity_balance;
+            $rate = $stock->unit_price ?? 0;
+            $gst = $stock->gst_percent ?? 0;
+            $gstAmount = $stock->gst_amount ?? 0;
+            $discount = $stock->discount_percent ?? 0;
+            $discountAmount = $stock->discount_amount ?? 0;
+            $description = $itemCode->item_name ?? '';
+            $remarks = '';
+
+            // Set VR details from inventory stock
+            $vrDetails = "Dt" . date('d.m.y', strtotime($stock->created_at));
+
+            // If we have credit voucher details for this item and they fall within our date range, include them
+            if (isset($creditVoucherDetails[$itemId]) && $creditVoucherDetails[$itemId]->isNotEmpty()) {
+                $creditDetail = $creditVoucherDetails[$itemId]->first();
+                if ($creditDetail->voucherDetail) {
+                    $vrDetails = ($creditDetail->voucherDetail->voucher_no ?? '') . ' Dt ' .
+                        date('d.m.y', strtotime($creditDetail->voucherDetail->voucher_date ?? ''));
+                    $remarks = $creditDetail->remarks ?? '';
+                }
+            }
+
+            // Calculate value using rates and calculations from inventory stock
+            $value = $quantity * $rate;
+
+            // Add GST if applicable
+            if ($gst > 0) {
+                $value += ($gstAmount * $quantity / $stock->quantity);
+            }
+
+            // Subtract discount if applicable
+            if ($discount > 0) {
+                $value -= ($discountAmount * $quantity / $stock->quantity);
+            }
+
+            $totalValue += $value;
+
+            $inventoryItems[] = [
+                'sl_no' => $index++,
+                'lvp' => $itemCode->code ?? '',
+                'description' => $description,
+                'nc_c' => $itemCode->ncStatus?->status ?? 'NC',
+                'uom' => $itemCode->uomajorment?->name ?? '',
+                'rate' => $rate,
+                'qty' => $quantity,
+                'gst' => $gst,
+                'discount' => $discount,
+                'value' => $value,
+                'vr_details' => $vrDetails,
+                'remarks' => $remarks,
+                'ledger_no' => $stock->ledger_no ?? '',
+                'page_no' => $stock->page_no ?? ''
+            ];
         }
 
         $logo = Helper::logo() ?? '';
@@ -502,6 +528,7 @@ class ReportController extends Controller
                             'au_status' => $detail->rins->au_status ?? '',
                             'rate' => $price ?? 0,
                             'gst_percent' => $detail->gst_percent ?? 0,
+                            'gst_amt' => $detail->gst_amt ?? 0,
                             'disc_percent' => $detail->disc_percent ?? 0,
                             'disc_amt' => $detail->disc_amt ?? 0,
                             'total_price' => $detail->total_price ?? 0,

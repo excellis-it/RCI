@@ -510,8 +510,9 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-quantity">
-                                <input type="number" value="0" class="form-control item-quantity"
-                                    name="quantity[]" id="quantity" oninput="checkMax(this)">
+                                <input type="number" min="1" value="0"
+                                    class="form-control item-quantity" name="quantity[]" id="quantity"
+                                    oninput="checkMax(this)">
                                 <div class="text-danger" id="quantity_no"></div>
                                 <span class="text-danger"></span>
                             </div>
@@ -525,7 +526,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-unit-price">
-                                <input type="text" value="0.00" class="form-control item-unit-price"
+                                <input type="number" value="0.00" class="form-control item-unit-price"
                                     name="unit_price[]" id="unit_price" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -538,7 +539,7 @@
                                 <label>GST(%)</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item-gst-percent" name="gst_percent[]"
+                                <input type="number" class="form-control item-gst-percent" name="gst_percent[]"
                                     id="gst_percent" value="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -551,7 +552,7 @@
                                 <label>GST Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item-gst-amount" name="gst_amt[]"
+                                <input type="number" class="form-control item-gst-amount" name="gst_amt[]"
                                     id="gst_amount" value="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -565,7 +566,7 @@
                                 <label>Discount(%)</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item-discount-percent"
+                                <input type="number" class="form-control item-discount-percent"
                                     name="disc_percent[]" id="disc_percent" placeholder="" value="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -577,7 +578,7 @@
                                 <label>Discount Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control item-discount-amount" name="disc_amt[]"
+                                <input type="number" class="form-control item-discount-amount" name="disc_amt[]"
                                     id="disc_amt" placeholder="" value="" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -591,7 +592,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-price">
-                                <input type="text" value="0.00" class="form-control item-price" name="price[]"
+                                <input type="number" value="0.00" class="form-control item-price" name="price[]"
                                     id="price" readonly>
                                 <span class="text-danger"></span>
                             </div>
