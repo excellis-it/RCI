@@ -82,7 +82,7 @@
                             <label>Unit Price </label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control price" name="price[]" id="price"
+                            <input type="number" class="form-control price" name="price[]" id="price"
                                 value="{{ $creditVoucherItem->price ?? 0.0 }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -97,7 +97,7 @@
                             <label>Discount(%)</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control disc_percent" name="disc_percent[]"
+                            <input type="number" class="form-control disc_percent" name="disc_percent[]"
                                 id="disc_percent" placeholder="" value="{{ $creditVoucherItem->disc_percent ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
@@ -109,8 +109,8 @@
                             <label>Discount Amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                placeholder="" value="{{ $creditVoucherItem->disc_amt ?? 0 }}">
+                            <input type="number" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
+                                placeholder="" value="{{ $creditVoucherItem->disc_amt ?? 0 }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control gst_amount" name="gst_amt[]" id="gst_amount"
-                                value="{{ $creditVoucherItem->gst_amt ?? 0.0 }}">
+                                value="{{ $creditVoucherItem->gst_amt ?? 0.0 }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                             <label>Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control quantity" name="quantity[]" id="quantity"
+                            <input type="number" class="form-control quantity" name="quantity[]" id="quantity"
                                 placeholder="" value="{{ $creditVoucherItem->quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>

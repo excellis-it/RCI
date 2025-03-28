@@ -537,8 +537,8 @@
                     <div class="col-md-12">
                         <select class="form-select inv_no" name="brought_inv_id[]" id="inv_no_1">
                             <option value="">Select</option>
-                            @foreach ($inventoryNumbers as $inventoryNumber)
-                                <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}
+                            @foreach ($inventoryNumbersTo as $inventoryNumberTo)
+                                <option value="{{ $inventoryNumberTo->id }}">{{ $inventoryNumberTo->number }}
                                 </option>
                             @endforeach
                         </select>

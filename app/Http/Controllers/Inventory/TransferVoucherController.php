@@ -25,6 +25,7 @@ class TransferVoucherController extends Controller
         $transferVouchers = TransferVoucher::orderBy('id', 'desc')->paginate(10);
         $crvitems = CreditVoucherDetail::pluck('inv_no');
         $inventoryNumbers = InventoryNumber::whereIn('id', $crvitems)->with('creditVoucherDetails.voucherDetail')->get();
+        $inventoryNumbersTo = InventoryNumber::with('creditVoucherDetails.voucherDetail')->get();
         // foreach ($inventoryNumbers as $inv) {
         //     $inv['crv_voucher_no'] = $inv->creditVoucherDetails->voucherDetail->voucher_no;
         // }
@@ -34,7 +35,7 @@ class TransferVoucherController extends Controller
             $inv['inventoryStocks'] = $invStocks;
         }
         $creditVouchers = CreditVoucherDetail::groupBy('item_code_id')->select('item_code_id', DB::raw('SUM(quantity) as total_quantity'))->get();
-        return view('inventory.transfer-vouchers.list', compact('transferVouchers', 'inventoryNumbers', 'creditVouchers'));
+        return view('inventory.transfer-vouchers.list', compact('transferVouchers','inventoryNumbersTo', 'inventoryNumbers', 'creditVouchers'));
     }
 
     public function fetchData(Request $request)

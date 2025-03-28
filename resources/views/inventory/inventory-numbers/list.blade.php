@@ -341,7 +341,9 @@
                 e.preventDefault();
                 var holder_id = $(this).val();
                 var holder_desig = $(this).find(':selected').data('member-desig');
+                var holder_division = $(this).find(':selected').data('member-division');
                 $('.holder_desig').val(holder_desig);
+                $('.holder_division').val(holder_division);
 
             });
         });

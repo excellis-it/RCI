@@ -181,11 +181,11 @@
                                 <select class="form-select" name="receiving_inv_no" id="receiving_inv_no"
                                     onchange="">
                                     <option value="">Select</option>
-                                    @foreach ($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}"
-                                            data-hidden-value="{{ $inventoryNumber->inventory_type }}"
-                                            data-division="{{ $inventoryNumber->division }}">
-                                            {{ $inventoryNumber->number }}</option>
+                                    @foreach ($inventoryNumbersTo as $inventoryNumberTo)
+                                        <option value="{{ $inventoryNumberTo->id }}"
+                                            data-hidden-value="{{ $inventoryNumberTo->inventory_type }}"
+                                            data-division="{{ $inventoryNumberTo->division }}">
+                                            {{ $inventoryNumberTo->number }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

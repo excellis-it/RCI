@@ -83,7 +83,7 @@
                             <label>Unit Price </label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control price" name="price[]" id="price"
+                            <input type="number" class="form-control price" name="price[]" id="price"
                                 value="{{ $rin->unit_cost ?? 0.0 }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -96,7 +96,7 @@
                             <label>Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control quantity" name="quantity[]" id="quantity"
+                            <input type="number" class="form-control quantity" name="quantity[]" id="quantity"
                                 placeholder="" value="{{ $rin->received_quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
@@ -133,8 +133,8 @@
                             <label>GST Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control gst_amount" name="gst_amt[]" id="gst_amount"
-                                value="{{ $rin->gst_amount ?? 0.0 }}">
+                            <input type="number" class="form-control gst_amount" name="gst_amt[]" id="gst_amount"
+                                value="{{ $rin->gst_amount ?? 0.0 }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -160,8 +160,8 @@
                             <label>Discount Amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                placeholder="" value="{{ $rin->discount_amount ?? 0 }}">
+                            <input type="number" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
+                                placeholder="" value="{{ $rin->discount_amount ?? 0 }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
