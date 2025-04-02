@@ -19,7 +19,14 @@
                     data-route="{{ route('advance-settlement.delete', $advance_settlement->id) }}">
                     <i class="ti ti-trash"></i>
             </td> --}}
-            </a>
+            {{-- add a edit button --}}
+            <td>
+                <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil text-danger ms-2"
+                    id="advance-sttl-edit"
+                    data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
+                    <i class="ti ti-pencil"></i>
+                </a>
+            </td>
         </tr>
     @endforeach
     <tr class="toxic">

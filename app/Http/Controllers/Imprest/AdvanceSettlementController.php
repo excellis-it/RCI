@@ -238,10 +238,9 @@ class AdvanceSettlementController extends Controller
     public function edit(string $id)
     {
         $advance_settlement = AdvanceSettlement::find($id);
-        $projects = Project::orderBy('id', 'desc')->get();
-        $variable_types = VariableType::orderBy('id', 'desc')->get();
-        $advance_settlement_bills = AdvanceSettlementBill::where('advance_settlement_id', $id)->paginate(10);
-        return view('imprest.advance-settlement.edit', compact('advance_settlement', 'projects', 'variable_types', 'advance_settlement_bills'));
+        $advance_funds = AdvanceFundToEmployee::where('adv_no', $advance_settlement->adv_no)->where('adv_date', $advance_settlement->adv_date)->first();
+        $edit = true;
+        return response()->json(['view' => view('imprest.advance-settlement.form', compact('advance_settlement', 'advance_funds', 'edit'))->render()]);
     }
 
     public function storeAdvanceSettleBill(Request $request)
@@ -304,34 +303,45 @@ class AdvanceSettlementController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'adv_no' => 'required',
-            'adv_date' => 'required',
-            'adv_amount' => 'required|numeric',
-            'project_id' => 'required',
-            'var_no' => 'required',
-            'var_date' => 'required',
-            'var_amount' => 'required|numeric',
-            'var_type_id' => 'required',
-            'chq_no' => 'required',
+            // 'adv_date' => 'required',
+            'var_amount' => 'required',
+            'bill_amount' => 'required',
+            'balance' => 'required',
             'chq_date' => 'required',
         ]);
 
 
         $advance_settlement = AdvanceSettlement::find($id);
-        $advance_settlement->adv_no = $request->adv_no;
-        $advance_settlement->adv_date = $request->adv_date;
-        $advance_settlement->adv_amount = $request->adv_amount;
-        $advance_settlement->project_id = $request->project_id;
-        $advance_settlement->var_no = $request->var_no;
-        $advance_settlement->var_date = $request->var_date;
+
+        // $newBalance = 0;
+
+        // $existingBalance = AdvanceSettlement::select('balance')->where('adv_no', $advance_settlement->adv_no)
+        //     ->where('adv_date', $advance_settlement->adv_date)
+        //     ->orderBy('id', 'desc')->first();
+        // // dd( $existingBalance->balance , $advance_settlement->balance);
+        // if ($existingBalance) {
+        //     $existingBalanceAmount = $existingBalance->balance + $advance_settlement->balance;
+
+
+        //     $newBalance = $existingBalanceAmount - $request->bill_amount;
+        // } else {
+
+        //     $advanceFund = AdvanceFundToEmployee::where('adv_no', $request->adv_no)
+        //         ->where('adv_date', $advance_settlement->adv_date)
+        //         ->first();
+
+        //     $newBalance = $advanceFund->adv_amount - $request->bill_amount;
+        // }
+
+
+        // $advance_settlement->adv_date = $request->adv_date;
         $advance_settlement->var_amount = $request->var_amount;
-        $advance_settlement->var_type_id = $request->var_type_id;
-        $advance_settlement->chq_no = $request->chq_no;
+        $advance_settlement->bill_amount = $request->bill_amount;
+        $advance_settlement->balance = $request->balance;
         $advance_settlement->chq_date = $request->chq_date;
         $advance_settlement->save();
 
-        session()->flash('message', 'Advance Settlement added successfully');
-        return response()->json(['success' => 'Advance Settlement added successfully']);
+        return response()->json(['success' => 'Advance Settlement updated successfully']);
     }
 
     /**

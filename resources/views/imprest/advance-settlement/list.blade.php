@@ -30,7 +30,7 @@
         </div>
         <!--  Row 1 -->
 
-        <div class="row">
+        <div class="row" id="advance-settlement-form">
             @include('imprest.advance-settlement.form')
         </div>
 
@@ -88,7 +88,7 @@
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Variable Type </th>
                                                 <th>Vr Date</th>
-                                                {{-- <th>Actions</th> --}}
+                                                <th>Actions</th>
 
                                                 {{-- <th></th> --}}
                                             </tr>
@@ -300,5 +300,196 @@
         //         }
         //     });
         // });
+    </script>
+    {{-- edit-advance-settlement --}}
+    <script>
+        $(document).ready(function() {
+            $(".edit-advance-settlement").click(function() {
+
+                var route = $(this).data('route');
+
+                //show loading
+                $("#loading").show();
+                $("#loading-content").html(
+                    '<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>'
+                    );
+
+                $.ajax({
+                    url: route,
+                    type: "get",
+                    success: function(response) {
+                        $("#loading").hide();
+                        $("#loading-content").html('');
+                        $("#advance-settlement-form").html(response.view);
+                    },
+                    error: function(xhr) {
+                        $("#loading").hide();
+                        $("#loading-content").html('');
+                        toastr.error('Something went wrong');
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $(document).on("keyup", "#bill_amount", function() {
+                let initialBalanceMain = parseFloat($("#main_amount").val());
+                let payAmount = parseFloat($("#balance").val()); // Pay amount from response
+                let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
+                let billAmount = $(this).val(); // Get the bill amount entered
+
+                // Check if the input is empty
+                if (billAmount.trim() === "") {
+                    // Reset balance to the pay amount
+                    $("#balance").val(initialBalanceMain.toFixed(2));
+                    return;
+                }
+
+                // Convert bill amount to float
+                billAmount = parseFloat(billAmount);
+
+                // Validate the bill amount
+                if (isNaN(billAmount)) {
+                    billAmount = 0; // Handle invalid input
+                }
+
+                // Check if bill amount exceeds the pay amount
+                if (billAmount > initialBalanceMain) {
+                    // Display error message
+                    // alert("The bill amount cannot be greater than the pay amount.");
+                    toastr.error('The bill amount cannot be greater than the balance amount');
+                    billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
+                    $(this).val(''); // Update the input field with the corrected value
+                    $("#var_amount").val('');
+                    $("#balance").val(initialBalanceMain);
+                } else {
+
+                    // Calculate the new balance
+                    let newBalance = initialBalanceMain - billAmount;
+
+                    // Update the balance field
+                    $("#balance").val(newBalance.toFixed(2));
+                    $("#var_amount").val(billAmount);
+
+                }
+
+
+                var this_adv_amount = parseFloat($(this).val()) || 0;
+                var main_cashinhand = parseFloat($("#main_cashinhand_balance").val()) || 0;
+
+                // if (this_adv_amount > main_cashinhand) {
+                //     toastr.error('Cash In Hand Balance is Low');
+                //     $("#save_settle_btn").attr('disabled', true);
+                //     $(".advamnt_msg").text('Cash In Hand Balance is Low');
+                // } else {
+                //     $("#save_settle_btn").removeAttr('disabled');
+                //     $(".advamnt_msg").text('');
+                // }
+
+
+
+
+            });
+
+
+            $(document).on("keyup", "#var_amount", function() {
+                let initialBalanceMain = parseFloat($("#main_amount").val());
+                let payAmount = parseFloat($("#balance").val()); // Pay amount from response
+                let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
+                let billAmount = $(this).val(); // Get the bill amount entered
+
+                // Check if the input is empty
+                if (billAmount.trim() === "") {
+                    // Reset balance to the pay amount
+                    $("#balance").val(initialBalanceMain.toFixed(2));
+                    return;
+                }
+
+                // Convert bill amount to float
+                billAmount = parseFloat(billAmount);
+
+                // Validate the bill amount
+                if (isNaN(billAmount)) {
+                    billAmount = 0; // Handle invalid input
+                }
+
+                // Check if bill amount exceeds the pay amount
+                if (billAmount > initialBalanceMain) {
+                    // Display error message
+                    // alert("The bill amount cannot be greater than the pay amount.");
+                    toastr.error('The bill amount cannot be greater than the balance amount');
+                    billAmount = initialBalanceMain; // Reset bill amount to the maximum allowable value
+                    $(this).val(''); // Update the input field with the corrected value
+                    $("#bill_amount").val('');
+                    $("#balance").val(initialBalanceMain);
+                } else {
+
+                    // Calculate the new balance
+                    let newBalance = initialBalanceMain - billAmount;
+
+                    // Update the balance field
+                    $("#balance").val(newBalance.toFixed(2));
+                    $("#bill_amount").val(billAmount);
+
+                }
+
+
+                var this_adv_amount = parseFloat($(this).val()) || 0;
+                var main_cashinhand = parseFloat($("#main_cashinhand_balance").val()) || 0;
+
+                // if (this_adv_amount > main_cashinhand) {
+                //     toastr.error('Cash In Hand Balance is Low');
+                //     $("#save_settle_btn").attr('disabled', true);
+                //     $(".advamnt_msg").text('Cash In Hand Balance is Low');
+                // } else {
+                //     $("#save_settle_btn").removeAttr('disabled');
+                //     $(".advamnt_msg").text('');
+                // }
+
+
+
+
+            });
+
+
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on("submit", "#advance-settlement-update-form", function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                // console.log(formData);
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                        toastr.success('Advance Settlement updated successfully');
+                        //  window.history.back();
+                        // $("#searchAdv-form").submit();
+                        //  checkBalance();
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 800);
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
+            });
+        });
     </script>
 @endpush
