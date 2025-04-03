@@ -9,11 +9,16 @@
             @page {
                 margin: 25px !important;
                 padding: 25px !important;
+                margin-bottom: 100px !important;
+                /* Add space at bottom for fixed footer */
             }
 
             body {
                 margin: 5px !important;
                 padding: 5px !important;
+                position: relative;
+                padding-bottom: 130px;
+                /* Add space for footer */
             }
 
             table {
@@ -35,9 +40,27 @@
             }
 
             .page-break {
-
                 page-break-after: always;
+            }
 
+            /* Fixed footer style */
+            .footer-table {
+                position: fixed;
+                bottom: 50;
+                left: 0;
+                right: 0;
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            .footer-table th,
+            .footer-table td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: left;
+                font-size: 20px;
+                line-height: 20px;
             }
         </style>
     </head>
@@ -139,13 +162,11 @@
                         @php
                             $categoryAmounts = [];
                             $balanceCarriedForward = [];
-                            // $totalPayments = [];
                             $totalPaymentsToday = [];
                             $total_opening_bank_balance = 0;
                             foreach ($category as $cat) {
                                 $categoryAmounts[$cat->id] = 0;
                                 $balanceCarriedForward[$cat->id] = 0;
-                                //    $totalPayments[$cat->id] = 0;
                                 $totalPaymentsToday[$cat->id] = 0;
                                 if ($count_new_member > 0) {
                                     $total_opening_bank_balance += $total_previous_balance[$cat->id];
@@ -157,7 +178,7 @@
                             $new_count_cvr = 0;
 
                             $data_member_group_by_with_reciept_id = $new_member
-                                ->sortByDesc('receipt_id') // Sort in descending order
+                                ->sortByDesc('receipt_id')
                                 ->groupBy('receipt_id')
                                 ->toArray();
 
@@ -184,7 +205,6 @@
 
                         @foreach ($receipts as $key => $receipt)
                             @if (isset($data_member_group_by_with_reciept_id[$receipt->id]))
-                                {{-- @dd($receipt, $data_member_group_by_with_reciept_id[$receipt->id]) --}}
                                 @php
                                     if (isset($categoryAmounts[$receipt->category_id])) {
                                         foreach ($data_member_group_by_with_reciept_id[$receipt->id] as $value) {
@@ -200,19 +220,16 @@
                                                     $query->where('category_id', $receipt->category_id);
                                                 });
 
-                                            // Store the IDs
                                             $all_cheque_payment_member_id[$cat->id] = $matchingChequePayments
                                                 ->pluck('amount')
                                                 ->toArray();
 
-                                            // Sum the amounts
                                             $totalPaymentsToday[$receipt->category_id] += $matchingChequePayments->sum(
                                                 'amount',
                                             );
                                         }
                                     }
 
-                                    // Group member amounts by category_id from the receipt
                                     $categoryMemberAmounts = [];
                                     $bank_amount = 0;
                                     if (isset($data_member_group_by_with_reciept_id[$receipt->id])) {
@@ -223,9 +240,8 @@
                                                 $categoryMemberAmounts[$categoryId] = [];
                                             }
 
-                                            // Add the member's amount to the corresponding category
-        $categoryMemberAmounts[$categoryId][] = $member['amount'];
-        $bank_amount += $member['amount'];
+                                            $categoryMemberAmounts[$categoryId][] = $member['amount'];
+                                            $bank_amount += $member['amount'];
                                         }
                                     }
                                 @endphp
@@ -365,59 +381,6 @@
                             }
                         @endphp
 
-                        <tr>
-                            <td colspan="3">Total Receipts</td>
-                            <td>0</td>
-                            <td>{{ $total_bank_amount }}</td>
-                            @foreach ($category as $cat)
-                                <td>{{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
-                                </td>
-                            @endforeach
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="3">Total Payments</td>
-                            <td>0</td>
-                            <td>{{ $total_payment_bank }}</td>
-                            @foreach ($category as $cat)
-                                <td>
-                                    {{ $totalPaymentsToday[$cat->id] }}
-                                    {{-- {{ Helper::total_payment_today($cat->id, $vr_date) }} --}}
-                                </td>
-                            @endforeach
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="3">Balance Carried Forward</td>
-                            <td>0</td>
-                            <td>{{ $balance_carried_forword }}</td>
-                            @foreach ($category as $cat)
-                                <td>
-                                    @if ($count_new_member > 0)
-                                        @php
-                                            $total_previous_balance[$cat->id] =
-                                                $categoryAmounts[$cat->id] +
-                                                $total_previous_balance[$cat->id] -
-                                                $totalPaymentsToday[$cat->id];
-                                        @endphp
-                                        {{ $total_previous_balance[$cat->id] }}
-                                    @else
-                                        @php
-                                            $total_previous_balance[$cat->id] =
-                                                $categoryAmounts[$cat->id] +
-                                                Helper::get_openings_balance($cat->id, $pre_vr_date) -
-                                                $totalPaymentsToday[$cat->id];
-                                        @endphp
-                                        {{ $total_previous_balance[$cat->id] }}
-                                    @endif
-
-
-                                </td>
-                            @endforeach
-                            <td></td>
-                        </tr>
                     </tbody>
                 </table>
                 @php
@@ -425,7 +388,49 @@
                 @endphp
             @endforeach
 
-            {{-- {{ dd($all_cheque_payment_member_id) }} --}}
+            <!-- Fixed footer for totals -->
+            <table class="footer-table">
+                <tbody>
+                    <tr>
+                        <td colspan="3">Total Receipts</td>
+                        <td>0</td>
+                        <td>{{ $total_bank_amount }}</td>
+                        @foreach ($category as $cat)
+                            <td>{{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                            </td>
+                        @endforeach
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">Total Payments</td>
+                        <td>0</td>
+                        <td>{{ $total_payment_bank }}</td>
+                        @foreach ($category as $cat)
+                            <td>
+                                {{ $totalPaymentsToday[$cat->id] }}
+                            </td>
+                        @endforeach
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">Balance Carried Forward</td>
+                        <td>0</td>
+                        <td>{{ $balance_carried_forword }}</td>
+                        @foreach ($category as $cat)
+                            <td>
+                                @if ($count_new_member > 0)
+                                    {{ $total_previous_balance[$cat->id] }}
+                                @else
+                                    {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $totalPaymentsToday[$cat->id] }}
+                                @endif
+                            </td>
+                        @endforeach
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
         @else
             <table>
                 <thead>
@@ -445,7 +450,6 @@
                     @php
                         $categoryAmounts = [];
                         $balanceCarriedForward = [];
-                        // $totalPayments = [];
                         $total_opening_bank_amount = 0;
                         foreach ($category as $cat) {
                             $categoryAmounts[$cat->id] = 0;
@@ -479,7 +483,6 @@
                                 $categoryAmounts[$receipt->category_id] += $receipt->amount;
                             }
 
-                            // Group member amounts by category_id from the receipt
                             $categoryMemberAmounts = [];
 
                             if (isset($receipt->receiptMembers)) {
@@ -490,7 +493,6 @@
                                         $categoryMemberAmounts[$categoryId] = [];
                                     }
 
-                                    // Add the member's amount to the corresponding category
                                     $categoryMemberAmounts[$categoryId][] = $member->amount;
                                 }
                             }
@@ -597,19 +599,6 @@
                         {{ $new_count_cvr++ }}
                     @endforeach
 
-
-
-                    {{-- <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                @foreach ($category as $cat)
-                    <td>{{ $categoryAmounts[$cat->id] }}</td>
-                @endforeach
-                <td></td>
-            </tr> --}}
-
-
                     @php
                         $total_bank_amount = 0;
                         $total_payment_bank = 0;
@@ -626,6 +615,12 @@
                         }
                     @endphp
 
+                </tbody>
+            </table>
+
+            <!-- Fixed footer for totals -->
+            <table class="footer-table">
+                <tbody>
                     <tr>
                         <td colspan="3">Total Receipts</td>
                         <td>0</td>
@@ -644,7 +639,6 @@
                         @foreach ($category as $cat)
                             <td>
                                 {{ Helper::total_payment_today($cat->id, $vr_date) }}
-                                {{-- {{ $totalPayments[$cat->id] }} --}}
                             </td>
                         @endforeach
                         <td></td>
@@ -657,23 +651,13 @@
                         @foreach ($category as $cat)
                             <td>
                                 {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - Helper::total_payment_today($cat->id, $vr_date) }}
-                                {{-- {{ $categoryAmounts[$cat->id] - $totalPayments[$cat->id] }} --}}
-
                             </td>
                         @endforeach
                         <td></td>
                     </tr>
-
-
                 </tbody>
             </table>
         @endif
-
-
-
-
-
-
     </body>
 
 </html>
