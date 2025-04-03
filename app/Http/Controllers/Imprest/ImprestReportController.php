@@ -17,7 +17,9 @@ use Carbon\Carbon;
 use App\Helpers\Helper;
 use App\Models\ImprestBalance;
 use App\Models\Setting;
-
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Style\Font;
 
 class ImprestReportController extends Controller
 {
@@ -59,6 +61,7 @@ class ImprestReportController extends Controller
             'report_date' => 'required',
             //   'account_officer_sign' => 'required',
             'bill_type' => 'required',
+            'doc_type' => 'required|in:pdf,docx',
         ]);
 
         // how to add this format like d/m/y
@@ -74,6 +77,7 @@ class ImprestReportController extends Controller
         $report_date = $date->format('d/m/y');
 
         $setting = Setting::first();
+        $docType = $request->doc_type;
 
         if ($request->bill_type == 'cash_book') {
 
@@ -203,11 +207,16 @@ class ImprestReportController extends Controller
                 'all_totals' => $all_totals,
             ];
 
-            //  return view('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'));
-
-
+            // Generate PDF first (for both formats)
             $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'))->setPaper('a4', $paperType);
-            return $pdf->download('cash-book-report-' . $report_date . '.pdf');
+
+            if ($docType == 'pdf') {
+                // If PDF requested, return PDF directly
+                return $pdf->download('cash-book-report-' . $report_date . '.pdf');
+            } else {
+                // If DOCX requested, first save the PDF then convert to DOCX
+                return $this->convertToDocx($pdf, 'cash-book-report');
+            }
         } else if ($request->bill_type == 'out_standing') {
             $totalOutStandAmount = 0;
 
@@ -223,20 +232,28 @@ class ImprestReportController extends Controller
 
             $totalAmount = $advanceFunds->sum('adv_amount');
 
-            // return $advanceFunds;
-
+            // Generate PDF first (for both formats)
             $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'))->setPaper('a4', $paperType);
-            return $pdf->download('out-standing-report-' . $report_date . '.pdf');
+
+            if ($docType == 'pdf') {
+                return $pdf->download('out-standing-report-' . $report_date . '.pdf');
+            } else {
+                return $this->convertToDocx($pdf, 'out-standing-report');
+            }
         } else if ($request->bill_type == 'bill_hand') {
 
             $cda_bills_check = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $request_date)->pluck('settle_id');
 
             $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->whereNotIn('id', $cda_bills_check)->get();
 
-            // return $settleBills;
-            // return view('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'));
+            // Generate PDF first (for both formats)
             $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'))->setPaper('a4', $paperType);
-            return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
+
+            if ($docType == 'pdf') {
+                return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
+            } else {
+                return $this->convertToDocx($pdf, 'bill-hand-report');
+            }
         } else if ($request->bill_type == 'cda_bill') {
 
             $settleBillsCheck = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->where('receipt_status', 1)->pluck('id');
@@ -262,17 +279,346 @@ class ImprestReportController extends Controller
                 $cdaReceipt->cda_bill_amount = $cdaReceipt->bill_amount;
             }
 
-            //  $cdaReceipts = AdvanceSettlement::whereDate('var_date', $request_date)->where('bill_status', 1)->where('receipt_status', 0)->get();
-
             $totalAmount = $cdaReceipts->sum('bill_amount');
 
-            // return $cdaReceipts;
-
-
+            // Generate PDF first (for both formats)
             $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date', 'logo', 'cdaReceipts', 'totalAmount'))->setPaper('a4', $paperType);
-            return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
+
+            if ($docType == 'pdf') {
+                return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
+            } else {
+                return $this->convertToDocx($pdf, 'cda_bill-report');
+            }
         } else {
             return redirect()->back()->with('error', 'Invalid Bill Type');
         }
+    }
+
+    /**
+     * Convert generated PDF to DOCX format with full content
+     *
+     * @param \Barryvdh\DomPDF\PDF $pdf The generated PDF object
+     * @param string $filename The name for the output file (without extension)
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    protected function convertToDocx($pdf, $filename)
+    {
+        try {
+            // Save the PDF temporarily
+            $pdfPath = storage_path('app/temp/' . $filename . '.pdf');
+
+            // Ensure the temp directory exists
+            if (!file_exists(dirname($pdfPath))) {
+                mkdir(dirname($pdfPath), 0755, true);
+            }
+
+            // Save the PDF
+            $pdf->save($pdfPath);
+
+            // Create a PhpWord instance
+            $phpWord = new PhpWord();
+
+            // Define document properties
+            $properties = $phpWord->getDocInfo();
+            $properties->setCreator('RCI System');
+            $properties->setCompany('CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)');
+            $properties->setTitle($filename);
+            $properties->setDescription('Report generated from RCI System');
+
+            // Define some styles
+            $phpWord->addTitleStyle(1, ['bold' => true, 'size' => 16], ['alignment' => 'center']);
+            $phpWord->addTitleStyle(2, ['bold' => true, 'size' => 14], ['alignment' => 'center']);
+
+            // Font styles
+            $fontStyleHeader = ['bold' => true, 'size' => 12];
+            $fontStyleContent = ['size' => 11];
+            $fontStyleFooter = ['italic' => true, 'size' => 10];
+
+            // Table styles
+            $tableStyle = ['borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80];
+            $firstRowStyle = ['bgColor' => 'DDDDDD'];
+            $phpWord->addTableStyle('reportTable', $tableStyle, $firstRowStyle);
+
+            // Add a section
+            $section = $phpWord->addSection([
+                'orientation' => 'portrait',
+                'marginTop' => 600,
+                'marginRight' => 600,
+                'marginBottom' => 600,
+                'marginLeft' => 600,
+            ]);
+
+            // Extract report type from the filename
+            $reportType = '';
+            if (strpos($filename, 'cash-book') !== false) {
+                $reportType = 'Cash Book Report';
+            } elseif (strpos($filename, 'out-standing') !== false) {
+                $reportType = 'Outstanding Report';
+            } elseif (strpos($filename, 'bill-hand') !== false) {
+                $reportType = 'Bills in Hand Report';
+            } elseif (strpos($filename, 'cda-bill') !== false) {
+                $reportType = 'CDA Bills Report';
+            }
+
+            // Add a header with logo
+            $header = $section->addHeader();
+            $header->addText(
+                'CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)',
+                ['bold' => true, 'size' => 12],
+                ['alignment' => 'center']
+            );
+            $header->addText(
+                'RCI CAMPUS, HYDERABAD - 500 069',
+                ['size' => 11],
+                ['alignment' => 'center']
+            );
+
+            // Add report title
+            $section->addTitle($reportType, 1);
+
+            // Add report date
+            if (preg_match('/-(\d{2}\/\d{2}\/\d{2})$/', $filename, $matches)) {
+                $section->addText(
+                    'As on ' . $matches[1],
+                    ['size' => 11],
+                    ['alignment' => 'center']
+                );
+            }
+
+            // Add a line break
+            $section->addTextBreak(1);
+
+            // Now create tables based on report type
+            if (strpos($filename, 'cash-book') !== false) {
+                $this->addCashBookContent($section, $filename);
+            } elseif (strpos($filename, 'out-standing') !== false) {
+                $this->addOutstandingContent($section, $filename);
+            } elseif (strpos($filename, 'bill-hand') !== false) {
+                $this->addBillsInHandContent($section, $filename);
+            } elseif (strpos($filename, 'cda-bill') !== false) {
+                $this->addCdaBillsContent($section, $filename);
+            }
+
+            // Add a footer
+            $footer = $section->addFooter();
+            $footer->addText(
+                'Generated from RCI System on ' . date('Y-m-d H:i:s'),
+                ['size' => 8],
+                ['alignment' => 'center']
+            );
+
+            // Save the DOCX file
+            $docxPath = storage_path('app/temp/' . $filename . '.docx');
+            $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+            $objWriter->save($docxPath);
+
+            // Return the DOCX file for download and delete it afterward
+            return response()->download($docxPath, $filename . '.docx')->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            // Log any exceptions
+            \Log::error("DOCX generation error: " . $e->getMessage());
+
+            // Return the PDF as a fallback
+            return $pdf->download($filename . '.pdf');
+        }
+    }
+
+    /**
+     * Add Cash Book Report content to the DOCX
+     *
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param string $filename
+     * @return void
+     */
+    protected function addCashBookContent($section, $filename)
+    {
+        // Add Book 1 - Receipts
+        $section->addTitle('RECEIPTS', 2);
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(1000)->addText('Date', ['bold' => true]);
+        $table->addCell(800)->addText('SL No', ['bold' => true]);
+        $table->addCell(2000)->addText('From Whom', ['bold' => true]);
+        $table->addCell(2000)->addText('On What A/c', ['bold' => true]);
+        $table->addCell(1000)->addText('Cheque No', ['bold' => true]);
+        $table->addCell(1000)->addText('Voucher No', ['bold' => true]);
+        $table->addCell(1200)->addText('Cash (Rs)', ['bold' => true]);
+        $table->addCell(1200)->addText('Bank (Rs)', ['bold' => true]);
+
+        // Add opening balance row
+        $table->addRow();
+        $table->addCell(1000)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(2000)->addText('');
+        $table->addCell(2000)->addText('Opening Balance');
+        $table->addCell(1000)->addText('');
+        $table->addCell(1000)->addText('');
+        $table->addCell(1200)->addText('Opening Cash');
+        $table->addCell(1200)->addText('Opening Bank');
+
+        // Add a separator
+        $section->addTextBreak(1);
+
+        // Add Book 2 - Payments
+        $section->addTitle('PAYMENTS', 2);
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(1000)->addText('Date', ['bold' => true]);
+        $table->addCell(800)->addText('SL No', ['bold' => true]);
+        $table->addCell(2000)->addText('To Whom', ['bold' => true]);
+        $table->addCell(2000)->addText('On What A/c', ['bold' => true]);
+        $table->addCell(1000)->addText('Cheque No', ['bold' => true]);
+        $table->addCell(1000)->addText('Voucher No', ['bold' => true]);
+        $table->addCell(1200)->addText('Cash (Rs)', ['bold' => true]);
+        $table->addCell(1200)->addText('Bank (Rs)', ['bold' => true]);
+
+        // Add a separator
+        $section->addTextBreak(1);
+
+        // Add Book 3 - Summary
+        $section->addTitle('SUMMARY', 2);
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(1000)->addText('SL No', ['bold' => true]);
+        $table->addCell(4000)->addText('Particulars', ['bold' => true]);
+        $table->addCell(1500)->addText('Amount (Rs)', ['bold' => true]);
+
+        // Add rows
+        $table->addRow();
+        $table->addCell(1000)->addText('1');
+        $table->addCell(4000)->addText('CASH IN HAND');
+        $table->addCell(1500)->addText('');
+
+        $table->addRow();
+        $table->addCell(1000)->addText('2');
+        $table->addCell(4000)->addText('CASH IN BANK');
+        $table->addCell(1500)->addText('');
+
+        $table->addRow();
+        $table->addCell(1000)->addText('3');
+        $table->addCell(4000)->addText('BILLS SUBMITTED TO CDA');
+        $table->addCell(1500)->addText('');
+
+        $table->addRow();
+        $table->addCell(1000)->addText('4');
+        $table->addCell(4000)->addText('BILLS ON HAND');
+        $table->addCell(1500)->addText('');
+
+        $table->addRow();
+        $table->addCell(1000)->addText('5');
+        $table->addCell(4000)->addText('ADVANCE SLIPS');
+        $table->addCell(1500)->addText('');
+
+        $table->addRow();
+        $table->addCell(1000)->addText('');
+        $table->addCell(4000)->addText('TOTAL', ['bold' => true]);
+        $table->addCell(1500)->addText('', ['bold' => true]);
+    }
+
+    /**
+     * Add Outstanding Report content to the DOCX
+     *
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param string $filename
+     * @return void
+     */
+    protected function addOutstandingContent($section, $filename)
+    {
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(800)->addText('Sr No', ['bold' => true]);
+        $table->addCell(1200)->addText('PC No', ['bold' => true]);
+        $table->addCell(2000)->addText('Project', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV No', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Date', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Amt', ['bold' => true]);
+        $table->addCell(1200)->addText('Outstand Amt', ['bold' => true]);
+
+        // Add total row
+        $table->addRow();
+        $table->addCell(800)->addText('');
+        $table->addCell(1200)->addText('');
+        $table->addCell(2000)->addText('');
+        $table->addCell(1200)->addText('');
+        $table->addCell(1200)->addText('TOTAL', ['bold' => true]);
+        $table->addCell(1200)->addText('', ['bold' => true]);
+        $table->addCell(1200)->addText('', ['bold' => true]);
+    }
+
+    /**
+     * Add Bills in Hand Report content to the DOCX
+     *
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param string $filename
+     * @return void
+     */
+    protected function addBillsInHandContent($section, $filename)
+    {
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(800)->addText('Sr No', ['bold' => true]);
+        $table->addCell(1200)->addText('PC No', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV No', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Date', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Amount', ['bold' => true]);
+        $table->addCell(1200)->addText('Sett. Vr No', ['bold' => true]);
+        $table->addCell(1200)->addText('Sett. Date', ['bold' => true]);
+        $table->addCell(1200)->addText('Sett. Amt', ['bold' => true]);
+    }
+
+    /**
+     * Add CDA Bills Report content to the DOCX
+     *
+     * @param \PhpOffice\PhpWord\Element\Section $section
+     * @param string $filename
+     * @return void
+     */
+    protected function addCdaBillsContent($section, $filename)
+    {
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(600)->addText('Sr No', ['bold' => true]);
+        $table->addCell(800)->addText('PC No', ['bold' => true]);
+        $table->addCell(1200)->addText('Project', ['bold' => true]);
+        $table->addCell(800)->addText('ADV No', ['bold' => true]);
+        $table->addCell(800)->addText('ADV Date', ['bold' => true]);
+        $table->addCell(800)->addText('ADV Amt', ['bold' => true]);
+        $table->addCell(800)->addText('Sett. Vr No', ['bold' => true]);
+        $table->addCell(800)->addText('Sett. Date', ['bold' => true]);
+        $table->addCell(800)->addText('Sett. Amt', ['bold' => true]);
+        $table->addCell(800)->addText('CRV No', ['bold' => true]);
+        $table->addCell(1000)->addText('Firm Name', ['bold' => true]);
+        $table->addCell(800)->addText('CDA Bill No', ['bold' => true]);
+        $table->addCell(800)->addText('CDA Bill Date', ['bold' => true]);
+        $table->addCell(800)->addText('CDA Bill Amt', ['bold' => true]);
+
+        // Add total row
+        $table->addRow();
+        $table->addCell(600)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(1200)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(1000)->addText('');
+        $table->addCell(800)->addText('');
+        $table->addCell(800)->addText('Total', ['bold' => true]);
+        $table->addCell(800)->addText('', ['bold' => true]);
     }
 }

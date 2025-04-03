@@ -74,7 +74,7 @@
                                 <label>Order</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="order" id="order"
+                                <input type="number" step="any" class="form-control" name="order" id="order"
                                     value="{{ $designation->order ?? '' }}" placeholder="">
                                 <span class="text-danger" id="order-error"></span>
                             </div>
@@ -232,8 +232,8 @@
                                 <label>Order</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="order" id="order"
-                                    placeholder="">
+                                <input type="number" step="any" class="form-control" name="order"
+                                    id="order" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

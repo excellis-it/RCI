@@ -268,8 +268,9 @@
                                                 <label>Received Quantity</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="number" class="form-control rcv_quantity"
-                                                    name="received_quantity[]" id="received_quantity"
+                                                <input type="number" step="any"
+                                                    class="form-control rcv_quantity" name="received_quantity[]"
+                                                    id="received_quantity"
                                                     value="{{ $sirItem->received_quantity ?? 0 }}">
                                                 <span class="text-danger"></span>
                                             </div>
@@ -296,7 +297,7 @@
                                                 <label>Unit Cost</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="number" class="form-control units_cost"
+                                                <input type="number" step="any" class="form-control units_cost"
                                                     name="unit_cost[]" id="unit_cost" placeholder=""
                                                     value="{{ $sirItem->unit_cost ?? 0.0 }}">
                                                 <span class="text-danger"></span>
@@ -310,7 +311,7 @@
                                                 <label>Total Unit Cost</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="number" class="form-control total_cost"
+                                                <input type="number" step="any" class="form-control total_cost"
                                                     name="total_cost[]" id="total_cost" placeholder=""
                                                     value="{{ $sirItem->total_cost ?? 0.0 }}">
                                                 <span class="text-danger"></span>
@@ -334,8 +335,8 @@
                                             <div class="col-md-12">
                                                 <input
                                                     type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}"
-                                                    class="form-control disc_percent" name="disc_percent[]" max="100"
-                                                    id="disc_percent" placeholder="Enter percentage"
+                                                    class="form-control disc_percent" name="disc_percent[]"
+                                                    max="100" id="disc_percent" placeholder="Enter percentage"
                                                     value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : 0.0 }}"
                                                     {{ $sirItem->discount_type == 'fixed' ? 'disabled' : '' }}>
 
@@ -376,7 +377,7 @@
                                                 <label>Gst Amount</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="number" class="form-control gst_amount"
+                                                <input type="number" step="any" class="form-control gst_amount"
                                                     name="gst_amount[]" id="gst_amount" placeholder=""
                                                     value="{{ $sirItem->gst_amount ?? 0.0 }}" readonly>
                                                 <span class="text-danger"></span>
@@ -391,8 +392,9 @@
                                                 <label>Total Amount</label>
                                             </div>
                                             <div class="col-md-12">
-                                                <input type="number" class="form-control total_amount"
-                                                    name="total_amount[]" id="total_amount" placeholder=""
+                                                <input type="number" step="any"
+                                                    class="form-control total_amount" name="total_amount[]"
+                                                    id="total_amount" placeholder=""
                                                     value="{{ $sirItem->total_amount ?? 0.0 }}">
                                                 <span class="text-danger"></span>
                                             </div>
@@ -758,8 +760,9 @@
                                         <label>Received Quantity</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0" class="form-control rcv_quantity"
-                                            name="received_quantity[]" id="received_quantity">
+                                        <input type="number" step="any" value="0"
+                                            class="form-control rcv_quantity" name="received_quantity[]"
+                                            id="received_quantity">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -785,8 +788,9 @@
                                         <label>Unit Cost</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0.00" class="form-control units_cost"
-                                            name="unit_cost[]" id="unit_cost" placeholder="">
+                                        <input type="number" step="any" value="0.00"
+                                            class="form-control units_cost" name="unit_cost[]" id="unit_cost"
+                                            placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -798,8 +802,9 @@
                                         <label>Total Unit Cost</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0.00" class="form-control total_cost"
-                                            name="total_cost[]" id="total_cost" placeholder="">
+                                        <input type="number" step="any" value="0.00"
+                                            class="form-control total_cost" name="total_cost[]" id="total_cost"
+                                            placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -815,8 +820,9 @@
                                             </select></label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" max="100" step="1" value="0" class="form-control disc_percent"
-                                            name="disc_percent[]" id="disc_percent" placeholder="" >
+                                        <input type="number" step="any" max="100" step="1"
+                                            value="0" class="form-control disc_percent" name="disc_percent[]"
+                                            id="disc_percent" placeholder="">
                                         <input type="hidden" class="form-control discount_amount"
                                             name="discount_amount[]" id="discount_amount" placeholder="">
                                         <span class="text-danger"></span>
@@ -848,8 +854,9 @@
                                         <label>Gst Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0.00" class="form-control gst_amount"
-                                            name="gst_amount[]" id="gst_amount" placeholder="" readonly>
+                                        <input type="number" step="any" value="0.00"
+                                            class="form-control gst_amount" name="gst_amount[]" id="gst_amount"
+                                            placeholder="" readonly>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -862,8 +869,9 @@
                                         <label>Total Amount</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0.00" class="form-control total_amount"
-                                            name="total_amount[]" id="total_amount" placeholder="">
+                                        <input type="number" step="any" value="0.00"
+                                            class="form-control total_amount" name="total_amount[]" id="total_amount"
+                                            placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -1064,7 +1072,7 @@
                             <label>Received Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" value="0" class="form-control rcv_quantity"
+                            <input type="number" step="any" value="0" class="form-control rcv_quantity"
                                 name="received_quantity[]">
                             <span class="text-danger"></span>
                         </div>
@@ -1090,8 +1098,8 @@
                             <label>Unit Cost</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" value="0.00" class="form-control units_cost" name="unit_cost[]"
-                                placeholder="">
+                            <input type="number" step="any" value="0.00" class="form-control units_cost"
+                                name="unit_cost[]" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -1103,8 +1111,8 @@
                             <label>Total Unit Cost</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" value="0.00" class="form-control total_cost" name="total_cost[]"
-                                readonly placeholder="">
+                            <input type="number" step="any" value="0.00" class="form-control total_cost"
+                                name="total_cost[]" readonly placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>

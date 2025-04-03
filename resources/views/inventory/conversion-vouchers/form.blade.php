@@ -158,7 +158,7 @@
                                     <div class="col-md-12">
                                         <input type="hidden" class="init-item-quantity"
                                             value="{{ $detail->strike_quantity }}">
-                                        <input type="number" value="{{ $detail->strike_quantity }}"
+                                        <input type="number" step="any" value="{{ $detail->strike_quantity }}"
                                             class="form-control item-quantity" name="strike_quantity[]"
                                             oninput="checkMax(this)">
                                         <span class="text-danger"></span>
@@ -476,8 +476,9 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="init-item-quantity">
-                                <input type="number" value="0" class="form-control item-quantity"
-                                    name="strike_quantity[]" oninput="checkMax(this)">
+                                <input type="number" step="any" value="0"
+                                    class="form-control item-quantity" name="strike_quantity[]"
+                                    oninput="checkMax(this)">
                                 <span class="text-danger"></span>
                                 <div class="text-danger" id="quantity_no"></div>
                             </div>
@@ -771,8 +772,9 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="hidden" class="init-item-quantity">
-                                    <input type="number" value="0" class="form-control item-quantity"
-                                        name="strike_quantity[]" oninput="checkMax(this)">
+                                    <input type="number" step="any" value="0"
+                                        class="form-control item-quantity" name="strike_quantity[]"
+                                        oninput="checkMax(this)">
                                     <span class="text-danger"></span>
                                 </div>
                             </div>

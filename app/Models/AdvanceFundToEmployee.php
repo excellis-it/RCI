@@ -43,4 +43,10 @@ class AdvanceFundToEmployee extends Model
     {
         return $this->hasMany(AdvanceSettlement::class, 'af_id');
     }
+
+    // is editable if not in advance settlement
+    public function isEditable()
+    {
+        return $this->advanceSettlements()->count() === 0;
+    }
 }

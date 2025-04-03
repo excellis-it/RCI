@@ -72,8 +72,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control desig" name="desig"
-                                value="{{ $advance_fund->member->desigs?->designation ?? '' }}" placeholder=""
-                                readonly>
+                                value="{{ $advance_fund->member->desigs?->designation ?? '' }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -162,7 +161,7 @@
                             <label>Adv Amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control" name="adv_amount"
+                            <input type="number" step="any" class="form-control" name="adv_amount"
                                 value="{{ $advance_fund->adv_amount }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
@@ -187,7 +186,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-6 mb-2">
+                <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Vr Type</label>

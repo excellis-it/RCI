@@ -82,8 +82,8 @@
                             <label>Unit Price </label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control price" name="price[]" id="price"
-                                value="{{ $creditVoucherItem->price ?? 0.0 }}" placeholder="">
+                            <input type="number" step="any" class="form-control price" name="price[]"
+                                id="price" value="{{ $creditVoucherItem->price ?? 0.0 }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                             <label>Discount(%)</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control disc_percent" name="disc_percent[]"
+                            <input type="number" step="any" class="form-control disc_percent" name="disc_percent[]"
                                 id="disc_percent" placeholder="" value="{{ $creditVoucherItem->disc_percent ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
@@ -109,8 +109,8 @@
                             <label>Discount Amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                placeholder="" value="{{ $creditVoucherItem->disc_amt ?? 0 }}" readonly>
+                            <input type="number" step="any" class="form-control disc_amt" name="disc_amt[]"
+                                id="disc_amt" placeholder="" value="{{ $creditVoucherItem->disc_amt ?? 0 }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -155,8 +155,8 @@
                             <label>Total Unit Price</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control total_price" name="total_price[]"
-                                id="total_price" placeholder=""
+                            <input type="number" step="any" class="form-control total_price"
+                                name="total_price[]" id="total_price" placeholder=""
                                 value="{{ $creditVoucherItem->total_price ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
@@ -169,8 +169,8 @@
                             <label>Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control quantity" name="quantity[]" id="quantity"
-                                placeholder="" value="{{ $creditVoucherItem->quantity ?? 0 }}">
+                            <input type="number" step="any" class="form-control quantity" name="quantity[]"
+                                id="quantity" placeholder="" value="{{ $creditVoucherItem->quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

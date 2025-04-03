@@ -86,7 +86,7 @@
 
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <span class="nav-link text-primary">Cash In Hand : {{ Helper::getImprestCashInHand() }}</span>
-                <input type="hidden" id="main_cashinhand_balance" value="{{ Helper::getCashBalance() }}">
+                <input type="hidden" id="main_cashinhand_balance" value="{{ Helper::getImprestCashInHand() }}">
             </li>
 
 

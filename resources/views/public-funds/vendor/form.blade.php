@@ -50,7 +50,7 @@
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="phone" id="phone"
+                                <input type="number" step="any" class="form-control" name="phone" id="phone"
                                     value="{{ $public_fund_vendor->phone ?? '' }}">
                                 <span class="text-danger"></span>
                             </div>

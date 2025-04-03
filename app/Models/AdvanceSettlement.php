@@ -29,4 +29,16 @@ class AdvanceSettlement extends Model
     {
         return $this->belongsTo(AdvanceFundToEmployee::class, 'af_id');
     }
+
+    public function cdaBill()
+    {
+        return $this->hasMany(CdaBillAuditTeam::class, 'settle_id');
+    }
+
+    // is editable if not in cda bill
+    public function isEditable()
+    {
+        return $this->cdaBill()->count() === 0;
+    }
+
 }

@@ -235,12 +235,16 @@ class CdaBillAuditTeamController extends Controller
      */
     public function edit(string $id)
     {
-        $cdaBill = CdaBillAuditTeam::find($id);
-        $projects = Project::orderBy('id', 'desc')->get();
-        $variable_types = VariableType::orderBy('id', 'desc')->get();
-        $edit = true;
+        $cdaBill = CdaBillAuditTeam::findOrFail($id);
 
-        return response()->json(['view' => view('imprest.cda-bills.form', compact('edit', 'cdaBill', 'projects', 'variable_types'))->render()]);
+        // Check if the bill is editable
+        if (!$cdaBill->isEditable()) {
+            return response()->json(['error' => 'This CDA bill cannot be edited because it has associated CDA receipts'], 403);
+        }
+
+        return response()->json([
+            'view' => view('imprest.cda-bills.edit-form', compact('cdaBill'))->render()
+        ]);
     }
 
     /**
@@ -248,33 +252,23 @@ class CdaBillAuditTeamController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $request->validate([
-        //     'adv_no' => 'required',
-        //     'adv_date' => 'required',
-        //     'adv_amount' => 'required|numeric',
-        //     'project_id' => 'required',
-        //     'var_date' => 'required',
-        //     'var_amount' => 'required|numeric',
-        //     'var_type_id' => 'required',
-        //     'chq_no' => 'required',
-        //     'chq_date' => 'required',
-        //     'crv_no' => 'required',
-        // ]);
+        $cdaBill = CdaBillAuditTeam::findOrFail($id);
 
-        $cda_bill = CdaBillAuditTeam::findOrFail($id);
-        $cda_bill->pc_no = $request->pc_no;
-        $cda_bill->project_id = $request->project_id;
-        $cda_bill->adv_no = $request->adv_no;
-        $cda_bill->adv_date = $request->adv_date;
-        $cda_bill->adv_amount = $request->adv_amount;
-        $cda_bill->var_date = $request->var_date;
-        $cda_bill->var_amount = $request->var_amount;
-        $cda_bill->crv_no = $request->crv_no;
-        $cda_bill->firm_name = $request->firm_name;
-        $cda_bill->cda_bill_no = $request->cda_bill_no;
-        $cda_bill->cda_bill_date = $request->cda_bill_date;
-        $cda_bill->cda_bill_amount = $request->cda_bill_amount;
-        $cda_bill->update();
+        // Check if the bill is editable
+        if (!$cdaBill->isEditable()) {
+            return response()->json(['error' => 'This CDA bill cannot be edited because it has associated CDA receipts'], 403);
+        }
+
+        // Validate the request
+        $request->validate([
+            'cda_bill_no' => 'required|string',
+            'cda_bill_date' => 'required|date',
+        ]);
+
+        // Update the CDA bill
+        $cdaBill->cda_bill_no = $request->cda_bill_no;
+        $cdaBill->cda_bill_date = $request->cda_bill_date;
+        $cdaBill->save();
 
         session()->flash('message', 'CDA bill updated successfully');
         return response()->json(['success' => 'CDA bill updated successfully']);

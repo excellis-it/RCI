@@ -339,6 +339,8 @@ class AdvanceSettlementController extends Controller
         $advance_settlement->bill_amount = $request->bill_amount;
         $advance_settlement->balance = $request->balance;
         $advance_settlement->chq_date = $request->chq_date;
+        $advance_settlement->chq_no = $request->chq_no;
+        $advance_settlement->firm = $request->firm;
         $advance_settlement->save();
 
         return response()->json(['success' => 'Advance Settlement updated successfully']);

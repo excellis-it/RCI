@@ -4,9 +4,9 @@
 @endsection
 
 @push('styles')
-<style>
+    <style>
 
-</style>
+    </style>
 @endpush
 
 @section('content')
@@ -16,8 +16,7 @@
     <div class="container-fluid">
         <div class="breadcome-list">
             <div class="d-flex">
-                <div class="arrow_left"><a href="" class="text-white"><i
-                            class="ti ti-arrow-left"></i></a></div>
+                <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
                     <h3>Report Generate</h3>
                     <ul class="breadcome-menu mb-0">
@@ -35,22 +34,24 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('generate.imprest-report')}}" method="POST" >
+                            <form action="{{ route('generate.imprest-report') }}" method="POST">
                                 @csrf
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-8">
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
 
-                                                        <div class="form-group col-md-6 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Report Date</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                               <input type="date" class="form-control" name="report_date" id="report_date" value="{{ old('report_date')}}">
+                                                                <input type="date" class="form-control"
+                                                                    name="report_date" id="report_date"
+                                                                    value="{{ old('report_date') }}">
                                                             </div>
                                                             {{-- validation  --}}
                                                             @error('report_date')
@@ -58,22 +59,46 @@
                                                             @enderror
 
                                                         </div>
-                                                        <div class="form-group col-md-6 mb-2">
+                                                        <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>A/c Off Sign</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                               <select class="form-control" name="account_officer_sign" id="account_officer_sign">
+                                                                <select class="form-control" name="account_officer_sign"
+                                                                    id="account_officer_sign">
                                                                     <option value="">Select Accountant</option>
-                                                                    @foreach($accountants as $accountant)
-                                                                        <option value="{{ $accountant->id }}">{{ $accountant->user_name }}</option>
+                                                                    @foreach ($accountants as $accountant)
+                                                                        <option value="{{ $accountant->id }}">
+                                                                            {{ $accountant->user_name }}</option>
                                                                     @endforeach
-                                                               </select>
+                                                                </select>
                                                             </div>
                                                             {{-- validation  --}}
                                                             @error('account_officer_sign')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
+                                                        </div>
+
+                                                        <div class="form-group col-md-4 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Document Type</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" name="doc_type" id="doc_type">
+                                                                    <option value="">Select Document Type</option>
+                                                                    <option selected value="pdf"
+                                                                        {{ old('doc_type') == 'pdf' ? 'selected' : '' }}>PDF
+                                                                    </option>
+                                                                    <option value="docx"
+                                                                        {{ old('doc_type') == 'docx' ? 'selected' : '' }}>
+                                                                        DOCX</option>
+                                                                </select>
+                                                            </div>
+                                                            {{-- validation  --}}
+                                                            @error('report_date')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -81,19 +106,23 @@
                                                             <h4>Bill Type</h4>
                                                             <div class="form-group col-md-12">
                                                                 <div class="radio-container">
-                                                                    <input type="radio" id="cash_book" name="bill_type" value="cash_book">
+                                                                    <input type="radio" id="cash_book" name="bill_type"
+                                                                        value="cash_book">
                                                                     <label for="cash_book">CASH BOOK</label>
                                                                 </div>
                                                                 <div class="radio-container">
-                                                                    <input type="radio" id="out_stand" name="bill_type" value="out_standing">
+                                                                    <input type="radio" id="out_stand" name="bill_type"
+                                                                        value="out_standing">
                                                                     <label for="out_stand">OUT STANDING</label>
                                                                 </div>
                                                                 <div class="radio-container">
-                                                                    <input type="radio" id="bill_hand" name="bill_type" value="bill_hand">
+                                                                    <input type="radio" id="bill_hand" name="bill_type"
+                                                                        value="bill_hand">
                                                                     <label for="bill_hand">BILLS IN HAND</label>
                                                                 </div>
                                                                 <div class="radio-container">
-                                                                    <input type="radio" id="cda" name="bill_type" value="cda_bill">
+                                                                    <input type="radio" id="cda" name="bill_type"
+                                                                        value="cda_bill">
                                                                     <label for="cda">BILLS AT CDA</label>
                                                                 </div>
 
@@ -122,6 +151,9 @@
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
 
+
+
+
                                                     {{-- <div class="form-group col-md-6 mb-2">
                                                         <button type="submit" class="listing_exit">Cancel</button>
                                                     </div> --}}
@@ -140,5 +172,4 @@
 @endsection
 
 @push('scripts')
-
 @endpush

@@ -56,9 +56,9 @@
                 <div class="col-md-2">
                     <div class="mb-3">
                         <label for="amount" class="form-label">Amount</label>
-                        <input type="number" step="0.01" class="form-control @error('amount') is-invalid @enderror"
-                            id="amount" name="amount" value="{{ Helper::getImprestCashInHand() }}"
-                            max="{{ Helper::getImprestCashInHand() }}">
+                        <input type="number" step="any" step="0.01"
+                            class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount"
+                            value="{{ Helper::getImprestCashInHand() }}" max="{{ Helper::getImprestCashInHand() }}">
                         <small id="amountHelp" class="form-text text-muted">Maximum:
                             {{ Helper::getImprestCashInHand() }}</small><br>
                         <span id="amountError" class="text-danger" style="display: none;"></span>
@@ -85,5 +85,3 @@
         </form>
     </div>
 </div>
-
-

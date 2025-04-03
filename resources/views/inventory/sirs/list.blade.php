@@ -377,7 +377,7 @@
                                 <label>Received Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control rcv_quantity" name="received_quantity[]">
+                                <input type="number" step="any" class="form-control rcv_quantity" name="received_quantity[]">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -402,7 +402,7 @@
                                 <label>Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control units_cost" name="unit_cost[]" placeholder="">
+                                <input type="number" step="any" class="form-control units_cost" name="unit_cost[]" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -416,7 +416,7 @@
                                 <label>Total Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control total_cost" name="total_cost[]"  placeholder="">
+                                <input type="number" step="any" class="form-control total_cost" name="total_cost[]"  placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -473,7 +473,7 @@
                                 <label>Total Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control total_amount" name="total_amount[]" placeholder="" readonly>
+                                <input type="number" step="any" class="form-control total_amount" name="total_amount[]" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

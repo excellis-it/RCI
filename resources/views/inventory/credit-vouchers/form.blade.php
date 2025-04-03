@@ -616,8 +616,8 @@
                                 <label>Discount(%)</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control disc_percent" name="disc_percent[]"
-                                    id="disc_percent" value="" placeholder="">
+                                <input type="number" step="any" class="form-control disc_percent"
+                                    name="disc_percent[]" id="disc_percent" value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -628,8 +628,8 @@
                                 <label>Discount Amt</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control disc_amt" name="disc_amt[]" id="disc_amt"
-                                    value="" placeholder="" readonly>
+                                <input type="number" step="any" class="form-control disc_amt" name="disc_amt[]"
+                                    id="disc_amt" value="" placeholder="" readonly>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -672,8 +672,8 @@
                                 <label>Total Price</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control total_price" name="total_price[]"
-                                    id="total_price" value="" placeholder="">
+                                <input type="number" step="any" class="form-control total_price"
+                                    name="total_price[]" id="total_price" value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -685,8 +685,8 @@
                                 <label>Quantity</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="quantity[]" id="quantity"
-                                    value="" placeholder="">
+                                <input type="number" step="any" class="form-control" name="quantity[]"
+                                    id="quantity" value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

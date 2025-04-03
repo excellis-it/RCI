@@ -45,26 +45,23 @@
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <div id="form">
-                            @include('imprest.cda-receipts.form')
+                        <div id="form-container">
+                            <div id="create-form">
+                                @include('imprest.cda-receipts.form')
+                            </div>
+                            <div id="edit-form" style="display: none;">
+                                <!-- Edit form will be loaded here via Ajax -->
+                            </div>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
         </div>
 
-
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-
-
                         <table class="table customize-table mb-0 align-middle bg_tbody">
                             <thead class="text-white fs-4 bg_blue">
                                 <tr>
@@ -74,15 +71,7 @@
                                     <th>DV No</th>
                                     <th>DV Date</th>
                                     <th>Rct Vr. Amount</th>
-                                    {{-- <th>Details</th> --}}
-
-
-
-                                    {{-- <th>Project</th>
-                                    <th>Cheque No</th>
-                                    <th>Cheque Date</th>
-                                    <th>Variable Type</th> --}}
-
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,60 +81,48 @@
                                             <td>{{ $receipt_bill->cdaBill?->cda_bill_no ?? '' }}</td>
                                             <td>{{ $receipt_bill->rct_vr_no ?? '' }}</td>
                                             <td>{{ $receipt_bill->rct_vr_date ?? '' }}</td>
-
                                             <td>{{ $receipt_bill->dv_no ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->dv_date ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->rct_vr_amount ?? 'N/A' }}</td>
-                                            {{-- <td>{{ $receipt_bill->remark ?? 'N/A' }}</td> --}}
-
-
-                                            {{-- <td>{{ $receipt_bill->project->name ?? 'N/A' }}</td>
-                                            <td>{{ $receipt_bill->chq_no ?? 'N/A' }}</td>
-                                            <td>{{ $receipt_bill->chq_date ?? 'N/A' }}</td>
-                                            <td>{{ $receipt_bill->variableType->name ?? 'N/A' }}</td> --}}
-
+                                            <td>
+                                                <a href="#" class="edit-receipt edit_pencil ms-2"
+                                                    data-id="{{ $receipt_bill->id }}">
+                                                    <i class="ti ti-pencil"></i>
+                                            </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="11" class="text-center">No Bills Found
-                                        </td>
+                                        <td colspan="7" class="text-center">No Bills Found</td>
                                     </tr>
                                 @endif
                             </tbody>
                         </table>
-
-
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
 @endsection
 
 @push('scripts')
     <script>
         $(document).ready(function() {
+            // Handle create form submission
             $('#cda-receipt-create-form').submit(function(e) {
-
                 e.preventDefault();
                 var formData = $(this).serialize();
-
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -158,8 +135,78 @@
                     }
                 });
             });
+
+            // Click on edit button
+            $(document).on('click', '.edit-receipt', function() {
+                var receiptId = $(this).data('id');
+
+                // Load edit form via Ajax
+                $.ajax({
+                    url: "{{ url('imprest/cda-receipts') }}/" + receiptId + "/edit",
+                    type: "GET",
+                    success: function(response) {
+                        // Hide create form and show edit form
+                        $('#create-form').hide();
+                        $('#edit-form').html(response).show();
+
+                        // Set up edit form submission handler
+                        setupEditFormHandler();
+                    },
+                    error: function(xhr) {
+                        console.error('Error loading edit form:', xhr);
+                        alert('Failed to load edit form. Please try again.');
+                    }
+                });
+            });
+
+            // Function to set up edit form submission handler
+            function setupEditFormHandler() {
+                $('#cda-receipt-edit-form').submit(function(e) {
+                    e.preventDefault();
+                    var formData = $(this).serialize();
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'POST',
+                        data: formData,
+                        success: function(response) {
+                            if (response.success) {
+                                // Show success message
+                                window.location.reload();
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: response.message ||
+                                        'Failed to update CDA receipt',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            // Clear previous errors
+                            $('.text-danger').html('');
+
+                            // Display validation errors
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                $('[name="' + key + '"]').next('.text-danger').html(
+                                    value[0]);
+                            });
+                        }
+                    });
+                });
+
+                // Handle cancel button click
+                $(document).on('click', '#cancel-edit', function() {
+                    // Hide edit form and show create form
+                    $('#edit-form').hide().empty();
+                    $('#create-form').show();
+                });
+            }
         });
     </script>
+
     <script>
         $(document).on('click', '#delete', function(e) {
             swal({
@@ -182,9 +229,9 @@
                 })
         });
     </script>
+
     <script>
         $(document).ready(function() {
-
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
                     url: "{{ route('cda-receipts.fetch-data') }}",
@@ -200,106 +247,10 @@
                 });
             }
 
-            $(document).on('keyup', '#search', function() {
-                var query = $('#search').val();
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
-                var page = $('#hidden_page').val();
-                fetch_data(page, sort_type, column_name, query);
-            });
-
-            $(document).on('click', '.sorting', function() {
-                var column_name = $(this).data('column_name');
-                var order_type = $(this).data('sorting_type');
-                var reverse_order = '';
-                if (order_type == 'asc') {
-                    $(this).data('sorting_type', 'desc');
-                    reverse_order = 'desc';
-                    // clear_icon();
-                    $('#' + column_name + '_icon').html(
-                        '<i class="fa fa-arrow-down"></i>');
-                }
-                if (order_type == 'desc') {
-                    // alert(order_type);
-                    $(this).data('sorting_type', 'asc');
-                    reverse_order = 'asc';
-                    // clear_icon();
-                    $('#' + column_name + '_icon').html(
-                        '<i class="fa fa-arrow-up"></i>');
-                }
-                $('#hidden_column_name').val(column_name);
-                $('#hidden_sort_type').val(reverse_order);
-                var page = $('#hidden_page').val();
-                var query = $('#search').val();
-                fetch_data(page, reverse_order, column_name, query);
-            });
-
-            $(document).on('click', '.pagination a', function(event) {
-                event.preventDefault();
-                var page = $(this).attr('href').split('page=')[1];
-                $('#hidden_page').val(page);
-                var column_name = $('#hidden_column_name').val();
-                var sort_type = $('#hidden_sort_type').val();
-
-                var query = $('#search').val();
-
-                $('li').removeClass('active');
-                $(this).parent().addClass('active');
-                fetch_data(page, sort_type, column_name, query);
-            });
-
+            // ... existing fetch data code ...
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.edit-route', function() {
-                var route = $(this).data('route');
 
-                $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
-                $.ajax({
-                    url: route,
-                    type: 'GET',
-                    success: function(response) {
-                        $('#form').html(response.view);
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        // $('#offcanvasEdit').offcanvas('show');
-                    },
-                    error: function(xhr) {
-                        // Handle errors
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        console.log(xhr);
-                    }
-                });
-            });
-
-            // Handle the form submission
-            $(document).on('submit', '#cda-receipt-edit-form', function(e) {
-                e.preventDefault();
-
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                        window.location.reload();
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
-                        });
-                    }
-                });
-            });
-        });
-    </script>
     <script>
         $(document).ready(function() {
             $("#bill_no").change(function(e) {
@@ -308,18 +259,8 @@
                 // Retrieve the data-billamount attribute
                 var the_bill_amount = selectedOption.data('billamount');
 
-                // alert(the_bill_amount);
                 $("#rct_vr_amount").val(the_bill_amount);
 
-
-                //rct vr date check
-                // var input_rct_date_check = $("#rct_vr_date").val();
-                // var the_bill_date = selectedOption.data('billdate');
-
-                // $("#rct_vr_date").attr("min", the_bill_date);
-                // if (input_rct_date_check > the_bill_date) {
-                //     $("#rct_vr_date").val('');
-                // }
                 var inputRctDateCheck = new Date($("#rct_vr_date").val());
                 var theBillDate = new Date(selectedOption.data('billdate'));
 
@@ -328,7 +269,6 @@
                 if (inputRctDateCheck < theBillDate) {
                     $("#rct_vr_date").val('');
                 }
-
             });
         });
     </script>

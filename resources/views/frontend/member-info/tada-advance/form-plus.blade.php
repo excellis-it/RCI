@@ -11,8 +11,8 @@
                                 <label>Claimed Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="claim_amount" id="claim_amount"
-                                    value="{{ $data->claim_amount }}" />
+                                <input type="number" step="any" class="form-control" name="claim_amount"
+                                    id="claim_amount" value="{{ $data->claim_amount }}" />
                                 <span class="text-danger"></span>
                             </div>
 
@@ -25,8 +25,8 @@
                                 <label>Pass Adv. Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="pass_amount" id="pass_amount"
-                                    value="{{ $data->pass_amount }}" />
+                                <input type="number" step="any" class="form-control" name="pass_amount"
+                                    id="pass_amount" value="{{ $data->pass_amount }}" />
                                 <span class="text-danger"></span>
                             </div>
                         </div>

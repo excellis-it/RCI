@@ -22,7 +22,8 @@
                         <label>Var Incr</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="var_incr" id="savings_var_incr" value="">
+                        <input type="number" step="any" class="form-control" name="var_incr" id="savings_var_incr"
+                            value="">
                         <span class="text-danger var_incr_error"></span>
                     </div>
                 </div>
@@ -33,7 +34,8 @@
                         <label>Misc</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="misc" id="savings_misc" value="">
+                        <input type="number" step="any" class="form-control" name="misc" id="savings_misc"
+                            value="">
                         <span class="text-danger misc_error"></span>
                     </div>
                 </div>
@@ -44,7 +46,8 @@
                         <label>PTax</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="p_tax" id="savings_p_tax" value="">
+                        <input type="number" step="any" class="form-control" name="p_tax" id="savings_p_tax"
+                            value="">
                         <span class="text-danger p_tax_error"></span>
                     </div>
                 </div>
@@ -55,7 +58,8 @@
                         <label>HDFC</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="hdfc" id="savings_hdfc" value="">
+                        <input type="number" step="any" class="form-control" name="hdfc" id="savings_hdfc"
+                            value="">
                         <span class="text-danger hdfc_error"></span>
                     </div>
                 </div>
@@ -66,7 +70,8 @@
                         <label>Basic</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="basic" id="savings_basic" value="">
+                        <input type="number" step="any" class="form-control" name="basic" id="savings_basic"
+                            value="">
                         <span class="text-danger basic_error"></span>
                     </div>
                 </div>
@@ -77,7 +82,8 @@
                         <label>DA</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="da" id="savings_da" value="">
+                        <input type="number" step="any" class="form-control" name="da" id="savings_da"
+                            value="">
                         <span class="text-danger da_error"></span>
                     </div>
                 </div>
@@ -88,7 +94,8 @@
                         <label>OT</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="ot" id="savings_ot" value="">
+                        <input type="number" step="any" class="form-control" name="ot" id="savings_ot"
+                            value="">
                         <span class="text-danger ot_error"></span>
                     </div>
                 </div>
@@ -99,7 +106,8 @@
                         <label>ITax</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="i_tax" id="savings_i_tax" value="">
+                        <input type="number" step="any" class="form-control" name="i_tax" id="savings_i_tax"
+                            value="">
                         <span class="text-danger i_tax_error"></span>
                     </div>
                 </div>
@@ -110,8 +118,8 @@
                         <label>DMisc</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="d_misc" id="savings_d_misc"
-                            value="">
+                        <input type="number" step="any" class="form-control" name="d_misc"
+                            id="savings_d_misc" value="">
                         <span class="text-danger d_misc_error"></span>
                     </div>
                 </div>
@@ -122,7 +130,7 @@
                         <label>D.Pay</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="d_pay" id="savings_d_pay"
+                        <input type="number" step="any" class="form-control" name="d_pay" id="savings_d_pay"
                             value="">
                         <span class="text-danger d_pay_error"></span>
                     </div>
@@ -134,7 +142,8 @@
                         <label>HRA</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="hra" id="savings_hra" value="">
+                        <input type="number" step="any" class="form-control" name="hra" id="savings_hra"
+                            value="">
                         <span class="text-danger hra_error"></span>
                     </div>
                 </div>
@@ -145,8 +154,8 @@
                         <label>Arrears</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="arrears" id="savings_arrears"
-                            value="">
+                        <input type="number" step="any" class="form-control" name="arrears"
+                            id="savings_arrears" value="">
                         <span class="text-danger arrears_error"></span>
                     </div>
                 </div>
@@ -157,7 +166,8 @@
                         <label>HBA</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="hba" id="savings_hba" value="">
+                        <input type="number" step="any" class="form-control" name="hba" id="savings_hba"
+                            value="">
                         <span class="text-danger hba_error"></span>
                     </div>
                 </div>
@@ -168,7 +178,8 @@
                         <label>GMC</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="gmc" id="savings_gmc" value="">
+                        <input type="number" step="any" class="form-control" name="gmc" id="savings_gmc"
+                            value="">
                         <span class="text-danger gmc_error"></span>
                     </div>
                 </div>
@@ -179,7 +190,7 @@
                         <label>S.Pay</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="s_pay" id="savings_s_pay"
+                        <input type="number" step="any" class="form-control" name="s_pay" id="savings_s_pay"
                             value="">
                         <span class="text-danger s_pay_error"></span>
                     </div>
@@ -191,7 +202,8 @@
                         <label>CCA</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="cca" id="savings_cca" value="">
+                        <input type="number" step="any" class="form-control" name="cca" id="savings_cca"
+                            value="">
                         <span class="text-danger cca_error"></span>
                     </div>
                 </div>
@@ -202,7 +214,8 @@
                         <label>GPF</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="gpf" id="savings_gpf" value="">
+                        <input type="number" step="any" class="form-control" name="gpf" id="savings_gpf"
+                            value="">
                         <span class="text-danger gpf_error"></span>
                     </div>
                 </div>
@@ -213,7 +226,8 @@
                         <label>PLI</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="pli" id="savings_pli" value="">
+                        <input type="number" step="any" class="form-control" name="pli" id="savings_pli"
+                            value="">
                         <span class="text-danger pli_error"></span>
                     </div>
                 </div>
@@ -224,7 +238,7 @@
                         <label>E.Pay</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="e_pay" id="savings_e_pay"
+                        <input type="number" step="any" class="form-control" name="e_pay" id="savings_e_pay"
                             value="">
                         <span class="text-danger e_pay_error"></span>
                     </div>
@@ -236,7 +250,8 @@
                         <label>TPT</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="tpt" id="savings_tpt" value="">
+                        <input type="number" step="any" class="form-control" name="tpt" id="savings_tpt"
+                            value="">
                         <span class="text-danger tpt_error"></span>
                     </div>
                 </div>
@@ -247,7 +262,7 @@
                         <label>CGEIS</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="cgeis" id="savings_cgeis"
+                        <input type="number" step="any" class="form-control" name="cgeis" id="savings_cgeis"
                             value="">
                         <span class="text-danger cgeis_error"></span>
                     </div>
@@ -259,7 +274,8 @@
                         <label>LIC</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="lic" id="savings_lic" value="">
+                        <input type="number" step="any" class="form-control" name="lic" id="savings_lic"
+                            value="">
                         <span class="text-danger lic_error"></span>
                     </div>
                 </div>
@@ -270,8 +286,8 @@
                         <label>Add Incr</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="add_incr" id="savings_add_incr"
-                            value="">
+                        <input type="number" step="any" class="form-control" name="add_incr"
+                            id="savings_add_incr" value="">
                         <span class="text-danger add_incr_error"></span>
                     </div>
                 </div>
@@ -282,8 +298,8 @@
                         <label>Wash AJW</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="wash_ajw" id="savings_wash_ajw"
-                            value="">
+                        <input type="number" step="any" class="form-control" name="wash_ajw"
+                            id="savings_wash_ajw" value="">
                         <span class="text-danger wash_ajw_error"></span>
                     </div>
                 </div>
@@ -294,7 +310,8 @@
                         <label>CGHS</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="cghs" id="savings_cghs" value="">
+                        <input type="number" step="any" class="form-control" name="cghs" id="savings_cghs"
+                            value="">
                         <span class="text-danger cghs_error"></span>
                     </div>
                 </div>
@@ -305,8 +322,8 @@
                         <label>EOL/HPL</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control" name="eol_hpl" id="savings_eol_hpl"
-                            value="">
+                        <input type="number" step="any" class="form-control" name="eol_hpl"
+                            id="savings_eol_hpl" value="">
                         <span class="text-danger eol_hpl_error"></span>
                     </div>
                 </div>

@@ -974,6 +974,10 @@ Route::middleware('permssions')->group(function () {
         });
         Route::get('/cda-receipts-fetch-data', [CdaReceiptController::class, 'fetchData'])->name('cda-receipts.fetch-data');
 
+        // Add these new routes for CDA receipts edit functionality
+        Route::get('/cda-receipts/get-data', [CdaReceiptController::class, 'getReceiptData'])->name('cda-receipts.get-data');
+        Route::post('/cda-receipts/update-data', [CdaReceiptController::class, 'updateReceipt'])->name('cda-receipts.update-data');
+
         //cda bills
         Route::prefix('cda-bills')->group(function () {
             Route::get('/cda-bills-delete/{id}', [CdaBillAuditTeamController::class, 'delete'])->name('cda-bills.delete');
@@ -981,6 +985,10 @@ Route::middleware('permssions')->group(function () {
         Route::get('/cda-bills-fetch-data', [CdaBillAuditTeamController::class, 'fetchData'])->name('cda-bills.fetch-data');
 
         Route::post('/cda-bills-get-cda', [CdaBillAuditTeamController::class, 'getCda'])->name('cda-bills.get-cda');
+
+        Route::get('/cda-bills-edit/{id}', [CdaBillAuditTeamController::class, 'edit'])->name('cda-bills.edit-data');
+        Route::post('/cda-bills-update/{id}', [CdaBillAuditTeamController::class, 'update'])->name('cda-bills.update-data');
+
         //cash withdrawal
         Route::prefix('cash-withdrawals')->group(function () {
             Route::get('/cash-withdrawals-delete/{id}', [CashWithdrawalController::class, 'delete'])->name('cash-withdrawals.delete');
@@ -1016,7 +1024,7 @@ Route::middleware('permssions')->group(function () {
 
     // Cash Deposit Routes
     Route::group(['prefix' => 'imprest', 'middleware' => ['auth']], function () {
-        Route::resource('cash-deposits', CashDepositController::class)->except(['edit', 'update', 'destroy']);
+        Route::resource('cash-deposits', CashDepositController::class);
     });
 
     //grade pay routes

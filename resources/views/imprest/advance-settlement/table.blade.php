@@ -21,16 +21,18 @@
             </td> --}}
             {{-- add a edit button --}}
             <td>
-                <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil text-danger ms-2"
-                    id="advance-sttl-edit"
-                    data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
-                    <i class="ti ti-pencil"></i>
-                </a>
+                @if ($advance_settlement->isEditable())
+                    <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil ms-2"
+                        id="advance-sttl-edit"
+                        data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
+                        <i class="ti ti-pencil"></i>
+                    </a>
+                @endif
             </td>
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="10" class="text-left">
+        <td colspan="11" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                     (Showing {{ $advance_settlements->firstItem() }} – {{ $advance_settlements->lastItem() }} Advance

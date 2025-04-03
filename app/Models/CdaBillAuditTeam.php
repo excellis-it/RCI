@@ -28,4 +28,16 @@ class CdaBillAuditTeam extends Model
     {
         return $this->belongsTo(AdvanceSettlement::class, 'settle_id');
     }
+
+    // cda receipt
+    public function cdaReceipt()
+    {
+        return $this->hasMany(CDAReceipt::class, 'bill_id');
+    }
+
+    // editable if not in cda receipt
+    public function isEditable()
+    {
+        return $this->cdaReceipt()->count() === 0;
+    }
 }

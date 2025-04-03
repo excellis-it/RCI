@@ -34,21 +34,29 @@
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
-                        <form action="{{ route('cda-bills.store') }}" method="POST" id="cda-bills-create-form">
-
-                            <div id="form">
-                                @include('imprest.cda-bills.form')
-                            </div>
-
-                            <div id="bill_table">
-                                @include('imprest.cda-bills.table')
-
-                            </div>
+                        <div id="create-form">
 
 
+                            <form action="{{ route('cda-bills.store') }}" method="POST" id="cda-bills-create-form">
+
+                                <div id="form">
+                                    @include('imprest.cda-bills.form')
+                                </div>
+
+                                <div id="bill_table">
+                                    @include('imprest.cda-bills.table')
+
+                                </div>
 
 
-                        </form>
+
+
+                            </form>
+                        </div>
+
+                        <div id="edit-form">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,7 +85,7 @@
                                     <th>Cheque No</th>
                                     <th>Cheque Date</th>
                                     <th>Variable Type</th>
-
+                                    <th>Actions</th>
 
                                 </tr>
                             </thead>
@@ -99,8 +107,17 @@
                                             <td>{{ $advance_bill->chq_no ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->chq_date ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->variableType->name ?? 'N/A' }}</td>
-
-
+                                            <td>
+                                                @if ($advance_bill->isEditable())
+                                                    <a href="#" class="edit-bill edit_pencil ms-2"
+                                                        data-id="{{ $advance_bill->id }}" title="Edit">
+                                                        <i class="ti ti-pencil"></i>
+                                                    </a>
+                                                @else
+                                                    {{-- <i class="ti ti-lock text-muted"
+                                                        title="Cannot edit - has CDA receipt"></i> --}}
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 @else
@@ -248,52 +265,78 @@
     </script>
     <script>
         $(document).ready(function() {
-            $(document).on('click', '.edit-route', function() {
-                var route = $(this).data('route');
+
+
+
+            // Edit CDA Bill
+            $(document).on('click', '.edit-bill', function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var route = "{{ route('cda-bills.edit-data', ':id') }}";
+                route = route.replace(':id', id);
 
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
+
                 $.ajax({
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                        $('#form').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        // $('#offcanvasEdit').offcanvas('show');
+                        $('#bill_table').hide();
+                        $('#create-form').hide();
+                        $('#edit-form').show();
+                        $('#edit-form').html(response.view);
+
+
                     },
                     error: function(xhr) {
-                        // Handle errors
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        console.log(xhr);
+                        toastr.error('Error loading edit form');
                     }
                 });
             });
 
-            // Handle the form submission
-            $(document).on('submit', '#cda-bills-edit-form', function(e) {
+            // $('#cda-bill-edit-form').submit(function(e) {
+            $(document).on('submit', '#cda-bill-edit-form', function(e) {
+                console.log('edit submit');
                 e.preventDefault();
-
                 var formData = $(this).serialize();
+                var id = $(this).data('id');
+                var route = "{{ route('cda-bills.update-data', ':id') }}";
+                route = route.replace(':id', id);
 
                 $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
+                    url: route,
+                    type: 'POST',
                     data: formData,
                     success: function(response) {
-                        window.location.reload();
+                        if (response.success) {
+                            window.location.reload();
+                            toastr.success(response.success);
+                        }
                     },
                     error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
+                        // Clear previous errors
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });
             });
+
+            // Cancel edit button
+            $(document).on('click', '#cancel-edit', function(e) {
+                e.preventDefault();
+                window.location.reload();
+            });
+
+
         });
     </script>
 @endpush

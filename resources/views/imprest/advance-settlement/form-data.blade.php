@@ -105,7 +105,7 @@
                             <label>Adv amt</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control" name="adv_amount" id="adv_amount"
+                            <input type="number" step="any" class="form-control" name="adv_amount" id="adv_amount"
                                 value="{{ $advance_funds->adv_amount }}" placeholder="" readonly>
                             <span class="text-danger"></span>
                         </div>
@@ -234,8 +234,8 @@
                             <label>Bill Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control" name="bill_amount" id="bill_amount"
-                                value="{{ old('bill_amount') ?? '' }}" placeholder="">
+                            <input type="number" step="any" class="form-control" name="bill_amount"
+                                id="bill_amount" value="{{ old('bill_amount') ?? '' }}" placeholder="">
                             <span class="text-danger advamnt_msg"></span>
                         </div>
                     </div>
@@ -249,7 +249,7 @@
                         <div class="col-md-12">
                             <input type="hidden" id="main_amount" class="form-control" name="main_amount"
                                 value="{{ $balance }}">
-                            <input type="number" class="form-control" name="balance" id="balance"
+                            <input type="number" step="any" class="form-control" name="balance" id="balance"
                                 value="{{ $balance }}" placeholder="" required readonly>
                             <span class="text-danger"></span>
                         </div>
@@ -342,6 +342,3 @@
         });
     });
 </script>
-
-
-
