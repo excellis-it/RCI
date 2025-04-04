@@ -315,32 +315,15 @@ class ImprestReportController extends Controller
             // Save the PDF
             $pdf->save($pdfPath);
 
-            // Extract the report date from the filename (format: report-name-dd/mm/yy)
-            $reportDateStr = null;
-            $dbReportDate = null;
-
+            // Get the report date from the filename
+            $reportDate = null;
             if (preg_match('/-(\d{2}\/\d{2}\/\d{2})$/', $filename, $matches)) {
-                $reportDateStr = $matches[1]; // e.g. "31/03/23"
-
-                // Convert d/m/y format to Y-m-d for database queries
-                $dateParts = explode('/', $reportDateStr);
-                if (count($dateParts) === 3) {
-                    // Assuming the format is dd/mm/yy
-                    $day = $dateParts[0];
-                    $month = $dateParts[1];
-                    $year = '20' . $dateParts[2]; // Assuming 20xx for year
-
-                    $dbReportDate = "{$year}-{$month}-{$day}"; // Now in Y-m-d format
-
-                    // Log for debugging
-                    \Log::info("Converted date: {$reportDateStr} to {$dbReportDate}");
+                $reportDate = $matches[1];
+                // Convert to Y-m-d format for database queries
+                $dbDate = \DateTime::createFromFormat('d/m/y', $reportDate);
+                if ($dbDate) {
+                    $dbReportDate = $dbDate->format('Y-m-d');
                 }
-            }
-
-            if (!$dbReportDate) {
-                // If we couldn't extract the date, use today as a fallback
-                $dbReportDate = date('Y-m-d');
-                \Log::warning("Could not extract date from filename: {$filename}, using today's date instead");
             }
 
             // Create a PhpWord instance
@@ -390,17 +373,6 @@ class ImprestReportController extends Controller
 
             // Add a header with logo
             $header = $section->addHeader();
-
-            // set logo
-            // $logo = Helper::logo() ?? '';
-            // $header->addImage($logo, [
-            //     'width' => 100,
-            //     'height' => 100,
-            //     'align' => 'center',
-            //     'marginTop' => -10,
-            //     'marginLeft' => -10,
-            // ]);
-
             $header->addText(
                 'CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS)',
                 ['bold' => true, 'size' => 12],
@@ -409,25 +381,16 @@ class ImprestReportController extends Controller
             $header->addText(
                 'RCI CAMPUS, HYDERABAD - 500 069',
                 ['size' => 11],
-                ['alignment' => 'center'],
-            );
-            $header->addText(
-                ' ',
-                ['size' => 11],
-                ['alignment' => 'center'],
-                // set bottom margin
-                ['marginBottom' => 200],
-                // set bottom padding
-                ['paddingBottom' => 200]
+                ['alignment' => 'center']
             );
 
             // Add report title
             $section->addTitle($reportType, 1);
 
             // Add report date
-            if ($reportDateStr) {
+            if (preg_match('/-(\d{2}\/\d{2}\/\d{2})$/', $filename, $matches)) {
                 $section->addText(
-                    'As on ' . $reportDateStr,
+                    'As on ' . $matches[1],
                     ['size' => 11],
                     ['alignment' => 'center']
                 );
@@ -437,18 +400,13 @@ class ImprestReportController extends Controller
             $section->addTextBreak(1);
 
             // Extract data based on report type
-            if (strpos($filename, 'cash-book') !== false) {
-                // Debugging info
-                \Log::info("Generating Cash Book content for date: {$dbReportDate}");
+            if (strpos($filename, 'cash-book') !== false && isset($dbReportDate)) {
                 $this->addCashBookContent($section, $dbReportDate);
-            } elseif (strpos($filename, 'out-standing') !== false) {
-                \Log::info("Generating Outstanding content for date: {$dbReportDate}");
+            } elseif (strpos($filename, 'out-standing') !== false && isset($dbReportDate)) {
                 $this->addOutstandingContent($section, $dbReportDate);
-            } elseif (strpos($filename, 'bill-hand') !== false) {
-                \Log::info("Generating Bills in Hand content for date: {$dbReportDate}");
+            } elseif (strpos($filename, 'bill-hand') !== false && isset($dbReportDate)) {
                 $this->addBillsInHandContent($section, $dbReportDate);
-            } elseif (strpos($filename, 'cda-bill') !== false) {
-                \Log::info("Generating CDA Bills content for date: {$dbReportDate}");
+            } elseif (strpos($filename, 'cda-bill') !== false && isset($dbReportDate)) {
                 $this->addCdaBillsContent($section, $dbReportDate);
             }
 
@@ -465,15 +423,11 @@ class ImprestReportController extends Controller
             $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
             $objWriter->save($docxPath);
 
-            // Log success
-            \Log::info("DOCX file generated successfully at: {$docxPath}");
-
             // Return the DOCX file for download and delete it afterward
             return response()->download($docxPath, $filename . '.docx')->deleteFileAfterSend(true);
         } catch (\Exception $e) {
-            // Log any exceptions with detailed information
+            // Log any exceptions
             \Log::error("DOCX generation error: " . $e->getMessage());
-            \Log::error("Exception trace: " . $e->getTraceAsString());
 
             // Return the PDF as a fallback
             return $pdf->download($filename . '.pdf');
@@ -704,75 +658,52 @@ class ImprestReportController extends Controller
      */
     protected function addOutstandingContent($section, $reportDate)
     {
-        try {
-            // Debug information
-            \Log::info("Getting outstanding data for date: {$reportDate}");
+        // Get the same data as used in the PDF
+        $adv_settles_check = AdvanceSettlement::whereDate('var_date', '<=', $reportDate)->pluck('af_id');
+        $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $reportDate)
+            ->whereNotIn('id', $adv_settles_check)
+            ->get();
 
-            // Get the same data as used in the PDF
-            $adv_settles_check = AdvanceSettlement::whereDate('var_date', '<=', $reportDate)->pluck('af_id');
-
-            // Log retrieved data
-            \Log::info("Found " . count($adv_settles_check) . " advanced settlements");
-
-            $advanceFunds = AdvanceFundToEmployee::whereDate('adv_date', '<=', $reportDate)
-                ->whereNotIn('id', $adv_settles_check)
-                ->get();
-
-            // Log retrieved data
-            \Log::info("Found " . $advanceFunds->count() . " advance funds");
-
-            $totalOutStandAmount = 0;
-            foreach ($advanceFunds as $advanceFund) {
-                $totalOutStandAmount += $advanceFund->adv_amount;
-            }
-
-            $totalAmount = $advanceFunds->sum('adv_amount');
-
-            // Log for debugging
-            \Log::info("Total amount: {$totalAmount}, Outstanding amount: {$totalOutStandAmount}");
-
-            $table = $section->addTable('reportTable');
-
-            // Add header row
-            $table->addRow();
-            $table->addCell(800)->addText('Sr No', ['bold' => true]);
-            $table->addCell(1200)->addText('PC No', ['bold' => true]);
-            $table->addCell(2000)->addText('Project', ['bold' => true]);
-            $table->addCell(1200)->addText('ADV No', ['bold' => true]);
-            $table->addCell(1200)->addText('ADV Date', ['bold' => true]);
-            $table->addCell(1200)->addText('ADV Amt', ['bold' => true]);
-            $table->addCell(1200)->addText('Outstand Amt', ['bold' => true]);
-
-            // Add data rows
-            foreach ($advanceFunds as $index => $advanceFund) {
-                $adv_date = $advanceFund->adv_date ? Carbon::parse($advanceFund->adv_date)->format('d/m/Y') : 'N/A';
-
-                $table->addRow();
-                $table->addCell(800)->addText($index + 1);
-                $table->addCell(1200)->addText($advanceFund->pc_no ?? 'N/A');
-                $table->addCell(2000)->addText($advanceFund->project ? $advanceFund->project->name : 'N/A');
-                $table->addCell(1200)->addText($advanceFund->adv_no ?? 'N/A');
-                $table->addCell(1200)->addText($adv_date);
-                $table->addCell(1200)->addText(number_format($advanceFund->adv_amount, 2));
-                $table->addCell(1200)->addText(number_format($advanceFund->adv_amount, 2));
-            }
-
-            // Add total row
-            $table->addRow();
-            $table->addCell(800)->addText('');
-            $table->addCell(1200)->addText('');
-            $table->addCell(2000)->addText('');
-            $table->addCell(1200)->addText('');
-            $table->addCell(1200)->addText('TOTAL', ['bold' => true]);
-            $table->addCell(1200)->addText(number_format($totalAmount, 2), ['bold' => true]);
-            $table->addCell(1200)->addText(number_format($totalOutStandAmount, 2), ['bold' => true]);
-        } catch (\Exception $e) {
-            \Log::error("Error in addOutstandingContent: " . $e->getMessage());
-            \Log::error("Stack trace: " . $e->getTraceAsString());
-
-            // Add error message to the document itself
-            $section->addText("Error generating content: " . $e->getMessage(), ['color' => 'FF0000']);
+        $totalOutStandAmount = 0;
+        foreach ($advanceFunds as $advanceFund) {
+            $totalOutStandAmount += $advanceFund->adv_amount;
         }
+
+        $totalAmount = $advanceFunds->sum('adv_amount');
+
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(800)->addText('Sr No', ['bold' => true]);
+        $table->addCell(1200)->addText('PC No', ['bold' => true]);
+        $table->addCell(2000)->addText('Project', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV No', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Date', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Amt', ['bold' => true]);
+        $table->addCell(1200)->addText('Outstand Amt', ['bold' => true]);
+
+        // Add data rows
+        foreach ($advanceFunds as $index => $advanceFund) {
+            $table->addRow();
+            $table->addCell(800)->addText($index + 1);
+            $table->addCell(1200)->addText($advanceFund->pc_no);
+            $table->addCell(2000)->addText($advanceFund->project->name ?? '');
+            $table->addCell(1200)->addText($advanceFund->adv_no);
+            $table->addCell(1200)->addText(\Carbon\Carbon::parse($advanceFund->adv_date)->format('d/m/Y'));
+            $table->addCell(1200)->addText(number_format($advanceFund->adv_amount, 2));
+            $table->addCell(1200)->addText(number_format($advanceFund->adv_amount, 2));
+        }
+
+        // Add total row
+        $table->addRow();
+        $table->addCell(800)->addText('');
+        $table->addCell(1200)->addText('');
+        $table->addCell(2000)->addText('');
+        $table->addCell(1200)->addText('');
+        $table->addCell(1200)->addText('TOTAL', ['bold' => true]);
+        $table->addCell(1200)->addText(number_format($totalAmount, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(number_format($totalOutStandAmount, 2), ['bold' => true]);
     }
 
     /**
@@ -784,56 +715,38 @@ class ImprestReportController extends Controller
      */
     protected function addBillsInHandContent($section, $reportDate)
     {
-        try {
-            // Debug information
-            \Log::info("Getting bills in hand data for date: {$reportDate}");
+        // Get the same data as used in the PDF
+        $cda_bills_check = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $reportDate)
+            ->pluck('settle_id');
 
-            // Get the same data as used in the PDF
-            $cda_bills_check = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $reportDate)
-                ->pluck('settle_id');
+        $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $reportDate)
+            ->whereNotIn('id', $cda_bills_check)
+            ->get();
 
-            \Log::info("Found " . count($cda_bills_check) . " CDA bills");
+        $table = $section->addTable('reportTable');
 
-            $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $reportDate)
-                ->whereNotIn('id', $cda_bills_check)
-                ->get();
+        // Add header row
+        $table->addRow();
+        $table->addCell(800)->addText('Sr No', ['bold' => true]);
+        $table->addCell(1200)->addText('PC No', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV No', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Date', ['bold' => true]);
+        $table->addCell(1200)->addText('ADV Amount', ['bold' => true]);
+        $table->addCell(1200)->addText('Sett. Vr No', ['bold' => true]);
+        $table->addCell(1200)->addText('Sett. Date', ['bold' => true]);
+        $table->addCell(1200)->addText('Sett. Amt', ['bold' => true]);
 
-            \Log::info("Found " . $settleBills->count() . " settlement bills");
-
-            $table = $section->addTable('reportTable');
-
-            // Add header row
+        // Add data rows
+        foreach ($settleBills as $index => $settleBill) {
             $table->addRow();
-            $table->addCell(800)->addText('Sr No', ['bold' => true]);
-            $table->addCell(1200)->addText('PC No', ['bold' => true]);
-            $table->addCell(1200)->addText('ADV No', ['bold' => true]);
-            $table->addCell(1200)->addText('ADV Date', ['bold' => true]);
-            $table->addCell(1200)->addText('ADV Amount', ['bold' => true]);
-            $table->addCell(1200)->addText('Sett. Vr No', ['bold' => true]);
-            $table->addCell(1200)->addText('Sett. Date', ['bold' => true]);
-            $table->addCell(1200)->addText('Sett. Amt', ['bold' => true]);
-
-            // Add data rows
-            foreach ($settleBills as $index => $settleBill) {
-                $adv_date = $settleBill->adv_date ? Carbon::parse($settleBill->adv_date)->format('d/m/Y') : 'N/A';
-                $var_date = $settleBill->var_date ? Carbon::parse($settleBill->var_date)->format('d/m/Y') : 'N/A';
-
-                $table->addRow();
-                $table->addCell(800)->addText($index + 1);
-                $table->addCell(1200)->addText($settleBill->advanceFund ? $settleBill->advanceFund->pc_no : 'N/A');
-                $table->addCell(1200)->addText($settleBill->adv_no ?? 'N/A');
-                $table->addCell(1200)->addText($adv_date);
-                $table->addCell(1200)->addText(number_format($settleBill->adv_amount ?? 0, 2));
-                $table->addCell(1200)->addText($settleBill->var_no ?? 'N/A');
-                $table->addCell(1200)->addText($var_date);
-                $table->addCell(1200)->addText(number_format($settleBill->bill_amount ?? 0, 2));
-            }
-        } catch (\Exception $e) {
-            \Log::error("Error in addBillsInHandContent: " . $e->getMessage());
-            \Log::error("Stack trace: " . $e->getTraceAsString());
-
-            // Add error message to the document itself
-            $section->addText("Error generating content: " . $e->getMessage(), ['color' => 'FF0000']);
+            $table->addCell(800)->addText($index + 1);
+            $table->addCell(1200)->addText($settleBill->advanceFund->pc_no ?? '');
+            $table->addCell(1200)->addText($settleBill->adv_no ?? '');
+            $table->addCell(1200)->addText(\Carbon\Carbon::parse($settleBill->adv_date)->format('d/m/Y'));
+            $table->addCell(1200)->addText(number_format($settleBill->adv_amount, 2));
+            $table->addCell(1200)->addText($settleBill->var_no ?? '');
+            $table->addCell(1200)->addText(\Carbon\Carbon::parse($settleBill->var_date)->format('d/m/Y'));
+            $table->addCell(1200)->addText(number_format($settleBill->bill_amount, 2));
         }
     }
 
@@ -846,103 +759,79 @@ class ImprestReportController extends Controller
      */
     protected function addCdaBillsContent($section, $reportDate)
     {
-        try {
-            // Debug information
-            \Log::info("Getting CDA bills data for date: {$reportDate}");
+        // Get the same data as used in the PDF
+        $settleBillsCheck = AdvanceSettlement::whereDate('var_date', '<=', $reportDate)
+            ->where('receipt_status', 1)
+            ->pluck('id');
 
-            // Get the same data as used in the PDF
-            $settleBillsCheck = AdvanceSettlement::whereDate('var_date', '<=', $reportDate)
-                ->where('receipt_status', 1)
-                ->pluck('id');
+        $bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $reportDate)
+            ->pluck('bill_id');
 
-            \Log::info("Found " . count($settleBillsCheck) . " settlement bills with receipt status 1");
+        $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $reportDate)
+            ->whereNotIn('id', $bill_receipts_check)
+            ->get();
 
-            $bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $reportDate)
-                ->pluck('bill_id');
-
-            \Log::info("Found " . count($bill_receipts_check) . " CDA receipts");
-
-            $cdaReceipts = CdaBillAuditTeam::whereDate('cda_bill_date', '<=', $reportDate)
-                ->whereNotIn('id', $bill_receipts_check)
-                ->get();
-
-            \Log::info("Found " . $cdaReceipts->count() . " CDA bill audit team records");
-
-            // Process the data to add additional fields
-            foreach ($cdaReceipts as $cdaReceipt) {
-                $settle_id = $cdaReceipt->settle_id;
-                $settleBill = AdvanceSettlement::find($settle_id);
-
-                if ($settleBill && $settleBill->advanceFund) {
-                    $cdaReceipt->pc_no = $settleBill->advanceFund->pc_no ?? 'N/A';
-                    $cdaReceipt->project_name = $settleBill->advanceFund->project ? $settleBill->advanceFund->project->name : 'N/A';
-                    $cdaReceipt->adv_no = $settleBill->advanceFund->adv_no ?? 'N/A';
-                    $cdaReceipt->adv_date = $settleBill->advanceFund->adv_date ?? null;
-                    $cdaReceipt->adv_amount = $settleBill->advanceFund->adv_amount ?? 0;
-                    $cdaReceipt->settle_vr_no = $settleBill->var_no ?? 'N/A';
-                    $cdaReceipt->settle_vr_date = $settleBill->var_date ?? null;
-                    $cdaReceipt->settle_amount = $settleBill->bill_amount ?? 0;
-                    $cdaReceipt->settle_firm = $settleBill->firm ?? 'N/A';
-                }
+        // Process the data to add additional fields
+        foreach ($cdaReceipts as $cdaReceipt) {
+            $settle_id = $cdaReceipt->settle_id;
+            $settleBills = AdvanceSettlement::find($settle_id);
+            if ($settleBills && $settleBills->advanceFund) {
+                $cdaReceipt->pc_no = $settleBills->advanceFund->pc_no;
+                $cdaReceipt->project_name = $settleBills->advanceFund->project->name ?? '';
+                $cdaReceipt->adv_no = $settleBills->advanceFund->adv_no;
+                $cdaReceipt->adv_date = $settleBills->advanceFund->adv_date;
+                $cdaReceipt->adv_amount = $settleBills->advanceFund->adv_amount;
+                $cdaReceipt->settle_vr_no = $settleBills->var_no;
+                $cdaReceipt->settle_vr_date = $settleBills->var_date;
+                $cdaReceipt->settle_amount = $settleBills->bill_amount;
+                $cdaReceipt->settle_firm = $settleBills->firm;
             }
-
-            $totalAmount = $cdaReceipts->sum('bill_amount');
-
-            \Log::info("Total amount for CDA bills: {$totalAmount}");
-
-            $table = $section->addTable('reportTable');
-
-            // Add header row
-            $table->addRow();
-            $table->addCell(600)->addText('Sr No', ['bold' => true]);
-            $table->addCell(800)->addText('PC No', ['bold' => true]);
-            $table->addCell(1200)->addText('Project', ['bold' => true]);
-            $table->addCell(800)->addText('ADV No', ['bold' => true]);
-            $table->addCell(800)->addText('ADV Date', ['bold' => true]);
-            $table->addCell(800)->addText('ADV Amt', ['bold' => true]);
-            $table->addCell(800)->addText('Sett. Vr No', ['bold' => true]);
-            $table->addCell(800)->addText('Sett. Date', ['bold' => true]);
-            $table->addCell(800)->addText('Sett. Amt', ['bold' => true]);
-            $table->addCell(800)->addText('CRV No', ['bold' => true]);
-            $table->addCell(1000)->addText('Firm Name', ['bold' => true]);
-            $table->addCell(800)->addText('CDA Bill No', ['bold' => true]);
-            $table->addCell(800)->addText('CDA Bill Date', ['bold' => true]);
-            $table->addCell(800)->addText('CDA Bill Amt', ['bold' => true]);
-
-            // Add data rows
-            foreach ($cdaReceipts as $index => $cdaReceipt) {
-                $adv_date = $cdaReceipt->adv_date ? Carbon::parse($cdaReceipt->adv_date)->format('d/m/Y') : 'N/A';
-                $settle_date = $cdaReceipt->settle_vr_date ? Carbon::parse($cdaReceipt->settle_vr_date)->format('d/m/Y') : 'N/A';
-                $cda_bill_date = $cdaReceipt->cda_bill_date ? Carbon::parse($cdaReceipt->cda_bill_date)->format('d/m/Y') : 'N/A';
-
-                $table->addRow();
-                $table->addCell(600)->addText($index + 1);
-                $table->addCell(800)->addText($cdaReceipt->pc_no ?? 'N/A');
-                $table->addCell(1200)->addText($cdaReceipt->project_name ?? 'N/A');
-                $table->addCell(800)->addText($cdaReceipt->adv_no ?? 'N/A');
-                $table->addCell(800)->addText($adv_date);
-                $table->addCell(800)->addText($cdaReceipt->adv_amount ? number_format($cdaReceipt->adv_amount, 2) : '0.00');
-                $table->addCell(800)->addText($cdaReceipt->settle_vr_no ?? 'N/A');
-                $table->addCell(800)->addText($settle_date);
-                $table->addCell(800)->addText($cdaReceipt->settle_amount ? number_format($cdaReceipt->settle_amount, 2) : '0.00');
-                $table->addCell(800)->addText($cdaReceipt->settle_vr_no ?? 'N/A'); // Using settle_vr_no for CRV No
-                $table->addCell(1000)->addText($cdaReceipt->settle_firm ?? 'N/A');
-                $table->addCell(800)->addText($cdaReceipt->cda_bill_no ?? 'N/A');
-                $table->addCell(800)->addText($cda_bill_date);
-                $table->addCell(800)->addText(number_format($cdaReceipt->bill_amount ?? 0, 2));
-            }
-
-            // Add total row
-            $table->addRow();
-            $cellColSpan = $table->addCell(11800, ['gridSpan' => 13]);
-            $cellColSpan->addText('Total', ['bold' => true], ['alignment' => 'right']);
-            $table->addCell(800)->addText(number_format($totalAmount, 2), ['bold' => true]);
-        } catch (\Exception $e) {
-            \Log::error("Error in addCdaBillsContent: " . $e->getMessage());
-            \Log::error("Stack trace: " . $e->getTraceAsString());
-
-            // Add error message to the document itself
-            $section->addText("Error generating content: " . $e->getMessage(), ['color' => 'FF0000']);
         }
+
+        $totalAmount = $cdaReceipts->sum('bill_amount');
+
+        $table = $section->addTable('reportTable');
+
+        // Add header row
+        $table->addRow();
+        $table->addCell(600)->addText('Sr No', ['bold' => true]);
+        $table->addCell(800)->addText('PC No', ['bold' => true]);
+        $table->addCell(1200)->addText('Project', ['bold' => true]);
+        $table->addCell(800)->addText('ADV No', ['bold' => true]);
+        $table->addCell(800)->addText('ADV Date', ['bold' => true]);
+        $table->addCell(800)->addText('ADV Amt', ['bold' => true]);
+        $table->addCell(800)->addText('Sett. Vr No', ['bold' => true]);
+        $table->addCell(800)->addText('Sett. Date', ['bold' => true]);
+        $table->addCell(800)->addText('Sett. Amt', ['bold' => true]);
+        $table->addCell(800)->addText('CRV No', ['bold' => true]);
+        $table->addCell(1000)->addText('Firm Name', ['bold' => true]);
+        $table->addCell(800)->addText('CDA Bill No', ['bold' => true]);
+        $table->addCell(800)->addText('CDA Bill Date', ['bold' => true]);
+        $table->addCell(800)->addText('CDA Bill Amt', ['bold' => true]);
+
+        // Add data rows
+        foreach ($cdaReceipts as $index => $cdaReceipt) {
+            $table->addRow();
+            $table->addCell(600)->addText($index + 1);
+            $table->addCell(800)->addText($cdaReceipt->pc_no ?? '');
+            $table->addCell(1200)->addText($cdaReceipt->project_name ?? '');
+            $table->addCell(800)->addText($cdaReceipt->adv_no ?? '');
+            $table->addCell(800)->addText($cdaReceipt->adv_date ? \Carbon\Carbon::parse($cdaReceipt->adv_date)->format('d/m/Y') : '');
+            $table->addCell(800)->addText($cdaReceipt->adv_amount ? number_format($cdaReceipt->adv_amount, 2) : '');
+            $table->addCell(800)->addText($cdaReceipt->settle_vr_no ?? '');
+            $table->addCell(800)->addText($cdaReceipt->settle_vr_date ? \Carbon\Carbon::parse($cdaReceipt->settle_vr_date)->format('d/m/Y') : '');
+            $table->addCell(800)->addText($cdaReceipt->settle_amount ? number_format($cdaReceipt->settle_amount, 2) : '');
+            $table->addCell(800)->addText($cdaReceipt->settle_vr_no ?? ''); // Using settle_vr_no for CRV No
+            $table->addCell(1000)->addText($cdaReceipt->settle_firm ?? '');
+            $table->addCell(800)->addText($cdaReceipt->cda_bill_no ?? '');
+            $table->addCell(800)->addText($cdaReceipt->cda_bill_date ? \Carbon\Carbon::parse($cdaReceipt->cda_bill_date)->format('d/m/Y') : '');
+            $table->addCell(800)->addText(number_format($cdaReceipt->bill_amount, 2));
+        }
+
+        // Add total row
+        $table->addRow();
+        $cellColSpan = $table->addCell(11800, ['gridSpan' => 13]);
+        $cellColSpan->addText('Total', ['bold' => true], ['alignment' => 'right']);
+        $table->addCell(800)->addText(number_format($totalAmount, 2), ['bold' => true]);
     }
 }
