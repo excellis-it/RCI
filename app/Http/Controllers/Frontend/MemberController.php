@@ -1850,7 +1850,9 @@ class MemberController extends Controller
 
     public function downloadImportFormatFile()
     {
-        $filePath = storage_path('app/public/members_format.xlsx');
+        // $filePath = storage_path('app/public/members_format.xlsx');
+        // new format
+        $filePath = storage_path('app/public/Members_Import_Format.xlsx');
 
         if (!file_exists($filePath)) {
             return back()->with('error', 'Template file not found.');
@@ -1862,19 +1864,28 @@ class MemberController extends Controller
     public function importExcelData(Request $request)
     {
         $request->validate([
-            'member_fund_type' => 'required|in:GPF,NPS',
             'import_file' => 'required|mimes:xlsx,xls',
         ]);
 
         try {
-            // Pass the selected fund type to the import class
-            Excel::import(new MembersImport($request->member_fund_type), $request->file('import_file'));
-            session()->flash('message', 'Member imported successfully');
-            // return back()->with('success', 'Members imported successfully!');
+            // Import the file with the updated multi-sheet importer
+            $import = new MembersImport();
+            $import->import($request->file('import_file'));
+
+            session()->flash('message', 'Members imported successfully');
+
             return redirect()
                 ->route('members.index')
-                ->with('message', 'Member imported successfully');
+                ->with('message', 'Members imported successfully');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessage = 'Validation error in import: ';
+            foreach ($failures as $failure) {
+                $errorMessage .= 'Row: ' . $failure->row() . ', ' . implode(',', $failure->errors()) . '; ';
+            }
+            return back()->with('error', $errorMessage);
         } catch (\Exception $e) {
+            \Log::error('Excel import error: ' . $e->getMessage() . ' - ' . $e->getTraceAsString());
             return back()->with('error', 'Error importing file: ' . $e->getMessage());
         }
     }

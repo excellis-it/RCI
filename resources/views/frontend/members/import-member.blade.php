@@ -28,31 +28,34 @@
             <div class="col-6">
                 <div class="">
                     <div class="card-body">
-                        <a href="{{ route('members.download-import-formatfile') }}" class="btn btn-success mb-3">Download Excel
-                            Format</a>
+                        <a href="{{ route('members.download-import-formatfile') }}" class="btn btn-success mb-3">Download
+                            Excel
+                            Format Template</a>
 
                         <form action="{{ route('members.import-excel-data') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="member_type" class="form-label">Member Fund Type</label>
-                                <select class="form-select" name="member_fund_type" id="member_fund_type" required>
-                                    <option value="">Select Member Fund Type</option>
-                                    <option value="GPF">GPF</option>
-                                    <option value="NPS">NPS</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="import_file" class="form-label">Upload Excel File</label>
                                 <input type="file" class="form-control" name="import_file" id="import_file"
                                     accept=".xlsx, .xls" required>
+                                <small class="form-text text-muted">
+                                    Upload an Excel file with sheets only named 'CGO GPF', 'CGO NPS', 'NIE', 'CGO NPS' and
+                                    'NIE NPS'
+                                    containing member data.
+                                    Each sheet must have column headers exactly matching the template.
+                                </small>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Import</button>
                         </form>
-                    </div>
 
+                        @if (session('error'))
+                            <div class="alert alert-danger mt-3">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 
