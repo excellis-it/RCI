@@ -618,7 +618,7 @@
                     @endforeach
 
                     <tr>
-                        <td colspan="13" style="height: 700px"></td>
+                        <td colspan="14" style="height: 700px">&nbsp;</td>
                     </tr>
 
                     @php

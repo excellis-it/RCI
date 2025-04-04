@@ -137,7 +137,7 @@
                         console.log('send 2');
                         $("#paymentForm").submit();
 
-                    }, 800);
+                    }, 1200);
                 });
             });
         </script>

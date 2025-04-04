@@ -609,6 +609,10 @@
                 <td></td>
             </tr> --}}
 
+                    <tr>
+                        <td colspan="13" style="height: 700px">&nbsp;</td>
+                    </tr>
+
 
                     @php
                         $total_bank_amount = 0;
