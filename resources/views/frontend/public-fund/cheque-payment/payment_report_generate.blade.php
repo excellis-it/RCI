@@ -608,12 +608,18 @@
 
                                         </td>
                                     </tr>
+
+
                                     {{ $new_count_member++ }}
                                 @endforeach
                             @endif
                             {{ $new_count_cvr++ }}
                         @endforeach
                     @endforeach
+
+                    <tr>
+                        <td colspan="13" style="height: 700px"></td>
+                    </tr>
 
                     @php
                         $total_bank_payments = 0;

@@ -458,6 +458,17 @@
 
         </div>
 
+        <div class="row mb-5">
+            <div class="col-md-2 ms-auto">
+                <div class="add-more form-group mt-4">
+
+                    <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm" style="display: none;"><i
+                            class="fas fa-plus-circle"></i> Add More</a>
+
+                </div>
+            </div>
+        </div>
+
         <div class="row mt-3 d-flex justify-content-between">
 
             <div class="col-md-2">
@@ -474,345 +485,222 @@
     </form>
 
     <div id="credit_new_html" hidden>
-        <div class="row new_html">
+        <div class="row count-class rin-items">
             <hr />
-            <div class="col-md-12 count-class">
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Code</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control item-code" name="item_code_id[]" id=""
-                                    onchange="getItemDetails(this)" readonly>
-                                    <option value="">Select</option>
-                                    @foreach ($itemCodes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->code }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
 
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Voucher Date</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="date" class="form-control voucher-date" name="voucher_date"
-                                    id="voucher_date" value="" placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+        </div>
+    </div>
 
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Inventory Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="inv_no[]" id="inv_no"
-                                    onchange="getInvDetail(this)">
-                                    <option value="">Select</option>
-                                    @foreach ($inventoryNumbers as $inventoryNumber)
-                                        <option value="{{ $inventoryNumber->id }}"
-                                            data-hidden-value="{{ $inventoryNumber->inventory_type }}">
-                                            {{ $inventoryNumber->number }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+    <!-- Add blank RIN item template -->
+    <div id="blank_rin_template" style="display: none;">
+        <div class="row count-class rin-items new-rin-item">
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Item Code</label>
                     </div>
-                </div>
-                <div class="row">
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Description</label>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="description[]" id="description" placeholder="" readonly></textarea>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>UOM</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control uom_id" name="uom[]" id="uom"
-                                    value="" placeholder="">
-                                <input type="hidden" name="uom_id[]" id="uom_id">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Item Type</label>
-                            </div>
-                            <div class="col-md-12">
-
-                                <input type="text" class="form-control" name="item_type[]" id="item_type"
-                                    value="" placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Tax(%) </label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control tax" name="tax[]" id="tax"
-                                    value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Price </label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control price" name="price[]" id="price"
-                                    value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Tax Amount </label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control tax_amt" name="tax_amt[]" id="tax_amt"
-                                    value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Discount(%)</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="number" step="any" class="form-control disc_percent"
-                                    name="disc_percent[]" id="disc_percent" value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Discount Amt</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="number" step="any" class="form-control disc_amt" name="disc_amt[]"
-                                    id="disc_amt" value="" placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>GST(%)</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control gst_percent" name="gst_percent[]" id="gst_percent">
-                                    <option value="">Select</option>
-                                    @foreach ($gstPercentages as $gstPercentage)
-                                        <option value="{{ $gstPercentage->id }}">{{ $gstPercentage->gst_percent }}
-                                            {{-- <input type="hidden" name="gst_percent_id[]" id="gst_percent_id" value="{{  }}"> --}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>GST Amount</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control gst_amt" name="gst_amt[]" id="gst_amt"
-                                    value="" placeholder="" readonly>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Total Price</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="number" step="any" class="form-control total_price"
-                                    name="total_price[]" id="total_price" value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Quantity</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="number" step="any" class="form-control" name="quantity[]"
-                                    id="quantity" value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Supply Order Number</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="supply_order_no[]" id="supply_order_no">
-                                    <option value="">Select</option>
-                                    @foreach ($supplyOrders as $supplyOrder)
-                                        <option value="{{ $supplyOrder->id }}">{{ $supplyOrder->order_number }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Receipt & Inspection Note (RIN)</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control rin" name="rin[]" id="rin" disabled>
-                                    <option value="">Select</option>
-                                    {{-- @foreach ($rins as $rin)
-                                        <option value="{{ $rin->id }}">{{ $rin->rin_no }}
-                                        </option>
-                                    @endforeach --}}
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Cost Debatable to Budget Head</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control cost_debatable_input"
-                                    name="cost_debatable[]" id="cost_debatable" value="" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Order Type</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="order_type[]" id="order_type">
-                                    <option value="">Select</option>
-                                    <option value="rs">RS</option>
-                                    <option value="rv">RV</option>
-                                    <option value="crv">CRV</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Consigner's Name & Address</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="consigner[]" id="consigner">
-                                    <option value="">Select Name</option>
-                                    @foreach ($vendors as $consigner)
-                                        <option value="{{ $consigner->id }}">{{ $consigner->name }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3 mb-2" hidden id="member_div">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Inventory Holder Name</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="member_id[]" id="member_id">
-                                    <option value="">Select Name</option>
-                                    @foreach ($members as $member)
-                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-3 mb-2" hidden id="project_div">
-                        <div class="row align-items-center justify-content-between">
-                            <div class="col-md-12">
-                                <label>Inventory Project Name</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-control" name="project_id[]" id="project_id">
-                                    <option value="">Select Name</option>
-                                    @foreach ($projects as $project)
-                                        <option value="{{ $project->id }}">{{ $project->project_name }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 ms-auto">
-                        <label>&nbsp;</label>
-                        <button class="listing_add w-100 trash form-control"><i class="fa fa-times"></i></button>
+                    <div class="col-md-12">
+                        <select class="form-control item_code_name" name="item_code[]" id="item_code" required>
+                            <option value="">Select</option>
+                            @foreach ($itemCodes as $itemCode)
+                                <option value="{{ $itemCode->code }}" data-item-code-id="{{ $itemCode->id }}"
+                                    data-item-nc-status-name="{{ $itemCode->ncStatus?->status ?? '' }}"
+                                    data-item-uom="{{ $itemCode->uom ?? '' }}">
+                                    {{ $itemCode->code }}</option>
+                            @endforeach
+                        </select>
+                        <input class="item_code_id" type="hidden" name="item_code_id[]">
+                        <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Gem Item Code</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="gem_item_code[]" id="gem_item_code"
+                            value="" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Description</label>
+                    </div>
+                    <div class="col-md-12">
+                        <textarea class="form-control" name="description[]" id="description" placeholder=""></textarea>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>UOM</label>
+                    </div>
+                    <div class="col-md-12">
+                        <select class="form-control uom_id" name="uom_id[]" id="uom">
+                            @foreach ($uoms as $uom)
+                                <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Item Type</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control item_type" name="item_type[]" id="item_type"
+                            value="" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Unit Price </label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" class="form-control price" name="price[]"
+                            id="price" value="0.0" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Quantity</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" class="form-control quantity" name="quantity[]"
+                            id="quantity" placeholder="" value="0">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>GST</label>
+                    </div>
+                    <div class="col-md-12">
+                        <select class="form-select gst_percent" name="gst_percent[]" id="gst">
+                            <option value="">Select GST</option>
+                            @foreach ($gstPercentages as $gst)
+                                <option value="{{ $gst->gst_percent }}">
+                                    {{ $gst->gst_percent }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>GST Amount</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" class="form-control gst_amount" name="gst_amt[]"
+                            id="gst_amount" value="0.0" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Discount(%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control disc_percent" name="disc_percent[]"
+                            id="disc_percent" placeholder="" value="0">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Discount Amt</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" class="form-control disc_amt" name="disc_amt[]"
+                            id="disc_amt" placeholder="" value="0" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Total Price</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" step="any" class="form-control total_price"
+                            name="total_price[]" id="total_price" placeholder="" value="0.0">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Ledger No</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="ledger_no[]" id="ledger_no" value=""
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Page No</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="folio_no[]" id="folio_no" value=""
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-danger remove-rin-item"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <hr>
     </div>
 @endif
