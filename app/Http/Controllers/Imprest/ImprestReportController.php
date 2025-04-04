@@ -846,6 +846,7 @@ class ImprestReportController extends Controller
      */
     protected function addCdaBillsContent($section, $reportDate)
     {
+
         try {
             // Debug information
             \Log::info("Getting CDA bills data for date: {$reportDate}");
@@ -885,6 +886,7 @@ class ImprestReportController extends Controller
                     $cdaReceipt->settle_firm = $settleBill->firm ?? 'N/A';
                 }
             }
+
 
             $totalAmount = $cdaReceipts->sum('bill_amount');
 
