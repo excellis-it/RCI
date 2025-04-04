@@ -8,6 +8,10 @@
       .page-break {
             page-break-before: always;
         }
+        @page {
+            margin: 25px;
+            padding: 25px;
+        }
     </style>
 
 <body style="background: #fff">
@@ -88,9 +92,9 @@
                                 <td style=" border: 1px solid black; padding: 5px;">{{ $inventoryNumber['remarks'] ?? '' }}</td>
                             </tr>
 
-                            
+
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </td>

@@ -2,7 +2,12 @@
 <html lang="en">
 <title>RCI</title>
 <meta charset="utf-8" />
-
+<style>
+    @page {
+            margin: 25px;
+            padding: 25px;
+        }
+</style>
 <body style="background: #fff">
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"

@@ -2,7 +2,12 @@
 <html lang="en">
 <title>RCI</title>
 <meta charset="utf-8" />
-
+<style>
+    @page {
+            margin: 25px;
+            padding: 25px;
+        }
+</style>
 <body style="background: #fff">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="top">
         <tbody>
@@ -207,7 +212,7 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRDO.SM.36
                                     <br>
                                    CHESS, Hyderabad<br />
-                        
+
                                     Record of Transactions: FOL
                                 </td>
                                 <td style="font-size: 14px"></td>
@@ -221,7 +226,7 @@
 
                                 <td></td>
                                 <td></td>
-                                
+
                             </tr>
                             <tr>
                                 <td style="padding-bottom: 20px;font-size: 10px;">Item Code <br> Description</td>
@@ -301,7 +306,7 @@
                                 </td>
                                 <td></td>
                                 <td style="text-align: center;">
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -322,7 +327,7 @@
                                     l/c Refueling Section Officer</td>
                                 <td></td>
                                 <td style="text-align: center;">
-                                    
+
                                 </td>
                             </tr>
                         </tbody>

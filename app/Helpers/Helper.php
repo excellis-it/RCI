@@ -448,9 +448,16 @@ class Helper
 
     public static function getFinancialYears($startYear = null, $endYear = null)
     {
-        $currentYear = date('Y') - 1;
-        $startYear = $startYear ?: $currentYear - 10; // default start year
-        $endYear = $endYear ?: $currentYear; // default end year
+        // Get the current month and year
+        $currentMonth = (int)date('m');
+        $currentYear = (int)date('Y');
+        
+        // If current month is January to March, the current financial year started in the previous year
+        // Otherwise, it starts in the current year
+        $currentFinancialYearStart = ($currentMonth >= 4) ? $currentYear : $currentYear - 1;
+        
+        $startYear = $startYear ?: $currentFinancialYearStart - 10; // default start year
+        $endYear = $endYear ?: $currentFinancialYearStart; // default end year
         $financialYears = [];
 
         for ($year = $endYear; $year >= $startYear; $year--) {
@@ -732,17 +739,27 @@ class Helper
 
     public static function getNewFinancialYears($years = 20)
     {
-        $currentYear = date('Y');
-        $startYear = $currentYear - ($years - 1); // Adjust to get past X years
+        // Get current month and year
+        $currentMonth = (int)date('m');
+        $currentYear = (int)date('Y');
+        
+        // Determine the current financial year
+        // If we're in Jan-Mar, we're in the previous year's financial year
+        $currentFinancialYear = ($currentMonth >= 4) ? $currentYear : $currentYear - 1;
+        
+        // Calculate the starting year based on how many years back we want to show
+        $startYear = $currentFinancialYear - ($years - 1);
+        
         $financialYears = [];
-
+        
+        // Generate financial years
         for ($i = 0; $i < $years; $i++) {
             $fyStart = $startYear + $i;
             $fyEnd = $fyStart + 1;
             $financialYears[] = "$fyStart-$fyEnd";
         }
-
-        return array_reverse($financialYears); // Show latest first
+        
+        return array_reverse($financialYears); // Show most recent first
     }
 
     public static function getCrvDetaisByInv($cnvid)

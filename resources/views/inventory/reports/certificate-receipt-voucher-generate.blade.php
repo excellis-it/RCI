@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <style>
     @page {
-        margin: 10px;
-        padding: 10px;
-    }
+            margin: 25px;
+            padding: 25px;
+        }
 </style>
   <body style="background: #fff">
     <table
@@ -39,7 +39,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      
+
                     "
                   >
                   CENTER FOR HIGH ENERGY SYSTEM & SCIENCES (CHESS) <br />

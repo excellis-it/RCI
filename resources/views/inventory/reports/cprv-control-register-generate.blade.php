@@ -3,7 +3,12 @@
 <html lang="en">
 <title>RCI</title>
 <meta charset="utf-8" />
-
+<style>
+    @page {
+            margin: 25px;
+            padding: 25px;
+        }
+</style>
 <body style="background: #fff">
   <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
     <tbody>
@@ -107,7 +112,7 @@
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">9</td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">10</td>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">11</td>
-                
+
               </tr>
               <tr>
                 <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
