@@ -35,7 +35,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ Request::is('receipts*') ? 'active' : '' }}"
+                    <a class="sidebar-link {{ (Request::is('receipts*') && !Request::is('receipts-report*')) ? 'active' : '' }}"
                         href="{{ route('receipts.index') }}">
                         <span>
                             <i class="ti ti-cash"></i>

@@ -79,8 +79,8 @@
                                 <label>Amount Request</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount_requested" id="amount_requested"
-                                    value="{{ $data->amount_requested }}" />
+                                <input type="number" step="any" class="form-control" name="amount_requested"
+                                    id="amount_requested" value="{{ $data->amount_requested }}" />
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -91,8 +91,8 @@
                                 <label>Amount Allowed</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount_allowed" id="amount_allowed"
-                                    value="{{ $data->amount_allowed }}" />
+                                <input type="number" step="any" class="form-control" name="amount_allowed"
+                                    id="amount_allowed" value="{{ $data->amount_allowed }}" />
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                 <label>Amount Disallowed</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount_disallowed"
+                                <input type="number" step="any" class="form-control" name="amount_disallowed"
                                     id="amount_disallowed" value="{{ $data->amount_disallowed }}" />
                                 <span class="text-danger"></span>
                             </div>
@@ -231,7 +231,7 @@
                                 <label>Amount Request</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount_requested"
+                                <input type="number" step="any" class="form-control" name="amount_requested"
                                     id="amount_requested" />
                                 <span class="text-danger"></span>
                             </div>
@@ -243,7 +243,7 @@
                                 <label>Amount Allowed</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount_allowed"
+                                <input type="number" step="any" class="form-control" name="amount_allowed"
                                     id="amount_allowed" />
                                 <span class="text-danger"></span>
                             </div>
@@ -256,7 +256,7 @@
                                 <label>Amount Disallowed</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount_disallowed"
+                                <input type="number" step="any" class="form-control" name="amount_disallowed"
                                     id="amount_disallowed" />
                                 <span class="text-danger"></span>
                             </div>

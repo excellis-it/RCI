@@ -11,11 +11,13 @@ class Member extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'pers_no',
         'emp_id',
         'gender',
         'name',
         'phone_number',
+        'account_number',
         'pran_number',
         'pm_level',
         'pm_index',
@@ -26,6 +28,7 @@ class Member extends Model
         'cadre',
         'category',
         'status',
+        'e_status',
         'old_bp',
         'g_pay',
         'pay_band',
@@ -33,6 +36,10 @@ class Member extends Model
         'dob',
         'doj_lab',
         'doj_service1',
+        'adhar_number',
+        'gpf_number',
+        'app_date',
+        'nps_available',
         'dop',
         'next_inr',
         'quater',
@@ -47,11 +54,16 @@ class Member extends Model
         'pis_address',
         'sos',
         'sos_address',
-        'gpf_number',
+        'gpf_no',
         'bank_name',
         'bank_account',
         'ifsc_code',
+        'pan_no',
+        'member_city',
+        'rent_or_not',
         'member_status',
+        'created_at',
+        'updated_at'
     ];
 
 

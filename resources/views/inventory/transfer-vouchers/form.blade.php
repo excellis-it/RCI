@@ -257,7 +257,7 @@
                                         <label>Quantity (Stock : <span class="item_quantity_stock">0</span>)</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" class="form-control item_quantity"
+                                        <input type="number" step="any" class="form-control item_quantity"
                                             name="strike_quantity[]" step="any">
                                         <div class="text-danger" id="quantity_no"></div>
                                         <span class="text-danger"></span>
@@ -330,8 +330,8 @@
                                         <label>Quantity</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" value="0" class="form-control item_quantity"
-                                            name="brought_quantity[]" readonly>
+                                        <input type="number" step="any" value="0"
+                                            class="form-control item_quantity" name="brought_quantity[]" readonly>
                                         <div class="text-danger" id="quantity_no"></div>
                                         <span class="text-danger"></span>
                                     </div>
@@ -413,8 +413,8 @@
                                     <label>Quantity</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="number" value="0" class="form-control item_quantity"
-                                        name="strike_quantity[]" step="any">
+                                    <input type="number" step="any" value="0"
+                                        class="form-control item_quantity" name="strike_quantity[]" step="any">
                                     <div class="text-danger" id="quantity_no"></div>
                                     <span class="text-danger"></span>
                                 </div>
@@ -484,8 +484,8 @@
                                     <label>Quantity</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="number" value="0" class="form-control item_quantity"
-                                        name="brought_quantity[]" readonly>
+                                    <input type="number" step="any" value="0"
+                                        class="form-control item_quantity" name="brought_quantity[]" readonly>
                                     <div class="text-danger" id="quantity_no"></div>
                                     <span class="text-danger"></span>
                                 </div>

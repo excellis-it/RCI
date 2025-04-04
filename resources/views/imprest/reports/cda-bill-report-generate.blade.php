@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>RCI</title>
-<meta charset="utf-8" />
-<style>
-    @page {
-        margin: 10px;
-        padding: 10px;
-    }
-</style>
-<body style="background: #fff">
-    <center>
-        <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;padding-bottom: 5px">
-    </center>
+    <title>RCI</title>
+    <meta charset="utf-8" />
+    <style>
+        @page {
+            margin: 25px;
+            padding: 25px;
+        }
+    </style>
 
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
-        style="border-radius: 0px; margin: 0 auto">
-        <tbody>
-            <tr>
-                <td style="padding: 0 0px">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                        <tbody>
-                            <tr>
-                                <td
-                                    style="
+    <body style="background: #fff">
+        <center>
+            <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;padding-bottom: 5px">
+        </center>
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 600;
@@ -31,26 +32,26 @@
           padding: 0px 5px !important;
           margin: 0px 0px !important;
           text-transform: uppercase;
-          
+
         ">
-                                    CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
-                                    RCI CAMPUS, HYDERABAD - 500 069 <br />
+                                        CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
+                                        RCI CAMPUS, HYDERABAD - 500 069 <br />
 
-                                    <br>
+                                        <br>
 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 0 0px">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                        <tbody>
-                            <tr>
-                                <td
-                                    style="
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 600;
@@ -60,20 +61,20 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                    Bills at CDA as on {{ $report_date ?? '' }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td style="padding: 0 0px">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-                        <thead>
-                            <tr>
-                                <td
-                                    style="
+                                        Bills at CDA as on {{ $report_date ?? '' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -84,10 +85,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    Sr No
-                                </td>
-                                <td
-                                    style="
+                                        Sr No
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -98,10 +99,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    PC No
-                                </td>
-                                <td
-                                    style="
+                                        PC No
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -112,10 +113,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    Project
-                                </td>
-                                <td
-                                    style="
+                                        Project
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -126,10 +127,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    ADV No
-                                </td>
-                                <td
-                                    style="
+                                        ADV No
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -140,10 +141,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    ADV Date
-                                </td>
-                                <td
-                                    style="
+                                        ADV Date
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -154,10 +155,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                    ADV Amt
-                                </td>
-                                <td
-                                    style="
+                                        ADV Amt
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -168,10 +169,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                    Sett. Vr No
-                                </td>
-                                <td
-                                    style="
+                                        Sett. Vr No
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -182,10 +183,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    Sett. Date
-                                </td>
-                                <td
-                                    style="
+                                        Sett. Date
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -196,10 +197,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    Sett. Amt
-                                </td>
-                                <td
-                                    style="
+                                        Sett. Amt
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -210,10 +211,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    CRV No
-                                </td>
-                                <td
-                                    style="
+                                        CRV No
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -224,10 +225,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    Firm Name
-                                </td>
-                                <td
-                                    style="
+                                        Firm Name
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -238,10 +239,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    CDA Bill No
-                                </td>
-                                <td
-                                    style="
+                                        CDA Bill No
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -252,10 +253,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    CDA Bill Date
-                                </td>
-                                <td
-                                    style="
+                                        CDA Bill Date
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -266,16 +267,16 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                    CDA Bill Amt
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($cdaReceipts)
-                                @foreach ($cdaReceipts as $key => $cdaReceipt)
-                                    <tr>
-                                        <td
-                                            style="
+                                        CDA Bill Amt
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($cdaReceipts)
+                                    @foreach ($cdaReceipts as $key => $cdaReceipt)
+                                        <tr>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -286,10 +287,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $key + 1 }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $key + 1 }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -300,10 +301,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cdaReceipt->pc_no ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->pc_no ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -314,10 +315,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cdaReceipt->project ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->project ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -328,10 +329,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cdaReceipt->adv_no ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->adv_no ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -342,10 +343,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cdaReceipt->adv_date ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->adv_date ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -356,10 +357,10 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                            {{ $cdaReceipt->adv_amount ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->adv_amount ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -370,11 +371,11 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->settle_vr_no ?? '' }}
+                                                {{ $cdaReceipt->settle_vr_no ?? '' }}
 
-                                        </td>
-                                        <td
-                                            style="
+                                            </td>
+                                            <td
+                                                style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -385,10 +386,10 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                            {{ $cdaReceipt->settle_vr_date ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->settle_vr_date ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -399,10 +400,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->settle_amount ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->settle_amount ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -413,10 +414,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->settle_vr_no ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->settle_vr_no ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -427,10 +428,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->settle_firm ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->settle_firm ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -441,10 +442,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->cda_bill_no ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->cda_bill_no ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -455,10 +456,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->cda_bill_date ?? '' }}
-                                        </td>
-                                        <td
-                                            style="
+                                                {{ $cdaReceipt->cda_bill_date ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -469,16 +470,16 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                            {{ $cdaReceipt->cda_bill_amount ?? '' }}
+                                                {{ $cdaReceipt->cda_bill_amount ?? '' }}
 
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
 
-                            <tr>
-                                <td
-                                    style="
+                                <tr>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -489,9 +490,9 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -502,9 +503,9 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -515,9 +516,9 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -528,9 +529,9 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -541,9 +542,9 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -554,9 +555,9 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -568,9 +569,9 @@
                 height: 5px;
               ">
 
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
           font-size: 10px;
           line-height: 14px;
           font-weight: 400;
@@ -581,9 +582,9 @@
           border: 1px solid #000;
           height: 5px;
         ">
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -595,9 +596,9 @@
                 height: 5px;
               ">
 
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -609,9 +610,9 @@
                 height: 5px;
               ">
 
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -623,9 +624,9 @@
                 height: 5px;
               ">
 
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -637,9 +638,9 @@
                 height: 5px;
               ">
 
-                                </td>
-                                <td
-                                    style="
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -650,10 +651,10 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                    Total
-                                </td>
-                                <td
-                                    style="
+                                        Total
+                                    </td>
+                                    <td
+                                        style="
                 font-size: 10px;
                 line-height: 14px;
                 font-weight: 400;
@@ -664,13 +665,13 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                    {{ $totalAmount ?? 0 }}
+                                        {{ $totalAmount ?? 0 }}
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
 
-                        </tbody>
-                    </table>
-</body>
+                            </tbody>
+                        </table>
+    </body>
 
 </html>

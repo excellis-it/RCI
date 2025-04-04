@@ -74,10 +74,10 @@
                                     id="category_id_{{ $receipt_data->id }}" class="form-control" name="category_id[]"
                                     required readonly>
 
-                                <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
-                                    name="rc_amount1[]" required readonly>
+                                <input type="number" step="any" id="pay_amount_{{ $receipt_data->id }}"
+                                    class="form-control" name="rc_amount1[]" required readonly>
                             </td>
-                            <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
+                            <td><input type="number" step="any" id="bill_amount_{{ $receipt_data->id }}"
                                     class="form-control bill-amount upper-bill-amount" name="amount1[]">
 
                                 <span class="text-danger"></span>
@@ -85,8 +85,8 @@
                             <td>
                                 <input type="hidden" id="main_amount_{{ $receipt_data->id }}" class="form-control"
                                     name="main_amount1[]" required>
-                                <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
-                                    name="balance1[]" required readonly>
+                                <input type="number" step="any" id="balance_{{ $receipt_data->id }}"
+                                    class="form-control" name="balance1[]" required readonly>
                             </td>
                             <td><input type="text" class="form-control" name="bill_ref1[]"
                                     id="bill_ref_{{ $receipt_data->id }}" value=""></td>
@@ -118,8 +118,7 @@
                                     ->first();
                                 $memberName = $members->firstWhere('id', $member->member_id)->name ?? 'N/A';
                                 $memberDesign =
-                                    $members->firstWhere('id', $member->member_id)->desigs->designation ??
-                                    'N/A';
+                                    $members->firstWhere('id', $member->member_id)->desigs->designation ?? 'N/A';
                                 $bankAccountNo = $memberCoreInfo ? $memberCoreInfo->bank_acc_no : 'N/A';
                             @endphp
                             <tr>
@@ -135,11 +134,11 @@
                                         value="{{ $member->member_id }}">
 
 
-                                    <input type="number" id="pay_amount_{{ $receipt_data->id }}" class="form-control"
-                                        name="rc_amount[{{ $receipt_data->id }}][]" value="{{ $member->amount }}"
-                                        required readonly>
+                                    <input type="number" step="any" id="pay_amount_{{ $receipt_data->id }}"
+                                        class="form-control" name="rc_amount[{{ $receipt_data->id }}][]"
+                                        value="{{ $member->amount }}" required readonly>
                                 </td>
-                                <td><input type="number" id="bill_amount_{{ $receipt_data->id }}"
+                                <td><input type="number" step="any" id="bill_amount_{{ $receipt_data->id }}"
                                         class="form-control bill-amount bill-amount-lower"
                                         name="amount[{{ $receipt_data->id }}][]"
                                         value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}">
@@ -149,10 +148,11 @@
                                 <td>
                                     {{-- <p>{{ $receipt_data->id }}-{{ $member->member_id }}-{{ $member->serial_no }}</p> --}}
                                     <input type="hidden" id="main_pay_amount_{{ $receipt_data->id }}"
-                                        class="form-control" name="main_pay_amount[{{ $receipt_data->id }}][]" required
+                                        class="form-control" name="main_pay_amount[{{ $receipt_data->id }}][]"
+                                        required
                                         value="{{ Helper::getCheqpaymentMemberBalance($receipt_data->id, $member->member_id, $member->serial_no) }}">
-                                    <input type="number" id="balance_{{ $receipt_data->id }}" class="form-control"
-                                        name="balance[{{ $receipt_data->id }}][]"
+                                    <input type="number" step="any" id="balance_{{ $receipt_data->id }}"
+                                        class="form-control" name="balance[{{ $receipt_data->id }}][]"
                                         value="{{ Helper::getCheqpaymentMemberBalanceIn($receipt_data->id, $member->member_id, $member->serial_no) }}"
                                         required readonly>
                                 </td>

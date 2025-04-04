@@ -30,22 +30,12 @@ class CdaReceiptController extends Controller
 
         $lastcdaReceipt = CDAReceipt::orderBy('id', 'desc')->first();
 
-        // $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')->get();
-
-        // $advance_bills = CdaBillAuditTeam::orderBy('id', 'desc')
-        //     ->whereDoesntHave('advanceSettlement', function ($query) {
-        //         $query->where('bill_status', 1)->Where('receipt_status', 1);
-        //     })
-        //     ->get();
         $advance_bills = CdaBillAuditTeam::whereDoesntHave('advanceSettlement', function ($query) {
             $query->where('bill_status', 1)->where('receipt_status', 1);
         })
             ->select('cda_bill_no', DB::raw('SUM(bill_amount) as total_bill_amount'))
             ->groupBy('cda_bill_no')
-            // ->orderBy('id', 'desc')
             ->get();
-
-
 
         foreach ($advance_bills as $advance_bill) {
             $bill_details = CdaBillAuditTeam::where('cda_bill_no', $advance_bill->cda_bill_no)->first();
@@ -53,13 +43,7 @@ class CdaReceiptController extends Controller
             $advance_bill->bill_date = $bill_details->cda_bill_date;
         }
 
-       // return $advance_bills;
-
-        // return dd($advance_bills);
-
-
         $receipt_bills = CDAReceipt::orderBy('id', 'desc')->get();
-
 
         $lastrctvr = CDAReceipt::whereYear('created_at', now()->year)
             ->whereMonth('created_at', now()->month)
@@ -69,9 +53,6 @@ class CdaReceiptController extends Controller
 
         $lastrctVarNo = $lastrctvr ? $lastrctvr->rct_vr_no : 0;
         $rctNo = $lastrctVarNo + 1;
-
-
-
 
         return view('imprest.cda-receipts.list', compact('rctNo', 'cdaReceipts', 'cdaReceiptDetails', 'advance_bills', 'receipt_bills', 'lastcdaReceipt'));
     }
@@ -104,93 +85,6 @@ class CdaReceiptController extends Controller
         return view('imprest.cda-receipts.form', compact('cdaReceiptDetails'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-
-    //     $request->validate([
-    //         'rct_no' => 'required',
-    //         'rct_date' => 'required',
-    //         'vr_no' => 'required',
-    //         'vr_date' => 'required',
-    //         'vr_amount' =>'required|numeric',
-    //         'details' => 'required',
-    //     ]);
-
-    //     $voucherText = ImprestResetVoucher::where('status', 1)->first();
-    //     $cdaReceipt = CDAReceipt::latest()->first();
-
-    //     $constantString = $voucherText->voucher_no_text ?? 'RCI-CHESS-';
-    //     if(isset($cdaReceipt))
-    //     {
-    //         $serial_no = Str::substr($cdaReceipt->voucher_no, -1);
-    //         $counter = $serial_no + 1;
-    //         // dd($serial_no);
-    //     } else {
-    //         $counter = 1;
-    //     }
-
-    //     $cdaReceipt = new CDAReceipt();
-    //     // $cdaReceipt->voucher_no = $constantString . $counter;
-    //     // $cdaReceipt->voucher_date = $request->voucher_date;
-    //     // $cdaReceipt->cheq_no = $request->cheq_no;
-    //     // $cdaReceipt->cheq_date = $request->cheq_date;
-
-    //     $cdaReceipt->rct_no = $request->rct_no;
-    //     $cdaReceipt->rct_date = $request->rct_date;
-    //     $cdaReceipt->vr_no = $request->vr_no;
-    //     $cdaReceipt->vr_date = $request->vr_date;
-    //     $cdaReceipt->amount = $request->vr_amount;
-    //     $cdaReceipt->details = $request->details;
-    //     $cdaReceipt->save();
-
-    //     session()->flash('message', 'CDA receipt added successfully');
-    //     return response()->json(['success' => 'CDA receipt added successfully']);
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     // Validate the incoming data
-    //     $validated = $request->validate([
-    //         'rct_vr_no' => 'required|string|max:255',
-    //         'rct_vr_date' => 'required|date',
-    //         'dv_no' => 'required|string|max:255',
-    //         'dv_date' => 'required|date',
-    //         'rct_vr_amount' => 'required|numeric',
-    //         'remark' => 'nullable|string|max:255',
-    //         'bill_id' => 'required|array', // Assuming 'bill_id' is an array of bill IDs
-    //         'bill_id.*' => 'required', // Validate each bill_id exists in the advance_settlements table
-    //     ]);
-
-    //     // Insert CDAReceipt for each bill
-    //     foreach ($request->bill_id as $key => $billId) {
-    //         CDAReceipt::create([
-    //             'bill_id' => $billId,
-    //             'rct_vr_no' => $request->rct_vr_no,
-    //             'rct_vr_date' => $request->rct_vr_date,
-    //             'dv_no' => $request->dv_no,
-    //             'dv_date' => $request->dv_date,
-    //             'rct_vr_amount' => $request->rct_vr_amount,
-    //             'remark' => $request->remark,
-    //         ]);
-    //     }
-
-    //     $advanceSettlements = AdvanceSettlement::where('balance', '<=', 0)->where('bill_status', 1)->get();
-
-    //     foreach ($advanceSettlements as $advanceSettlement) {
-
-    //         $advanceSettlement->receipt_status = 1;
-    //         $advanceSettlement->save();
-    //     }
-
-    //     // Redirect back or to a specific route with a success message
-    //     // return redirect()->route('cda-receipts.index')->with('success', 'CDA Receipt(s) added successfully.');
-    //     session()->flash('message', 'CDA receipt added successfully');
-    //     return response()->json(['success' => 'CDA receipt added successfully']);
-    // }
-
     public function store(Request $request)
     {
         // Validate the incoming data
@@ -204,35 +98,10 @@ class CdaReceiptController extends Controller
             'bill_no' => 'required',
         ]);
 
-
-
-        // CDAReceipt::create([
-        //     'bill_id' => $request->bill_id,
-        //     'rct_vr_no' => $request->rct_vr_no,
-        //     'rct_vr_date' => $request->rct_vr_date,
-        //     'dv_no' => $request->dv_no,
-        //     'dv_date' => $request->dv_date,
-        //     'rct_vr_amount' => $request->rct_vr_amount,
-        //     'remark' => $request->remark,
-        //     'created_by' => auth()->id(),
-        // ]);
-        // $advbill = CdaBillAuditTeam::find($request->bill_id);
-        // $advSettlement = AdvanceSettlement::find($advbill->settle_id);
-        // if ($advSettlement) {
-        //     $advSettlement->receipt_status = 1;
-        //     $advSettlement->save();
-        // }
-
-
-        // $cashInBank = new CashInBank();
-        // $cashInBank->credit = $request->rct_vr_amount;
-        // $cashInBank->save();
-
         // Insert new records into CDAReceipt based on cda_bill_no
         $advBills = CdaBillAuditTeam::where('cda_bill_no', $request->bill_no)->get();
 
         foreach ($advBills as $advBill) {
-           // return $advBill->id;
             $cdreceipt = CDAReceipt::create([
                 'bill_id' => $advBill->id, // Use the current bill ID from CdaBillAuditTeam
                 'rct_vr_no' => $request->rct_vr_no,
@@ -251,7 +120,7 @@ class CdaReceiptController extends Controller
                 $advSettlement->save();
             }
 
-            $lastIMBRecord =  Helper::getLastImprestBalance($request->rct_vr_date);
+            $lastIMBRecord = Helper::getLastImprestBalance($request->rct_vr_date);
 
             $imprestBalanceData = [
                 'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
@@ -279,18 +148,8 @@ class CdaReceiptController extends Controller
                 'cda_receipt' => $advBill->bill_amount,
                 'cda_bill_outstand' => -$advBill->bill_amount,
             ]);
-
-            // Insert into CashInBank
-            // $cashInBank = new CashInBank();
-            // $cashInBank->credit = $advBill->bill_amount;
-            // $cashInBank->save();
         }
 
-
-
-
-        // Redirect back or to a specific route with a success message
-        // return redirect()->route('cda-receipts.index')->with('success', 'CDA Receipt(s) added successfully.');
         session()->flash('message', 'CDA receipt added successfully');
         return response()->json(['success' => 'CDA receipt added successfully']);
     }
@@ -308,12 +167,14 @@ class CdaReceiptController extends Controller
      */
     public function edit(string $id)
     {
-
         $cdaReceipt = CDAReceipt::findOrFail($id);
-        $cdaReceiptDetails = CdaReceiptDetail::all();
-        $edit = true;
+        $cdaBill = CdaBillAuditTeam::find($cdaReceipt->bill_id);
 
-        return response()->json(['view' => view('imprest.cda-receipts.form', compact('edit', 'cdaReceipt', 'cdaReceiptDetails'))->render()]);
+        if (request()->ajax()) {
+            return view('imprest.cda-receipts.edit-form', compact('cdaReceipt', 'cdaBill'))->render();
+        }
+
+        return view('imprest.cda-receipts.edit', compact('cdaReceipt', 'cdaBill'));
     }
 
     /**
@@ -321,29 +182,51 @@ class CdaReceiptController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        try {
+            // Validate the incoming data
+            $validated = $request->validate([
+                'rct_vr_date' => 'required|date',
+                'dv_no' => 'required|string|max:255',
+                'dv_date' => 'required|date',
+            ]);
 
-        $request->validate([
-            'voucher_date' => 'required',
-            'amount' => 'required|numeric',
-            'details' => 'required',
-        ]);
+            // Find the receipt
+            $receipt = CDAReceipt::findOrFail($id);
 
-        $cdaReceipt = CDAReceipt::findOrFail($id);
-        // $cdaReceipt->voucher_date = $request->voucher_date;
-        // $cdaReceipt->cheq_no = $request->chq_no;
-        // $cdaReceipt->cheq_date = $request->cheq_date;
-        // $cdaReceipt->amount = $request->amount;
-        $cdaReceipt->rct_no = $request->rct_no;
-        $cdaReceipt->rct_date = $request->rct_date;
-        $cdaReceipt->vr_no = $request->vr_no;
-        $cdaReceipt->vr_date = $request->vr_date;
-        $cdaReceipt->amount = $request->vr_amount;
-        $cdaReceipt->details = $request->details;
-        $cdaReceipt->update();
+            // Check if bill date is after receipt date
+            $advBill = CdaBillAuditTeam::find($receipt->bill_id);
+            if ($advBill && $advBill->cda_bill_date > $request->rct_vr_date) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => [
+                        'rct_vr_date' => ['Receipt date must be after Bill date']
+                    ]
+                ], 422);
+            }
 
-        session()->flash('message', 'CDA receipt updated successfully');
-        return response()->json(['success' => 'CDA receipt updated successfully']);
+            // Update receipt
+            $receipt->rct_vr_date = $request->rct_vr_date;
+            $receipt->dv_no = $request->dv_no;
+            $receipt->dv_date = $request->dv_date;
+            $receipt->save();
+
+            session()->flash('message', 'CDA receipt updated successfully');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'CDA receipt updated successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update receipt: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -352,16 +235,4 @@ class CdaReceiptController extends Controller
     {
         //
     }
-
-    /**
-     * Delete record
-     */
-    // public function delete($bill_id)
-    // {
-
-    //     $cdaReceipt = CDAReceipt::findOrFail($bill_id);
-    //     $cdaReceipt->delete();
-
-    //     return redirect()->back()->with('message', 'CDA Receipt deleted successfully.');
-    // }
 }

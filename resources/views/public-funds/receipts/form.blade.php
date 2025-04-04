@@ -157,8 +157,8 @@
 
                                             <div class=" form-group col-md-2">
                                                 <label>Amount</label>
-                                                <input type="number" class="form-control" name="member_amount[]"
-                                                    value="{{ $drc_member->amount }}">
+                                                <input type="number" step="any" class="form-control"
+                                                    name="member_amount[]" value="{{ $drc_member->amount }}">
                                                 <span class="text-danger" style="display:none; color:red;">Amount
                                                     field is
                                                     required</span>
@@ -265,7 +265,8 @@
 
                                         <div class=" form-group col-md-2">
                                             <label>Amount</label>
-                                            <input type="number" class="form-control" name="member_amount[]">
+                                            <input type="number" step="any" class="form-control"
+                                                name="member_amount[]">
                                             <span class="text-danger" style="display:none; color:red;">Amount field is
                                                 required</span>
 

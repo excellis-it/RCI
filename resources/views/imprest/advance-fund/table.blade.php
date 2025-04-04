@@ -11,13 +11,17 @@
             <td>{{ $advance_fund->chq_date ?? 'N/A' }}</td>
             <td>{{ $advance_fund->variableType->name ?? 'N/A' }}</td>
 
-            <td class="sepharate"><a data-route="{{ route('advance-funds.edit', $advance_fund->id) }}"
-                    href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('advance-funds.delete', $advance_fund->id)}}"><i class="ti ti-trash"></i></a> --}}
-                <a href="javascript:void(0);" class="delete-advance-funds edit_pencil text-danger ms-2"
-                    id="delete-advance-funds" data-route="{{ route('advance-funds.delete', $advance_fund->id) }}">
-                    <i class="ti ti-trash"></i>
-                </a>
+            <td class="sepharate">
+
+                @if ($advance_fund->isEditable())
+                    <a data-route="{{ route('advance-funds.edit', $advance_fund->id) }}" href="javascript:void(0);"
+                        class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
+
+                    <a href="javascript:void(0);" class="delete-advance-funds edit_pencil ms-2"
+                        id="delete-advance-funds" data-route="{{ route('advance-funds.delete', $advance_fund->id) }}">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                @endif
 
             </td>
         </tr>

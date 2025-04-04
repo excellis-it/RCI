@@ -33,8 +33,9 @@
                             <label>Received Quantity</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control rcv_quantity" name="received_quantity[]"
-                                id="received_quantity" value="{{ $sir->received_quantity ?? 0 }}">
+                            <input type="number" step="any" class="form-control rcv_quantity"
+                                name="received_quantity[]" id="received_quantity"
+                                value="{{ $sir->received_quantity ?? 0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -59,8 +60,8 @@
                             <label>Unit Cost</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control units_cost" name="unit_cost[]" id="unit_cost"
-                                value="{{ $sir->unit_cost ?? 0.0 }}">
+                            <input type="number" step="any" class="form-control units_cost" name="unit_cost[]"
+                                id="unit_cost" value="{{ $sir->unit_cost ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -72,8 +73,8 @@
                             <label>Total Unit Cost</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control total_cost" name="total_cost[]" id="total_cost"
-                                value="{{ $sir->total_cost ?? 0.0 }}">
+                            <input type="number" step="any" class="form-control total_cost" name="total_cost[]"
+                                id="total_cost" value="{{ $sir->total_cost ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -130,8 +131,8 @@
                             <label>GST Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control gst_amount" name="gst_amount[]" id="gst_amount"
-                                value="{{ $sir->gst_amount ?? 0.0 }}" readonly>
+                            <input type="text" class="form-control gst_amount" name="gst_amount[]"
+                                id="gst_amount" value="{{ $sir->gst_amount ?? 0.0 }}" readonly>
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -143,8 +144,8 @@
                             <label>Total Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control total_amount" name="total_amount[]"
-                                id="total_amount" value="{{ $sir->total_amount ?? 0.0 }}">
+                            <input type="number" step="any" class="form-control total_amount"
+                                name="total_amount[]" id="total_amount" value="{{ $sir->total_amount ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -176,7 +177,7 @@
                             <label id="round_off_to_selectd_id"></label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control round_settle_amount"
+                            <input type="number" step="any" class="form-control round_settle_amount"
                                 name="round_settle_amount[]" id="round_settle_amount" value="">
                             <span class="text-danger"></span>
                         </div>
@@ -189,8 +190,8 @@
                             <label>Round Figure Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control round_amount" name="round_amount[]"
-                                id="round_amount" value="{{ $sir->total_amount ?? 0.0 }}">
+                            <input type="number" step="any" class="form-control round_amount"
+                                name="round_amount[]" id="round_amount" value="{{ $sir->total_amount ?? 0.0 }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

@@ -155,8 +155,8 @@
                             <label>Adv Amt<span class="text-danger">*</span></label>
                         </div>
                         <div class="col-md-12">
-                            <input type="number" class="form-control" name="adv_amount" id="adv_amount"
-                                placeholder="">
+                            <input type="number" step="any" class="form-control" name="adv_amount"
+                                id="adv_amount" placeholder="">
                             <span class="text-danger advamnt_msg"></span>
                         </div>
                     </div>

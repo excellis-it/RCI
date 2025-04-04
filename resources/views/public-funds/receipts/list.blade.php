@@ -634,14 +634,14 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control bank_acc" readonly>
-                            
+
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group col-md-2">
                     <label>Amount</label>
-                    <input type="number" class="form-control" name="member_amount[]">
+                    <input type="number" step="any" class="form-control" name="member_amount[]">
                     <span class="text-danger"  style="display:none;">Amount is required</span>
                 </div>
                 <div class="form-group col-md-2">

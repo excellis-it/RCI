@@ -72,7 +72,7 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount" id="amount"
+                                <input type="number" step="any" class="form-control" name="amount" id="amount"
                                     value="{{ $data->amount }}" />
                                 <span class="text-danger"></span>
                             </div>
@@ -209,7 +209,8 @@
                                 <label>Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" class="form-control" name="amount" id="amount" />
+                                <input type="number" step="any" class="form-control" name="amount"
+                                    id="amount" />
                                 <span class="text-danger"></span>
                             </div>
                         </div>

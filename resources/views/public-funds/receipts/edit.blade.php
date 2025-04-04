@@ -63,8 +63,8 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label>Amount</label>
-                                            <input type="number" class="form-control" name="member_amount[]"
-                                                value="{{ $member->amount }}">
+                                            <input type="number" step="any" class="form-control"
+                                                name="member_amount[]" value="{{ $member->amount }}">
                                         </div>
                                         <div class="col-md-2">
                                             <label>Bill reference</label>

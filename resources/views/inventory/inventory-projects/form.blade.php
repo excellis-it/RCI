@@ -38,7 +38,7 @@
                                 <label>Sanction Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" step="any" value="0.00" class="form-control"
+                                <input type="number" step="any" step="any" value="0.00" class="form-control"
                                     name="sanction_amount" id="sanction_amount"
                                     value="{{ $inventory_project->sanction_amount ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
@@ -198,8 +198,9 @@
                                 <label>Sanction Amount</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" step="any" value="0.00" class="form-control"
-                                    name="sanction_amount" id="sanction_amount" value="" placeholder="">
+                                <input type="number" step="any" step="any" value="0.00"
+                                    class="form-control" name="sanction_amount" id="sanction_amount" value=""
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

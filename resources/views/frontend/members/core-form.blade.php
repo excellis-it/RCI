@@ -129,8 +129,8 @@
                         <label>I.Tax</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="number" class="form-control itax_core" name="i_tax" id="i_tax"
-                            value="{{ $member_core->i_tax ?? (old('i_tax') ?? '') }}" placeholder="">
+                        <input type="number" step="any" class="form-control itax_core" name="i_tax"
+                            id="i_tax" value="{{ $member_core->i_tax ?? (old('i_tax') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -326,5 +326,4 @@
 
 
 @push('scripts')
-
 @endpush

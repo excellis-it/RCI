@@ -10,7 +10,7 @@
                         @csrf
                         <div class="form-group col-md-4">
                             <label for="">Vr. No</label>
-                            <input type="number" class="form-control" name="vr_no" id="vr_no">
+                            <input type="number" step="any" class="form-control" name="vr_no" id="vr_no">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
@@ -51,19 +51,20 @@
                         <input type="hidden" value="" name="vr_date" id="create_vr_date">
                         <div class="form-group col-md-3">
                             <label for="">Amount</label>
-                            <input type="number" id="pay_amount" class="form-control" name="rc_amount" required
-                                readonly>
+                            <input type="number" step="any" id="pay_amount" class="form-control" name="rc_amount"
+                                required readonly>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="">Bill Amount</label>
-                            <input type="number" id="bill_amount" class="form-control" name="amount">
+                            <input type="number" step="any" id="bill_amount" class="form-control" name="amount">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="">Balance</label>
                             <input type="hidden" id="main_amount" class="form-control" name="main_amount" required>
-                            <input type="number" id="balance" class="form-control" name="balance" required readonly>
+                            <input type="number" step="any" id="balance" class="form-control" name="balance"
+                                required readonly>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-3">
@@ -74,7 +75,7 @@
 
                         <div class="form-group col-md-3">
                             <label for="">Cheque No.</label>
-                            <input type="number" class="form-control" name="cheq_no" id="cheq_no">
+                            <input type="number" step="any" class="form-control" name="cheq_no" id="cheq_no">
                             <span class="text-danger"></span>
                         </div>
 

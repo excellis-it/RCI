@@ -152,7 +152,7 @@
                                             <th class="sorting" data-sorting_type="desc" data-column_name="quantity"
                                                 style="cursor: pointer">Quantity<span id="quantity_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th> --}}
-                                                {{-- <th class="sorting" data-sorting_type="sono" data-column_name="sono"
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="sono"
                                                 style="cursor: pointer">Supply Order No. <span id="sono_icon"><i
                                                         class="fa fa-arrow-down"></i></span> </th>
                                             <th class="sorting" data-sorting_type="rin" data-column_name="rin"
@@ -564,7 +564,7 @@
                 $row.find('.disc_amt').val(disc_amt.toFixed(2)); // Discount amount rounded to 2 decimal places
                 $row.find('.gst_amount').val(gst_amount.toFixed(2)); // GST amount rounded to 2 decimal places
                 $row.find('.total_price').val(total_price.toFixed(
-                2)); // Total price after discount and GST, rounded to 2 decimal places
+                    2)); // Total price after discount and GST, rounded to 2 decimal places
             }
 
             // Bind change event to input fields (price, discount percent, GST percent, and quantity)
@@ -638,6 +638,8 @@
             $('.rin').each(function() {
                 $(this).val(rin);
             });
+
+            $(".add-more-rin").show();
         })
     </script>
     <script>
@@ -846,6 +848,33 @@
 
                 // Set the uom field value
                 parent.find('.uom_id').val(itemUom);
+            });
+
+            // Add click event handler for add-more-rin button
+            $(document).on('click', '.add-more-rin', function() {
+                // Clone the template from the blank RIN item template
+                var newRow = $('#blank_rin_template').html();
+
+                // Append to the receipt-and-inspection div
+                $('#receipt-and-inspection').append(newRow);
+
+                // Initialize any necessary event handlers for the new row
+                $('.price, .disc_percent, .quantity', '#receipt-and-inspection .rin-items:last').on(
+                    'keyup change',
+                    function() {
+                        updateTotalPrice(this);
+                    });
+
+                $('.gst_percent', '#receipt-and-inspection .rin-items:last').on('change', function() {
+                    updateTotalPrice(this);
+                });
+            });
+
+            // Add click event handler for remove-rin-item button
+            $(document).on('click', '.remove-rin-item', function(e) {
+                e.preventDefault();
+                $(this).closest('.new-rin-item').next('hr').remove(); // Remove the hr element
+                $(this).closest('.new-rin-item').remove(); // Remove the row
             });
         });
     </script>

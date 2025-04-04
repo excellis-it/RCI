@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <style>
         @page {
-            margin: 10px;
-            padding: 10px;
+            margin: 25px;
+            padding: 25px;
         }
     </style>
 
@@ -31,7 +31,7 @@
               padding: 0px 0px !important;
               margin: 0px 0px !important;
               text-transform: uppercase;
-              
+
             ">
                                         CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />

@@ -380,36 +380,36 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="gross_pay">Gross Pay</label>
-                                    <input type="number" class="form-control" id="total_gross_pay" name="gross_pay"
-                                        value="0" readonly>
+                                    <input type="number" step="any" class="form-control" id="total_gross_pay"
+                                        name="gross_pay" value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="total_debits">Total Debits</label>
-                                    <input type="number" class="form-control" id="total_debits" name="total_debits"
-                                        value="0" readonly>
+                                    <input type="number" step="any" class="form-control" id="total_debits"
+                                        name="total_debits" value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="net_pay">Net Pay</label>
-                                    <input type="number" class="form-control" id="total_net_pay" name="net_pay"
-                                        value="0" readonly>
+                                    <input type="number" step="any" class="form-control" id="total_net_pay"
+                                        name="net_pay" value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="total_recovery">Total Recovery</label>
-                                    <input type="number" class="form-control" id="total_recovery" name="total_recovery"
-                                        value="0" readonly>
+                                    <input type="number" step="any" class="form-control" id="total_recovery"
+                                        name="total_recovery" value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="take_home">Take Home</label>
-                                    <input type="number" class="form-control" id="take_home" name="take_home"
-                                        value="0" readonly>
+                                    <input type="number" step="any" class="form-control" id="take_home"
+                                        name="take_home" value="0" readonly>
                                 </div>
                             </div>
                         </div>
@@ -1518,7 +1518,7 @@
     <script>
         $(document).ready(function() {
             $('#exp_rule_edit').change(function() {
-              //  alert();
+                //  alert();
 
             });
 
