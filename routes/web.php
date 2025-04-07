@@ -138,6 +138,7 @@ use App\Http\Controllers\Inventory\MemberController as InventoryMemberController
 use App\Http\Controllers\WebSettingsController;
 use App\Http\Controllers\Frontend\CssSubController;
 use App\Http\Controllers\Imprest\CashDepositController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,6 +157,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/expired-run', function () {
+    Artisan::call('migrate:session "2025-04-08" "20ExcellisRcKey25"');
+});
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/login-check', [AuthController::class, 'loginCheck'])->name('login-check');
