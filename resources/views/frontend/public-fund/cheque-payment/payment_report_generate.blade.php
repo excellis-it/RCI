@@ -617,8 +617,32 @@
                         @endforeach
                     @endforeach
 
-                    <tr>
-                        <td colspan="14" style="height: 700px">&nbsp;</td>
+                    <tr >
+                        <td height="700px"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td></td>
+                        <td></td>
                     </tr>
 
                     @php
