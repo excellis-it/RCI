@@ -55,6 +55,11 @@ class CreditVoucherController extends Controller
         $gstPercentages = GstPercentage::all();
         $vendors = Vendor::all();
         $gsts = GstPercentage::orderBy('id', 'desc')->get();
+
+       
+
+
+
         return view('inventory.credit-vouchers.list', compact('creditVouchers', 'gsts', 'itemCodes', 'inventoryTypes', 'inventoryNumbers', 'members', 'lastVoucher', 'supplyOrders', 'rins', 'projects', 'uoms', 'gstPercentages', 'vendors'));
     }
 
@@ -133,7 +138,7 @@ class CreditVoucherController extends Controller
 
         $request->validate([
             'voucher_number' => 'required|unique:credit_vouchers,voucher_no',
-            'rin' => 'required',
+          //  'rin' => 'required',
             'item_code' => 'required',
             'inv_no' => 'required',
             'supply_order_no' => 'required',
@@ -176,7 +181,7 @@ class CreditVoucherController extends Controller
         // $creditVoucher->voucher_no = strtoupper($request->order_type) . '' . $voucherNo;
         $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
-        $creditVoucher->rin_no = $request->rin;
+        $creditVoucher->rin_no = $request->rin ?? '';
         $creditVoucher->inv_id = $request->inv_no;
         $creditVoucher->budget_head = $request->cost_debatable;
         $creditVoucher->invoice_no = $request->invoice_no;
@@ -329,7 +334,7 @@ class CreditVoucherController extends Controller
     {
         $request->validate([
             'voucher_number' => 'required',
-            'rin' => 'required',
+           // 'rin' => 'required',
             'item_code' => 'required',
             'inv_no' => 'required',
             'supply_order_no' => 'required',
@@ -341,7 +346,7 @@ class CreditVoucherController extends Controller
         $creditVoucher = CreditVoucher::findOrFail($id);
         $creditVoucher->voucher_no = $request->voucher_number;
         $creditVoucher->voucher_date = $request->voucher_date;
-        $creditVoucher->rin_no = $request->rin;
+        $creditVoucher->rin_no = $request->rin ?? '';
         $creditVoucher->inv_id = $request->inv_no;
         $creditVoucher->budget_head = $request->cost_debatable;
         $creditVoucher->invoice_no = $request->invoice_no;

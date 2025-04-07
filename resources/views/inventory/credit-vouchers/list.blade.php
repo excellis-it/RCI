@@ -639,7 +639,7 @@
                 $(this).val(rin);
             });
 
-            $(".add-more-rin").show();
+           // $(".add-more-rin").show();
         })
     </script>
     <script>
@@ -696,6 +696,19 @@
                             $('#inv_no').html(
                                 `<option value="${rinItem.inventory_id}">${rinItem.inventory_no.number}</option>`
                             );
+                        } else {
+                            // If inventory number not found in RIN, get all inventory numbers from response
+                            let inventoryDropdown = '<option value="">Select Inventory Number</option>';
+
+                            // Check if inventoryNumbers exists in the response
+                            if (response.inventoryNumbers && response.inventoryNumbers.length > 0) {
+                                response.inventoryNumbers.forEach(function(inventory) {
+                                    inventoryDropdown += `<option value="${inventory.id}">${inventory.number}</option>`;
+                                });
+                            }
+
+                            // Update the dropdown with all available inventory numbers
+                            $('#inv_no').html(inventoryDropdown);
                         }
                         $('#supply_order_no').val(rinItem.supply_order_no).change();
                         $('#invoice_no').val(rinItem.invoice_no ?? '');

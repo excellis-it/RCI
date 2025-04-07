@@ -39,8 +39,8 @@ class AdvanceFundController extends Controller
         $employees = Member::orderBy('id', 'desc')->get();
         $members = Member::where('member_status', 1)->orderBy('name', 'asc')->get();
 
-        $lastAdv = AdvanceFundToEmployee::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
+        $lastAdv = AdvanceFundToEmployee::whereYear('adv_date', now()->year)
+            ->whereMonth('adv_date', now()->month)
             ->orderBy('id', 'desc')
             ->lockForUpdate()
             ->first();
@@ -343,5 +343,24 @@ class AdvanceFundController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error deleting Advance fund: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Get the last advance number by date
+     */
+    public function getLastAdvNoByDate(Request $request)
+    {
+        $date = $request->input('date');
+
+        $lastAdv = AdvanceFundToEmployee::whereYear('adv_date', date('Y', strtotime($date)))
+            ->whereMonth('adv_date', date('m', strtotime($date)))
+            ->orderBy('id', 'desc')
+            ->lockForUpdate()
+            ->first();
+
+        $lastAdvNo = $lastAdv ? $lastAdv->adv_no : 0;
+        $nextAdvNo = $lastAdvNo + 1;
+
+        return response()->json(['advNo' => $nextAdvNo]);
     }
 }

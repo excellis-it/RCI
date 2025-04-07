@@ -287,6 +287,11 @@
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select form-select-search" name="inv_no" id="inv_no">
+                                    <option value="">Select</option>
+                                    @foreach ($inventoryNumbers as $inventoryNumber)
+                                        <option value="{{ $inventoryNumber->id }}">{{ $inventoryNumber->number }}
+                                        </option>
+                                    @endforeach
 
                                 </select>
                                 <span class="text-danger"></span>
@@ -462,7 +467,7 @@
             <div class="col-md-2 ms-auto">
                 <div class="add-more form-group mt-4">
 
-                    <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm" style="display: none;"><i
+                    <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
                             class="fas fa-plus-circle"></i> Add More</a>
 
                 </div>
