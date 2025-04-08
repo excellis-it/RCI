@@ -505,9 +505,7 @@ class ReportController extends Controller
 
 
                 if ($creditVoucherDetails) {
-
                     foreach ($creditVoucherDetails as $detail) {
-
                         $rin_date = Rin::where('rin_no', $detail->rin)->first() ?? null;
                         $price = $detail->price ?? 0;
                         $totalCost = $detail->total_price ?? 0;
@@ -527,13 +525,13 @@ class ReportController extends Controller
                             'remarks' => $detail->rins->remarks ?? '',
                             'nc_status' => $detail->rins->nc_status ?? '',
                             'au_status' => $detail->rins->au_status ?? '',
-                            'rate' => $price ?? 0,
+                            'rate' => $price,
                             'gst_percent' => $detail->gst_percent ?? 0,
                             'gst_amt' => $detail->gst_amt ?? 0,
                             'disc_percent' => $detail->disc_percent ?? 0,
                             'disc_amt' => $detail->disc_amt ?? 0,
                             'total_price' => $detail->total_price ?? 0,
-                            'total_cost' => $totalCost ?? 0,
+                            'total_cost' => $totalCost,
                             'ledger_no' => $detail->ledger_no ?? '',
                             'folio_no' => $detail->folio_no ?? '',
                         ];
@@ -554,7 +552,13 @@ class ReportController extends Controller
 
                         $itemCount++;
                     }
+
+                    // 🔥 Now chunk the result items for that voucher number
+                    if (!empty($result[$creditVoucher->voucher_no])) {
+                        $result[$creditVoucher->voucher_no] = collect($result[$creditVoucher->voucher_no])->chunk(10);
+                    }
                 }
+
             }
 
             // return $singleData;
@@ -812,8 +816,8 @@ class ReportController extends Controller
     public function rinsReport($id)
     {
         $rin = Rin::findOrFail($id);
-        $all_items = Rin::where('rin_no', $rin->rin_no)->get();
-        $total_item = count($all_items);
+        $all_items_chunk = Rin::where('rin_no', $rin->rin_no)->get()->chunk(5);
+        $total_item = Rin::where('rin_no', $rin->rin_no)->count();
         $inventory_no = InventoryNumber::where('id', $rin->inventory_id)->first() ?? '';
         // $project = InventoryProject::where('id', $inventory_no->inventory_project_id)->first() ?? '';
         // $gst = GstPercentage::where('id',)
@@ -828,7 +832,8 @@ class ReportController extends Controller
         //  return ($html); // If you want to dump and die to see the HTML output
 
         // Then proceed with PDF generation
-        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items', 'total_item'))->setPaper('a4', $paperType);
+        // return view('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items_chunk', 'total_item'))->render();
+        $pdf = PDF::loadView('inventory.reports.rin-generate', compact('logo', 'rin', 'all_items_chunk', 'total_item'))->setPaper('a4', $paperType);
         return $pdf->download('rin.pdf');
     }
 

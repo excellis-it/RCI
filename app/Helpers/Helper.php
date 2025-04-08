@@ -451,11 +451,11 @@ class Helper
         // Get the current month and year
         $currentMonth = (int)date('m');
         $currentYear = (int)date('Y');
-        
+
         // If current month is January to March, the current financial year started in the previous year
         // Otherwise, it starts in the current year
         $currentFinancialYearStart = ($currentMonth >= 4) ? $currentYear : $currentYear - 1;
-        
+
         $startYear = $startYear ?: $currentFinancialYearStart - 10; // default start year
         $endYear = $endYear ?: $currentFinancialYearStart; // default end year
         $financialYears = [];
@@ -717,7 +717,7 @@ class Helper
     // format to decimal 2 number (number_format(floor($original_total_amount * 100) / 100, 2, '.', ''))
     public static function formatDecimal($number)
     {
-        return number_format(floor($number * 100) / 100, 2, '.', '');
+        return floor($number * 100) / 100;
     }
 
     // getLoanInstalment
@@ -742,23 +742,23 @@ class Helper
         // Get current month and year
         $currentMonth = (int)date('m');
         $currentYear = (int)date('Y');
-        
+
         // Determine the current financial year
         // If we're in Jan-Mar, we're in the previous year's financial year
         $currentFinancialYear = ($currentMonth >= 4) ? $currentYear : $currentYear - 1;
-        
+
         // Calculate the starting year based on how many years back we want to show
         $startYear = $currentFinancialYear - ($years - 1);
-        
+
         $financialYears = [];
-        
+
         // Generate financial years
         for ($i = 0; $i < $years; $i++) {
             $fyStart = $startYear + $i;
             $fyEnd = $fyStart + 1;
             $financialYears[] = "$fyStart-$fyEnd";
         }
-        
+
         return array_reverse($financialYears); // Show most recent first
     }
 
