@@ -491,6 +491,7 @@ class ReportController extends Controller
 
                 // $creditVoucher = CreditVoucher::where('id', $request->id)->first();
                 $creditVoucherDetails = CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('rins', 'inventoryProjects', 'members', 'itemCodes')->get();
+             //   return $creditVoucherDetails;
 
                 $singleCreditVoucher =  CreditVoucherDetail::where('credit_voucher_id', $creditVoucher->id)->with('inventoryProjects', 'members', 'itemCodes')->first();
                 $get_sir = Rin::where('rin_no', $singleCreditVoucher->rin)->first();
@@ -499,15 +500,15 @@ class ReportController extends Controller
 
                 $result['voucher_no'] = $creditVoucher->voucher_no;
                 $result['voucher_date'] = $creditVoucher->voucher_date;
-                $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name;
-                $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address;
+                $result['consigner_name'] = $creditVoucherDetails[0]->rins->vendorDetail->name ?? '';
+                $result['consigner_Address'] = $creditVoucherDetails[0]->rins->vendorDetail->address ?? '';
 
 
                 if ($creditVoucherDetails) {
 
                     foreach ($creditVoucherDetails as $detail) {
 
-                        $rin_date = Rin::where('rin_no', $detail->rin)->first();
+                        $rin_date = Rin::where('rin_no', $detail->rin)->first() ?? null;
                         $price = $detail->price ?? 0;
                         $totalCost = $detail->total_price ?? 0;
 

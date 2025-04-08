@@ -1010,6 +1010,9 @@ Route::middleware('permssions')->group(function () {
         Route::get('/advance-funds-fetch-member-funds', [AdvanceFundController::class, 'getMemberFunds'])->name('advance-funds.get-member-details-funds');
         // Route::get('/advance-funds-edit', [AdvanceFundController::class, 'edit'])->name('advance-funds.fund-edit');
 
+        // New route to get the last advance number by date
+        Route::get('/advance-funds-get-last-adv-no', [AdvanceFundController::class, 'getLastAdvNoByDate'])->name('advance-funds.get-last-adv-no');
+
         //advance settlement
         Route::prefix('advance-settlement')->group(function () {
             Route::get('/advance-settlement-delete/{id}', [AdvanceSettlementController::class, 'delete'])->name('advance-settlement.delete');

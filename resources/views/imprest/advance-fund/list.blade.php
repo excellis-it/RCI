@@ -454,4 +454,31 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            // Listen for changes to the adv_date field
+            $('#adv_date').change(function() {
+                var selectedDate = $(this).val();
+
+                // Make AJAX request to get the last advance number
+                $.ajax({
+                    url: "{{ route('advance-funds.get-last-adv-no') }}",
+                    type: 'GET',
+                    data: {
+                        date: selectedDate
+                    },
+                    success: function(response) {
+                        // Update the adv_no field with the new value
+                        $('#adv_no').val(response.advNo);
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching advance number:', xhr);
+                    }
+                });
+            });
+
+            // ...existing code...
+        });
+    </script>
 @endpush
