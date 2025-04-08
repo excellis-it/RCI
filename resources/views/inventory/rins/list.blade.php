@@ -847,7 +847,7 @@
             var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
 
             var totalCost = unitCost * received;
-            $row.find('.total_cost').val(totalCost.toFixed(2));
+            $row.find('.total_cost').val(totalCost.toFixed(5));
 
             var discountedCost = totalCost; // Start with the total cost
 
@@ -866,7 +866,7 @@
             $row.find('.gst_amount').val(gstAmount);
 
             // Calculate total amount after GST
-            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
+            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(5);
             $row.find('.total_amount').val(totalAmount);
 
             // Round the total amount to 2 decimal places

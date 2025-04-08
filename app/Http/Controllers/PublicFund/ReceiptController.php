@@ -594,4 +594,39 @@ class ReceiptController extends Controller
 
         //  return view('public-funds.receipts.receipt_report_generate', compact('members', 'logo', 'receipts', 'category', 'vr_date', 'receipt_members','pre_vr_date', 'settings'));
     }
+
+    /**
+     * Get the last VR number for a specific date.
+     */
+    public function getLastVrNo(Request $request)
+    {
+        $vrDate = $request->input('vr_date');
+
+        if (!$vrDate) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Date is required',
+            ], 400);
+        }
+
+        // Extract year and month from the provided date
+        $date = new \DateTime($vrDate);
+        $year = $date->format('Y');
+        $month = $date->format('m');
+
+        // Find the last receipt for the specified month and year
+        $lastReceipt = Receipt::whereYear('vr_date', $year)
+            ->whereMonth('vr_date', $month)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // If no receipt exists for that month/year, start with 1
+        $lastVrNo = $lastReceipt ? $lastReceipt->receipt_no : 0;
+        $nextVrNo = $lastVrNo + 1;
+
+        return response()->json([
+            'success' => true,
+            'vr_no' => $nextVrNo,
+        ]);
+    }
 }

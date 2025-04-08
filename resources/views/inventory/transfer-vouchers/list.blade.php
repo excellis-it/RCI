@@ -779,7 +779,7 @@
                 if (value > max) {
                     $(this).val(max);
                 }
-                
+
                 // Recalculate total price when quantity changes
                 calculateTotalPrice(parentElement, thisData);
             });
@@ -791,24 +791,24 @@
             var discountPercent = parseFloat(itemData.discount_percent) || 0;
             var itemRate = parseFloat(itemData.unit_price) || 0;
             var quantity = parseFloat(parentElement.find('.item_quantity').val()) || 0;
-            
+
             parentElement.find('.item_gst_percent').text(gstPercent);
             parentElement.find('.item_discount_percent').text(discountPercent);
-            
+
             // Calculate subtotal
             var subtotal = itemRate * quantity;
-            
+
             // Apply discount first
             var discountAmount = subtotal * (discountPercent / 100);
             var afterDiscount = subtotal - discountAmount;
-            
+
             // Then apply GST on the discounted amount
             var gstAmount = afterDiscount * (gstPercent / 100);
             var totalPrice = afterDiscount + gstAmount;
-            
+
             // Round to 2 decimal places for currency
-            totalPrice = parseFloat(totalPrice.toFixed(2));
-            
+            totalPrice = parseFloat(totalPrice.toFixed(5));
+
             parentElement.find('.item_total_price').val(totalPrice);
         }
     </script>

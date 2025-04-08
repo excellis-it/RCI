@@ -292,6 +292,9 @@ Route::middleware('permssions')->group(function () {
 
     Route::post('/receipts/getedit', [ReceiptController::class, 'getedit'])->name('receipts.get-edit-receipt');
 
+    // Add this new route for getting last VR No by date
+    Route::get('/receipts-get-last-vr-no', [ReceiptController::class, 'getLastVrNo'])->name('receipts.get-last-vr-no');
+
     Route::get('/receipts-fetch-data', [ReceiptController::class, 'fetchData'])->name('receipts.fetch-data');
 
     Route::get('/receipts/{id}/edit', [ReceiptController::class, 'edit'])->name('receipts.edit');

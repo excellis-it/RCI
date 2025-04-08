@@ -611,8 +611,8 @@
             //     input.value = input.max;
             //     console.log('big : ' + input.value);
             // }
-            const max = parseInt(input.max, 10); // Get the max value
-            if (parseInt(input.value, 10) > max) {
+            const max = parseFloat(input.max, 10); // Get the max value
+            if (parseFloat(input.value, 10) > max) {
                 input.value = max; // Reset to max if the value exceeds the limit
             }
         }
@@ -687,7 +687,7 @@
             var totalPrice = afterDiscount + gstAmount;
 
             // Round to 2 decimal places for currency
-            totalPrice = parseFloat(totalPrice.toFixed(2));
+            totalPrice = parseFloat(totalPrice.toFixed(6));
 
             parentElement.find('.item-price').val(totalPrice);
         }

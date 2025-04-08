@@ -777,7 +777,7 @@
             var totalPrice = afterDiscount + gstAmount;
 
             // Round to 2 decimal places for currency
-            totalPrice = parseFloat(totalPrice.toFixed(2));
+            totalPrice = parseFloat(totalPrice.toFixed(5));
 
             parentElement.find('.total_price').val(totalPrice);
 

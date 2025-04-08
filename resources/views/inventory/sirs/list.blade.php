@@ -245,8 +245,8 @@
             $(document).on('keyup', '#edit_received_quantity, #edit_accepted_quantity', function() {
                 console.log('Keyup event fired');
                 // Your updateEditDifference() function logic here
-                var received = parseInt($('#edit_received_quantity').val());
-                var accepted = parseInt($('#edit_accepted_quantity').val());
+                var received = parseFloat($('#edit_received_quantity').val());
+                var accepted = parseFloat($('#edit_accepted_quantity').val());
                 var difference = received - accepted;
                 $('#edit_rejected_quantity').val(difference);
             });
@@ -588,7 +588,7 @@
             var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
 
             var totalCost = unitCost * received;
-            $row.find('.total_cost').val(totalCost.toFixed(2));
+            $row.find('.total_cost').val(totalCost.toFixed(5));
 
             var discountedCost = totalCost; // Start with the total cost
 
@@ -608,7 +608,7 @@
             $row.find('.gst_amount').val(gstAmount);
 
             // Calculate total amount after GST
-            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(2);
+            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(5);
             $row.find('.total_amount').val(totalAmount);
 
 

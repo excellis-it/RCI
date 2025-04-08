@@ -705,8 +705,8 @@
             //     input.value = input.max;
             //     console.log('big : ' + input.value);
             // }
-            const max = parseInt(input.max, 10); // Get the max value
-            if (parseInt(input.value, 10) > max) {
+            const max = parseFloat(input.max, 10); // Get the max value
+            if (parseFloat(input.value, 10) > max) {
                 input.value = max; // Reset to max if the value exceeds the limit
             }
         }
@@ -786,7 +786,7 @@
 
             // Calculate total price with GST
             var totalPrice = priceAfterDiscount + gstAmount;
-            $(row).find('.item-price').val(totalPrice.toFixed(2));
+            $(row).find('.item-price').val(totalPrice.toFixed(5));
         }
 
         $(document).ready(function() {
