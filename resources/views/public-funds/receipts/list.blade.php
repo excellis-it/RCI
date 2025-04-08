@@ -805,4 +805,36 @@
                 })
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            // Event handler for vr_date change
+            $('#vr_date').change(function() {
+                const vrDate = $(this).val();
+
+                if (vrDate) {
+                    // Show loading indicator if desired
+                    // $('#vr_no').addClass('loading');
+
+                    // Make AJAX request to get last VR No.
+                    $.ajax({
+                        url: "{{ route('receipts.get-last-vr-no') }}",
+                        type: 'GET',
+                        data: {
+                            vr_date: vrDate
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Update VR No. field with the new value
+                                $('#vr_no').val(response.vr_no);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Error fetching VR No:', xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endpush

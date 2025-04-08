@@ -37,8 +37,8 @@ class AdvanceSettlementController extends Controller
         $balance = 0;
         $isdata = 0;
 
-        $lastvr = AdvanceSettlement::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
+        $lastvr = AdvanceSettlement::whereYear('var_date', now()->year)
+            ->whereMonth('var_date', now()->month)
             ->orderBy('id', 'desc')
             ->lockForUpdate()
             ->first();

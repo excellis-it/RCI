@@ -161,7 +161,7 @@
                             <label>Vr Amount</label>
                         </div>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" name="var_amount" id="var_amount"
+                            <input type="number" step="any" class="form-control" name="var_amount" id="var_amount"
                                 value="{{ old('var_amount') ?? '' }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>

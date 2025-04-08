@@ -543,7 +543,7 @@
                 var price = parseFloat($row.find('.price').val()) || 0;
                 var disc_percent = parseFloat($row.find('.disc_percent').val()) || 0;
                 var gst_percent = parseFloat($row.find('.gst_percent').val()) || 0;
-                var quantity = parseInt($row.find('.quantity').val()) || 0;
+                var quantity = parseFloat($row.find('.quantity').val()) || 0;
 
                 // Calculate the total price before discount (price * quantity)
                 var total_price_before_discount = price * quantity;
@@ -563,8 +563,7 @@
                 // Update the discount amount, GST amount, and total price fields
                 $row.find('.disc_amt').val(disc_amt.toFixed(2)); // Discount amount rounded to 2 decimal places
                 $row.find('.gst_amount').val(gst_amount.toFixed(2)); // GST amount rounded to 2 decimal places
-                $row.find('.total_price').val(total_price.toFixed(
-                    2)); // Total price after discount and GST, rounded to 2 decimal places
+                $row.find('.total_price').val(total_price.toFixed(5));
             }
 
             // Bind change event to input fields (price, discount percent, GST percent, and quantity)
@@ -588,8 +587,8 @@
             $(document).on('keyup', '#edit_tax, #edit_price', function() {
                 console.log('Keyup event fired');
                 // Your updateEditDifference() function logic here
-                var price = parseInt($('#edit_price').val());
-                var tax = parseInt($('#edit_tax').val());
+                var price = parseFloat($('#edit_price').val());
+                var tax = parseFloat($('#edit_tax').val());
                 var total_price = price + (price * tax / 100);
                 $('#edit_total_price').val(total_price);
             });
@@ -639,7 +638,7 @@
                 $(this).val(rin);
             });
 
-           // $(".add-more-rin").show();
+            // $(".add-more-rin").show();
         })
     </script>
     <script>
@@ -703,7 +702,8 @@
                             // Check if inventoryNumbers exists in the response
                             if (response.inventoryNumbers && response.inventoryNumbers.length > 0) {
                                 response.inventoryNumbers.forEach(function(inventory) {
-                                    inventoryDropdown += `<option value="${inventory.id}">${inventory.number}</option>`;
+                                    inventoryDropdown +=
+                                        `<option value="${inventory.id}">${inventory.number}</option>`;
                                 });
                             }
 
@@ -821,7 +821,7 @@
                                 <label>Group Name</label>
                             </div>
                             <div class="col-md-12">
-                                    <input type="text" class="form-control" name="group_name" id="group_name" value="${response.inventoryNumber.group.value ?? ''}" readonly
+                                    <input type="text" class="form-control" name="group_name" id="group_name" value="${response.inventoryNumber.group_name ?? ''}" readonly
                                     >
                                 <span class="text-danger"></span>
                             </div>

@@ -56,7 +56,7 @@ class CreditVoucherController extends Controller
         $vendors = Vendor::all();
         $gsts = GstPercentage::orderBy('id', 'desc')->get();
 
-       
+
 
 
 
@@ -138,13 +138,13 @@ class CreditVoucherController extends Controller
 
         $request->validate([
             'voucher_number' => 'required|unique:credit_vouchers,voucher_no',
-          //  'rin' => 'required',
+            //  'rin' => 'required',
             'item_code' => 'required',
             'inv_no' => 'required',
-            'supply_order_no' => 'required',
+            // 'supply_order_no' => 'required',
             'order_type' => 'nullable',
-            'invoice_no' => 'required',
-            'invoice_date' => 'required',
+            //  'invoice_no' => 'required',
+            // 'invoice_date' => 'required',
         ]);
 
         //auto increment 4 digit voucher number
@@ -184,9 +184,9 @@ class CreditVoucherController extends Controller
         $creditVoucher->rin_no = $request->rin ?? '';
         $creditVoucher->inv_id = $request->inv_no;
         $creditVoucher->budget_head = $request->cost_debatable;
-        $creditVoucher->invoice_no = $request->invoice_no;
-        $creditVoucher->invoice_date = $request->invoice_date;
-        $creditVoucher->supply_order_id = $request->supply_order_no;
+        $creditVoucher->invoice_no = $request->invoice_no ?? '';
+        $creditVoucher->invoice_date = $request->invoice_date ?? '';
+        $creditVoucher->supply_order_id = $request->supply_order_no ?? '';
         $inventory_number = InventoryNumber::where('id', '=', $request->inv_no)->first();
         $creditVoucher->remarks = $request->remarks;
         // New fields
@@ -334,13 +334,13 @@ class CreditVoucherController extends Controller
     {
         $request->validate([
             'voucher_number' => 'required',
-           // 'rin' => 'required',
+            // 'rin' => 'required',
             'item_code' => 'required',
             'inv_no' => 'required',
-            'supply_order_no' => 'required',
+          //  'supply_order_no' => 'required',
             'order_type' => 'nullable',
-            'invoice_no' => 'required',
-            'invoice_date' => 'required',
+          //  'invoice_no' => 'required',
+          //  'invoice_date' => 'required',
         ]);
 
         $creditVoucher = CreditVoucher::findOrFail($id);
@@ -349,9 +349,9 @@ class CreditVoucherController extends Controller
         $creditVoucher->rin_no = $request->rin ?? '';
         $creditVoucher->inv_id = $request->inv_no;
         $creditVoucher->budget_head = $request->cost_debatable;
-        $creditVoucher->invoice_no = $request->invoice_no;
-        $creditVoucher->invoice_date = $request->invoice_date;
-        $creditVoucher->supply_order_id = $request->supply_order_no;
+        $creditVoucher->invoice_no = $request->invoice_no ?? '';
+        $creditVoucher->invoice_date = $request->invoice_date ?? '';
+        $creditVoucher->supply_order_id = $request->supply_order_no ?? '';
         $inventory_number = InventoryNumber::where('id', '=', $request->inv_no)->first();
         $creditVoucher->remarks = $request->remarks;
         // New fields
