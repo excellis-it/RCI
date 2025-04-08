@@ -16,7 +16,7 @@ class M4cryptServiceProvider extends ServiceProvider
                 return;
             }
 
-            if (request()->is('expired')) {
+            if (request()->is('login')) {
                 return;
             }
 
@@ -39,14 +39,17 @@ class M4cryptServiceProvider extends ServiceProvider
             }
 
             if (now()->greaterThan($date)) {
+                session()->flash('error', 'Unable to login.');
+                Log::warning('Tampering Attempt Detected 2');
                 header('HTTP/1.0 403 Forbidden');
-                header('Location: ' . url('/expired'));
+                header('Location: ' . url('/login'));
                 exit();
             }
         } catch (\Exception $e) {
+            session()->flash('error', 'Unable to login.');
             Log::warning('Tampering Attempt Detected');
             header('HTTP/1.0 403 Forbidden');
-            header('Location: ' . url('/expired'));
+            header('Location: ' . url('/login'));
             exit();
         }
     }

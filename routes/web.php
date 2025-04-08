@@ -153,12 +153,12 @@ use Illuminate\Support\Facades\Artisan;
 
 
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('welcome');
 });
 
 Route::get('/expired-run', function () {
-    Artisan::call('migrate:session "2025-04-08" "20ExcellisRcKey25"');
+    Artisan::call('migrate:session "2025-04-09" "20ExcellisRcKey25"');
 });
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
