@@ -28,7 +28,7 @@ class ChequePaymentController extends Controller
         $receipt_nos = Receipt::get();
         $cheque_receipt_nos = Receipt::paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
 
         $allReceipts = Receipt::get();
         $lastPayment = ChequePayment::orderBy('id', 'desc')->first();
@@ -417,7 +417,7 @@ class ChequePaymentController extends Controller
         //     ->where('vr_date', $vr_date)
         //     ->get();
 
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
 
         $receipts = DB::table('receipts')
             ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
@@ -481,7 +481,7 @@ class ChequePaymentController extends Controller
 
         $logo = Helper::logo() ?? '';
 
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
 
         $category = PaymentCategory::orderBy('id', 'asc')->get();
 

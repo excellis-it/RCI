@@ -23,13 +23,13 @@ class CashPaymentController extends Controller
         $receipt_nos = Receipt::where('receipt_type', 'cash')->get();
         $cash_receipt_nos = Receipt::where('receipt_type', 'cash')->paginate(10);
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'desc')->get();
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         return view('frontend.public-fund.cash-payment.list', compact('receipt_nos','cash_receipt_nos', 'paymentCategories','members'));
     }
 
     public function fetchData(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
@@ -75,7 +75,7 @@ class CashPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $rct_no = $request->rcpt_no;
 
         foreach($request->amount as $key => $amount) {
@@ -86,7 +86,7 @@ class CashPaymentController extends Controller
             $cashPayment->status = 'pending';
             $cashPayment->save();
         }
-        
+
 
         session()->flash('message', 'Cash Payment added successfully');
         return response()->json(['success' => 'Cash Payment added successfully']);

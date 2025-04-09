@@ -17,7 +17,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(15);
+        $members = Member::orderBy('id', 'asc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(15);
 
 
         return view('income-tax.members.index', compact('members'));

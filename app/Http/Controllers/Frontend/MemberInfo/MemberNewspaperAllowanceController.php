@@ -34,9 +34,9 @@ class MemberNewspaperAllowanceController extends Controller
                     ->orWhere('year', 'like', '%' . $query . '%')
                     ->orWhereHas('member', function($queryBuilder) use ($query) {
                         $queryBuilder->where('name', 'like', '%' . $query . '%');
-                            
+
                     });
-                    
+
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -99,7 +99,7 @@ class MemberNewspaperAllowanceController extends Controller
     public function edit(string $id)
     {
         $member_newspaper = MemberNewspaperAllowance::findOrFail($id);
-        $members = Member::orderBy('id','desc')->get();
+        $members = Member::orderBy('id','asc')->get();
         $edit = true;
 
         return response()->json(['view' => view('frontend.member-info.newspaper-allowance.form', compact('member_newspaper', 'edit','members'))->render()]);

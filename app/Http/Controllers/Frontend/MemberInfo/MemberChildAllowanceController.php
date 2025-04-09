@@ -16,7 +16,7 @@ class MemberChildAllowanceController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id','desc')->get();
+        $members = Member::orderBy('id','asc')->get();
         $member_allowances = MemberChildAllowance::select(
             'member_id'  // Count of records
         )
@@ -115,7 +115,7 @@ class MemberChildAllowanceController extends Controller
      */
     public function edit(string $id, Request $request)
     {
-        $members = Member::orderBy('id','desc')->get();
+        $members = Member::orderBy('id','asc')->get();
         $member_id = $id;
         $edit_year = $request->year;
         $member_childs = MemberChildAllowance::where('member_id', $id)->where('year', $request->year)->get();

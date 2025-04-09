@@ -32,7 +32,7 @@ class BackupController extends Controller
             ->paginate(10);
 
 
-        $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->get();
+        $members = Member::orderBy('id', 'asc')->where('name', '!=', 'The Director, CHESS')->with('designation')->get();
         $categories = DB::table('categories')->get();
         return view('frontend.backups.list', compact('backups', 'members', 'categories'));
     }

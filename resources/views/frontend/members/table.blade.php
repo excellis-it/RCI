@@ -54,8 +54,8 @@
                     </div>
                 </div>
 
-                <a type="button" class="delete_member delete" data-route="{{ route('members.delete', $member->id) }}"><i
-                        class="ti ti-trash"></i></a>
+                <a type="button" class="delete_member delete"
+                    data-route="{{ route('members.delete', $member->id) }}"><i class="ti ti-trash"></i></a>
             </td>
         </tr>
     @endforeach
@@ -66,7 +66,7 @@
                     (Showing {{ $members->firstItem() }} – {{ $members->lastItem() }} Members of
                     {{ $members->total() }} Members)
                 </div>
-                <div>{!! $members->links() !!}</div>
+                <div>{!! $members->links() !!} </div>
             </div>
         </td>
     </tr>

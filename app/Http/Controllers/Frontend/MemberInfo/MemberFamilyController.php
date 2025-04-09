@@ -16,7 +16,7 @@ class MemberFamilyController extends Controller
     public function index()
     {
         $member_familys = MemberFamily::paginate(10);
-        $members = Member::where('member_status', true)->orderBy('id','desc')->get();
+        $members = Member::where('member_status', true)->orderBy('id','asc')->get();
 
         return view('frontend.member-info.family.list', compact('member_familys','members'));
     }
@@ -35,9 +35,9 @@ class MemberFamilyController extends Controller
                     //member details
                     ->orWhereHas('member', function($queryBuilder) use ($query) {
                         $queryBuilder->where('name', 'like', '%' . $query . '%');
-                            
+
                     });
-                    
+
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -84,9 +84,9 @@ class MemberFamilyController extends Controller
                 $child->child_school = $request->child_scll_name[$key] ?? '';
                 $child->save();
             }
-           
+
         }
-        
+
         session()->flash('message', 'Member family details added successfully');
         return response()->json(['message' => 'Member family details added successfully']);
 
@@ -105,10 +105,10 @@ class MemberFamilyController extends Controller
      */
     public function edit(string $id)
     {
-      
+
         $member_fam_edit =  MemberFamily::find($id);
         $member_childrens = MemberChildrenDetail::where('member_id', $member_fam_edit->member_id)->get();
-        $members = Member::where('member_status', true)->orderBy('id','desc')->get();
+        $members = Member::where('member_status', true)->orderBy('id','asc')->get();
         $edit = true;
         return response()->json(['view' => view('frontend.member-info.family.form', compact('member_fam_edit','members','edit','member_childrens'))->render()]);
     }
@@ -118,7 +118,7 @@ class MemberFamilyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         $request->validate([
             'member_id' => 'required',
         ]);
@@ -163,7 +163,7 @@ class MemberFamilyController extends Controller
     {
         $child_delete = MemberChildrenDetail::find($request->id);
         $child_delete->delete();
-        
+
         return response()->json(['message' => 'Child details deleted successfully']);
     }
 }
