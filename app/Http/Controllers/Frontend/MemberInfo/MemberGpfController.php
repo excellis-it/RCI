@@ -17,7 +17,7 @@ class MemberGpfController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $member_gpfs = MemberGpf::orderBy('id', 'desc')->paginate(12);
         $financialYears = Helper::getFinancialYears();
         return view('frontend.member-info.gpf.list', compact('members','member_gpfs','financialYears'));
@@ -25,7 +25,7 @@ class MemberGpfController extends Controller
 
     public function memberGpfCheckSubscription(Request $request)
     {
-        
+
         $subscription_amount = $request->monthly_subscription;
         $member_basic = MemberCredit::where('member_id',$request->member)->orderBy('id', 'desc')->first();
 
@@ -53,7 +53,7 @@ class MemberGpfController extends Controller
 
     public function memberGpfFilter(Request $request)
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $member_gpfs = MemberGpf::where('member_id', $request->member_id)->orderBy('id', 'desc')->paginate(12);
         return view('frontend.member-info.gpf.list', compact('members','member_gpfs'));
     }
@@ -112,12 +112,12 @@ class MemberGpfController extends Controller
     public function edit(string $id)
     {
         $member_gpf = MemberGpf::findOrFail($id);
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $financialYears = Helper::getFinancialYears();
         $edit = true;
 
         return response()->json(['view' => view('frontend.member-info.gpf.form', compact('member_gpf', 'edit','members','financialYears'))->render()]);
-        
+
     }
 
     /**

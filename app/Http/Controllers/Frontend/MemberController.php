@@ -74,16 +74,18 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(15);
-
-        foreach ($members as $member) {
-            $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-            $member->member_debit_info = MemberDebit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-            $member->member_recovery_info = MemberOriginalRecovery::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-            $member->member_core_info = MemberCoreInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-            $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-        }
-
+        $members = Member::orderBy('id', 'asc')
+            ->where('name', '!=', 'The Director, CHESS')
+            ->with('designation')
+            ->paginate(15)
+            ->through(function ($member) {
+                $member->member_credit_info = MemberCredit::where('member_id', $member->id)->latest('id')->first() ?? '';
+                $member->member_debit_info = MemberDebit::where('member_id', $member->id)->latest('id')->first() ?? '';
+                $member->member_recovery_info = MemberOriginalRecovery::where('member_id', $member->id)->latest('id')->first() ?? '';
+                $member->member_core_info = MemberCoreInfo::where('member_id', $member->id)->latest('id')->first() ?? '';
+                $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->latest('id')->first() ?? '';
+                return $member;
+            });
 
         return view('frontend.members.list', compact('members'));
     }
@@ -105,6 +107,7 @@ class MemberController extends Controller
                     ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
+                ->orderBy('id', 'asc')
                 ->orderBy($sort_by, $sort_type)
                 ->paginate(15);
 
@@ -1539,7 +1542,7 @@ class MemberController extends Controller
 
     public function memberLoanEmiInfo()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $loans = Loan::where('status', 1)->get();
         return view('frontend.members.loan.emi-info', compact('loans', 'members'));
     }
@@ -1560,7 +1563,7 @@ class MemberController extends Controller
             'member_id' => 'required',
             'loan_id' => 'required',
         ]);
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $loans = Loan::where('status', 1)->get();
         $loan_emi_list = MemberLoan::where('member_id', $request->member_id)->where('loan_id', $request->loan_id)->paginate(10);
         $emiInfo = true;
@@ -1581,7 +1584,7 @@ class MemberController extends Controller
         }
 
         $loan_emi_list = $loanEmiQuery->paginate(10, ['*'], 'page', $request->page);
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $loans = Loan::where('status', 1)->get();
         $emiInfo = true;
         // Return the partial view with the data
@@ -1842,7 +1845,7 @@ class MemberController extends Controller
 
     public function importMembers()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
 
 
         return view('frontend.members.import-member', compact('members'));

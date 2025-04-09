@@ -35,9 +35,9 @@ class MemberBagAllowanceController extends Controller
                     ->orWhere('remarks', 'like', '%' . $query . '%')
                     ->orWhereHas('member', function($queryBuilder) use ($query) {
                         $queryBuilder->where('name', 'like', '%' . $query . '%');
-                            
+
                     });
-                    
+
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -52,7 +52,7 @@ class MemberBagAllowanceController extends Controller
             $member_id = $request->get('member_id');
             $category = Member::where('id', $member_id)->first();
             $member_bag_purses_allow = BagPurse::where('category_id', $category->id)->orderBy('id','desc')->first();
-            
+
 
             return response()->json(['data' => $member_bag_purses_allow]);
         }
@@ -90,7 +90,7 @@ class MemberBagAllowanceController extends Controller
         $add_member_bag_purses->remarks = $request->remarks;
         $add_member_bag_purses->save();
 
-        
+
         session()->flash('message', 'Member bag-purse amount added successfully');
         return response()->json(['success' => 'Member bag-purse amount added successfully']);
     }
@@ -109,7 +109,7 @@ class MemberBagAllowanceController extends Controller
     public function edit(string $id)
     {
         $member_bag_purse = MemberBagPurse::findOrFail($id);
-        $members = Member::orderBy('id','desc')->get();
+        $members = Member::orderBy('id','asc')->get();
         $edit = true;
 
         return response()->json(['view' => view('frontend.member-info.bag-allowance.form', compact('member_bag_purse', 'edit','members'))->render()]);
@@ -138,7 +138,7 @@ class MemberBagAllowanceController extends Controller
         $add_member_bag_purses->remarks = $request->remarks;
         $add_member_bag_purses->update();
 
-        
+
         session()->flash('message', 'Member bag-purse amount updated successfully');
         return response()->json(['message' => 'Member bag-purse amount updated successfully']);
     }

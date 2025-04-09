@@ -112,7 +112,7 @@ class ArrearsController extends Controller
     {
         $edit = true;
         $arrear = Arrear::with('member')->find($id);
-        $members = Member::where('e_status', 'active')->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', 'active')->orderBy('id', 'asc')->get();
         $member_id = $arrear->member_id;
         return response()->json([
             'status' => true,
@@ -156,7 +156,7 @@ class ArrearsController extends Controller
         $arrear->gmc = $request->gmc;
         $arrear->save();
 
-        $members = Member::where('e_status', 'active')->orderBy('id', 'desc')->where('id', $request->member_id)->paginate(10);
+        $members = Member::where('e_status', 'active')->orderBy('id', 'asc')->where('id', $request->member_id)->paginate(10);
 
         $member_id = $request->member_id;
 

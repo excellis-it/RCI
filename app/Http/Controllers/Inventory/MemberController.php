@@ -59,7 +59,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $inventory_members = Member::orderBy('id', 'desc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(15);
+        $inventory_members = Member::orderBy('id', 'asc')->where('name', '!=', 'The Director, CHESS')->with('designation')->paginate(15);
 
         foreach ($inventory_members as $member) {
             $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
@@ -90,6 +90,7 @@ class MemberController extends Controller
                     ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
+                ->orderBy('id', 'asc')
                 ->orderBy($sort_by, $sort_type)
                 ->paginate(15);
 

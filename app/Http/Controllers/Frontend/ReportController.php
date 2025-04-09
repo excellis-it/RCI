@@ -63,7 +63,7 @@ class ReportController extends Controller
 
     public function payslip()
     {
-        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'asc')->get();
         return view('frontend.reports.payslip', compact('members'));
     }
 
@@ -101,7 +101,7 @@ class ReportController extends Controller
             ])
 
                 ->where('pay_stop', 'No')
-                ->orderBy('id', 'desc')
+                ->orderBy('id', 'asc')
                 ->get();
 
             $dateObj = \DateTime::createFromFormat('!m', $month);
@@ -193,7 +193,7 @@ class ReportController extends Controller
             ->where('category', $request->category)
             ->where('member_status', 1)
             ->where('pay_stop', 'No')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
 
@@ -282,7 +282,7 @@ class ReportController extends Controller
 
     public function annualIncomeTaxReport()
     {
-        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'asc')->get();
         $financialYears = Helper::getFinancialYears();
         return view('frontend.reports.income-tax-report', compact('members', 'financialYears'));
     }
@@ -638,7 +638,7 @@ class ReportController extends Controller
 
     public function lastPayCertificate()
     {
-        $members = Member::orderBy('id', 'desc')->where('e_status', 'retired')->orWhere('e_status', 'transferred')->get();
+        $members = Member::orderBy('id', 'asc')->where('e_status', 'retired')->orWhere('e_status', 'transferred')->get();
         return view('frontend.reports.last-pay-certificate', compact('members'));
     }
 
@@ -663,13 +663,13 @@ class ReportController extends Controller
 
     public function getMemberInfo(Request $request)
     {
-        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->orderBy('id', 'asc')->get();
         return response()->json(['members' => $members]);
     }
 
     public function getMemberGpf(Request $request)
     {
-        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->where('fund_type', 'GPF')->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->where('fund_type', 'GPF')->orderBy('id', 'asc')->get();
         return response()->json(['members' => $members]);
     }
 
@@ -952,7 +952,7 @@ class ReportController extends Controller
         if (!$category) {
             return redirect()->back()->with('error', 'Category A not found!');
         }
-        $members = Member::where('e_status', 'active')->where('category', $category->id)->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', 'active')->where('category', $category->id)->orderBy('id', 'asc')->get();
 
 
         $financialYears = Helper::getFinancialYears();
@@ -1461,7 +1461,7 @@ class ReportController extends Controller
 
     public function ltcAdvance()
     {
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $assessment_years = Helper::getFinancialYears();
         $leave_types = LeaveType::where('status', 1)->orderBy('id', 'desc')->get();
         return view('frontend.reports.ltc-advancement', compact('members', 'assessment_years', 'leave_types'));
@@ -1484,7 +1484,7 @@ class ReportController extends Controller
     public function ltcAdvanceReport()
     {
         $categories = Category::orderBy('id', 'desc')->get();
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         return view('frontend.reports.ltc-advance-report', compact('members', 'categories'));
     }
 
@@ -1943,7 +1943,7 @@ class ReportController extends Controller
 
     public function npsReportGenerate(Request $request)
     {
-        $members = Member::orderBy('id', 'desc')->where('fund_type', 'NPS')->get();
+        $members = Member::orderBy('id', 'asc')->where('fund_type', 'NPS')->get();
         $chunkedMembers = $members->chunk(10);
         $financial_year = $request->financial_year;
         $year = $request->year;
@@ -2166,7 +2166,7 @@ class ReportController extends Controller
 
     public function getNpsMemberInfo(Request $request)
     {
-        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->where('fund_type', 'NPS')->orderBy('id', 'desc')->get();
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->where('fund_type', 'NPS')->orderBy('id', 'asc')->get();
         return response()->json(['members' => $members]);
     }
     //
@@ -2192,7 +2192,7 @@ class ReportController extends Controller
             // ->where('category', $request->category)
             ->where('member_status', 1)
             ->where('pay_stop', 'No')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
 
@@ -2260,7 +2260,7 @@ class ReportController extends Controller
             // ->where('category', $request->category)
             ->where('member_status', 1)
             ->where('pay_stop', 'No')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
 
@@ -2325,7 +2325,7 @@ class ReportController extends Controller
             // ->where('category', $request->category)
             ->where('member_status', 1)
             ->where('pay_stop', 'No')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
 
@@ -2390,7 +2390,7 @@ class ReportController extends Controller
             // ->where('category', $request->category)
             ->where('member_status', 1)
             ->where('pay_stop', 'No')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
 

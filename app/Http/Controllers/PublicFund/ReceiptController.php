@@ -42,7 +42,7 @@ class ReceiptController extends Controller
 
 
         $paymentCategories = PaymentCategory::where('status', 1)->orderBy('id', 'asc')->get();
-        $members = Member::where('member_status', 1)->orderBy('id', 'desc')->get();
+        $members = Member::where('member_status', 1)->orderBy('id', 'asc')->get();
         $lastReceipt = Receipt::whereYear('vr_date', now()->year)
             ->whereMonth('vr_date', now()->month)
             ->orderBy('id', 'desc')
@@ -530,7 +530,7 @@ class ReceiptController extends Controller
 
         // return dd($pre_vr_date);
 
-        $members = Member::orderBy('id', 'desc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
 
         $category = PaymentCategory::orderBy('id', 'asc')->get();
 

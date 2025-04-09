@@ -36,7 +36,7 @@ class AdvanceFundController extends Controller
         $designations = DesignationType::orderBy('id', 'desc')->get();
         $groups = Group::orderBy('id', 'desc')->get();
         $divisions = Division::orderBy('id', 'desc')->get();
-        $employees = Member::orderBy('id', 'desc')->get();
+        $employees = Member::orderBy('id', 'asc')->get();
         $members = Member::where('member_status', 1)->orderBy('name', 'asc')->get();
 
         $lastAdv = AdvanceFundToEmployee::whereYear('adv_date', now()->year)
@@ -84,7 +84,7 @@ class AdvanceFundController extends Controller
             $designations = DesignationType::orderBy('id', 'desc')->get();
             $groups = Group::orderBy('id', 'desc')->get();
             $divisions = Division::orderBy('id', 'desc')->get();
-            $employees = Member::orderBy('id', 'desc')->get();
+            $employees = Member::orderBy('id', 'asc')->get();
 
             return response()->json(['data' => view('imprest.advance-fund.table', compact('advance_funds', 'employees', 'variable_types', 'projects', 'designations', 'groups', 'divisions'))->render()]);
         }
@@ -223,7 +223,7 @@ class AdvanceFundController extends Controller
         $designations = DesignationType::orderBy('id', 'desc')->get();
         $groups = Group::orderBy('id', 'desc')->get();
         $divisions = Division::orderBy('id', 'desc')->get();
-        $employees = Member::orderBy('id', 'desc')->get();
+        $employees = Member::orderBy('id', 'asc')->get();
         $edit = true;
 
         return response()->json(['view' => view('imprest.advance-fund.edit', compact('edit', 'advance_fund', 'variable_types', 'projects', 'designations', 'groups', 'divisions', 'employees'))->render()]);
