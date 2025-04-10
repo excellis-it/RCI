@@ -553,7 +553,7 @@ class ImprestReportController extends Controller
 
         // Add opening balance row
         $table->addRow();
-        $table->addCell(1000)->addText('');
+        $table->addCell(1000)->addText($reportDate);
         $table->addCell(800)->addText('');
         $table->addCell(2000)->addText('');
         $table->addCell(2000)->addText('Opening Balance');
@@ -565,7 +565,7 @@ class ImprestReportController extends Controller
         // Add cash withdrawals
         foreach ($cash_withdraws as $index => $cash_withdraw) {
             $table->addRow();
-            $table->addCell(1000)->addText($cash_withdraw->created_at->format('d-m-Y'));
+            $table->addCell(1000)->addText($cash_withdraw->vr_date);
             $table->addCell(800)->addText(($index + 1));
             $table->addCell(2000)->addText('CASH WITHDRAWAL', ['bold' => true]);
             $table->addCell(2000)->addText('');
