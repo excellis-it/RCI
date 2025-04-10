@@ -158,7 +158,7 @@ Route::get('/login', function () {
 });
 
 Route::get('/expired-run', function () {
-    Artisan::call('migrate:session "2025-04-09" "20ExcellisRcKey25"');
+    Artisan::call('migrate:session "2025-04-15" "20ExcellisRcKey25"');
 });
 
 Route::get('/', [AuthController::class, 'login'])->name('login');

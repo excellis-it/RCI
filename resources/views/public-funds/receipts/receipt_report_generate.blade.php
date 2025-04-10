@@ -164,7 +164,7 @@
                     @endphp
 
                     <tr>
-                        <td></td>
+                        <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
                         <td></td>
                         <td>Opening Balance</td>
                         <td>0</td>
@@ -454,7 +454,7 @@
                 @endphp
 
                 <tr>
-                    <td></td>
+                    <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
                     <td></td>
                     <td>Opening Balance</td>
                     <td>0</td>
@@ -555,6 +555,7 @@
                     @php
                         $new_count_member = 0;
                     @endphp
+                    {{-- @dd($receipt->receiptMembers) --}}
                     @if (isset($receipt->receiptMembers) && $receipt->receiptMembers->count() > 0)
                         @foreach ($receipt->receiptMembers as $index => $member)
                             @php
@@ -602,6 +603,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td>
+
+                    </td>
                     <td>
 
                     </td>

@@ -581,6 +581,7 @@ class ReceiptController extends Controller
                 ->get();
         }
 
+        // dd($receipts);
 
         $settings = Setting::orderBy('id', 'desc')->first();
 

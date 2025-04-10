@@ -493,7 +493,7 @@ class ChequePaymentController extends Controller
         ->where('cheq_date', $chq_date)
         ->orderByRaw('CAST(cheq_no AS UNSIGNED) DESC') // Ensure numeric sorting
         ->get()
-        ->chunk(28);
+        ->chunk(25);
      // Chunk after fetching data
         // dd($payment_members->toArray());
         // dd($payments);
