@@ -309,6 +309,9 @@ Route::middleware('permssions')->group(function () {
     Route::get('/cheque-payment-report', [ChequePaymentController::class, 'paymentReport'])->name('cheque-payment.report');
     Route::post('/cheque-payment-report-generate', [ChequePaymentController::class, 'paymentReportGenerate'])->name('cheque-payment.report.generate');
 
+    // Add this new route for getting last RCT VR No by date
+    Route::get('/cda-receipts-get-last-vr-no', [CdaReceiptController::class, 'getLastVrNoByDate'])->name('cda-receipts.get-last-vr-no');
+
     //bag purse report
     Route::resource('bag-purse-allowance', BagPurseAllowanceController::class);
     Route::get('/bag-purse-allowance', [BagPurseAllowanceController::class, 'fetchData'])->name('bag-allowance.fetch-data');

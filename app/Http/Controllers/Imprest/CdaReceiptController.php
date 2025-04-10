@@ -45,9 +45,9 @@ class CdaReceiptController extends Controller
 
         $receipt_bills = CDAReceipt::orderBy('id', 'desc')->get();
 
-        $lastrctvr = CDAReceipt::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
-            ->orderBy('id', 'desc')
+        $lastrctvr = CDAReceipt::whereYear('rct_vr_date', now()->year)
+            ->whereMonth('rct_vr_date', now()->month)
+            ->orderBy('rct_vr_no', 'desc')
             ->lockForUpdate()
             ->first();
 
@@ -224,9 +224,29 @@ class CdaReceiptController extends Controller
         }
     }
 
+    /**
+     * Get the last VR No based on the selected date's month and year.
+     */
+    public function getLastVrNoByDate(Request $request)
+    {
+        $date = $request->date;
+        if (!$date) {
+            return response()->json(['error' => 'Date is required'], 400);
+        }
 
+        $date = $request->input('date');
 
+        $lastVrNo = CDAReceipt::whereYear('rct_vr_date', date('Y', strtotime($date)))
+            ->whereMonth('rct_vr_date', date('m', strtotime($date)))
+            ->orderBy('id', 'desc')
+            ->lockForUpdate()
+            ->first();
 
+        $lastVrNo = $lastVrNo ? $lastVrNo->rct_vr_no : 0;
+        $nextVrNo = $lastVrNo + 1;
+
+        return response()->json(['next_vr_no' => $nextVrNo]);
+    }
 
     /**
      * Remove the specified resource from storage.
