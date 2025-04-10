@@ -156,36 +156,34 @@ class Helper
     public static function getImprestCashInBankOpening($date = null)
     {
         $date = $date ?? now()->toDateString();
+
         $amount_credit = 0;
         $amount_withdraw = 0;
         $amount_receipt = 0;
         $amount_deposit = 0;
 
         $amount_credit_query = Amount::query();
-        if ($date) {
-            $amount_credit_query->whereDate('created_at', '<', $date);
-        }
+        $amount_credit_query->whereDate('created_at', '<', $date);
         $amount_credit = $amount_credit_query->sum('amount');
 
         $amount_withdraw_query = CashWithdrawal::query();
-        if ($date) {
-            $amount_withdraw_query->whereDate('vr_date', '<', $date);
-        }
+        $amount_withdraw_query->whereDate('vr_date', '<', $date);
         $amount_withdraw = $amount_withdraw_query->sum('amount');
 
         $amount_receipt_query = CDAReceipt::query();
-        if ($date) {
-            $amount_receipt_query->whereDate('rct_vr_date', '<', $date);
-        }
+        $amount_receipt_query->whereDate('rct_vr_date', '<', $date);
         $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
 
-        // $amount_deposit_query = CashDeposit::query();
-        // if ($date) {
-        //     $amount_deposit_query->whereDate('vr_date', '<', $date);
-        // }
-        // $amount_deposit = $amount_deposit_query->sum('amount');
+        $amount_deposit_query = CashDeposit::query();
+        $amount_deposit_query->whereDate('vr_date', '<', $date);
+        $amount_deposit = $amount_deposit_query->sum('amount');
 
         $final_cash_in_bank = ($amount_credit - $amount_withdraw) + $amount_receipt + $amount_deposit;
+
+        // if minus then 0
+        if ($final_cash_in_bank < 0) {
+            $final_cash_in_bank = 0;
+        }
 
         return $final_cash_in_bank;
     }
@@ -231,37 +229,49 @@ class Helper
     public static function getImprestCashInHandOpening($date = null)
     {
         $date = $date ?? now()->toDateString();
+
+        // Determine the financial year start date based on the requested date
+        $dateObj = new \DateTime($date);
+        $month = (int)$dateObj->format('m');
+        $year = (int)$dateObj->format('Y');
+
+        // If month is January to March (1-3), financial year started in previous year
+        // Otherwise, financial year started in current year
+        $financialYearStart = ($month >= 4)
+            ? "$year-04-01"
+            : ($year - 1) . "-04-01";
+
         $amount_withdraw = 0;
         $amount_advance = 0;
         $amount_settled_partial_returned = 0;
-        $amount_receipt = 0;
         $amount_deposit = 0;
 
         $amount_withdraw_query = CashWithdrawal::query();
-        if ($date) {
-            $amount_withdraw_query->whereDate('vr_date', '<', $date);
-        }
+        $amount_withdraw_query->whereDate('vr_date', '>=', $financialYearStart)
+                             ->whereDate('vr_date', '<', $date);
         $amount_withdraw = $amount_withdraw_query->sum('amount');
 
         $amount_advance_query = AdvanceFundToEmployee::query();
-        if ($date) {
-            $amount_advance_query->whereDate('adv_date', '<', $date);
-        }
+        $amount_advance_query->whereDate('adv_date', '>=', $financialYearStart)
+                            ->whereDate('adv_date', '<', $date);
         $amount_advance = $amount_advance_query->sum('adv_amount');
 
         $amount_settled_partial_returned_query = AdvanceSettlement::query();
-        if ($date) {
-            $amount_settled_partial_returned_query->whereDate('var_date', '<', $date);
-        }
+        $amount_settled_partial_returned_query->whereDate('var_date', '>=', $financialYearStart)
+                                             ->whereDate('var_date', '<', $date);
         $amount_settled_partial_returned = $amount_settled_partial_returned_query->sum('balance');
 
         // $amount_deposit_query = CashDeposit::query();
-        // if ($date) {
-        //     $amount_deposit_query->whereDate('vr_date', '<', $date);
-        // }
+        // $amount_deposit_query->whereDate('vr_date', '>=', $financialYearStart)
+        //                      ->whereDate('vr_date', '<', $date);
         // $amount_deposit = $amount_deposit_query->sum('amount');
 
         $final_cash_in_hand = (($amount_withdraw - $amount_advance) + $amount_settled_partial_returned) - $amount_deposit;
+
+        // if minus then 0
+        if ($final_cash_in_hand < 0) {
+            $final_cash_in_hand = 0;
+        }
 
         return $final_cash_in_hand;
     }
