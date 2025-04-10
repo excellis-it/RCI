@@ -228,9 +228,19 @@
             <div>
                 <hr>
                 <div>
+                    <div class="row mb-3">
+                        <div class="col-md-2 ms-auto">
+                            <div class="add-more form-group">
+                                <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
+                                        class="fas fa-plus-circle"></i> Add More</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-12" id="credit_form_add_new_row">
-                        @foreach ($sirItems as $sirItem)
+                        @foreach ($sirItems as $key => $sirItem)
                             <div class="new_html">
+                                <div class="serial-number-display mb-2 fw-bold">Item #<span
+                                        class="item-serial">{{ count($sirItems) - $key }}</span></div>
                                 <div class="row">
 
 
@@ -334,7 +344,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input
-                                                    type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}"
+                                                    type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}" step="any"
                                                     class="form-control disc_percent" name="disc_percent[]"
                                                     max="100" id="disc_percent" placeholder="Enter percentage"
                                                     value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : 0.0 }}"
@@ -444,8 +454,14 @@
                                         </div>
                                     </div>
                                 </div>
-
-
+                                <div class="row">
+                                    <div class="col-md-2 ms-auto">
+                                        <label>&nbsp;</label>
+                                        <button type="button" class="listing_add w-100 trash form-control add-more">
+                                            <i class="fa fa-cross">x</i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <hr>
                         @endforeach
@@ -708,33 +724,24 @@
         <div>
             <hr>
             <div>
+                <div class="row mb-3">
+                    <div class="col-md-2 ms-auto">
+                        <div class="add-more form-group">
+                            <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
+                                    class="fas fa-plus-circle"></i> Add More</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-12" id="credit_form_add_new_row">
-                    <div class="new_html">
+                    <div class="new_html border border-3 border-light p-3">
+                        <div class="serial-number-display mb-2 fw-bold">Item #<span class="item-serial">1</span></div>
                         <div class="row">
-                            {{-- <div class="form-group col-md-4 mb-2">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <label>Item Code </label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <select class="form-select item_id" name="item_id[]" id="item_id">
-                                            <option value="">Select Item Code </option>
-                                            @foreach ($items as $item)
-                                                <option value="{{ $item->id }}">{{ $item->code }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div> --}}
-
                             <div class="form-group col-md-4 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Item Code (Demand No.)</label>
                                     </div>
                                     <div class="col-md-12">
-
                                         <input type="text" name="item_id[]" id="item_id" value=""
                                             class="form-control item_id">
                                         <span class="text-danger"></span>
@@ -769,7 +776,6 @@
                             </div>
                         </div>
                         <div class="row">
-
                             <div class="form-group col-md-4 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
@@ -777,7 +783,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <input type="text" class="form-control" name="remarks[]" id="remarks"
-                                            value="" placeholder="">
+                                            placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -820,7 +826,7 @@
                                             </select></label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" step="any" max="100" step="1"
+                                        <input type="number" step="any" max="100"
                                             value="0" class="form-control disc_percent" name="disc_percent[]"
                                             id="disc_percent" placeholder="">
                                         <input type="hidden" class="form-control discount_amount"
@@ -885,11 +891,9 @@
                                     </div>
                                     <div class="col-md-12">
                                         <select class="form-select nc_status" name="nc_status[]" id="nc_status">
-
                                             <option value="">Select</option>
                                             @foreach ($nc_statuses as $status)
-                                                <option value="{{ $status->status }}">
-                                                    {{ $status->status }}
+                                                <option value="{{ $status->status }}">{{ $status->status }}
                                                 </option>
                                             @endforeach
 
@@ -908,8 +912,8 @@
                                         <select class="form-select au_status" name="au_status[]" id="au_status">
                                             <option value="">Select</option>
                                             @foreach ($au_statuses as $status)
-                                                <option value="{{ $status->status }}">
-                                                    {{ $status->status }}</option>
+                                                <option value="{{ $status->status }}">{{ $status->status }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger"></span>
@@ -917,24 +921,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-
-                            <div class="col-md-2 ms-auto">
-                                <div class="add-more form-group mt-4">
-                                    <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
-                                            class="fas fa-plus-circle"></i> Add More</a>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="row mt-3 d-flex justify-content-between">
-
             <div class="col-md-2">
                 <div class="mb-1">
                     <a href="" class="listing_exit">Back</a>
@@ -946,11 +938,10 @@
                 </div>
             </div>
         </div>
-
     </form>
 @endif
 
-
+<!-- Modals and other content -->
 <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierModalLabel"
     aria-hidden="true" style="top: 60px;">
     <div class="modal-dialog">
@@ -987,6 +978,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="addSupplyOrderModal" tabindex="-1" aria-labelledby="addSupplyOrderModalLabel"
     aria-hidden="true" style="top: 60px;">
     <div class="modal-dialog">
@@ -1002,8 +994,6 @@
                         <input type="text" class="form-control" id="supply-order-number" name="order_number">
                         <span class="text-danger" id="error-order-number"></span>
                     </div>
-
-
                     <div class="form-group mb-3">
                         <label for="supply-order-number">Date</label>
                         <input type="date" class="form-control" id="supply-order-date" name="date"
@@ -1017,197 +1007,3 @@
     </div>
 </div>
 
-
-<div id="rins_new_html" hidden>
-    <div class="new_html">
-        <hr />
-        <div class="col-md-12 count-class">
-            <div class="row item-row">
-                {{-- <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Item Code</label>
-                        </div>
-                        <div class="col-md-12">
-                            <select class="form-select item_id" name="item_id[]">
-                                <option value="">Select Item Code</option>
-                                @foreach ($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->code }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div> --}}
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Item Code (Demand No.)</label>
-                        </div>
-                        <div class="col-md-12">
-
-                            <input type="text" name="item_id[]" id="item_id" class="form-control item_id">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Description</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control description" name="description[]"
-                                placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Received Quantity</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="number" step="any" value="0" class="form-control rcv_quantity"
-                                name="received_quantity[]">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Remarks</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="remarks[]" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Unit Cost</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="number" step="any" value="0.00" class="form-control units_cost"
-                                name="unit_cost[]" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Total Unit Cost</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="number" step="any" value="0.00" class="form-control total_cost"
-                                name="total_cost[]" readonly placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>GST</label>
-                        </div>
-                        <div class="col-md-12">
-                            <select class="form-select gst_percent" name="gst[]">
-                                <option value="">Select GST</option>
-                                @foreach ($gsts as $gst)
-                                    <option value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>GST Amount</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" value="0.00" class="form-control gst_amount" name="gst_amount[]"
-                                placeholder="" readonly>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Total Amount</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" value="0.00" class="form-control total_amount"
-                                name="total_amount[]" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>NC Status</label>
-                        </div>
-                        <div class="col-md-12">
-                            <select class="form-select nc_status" name="nc_status[]">
-                                <option value="">Select</option>
-                                @foreach ($nc_statuses as $status)
-                                    <option value="{{ $status->status }}">{{ $status->status }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-3 mb-2" hidden>
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>A/U Status</label>
-                        </div>
-                        <div class="col-md-12">
-                            <select class="form-select au_status" name="au_status[]">
-                                <option value="">Select</option>
-                                @foreach ($au_statuses as $status)
-                                    <option value="{{ $status->status }}">{{ $status->status }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-            </div>
-            <div class="row">
-                <div class="col-md-2 ms-auto">
-                    <label>&nbsp;</label>
-                    <button type="button" class="listing_add w-100 trash form-control add-more">
-                        <i class="fa fa-cross">x</i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

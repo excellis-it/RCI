@@ -179,12 +179,15 @@ class RinController extends Controller
         $rin_no = $request->rin_no;
 
         $sir_detail = InventorySir::where('sir_no', $request->sir_no)->first();
+        // dd($sir_detail);
 
         if ($request->item_id) {
             foreach ($request->item_id as $key => $item) {
                 $rin = new Rin();
                 $rin->sir_no = $request->sir_no;
                 $rin->sir_date = $sir_detail->sir_date;
+                $rin->demand_no = $request->demand_no;
+                $rin->demand_date=$request->demand_date;
                 $rin->inventory_id = $request->inventory_no;
                 $rin->authority_id = $request->authority_id;
                 $rin->desig_id = $request->authority_designation;
@@ -220,7 +223,9 @@ class RinController extends Controller
                 $rin->vendor_id = $request->vendor_id;
                 $rin->supply_order_no = $request->supply_order_no;
                 $rin->damage_status = $request->damage_status[$key];
+
                 $rin->save();
+                // dd($rin);
             }
         }
 
@@ -242,6 +247,7 @@ class RinController extends Controller
     public function edit(string $id)
     {
         $rin = Rin::find($id);
+
         $all_rins = Rin::where('rin_no', $rin->rin_no)->get();
         $items = ItemCode::all();
         $vendors = Vendor::orderBy('id', 'desc')->get();
@@ -312,6 +318,7 @@ class RinController extends Controller
 
         // Update SIR details if needed
         $sir = InventorySir::where('sir_no', $request->sir_no)->first();
+
         if ($sir) {
             $sir->demand_no = $request->demand_no ?? $sir->demand_no;
             $sir->inventory_no = $request->inventory_no ?? $sir->inventory_no;
@@ -338,6 +345,8 @@ class RinController extends Controller
                 $newRin = new Rin();
                 $newRin->sir_no = $request->sir_no;
                 $newRin->sir_date = $sir->sir_date;
+                $newRin->demand_no = $request->demand_no;
+                $newRin->demand_date = $request->demand_date;
                 $newRin->inventory_id = $request->inventory_no;
                 $newRin->authority_id = $request->authority_id;
                 $newRin->desig_id = $request->authority_designation;

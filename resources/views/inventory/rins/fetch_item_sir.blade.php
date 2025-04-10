@@ -1,8 +1,18 @@
 @if (isset($allSirDetails))
     @foreach ($allSirDetails as $index => $sir)
-        <div class="new_html">
+        <div class="new_html border border-5 border-light p-3">
             <div class="row">
-                <div class="form-group col-md-4 mb-2">
+                <div class="form-group col-md-12 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>SL No.</label>
+                        </div>
+                        <div class="col-md-12">
+                            <span class=" item-serial-number">{{ count($allSirDetails) - $index }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Item Code (Demand No.)</label>
@@ -277,12 +287,13 @@
                 <div class="col-md-2 ms-auto">
                     <div class="add-more form-group mt-4">
                         @if ($index === 0)
-                            <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
-                                    class="fas fa-plus-circle"></i> Add More</a>
+                            {{-- <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
+                                    class="fas fa-plus-circle"></i> Add More</a> --}}
                         @else
                             <a href="javascript:void(0);"
-                                class="listing_add w-100 trash form-control add-more add-more-sm"><i
-                                    class="fas fa-minus-circle"></i></a>
+                                class="listing_add w-100 trash form-control add-more add-more-sm">
+                                <i class="fas fa-trash"></i> Remove
+                            </a>
                         @endif
                     </div>
                 </div>

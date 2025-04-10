@@ -82,7 +82,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" id="edit_bill_no"
-                                    value="{{ $cdaBill->cda_bill_no ?? 'N/A' }}" readonly>
+                                    value="{{ $cdaBill->cda_bill_no ?? 'N/A' }}"
+                                    data-billdate="{{ $cdaBill->cda_bill_date ?? '' }}" readonly>
                             </div>
                         </div>
                     </div>

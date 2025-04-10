@@ -312,7 +312,7 @@
                 $("#loading").show();
                 $("#loading-content").html(
                     '<div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>'
-                    );
+                );
 
                 $.ajax({
                     url: route,
@@ -399,6 +399,8 @@
                 let payAmount = parseFloat($("#balance").val()); // Pay amount from response
                 let initialBalance = parseFloat($("#balance").val()); // Initial balance from response
                 let billAmount = $(this).val(); // Get the bill amount entered
+
+                console.log(initialBalanceMain);
 
                 // Check if the input is empty
                 if (billAmount.trim() === "") {

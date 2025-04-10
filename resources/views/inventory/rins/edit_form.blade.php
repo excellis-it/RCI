@@ -270,7 +270,18 @@
                     <hr />
                     <div class="col-md-12 count-class">
                         <div class="row item-row">
-                            <div class="form-group col-md-4 mb-2">
+                            <div class="form-group col-md-12 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>SL No.</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span
+                                            class="item-serial-number">{{ count($all_rins) - $index }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3 mb-2">
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <label>Item Code (Demand No.)</label>

@@ -31,6 +31,42 @@
                                 <tr>
                                     <td
                                         style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: left;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        DR
+                                    </td>
+                                    <td
+                                        style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        {{ \Carbon\Carbon::now()->format('h:i A') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
               font-size: 10px;
               line-height: 14px;
               font-weight: 600;
@@ -307,7 +343,20 @@
                       height: 5px;
                     ">
 
+                                        @php
+                                            // Check if $report_date is in dd/mm/yy format and convert it
+                                            if (preg_match('/^\d{2}\/\d{2}\/\d{2}$/', $report_date)) {
+                                                $date_parts = explode('/', $report_date);
+                                                $day = $date_parts[0];
+                                                $month = $date_parts[1];
+                                                $year = '20' . $date_parts[2]; // Assuming 20xx for the year
+                                                echo $year . '-' . $month . '-' . $day;
+                                            } else {
+                                                echo $report_date;
+                                            }
+                                        @endphp
                                     </td>
+
                                     <td
                                         style="
                       font-size: 10px;
@@ -435,7 +484,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cash_withdraw->created_at->format('d-m-Y') }}
+                                                {{ $cash_withdraw->vr_date ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -779,6 +828,41 @@
             <tbody>
                 <tr>
                     <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: left;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        CR
+                                    </td>
+                                    <td
+                                        style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        {{ \Carbon\Carbon::now()->format('h:i A') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                         <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                             <tbody>
                                 <tr>

@@ -88,7 +88,7 @@
                                                 <a href="#" class="edit-receipt edit_pencil ms-2"
                                                     data-id="{{ $receipt_bill->id }}">
                                                     <i class="ti ti-pencil"></i>
-                                            </a>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -204,6 +204,54 @@
                     $('#create-form').show();
                 });
             }
+
+            // Handle date change to update receipt voucher number
+            $(document).on('change', '#rct_vr_date', function() {
+                var selectedDate = $(this).val();
+                if (selectedDate) {
+                    // Show loading indicator if needed
+                    $.ajax({
+                        url: "{{ route('cda-receipts.get-last-vr-no') }}",
+                        type: "GET",
+                        data: {
+                            date: selectedDate
+                        },
+                        success: function(response) {
+                            if (response.next_vr_no) {
+                                $('#rct_vr_no').val(response.next_vr_no);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Error getting last VR number:', xhr);
+                        }
+                    });
+
+                    // Also check if date is valid compared to bill date
+                    var selectedBill = $('#bill_no').find(":selected");
+                    var theBillDate = new Date(selectedBill.data('billdate'));
+                    var selectedRctDate = new Date(selectedDate);
+
+                    if (selectedBill.val() && selectedRctDate < theBillDate) {
+                        $(this).val('');
+                        alert('Receipt date must be after or equal to the Bill date.');
+                    }
+                }
+            });
+
+            // Also add the same functionality for the edit form
+            $(document).on('change', '#edit_rct_vr_date', function() {
+                var selectedDate = $(this).val();
+                if (selectedDate) {
+                    // For edit form, we don't update the VR number, just validate the date
+                    var billDate = new Date($('#edit_bill_no').data('billdate'));
+                    var selectedRctDate = new Date(selectedDate);
+
+                    if (billDate && selectedRctDate < billDate) {
+                        $(this).val('');
+                        alert('Receipt date must be after or equal to the Bill date.');
+                    }
+                }
+            });
         });
     </script>
 
