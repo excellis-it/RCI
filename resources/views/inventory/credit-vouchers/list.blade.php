@@ -4,6 +4,30 @@
 @endsection
 
 @push('styles')
+    <style>
+        .item-serial-number {
+            /* background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-left: 3px solid #0d6efd;
+            margin-bottom: 10px; */
+            font-size: 14px;
+        }
+
+        .new-rin-item {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -863,31 +887,81 @@
                 parent.find('.uom_id').val(itemUom);
             });
 
-            // Add click event handler for add-more-rin button
+            // Initialize serial numbers when the page loads
+            function initializeSerialNumbers() {
+                var itemCount = $('#receipt-and-inspection .rin-items').length;
+
+                $('#receipt-and-inspection .rin-items').each(function(index) {
+                    if (!$(this).find('.item-serial-number').length) {
+                        $(this).prepend(
+                            '<div class="form-group col-md-12 mb-2"><div class="item-serial-number font-weight-bold h5">Item #' +
+                            (itemCount - index) + '</div></div>');
+                    }
+                });
+            }
+
+            // Call this function when the page loads
+            initializeSerialNumbers();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Function to update all serial numbers
+            function updateSerialNumbers() {
+                var itemCount = $('#receipt-and-inspection .rin-items').length;
+
+                $('#receipt-and-inspection .rin-items').each(function(index) {
+                    $(this).find('.serial-number').text(itemCount - index);
+                });
+            }
+
+            // Handle the add-more-rin button click
             $(document).on('click', '.add-more-rin', function() {
                 // Clone the template from the blank RIN item template
                 var newRow = $('#blank_rin_template').html();
 
-                // Append to the receipt-and-inspection div
-                $('#receipt-and-inspection').append(newRow);
+                // Prepend to the receipt-and-inspection div (add at the top)
+                $('#receipt-and-inspection').prepend(newRow);
 
-                // Initialize any necessary event handlers for the new row
-                $('.price, .disc_percent, .quantity', '#receipt-and-inspection .rin-items:last').on(
+                // Update serial numbers for all items
+                updateSerialNumbers();
+
+                // Initialize event handlers for the new row
+                $('.price, .disc_percent, .quantity', '#receipt-and-inspection .rin-items:first').on(
                     'keyup change',
                     function() {
                         updateTotalPrice(this);
                     });
 
-                $('.gst_percent', '#receipt-and-inspection .rin-items:last').on('change', function() {
+                $('.gst_percent', '#receipt-and-inspection .rin-items:first').on('change', function() {
                     updateTotalPrice(this);
                 });
+
+                // Copy values from the first row if they exist
+                if ($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if ($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+
+                return false;
             });
 
-            // Add click event handler for remove-rin-item button
+            // Handle remove button click
             $(document).on('click', '.remove-rin-item', function(e) {
                 e.preventDefault();
                 $(this).closest('.new-rin-item').next('hr').remove(); // Remove the hr element
                 $(this).closest('.new-rin-item').remove(); // Remove the row
+
+                // Update serial numbers after removal
+                updateSerialNumbers();
             });
         });
     </script>
