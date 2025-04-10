@@ -451,25 +451,18 @@
 
                 </div>
                 <hr>
+                <div class="row mb-3">
+                    <div class="col-md-2 ms-auto">
+                        <div class="add-more form-group mt-0">
+                            <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
+                                    class="fas fa-plus-circle"></i> Add More</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12" id="receipt-and-inspection">
                         @include('inventory.credit-vouchers.rin')
-
                     </div>
-                </div>
-            </div>
-
-
-
-        </div>
-
-        <div class="row mb-5">
-            <div class="col-md-2 ms-auto">
-                <div class="add-more form-group mt-4">
-
-                    <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
-                            class="fas fa-plus-circle"></i> Add More</a>
-
                 </div>
             </div>
         </div>
@@ -492,14 +485,16 @@
     <div id="credit_new_html" hidden>
         <div class="row count-class rin-items">
             <hr />
-
-
         </div>
     </div>
 
     <!-- Add blank RIN item template -->
     <div id="blank_rin_template" style="display: none;">
-        <div class="row count-class rin-items new-rin-item">
+        <div class="row count-class rin-items new-rin-item border border-3 border-light p-2 mb-2">
+            <div class="form-group col-md-12 mb-2">
+                <div class="item-serial-number font-weight-bold h5">Item #<span class="serial-number"></span></div>
+            </div>
+
             <div class="form-group col-md-4 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">

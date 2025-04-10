@@ -1,7 +1,12 @@
 @if (isset($creditVoucherItems))
     @if (count($creditVoucherItems) > 0)
-        @foreach ($creditVoucherItems as $creditVoucherItem)
-            <div class="row count-class rin-items">
+        @foreach ($creditVoucherItems as $index => $creditVoucherItem)
+            <div class="row count-class rin-items border border-3 border-light p-2 mb-2">
+                <div class="form-group col-md-12 mb-2">
+                    <div class="item-serial-number font-weight-bold h5">Item #{{ count($creditVoucherItems) - $index }}
+                    </div>
+                </div>
+
                 {{-- @dd($creditVoucherItem->itemCode) --}}
                 <div class="form-group col-md-4 mb-2">
                     <div class="row align-items-center">

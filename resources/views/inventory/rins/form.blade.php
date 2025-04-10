@@ -328,6 +328,18 @@
 
 
         </div>
+
+        <div class="row mb-5">
+            <div class="col-md-2 ms-auto">
+                <div class="add-more form-group mt-4">
+
+                        <a href="javascript:void(0);" class="listing_add add-more-rin add-more-sm"><i
+                                class="fas fa-plus-circle"></i> Add More</a>
+
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12" id="credit_form_add_new_row">
                 @include('inventory.rins.fetch_item_sir')
@@ -337,6 +349,8 @@
 
 
         </div>
+
+
 
         <div class="row mt-3 d-flex justify-content-between">
 

@@ -380,7 +380,7 @@
             });
             $(document).on('click', '.add-more-rin', function() {
                 var newRow = `
-           <div class="new_html">
+           <div class="new_html border border-5 border-light p-3">
             <hr />
             <div class="col-md-12 count-class">
                 <div class="row item-row">
@@ -549,7 +549,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>UOM</label>
@@ -609,14 +609,14 @@
                     <div class="col-md-2 ms-auto">
                         <label>&nbsp;</label>
                         <button type="button" class="listing_add w-100 trash form-control add-more">
-                            <i class="fas fa-minus-circle"></i>
+                            <i class="fas fa-trash"></i> Remove
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         `;
-                $('#credit_form_add_new_row').append(newRow);
+                $('#credit_form_add_new_row').prepend(newRow);
             });
 
             // Remove dynamically added rows
@@ -713,7 +713,7 @@
                 // Clone the first row of fields
                 var $clone = $('#rins_new_html .new_html').first().clone();
                 $clone.find('input, select').val(''); // Clear input fields in the cloned row
-                $clone.appendTo('#rins_new_html').show(); // Append the new row to the form and display it
+                $clone.prependTo('#rins_new_html').show(); // Append the new row to the form and display it
             });
         });
     </script>
@@ -783,7 +783,7 @@
         $(document).ready(function() {
             $(document).on('click', '.edit_rin_add', function() {
                 var tr = $('#rins_edit_html').html();
-                $('#credit_form_edit_new_row').append(tr);
+                $('#credit_form_edit_new_row').prepend(tr);
 
                 if ($('#voucher_date_1').val() != '') {
                     $('.voucher-date').each(function() {
