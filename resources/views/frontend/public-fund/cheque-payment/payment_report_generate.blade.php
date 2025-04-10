@@ -185,27 +185,7 @@
 
                     @endphp
 
-                    @php
-                        $total_bank_payments = 0;
-                        $total_bank_payments_reciepts = 0;
-                        $total_bank_balnace_forword = 0;
-                        foreach ($category as $cat) {
-                            $total_bank_payments += $categoryTotals[$cat->id];
-                            if ($start > 0) {
-                                $total_bank_payments_reciepts += $total_previous_balance[$cat->id];
-                                $total_bank_balnace_forword +=
-                                    $total_previous_balance[$cat->id] - $categoryTotals[$cat->id];
-                            } else {
-                                $total_bank_payments_reciepts +=
-                                    $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
-                                $total_bank_balnace_forword +=
-                                    $categoryAmounts[$cat->id] +
-                                    Helper::get_openings_balance($cat->id, $pre_vr_date) -
-                                    $categoryTotals[$cat->id];
-                            }
-                        }
 
-                    @endphp
 
                     @if ($start > 0)
                         <tr>
@@ -217,11 +197,11 @@
                             <td>{{ $total_bank_balnace_forword }}</td>
                             @foreach ($category as $cat)
                                 <td>
-                                    @php
+                                    {{-- @php
                                         $total_previous_balance1[$cat->id] = $total_previous_balance[$cat->id];
                                         $total_previous_reciepts[$cat->id] = $total_previous_balance1[$cat->id];
-                                    @endphp
-                                    {{ $total_previous_reciepts[$cat->id] }}
+                                    @endphp --}}
+                                    {{  $total_previous_balance[$cat->id] }}
                                 </td>
                             @endforeach
 
@@ -400,7 +380,27 @@
                     @endforeach
 
 
+                    @php
+                    $total_bank_payments = 0;
+                    $total_bank_payments_reciepts = 0;
+                    $total_bank_balnace_forword = 0;
+                    foreach ($category as $cat) {
+                        $total_bank_payments += $categoryTotals[$cat->id];
+                        if ($start > 0) {
+                            $total_bank_payments_reciepts += $total_previous_balance[$cat->id];
+                            $total_bank_balnace_forword +=
+                                $total_previous_balance[$cat->id] - $categoryTotals[$cat->id];
+                        } else {
+                            $total_bank_payments_reciepts +=
+                                $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
+                            $total_bank_balnace_forword +=
+                                $categoryAmounts[$cat->id] +
+                                Helper::get_openings_balance($cat->id, $pre_vr_date) -
+                                $categoryTotals[$cat->id];
+                        }
+                    }
 
+                @endphp
 
                     <tr>
                         <td colspan="4">Total Payments</td>
@@ -419,10 +419,10 @@
                             {{-- <td>{{ $totalReceipts[$cat->id] }}</td> --}}
                             <td>
                                 @if ($start > 0)
-                                    {{-- @php
+                                    @php
                                         $total_previous_balance1[$cat->id] = $total_previous_balance[$cat->id];
                                         $total_previous_reciepts[$cat->id] = $total_previous_balance1[$cat->id];
-                                    @endphp --}}
+                                    @endphp
                                     {{ $total_previous_reciepts[$cat->id] }}
                                 @else
                                     @php
@@ -653,25 +653,12 @@
                     <td>
 
                     </td>
+                    @foreach ($category as $cat)
                     <td>
 
                     </td>
-                    <td>
+                    @endforeach
 
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td></td>
                     <td></td>
                 </tr>
 

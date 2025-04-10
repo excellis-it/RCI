@@ -115,9 +115,11 @@
             $count_new_member = 0;
             $all_cheque_payment_member_id = [];
             $total_previous_balance = [];
+            $total_previous_balance_carried_forward = [];
             foreach ($category as $cat) {
                 $all_cheque_payment_member_id[$cat->id] = [];
                 $total_previous_balance[$cat->id] = 0;
+                $total_previous_balance_carried_forward[$cat->id] = 0;
             }
         @endphp
         @foreach ($receipt_members as $new_member)
@@ -603,27 +605,11 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    @foreach ($category as $cat)
                     <td>
 
                     </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
+                    @endforeach
                     <td></td>
 
                 </tr>
