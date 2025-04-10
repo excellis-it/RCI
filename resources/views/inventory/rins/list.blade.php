@@ -384,6 +384,16 @@
             <hr />
             <div class="col-md-12 count-class">
                 <div class="row item-row">
+                    <div class="form-group col-md-12 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>SL No.</label>
+                            </div>
+                            <div class="col-md-12">
+                                <span class=" item-serial-number">1</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -408,7 +418,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2">
+                    <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Received Quantity</label>
@@ -445,15 +455,13 @@
                         </div>
                     </div>
 
-
-
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Total Unit Cost</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="number" step="any" value="0.00" class="form-control total_cost" name="total_cost[]"  placeholder="">
+                                <input type="number" step="any" value="0.00" class="form-control total_cost" name="total_cost[]" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -461,15 +469,15 @@
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
-                           <div class="col-md-12 d-flex justify-content-between">
-                                <label>Discount  <select class="discount_type" name="discount_type[]" id="discount_type">
+                        <div class="col-md-12 d-flex justify-content-between">
+                                <label>Discount <select class="discount_type" name="discount_type[]" id="discount_type">
                                     <option value="percentage">Percentage (%)</option>
                                     <option value="fixed">Fixed Amount</option>
                                 </select></label>
                             </div>
                             <div class="col-md-12">
                                 <input type="text" value="0.00" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
-                                  <input type="hidden" class="form-control discount_amount" name="discount_amount[]" id="discount_amount" placeholder="">
+                                <input type="hidden" class="form-control discount_amount" name="discount_amount[]" id="discount_amount" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -517,17 +525,17 @@
                     </div>
 
                     <div class="form-group col-md-4 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>Round Figure Amount</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="number" step="any" class="form-control round_amount" name="round_amount[]"
-                                id="round_amount">
-                            <span class="text-danger"></span>
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Round Figure Amount</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="number" step="any" class="form-control round_amount" name="round_amount[]"
+                                    id="round_amount">
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -566,26 +574,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2" hidden>
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>A/U Status</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="au_status[]">
-                                    <option value="">Select A/U Status</option>
-                                      @if (count($au_statuses) > 0)
-                                        @foreach ($au_statuses as $au_status)
-                                            <option value="{{ $au_status['status'] }}">{{ $au_status['status'] }}
-                                            </option>
-                                        @endforeach
-                                        @endif
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -602,8 +590,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="row">
                     <div class="col-md-2 ms-auto">
@@ -617,13 +603,23 @@
         </div>
         `;
                 $('#credit_form_add_new_row').prepend(newRow);
+                updateSerialNumbers();
             });
 
             // Remove dynamically added rows
             $(document).on('click', '.trash', function() {
                 $(this).closest('.new_html').remove();
+                updateSerialNumbers();
                 return false;
             });
+
+            // Function to update serial numbers
+            function updateSerialNumbers() {
+                var rows = $('#credit_form_add_new_row .new_html').get().reverse();
+                $.each(rows, function(index, element) {
+                    $(element).find('.item-serial-number').text(index + 1);
+                });
+            }
         });
     </script>
     <script>
@@ -678,8 +674,6 @@
             });
         });
     </script>
-
-
     <script>
         $(document).ready(function() {
             // Handle item code change event dynamically
@@ -715,70 +709,400 @@
                 $clone.find('input, select').val(''); // Clear input fields in the cloned row
                 $clone.prependTo('#rins_new_html').show(); // Append the new row to the form and display it
             });
+
+            // Remove dynamically added rows
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                return false;
+            });
         });
     </script>
-
-
-    {{-- <script>
-        $('#gst').change(function() {
-            var gst = parseFloat($(this).val()); // Get the GST value
-            var total_unit_cost = parseFloat($('#total_cost').val()); // Get the total cost
-
-            if (!isNaN(gst) && !isNaN(total_unit_cost)) {
-                // Calculate the total amount
-                var gst_amount = (total_unit_cost * gst / 100);
-                var total_amount = total_unit_cost + (total_unit_cost * gst / 100);
-
-                // Display the total amount (you can choose your target element)
-                $('#total_amount').val(total_amount.toFixed(2));
-                $('#gst_amount').val(gst_amount.toFixed(2));
-            }
-        });
-    </script> --}}
-    {{-- <script>
-        $(document).ready(function() {
-            // Function to update difference
-            function updateDifference() {
-                var received = parseInt($('#received_quantity').val());
-                var accepted = parseInt($('#accepted_quantity').val());
-                var difference = received - accepted;
-                $('#rejected_quantity').val(difference);
-            }
-
-            // Bind change event to input fields
-            $('#received_quantity, #accepted_quantity').keyup(updateDifference);
-
-        });
-    </script> --}}
-
     <script>
-        // add new row
-        // $(document).ready(function() {
-        //     $(document).on('click', '.add-more-rin', function() {
-        //         var tr = $('#rins_new_html').html();
-        //         $('#credit_form_add_new_row').append(tr);
+        $(document).ready(function() {
+            $(document).on('click', '.edit_rin_add', function() {
+                var tr = `<div class="new_html">
+                    <hr />
+                    <div class="col-md-12 count-class">
+                        <div class="row item-row">
+                            <div class="form-group col-md-12 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>SL No.</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span class=" item-serial-number">1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Item Code (Demand No.)</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control item_id" name="item_id[]" placeholder="">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
 
-        //         if ($('#voucher_date_1').val() != '') {
-        //             $('.voucher-date').each(function() {
-        //                 $(this).val($('#voucher_date_1').val());
-        //             });
-        //         }
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Description</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control description" name="description[]" placeholder="">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
 
-        //         if ($('#rin1').val() != '') {
-        //             $('.rin').each(function() {
-        //                 $(this).val($('#rin1').val());
-        //             });
-        //         }
-        //         return false;
-        //     });
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Received Quantity</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="number" step="any" value="0" class="form-control rcv_quantity" name="received_quantity[]">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-        //     $(document).on('click', '.trash', function() {
-        //         $(this).closest('.new_html').remove();
-        //         return false;
-        //     });
-        // });
+                        <!-- Rest of the form fields -->
+                        <div class="row">
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" name="remarks[]" placeholder="">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Unit Cost</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="number" step="any" value="0.00" class="form-control units_cost" name="unit_cost[]" placeholder="">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Total Unit Cost</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="number" step="any" value="0.00" class="form-control total_cost" name="total_cost[]" placeholder="">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                   <div class="col-md-12 d-flex justify-content-between">
+                                        <label>Discount <select class="discount_type" name="discount_type[]" id="discount_type">
+                                            <option value="percentage">Percentage (%)</option>
+                                            <option value="fixed">Fixed Amount</option>
+                                        </select></label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" value="0.00" class="form-control disc_percent" name="disc_percent[]" id="disc_percent" placeholder="">
+                                        <input type="hidden" class="form-control discount_amount" name="discount_amount[]" id="discount_amount" placeholder="">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>GST</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select gst_percent" name="gst[]">
+                                            <option value="">Select GST</option>
+                                            @foreach ($gsts as $gst)
+                                                <option value="{{ $gst->gst_percent }}">{{ $gst->gst_percent }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>GST Amount</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" value="0.00" class="form-control gst_amount" name="gst_amount[]" placeholder="" readonly>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Total Amount</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="number" step="any" value="0.00" class="form-control total_amount" name="total_amount[]" placeholder="" readonly>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Round Figure Amount</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="number" step="any" class="form-control round_amount" name="round_amount[]" id="round_amount">
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>NC Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select" name="nc_status[]">
+                                            <option value="">Select NC Status</option>
+                                            @if (count($nc_statuses) > 0)
+                                                @foreach ($nc_statuses as $nc_status)
+                                                    <option value="{{ $nc_status['status'] }}">{{ $nc_status['status'] }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>UOM</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select" name="uom[]">
+                                            <option value="">Select UOM</option>
+                                            @foreach ($uoms as $uom)
+                                                <option value="{{ $uom->id }}">{{ $uom->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <label>Damage Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select" name="damage_status[]" id="damage_status">
+                                            <option value="">Select Damage Status</option>
+                                            <option value="1">Damaged</option>
+                                            <option value="0">Not Damaged</option>
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 ms-auto">
+                                <label>&nbsp;</label>
+                                <button type="button" class="listing_add w-100 trash form-control add-more">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+                $('#credit_form_edit_new_row').prepend(tr);
+                updateEditSerialNumbers();
+
+                if ($('#voucher_date_1').val() != '') {
+                    $('.voucher-date').each(function() {
+                        $(this).val($('#voucher_date_1').val());
+                    });
+                }
+
+                if ($('#rin1').val() != '') {
+                    $('.rin').each(function() {
+                        $(this).val($('#rin1').val());
+                    });
+                }
+                return false;
+            });
+
+            $(document).on('click', '.trash', function() {
+                $(this).closest('.new_html').remove();
+                updateSerialNumbers();
+                updateEditSerialNumbers();
+                return false;
+            });
+
+            // Function to update serial numbers
+            function updateSerialNumbers() {
+                var rows = $('#credit_form_add_new_row .new_html').get().reverse();
+                $.each(rows, function(index, element) {
+                    $(element).find('.item-serial-number').text(index + 1);
+                });
+            }
+
+            // Function for edit form serial numbers
+            function updateEditSerialNumbers() {
+                var rows = $('#credit_form_edit_new_row .new_html').get().reverse();
+                $.each(rows, function(index, element) {
+                    $(element).find('.item-serial-number').text(index + 1);
+                });
+            }
+
+            // Initialize serial numbers on page load
+            $(document).ready(function() {
+                updateSerialNumbers();
+                updateEditSerialNumbers();
+            });
+        });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#gst').change(function() {
+                var gst = parseFloat($(this).val()); // Get the GST value
+                var total_unit_cost = parseFloat($('#total_cost').val()); // Get the total cost
 
+                if (!isNaN(gst) && !isNaN(total_unit_cost)) {
+                    // Calculate the total amount
+                    var gst_amount = (total_unit_cost * gst / 100);
+                    var total_amount = total_unit_cost + (total_unit_cost * gst / 100);
+
+                    // Display the total amount (you can choose your target element)
+                    $('#total_amount').val(total_amount.toFixed(2));
+                    $('#gst_amount').val(gst_amount.toFixed(2));
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            function getTotalCost() {
+                var received = parseInt($('#received_quantity').val()) || 0;
+                var unit_cost = parseInt($('#unit_cost').val()) || 0;
+                var totalCost = received * unit_cost;
+                $('#total_cost').val(totalCost);
+            }
+            $('#received_quantity').keyup(getTotalCost);
+        });
+    </script>
+    <script>
+        function calculateTotalCost($row) {
+            document.querySelectorAll('.disc_percent').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (parseFloat(this.value) > 100) {
+                        this.value = 100;
+                    }
+                });
+            });
+
+            var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
+            var unitCost = parseFloat($row.find('.units_cost').val()) || 0;
+            var discPercent = parseFloat($row.find('.disc_percent').val()) || 0;
+            var gstPercent = parseFloat($row.find('.gst_percent').val()) || 0;
+            var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
+
+            var totalCost = unitCost * received;
+            $row.find('.total_cost').val(totalCost.toFixed(5));
+
+            var discountedCost = totalCost; // Start with the total cost
+
+            // Apply discount based on discount type
+            if (discountType === 'percentage') {
+                discountedCost = totalCost - (totalCost * (discPercent / 100));
+                var discount = (totalCost * (discPercent / 100));
+            } else if (discountType === 'fixed') {
+                discountedCost = totalCost - discPercent;
+                var discount = discPercent;
+            }
+
+            discount = parseFloat(discount) || 0;
+            $row.find('.discount_amount').val(discount.toFixed(2));
+
+            // Calculate GST on the discounted amount
+            var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
+            $row.find('.gst_amount').val(gstAmount);
+
+            // Calculate total amount after GST
+            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(5);
+            $row.find('.total_amount').val(totalAmount);
+
+            // Round the total amount to 2 decimal places
+            var roundedTotalAmount = (Math.round(totalAmount * 10) / 10).toFixed(2);
+            $row.find('.round_amount').val(roundedTotalAmount);
+        }
+
+        $(document).ready(function() {
+            // Event listener for changes in received quantity, unit cost, discount, or GST percentage
+            $(document).on('input', '.rcv_quantity, .units_cost, .disc_percent, .gst_percent, .discount_type',
+                function() {
+                    var $row = $(this).closest('.new_html');
+                    calculateTotalCost($row);
+                    let roundSettle = $row.find(".round_settle_amount");
+                    roundSettle.trigger('keyup');
+                });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // add new row
+            $(document).ready(function() {
+                $(document).on('click', '.add-more-rin', function() {
+                    var tr = $('#rins_new_html').html();
+                    $('#credit_form_add_new_row').append(tr);
+
+                    if ($('#voucher_date_1').val() != '') {
+                        $('.voucher-date').each(function() {
+                            $(this).val($('#voucher_date_1').val());
+                        });
+                    }
+
+                    if ($('#rin1').val() != '') {
+                        $('.rin').each(function() {
+                            $(this).val($('#rin1').val());
+                        });
+                    }
+                    return false;
+                });
+
+                $(document).on('click', '.trash', function() {
+                    $(this).closest('.new_html').remove();
+                    return false;
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.edit_rin_add', function() {
@@ -814,10 +1138,11 @@
                 } else {
                     alert("At least one row must remain.");
                 }
+                return false;
             });
         });
     </script>
-    {{-- <script>
+    <script>
         $(document).ready(function() {
             function getTotalCost() {
                 var received = parseInt($('#received_quantity').val()) || 0;
@@ -826,67 +1151,8 @@
                 $('#total_cost').val(totalCost);
             }
             $('#received_quantity').keyup(getTotalCost);
-
-        });
-    </script> --}}
-    <script>
-        function calculateTotalCost($row) {
-
-            document.querySelectorAll('.disc_percent').forEach(input => {
-                input.addEventListener('input', function() {
-                    if (parseFloat(this.value) > 100) {
-                        this.value = 100;
-                    }
-                });
-            });
-
-            var received = parseFloat($row.find('.rcv_quantity').val()) || 0;
-            var unitCost = parseFloat($row.find('.units_cost').val()) || 0;
-            var discPercent = parseFloat($row.find('.disc_percent').val()) || 0;
-            var gstPercent = parseFloat($row.find('.gst_percent').val()) || 0;
-            var discountType = $row.find('.discount_type').val() || 0; // Get the selected discount type
-
-            var totalCost = unitCost * received;
-            $row.find('.total_cost').val(totalCost.toFixed(5));
-
-            var discountedCost = totalCost; // Start with the total cost
-
-            // Apply discount based on discount type
-            if (discountType === 'percentage') {
-                discountedCost = totalCost - (totalCost * (discPercent / 100));
-                var discount = (totalCost * (discPercent / 100));
-            } else if (discountType === 'fixed') {
-                discountedCost = totalCost - discPercent;
-                var discount = discPercent;
-            }
-            discount = parseFloat(discount) || 0;
-            $row.find('.discount_amount').val(discount.toFixed(2));
-            // Calculate GST on the discounted amount
-            var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
-            $row.find('.gst_amount').val(gstAmount);
-
-            // Calculate total amount after GST
-            var totalAmount = (discountedCost + parseFloat(gstAmount)).toFixed(5);
-            $row.find('.total_amount').val(totalAmount);
-
-            // Round the total amount to 2 decimal places
-            var roundedTotalAmount = (Math.round(totalAmount * 10) / 10).toFixed(2);
-            $row.find('.round_amount').val(roundedTotalAmount);
-        }
-
-        $(document).ready(function() {
-            // Event listener for changes in received quantity, unit cost, discount, or GST percentage
-            $(document).on('input', '.rcv_quantity, .units_cost, .disc_percent, .gst_percent, .discount_type',
-                function() {
-                    var $row = $(this).closest('.new_html');
-                    calculateTotalCost($row);
-                    let roundSettle = $row.find(".round_settle_amount");
-                    roundSettle.trigger('keyup');
-                });
         });
     </script>
-
-
     <script>
         $(document).ready(function() {
             $(document).on('change', '#item_id', function() {
@@ -927,26 +1193,21 @@
                         },
                         success: function(data) {
                             // Populate fields with the returned data
-
                             // Check if 'sir_date' is set and assign value
                             $('#sir_date').val(data.sirDetails.sir_date || '');
-
                             // Check if 'inventory_number' exists and use number or ID
                             $('#inventory_code').val(data.sirDetails.inventory_number?.number ||
                                 '');
                             $('#inventory_no').val(data.sirDetails.inventory_number?.id || '');
-
                             // Check if group_name or division exists and concatenate them
                             let groupName = data.sirDetails.inventory_number?.group?.value ||
                                 '';
                             let division = data.sirDetails.inventory_number?.division || '';
                             $('#group_name').val(groupName + (groupName && division ? ' / ' :
                                 '') + division);
-
                             // Check if project exists
                             $('#project_number').val(data.sirDetails.inventory_number?.project
                                 ?.project_code || '');
-
                             // Handle conditional readonly attribute for demand_date, demand_no, invoice_no, invoice_date
                             if (data.sirDetails.demand_date) {
                                 $('#demand_date').val(data.sirDetails.demand_date || '');
@@ -954,28 +1215,24 @@
                                 $('#demand_date').val('');
                                 $('#demand_date').removeAttr("readonly");
                             }
-
                             if (data.sirDetails.demand_no) {
                                 $('#demand_no').val(data.sirDetails.demand_no || '');
                             } else {
                                 $('#demand_no').val('');
                                 $('#demand_no').removeAttr("readonly");
                             }
-
                             if (data.sirDetails.invoice_no) {
                                 $('#invoice_no').val(data.sirDetails.invoice_no || '');
                             } else {
                                 $('#invoice_no').val('');
                                 $('#invoice_no').removeAttr("readonly");
                             }
-
                             if (data.sirDetails.invoice_date) {
                                 $('#invoice_date').val(data.sirDetails.invoice_date || '');
                             } else {
                                 $('#invoice_date').val('');
                                 $('#invoice_date').removeAttr("readonly");
                             }
-
                             // Check if supplier exists and update fields, else provide select option
                             if (data.sirDetails.supplier?.id) {
                                 $('#supply_order_field').html(`
@@ -1010,7 +1267,6 @@
                                 </div>
                             `);
                             }
-
                             if (data.sirDetails.supply_order?.id) {
                                 $('#supply_order_number_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
@@ -1030,23 +1286,22 @@
                                     '');
                             } else {
                                 $('#supply_order_number_field').html(`
-                               <div class="col-md-12 d-flex justify-content-between">
-                                <label>Supply Order No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="supply_order_no" id="supply_order_no">
-                                    <option value="">Select Supply Order No</option>
-                                    @foreach ($supply_orders as $supply_order)
-                                        <option value="{{ $supply_order->id }}">
-                                            {{ $supply_order->order_number }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <label>Supply Order No</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-select" name="supply_order_no" id="supply_order_no">
+                                        <option value="">Select Supply Order No</option>
+                                        @foreach ($supply_orders as $supply_order)
+                                            <option value="{{ $supply_order->id }}">
+                                                {{ $supply_order->order_number }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
                             `);
                             }
-
                             if (data.sirDetails.inspection_authority?.id) {
                                 $('#inspection_authority_field').html(`
                                 <div class="col-md-12 d-flex justify-content-between">
@@ -1071,25 +1326,22 @@
                                     ?.id || '');
                             } else {
                                 $('#inspection_authority_field').html(`
-                               <div class="col-md-12">
-                                <label>Inspection Authority</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="authority_id" id="authority_id">
-                                    <option value="">Select Inspection Authority</option>
-                                    @foreach ($authorities as $authority)
-                                        <option value="{{ $authority->id }}" >
-                                            {{ $authority->user_name }}</option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
+                                <div class="col-md-12 d-flex justify-content-between">
+                                    <label>Inspection Authority</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <select class="form-select" name="authority_id" id="authority_id">
+                                        <option value="">Select Inspection Authority</option>
+                                        @foreach ($authorities as $authority)
+                                            <option value="{{ $authority->id }}" >
+                                                {{ $authority->user_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
                             `);
                             }
                             $("#store_received_date").val(data.sirDetails.store_received_date);
-
-                            // Check if inspection authority exists and update fields
-
                             $('#authority_designation').val(data.sirDetails.inspection_authority
                                 ?.designation || '').change();
                             $('#credit_form_add_new_row').html(data.view);
@@ -1108,7 +1360,6 @@
             });
         });
     </script>
-
     <script>
         $(document).ready(function() {
             $(document).on('click', '#add-sir-btn', function() {
@@ -1122,15 +1373,12 @@
                     dataType: "text",
                     success: function(response) {
                         $("#getSirFromDiv").html(response);
-                    }
+                    },
                 });
             });
-
-
             $(document).on('submit', '#add-sir-form', function(e) {
                 e.preventDefault();
                 let formData = $(this).serialize();
-
                 $.ajax({
                     url: $(this).attr('action'), // Update to your route
                     type: "POST",
@@ -1149,7 +1397,6 @@
                         let errors = response.responseJSON.errors;
                         // Clear all previous errors
                         $('#add-sir-form .text-danger').text('');
-
                         // Loop through the errors and display them
                         for (const [key, messages] of Object.entries(errors)) {
                             let errorSpan = $(`#add-sir-form [name="${key}"]`).siblings(
@@ -1162,22 +1409,17 @@
                     }
                 });
             });
-
-
         });
     </script>
-
     <script>
         $(document).ready(function() {
             $(document).on("change", ".round_off", function() {
-                //$row
                 let roundOff = $(this).val();
-                //  console.log(roundOff);
                 let parent = $(this).closest(".new_html");
                 let totalAmount = parseFloat(parent.find(".total_amount").val()) || 0.0;
-                //  console.log(totalAmount);
                 let roundSettle = parent.find(".round_settle_amount");
                 let roundFigure = parent.find(".round_amount");
+                //  console.log(totalAmount);
 
                 if (roundOff == 1 || roundOff == 2) {
                     parent.find(".round_settle_amount").closest(".form-group").show();
