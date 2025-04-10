@@ -31,6 +31,42 @@
                                 <tr>
                                     <td
                                         style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: left;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        DR
+                                    </td>
+                                    <td
+                                        style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        {{ \Carbon\Carbon::now()->format('h:i A') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
               font-size: 10px;
               line-height: 14px;
               font-weight: 600;
@@ -792,6 +828,41 @@
             <tbody>
                 <tr>
                     <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: left;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        CR
+                                    </td>
+                                    <td
+                                        style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        {{ \Carbon\Carbon::now()->format('h:i A') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                         <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                             <tbody>
                                 <tr>

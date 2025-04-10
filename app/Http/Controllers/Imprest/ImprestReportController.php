@@ -215,7 +215,7 @@ class ImprestReportController extends Controller
                 return $pdf->download('cash-book-report-' . $report_date . '.pdf');
             } else {
                 // If DOCX requested, first save the PDF then convert to DOCX
-                return $this->convertToDocx($pdf, 'cash-book-report');
+                return $this->convertToDocx($pdf, 'cash-book-report', $report_date);
             }
         } else if ($request->bill_type == 'out_standing') {
             $totalOutStandAmount = 0;
@@ -238,7 +238,7 @@ class ImprestReportController extends Controller
             if ($docType == 'pdf') {
                 return $pdf->download('out-standing-report-' . $report_date . '.pdf');
             } else {
-                return $this->convertToDocx($pdf, 'out-standing-report');
+                return $this->convertToDocx($pdf, 'out-standing-report', $report_date);
             }
         } else if ($request->bill_type == 'bill_hand') {
 
@@ -252,7 +252,7 @@ class ImprestReportController extends Controller
             if ($docType == 'pdf') {
                 return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
             } else {
-                return $this->convertToDocx($pdf, 'bill-hand-report');
+                return $this->convertToDocx($pdf, 'bill-hand-report', $report_date);
             }
         } else if ($request->bill_type == 'cda_bill') {
 
@@ -287,7 +287,7 @@ class ImprestReportController extends Controller
             if ($docType == 'pdf') {
                 return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
             } else {
-                return $this->convertToDocx($pdf, 'cda_bill-report');
+                return $this->convertToDocx($pdf, 'cda_bill-report', $report_date);
             }
         } else {
             return redirect()->back()->with('error', 'Invalid Bill Type');
@@ -301,7 +301,7 @@ class ImprestReportController extends Controller
      * @param string $filename The name for the output file (without extension)
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    protected function convertToDocx($pdf, $filename)
+    protected function convertToDocx($pdf, $filename, $report_date)
     {
         try {
             // Save the PDF temporarily
@@ -315,33 +315,35 @@ class ImprestReportController extends Controller
             // Save the PDF
             $pdf->save($pdfPath);
 
-            // Extract the report date from the filename (format: report-name-dd/mm/yy)
-            $reportDateStr = null;
-            $dbReportDate = null;
+            // // Extract the report date from the filename (format: report-name-dd/mm/yy)
+            // $reportDateStr = null;
+            // $dbReportDate = null;
 
-            if (preg_match('/-(\d{2}\/\d{2}\/\d{2})$/', $filename, $matches)) {
-                $reportDateStr = $matches[1]; // e.g. "31/03/23"
+            // if (preg_match('/-(\d{2}\/\d{2}\/\d{2})$/', $filename, $matches)) {
+            //     $reportDateStr = $matches[1]; // e.g. "31/03/23"
 
-                // Convert d/m/y format to Y-m-d for database queries
-                $dateParts = explode('/', $reportDateStr);
-                if (count($dateParts) === 3) {
-                    // Assuming the format is dd/mm/yy
-                    $day = $dateParts[0];
-                    $month = $dateParts[1];
-                    $year = '20' . $dateParts[2]; // Assuming 20xx for year
+            //     // Convert d/m/y format to Y-m-d for database queries
+            //     $dateParts = explode('/', $reportDateStr);
+            //     if (count($dateParts) === 3) {
+            //         // Assuming the format is dd/mm/yy
+            //         $day = $dateParts[0];
+            //         $month = $dateParts[1];
+            //         $year = '20' . $dateParts[2]; // Assuming 20xx for year
 
-                    $dbReportDate = "{$year}-{$month}-{$day}"; // Now in Y-m-d format
+            //         $dbReportDate = "{$year}-{$month}-{$day}"; // Now in Y-m-d format
 
-                    // Log for debugging
-                    \Log::info("Converted date: {$reportDateStr} to {$dbReportDate}");
-                }
-            }
+            //         // Log for debugging
+            //         \Log::info("Converted date: {$reportDateStr} to {$dbReportDate}");
+            //     }
+            // }
 
-            if (!$dbReportDate) {
-                // If we couldn't extract the date, use today as a fallback
-                $dbReportDate = date('Y-m-d');
-                \Log::warning("Could not extract date from filename: {$filename}, using today's date instead");
-            }
+            // if (!$dbReportDate) {
+            //     // If we couldn't extract the date, use today as a fallback
+            //     $dbReportDate = date('Y-m-d');
+            //     \Log::warning("Could not extract date from filename: {$filename}, using today's date instead");
+            // }
+
+            $dbReportDate = $report_date;
 
             // Create a PhpWord instance
             $phpWord = new PhpWord();
@@ -425,9 +427,9 @@ class ImprestReportController extends Controller
             $section->addTitle($reportType, 1);
 
             // Add report date
-            if ($reportDateStr) {
+            if ($report_date) {
                 $section->addText(
-                    'As on ' . $reportDateStr,
+                    'As on ' . $report_date,
                     ['size' => 11],
                     ['alignment' => 'center']
                 );
@@ -490,6 +492,7 @@ class ImprestReportController extends Controller
     protected function addCashBookContent($section, $reportDate)
     {
         // Get the same data as used in the PDF
+        
         $opening_balance_cash_in_hand = Helper::getImprestCashInHandOpening($reportDate);
         $opening_balance_cash_in_bank = Helper::getImprestCashInBankOpening($reportDate);
 
