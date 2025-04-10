@@ -1001,7 +1001,7 @@
 
                     // Display the total amount (you can choose your target element)
                     $('#total_amount').val(total_amount.toFixed(2));
-                    $('#gst_amount').val(gst_amount.toFixed(2));
+                    $('#gst_amount').val(gst_amount.toFixed(5));
                 }
             });
         });
@@ -1051,7 +1051,7 @@
             $row.find('.discount_amount').val(discount.toFixed(2));
 
             // Calculate GST on the discounted amount
-            var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
+            var gstAmount = (discountedCost * gstPercent / 100).toFixed(5);
             $row.find('.gst_amount').val(gstAmount);
 
             // Calculate total amount after GST
