@@ -344,7 +344,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <input
-                                                    type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}"
+                                                    type="{{ $sirItem->discount_type == 'fixed' ? 'hidden' : 'number' }}" step="any"
                                                     class="form-control disc_percent" name="disc_percent[]"
                                                     max="100" id="disc_percent" placeholder="Enter percentage"
                                                     value="{{ $sirItem->discount_type == 'percentage' && $sirItem->total_cost > 0 ? round(($sirItem->discount_amount / $sirItem->total_cost) * 100, 2) : 0.0 }}"
@@ -826,7 +826,7 @@
                                             </select></label>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="number" step="any" max="100" step="1"
+                                        <input type="number" step="any" max="100"
                                             value="0" class="form-control disc_percent" name="disc_percent[]"
                                             id="disc_percent" placeholder="">
                                         <input type="hidden" class="form-control discount_amount"

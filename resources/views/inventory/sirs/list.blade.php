@@ -568,8 +568,10 @@
             discount = parseFloat(discount) || 0;
             $row.find('.discount_amount').val(discount.toFixed(2));
 
+
+
             // Calculate GST on the discounted amount
-            var gstAmount = (discountedCost * gstPercent / 100).toFixed(2);
+            var gstAmount = (discountedCost * gstPercent / 100).toFixed(5);
             $row.find('.gst_amount').val(gstAmount);
 
             // Calculate total amount after GST
