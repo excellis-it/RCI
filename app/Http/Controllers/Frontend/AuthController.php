@@ -25,22 +25,26 @@ class AuthController extends Controller
         $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
         $request->merge([$fieldType => $request->user_name]);
         if (auth()->attempt($request->only($fieldType, 'password'))) {
-            
-            if (auth()->user()->status == 1 && Auth::user()->hasRole('ADMIN')){
+
+            if (auth()->user()->status == 1 && Auth::user()->hasRole('ADMIN')) {
                 return redirect()->route('dashboard');
-            }else if (auth()->user()->status == 1 && Auth::user()->hasRole('MATERIAL-MANAGER')){
-                return redirect()->route('item-codes.index');
-            }else if (auth()->user()->status == 1 && Auth::user()->hasRole('ACCOUNTANT')){
-                
-                return redirect()->route('dashboard');
-            } else {
+            }
+            // else if (auth()->user()->status == 1 && Auth::user()->hasRole('MATERIAL-MANAGER')){
+            //     return redirect()->route('item-codes.index');
+            // }else if (auth()->user()->status == 1 && Auth::user()->hasRole('ACCOUNTANT')){
+
+            //     return redirect()->route('dashboard');
+            // } else {
+            //     auth()->logout();
+            //     return redirect()->back()->with('error', 'Your account is not active!');
+            // }
+            else {
                 auth()->logout();
-                return redirect()->back()->with('error', 'Your account is not active!');
+                return redirect()->back()->with('error', 'Access denied!');
             }
         } else {
             return redirect()->back()->with('error', 'User name & password was invalid!');
         }
-
     }
 
     public function logout()
@@ -48,5 +52,4 @@ class AuthController extends Controller
         auth()->logout();
         return redirect()->route('login');
     }
-
 }
