@@ -22,7 +22,7 @@
                             </thead>
                             <tbody class="tbody_height_scroll">
                                 @foreach ($arrears as $arrear)
-                                    <tr class="edit-route-arrear" data-id="{{$arrear->id}}">
+                                    <tr class="edit-route-arrear" data-id="{{ $arrear->id }}">
                                         <td>{{ $arrear->date ? \Carbon\Carbon::parse($arrear->date)->format('d/m/Y') : 'N/A' }}
                                         </td>
                                         <td>{{ $arrear->name ?? 'N/A' }}</td>
@@ -33,7 +33,8 @@
                                         <td>{{ number_format($arrear->gmc ?? 0, 2) }}</td>
                                         <td class="sepharate">
                                             <a href="{{ route('income-tax.members-income-tax.arrears.edit', $arrear->id) }}"
-                                                class="edit_pencil edit-route-arrear-form"><i class="ti ti-pencil"></i></a>
+                                                class="edit_pencil edit-route-arrear-form"><i
+                                                    class="ti ti-pencil"></i></a>
 
                                             <a type="button" class="delete_arrear delete"
                                                 data-route="{{ route('income-tax.members-income-tax.arrears.delete', $arrear->id) }}"><i
@@ -54,12 +55,10 @@
                             <span class="text-danger date-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
-                            <label>Name</label>
+                            <label>Arrears Name</label>
                             <select class="form-control" name="name" id="name">
                                 <option value="">Select Name</option>
-                                <option value="DA1">DA1</option>
-                                <option value="DA2">DA2</option>
-                                <option value="Update Allw">Update Allw</option>
+                                <!-- Dynamic arrears names will be loaded here -->
                             </select>
                             <span class="text-danger name-err"></span>
                         </div>

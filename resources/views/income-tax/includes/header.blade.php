@@ -2,174 +2,52 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse"
-                    href="javascript:void(0)">
+                <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
         </ul>
 
         <ul class="navbar-nav quick-links d-none d-lg-flex">
-            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Payment Category<span
+            <li class="nav-item dropdown hover-dd d-none d-lg-block">
+                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Manage Income Tax<span
                         class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
                 <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
                     <div class="position-relative p-7 h-100">
                         <ul class="">
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Group Updation</a>
+                                    href="{{ route('arrears-name.index') }}">Arrears Names</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="">Pay Computation</a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
-            </li> --}}
-            <li class="nav-item dropdown-hover d-none d-lg-block">
+            </li>
+
+            {{-- <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('arrears.index') ? 'active' : '' }}" href="{{ route('arrears.index') }}"> Arrears</a>
             </li>
             <li class="nav-item dropdown-hover d-none d-lg-block">
                 <a class="nav-link {{ Route::is('rents.index') ? 'active' : '' }}" href="{{ route('rents.index') }}"> Rents</a>
-            </li>
-
-            {{-- <li class="nav-item dropdown hover-dd d-none d-lg-block">
-                <a class="nav-link" href="javascript:void(0)" data-bs-toggle="dropdown">Pay & Allowance<span
-                        class="mt-1"><i class="ti ti-chevron-down"></i></span></a>
-                <div class="dropdown-menu dropdown-menu-nav dropdown-menu-animate-up py-0">
-                    <div class="position-relative p-7 h-100">
-                        <ul class="">
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('cash-payments.index')}}">Public Fund</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{route('cda-receipts.index')}}">Imprest</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('item-codes.index') }}">Material Management</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="#">Income Tax</a>
-                            </li>
-                            <li>
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('members.index') }}">Member Managemnet</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
             </li> --}}
+
+
         </ul>
 
         <div class="d-block d-lg-none">
-            <img src="{{asset('frontend_assets/images/logo.png')}}" class="dark-logo" width="" alt="">
+            <img src="{{ asset('frontend_assets/images/logo.png') }}" class="dark-logo" width="" alt="">
         </div>
 
         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-            {{-- <li class="nav-item">
-                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none d-none d-md-block"
-                    href="javascript:void(0)">
-                    <i class="ti ti-settings fs-4"></i> Settings
-                </a>
-            </li> --}}
+
             <li class="nav-item">
                 <a class="fw-semibold bg-hover-primary text-decoration-none text-deger ps-3 d-none d-md-block"
-                    href="{{route('logout')}}">
+                    href="{{ route('logout') }}">
                     <i class="ti ti-logout fs-4"></i> Logout
                 </a>
             </li>
-            {{-- <li class="nav-item dropdown">
-                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ti ti-bell-ringing"></i>
-                    <div class="notification bg-primary rounded-circle"></div>
-                </a>
-                <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                    aria-labelledby="drop2">
-                    <div class="d-flex align-items-center justify-content-between py-3 px-7">
-                        <h5 class="mb-0 fs-5 fw-semibold">Notifications</h5>
-                        <span class="badge bg-primary rounded-4 px-3 py-1 lh-sm">5 new</span>
-                    </div>
-                    <div class="message-body" data-simplebar="">
-                        <a href="javascript:void(0)"
-                            class="py-6 px-7 d-flex align-items-center dropdown-item">
-                            <span class="me-3">
-                                <img src="images/user-1.jpg" alt="user" class="rounded-circle"
-                                    width="48" height="48">
-                            </span>
-                            <div class="w-75 d-inline-block v-middle">
-                                <h6 class="mb-1 fw-semibold">Roman Joined the Team!</h6>
-                                <span class="d-block">Congratulate him</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0)"
-                            class="py-6 px-7 d-flex align-items-center dropdown-item">
-                            <span class="me-3">
-                                <img src="images/user-2.jpg" alt="user" class="rounded-circle"
-                                    width="48" height="48">
-                            </span>
-                            <div class="w-75 d-inline-block v-middle">
-                                <h6 class="mb-1 fw-semibold">New message</h6>
-                                <span class="d-block">Salma sent you new message</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0)"
-                            class="py-6 px-7 d-flex align-items-center dropdown-item">
-                            <span class="me-3">
-                                <img src="images/user-3.jpg" alt="user" class="rounded-circle"
-                                    width="48" height="48">
-                            </span>
-                            <div class="w-75 d-inline-block v-middle">
-                                <h6 class="mb-1 fw-semibold">Bianca sent payment</h6>
-                                <span class="d-block">Check your earnings</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0)"
-                            class="py-6 px-7 d-flex align-items-center dropdown-item">
-                            <span class="me-3">
-                                <img src="images/user-4.jpg" alt="user" class="rounded-circle"
-                                    width="48" height="48">
-                            </span>
-                            <div class="w-75 d-inline-block v-middle">
-                                <h6 class="mb-1 fw-semibold">Jolly completed tasks</h6>
-                                <span class="d-block">Assign her new tasks</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0)"
-                            class="py-6 px-7 d-flex align-items-center dropdown-item">
-                            <span class="me-3">
-                                <img src="images/user-5.jpg" alt="user" class="rounded-circle"
-                                    width="48" height="48">
-                            </span>
-                            <div class="w-75 d-inline-block v-middle">
-                                <h6 class="mb-1 fw-semibold">John received payment</h6>
-                                <span class="d-block">$230 deducted from account</span>
-                            </div>
-                        </a>
-                        <a href="javascript:void(0)"
-                            class="py-6 px-7 d-flex align-items-center dropdown-item">
-                            <span class="me-3">
-                                <img src="images/user-1.jpg" alt="user" class="rounded-circle"
-                                    width="48" height="48">
-                            </span>
-                            <div class="w-75 d-inline-block v-middle">
-                                <h6 class="mb-1 fw-semibold">Roman Joined the Team!</h6>
-                                <span class="d-block">Congratulate him</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="py-6 px-7 mb-1">
-                        <button class="btn btn-outline-primary w-100"> See All Notifications </button>
-                    </div>
-                </div>
-            </li> --}}
+
             <li class="nav-item dropdown">
                 <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -236,7 +114,7 @@
                             <a href="{{ route('logo.dashboard') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                                 <span class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
                                     <img src="{{ asset('frontend_assets/images/icon-inbox.svg') }}" alt=""
-                                    width="24" height="24">
+                                        width="24" height="24">
                                 </span>
                                 <div class="w-75 d-inline-block v-middle ps-3">
                                     <h6 class="mb-1 bg-hover-primary fw-semibold"> Change Logo </h6>

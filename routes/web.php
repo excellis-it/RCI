@@ -139,6 +139,7 @@ use App\Http\Controllers\WebSettingsController;
 use App\Http\Controllers\Frontend\CssSubController;
 use App\Http\Controllers\Imprest\CashDepositController;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\IncomeTax\ArrearsNameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -902,6 +903,7 @@ Route::middleware('permssions')->group(function () {
             'arrears' => ArrearsController::class,
             'rents' => RentController::class,
             'members-income-tax' => IncomeTaxMemberController::class,
+            'arrears-name' => ArrearsNameController::class, // Add this new resource
         ]);
 
         Route::get('/getPayDetails', [IncomeTaxMemberController::class, 'getPayDetails'])->name('income-tax.members-income-tax.get-pay-details');
@@ -934,6 +936,10 @@ Route::middleware('permssions')->group(function () {
 
         Route::post('/rent-member-details', [RentController::class, 'memberDetails'])->name('rents.member-details');
         Route::get('/rent-fetch-data', [RentController::class, 'fetchData'])->name('rents.fetch-data');
+
+        // Add this new route
+        Route::get('/get-active-arrears-names', [ArrearsNameController::class, 'getActiveArrearsNames'])
+            ->name('income-tax.arrears-name.get-active');
     });
 
     // imprest routes

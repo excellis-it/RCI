@@ -591,11 +591,11 @@
                             if (response.success) {
                                 let formattedDate = response.data.date ?? "N/A";
                                 let editRoute =
-                                        `{{ route('income-tax.members-income-tax.arrears.edit', ':id') }}`
-                                        .replace(':id', response.data.id);
-                                    let deleteRoute =
-                                        `{{ route('income-tax.members-income-tax.arrears.delete', ':id') }}`
-                                        .replace(':id', response.data.id);
+                                    `{{ route('income-tax.members-income-tax.arrears.edit', ':id') }}`
+                                    .replace(':id', response.data.id);
+                                let deleteRoute =
+                                    `{{ route('income-tax.members-income-tax.arrears.delete', ':id') }}`
+                                    .replace(':id', response.data.id);
 
                                 let updatedRow = `
                         <tr data-id="${response.data.id}">
@@ -782,6 +782,42 @@
                         });
                     }
                 });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                // Load arrears names when arrears tab is clicked
+                $('#arrears-tab').on('click', function() {
+                    loadArrearsNames();
+                });
+
+                // Also load on page init if the tab is active
+                if ($('#arrears').hasClass('active show')) {
+                    loadArrearsNames();
+                }
+
+                function loadArrearsNames() {
+                    $.ajax({
+                        url: "{{ route('income-tax.arrears-name.get-active') }}",
+                        type: "GET",
+                        success: function(response) {
+                            if (response.success) {
+                                let nameSelect = $('#name');
+                                nameSelect.empty().append('<option value="">Select Name</option>');
+
+                                $.each(response.data, function(index, item) {
+                                    nameSelect.append(
+                                        `<option value="${item.name}">${item.name}</option>`);
+                                });
+                            } else {
+                                toastr.error("Error loading arrears names");
+                            }
+                        },
+                        error: function() {
+                            toastr.error("Failed to load arrears names");
+                        }
+                    });
+                }
             });
         </script>
     @endpush
