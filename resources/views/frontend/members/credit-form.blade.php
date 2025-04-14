@@ -454,7 +454,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">

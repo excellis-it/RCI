@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" hidden>
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -61,7 +61,9 @@
                     </div>
                 </div>
             </div>
-        @else
+        @endif
+
+        @if ($member->fund_type == 'NPS')
             <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
@@ -81,6 +83,21 @@
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
+                            <label>GMC</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="cmg" id="cmg"
+                                value="{{ $member_debit->cmg ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2" hidden>
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
                             <label>NPS Rec</label>
                         </div>
                         <div class="col-md-12">
@@ -91,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" hidden>
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -150,7 +167,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -257,7 +274,7 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -313,7 +330,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -356,7 +373,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -547,7 +564,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -620,20 +637,7 @@
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>GMC</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="cmg" id="cmg"
-                            value="{{ $member_debit->cmg ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -707,7 +711,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -721,7 +725,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
