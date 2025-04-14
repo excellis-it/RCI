@@ -126,6 +126,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>PH</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="pg" id="pg">
+                                    <option value="">Select</option>
+                                    @foreach ($pgs as $pg)
+                                        <option value="{{ $pg->id }}"
+                                            {{ (isset($member->pg)) && $pg->id == (($member->pg ?? null)) ? 'selected' : '' }}>
+                                            {{ $pg->value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-2">
@@ -270,6 +292,9 @@
                             </div>
                         </div>
                     </div>
+
+
+
 
 
                 </div>
@@ -578,7 +603,11 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
+
 
             <div class="row">
                 <div class="col-md-6">

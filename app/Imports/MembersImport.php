@@ -177,6 +177,13 @@ class MemberSheetImport implements ToModel, WithHeadingRow, SkipsEmptyRows
         // Process the category
         $categoryId = $this->getOrCreateCategory($this->fund_type);
 
+        // Get Fund Type from category if available
+        $category = null;
+        if ($categoryId) {
+            $category = Category::find($categoryId);
+        }
+        $fundType = $category ? $category->fund_type : $this->fund_type;
+
         // Process the PM level
         $pmLevelId = $this->getOrCreatePmLevel($row['level']);
 
@@ -205,7 +212,7 @@ class MemberSheetImport implements ToModel, WithHeadingRow, SkipsEmptyRows
             'e_status' => 'active',
             'member_status' => 1,
             'pay_stop' => 'No',
-            'fund_type' => $this->fund_type,
+            'fund_type' => $fundType ?? '',
             'member_city' => 1, // Default city ID
             'old_bp' => $row['basic_pay'] ?? 0, // Using basic pay as old_bp too
         ];

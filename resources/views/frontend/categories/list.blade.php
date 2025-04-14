@@ -54,6 +54,9 @@
                                                 {{-- <th>Code</th> --}}
                                                 <th> Gazetted </th>
                                                 <th> Designation Type </th>
+                                                <th> Fund Type </th>
+                                                <th> Med Ins </th>
+                                                <th> Wel Sub </th>
                                                 <th> Status </th>
                                                 <th> </th>
                                             </tr>

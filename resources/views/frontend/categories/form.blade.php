@@ -70,6 +70,49 @@
                             </div>
                         </div>
                     </div>
+                    <!-- New Fields -->
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Fund Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="fund_type" id="fund_type">
+                                    <option value="">Select Fund Type</option>
+                                    @foreach ($fund_typs as $fund_type)
+                                        <option value="{{ $fund_type->value }}"
+                                            {{ $category->fund_type == $fund_type->value ? 'selected' : '' }}>
+                                            {{ $fund_type->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger" id="fund_type_id-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Med Ins</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" name="med_ins" id="med_ins"
+                                    value="{{ $category->med_ins ?? 0 }}" placeholder="">
+                                <span class="text-danger" id="med_ins-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Wel Sub</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" name="wel_sub" id="wel_sub"
+                                    value="{{ $category->wel_sub ?? 0 }}" placeholder="">
+                                <span class="text-danger" id="wel_sub-error"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,8 +143,8 @@
                                 <label>Category</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="category" id="category" value=""
-                                    placeholder="">
+                                <input type="text" class="form-control" name="category" id="category"
+                                    value="" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -149,6 +192,47 @@
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Fields -->
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Fund Type</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="fund_type" id="fund_type">
+                                    <option value="">Select Fund Type</option>
+                                    @foreach ($fund_typs as $fund_type)
+                                        <option value="{{ $fund_type->value }}">{{ $fund_type->fund_type }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Med Ins</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" name="med_ins" id="med_ins"
+                                    value="0" placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-7 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Wel Sub</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" name="wel_sub" id="wel_sub"
+                                    value="0" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

@@ -573,7 +573,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group col-md-6 mb-2">
+                                                    {{-- <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
                                                                 <label>Fund Type</label>
@@ -591,7 +591,7 @@
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}} 
 
                                                     <div class="form-group col-md-6 mb-2">
                                                         <div class="row align-items-center">

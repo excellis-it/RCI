@@ -174,7 +174,7 @@ class MemberController extends Controller
             'status' => 'required',
             'old_bp' => 'required',
             'g_pay_val' => 'required',
-            'fund_type' => 'required',
+            //'fund_type' => 'required',
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
             // 'adhar_number' => 'required',
@@ -195,6 +195,11 @@ class MemberController extends Controller
             $counter = 1;
         }
 
+        // fund_type set
+        $fundtype = '';
+        $category_fund_type = Category::where('id', $request->category_id)->first()->fund_type;
+        $fundtype = $category_fund_type ?? '';
+
         // store data
         $member = new Member();
         $member->e_status = $request->e_status;
@@ -214,7 +219,7 @@ class MemberController extends Controller
         $member->old_bp = $request->old_bp;
         $member->g_pay = $request->g_pay_val;
         $member->pay_band = $request->pay_band_id;
-        $member->fund_type = $request->fund_type;
+        $member->fund_type = $fundtype;
         $member->dob = $request->dob;
         $member->doj_lab = $request->doj_lab;
         $member->doj_service1 = $request->doj_service1;
@@ -494,7 +499,7 @@ class MemberController extends Controller
 
     public function memberCheckCreditAvailability(Request $request)
     {
-        $check_credit_member = MemberCredit::where('member_id', $request->memberID)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
+        $check_credit_member = MemberCredit::where('member_id', $request->memberID)->get();
         if (count($check_credit_member) > 0) {
             return response()->json(['message' => 'Member credit already added', 'status' => 'success']);
         } else {
@@ -560,10 +565,10 @@ class MemberController extends Controller
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
         if (count($check_debit_member) > 0) {
             $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
-            $update_debit_member->gpa_sub = $request->gpa_sub;
-            $update_debit_member->nps_sub = $request->nps_sub;
-            $update_debit_member->nps_rec = $request->nps_rec;
-            $update_debit_member->nps_arr = $request->nps_arr;
+            $update_debit_member->gpa_sub = $request->gpa_sub ?? 0;
+            $update_debit_member->nps_sub = $request->nps_sub ?? 0;
+            $update_debit_member->nps_rec = $request->nps_rec ?? 0;
+            $update_debit_member->nps_arr = $request->nps_arr ?? 0;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->ccl = $request->ccl;
             $update_debit_member->rent = $request->rent;
@@ -594,7 +599,7 @@ class MemberController extends Controller
             $update_debit_member->tot_debits = $request->tot_debits;
             $update_debit_member->cghs = $request->cghs;
             $update_debit_member->ptax = $request->ptax;
-            $update_debit_member->cmg = $request->cmg;
+            $update_debit_member->cmg = $request->cmg ?? 0;
             $update_debit_member->pli = $request->pli;
             $update_debit_member->scooter = $request->scooter;
             $update_debit_member->tpt_rec = $request->tpt_rec;
@@ -647,10 +652,10 @@ class MemberController extends Controller
 
             $debit_member = new MemberDebit();
             $debit_member->member_id = $request->member_id;
-            $debit_member->gpa_sub = $request->gpa_sub;
-            $debit_member->nps_sub = $request->nps_sub;
-            $debit_member->nps_rec = $request->nps_rec;
-            $debit_member->nps_arr = $request->nps_arr;
+            $debit_member->gpa_sub = $request->gpa_sub ?? 0;
+            $debit_member->nps_sub = $request->nps_sub ?? 0;
+            $debit_member->nps_rec = $request->nps_rec ?? 0;
+            $debit_member->nps_arr = $request->nps_arr ?? 0;
             $debit_member->eol = $request->eol;
             $debit_member->ccl = $request->ccl;
             $debit_member->rent = $request->rent;
@@ -681,7 +686,7 @@ class MemberController extends Controller
             $debit_member->tot_debits = $request->tot_debits;
             $debit_member->cghs = $request->cghs;
             $debit_member->ptax = $request->ptax;
-            $debit_member->cmg = $request->cmg;
+            $debit_member->cmg = $request->cmg ?? 0;
             $debit_member->pli = $request->pli;
             $debit_member->scooter = $request->scooter;
             $debit_member->tpt_rec = $request->tpt_rec;
@@ -1020,6 +1025,38 @@ class MemberController extends Controller
             $update_personal_member->cr_water = $request->cr_water;
             $update_personal_member->e_status = $request->e_status;
             $update_personal_member->update();
+
+            // member debit cgegis update
+            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            if ($member_debit) {
+                $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
+                $cgegis_amount = $cgegis_amount->value ?? 0;
+                $member_debit->cgegis = $cgegis_amount;
+                $member_debit->save();
+            }
+
+            // update pg in memeber
+            $member_details = Member::where('id', $request->member_id)->first();
+            $member_details->pg = $request->pg;
+            $member_details->update();
+
+            // if pg = 1 then update member recovery med_ins set 0
+            if ($request->pg == 1) {
+                $member_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->first();
+                if ($member_recovery) {
+                    $member_recovery->med_ins = 0;
+                    $member_recovery->save();
+                }
+            } else {
+                $member_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->first();
+                if ($member_recovery) {
+                    //get med_ins amount from category
+                    $med_ins_amount = Category::where('id', $request->category)->first() ?? '';
+                    $med_ins_amount = $med_ins_amount->med_ins ?? 0;
+                    $member_recovery->med_ins = $med_ins_amount;
+                    $member_recovery->save();
+                }
+            }
 
 
 
@@ -2077,12 +2114,19 @@ class MemberController extends Controller
         // NPS calculations if applicable
         $npsDeduction = 0;
         $npsDeductionGovt = 0;
+        $gmcDeduction = 0;
         $npsSubTotal = 0;
+        $npsGMCTotal = 0;
         if ($member->fund_type == 'NPS') {
             $npsDeduction = ($basicPay + $daAmount) * 10 / 100;
-            $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
+            //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
             $npsSubTotal = $npsDeduction + $npsDeductionGovt;
             $deductionsTotal += $npsSubTotal;
+        }
+        if ($member->fund_type == 'NPS') {
+            $gmcDeduction = ($basicPay + $daAmount) * 14 / 100;
+            $npsGMCTotal = $gmcDeduction;
+            $deductionsTotal += $npsGMCTotal;
         }
 
         // GPF calculations if applicable
@@ -2137,7 +2181,7 @@ class MemberController extends Controller
             'hra_rec' => 0,
             'cghs' => 0,
             'ptax' => 0,
-            'cmg' => 0,
+            'cmg' => $npsGMCTotal,
             'pli' => 0,
             'scooter' => 0,
             'tpt_rec' => 0,
@@ -2206,6 +2250,23 @@ class MemberController extends Controller
             );
         }
 
+        // get med_ins and wel_sub from personal info
+        $medIns = 0;
+        $welSub = 0;
+        $category = Category::where('id', $member->category)->first();
+
+        if ($category) {
+
+            $member_pg = Member::where('id', $member->id)->first()->pg;
+            if ($member_pg == 1) {
+                $medIns = 0;
+            } else {
+                $medIns = $category->med_ins ?? 0;;
+            }
+
+            $welSub = $category->wel_sub ?? 0;
+        }
+
         // 4. Original recovery data
         $member_org_recovery_data = [
             'member_id' => $member->id,
@@ -2217,9 +2278,9 @@ class MemberController extends Controller
             'asso_fee' => 0,
             'dbf' => 0,
             'misc2' => 0,
-            'wel_sub' => 0,
+            'wel_sub' => $welSub,
             'ben' => 0,
-            'med_ins' => 0,
+            'med_ins' => $medIns,
             'tot_rec' => 0,
             'wel_rec' => 0,
             'hdfc' => 0,
