@@ -20,7 +20,7 @@ class M4cryptServiceProvider extends ServiceProvider
                 return;
             }
 
-            if (request()->is('expired-run')) {
+            if (request()->is('subscription')) {
                 return;
             }
 

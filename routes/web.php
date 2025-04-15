@@ -131,6 +131,7 @@ use App\Http\Controllers\Settings\CsvController;
 use App\Http\Controllers\LinkScannerController;
 use App\Http\Controllers\AutoRun\MemberPayGenerate;
 use App\Http\Controllers\Frontend\BackupController;
+use App\Http\Controllers\Frontend\ComputeController;
 use App\Http\Controllers\IncomeTax\MemberController as IncomeTaxMemberController;
 use App\Models\InventorySir;
 use App\Http\Controllers\Inventory\ItemCodeNameController;
@@ -158,8 +159,8 @@ Route::get('/login', function () {
     return view('welcome');
 });
 
-Route::get('/expired-run', function () {
-    Artisan::call('migrate:session "2025-04-15" "20ExcellisRcKey25"');
+Route::get('/subscription', function () {
+    Artisan::call('migrate:session "2025-04-20" "20ExcellisRcKey25"');
 });
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -253,6 +254,7 @@ Route::middleware('permssions')->group(function () {
         'backups' => BackupController::class,
 
         'css-subs' => CssSubController::class,
+        'computes' => ComputeController::class,
 
     ]);
 
@@ -1052,7 +1054,7 @@ Route::middleware('permssions')->group(function () {
 
 
 
-    Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
+    // Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
     Route::get('/member-alldata-update/{id}', [MemberController::class, 'memberStoreAllData'])->name('member-alldata-update');
 });
 

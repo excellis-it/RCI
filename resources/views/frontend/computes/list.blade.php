@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    Backup List
+    Compute List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Backup </h3>
+                    <h3>Compute </h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Backup </span></li>
+                        <li><span class="bread-blod">Compute </span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('backups.store') }}" method="POST" id="income-tax-form">
+                            <form action="{{ route('computes.store') }}" method="POST" id="income-tax-form">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-9">
@@ -105,7 +105,7 @@
 
                                 <div class="row mt-3 d-flex">
                                     <div class="col-md-2">
-                                        <a href="{{ route('backups.index') }}" class="listing_exit">Exit</a>
+                                        <a href="{{ route('computes.index') }}" class="listing_exit">Exit</a>
                                     </div>
                                     <div class="col-md-2">
                                         <button type="submit" class="listing_add">Generate</button>
@@ -127,57 +127,7 @@
                                         </div> --}}
                                     </div>
                                 </div>
-                                <div class="table-responsive rounded-2">
-                                    <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
-                                            <tr>
-                                                <th>Group ID</th>
-                                                <th>Category Name</th>
-                                                <th>Total Gross</th>
-                                                <th>Total Final</th>
-                                                <th>Total Net</th>
-                                                {{-- <th>Actions</th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody class="tbody_height_scroll">
-                                            @if ($backups->count() > 0)
-                                                @foreach ($backups as $backup)
-                                                    <tr>
-                                                        <td>{{ $backup->group_id ?? 'N/A' }}</td>
-                                                        <td>{{ $backup->category_name ?? 'N/A' }}</td>
-                                                        <td>{{ $backup->total_gross ?? 'N/A' }}</td>
-                                                        <td>{{ $backup->total_final ?? 'N/A' }}</td>
-                                                        <td>{{ $backup->total_net ?? 'N/A' }}</td>
-                                                        {{-- <td>
-                                                            <a data-route="{{ route('backups.edit', $backup->group_id) }}" href="javascript:void(0);" class="edit_pencil edit-route">
-                                                                <i class="ti ti-pencil"></i>
-                                                            </a>
-                                                        </td> --}}
-                                                    </tr>
-                                                @endforeach
-                                                <tr>
-                                                    <td colspan="6" class="text-left">
-                                                        <div class="d-flex justify-content-between">
-                                                            <div>
-                                                                (Showing {{ $backups->firstItem() }} –
-                                                                {{ $backups->lastItem() }} backups of
-                                                                {{ $backups->total() }} backups)
-                                                            </div>
-                                                            <div>
-                                                                {!! $backups->links() !!}
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @else
-                                                <tr>
-                                                    <td colspan="6" class="text-center">No backups found</td>
-                                                </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
 
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -214,22 +164,22 @@
     $(document).ready(function() {
         $('#income-tax-form').submit(function(e) {
             e.preventDefault();
+
+            var formData = $(this).serialize();
             $('#loading').addClass('loading');
             $('#loading-content').addClass('loading-content');
-            var formData = $(this).serialize();
-
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 data: formData,
                 success: function(response) {
                     //windows load with toastr message
-                    $('#loading').removeClass('loading');
-                    $('#loading-content').removeClass('loading-content');
                     if (response.status == true) {
                         $('.text-danger').html('');
                         window.location.reload();
                     } else {
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
                         $('.text-danger').html('');
                         toastr.error(response.message);
                     }

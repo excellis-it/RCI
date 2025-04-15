@@ -1274,7 +1274,7 @@ Route::middleware('permssions')->group(function () {
         });
     });
 
-    Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
+    // Route::get('/member-monthdata-generate', [MemberPayGenerate::class, 'paygenerate'])->name('member-monthdata-generate');
 
     // Settings
     Route::prefix('web-settings')->group(function () {
