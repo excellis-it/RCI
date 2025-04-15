@@ -40,11 +40,13 @@
                                             <div class="form-group col-md-12 mb-2">
                                                 <label>Generate Data By:</label>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_member" value="member" checked>
+                                                    <input class="form-check-input" type="radio" name="generate_by"
+                                                        id="by_member" value="member" checked>
                                                     <label class="form-check-label" for="by_member">Member</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_category" value="category">
+                                                    <input class="form-check-input" type="radio" name="generate_by"
+                                                        id="by_category" value="category">
                                                     <label class="form-check-label" for="by_category">Category</label>
                                                 </div>
                                             </div>
@@ -60,7 +62,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger" id="month_error"></span>
                                             </div>
 
                                             <!-- Year Dropdown -->
@@ -73,7 +75,7 @@
                                                         <option value="{{ $i }}">{{ $i }}</option>
                                                     @endfor
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger" id="year_error"></span>
                                             </div>
 
                                             <!-- Member Selection -->
@@ -82,22 +84,25 @@
                                                 <select class="form-select select2" name="member_id" id="member_id">
                                                     <option value="">Select Member</option>
                                                     @foreach ($members as $member)
-                                                        <option value="{{ $member->id }}">{{ $member->name }} ({{$member->pers_no}})</option>
+                                                        <option value="{{ $member->id }}">{{ $member->name }}
+                                                            ({{ $member->pers_no }})</option>
                                                     @endforeach
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger" id="member_id_error"></span>
                                             </div>
 
                                             <!-- Category Selection -->
-                                            <div class="form-group col-md-6 mb-2" id="category_section" style="display: none;">
+                                            <div class="form-group col-md-6 mb-2" id="category_section"
+                                                style="display: none;">
                                                 <label for="category_id">Category</label>
                                                 <select class="form-select select2" name="category_id" id="category_id">
                                                     <option value="">Select Category</option>
                                                     @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                                        <option value="{{ $category->id }}">{{ $category->category }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
-                                                <span class="text-danger"></span>
+                                                <span class="text-danger" id="category_id_error"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -189,76 +194,76 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: 'Select an option',
-            allowClear: true,
-            theme: 'bootstrap4',
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const byMember = document.getElementById('by_member');
-        const byCategory = document.getElementById('by_category');
-        const memberSection = document.getElementById('member_section');
-        const categorySection = document.getElementById('category_section');
-
-        function toggleFields() {
-            if (byMember.checked) {
-                memberSection.style.display = 'block';
-                categorySection.style.display = 'none';
-            } else {
-                memberSection.style.display = 'none';
-                categorySection.style.display = 'block';
-            }
-        }
-
-        byMember.addEventListener('change', toggleFields);
-        byCategory.addEventListener('change', toggleFields);
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#income-tax-form').submit(function(e) {
-            e.preventDefault();
-            $('#loading').addClass('loading');
-            $('#loading-content').addClass('loading-content');
-            var formData = $(this).serialize();
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                success: function(response) {
-                    //windows load with toastr message
-                    $('#loading').removeClass('loading');
-                    $('#loading-content').removeClass('loading-content');
-                    if (response.status == true) {
-                        $('.text-danger').html('');
-                        window.location.reload();
-                    } else {
-                        $('.text-danger').html('');
-                        toastr.error(response.message);
-                    }
-
-                },
-                error: function(xhr) {
-                    $('#loading').removeClass('loading');
-                    $('#loading-content').removeClass('loading-content');
-                    // Handle errors (e.g., display validation errors)
-                    //clear any old errors
-                    $('.text-danger').html('');
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        // Assuming you have a div with class "text-danger" next to each input
-                        $('[name="' + key + '"]').next('.text-danger').html(value[
-                            0]);
-                    });
-                }
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Select an option',
+                allowClear: true,
+                theme: 'bootstrap4',
             });
         });
-    });
-</script>
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const byMember = document.getElementById('by_member');
+            const byCategory = document.getElementById('by_category');
+            const memberSection = document.getElementById('member_section');
+            const categorySection = document.getElementById('category_section');
+
+            function toggleFields() {
+                if (byMember.checked) {
+                    memberSection.style.display = 'block';
+                    categorySection.style.display = 'none';
+                } else {
+                    memberSection.style.display = 'none';
+                    categorySection.style.display = 'block';
+                }
+            }
+
+            byMember.addEventListener('change', toggleFields);
+            byCategory.addEventListener('change', toggleFields);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#income-tax-form').submit(function(e) {
+                e.preventDefault();
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    success: function(response) {
+                        //windows load with toastr message
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        if (response.status == true) {
+                            $('.text-danger').html('');
+                            window.location.reload();
+                        } else {
+                            $('.text-danger').html('');
+                            toastr.error(response.message);
+                        }
+
+                    },
+                    error: function(xhr) {
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('#' + key + '_error').html(value[
+                                0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endpush
