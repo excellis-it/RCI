@@ -41,7 +41,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        DR
+                                        DR.
                                     </td>
                                     <td
                                         style="
@@ -55,7 +55,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ \Carbon\Carbon::now()->format('h:i A') }}
+                                        {{ \Carbon\Carbon::now()->format('d/m/Y') }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -843,7 +843,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        CR
+                                        CR.
                                     </td>
                                     <td
                                         style="
@@ -857,7 +857,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ \Carbon\Carbon::now()->format('h:i A') }}
+                                        {{ \Carbon\Carbon::now()->format('d/m/Y') }}
                                     </td>
                                 </tr>
                             </tbody>
