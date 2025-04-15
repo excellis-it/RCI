@@ -52,7 +52,7 @@
                                             <!-- Month Dropdown -->
                                             <div class="form-group col-md-6 mb-2">
                                                 <label for="month">Month</label>
-                                                <select class="form-select" name="month" id="month">
+                                                <select class="form-select select2" name="month" id="month">
                                                     <option value="">Select Month</option>
                                                     @foreach (range(1, 12) as $m)
                                                         <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">
@@ -66,7 +66,7 @@
                                             <!-- Year Dropdown -->
                                             <div class="form-group col-md-6 mb-2">
                                                 <label for="year">Year</label>
-                                                <select class="form-select" name="year" id="year">
+                                                <select class="form-select select2" name="year" id="year">
                                                     <option value="">Select Year</option>
                                                     @php $currentYear = date('Y'); @endphp
                                                     @for ($i = $currentYear; $i >= 2000; $i--)
@@ -79,10 +79,10 @@
                                             <!-- Member Selection -->
                                             <div class="form-group col-md-6 mb-2" id="member_section">
                                                 <label for="member_id">Member</label>
-                                                <select class="form-select" name="member_id" id="member_id">
+                                                <select class="form-select select2" name="member_id" id="member_id">
                                                     <option value="">Select Member</option>
                                                     @foreach ($members as $member)
-                                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                                        <option value="{{ $member->id }}">{{ $member->name }} ({{$member->pers_no}})</option>
                                                     @endforeach
                                                 </select>
                                                 <span class="text-danger"></span>
@@ -91,7 +91,7 @@
                                             <!-- Category Selection -->
                                             <div class="form-group col-md-6 mb-2" id="category_section" style="display: none;">
                                                 <label for="category_id">Category</label>
-                                                <select class="form-select" name="category_id" id="category_id">
+                                                <select class="form-select select2" name="category_id" id="category_id">
                                                     <option value="">Select Category</option>
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}">{{ $category->category }}</option>
@@ -189,6 +189,15 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: 'Select an option',
+            allowClear: true,
+            theme: 'bootstrap4',
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const byMember = document.getElementById('by_member');

@@ -152,7 +152,7 @@ class MemberPayGenerate extends Controller
 
             // insert member debit data to member monthly data debit
             $member_debit = MemberDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
-            if ($member_debit) {
+            if ($member_debit) {    
                 $member_debit_monthly_data = new MemberMonthlyDataDebit();
                 foreach ($DebitCommonColumns as $column) {
                     $member_debit_monthly_data->$column = $member_debit->$column;
