@@ -1772,7 +1772,7 @@
             const fields = [
                 "#gpa_sub",
                 "#gpa_adv",
-                "#gpf_arr",
+                //"#gpf_arr",
                 "#cgegis",
                 "#cghs",
                 "#hba",
@@ -1795,24 +1795,24 @@
                 "#misc1",
                 "#misc2",
                 "#quarter_charge",
-                "#cghs",
-                "#cgeis_arr",
+              //  "#cghs",
+                //  "#cgeis_arr",
                 "#penal_interest",
                 "#nps_sub",
                 "#nps_rec",
-                "#nps_arr",
+                //   "#nps_arr",
                 "#eol",
                 "#ccl",
                 "#rent",
-                "#lf_arr",
+                //  "#lf_arr",
                 "#elec",
-                "#elec_arr",
+                //  "#elec_arr",
                 "#pc",
-                "#water_arr",
+                //  "#water_arr",
                 "#water",
                 "#arrear_pay",
                 "#npsg",
-                "#npsg_arr",
+                //   "#npsg_arr",
                 "#npsg_adj",
                 "#ltc_rec",
                 "#medical_rec",
@@ -1820,11 +1820,11 @@
                 "#misc3",
                 "#cda",
                 "#furn",
-                "#furn_arr",
+                //   "#furn_arr",
                 "#hra_rec",
                 "#cmg",
                 "#tpt_rec",
-                "#cghs_arr",
+                //   "#cghs_arr",
                 "#society",
 
             ];
@@ -1838,8 +1838,13 @@
                     // Check if the field exists in the DOM
                     if ($(field).length) {
                         const value = $(field).val();
+                        if (value > 0) {
+                            console.log('field name:', field);
+                            console.log('field value:', value);
+                        }
                         // If the value is empty, null, undefined or NaN, use 0
                         total += (value && !isNaN(parseFloat(value))) ? parseFloat(value) : 0;
+                        console.log('total:', total);
                     } else {
                         // Field doesn't exist, add 0
                         total += 0;
