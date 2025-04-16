@@ -7,6 +7,8 @@ use App\Models\PmLevel;
 use Illuminate\Http\Request;
 use App\Models\Tpta;
 use App\Models\DearnessAllowancePercentage;
+use App\Models\Member;
+use App\Models\MemberCredit;
 
 class TptaController extends Controller
 {
@@ -28,12 +30,12 @@ class TptaController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $tptas = Tpta::where(function($queryBuilder) use ($query) {
+            $tptas = Tpta::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('tpt_type', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             $payLevels = PmLevel::all();
 
@@ -76,6 +78,12 @@ class TptaController extends Controller
             $lastTptaData->status = 0;
             $lastTptaData->update();
         }
+
+        $members = Member::where('pm_level', $request->pay_level_id)->pluck('id');
+        MemberCredit::whereIn('member_id', $members)->update([
+            'tpt' => $request->tpt_allowance,
+            'da_on_tpt' => $request->tpt_da,
+        ]);
 
         session()->flash('message', 'TPTA created successfully');
         return response()->json(['success' => 'TPTA created successfully']);
@@ -121,6 +129,13 @@ class TptaController extends Controller
         $tpta->status = $request->status;
         $tpta->update();
 
+
+        $members = Member::where('pm_level', $request->pay_level_id)->pluck('id');
+        MemberCredit::whereIn('member_id', $members)->update([
+            'tpt' => $request->tpt_allowance,
+            'da_on_tpt' => $request->tpt_da,
+        ]);
+
         session()->flash('message', 'TPTA updated successfully');
         return response()->json(['success' => 'TPTA updated successfully']);
     }
@@ -146,7 +161,7 @@ class TptaController extends Controller
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $allowance = $request->allowance;
 
-        $daAmount = $allowance * 0.5;  
+        $daAmount = $allowance * 0.5;
 
         return response()->json(['tpt_da' => $daAmount]);
     }
