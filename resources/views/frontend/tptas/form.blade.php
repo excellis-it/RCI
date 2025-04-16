@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="tpt_allowance" id="tpt_allowance"
-                                    value="{{ $tpta->tpt_allowance }}" readonly>
+                                    value="{{ $tpta->tpt_allowance }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="tpt_da" id="tpt_da"
-                                    value="{{ $tpta->tpt_da }}" readonly>
+                                    value="{{ $tpta->tpt_da }}">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                                 <label>DA</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="tpt_da" id="tpt_da" readonly>
+                                <input type="text" class="form-control" name="tpt_da" id="tpt_da">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

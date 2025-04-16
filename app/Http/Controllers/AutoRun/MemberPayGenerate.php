@@ -51,6 +51,7 @@ use Illuminate\Support\Str;
 use App\Models\MemberMonthlyDataCredit;
 use App\Models\MemberMonthlyDataDebit;
 use App\Models\MemberMonthlyDataRecovery;
+use App\Models\MemberMonthlyDataCoreInfo;
 use Illuminate\Support\Facades\Schema;
 use DateTime;
 
@@ -91,6 +92,16 @@ class MemberPayGenerate extends Controller
         $RecoveryCommonColumns = array_intersect(
             array_diff($MemberRecoveryColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataRecoveryColumns, ['id', 'created_at', 'updated_at'])
+        );
+
+        // member core info and member monthly data core info columns
+        $MemberCoreInfoTableName = (new \App\Models\MemberCoreInfo())->getTable();
+        $MemberCoreInfoColumns = Schema::getColumnListing($MemberCoreInfoTableName);
+        $MemberMonthlyDataCoreInfoTableName = (new \App\Models\MemberMonthlyDataCoreInfo())->getTable();
+        $MemberMonthlyDataCoreInfoColumns = Schema::getColumnListing($MemberMonthlyDataCoreInfoTableName);
+        $CoreInfoCommonColumns = array_intersect(
+            array_diff($MemberCoreInfoColumns, ['id', 'created_at', 'updated_at']),
+            array_diff($MemberMonthlyDataCoreInfoColumns, ['id', 'created_at', 'updated_at'])
         );
 
         if ($member_id) {
@@ -152,7 +163,7 @@ class MemberPayGenerate extends Controller
 
             // insert member debit data to member monthly data debit
             $member_debit = MemberDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
-            if ($member_debit) {    
+            if ($member_debit) {
                 $member_debit_monthly_data = new MemberMonthlyDataDebit();
                 foreach ($DebitCommonColumns as $column) {
                     $member_debit_monthly_data->$column = $member_debit->$column;
@@ -176,6 +187,20 @@ class MemberPayGenerate extends Controller
                 $member_recovery_monthly_data->apply_date = date('Y-m-d');
                 $member_recovery_monthly_data->save();
                 $member_monthly_data->recovery_id = $member_recovery_monthly_data->id;
+            }
+
+            // insert member core info data to member monthly data core info
+            $member_core_info = MemberCoreInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            if ($member_core_info) {
+                $member_core_info_monthly_data = new MemberMonthlyDataCoreInfo();
+                foreach ($CoreInfoCommonColumns as $column) {
+                    $member_core_info_monthly_data->$column = $member_core_info->$column;
+                }
+                $member_core_info_monthly_data->month = $previous_month;
+                $member_core_info_monthly_data->year = $previous_year;
+                $member_core_info_monthly_data->apply_date = date('Y-m-d');
+                $member_core_info_monthly_data->save();
+                $member_monthly_data->core_id = $member_core_info_monthly_data->id;
             }
 
             // insert main Member Monthly Data
@@ -278,6 +303,20 @@ class MemberPayGenerate extends Controller
                     $member_recovery_monthly_data->apply_date = date('Y-m-d');
                     $member_recovery_monthly_data->save();
                     $member_monthly_data->recovery_id = $member_recovery_monthly_data->id;
+                }
+
+                // insert member core info data to member monthly data core info
+                $member_core_info = MemberCoreInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                if ($member_core_info) {
+                    $member_core_info_monthly_data = new MemberMonthlyDataCoreInfo();
+                    foreach ($CoreInfoCommonColumns as $column) {
+                        $member_core_info_monthly_data->$column = $member_core_info->$column;
+                    }
+                    $member_core_info_monthly_data->month = $previous_month;
+                    $member_core_info_monthly_data->year = $previous_year;
+                    $member_core_info_monthly_data->apply_date = date('Y-m-d');
+                    $member_core_info_monthly_data->save();
+                    $member_monthly_data->core_id = $member_core_info_monthly_data->id;
                 }
 
                 // insert main Member Monthly Data

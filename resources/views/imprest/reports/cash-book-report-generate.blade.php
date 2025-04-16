@@ -12,6 +12,17 @@
         .page-break {
             page-break-before: always;
         }
+
+        /* table {
+            width: 100%;
+            border-collapse: collapse;
+        } */
+
+        td {
+            padding: 5px;
+            font-size: 14px;
+            line-height: 20px;
+        }
     </style>
 
     <body style="background: #fff">
@@ -31,12 +42,12 @@
                                 <tr>
                                     <td
                                         style="
-                                    font-size: 10px;
+
                                     line-height: 14px;
                                     font-weight: 600;
                                     color: #000;
                                     text-align: left;
-                                    padding: 0px 5px !important;
+
                                     margin: 0px 0px !important;
                                     text-transform: uppercase;
 
@@ -45,17 +56,17 @@
                                     </td>
                                     <td
                                         style="
-                                    font-size: 10px;
+
                                     line-height: 14px;
                                     font-weight: 600;
                                     color: #000;
                                     text-align: right;
-                                    padding: 0px 5px !important;
+
                                     margin: 0px 0px !important;
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+                                        {{ $report_date }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -67,12 +78,12 @@
                                 <tr>
                                     <td
                                         style="
-              font-size: 10px;
+
               line-height: 14px;
               font-weight: 600;
               color: #000;
               text-align: center;
-              padding: 0px 5px !important;
+
               margin: 0px 0px !important;
               text-transform: uppercase;
 
@@ -98,12 +109,12 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -111,12 +122,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -129,7 +140,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                       border: 1px solid #000;
@@ -139,12 +150,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -153,12 +164,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -167,12 +178,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -181,12 +192,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -195,12 +206,12 @@
                                     </td>
                                     <td rowspan="2"
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -213,12 +224,12 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -227,12 +238,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -241,12 +252,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -255,12 +266,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -269,12 +280,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -283,12 +294,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -297,12 +308,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -311,12 +322,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -332,12 +343,12 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -359,12 +370,12 @@
 
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -372,12 +383,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                       border: 1px solid #000;
@@ -386,12 +397,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -400,12 +411,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -414,12 +425,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -427,12 +438,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -441,12 +452,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -455,12 +466,12 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -474,12 +485,12 @@
                                         <tr>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -488,12 +499,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -502,12 +513,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                       border: 1px solid #000;
@@ -517,12 +528,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -531,12 +542,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -545,12 +556,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -559,12 +570,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -573,12 +584,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -587,12 +598,12 @@
                                             </td>
                                             <td
                                                 style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -609,12 +620,12 @@
                                         <tr>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -623,12 +634,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -637,12 +648,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -652,12 +663,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -666,12 +677,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -680,12 +691,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -694,12 +705,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -708,12 +719,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -722,12 +733,12 @@
                                             </td>
                                             <td
                                                 style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -742,12 +753,12 @@
                                 <tr>
                                     <td colspan="6"
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -756,12 +767,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -770,12 +781,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -784,12 +795,12 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -833,12 +844,12 @@
                                 <tr>
                                     <td
                                         style="
-                                    font-size: 10px;
+
                                     line-height: 14px;
                                     font-weight: 600;
                                     color: #000;
                                     text-align: left;
-                                    padding: 0px 5px !important;
+
                                     margin: 0px 0px !important;
                                     text-transform: uppercase;
 
@@ -847,17 +858,17 @@
                                     </td>
                                     <td
                                         style="
-                                    font-size: 10px;
+
                                     line-height: 14px;
                                     font-weight: 600;
                                     color: #000;
                                     text-align: right;
-                                    padding: 0px 5px !important;
+
                                     margin: 0px 0px !important;
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+                                        {{ $report_date }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -868,12 +879,12 @@
                                 <tr>
                                     <td
                                         style="
-              font-size: 10px;
+
               line-height: 14px;
               font-weight: 600;
               color: #000;
               text-align: center;
-              padding: 0px 5px !important;
+
               margin: 0px 0px !important;
               text-transform: uppercase;
 
@@ -898,12 +909,12 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -911,12 +922,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -929,7 +940,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                       border: 1px solid #000;
@@ -939,12 +950,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -953,12 +964,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -967,12 +978,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -981,12 +992,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -995,12 +1006,12 @@
                                     </td>
                                     <td rowspan="2"
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1013,12 +1024,12 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1027,12 +1038,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1041,12 +1052,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1055,12 +1066,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1069,12 +1080,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1083,12 +1094,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1097,12 +1108,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1111,12 +1122,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1137,12 +1148,12 @@
                                         <tr>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1151,12 +1162,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1165,12 +1176,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                       border: 1px solid #000;
@@ -1180,12 +1191,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1195,12 +1206,12 @@
 
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1210,12 +1221,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1225,12 +1236,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1239,12 +1250,12 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1253,12 +1264,12 @@
                                             </td>
                                             <td
                                                 style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -1272,12 +1283,12 @@
                                 <tr>
                                     <td colspan="6"
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1286,12 +1297,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1300,12 +1311,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1314,12 +1325,12 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -1332,12 +1343,12 @@
                                 <tr>
                                     <td colspan="6"
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1346,12 +1357,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1360,12 +1371,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1374,12 +1385,12 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -1391,12 +1402,12 @@
                                 <tr>
                                     <td colspan="6"
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1405,12 +1416,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1420,12 +1431,12 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
+
                       line-height: 14px;
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1435,12 +1446,12 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
+
                 line-height: 14px;
                 font-weight: 600;
                 color: #000;
                 text-align: center;
-                padding: 0px 5px !important;
+
                 margin: 0px 0px !important;
                 border: 1px solid #000;
                 height: 5px;
@@ -1488,12 +1499,12 @@
                                 <tr>
                                     <td
                                         style="
-              font-size: 10px;
+
               line-height: 14px;
               font-weight: 600;
               color: #000;
               text-align: center;
-              padding: 0px 5px !important;
+
               margin: 0px 0px !important;
               text-transform: uppercase;
 
@@ -1523,7 +1534,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1537,7 +1548,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1552,7 +1563,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1568,7 +1579,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1582,7 +1593,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1597,7 +1608,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1613,7 +1624,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1627,7 +1638,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1642,7 +1653,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1662,7 +1673,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1676,7 +1687,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1691,7 +1702,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1708,7 +1719,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1722,7 +1733,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1737,7 +1748,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1754,7 +1765,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1768,7 +1779,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1783,7 +1794,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1801,7 +1812,7 @@
                       font-weight: 400;
                       color: #000;
                       text-align: left;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1815,7 +1826,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
@@ -1830,7 +1841,7 @@
                       font-weight: 600;
                       color: #000;
                       text-align: right;
-                      padding: 0px 5px !important;
+
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
