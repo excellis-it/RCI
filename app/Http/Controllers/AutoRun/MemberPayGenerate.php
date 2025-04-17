@@ -52,6 +52,10 @@ use App\Models\MemberMonthlyDataCredit;
 use App\Models\MemberMonthlyDataDebit;
 use App\Models\MemberMonthlyDataRecovery;
 use App\Models\MemberMonthlyDataCoreInfo;
+use App\Models\MemberMonthlyDataPolicyInfo;
+use App\Models\MemberMonthlyDataLoanInfo;
+use App\Models\MemberMonthlyDataExpectation;
+use App\Models\MemberMonthlyDataVarInfo;
 use Illuminate\Support\Facades\Schema;
 use DateTime;
 
@@ -102,6 +106,46 @@ class MemberPayGenerate extends Controller
         $CoreInfoCommonColumns = array_intersect(
             array_diff($MemberCoreInfoColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataCoreInfoColumns, ['id', 'created_at', 'updated_at'])
+        );
+
+        // member policy info and member monthly data policy info columns
+        $MemberPolicyInfoTableName = (new \App\Models\MemberPolicyInfo())->getTable();
+        $MemberPolicyInfoColumns = Schema::getColumnListing($MemberPolicyInfoTableName);
+        $MemberMonthlyDataPolicyInfoTableName = (new \App\Models\MemberMonthlyDataPolicyInfo())->getTable();
+        $MemberMonthlyDataPolicyInfoColumns = Schema::getColumnListing($MemberMonthlyDataPolicyInfoTableName);
+        $PolicyInfoCommonColumns = array_intersect(
+            array_diff($MemberPolicyInfoColumns, ['id', 'created_at', 'updated_at']),
+            array_diff($MemberMonthlyDataPolicyInfoColumns, ['id', 'created_at', 'updated_at'])
+        );
+
+        // member loan info and member monthly data loan info columns
+        $MemberLoanInfoTableName = (new \App\Models\MemberLoanInfo())->getTable();
+        $MemberLoanInfoColumns = Schema::getColumnListing($MemberLoanInfoTableName);
+        $MemberMonthlyDataLoanInfoTableName = (new \App\Models\MemberMonthlyDataLoanInfo())->getTable();
+        $MemberMonthlyDataLoanInfoColumns = Schema::getColumnListing($MemberMonthlyDataLoanInfoTableName);
+        $LoanInfoCommonColumns = array_intersect(
+            array_diff($MemberLoanInfoColumns, ['id', 'created_at', 'updated_at']),
+            array_diff($MemberMonthlyDataLoanInfoColumns, ['id', 'created_at', 'updated_at'])
+        );
+
+        // member expectation and member monthly data expectation columns
+        $MemberExpectationTableName = (new \App\Models\MemberExpectation())->getTable();
+        $MemberExpectationColumns = Schema::getColumnListing($MemberExpectationTableName);
+        $MemberMonthlyDataExpectationTableName = (new \App\Models\MemberMonthlyDataExpectation())->getTable();
+        $MemberMonthlyDataExpectationColumns = Schema::getColumnListing($MemberMonthlyDataExpectationTableName);
+        $ExpectationCommonColumns = array_intersect(
+            array_diff($MemberExpectationColumns, ['id', 'created_at', 'updated_at']),
+            array_diff($MemberMonthlyDataExpectationColumns, ['id', 'created_at', 'updated_at'])
+        );
+
+        // member var info (recovery) and member monthly data var info columns
+        $MemberVarInfoTableName = (new \App\Models\MemberRecovery())->getTable();
+        $MemberVarInfoColumns = Schema::getColumnListing($MemberVarInfoTableName);
+        $MemberMonthlyDataVarInfoTableName = (new \App\Models\MemberMonthlyDataVarInfo())->getTable();
+        $MemberMonthlyDataVarInfoColumns = Schema::getColumnListing($MemberMonthlyDataVarInfoTableName);
+        $VarInfoCommonColumns = array_intersect(
+            array_diff($MemberVarInfoColumns, ['id', 'created_at', 'updated_at']),
+            array_diff($MemberMonthlyDataVarInfoColumns, ['id', 'created_at', 'updated_at'])
         );
 
         if ($member_id) {
@@ -201,6 +245,74 @@ class MemberPayGenerate extends Controller
                 $member_core_info_monthly_data->apply_date = date('Y-m-d');
                 $member_core_info_monthly_data->save();
                 $member_monthly_data->core_id = $member_core_info_monthly_data->id;
+            }
+
+            // insert member policy info data to member monthly data policy info
+            $member_policy_infos = MemberPolicyInfo::where('member_id', $member_id)->get();
+            $policy_info_ids = [];
+            if (count($member_policy_infos) > 0) {
+                foreach ($member_policy_infos as $member_policy_info) {
+                    $member_policy_info_monthly_data = new MemberMonthlyDataPolicyInfo();
+                    foreach ($PolicyInfoCommonColumns as $column) {
+                        $member_policy_info_monthly_data->$column = $member_policy_info->$column;
+                    }
+                    $member_policy_info_monthly_data->month = $previous_month;
+                    $member_policy_info_monthly_data->year = $previous_year;
+                    $member_policy_info_monthly_data->apply_date = date('Y-m-d');
+                    $member_policy_info_monthly_data->save();
+                    $policy_info_ids[] = $member_policy_info_monthly_data->id;
+                }
+                // $member_monthly_data->policy_info_ids = json_encode($policy_info_ids);
+            }
+
+            // insert member loan info data to member monthly data loan info
+            $member_loan_infos = MemberLoanInfo::where('member_id', $member_id)->get();
+            $loan_info_ids = [];
+            if (count($member_loan_infos) > 0) {
+                foreach ($member_loan_infos as $member_loan_info) {
+                    $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
+                    foreach ($LoanInfoCommonColumns as $column) {
+                        $member_loan_info_monthly_data->$column = $member_loan_info->$column;
+                    }
+                    $member_loan_info_monthly_data->month = $previous_month;
+                    $member_loan_info_monthly_data->year = $previous_year;
+                    $member_loan_info_monthly_data->apply_date = date('Y-m-d');
+                    $member_loan_info_monthly_data->save();
+                    $loan_info_ids[] = $member_loan_info_monthly_data->id;
+                }
+                // $member_monthly_data->loan_info_ids = json_encode($loan_info_ids);
+            }
+
+            // insert member expectation data to member monthly data expectation
+            $member_expectations = MemberExpectation::where('member_id', $member_id)->get();
+            $expectation_ids = [];
+            if (count($member_expectations) > 0) {
+                foreach ($member_expectations as $member_expectation) {
+                    $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
+                    foreach ($ExpectationCommonColumns as $column) {
+                        $member_expectation_monthly_data->$column = $member_expectation->$column;
+                    }
+                    $member_expectation_monthly_data->month = $previous_month;
+                    $member_expectation_monthly_data->year = $previous_year;
+                    $member_expectation_monthly_data->apply_date = date('Y-m-d');
+                    $member_expectation_monthly_data->save();
+                    $expectation_ids[] = $member_expectation_monthly_data->id;
+                }
+                // $member_monthly_data->expectation_ids = json_encode($expectation_ids);
+            }
+
+            // insert member var info data to member monthly data var info
+            $member_var_info = MemberRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            if ($member_var_info) {
+                $member_var_info_monthly_data = new MemberMonthlyDataVarInfo();
+                foreach ($VarInfoCommonColumns as $column) {
+                    $member_var_info_monthly_data->$column = $member_var_info->$column;
+                }
+                $member_var_info_monthly_data->month = $previous_month;
+                $member_var_info_monthly_data->year = $previous_year;
+                $member_var_info_monthly_data->apply_date = date('Y-m-d');
+                $member_var_info_monthly_data->save();
+              //  $member_monthly_data->var_info_id = $member_var_info_monthly_data->id;
             }
 
             // insert main Member Monthly Data
@@ -317,6 +429,74 @@ class MemberPayGenerate extends Controller
                     $member_core_info_monthly_data->apply_date = date('Y-m-d');
                     $member_core_info_monthly_data->save();
                     $member_monthly_data->core_id = $member_core_info_monthly_data->id;
+                }
+
+                // insert member policy info data to member monthly data policy info
+                $member_policy_infos = MemberPolicyInfo::where('member_id', $member_id)->get();
+                $policy_info_ids = [];
+                if (count($member_policy_infos) > 0) {
+                    foreach ($member_policy_infos as $member_policy_info) {
+                        $member_policy_info_monthly_data = new MemberMonthlyDataPolicyInfo();
+                        foreach ($PolicyInfoCommonColumns as $column) {
+                            $member_policy_info_monthly_data->$column = $member_policy_info->$column;
+                        }
+                        $member_policy_info_monthly_data->month = $previous_month;
+                        $member_policy_info_monthly_data->year = $previous_year;
+                        $member_policy_info_monthly_data->apply_date = date('Y-m-d');
+                        $member_policy_info_monthly_data->save();
+                        $policy_info_ids[] = $member_policy_info_monthly_data->id;
+                    }
+                    //   $member_monthly_data->policy_info_ids = json_encode($policy_info_ids);
+                }
+
+                // insert member loan info data to member monthly data loan info
+                $member_loan_infos = MemberLoanInfo::where('member_id', $member_id)->get();
+                $loan_info_ids = [];
+                if (count($member_loan_infos) > 0) {
+                    foreach ($member_loan_infos as $member_loan_info) {
+                        $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
+                        foreach ($LoanInfoCommonColumns as $column) {
+                            $member_loan_info_monthly_data->$column = $member_loan_info->$column;
+                        }
+                        $member_loan_info_monthly_data->month = $previous_month;
+                        $member_loan_info_monthly_data->year = $previous_year;
+                        $member_loan_info_monthly_data->apply_date = date('Y-m-d');
+                        $member_loan_info_monthly_data->save();
+                        $loan_info_ids[] = $member_loan_info_monthly_data->id;
+                    }
+                    // $member_monthly_data->loan_info_ids = json_encode($loan_info_ids);
+                }
+
+                // insert member expectation data to member monthly data expectation
+                $member_expectations = MemberExpectation::where('member_id', $member_id)->get();
+                $expectation_ids = [];
+                if (count($member_expectations) > 0) {
+                    foreach ($member_expectations as $member_expectation) {
+                        $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
+                        foreach ($ExpectationCommonColumns as $column) {
+                            $member_expectation_monthly_data->$column = $member_expectation->$column;
+                        }
+                        $member_expectation_monthly_data->month = $previous_month;
+                        $member_expectation_monthly_data->year = $previous_year;
+                        $member_expectation_monthly_data->apply_date = date('Y-m-d');
+                        $member_expectation_monthly_data->save();
+                        $expectation_ids[] = $member_expectation_monthly_data->id;
+                    }
+                    // $member_monthly_data->expectation_ids = json_encode($expectation_ids);
+                }
+
+                // insert member var info data to member monthly data var info
+                $member_var_info = MemberRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                if ($member_var_info) {
+                    $member_var_info_monthly_data = new MemberMonthlyDataVarInfo();
+                    foreach ($VarInfoCommonColumns as $column) {
+                        $member_var_info_monthly_data->$column = $member_var_info->$column;
+                    }
+                    $member_var_info_monthly_data->month = $previous_month;
+                    $member_var_info_monthly_data->year = $previous_year;
+                    $member_var_info_monthly_data->apply_date = date('Y-m-d');
+                    $member_var_info_monthly_data->save();
+                 //   $member_monthly_data->var_info_id = $member_var_info_monthly_data->id;
                 }
 
                 // insert main Member Monthly Data
