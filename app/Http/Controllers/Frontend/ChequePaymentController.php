@@ -476,6 +476,8 @@ class ChequePaymentController extends Controller
 
         // $vr_date = $request->date;
 
+        $print_date = date('d/m/Y', strtotime($request->print_date));
+
         $chq_date = $request->date;
         $pre_vr_date = date('Y-m-d', strtotime($chq_date . ' -1 day'));
 
@@ -515,7 +517,7 @@ class ChequePaymentController extends Controller
             ->where('receipts.vr_date', $chq_date)
             ->get();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo','payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 

@@ -35,10 +35,10 @@
                             <form action="{{ route('receipts.report.generate') }}" method="POST" id="receiptForm">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="row">
 
-                                            <div class="form-group col-md-12 mb-2">
+                                            <div class="form-group col-md-6 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
                                                         <label>Date</label>
@@ -52,6 +52,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group col-md-6 mb-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-12">
+                                                        <label>Print Date</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <input type="date" class="form-control" name="print_date"
+                                                            id="print_date">
+                                                        <div id="dateError" class="text-danger" style="display:none;">Please
+                                                            select a print date.</div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -90,6 +106,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="form-group col-md-12 mb-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-12">
+                                                            <label>Print Date</label>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <input type="date" class="form-control" name="print_date"
+                                                                id="print_date2">
+                                                            <div id="dateError" class="text-danger" style="display:none;">
+                                                                Please
+                                                                select a print date.</div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -138,6 +172,18 @@
                         $("#paymentForm").submit();
 
                     }, 1200);
+                });
+
+                // change date should change print date
+                $('#date').on('change', function() {
+                    var selectedDate = $(this).val();
+                    $('#print_date').val(selectedDate);
+                    $('#print_date2').val(selectedDate);
+                });
+
+                $('#print_date').on('change', function() {
+                    var selectedDate = $(this).val();
+                    $('#print_date2').val(selectedDate);
                 });
             });
         </script>
