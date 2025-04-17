@@ -542,7 +542,7 @@ class ReceiptController extends Controller
 
         $receipt_members = ReceiptMember::with(['receipt', 'member'])->whereHas('receipt', function ($query) use ($vr_date) {
             $query->where('vr_date', $vr_date);
-        })->orderBy('receipt_id', 'desc')->get()->chunk(23);
+        })->orderBy('vr_no', 'asc')->get()->chunk(23);
 
         // dd($receipt_members);
 

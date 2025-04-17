@@ -44,7 +44,7 @@
                                                 <div class="form-group col-md-12 mb-2">
                                                     <div class="row align-items-center">
 
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Report Date</label>
                                                             </div>
@@ -59,7 +59,22 @@
                                                             @enderror
 
                                                         </div>
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-md-12">
+                                                                    <label>Print Date</label>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <input type="datetime-local" class="form-control" name="print_date"
+                                                                        id="print_date">
+                                                                    @error('print_date')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>A/c Off Sign</label>
                                                             </div>
@@ -79,7 +94,7 @@
                                                             @enderror
                                                         </div>
 
-                                                        <div class="form-group col-md-4 mb-2">
+                                                        <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Document Type</label>
                                                             </div>

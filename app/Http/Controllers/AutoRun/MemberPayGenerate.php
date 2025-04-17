@@ -244,7 +244,7 @@ class MemberPayGenerate extends Controller
                 $member_core_info_monthly_data->year = $previous_year;
                 $member_core_info_monthly_data->apply_date = date('Y-m-d');
                 $member_core_info_monthly_data->save();
-                $member_monthly_data->core_id = $member_core_info_monthly_data->id;
+                // $member_monthly_data->core_id = $member_core_info_monthly_data->id;
             }
 
             // insert member policy info data to member monthly data policy info
@@ -428,7 +428,7 @@ class MemberPayGenerate extends Controller
                     $member_core_info_monthly_data->year = $previous_year;
                     $member_core_info_monthly_data->apply_date = date('Y-m-d');
                     $member_core_info_monthly_data->save();
-                    $member_monthly_data->core_id = $member_core_info_monthly_data->id;
+                    // $member_monthly_data->core_id = $member_core_info_monthly_data->id;
                 }
 
                 // insert member policy info data to member monthly data policy info

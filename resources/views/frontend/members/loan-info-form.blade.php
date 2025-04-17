@@ -5,7 +5,10 @@
 <form action="{{ route('members.loan.create') }}" id="member-loan-edit-form" method="post">
     @csrf
 
-    <input type="text" name="member_id" value="vxcfxc">
+    <input type="text" name="member_id" value="{{ $member->id ?? '' }}">
+    <input type="hidden" name="current_year" value="{{ $currentYear }}">
+    <input type="hidden" name="current_month" value="{{ $currentMonth }}">
+
     <div class="row">
         <div class="col-md-6">
             <div class="form-group mb-2">

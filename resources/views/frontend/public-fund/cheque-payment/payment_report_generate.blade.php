@@ -340,7 +340,7 @@
                                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                     ({{ $count + 1 }})
                                                     {{ $member['member']['name'] ?? '' }},
-                                                    {{ $member['member']['designation']['designation'] ?? '' }} (CBRB -
+                                                    {{ $member['member']['designation']['designation'] ?? '' }} (CBRE -
                                                     {{ $vr_no_print->vr_no ?? '' }},
                                                     {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})
                                                 </td>
@@ -620,7 +620,7 @@
                                             style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             ({{ $count + 1 }})
                                             {{ $member['member']['name'] ?? '' }},
-                                            {{ $member['member']['designation']['designation'] ?? '' }} (CBRB -
+                                            {{ $member['member']['designation']['designation'] ?? '' }} (CBRE -
                                             {{ $vr_no_print->vr_no ?? '' }},
                                             {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})
                                         </td>

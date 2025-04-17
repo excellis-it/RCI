@@ -60,6 +60,11 @@ use App\Models\MemberIncomeTax;
 use App\Models\MemberNewspaperAllowance;
 use App\Models\MemberChildAllowance;
 use App\Models\MemberBagPurse;
+use App\Models\MemberMonthlyDataCoreInfo;
+use App\Models\MemberMonthlyDataExpectation;
+use App\Models\MemberMonthlyDataLoanInfo;
+use App\Models\MemberMonthlyDataPolicyInfo;
+use App\Models\MemberMonthlyDataVarInfo;
 use Illuminate\Support\Facades\Schema;
 
 
@@ -267,23 +272,33 @@ class MemberController extends Controller
     {
         $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal', 'gPay')->first();
 
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+
+
         //checks
-        $member->member_credit_info = MemberCredit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-        $member->member_debit_info = MemberDebit::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-        $member->member_recovery_info = MemberOriginalRecovery::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-        $member->member_core_info_data = MemberCoreInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_credit_info = MemberMonthlyDataCredit::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_debit_info = MemberMonthlyDataDebit::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_recovery_info = MemberMonthlyDataRecovery::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_core_info_data = MemberMonthlyDataCoreInfo::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+
         $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
 
 
 
-        $member_credit = MemberCredit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $member_debit = MemberDebit::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $member_recovery = MemberRecovery::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $member_core = MemberCoreInfo::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
+        $member_credit = MemberMonthlyDataCredit::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member_debit = MemberMonthlyDataDebit::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member_core = MemberMonthlyDataCoreInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member_policies = MemberMonthlyDataPolicyInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get() ?? '';
+        $member_expectations = MemberMonthlyDataExpectation::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get() ?? '';
+        $members_loans_info = MemberMonthlyDataLoanInfo::with('loanInfoFirst')->where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get();
+        $member_original_recovery = MemberMonthlyDataRecovery::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->latest()->first() ?? '';
+        $member_recovery = MemberMonthlyDataVarInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+
+        $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
         $member_personal = MemberPersonalInfo::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $member_policies = MemberPolicyInfo::where('member_id', $id)->orderBy('id', 'desc')->get() ?? '';
-        $member_expectations = MemberExpectation::where('member_id', $id)->orderBy('id', 'desc')->get() ?? '';
         $member_cghs = Cghs::where('pay_level_id', $member->pm_level)->orderBy('id', 'desc')->first() ?? '';
+
         $paybands = PaybandType::orderBy('id', 'desc')->get() ?? '';
         $categories = Category::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $pmLevels = PmLevel::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
@@ -304,11 +319,7 @@ class MemberController extends Controller
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
         $rules = Rule::orderBy('id', 'asc')->get() ?? '';
 
-        $members_loans_info = MemberLoanInfo::with('loanInfoFirst')->where('member_id', $id)->orderBy('id', 'desc')->get();
-        //  return $members_loans_info;
-        $member_original_recovery = MemberOriginalRecovery::where('member_id', $id)->latest()->first() ?? '';
 
-        $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
 
         $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
 
@@ -359,8 +370,114 @@ class MemberController extends Controller
 
         // return $member;
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentMonth', 'currentYear'));
     }
+
+
+
+    public function filterData(Request $request)
+    {
+        $currentYear = $request->year;
+        $currentMonth = $request->month;
+        $id = $request->member_id;
+
+        $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal', 'gPay')->first();
+
+
+        //checks
+        $member->member_credit_info = MemberMonthlyDataCredit::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_debit_info = MemberMonthlyDataDebit::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_recovery_info = MemberMonthlyDataRecovery::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member->member_core_info_data = MemberMonthlyDataCoreInfo::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+
+        $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
+
+
+
+        $member_credit = MemberMonthlyDataCredit::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member_debit = MemberMonthlyDataDebit::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member_core = MemberMonthlyDataCoreInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+        $member_policies = MemberMonthlyDataPolicyInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get() ?? '';
+        $member_expectations = MemberMonthlyDataExpectation::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get() ?? '';
+        $members_loans_info = MemberMonthlyDataLoanInfo::with('loanInfoFirst')->where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get();
+        $member_original_recovery = MemberMonthlyDataRecovery::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->latest()->first() ?? '';
+        $member_recovery = MemberMonthlyDataVarInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
+
+        $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
+        $member_personal = MemberPersonalInfo::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
+        $member_cghs = Cghs::where('pay_level_id', $member->pm_level)->orderBy('id', 'desc')->first() ?? '';
+
+        $paybands = PaybandType::orderBy('id', 'desc')->get() ?? '';
+        $categories = Category::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $pmLevels = PmLevel::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $pmIndexes = PmIndex::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $divisions = Division::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $groups = Group::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $cadres = Cadre::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $designations = Designation::orderBy('id', 'desc')->get() ?? '';
+        $fundTypes = FundType::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $pgs = Pg::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $banks = Bank::orderBy('id', 'desc')->get() ?? '';
+        $loans = Loan::orderBy('id', 'desc')->get() ?? '';
+        $policies = Policy::orderBy('id', 'desc')->get() ?? '';
+        $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
+        $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
+        $rules = Rule::orderBy('id', 'asc')->get() ?? '';
+
+
+
+        $check_hba = MemberLoanInfo::where('member_id', $id)->first() ?? '';
+
+
+        // $noi_amount = 0;
+        // $var_inc_amount = 0;
+        // $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+        // if ($var_noi) {
+        //     if ($var_noi->noi_pending > 0 && $var_noi->stop == 'No') {
+        //         $noi_amount = $var_noi->v_incr;
+        //         $var_inc_amount = $var_noi->v_incr;
+        //     }
+        // }
+        // $member->var_inc_amount = $var_inc_amount;
+        // $member->basic_with_noi = $member->basic + $noi_amount;
+
+        $noi_amount = 0;
+        $var_inc_amount = 0;
+        $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+        if ($var_noi) {
+            if ($var_noi->stop == 'No') {
+                $noi_amount = $var_noi->total;
+                $var_inc_amount = $var_noi->total;
+            }
+        }
+        $member->var_inc_amount = $var_inc_amount;
+        $member->basic_with_noi = $member->basic + $noi_amount;
+
+        // nps sub val if member fund type nps
+        $nps_sub_val = 0;
+        if ($member->fund_type == 'NPS') {
+            $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
+            $basicPay = $member->basic;
+            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+            $nsv1 = ($daAmount + $member->basic) * 10 / 100;
+            $nsv2 = ($daAmount + $member->basic) * 14 / 100;
+            $nps_sub_val = $nsv1 + $nsv2;
+        }
+        $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
+        $basicPay = $member->basic;
+        $member_expectation_da = MemberExpectation::where('member_id', $member->id)->where('rule_name', 'DA')->first();
+        if ($member_expectation_da) {
+            $daAmount = $member_expectation_da->amount;
+        } else {
+            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+        }
+
+        return view('frontend.members.filter-year-month', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentYear', 'currentMonth'));
+    }
+
 
     public function memberCreditUpdate(Request $request)
     {
@@ -409,9 +526,12 @@ class MemberController extends Controller
 
 
         $check_credit_member = MemberCredit::where('member_id', $request->member_id)
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', $request->current_month)
+            ->whereYear('created_at', $request->current_year)
             ->get();
+
+        $check_credit_member_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)
+            ->where('month', $request->current_month)->where('year', $request->current_year)->first();
 
         // $check_recovery_member = MemberRecovery::where('member_id', $request->member_id)->get();
         // if (count($check_recovery_member) > 0) {
@@ -422,8 +542,47 @@ class MemberController extends Controller
         //     }
         // }
 
+        if ($check_credit_member_monthly) {
+            $credit_member_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        } else {
+            $credit_member_monthly = new MemberMonthlyDataCredit();
+        }
+        $credit_member_monthly->apply_date = now();
+        $credit_member_monthly->month = $request->current_month;
+        $credit_member_monthly->year = $request->current_year;
+        $credit_member_monthly->member_id = $request->member_id;
+        $credit_member_monthly->pay = $request->pay;
+        $credit_member_monthly->da = $request->da;
+        $credit_member_monthly->tpt = $request->tpt;
+        $credit_member_monthly->cr_rent = $request->cr_rent;
+        $credit_member_monthly->g_pay = $request->g_pay;
+        $credit_member_monthly->hra = $request->hra;
+        $credit_member_monthly->da_on_tpt = $request->da_on_tpt;
+        $credit_member_monthly->cr_elec = $request->cr_elec;
+        $credit_member_monthly->fpa = $request->fpa;
+        $credit_member_monthly->s_pay = $request->s_pay;
+        $credit_member_monthly->pua = $request->pua;
+        $credit_member_monthly->hindi = $request->hindi;
+        $credit_member_monthly->cr_water = $request->cr_water;
+        $credit_member_monthly->add_inc2 = $request->add_inc2;
+        $credit_member_monthly->npa = $request->npa;
+        $credit_member_monthly->deptn_alw = $request->deptn_alw;
+        $credit_member_monthly->misc1 = $request->misc_1;
+        $credit_member_monthly->var_incr = $request->var_incr;
+        $credit_member_monthly->wash_alw = $request->wash_alw;
+        $credit_member_monthly->dis_alw = $request->dis_alw;
+        $credit_member_monthly->misc2 = $request->misc_2;
+        $credit_member_monthly->risk_alw = $request->risk_alw;
+        $credit_member_monthly->spl_incentive = $request->spl_incentive;
+        $credit_member_monthly->incentive = $request->incentive;
+        $credit_member_monthly->variable_amount = $request->var_amount;
+        $credit_member_monthly->arrs_pay_alw = $request->arrs_pay_allowance;
+        $credit_member_monthly->tot_credits = $request->tot_credits;
+        $credit_member_monthly->remarks = $request->remarks;
+        $credit_member_monthly->save();
+
         if (count($check_credit_member) > 0) {
-            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
+            $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->first();
             $update_credit_member->pay = $request->pay;
             $update_credit_member->da = $request->da;
             $update_credit_member->tpt = $request->tpt;
@@ -562,9 +721,106 @@ class MemberController extends Controller
         // $request->validate($rules);
 
 
-        $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
+        $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->get();
+
+        $check_debit_member_monthly_check = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+
+        if ($check_debit_member_monthly_check) {
+            $check_debit_member_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        } else {
+            $check_debit_member_monthly = new MemberMonthlyDataDebit();
+        }
+
+        $check_debit_member_monthly->month = $request->current_month;
+        $check_debit_member_monthly->year = $request->current_year;
+        $check_debit_member_monthly->apply_date = now();
+
+        $check_debit_member_monthly->member_id = $request->member_id;
+        $check_debit_member_monthly->gpa_sub = $request->gpa_sub ?? 0;
+        $check_debit_member_monthly->nps_sub = $request->nps_sub ?? 0;
+        $check_debit_member_monthly->nps_rec = $request->nps_rec ?? 0;
+        $check_debit_member_monthly->nps_arr = $request->nps_arr ?? 0;
+
+        $check_debit_member_monthly->eol = $request->eol;
+        $check_debit_member_monthly->ccl = $request->ccl;
+        $check_debit_member_monthly->rent = $request->rent;
+        $check_debit_member_monthly->lf_arr = $request->lf_arr;
+        $check_debit_member_monthly->tada = $request->tada;
+        $check_debit_member_monthly->hba = $request->hba;
+        $check_debit_member_monthly->misc1 = $request->misc1;
+        $check_debit_member_monthly->gpf_rec = $request->gpf_rec;
+        $check_debit_member_monthly->i_tax = $request->i_tax;
+        $check_debit_member_monthly->elec = $request->elec;
+        $check_debit_member_monthly->elec_arr = $request->elec_arr;
+        $check_debit_member_monthly->medi = $request->medi;
+        $check_debit_member_monthly->pc = $request->pc;
+        $check_debit_member_monthly->misc2 = $request->misc2;
+        $check_debit_member_monthly->gpf_arr = $request->gpf_arr;
+        $check_debit_member_monthly->ecess = $request->ecess;
+        $check_debit_member_monthly->water = $request->water;
+        $check_debit_member_monthly->water_arr = $request->water_arr;
+        $check_debit_member_monthly->ltc = $request->ltc;
+        $check_debit_member_monthly->fadv = $request->fadv;
+        $check_debit_member_monthly->misc3 = $request->misc3;
+        $check_debit_member_monthly->cgegis = $request->cgegis;
+        $check_debit_member_monthly->cda = $request->cda;
+        $check_debit_member_monthly->furn = $request->furn;
+        $check_debit_member_monthly->furn_arr = $request->furn_arr;
+        $check_debit_member_monthly->car = $request->car;
+        $check_debit_member_monthly->hra_rec = $request->hra_rec;
+        $check_debit_member_monthly->tot_debits = $request->tot_debits;
+        $check_debit_member_monthly->cghs = $request->cghs;
+        $check_debit_member_monthly->ptax = $request->ptax;
+        $check_debit_member_monthly->cmg = $request->cmg ?? 0;
+        $check_debit_member_monthly->pli = $request->pli;
+        $check_debit_member_monthly->scooter = $request->scooter;
+        $check_debit_member_monthly->tpt_rec = $request->tpt_rec;
+        $check_debit_member_monthly->net_pay = $request->net_pay;
+        $check_debit_member_monthly->basic = $request->basic;
+        $check_debit_member_monthly->gpf_adv = $request->gpa_adv;
+        $check_debit_member_monthly->hba_int = $request->hba_interest;
+        $check_debit_member_monthly->comp_adv = $request->comp_adv;
+        $check_debit_member_monthly->comp_int = $request->comp_int;
+        $check_debit_member_monthly->leave_rec = $request->leave_rec;
+        $check_debit_member_monthly->pension_rec = $request->pension_rec;
+        $check_debit_member_monthly->car_int = $request->car_interest;
+        $check_debit_member_monthly->sco_int = $request->scooter_interest;
+        $check_debit_member_monthly->quarter_charges = $request->quarter_charge;
+        $check_debit_member_monthly->cgeis_arr = $request->cgeis_arr;
+        $check_debit_member_monthly->cghs_arr = $request->cghs_arr;
+        $check_debit_member_monthly->penal_intr = $request->penal_interest;
+        $check_debit_member_monthly->society = $request->society;
+        $check_debit_member_monthly->arrear_pay = $request->arrear_pay;
+        $check_debit_member_monthly->npsg = $request->npsg;
+        $check_debit_member_monthly->npsg_arr = $request->npsg_arr;
+        $check_debit_member_monthly->npsg_adj = $request->npsg_adj;
+        $check_debit_member_monthly->hba_cur_instl = $request->hba_cur_instl;
+        $check_debit_member_monthly->hba_total_instl = $request->hba_total_instl;
+        $check_debit_member_monthly->hba_int_cur_instl = $request->hba_int_cur_instl;
+        $check_debit_member_monthly->hba_int_total_instl = $request->hba_int_total_instl;
+        $check_debit_member_monthly->car_adv_prin_instl = $request->car_adv_prin_instl;
+        $check_debit_member_monthly->car_adv_total_instl = $request->car_adv_total_instl;
+        $check_debit_member_monthly->scot_adv_prin_instl = $request->scot_adv_prin_instl;
+        $check_debit_member_monthly->sco_adv_int_curr_instl = $request->sco_adv_int_curr_instl;
+        $check_debit_member_monthly->sco_adv_int_total_instl = $request->sco_adv_int_total_instl;
+        $check_debit_member_monthly->comp_prin_curr_instl = $request->comp_prin_curr_instl;
+        $check_debit_member_monthly->comp_prin_total_instl = $request->comp_prin_total_instl;
+        $check_debit_member_monthly->comp_adv_int = $request->comp_adv_int;
+        $check_debit_member_monthly->comp_int_curr_instl = $request->comp_int_curr_instl;
+        $check_debit_member_monthly->comp_int_total_instl = $request->comp_int_total_instl;
+        $check_debit_member_monthly->fest_adv_prin_cur = $request->fest_adv_prin_cur;
+        $check_debit_member_monthly->fest_adv_total_cur = $request->fest_adv_total_cur;
+        $check_debit_member_monthly->ltc_rec = $request->ltc_rec;
+        $check_debit_member_monthly->medical_rec = $request->medical_rec;
+        $check_debit_member_monthly->tada_rec = $request->tada_rec;
+        $check_debit_member_monthly->remarks = $request->remarks;
+
+        $check_debit_member_monthly->save();
+
         if (count($check_debit_member) > 0) {
-            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
+
+            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->first();
+
             $update_debit_member->gpa_sub = $request->gpa_sub ?? 0;
             $update_debit_member->nps_sub = $request->nps_sub ?? 0;
             $update_debit_member->nps_rec = $request->nps_rec ?? 0;
@@ -647,9 +903,6 @@ class MemberController extends Controller
             // session()->flash('message', 'Member debit updated successfully');
             return response()->json(['message' => 'Member debit updated successfully']);
         } else {
-
-            $found_credit = MemberCredit::where('member_id', $request->member_id)->first();
-
             $debit_member = new MemberDebit();
             $debit_member->member_id = $request->member_id;
             $debit_member->gpa_sub = $request->gpa_sub ?? 0;
@@ -740,8 +993,48 @@ class MemberController extends Controller
     public function memberRecoveryOriginalUpdate(Request $request)
     {
 
-        $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->get();
+        $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->get();
+
+        $check_original_recovery_member_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+
+        if ($check_original_recovery_member_monthly) {
+            $original_recovery_member_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        } else {
+            $original_recovery_member_monthly = new MemberMonthlyDataRecovery();
+        }
+
+        $original_recovery_member_monthly->month = $request->current_month;
+        $original_recovery_member_monthly->year = $request->current_year;
+        $original_recovery_member_monthly->apply_date = now();
+
+        $original_recovery_member_monthly->member_id = $request->member_id;
+        $original_recovery_member_monthly->ccs_sub = $request->ccs_sub;
+        $original_recovery_member_monthly->mess = $request->mess;
+        $original_recovery_member_monthly->security = $request->security;
+        $original_recovery_member_monthly->misc1 = $request->misc1;
+        $original_recovery_member_monthly->ccs_rec = $request->ccs_rec;
+        $original_recovery_member_monthly->asso_fee = $request->asso_fee;
+        $original_recovery_member_monthly->dbf = $request->dbf;
+        $original_recovery_member_monthly->misc2 = $request->misc2;
+        $original_recovery_member_monthly->wel_sub = $request->wel_sub;
+        $original_recovery_member_monthly->ben = $request->ben;
+        $original_recovery_member_monthly->med_ins = $request->med_ins;
+        $original_recovery_member_monthly->tot_rec = $request->tot_rec;
+        $original_recovery_member_monthly->wel_rec = $request->wel_rec;
+        $original_recovery_member_monthly->hdfc = $request->hdfc;
+        $original_recovery_member_monthly->maf = $request->maf;
+        $original_recovery_member_monthly->final_pay = $request->final_pay;
+        $original_recovery_member_monthly->lic = $request->lic;
+        $original_recovery_member_monthly->cort_atch = $request->cort_atch;
+        $original_recovery_member_monthly->ogpf = $request->ogpf;
+        $original_recovery_member_monthly->ntp = $request->ntp;
+        $original_recovery_member_monthly->ptax = $request->ptax;
+        $original_recovery_member_monthly->remarks = $request->remarks;
+        $original_recovery_member_monthly->save();
+
+
         if (count($check_original_recovery_member) > 0) {
+
             $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
             $update_recovery_org_member->ccs_sub = $request->ccs_sub;
             $update_recovery_org_member->mess = $request->mess;

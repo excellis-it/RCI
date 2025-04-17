@@ -2,8 +2,10 @@
     @csrf
 
     <input type="hidden" name="member_id" value="{{ $member->id }}">
-    <div class="row">
+    <input type="hidden" name="current_year" value="{{ $currentYear }}">
+    <input type="hidden" name="current_month" value="{{ $currentMonth }}">
 
+    <div class="row">
         @if ($member->fund_type == 'GPF')
             <div class="col-md-2">
                 <div class="form-group mb-2">

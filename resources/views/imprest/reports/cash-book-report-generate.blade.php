@@ -66,7 +66,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ $report_date }}
+                                        {{ $print_date }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -1187,7 +1187,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cda_bill->advanceSettlement->firm ?? '' }}
+                                               {{ $cda_bill->member->name ?? '' }}, {{ $cda_bill->member->desigs->designation ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -1511,8 +1511,7 @@
             ">
                                         CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />
-                                        IMPREST (A/c No {{ $setting->public_bank_ac }}) Account as on
-                                        {{ $report_date }} <br />
+                                        BALANCE SHEET OF IMPREST ACCOUNT AS ON DATE {{ $report_date }} <br />
                                         <br>
 
                                     </td>

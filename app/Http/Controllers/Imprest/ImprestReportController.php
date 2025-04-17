@@ -62,6 +62,7 @@ class ImprestReportController extends Controller
             //   'account_officer_sign' => 'required',
             'bill_type' => 'required',
             'doc_type' => 'required|in:pdf,docx',
+            'print_date' => 'required',
         ]);
 
         // how to add this format like d/m/y
@@ -72,6 +73,9 @@ class ImprestReportController extends Controller
 
 
         $request_date = $request->report_date;
+        $print_date = ($request->print_date)
+        ? date('d/m/Y h:i A', strtotime($request->print_date))
+        : null;
         $date = new DateTime($request_date);
         $request_pre_date = date('Y-m-d', strtotime('-1 day', strtotime($request->report_date)));
         $report_date = $date->format('d/m/y');
@@ -208,7 +212,7 @@ class ImprestReportController extends Controller
             ];
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.cash-book-report-generate', compact('print_date', 'report_date', 'logo', 'setting', 'cash_withdraws', 'book1_data', 'book2_data', 'book3_data'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 // If PDF requested, return PDF directly
@@ -233,7 +237,7 @@ class ImprestReportController extends Controller
             $totalAmount = $advanceFunds->sum('adv_amount');
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('print_date','logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 return $pdf->download('out-standing-report-' . $report_date . '.pdf');
@@ -247,7 +251,7 @@ class ImprestReportController extends Controller
             $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->whereNotIn('id', $cda_bills_check)->get();
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('logo', 'report_date', 'settleBills'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('print_date','logo', 'report_date', 'settleBills'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
@@ -282,7 +286,7 @@ class ImprestReportController extends Controller
             $totalAmount = $cdaReceipts->sum('bill_amount');
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('report_date', 'logo', 'cdaReceipts', 'totalAmount'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('print_date','report_date', 'logo', 'cdaReceipts', 'totalAmount'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 return $pdf->download('cda_bill-report-' . $report_date . '.pdf');
@@ -492,7 +496,7 @@ class ImprestReportController extends Controller
     protected function addCashBookContent($section, $reportDate)
     {
         // Get the same data as used in the PDF
-        
+
         $opening_balance_cash_in_hand = Helper::getImprestCashInHandOpening($reportDate);
         $opening_balance_cash_in_bank = Helper::getImprestCashInBankOpening($reportDate);
 

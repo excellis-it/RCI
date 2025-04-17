@@ -694,7 +694,7 @@ Route::middleware('permssions')->group(function () {
     Route::get('/import-members', [MemberController::class, 'importMembers'])->name('members.import-members');
     Route::get('/import-members-download-format-file', [MemberController::class, 'downloadImportFormatFile'])->name('members.download-import-formatfile');
     Route::post('/import-members-excel-data', [MemberController::class, 'importExcelData'])->name('members.import-excel-data');
-
+    Route::get('/members-filter-data', [MemberController::class, 'filterData'])->name('members.filterData');
 
     //member check credit availability
     Route::post('/members-check-credit-availability', [MemberController::class, 'memberCheckCreditAvailability'])->name('members.check-credit-available');
