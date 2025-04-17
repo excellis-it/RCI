@@ -2066,11 +2066,11 @@
             var total_recovery = $('#tot_rec').val();
             var take_home = total_net_pay - total_recovery;
             // set values
-            $("#total_gross_pay").val(total_credits);
-            $('#total_debits').val(total_debits);
-            $('#total_net_pay').val(total_net_pay.toFixed(2));
-            $('#total_recovery').val(total_recovery);
-            $('#take_home').val(take_home.toFixed(2));
+            $("#total_gross_pay").val(Math.round(total_credits) + '.00');
+            $('#total_debits').val(Math.round(total_debits) + '.00');
+            $('#total_net_pay').val(Math.round(total_net_pay)+ '.00');
+            $('#total_recovery').val(Math.round(total_recovery) + '.00');
+            $('#take_home').val(Math.round(take_home) + '.00');
         }
         $(document).ready(function() {
 
