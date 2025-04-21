@@ -161,7 +161,7 @@ class TptaController extends Controller
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $allowance = $request->allowance;
 
-        $daAmount = $allowance * 0.5;
+        $daAmount = $allowance * $daPercentage->percentage / 100;
 
         return response()->json(['tpt_da' => $daAmount]);
     }

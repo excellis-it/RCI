@@ -544,7 +544,7 @@ class ReceiptController extends Controller
             $query->where('vr_date', $vr_date);
         })->orderBy('vr_no', 'asc')->get()->chunk(23);
 
-        // dd($receipt_members);
+        // dd($receipt_members->toArray());
 
         $receipts = DB::table('receipts')
             ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
@@ -560,7 +560,7 @@ class ReceiptController extends Controller
                 'receipts.category_id'
             )
             ->where('receipts.vr_date', $vr_date)
-            ->orderBy('receipts.id', 'desc')
+            ->orderBy('receipts.vr_no', 'asc')
             ->get();
 
         // Fetch related rows from receipt_members for each receipt

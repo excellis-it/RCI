@@ -5,6 +5,8 @@
 
         <input type="hidden" name="member_policy_id" id="member_policy_id" value="{{ $member_policy->id }}">
         <input type="hidden" name="member_id" id="policy_member_id" value="{{  $member_policy->member_id }}">
+        <input type="hidden" name="current_year" value="{{ $currentYear }}">
+        <input type="hidden" name="current_month" value="{{ $currentMonth }}">
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group mb-2">
@@ -124,7 +126,8 @@
 @else
     <form action="{{ route('members.policy-info.submit') }}" id="member-create-policy-form" method="post">
         @csrf
-
+        <input type="hidden" name="current_year" value="{{ $currentYear }}">
+        <input type="hidden" name="current_month" value="{{ $currentMonth }}">
         <input type="hidden" name="member_id" value="{{ $member->id }}">
         <div class="row">
             <div class="col-md-3">

@@ -625,7 +625,7 @@ class MemberController extends Controller
             'ben' => 0,
             'med_ins' => 0,
             'tot_rec' => 0,
-            'wel_rec' => 0,
+            'wel_rec' => 200,
             'hdfc' => 0,
             'maf' => 0,
             'final_pay' => 0,
@@ -633,7 +633,7 @@ class MemberController extends Controller
             'cort_atch' => 0,
             'ogpf' => 0,
             'ntp' => 0,
-            'ptax' => 200,
+            'ptax' => 0,
             'remarks' => 'Initial recovery data created'
         ];
 

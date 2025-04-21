@@ -4,6 +4,9 @@
 
         <input type="hidden" name="member_expectation_id" id="member_edit_exp_id" value="{{ $member_expectation->id }}">
         <input type="hidden" name="member_id" id="exp_member_id" value="{{ $member_expectation->member_id }}">
+        <input type="hidden" name="current_year" value="{{ $currentYear }}">
+        <input type="hidden" name="current_month" value="{{ $currentMonth }}">
+        
         <div class="form-group mb-2">
             <div class="row align-items-center">
                 <div class="col-md-12">
@@ -123,6 +126,8 @@
         @csrf
 
         <input type="hidden" name="member_id" value="{{ $member->id }}">
+        <input type="hidden" name="current_year" value="{{ $currentYear }}">
+        <input type="hidden" name="current_month" value="{{ $currentMonth }}">
 
         <div class="form-group mb-2">
             <div class="row align-items-center">

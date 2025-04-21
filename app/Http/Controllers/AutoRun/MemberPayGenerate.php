@@ -63,10 +63,16 @@ class MemberPayGenerate extends Controller
 {
     public function paygenerate($month = null, $year = null, $generate_by = null, $member_id = null, $category_id = null)
     {
-        $previous_month = $month;
-        $previous_year = $year;
+        $month = $month; // e.g., '04'
+        $year = $year;   // e.g., '2025'
+
+        $previous_date = strtotime("$year-$month-01 -1 month");
+
+        $previous_month = date('m', $previous_date);
+        $previous_year = date('Y', $previous_date);
 
         // dd($previous_month, $previous_year);
+
 
         // member credit and member monthly data credit columns
         $MemberCreditTableName = (new \App\Models\MemberCredit())->getTable();
@@ -149,15 +155,15 @@ class MemberPayGenerate extends Controller
         );
 
         if ($member_id) {
-            $existing_data = MemberMonthlyData::where('month', $previous_month)
-                ->where('year', $previous_year)
+            $existing_data = MemberMonthlyData::where('month', $month)
+                ->where('year', $year)
                 ->where('member_id', $member_id) // Updated to use $member_id
                 ->first();
             // dd($existing_data);
             if ($existing_data) {
                 // Data for the previous month already exists; do not insert
                 return response()->json([
-                    'message' => 'Data for the previous month already exists.',
+                    'message' => 'Data already exist for this month please check.',
                     'status' => false,
                 ], 200);
             }
@@ -167,11 +173,10 @@ class MemberPayGenerate extends Controller
             $member_monthly_data = new MemberMonthlyData();
 
             // insert member credit data to member monthly data credit
-            $member_credit = MemberCredit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            $member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
             if ($member_credit) {
-
                 $var_inc_amount = 0;
-                $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+                $var_noi = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
                 if ($var_noi) {
                     if ($var_noi->stop == 'No') {
 
@@ -181,9 +186,9 @@ class MemberPayGenerate extends Controller
                 // $member->var_inc_amount = $var_inc_amount;
 
 
-                $check_recovery_member = MemberRecovery::where('member_id', $member->id)->get();
+                $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
                 if (count($check_recovery_member) > 0) {
-                    $update_recovery_member = MemberRecovery::where('member_id', $member->id)->first();
+                    $update_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
                     if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
                         $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
                         $update_recovery_member->update();
@@ -198,57 +203,57 @@ class MemberPayGenerate extends Controller
 
                 $member_credit_monthly_data->var_incr = $var_inc_amount;
 
-                $member_credit_monthly_data->month = $previous_month;
-                $member_credit_monthly_data->year = $previous_year;
+                $member_credit_monthly_data->month = $month;
+                $member_credit_monthly_data->year = $year;
                 $member_credit_monthly_data->apply_date = date('Y-m-d');
                 $member_credit_monthly_data->save();
                 $member_monthly_data->credit_id = $member_credit_monthly_data->id;
             }
 
             // insert member debit data to member monthly data debit
-            $member_debit = MemberDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
             if ($member_debit) {
                 $member_debit_monthly_data = new MemberMonthlyDataDebit();
                 foreach ($DebitCommonColumns as $column) {
                     $member_debit_monthly_data->$column = $member_debit->$column;
                 }
-                $member_debit_monthly_data->month = $previous_month;
-                $member_debit_monthly_data->year = $previous_year;
+                $member_debit_monthly_data->month = $month;
+                $member_debit_monthly_data->year = $year;
                 $member_debit_monthly_data->apply_date = date('Y-m-d');
                 $member_debit_monthly_data->save();
                 $member_monthly_data->debit_id = $member_debit_monthly_data->id;
             }
 
             // insert member recovery data to member monthly data recovery
-            $member_recovery = MemberOriginalRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            $member_recovery = MemberMonthlyDataRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
             if ($member_recovery) {
                 $member_recovery_monthly_data = new MemberMonthlyDataRecovery();
                 foreach ($RecoveryCommonColumns as $column) {
                     $member_recovery_monthly_data->$column = $member_recovery->$column;
                 }
-                $member_recovery_monthly_data->month = $previous_month;
-                $member_recovery_monthly_data->year = $previous_year;
+                $member_recovery_monthly_data->month = $month;
+                $member_recovery_monthly_data->year = $year;
                 $member_recovery_monthly_data->apply_date = date('Y-m-d');
                 $member_recovery_monthly_data->save();
                 $member_monthly_data->recovery_id = $member_recovery_monthly_data->id;
             }
 
             // insert member core info data to member monthly data core info
-            $member_core_info = MemberCoreInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            $member_core_info = MemberMonthlyDataCoreInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
             if ($member_core_info) {
                 $member_core_info_monthly_data = new MemberMonthlyDataCoreInfo();
                 foreach ($CoreInfoCommonColumns as $column) {
                     $member_core_info_monthly_data->$column = $member_core_info->$column;
                 }
-                $member_core_info_monthly_data->month = $previous_month;
-                $member_core_info_monthly_data->year = $previous_year;
+                $member_core_info_monthly_data->month = $month;
+                $member_core_info_monthly_data->year = $year;
                 $member_core_info_monthly_data->apply_date = date('Y-m-d');
                 $member_core_info_monthly_data->save();
                 // $member_monthly_data->core_id = $member_core_info_monthly_data->id;
             }
 
             // insert member policy info data to member monthly data policy info
-            $member_policy_infos = MemberPolicyInfo::where('member_id', $member_id)->get();
+            $member_policy_infos = MemberMonthlyDataPolicyInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
             $policy_info_ids = [];
             if (count($member_policy_infos) > 0) {
                 foreach ($member_policy_infos as $member_policy_info) {
@@ -256,8 +261,8 @@ class MemberPayGenerate extends Controller
                     foreach ($PolicyInfoCommonColumns as $column) {
                         $member_policy_info_monthly_data->$column = $member_policy_info->$column;
                     }
-                    $member_policy_info_monthly_data->month = $previous_month;
-                    $member_policy_info_monthly_data->year = $previous_year;
+                    $member_policy_info_monthly_data->month = $month;
+                    $member_policy_info_monthly_data->year = $year;
                     $member_policy_info_monthly_data->apply_date = date('Y-m-d');
                     $member_policy_info_monthly_data->save();
                     $policy_info_ids[] = $member_policy_info_monthly_data->id;
@@ -266,7 +271,7 @@ class MemberPayGenerate extends Controller
             }
 
             // insert member loan info data to member monthly data loan info
-            $member_loan_infos = MemberLoanInfo::where('member_id', $member_id)->get();
+            $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
             $loan_info_ids = [];
             if (count($member_loan_infos) > 0) {
                 foreach ($member_loan_infos as $member_loan_info) {
@@ -274,8 +279,8 @@ class MemberPayGenerate extends Controller
                     foreach ($LoanInfoCommonColumns as $column) {
                         $member_loan_info_monthly_data->$column = $member_loan_info->$column;
                     }
-                    $member_loan_info_monthly_data->month = $previous_month;
-                    $member_loan_info_monthly_data->year = $previous_year;
+                    $member_loan_info_monthly_data->month = $month;
+                    $member_loan_info_monthly_data->year = $year;
                     $member_loan_info_monthly_data->apply_date = date('Y-m-d');
                     $member_loan_info_monthly_data->save();
                     $loan_info_ids[] = $member_loan_info_monthly_data->id;
@@ -284,7 +289,7 @@ class MemberPayGenerate extends Controller
             }
 
             // insert member expectation data to member monthly data expectation
-            $member_expectations = MemberExpectation::where('member_id', $member_id)->get();
+            $member_expectations = MemberMonthlyDataExpectation::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
             $expectation_ids = [];
             if (count($member_expectations) > 0) {
                 foreach ($member_expectations as $member_expectation) {
@@ -292,8 +297,8 @@ class MemberPayGenerate extends Controller
                     foreach ($ExpectationCommonColumns as $column) {
                         $member_expectation_monthly_data->$column = $member_expectation->$column;
                     }
-                    $member_expectation_monthly_data->month = $previous_month;
-                    $member_expectation_monthly_data->year = $previous_year;
+                    $member_expectation_monthly_data->month = $month;
+                    $member_expectation_monthly_data->year = $year;
                     $member_expectation_monthly_data->apply_date = date('Y-m-d');
                     $member_expectation_monthly_data->save();
                     $expectation_ids[] = $member_expectation_monthly_data->id;
@@ -302,24 +307,24 @@ class MemberPayGenerate extends Controller
             }
 
             // insert member var info data to member monthly data var info
-            $member_var_info = MemberRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+            $member_var_info = MemberMonthlyDataVarInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
             if ($member_var_info) {
                 $member_var_info_monthly_data = new MemberMonthlyDataVarInfo();
                 foreach ($VarInfoCommonColumns as $column) {
                     $member_var_info_monthly_data->$column = $member_var_info->$column;
                 }
-                $member_var_info_monthly_data->month = $previous_month;
-                $member_var_info_monthly_data->year = $previous_year;
+                $member_var_info_monthly_data->month = $month;
+                $member_var_info_monthly_data->year = $year;
                 $member_var_info_monthly_data->apply_date = date('Y-m-d');
                 $member_var_info_monthly_data->save();
-              //  $member_monthly_data->var_info_id = $member_var_info_monthly_data->id;
+                //  $member_monthly_data->var_info_id = $member_var_info_monthly_data->id;
             }
 
             // insert main Member Monthly Data
 
             $member_monthly_data->member_id = $member_id;
-            $member_monthly_data->month = $previous_month;
-            $member_monthly_data->year = $previous_year;
+            $member_monthly_data->month = $month;
+            $member_monthly_data->year = $year;
             $member_monthly_data->apply_date = date('Y-m-d');
             $member_monthly_data->save();
 
@@ -335,8 +340,8 @@ class MemberPayGenerate extends Controller
                 $member_id = $member->id;
 
                 // Check if data for the previous month and year exists
-                $existing_data = MemberMonthlyData::where('month', $previous_month)
-                    ->where('year', $previous_year)
+                $existing_data = MemberMonthlyData::where('month', $month)
+                    ->where('year', $year)
                     ->where('member_id', $member_id)
                     ->first();
 
@@ -351,11 +356,10 @@ class MemberPayGenerate extends Controller
                 $member_monthly_data = new MemberMonthlyData();
 
                 // insert member credit data to member monthly data credit
-                $member_credit = MemberCredit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                $member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
                 if ($member_credit) {
-
                     $var_inc_amount = 0;
-                    $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+                    $var_noi = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
                     if ($var_noi) {
                         if ($var_noi->stop == 'No') {
 
@@ -365,9 +369,9 @@ class MemberPayGenerate extends Controller
                     // $member->var_inc_amount = $var_inc_amount;
 
 
-                    $check_recovery_member = MemberRecovery::where('member_id', $member->id)->get();
+                    $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
                     if (count($check_recovery_member) > 0) {
-                        $update_recovery_member = MemberRecovery::where('member_id', $member->id)->first();
+                        $update_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
                         if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
                             $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
                             $update_recovery_member->update();
@@ -382,57 +386,57 @@ class MemberPayGenerate extends Controller
 
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
-                    $member_credit_monthly_data->month = $previous_month;
-                    $member_credit_monthly_data->year = $previous_year;
+                    $member_credit_monthly_data->month = $month;
+                    $member_credit_monthly_data->year = $year;
                     $member_credit_monthly_data->apply_date = date('Y-m-d');
                     $member_credit_monthly_data->save();
                     $member_monthly_data->credit_id = $member_credit_monthly_data->id;
                 }
 
                 // insert member debit data to member monthly data debit
-                $member_debit = MemberDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
                 if ($member_debit) {
                     $member_debit_monthly_data = new MemberMonthlyDataDebit();
                     foreach ($DebitCommonColumns as $column) {
                         $member_debit_monthly_data->$column = $member_debit->$column;
                     }
-                    $member_debit_monthly_data->month = $previous_month;
-                    $member_debit_monthly_data->year = $previous_year;
+                    $member_debit_monthly_data->month = $month;
+                    $member_debit_monthly_data->year = $year;
                     $member_debit_monthly_data->apply_date = date('Y-m-d');
                     $member_debit_monthly_data->save();
                     $member_monthly_data->debit_id = $member_debit_monthly_data->id;
                 }
 
                 // insert member recovery data to member monthly data recovery
-                $member_recovery = MemberOriginalRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                $member_recovery = MemberMonthlyDataRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
                 if ($member_recovery) {
                     $member_recovery_monthly_data = new MemberMonthlyDataRecovery();
                     foreach ($RecoveryCommonColumns as $column) {
                         $member_recovery_monthly_data->$column = $member_recovery->$column;
                     }
-                    $member_recovery_monthly_data->month = $previous_month;
-                    $member_recovery_monthly_data->year = $previous_year;
+                    $member_recovery_monthly_data->month = $month;
+                    $member_recovery_monthly_data->year = $year;
                     $member_recovery_monthly_data->apply_date = date('Y-m-d');
                     $member_recovery_monthly_data->save();
                     $member_monthly_data->recovery_id = $member_recovery_monthly_data->id;
                 }
 
                 // insert member core info data to member monthly data core info
-                $member_core_info = MemberCoreInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                $member_core_info = MemberMonthlyDataCoreInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
                 if ($member_core_info) {
                     $member_core_info_monthly_data = new MemberMonthlyDataCoreInfo();
                     foreach ($CoreInfoCommonColumns as $column) {
                         $member_core_info_monthly_data->$column = $member_core_info->$column;
                     }
-                    $member_core_info_monthly_data->month = $previous_month;
-                    $member_core_info_monthly_data->year = $previous_year;
+                    $member_core_info_monthly_data->month = $month;
+                    $member_core_info_monthly_data->year = $year;
                     $member_core_info_monthly_data->apply_date = date('Y-m-d');
                     $member_core_info_monthly_data->save();
                     // $member_monthly_data->core_id = $member_core_info_monthly_data->id;
                 }
 
                 // insert member policy info data to member monthly data policy info
-                $member_policy_infos = MemberPolicyInfo::where('member_id', $member_id)->get();
+                $member_policy_infos = MemberMonthlyDataPolicyInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
                 $policy_info_ids = [];
                 if (count($member_policy_infos) > 0) {
                     foreach ($member_policy_infos as $member_policy_info) {
@@ -440,17 +444,17 @@ class MemberPayGenerate extends Controller
                         foreach ($PolicyInfoCommonColumns as $column) {
                             $member_policy_info_monthly_data->$column = $member_policy_info->$column;
                         }
-                        $member_policy_info_monthly_data->month = $previous_month;
-                        $member_policy_info_monthly_data->year = $previous_year;
+                        $member_policy_info_monthly_data->month = $month;
+                        $member_policy_info_monthly_data->year = $year;
                         $member_policy_info_monthly_data->apply_date = date('Y-m-d');
                         $member_policy_info_monthly_data->save();
                         $policy_info_ids[] = $member_policy_info_monthly_data->id;
                     }
-                    //   $member_monthly_data->policy_info_ids = json_encode($policy_info_ids);
+                    // $member_monthly_data->policy_info_ids = json_encode($policy_info_ids);
                 }
 
                 // insert member loan info data to member monthly data loan info
-                $member_loan_infos = MemberLoanInfo::where('member_id', $member_id)->get();
+                $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
                 $loan_info_ids = [];
                 if (count($member_loan_infos) > 0) {
                     foreach ($member_loan_infos as $member_loan_info) {
@@ -458,8 +462,8 @@ class MemberPayGenerate extends Controller
                         foreach ($LoanInfoCommonColumns as $column) {
                             $member_loan_info_monthly_data->$column = $member_loan_info->$column;
                         }
-                        $member_loan_info_monthly_data->month = $previous_month;
-                        $member_loan_info_monthly_data->year = $previous_year;
+                        $member_loan_info_monthly_data->month = $month;
+                        $member_loan_info_monthly_data->year = $year;
                         $member_loan_info_monthly_data->apply_date = date('Y-m-d');
                         $member_loan_info_monthly_data->save();
                         $loan_info_ids[] = $member_loan_info_monthly_data->id;
@@ -468,7 +472,7 @@ class MemberPayGenerate extends Controller
                 }
 
                 // insert member expectation data to member monthly data expectation
-                $member_expectations = MemberExpectation::where('member_id', $member_id)->get();
+                $member_expectations = MemberMonthlyDataExpectation::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
                 $expectation_ids = [];
                 if (count($member_expectations) > 0) {
                     foreach ($member_expectations as $member_expectation) {
@@ -476,8 +480,8 @@ class MemberPayGenerate extends Controller
                         foreach ($ExpectationCommonColumns as $column) {
                             $member_expectation_monthly_data->$column = $member_expectation->$column;
                         }
-                        $member_expectation_monthly_data->month = $previous_month;
-                        $member_expectation_monthly_data->year = $previous_year;
+                        $member_expectation_monthly_data->month = $month;
+                        $member_expectation_monthly_data->year = $year;
                         $member_expectation_monthly_data->apply_date = date('Y-m-d');
                         $member_expectation_monthly_data->save();
                         $expectation_ids[] = $member_expectation_monthly_data->id;
@@ -486,24 +490,24 @@ class MemberPayGenerate extends Controller
                 }
 
                 // insert member var info data to member monthly data var info
-                $member_var_info = MemberRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
+                $member_var_info = MemberMonthlyDataVarInfo::where('member_id', $member_id)->orderBy('id', 'desc')->first();
                 if ($member_var_info) {
                     $member_var_info_monthly_data = new MemberMonthlyDataVarInfo();
                     foreach ($VarInfoCommonColumns as $column) {
                         $member_var_info_monthly_data->$column = $member_var_info->$column;
                     }
-                    $member_var_info_monthly_data->month = $previous_month;
-                    $member_var_info_monthly_data->year = $previous_year;
+                    $member_var_info_monthly_data->month = $month;
+                    $member_var_info_monthly_data->year = $year;
                     $member_var_info_monthly_data->apply_date = date('Y-m-d');
                     $member_var_info_monthly_data->save();
-                 //   $member_monthly_data->var_info_id = $member_var_info_monthly_data->id;
+                    //  $member_monthly_data->var_info_id = $member_var_info_monthly_data->id;
                 }
 
                 // insert main Member Monthly Data
 
                 $member_monthly_data->member_id = $member_id;
-                $member_monthly_data->month = $previous_month;
-                $member_monthly_data->year = $previous_year;
+                $member_monthly_data->month = $month;
+                $member_monthly_data->year = $year;
                 $member_monthly_data->apply_date = date('Y-m-d');
                 $member_monthly_data->save();
             }

@@ -267,7 +267,7 @@
                         allowance: allowance
                     },
                     success: function(response) {
-                        $('#tpt_da').val(response.tpt_da);
+                        $('#tpt_da').val(Math.round(response.tpt_da) + '.00' );
                     },
                     error: function(xhr) {
                         console.log(xhr);

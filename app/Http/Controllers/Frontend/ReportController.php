@@ -50,6 +50,7 @@ use App\Models\PayMatrixBasic;
 use App\Models\PmIndex;
 use App\Models\Hra;
 use App\Models\MemberMonthlyData;
+use App\Models\MemberMonthlyDataCoreInfo;
 use App\Models\Pension;
 use App\Models\MemberOriginalRecovery;
 use App\Models\MemberMonthlyDataCredit;
@@ -152,9 +153,9 @@ class ReportController extends Controller
             $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
             $logo = Helper::logo() ?? '';
 
-          //  return view('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
-          $setting = Setting::first();
-          $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            //  return view('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
+            $setting = Setting::first();
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
             $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'))->setPaper('a4', $paperType);
             return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
         }
@@ -217,7 +218,9 @@ class ReportController extends Controller
                     ->where('year', $request->year)
                     ->where('month', $themonth)
                     ->first(),
-                'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
+                'member_core_info' => MemberMonthlyDataCoreInfo::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $themonth)
                     ->with('banks')
                     ->first(),
                 'member_loans' => [
@@ -239,7 +242,7 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
-
+        // dd($member_datas);
 
         // Convert the array to a Laravel Collection to use chunk method
         $groupedData = collect($all_members_info)->chunk(3);
@@ -1185,8 +1188,8 @@ class ReportController extends Controller
 
         $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')
             ->get();
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
         $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months', 'months', 'year', 'report_quarter', 'report_year', 'number_months'))->setPaper('a4', $paperType);
         return $pdf->download('quaterly-tds-report-' . $report_quarter . '-' . $report_year . '.pdf');
     }
@@ -1248,7 +1251,7 @@ class ReportController extends Controller
         if ($request->report_type == 'individual') {
             $member_detail = Member::where('id', $request->member_id)->first();
             $setting = Setting::first();
-        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+            $paperType = $request->paper_type ?? $setting->pdf_page_type;
             $pdf = PDF::loadView('frontend.reports.newspaper-allowance-report-generate', compact('member_detail', 'data'))->setPaper('a4', $paperType);
             return $pdf->download('newspaper-allowance-report-' . $member_detail->name . '.pdf');
         } else {

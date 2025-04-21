@@ -268,12 +268,12 @@ class MemberController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
         $member = Member::with('designation', 'divisions', 'groups')->where('id', $id)->with('cgegisVal', 'gPay')->first();
 
-        $currentMonth = date('m');
-        $currentYear = date('Y');
+        $currentMonth = $request->month ?? date('m');
+        $currentYear = $request->year ?? date('Y'); // Updated to use $request->year for currentYear
 
 
         //checks
@@ -291,6 +291,7 @@ class MemberController extends Controller
         $member_core = MemberMonthlyDataCoreInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
         $member_policies = MemberMonthlyDataPolicyInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get() ?? '';
         $member_expectations = MemberMonthlyDataExpectation::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get() ?? '';
+        // dd($member_expectations, $id, $currentMonth, $currentYear);
         $members_loans_info = MemberMonthlyDataLoanInfo::with('loanInfoFirst')->where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get();
         $member_original_recovery = MemberMonthlyDataRecovery::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->latest()->first() ?? '';
         $member_recovery = MemberMonthlyDataVarInfo::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
@@ -338,7 +339,7 @@ class MemberController extends Controller
 
         $noi_amount = 0;
         $var_inc_amount = 0;
-        $var_noi = MemberRecovery::where('member_id', $member->id)->first();
+        $var_noi = MemberMonthlyDataRecovery::where('month', $currentMonth)->where('year', $currentYear)->latest()->first() ?? '';
         if ($var_noi) {
             if ($var_noi->stop == 'No') {
                 $noi_amount = $var_noi->total;
@@ -360,7 +361,7 @@ class MemberController extends Controller
         }
         $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
         $basicPay = $member->basic;
-        $member_expectation_da = MemberExpectation::where('member_id', $member->id)->where('rule_name', 'DA')->first();
+        $member_expectation_da = MemberMonthlyDataExpectation::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->where('rule_name', 'DA')->first();
         if ($member_expectation_da) {
             $daAmount = $member_expectation_da->amount;
         } else {
@@ -658,7 +659,9 @@ class MemberController extends Controller
 
     public function memberCheckCreditAvailability(Request $request)
     {
-        $check_credit_member = MemberCredit::where('member_id', $request->memberID)->get();
+        $currentMonth = $request->current_month;
+        $currentYear = $request->current_year;
+        $check_credit_member = MemberMonthlyDataCredit::where('member_id', $request->memberID)->where('month', $currentMonth)->where('year', $currentYear)->get();
         if (count($check_credit_member) > 0) {
             return response()->json(['message' => 'Member credit already added', 'status' => 'success']);
         } else {
@@ -1107,6 +1110,23 @@ class MemberController extends Controller
         ]);
 
         $check_recovery_member = MemberRecovery::where('member_id', $request->member_id)->get();
+        $check_recovery_member_monthly = MemberMonthlyDataVarInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        if ($check_recovery_member_monthly) {
+            $recovery_member_monthly = MemberMonthlyDataVarInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        } else {
+            $recovery_member_monthly = new MemberMonthlyDataVarInfo();
+        }
+        $recovery_member_monthly->month = $request->current_month;
+        $recovery_member_monthly->year = $request->current_year;
+        $recovery_member_monthly->apply_date = now();
+        $recovery_member_monthly->member_id = $request->member_id;
+        $recovery_member_monthly->v_incr = $request->v_incr;
+        $recovery_member_monthly->noi = $request->noi;
+        $recovery_member_monthly->total = $request->total;
+        $recovery_member_monthly->stop = $request->stop;
+        $recovery_member_monthly->save();
+
+
         if (count($check_recovery_member) > 0) {
             $update_recovery_member = MemberRecovery::where('member_id', $request->member_id)->first();
             $update_recovery_member->v_incr = $request->v_incr;
@@ -1169,6 +1189,43 @@ class MemberController extends Controller
         // ]);
 
         $check_core_member = MemberCoreInfo::where('member_id', $request->member_id)->get();
+        $check_core_member_monthly = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        if ($check_core_member_monthly) {
+            $core_member_monthly = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        } else {
+            $core_member_monthly = new MemberMonthlyDataCoreInfo();
+        }
+        $core_member_monthly->month = $request->current_month;
+        $core_member_monthly->year = $request->current_year;
+        $core_member_monthly->apply_date = now();
+        $core_member_monthly->member_id = $request->member_id;
+        $core_member_monthly->bank_acc_no = $request->bank_acc_no;
+        $core_member_monthly->ccs_mem_no = $request->ccs_mem_no;
+        $core_member_monthly->fpa = $request->fpa;
+        $core_member_monthly->bank = $request->bank;
+        $core_member_monthly->gpf_sub = $request->gpf_sub;
+        $core_member_monthly->add2 = $request->add2;
+        $core_member_monthly->gpf_acc_no = $request->gpf_acc_no;
+        $core_member_monthly->i_tax = $request->i_tax;
+        $core_member_monthly->pran_no = $request->pran_no;
+        $core_member_monthly->pan_no = $request->pan_no;
+        $core_member_monthly->ecess = $request->ecess;
+        $core_member_monthly->ben_acc_no = $request->ben_acc_no;
+        $core_member_monthly->dcmaf_no = $request->dcmaf_no;
+        $core_member_monthly->s_pay = $request->s_pay;
+        $core_member_monthly->ifsc = $request->ifsc;
+        $core_member_monthly->save();
+
+
+        $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
+
+        if ($member_debit_monthly) {
+            $member_debit_monthly->gpa_sub = $request->gpf_sub;
+            $member_debit_monthly->i_tax = $request->i_tax;
+            $member_debit_monthly->ecess = $request->ecess;
+            $member_debit_monthly->save();
+        }
+
         if (count($check_core_member) > 0) {
             $update_core_member = MemberCoreInfo::where('member_id', $request->member_id)->first();
             $update_core_member->bank_acc_no = $request->bank_acc_no;
@@ -1320,12 +1377,20 @@ class MemberController extends Controller
             $update_personal_member->update();
 
             // member debit cgegis update
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
             if ($member_debit) {
                 $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
                 $cgegis_amount = $cgegis_amount->value ?? 0;
                 $member_debit->cgegis = $cgegis_amount;
                 $member_debit->save();
+            }
+
+            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
+            if ($member_debit_monthly) {
+                $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
+                $cgegis_amount = $cgegis_amount->value ?? 0;
+                $member_debit_monthly->cgegis = $cgegis_amount;
+                $member_debit_monthly->save();
             }
 
             // update pg in memeber
@@ -1335,10 +1400,16 @@ class MemberController extends Controller
 
             // if pg = 1 then update member recovery med_ins set 0
             if ($request->pg == 1) {
-                $member_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->first();
+                $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->first();
                 if ($member_recovery) {
                     $member_recovery->med_ins = 0;
                     $member_recovery->save();
+                }
+
+                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+                if ($member_recovery_monthly) {
+                    $member_recovery_monthly->med_ins = 0;
+                    $member_recovery_monthly->save();
                 }
             } else {
                 $member_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->first();
@@ -1348,6 +1419,14 @@ class MemberController extends Controller
                     $med_ins_amount = $med_ins_amount->med_ins ?? 0;
                     $member_recovery->med_ins = $med_ins_amount;
                     $member_recovery->save();
+                }
+                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+                if ($member_recovery_monthly) {
+                    //get med_ins amount from category
+                    $med_ins_amount = Category::where('id', $request->category)->first() ?? '';
+                    $med_ins_amount = $med_ins_amount->med_ins ?? 0;
+                    $member_recovery_monthly->med_ins = $med_ins_amount;
+                    $member_recovery_monthly->save();
                 }
             }
 
@@ -1411,22 +1490,44 @@ class MemberController extends Controller
 
         $loan_detail = Loan::where('id', $request->loan_name)->first() ?? '';
 
-        $loan_info = new MemberLoanInfo;
-        $loan_info->member_id = $request->member_id;
-        $loan_info->loan_id = $request->loan_name;
-        $loan_info->loan_name = $loan_detail->loan_name;
-        $loan_info->present_inst_no = $request->present_inst_no;
-        $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
-        $loan_info->inst_amount = $request->inst_amount;
-        $loan_info->inst_rate = $request->inst_rate;
-        $loan_info->total_amount = $request->total_amount;
-        $loan_info->balance = $request->balance;
-        $loan_info->recovery_type = $request->recovery_type;
-        $loan_info->penal_inst_rate = $request->penal_inst_rate;
-        $loan_info->start_date = $request->start_date ?? now()->format('Y-m-d');
-        $loan_info->end_date = $request->end_date ?? null;
-        $loan_info->remark = $request->remark;
-        $loan_info->save();
+
+        $member_loan_monthly = new MemberMonthlyDataLoanInfo();
+
+        $member_loan_monthly->month = $request->current_month;
+        $member_loan_monthly->year = $request->current_year;
+        $member_loan_monthly->apply_date = now();
+        $member_loan_monthly->member_id = $request->member_id;
+        $member_loan_monthly->loan_name = $loan_detail->loan_name;
+        $member_loan_monthly->loan_id = $request->loan_name;
+        $member_loan_monthly->present_inst_no = $request->present_inst_no;
+        $member_loan_monthly->tot_no_of_inst = $request->tot_no_of_inst;
+        $member_loan_monthly->inst_amount = $request->inst_amount;
+        $member_loan_monthly->inst_rate = $request->inst_rate;
+        $member_loan_monthly->total_amount = $request->total_amount;
+        $member_loan_monthly->balance = $request->balance;
+        $member_loan_monthly->recovery_type = $request->recovery_type;
+        $member_loan_monthly->penal_inst_rate = $request->penal_inst_rate;
+        $member_loan_monthly->start_date = $request->start_date ?? now()->format('Y-m-d');
+        $member_loan_monthly->end_date = $request->end_date ?? null;
+        $member_loan_monthly->remark = $request->remark;
+        $member_loan_monthly->save();
+
+        // $loan_info = new MemberLoanInfo;
+        // $loan_info->member_id = $request->member_id;
+        // $loan_info->loan_id = $request->loan_name;
+        // $loan_info->loan_name = $loan_detail->loan_name;
+        // $loan_info->present_inst_no = $request->present_inst_no;
+        // $loan_info->tot_no_of_inst = $request->tot_no_of_inst;
+        // $loan_info->inst_amount = $request->inst_amount;
+        // $loan_info->inst_rate = $request->inst_rate;
+        // $loan_info->total_amount = $request->total_amount;
+        // $loan_info->balance = $request->balance;
+        // $loan_info->recovery_type = $request->recovery_type;
+        // $loan_info->penal_inst_rate = $request->penal_inst_rate;
+        // $loan_info->start_date = $request->start_date ?? now()->format('Y-m-d');
+        // $loan_info->end_date = $request->end_date ?? null;
+        // $loan_info->remark = $request->remark;
+        // $loan_info->save();
 
         // Start from current month
         $startDate = new \DateTime(now()->format('Y-m-01'));
@@ -1443,7 +1544,7 @@ class MemberController extends Controller
             $loanInstallment = new MemberLoan();
             $loanInstallment->member_id = $request->member_id;
             $loanInstallment->loan_id = $request->loan_name;
-            $loanInstallment->loan_info_id = $loan_info->id;
+            $loanInstallment->loan_info_id = $member_loan_monthly->id;
             $loanInstallment->interest_rate = $request->inst_rate ?? 0;
             $loanInstallment->emi_amount = $emiAmount;
             $loanInstallment->interest_amount = $emiAmount;
@@ -1457,19 +1558,21 @@ class MemberController extends Controller
         if (!$request->end_date) {
             $endDate = clone $startDate;
             $endDate->modify("+" . ($totalInstallments - 1) . " month");
-            $loan_info->end_date = $endDate->format('Y-m-d');
-            $loan_info->save();
+            $member_loan_monthly->end_date = $endDate->format('Y-m-d');
+            $member_loan_monthly->save();
         }
 
-        return response()->json(['message' => 'Member loan info added successfully', 'data' => $loan_info]);
+        return response()->json(['message' => 'Member loan info added successfully', 'data' => $member_loan_monthly]);
     }
 
     public function memberLoanEdit($id)
     {
-        $member_loan = MemberLoanInfo::find($id);
+        $member_loan = MemberMonthlyDataLoanInfo::find($id);
+        $currentMonth = $member_loan->month;
+        $currentYear = $member_loan->year;
         $edit = true;
         $loans = Loan::orderBy('id', 'desc')->get();
-        return response()->json(['view' => view('frontend.members.loan.form', compact('edit', 'member_loan', 'loans'))->render()]);
+        return response()->json(['view' => view('frontend.members.loan.form', compact('edit', 'member_loan', 'loans', 'currentMonth', 'currentYear'))->render()]);
     }
 
     public function memberLoanUpdate(Request $request)
@@ -1487,7 +1590,7 @@ class MemberController extends Controller
         }
 
         // Get the existing loan info
-        $loan_info = MemberLoanInfo::where('id', $request->member_loan_id)->first();
+        $loan_info = MemberMonthlyDataLoanInfo::where('id', $request->member_loan_id)->first();
         if (!$loan_info) {
             return response()->json(['message' => 'Member loan info not found'], 404);
         }
@@ -1496,6 +1599,8 @@ class MemberController extends Controller
         $loan_detail = Loan::where('id', $request->loan_name)->first() ?? '';
 
         // Update the loan information
+        $loan_info->month = $request->current_month;
+        $loan_info->year = $request->current_year;
         $loan_info->loan_id = $request->loan_name;
         $loan_info->loan_name = $loan_detail->loan_name;
         $loan_info->present_inst_no = $request->present_inst_no;
@@ -1550,7 +1655,7 @@ class MemberController extends Controller
 
     public function memberLoanDelete($id)
     {
-        $loanInfo = MemberLoanInfo::find($id);
+        $loanInfo = MemberMonthlyDataLoanInfo::find($id);
 
         if (!$loanInfo) {
             return response()->json(['message' => 'Member loan not found'], 404);
@@ -1567,8 +1672,10 @@ class MemberController extends Controller
 
     public function memberPolicyInfoStore(Request $request)
     {
-
-        $policy_store = new MemberPolicyInfo;
+        $policy_store = new MemberMonthlyDataPolicyInfo();
+        $policy_store->month = $request->current_month;
+        $policy_store->year = $request->current_year;
+        $policy_store->apply_date = now();
         $policy_store->member_id = $request->member_id;
         $policy_store->policy_name = $request->policy_name;
         $policy_store->policy_no = $request->policy_no;
@@ -1576,16 +1683,27 @@ class MemberController extends Controller
         $policy_store->rec_stop = $request->rec_stop;
         $policy_store->save();
 
+        // $policy_store = new MemberPolicyInfo;
+        // $policy_store->member_id = $request->member_id;
+        // $policy_store->policy_name = $request->policy_name;
+        // $policy_store->policy_no = $request->policy_no;
+        // $policy_store->amount = $request->amount;
+        // $policy_store->rec_stop = $request->rec_stop;
+        // $policy_store->save();
+
         return response()->json(['message' => 'Member policy info added successfully', 'data' => $policy_store]);
     }
 
     public function memberPolicyInfoEdit($id)
     {
 
-        $member_policy = MemberPolicyInfo::find($id);
+        $member_policy = MemberMonthlyDataPolicyInfo::find($id);
+
+        $currentYear = $member_policy->year;
+        $currentMonth = $member_policy->month;
         $edit = true;
         $policies = Policy::orderBy('id', 'desc')->get();
-        return response()->json(['view' => view('frontend.members.policy-info.form', compact('edit', 'member_policy', 'policies'))->render()]);
+        return response()->json(['view' => view('frontend.members.policy-info.form', compact('edit', 'member_policy', 'policies', 'currentYear', 'currentMonth'))->render()]);
     }
 
     public function memberPolicyInfoUpdate(Request $request)
@@ -1597,31 +1715,54 @@ class MemberController extends Controller
         ]);
 
         if (!isset($request->member_policy_id)) {
-            $policy_info = new MemberPolicyInfo;
-            $policy_info->member_id = $request->member_id;
-            $policy_info->policy_name = $request->policy_name;
-            $policy_info->policy_no = $request->policy_no;
-            $policy_info->amount = $request->amount;
-            $policy_info->rec_stop = $request->rec_stop;
-            $policy_info->save();
 
-            return response()->json(['message' => 'Member policy info added successfully', 'data' => $policy_info, 'save' => true]);
+            $member_policy_monthly = new MemberMonthlyDataPolicyInfo();
+            $member_policy_monthly->month = $request->current_month;
+            $member_policy_monthly->year = $request->current_year;
+            $member_policy_monthly->apply_date = now();
+            $member_policy_monthly->member_id = $request->member_id;
+            $member_policy_monthly->policy_name = $request->policy_name;
+            $member_policy_monthly->policy_no = $request->policy_no;
+            $member_policy_monthly->amount = $request->amount;
+            $member_policy_monthly->rec_stop = $request->rec_stop;
+            $member_policy_monthly->save();
+
+            // $policy_info = new MemberPolicyInfo;
+            // $policy_info->member_id = $request->member_id;
+            // $policy_info->policy_name = $request->policy_name;
+            // $policy_info->policy_no = $request->policy_no;
+            // $policy_info->amount = $request->amount;
+            // $policy_info->rec_stop = $request->rec_stop;
+            // $policy_info->save();
+
+            return response()->json(['message' => 'Member policy info added successfully', 'data' => $member_policy_monthly, 'save' => true]);
         }
 
-        $policy_info = MemberPolicyInfo::where('id', $request->member_policy_id)->first();
-        $policy_info->policy_name = $request->policy_name;
-        $policy_info->policy_no = $request->policy_no;
-        $policy_info->amount = $request->amount;
-        $policy_info->rec_stop = $request->rec_stop;
-        $policy_info->update();
+        $member_policy_monthly = MemberMonthlyDataPolicyInfo::where('id', $request->member_policy_id)->first();
+        $member_policy_monthly->month = $request->current_month;
+        $member_policy_monthly->year = $request->current_year;
+        $member_policy_monthly->apply_date = now();
+        $member_policy_monthly->member_id = $request->member_id;
+        $member_policy_monthly->policy_name = $request->policy_name;
+        $member_policy_monthly->policy_no = $request->policy_no;
+        $member_policy_monthly->amount = $request->amount;
+        $member_policy_monthly->rec_stop = $request->rec_stop;
+        $member_policy_monthly->save();
 
-        return response()->json(['message' => 'Member policy info updated successfully', 'data' => $policy_info]);
+        // $policy_info = MemberPolicyInfo::where('id', $request->member_policy_id)->first();
+        // $policy_info->policy_name = $request->policy_name;
+        // $policy_info->policy_no = $request->policy_no;
+        // $policy_info->amount = $request->amount;
+        // $policy_info->rec_stop = $request->rec_stop;
+        // $policy_info->update();
+
+        return response()->json(['message' => 'Member policy info updated successfully', 'data' => $member_policy_monthly]);
     }
 
     public function memberPolicyInfoDelete($id)
     {
 
-        $delete_policy = MemberPolicyInfo::where('id', $id)->first();
+        $delete_policy = MemberMonthlyDataPolicyInfo::where('id', $id)->first();
         $delete_policy->delete();
 
         return response()->json(['message' => 'Member policy deleted successfully']);
@@ -1635,119 +1776,146 @@ class MemberController extends Controller
             'amount' => 'required',
         ]);
 
+        $memberId = $request->member_id;
+        $month = $request->current_month;
+        $year = $request->current_year;
+        $amount = $request->amount;
+
         $selectedValue = $request->rule_name;
         $data = explode(',', $selectedValue);
         $rule_name = $data[0];
 
-        $expectation_store = new MemberExpectation;
-        $expectation_store->member_id = $request->member_id;
-        $expectation_store->rule_name = $rule_name;
-        $expectation_store->percent = $request->percent;
-        $expectation_store->amount = $request->amount;
-        $expectation_store->year = $request->year;
-        $expectation_store->month = $request->month;
-        $expectation_store->remark = $request->remark;
-        $expectation_store->save();
+        $monthy_expectation_store = new MemberMonthlyDataExpectation();
+        $monthy_expectation_store->month = $request->current_month;
+        $monthy_expectation_store->year = $request->current_year;
+        $monthy_expectation_store->apply_date = now();
+        $monthy_expectation_store->member_id = $request->member_id;
+        $monthy_expectation_store->rule_name = $rule_name;
+        $monthy_expectation_store->percent = $request->percent;
+        $monthy_expectation_store->amount = $request->amount;
+        $monthy_expectation_store->year = $request->year;
+        $monthy_expectation_store->month = $request->month;
+        $monthy_expectation_store->remark = $request->remark;
+        $monthy_expectation_store->save();
 
-        if ($rule_name == 'GPF') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_debit) {
-                $member_debit->gpa_sub = $request->amount;
-                $member_debit->update();
-            }
-            $member_core = MemberCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_core) {
-                $member_core->gpf_sub = $request->amount;
-                $member_core->update();
-            }
+
+        // $expectation_store = new MemberExpectation;
+        // $expectation_store->member_id = $request->member_id;
+        // $expectation_store->rule_name = $rule_name;
+        // $expectation_store->percent = $request->percent;
+        // $expectation_store->amount = $request->amount;
+        // $expectation_store->year = $request->year;
+        // $expectation_store->month = $request->month;
+        // $expectation_store->remark = $request->remark;
+        // $expectation_store->save();
+
+
+
+        switch ($rule_name) {
+            case 'GPF':
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_debit) {
+                    $member_debit->gpa_sub = $amount;
+                    $member_debit->save();
+                }
+
+                $member_core = MemberMonthlyDataCoreInfo::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_core) {
+                    $member_core->gpf_sub = $amount;
+                    $member_core->save();
+                }
+                break;
+
+            case 'GMC':
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_debit) {
+                    $member_debit->cmg = $amount;
+                    $member_debit->save();
+                }
+                break;
+
+            case 'TPT':
+                $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_credit) {
+                    $member_credit->tpt = $amount;
+                    $member_credit->da_on_tpt = $amount / 2;
+                    $member_credit->save();
+                }
+                break;
+
+            case 'DA':
+                $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_credit) {
+                    $member_credit->da = $amount;
+                    $member_credit->save();
+                }
+                break;
+
+            case 'HRA':
+                $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_credit) {
+                    $member_credit->hra = $amount;
+                    $member_credit->save();
+                }
+                break;
+
+            case 'CGHS':
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_debit) {
+                    $member_debit->cghs = $amount;
+                    $member_debit->save();
+                }
+                break;
+
+            case 'CGEGIS':
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_debit) {
+                    $member_debit->cgegis = $amount;
+                    $member_debit->save();
+                }
+                break;
+
+            case 'Wellfare':
+                $member_recovery = MemberMonthlyDataRecovery::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_recovery) {
+                    $member_recovery->wel_sub = $amount;
+                    $member_recovery->save();
+                }
+                break;
+
+            case 'MESS':
+                $member_recovery = MemberMonthlyDataRecovery::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_recovery) {
+                    $member_recovery->mess = $amount;
+                    $member_recovery->save();
+                }
+                break;
+
+            case 'Prof TAX':
+                $member_recovery = MemberMonthlyDataRecovery::where('member_id', $memberId)->where('month', $month)->where('year', $year)->latest()->first();
+                if ($member_recovery) {
+                    $member_recovery->ptax = $amount;
+                    $member_recovery->save();
+                }
+                break;
+
+            default:
+                // Optional: handle unknown rule names
+                break;
         }
 
-        if ($rule_name == 'GMC') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_debit) {
-                $member_debit->cmg = $request->amount;
-                $member_debit->update();
-            }
-        }
 
-        // TPT on credit
-        if ($rule_name == 'TPT') {
-            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_credit) {
-                $member_credit->tpt = $request->amount;
-                $member_credit->da_on_tpt = $request->amount / 2;
-                $member_credit->update();
-            }
-        }
-
-        if ($rule_name == 'Wellfare') {
-            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_original_recovery) {
-                $member_original_recovery->wel_sub = $request->amount;
-                $member_original_recovery->update();
-            }
-        }
-
-        if ($rule_name == 'MESS') {
-            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_original_recovery) {
-                $member_original_recovery->mess = $request->amount;
-                $member_original_recovery->update();
-            }
-        }
-
-        if ($rule_name == 'Prof TAX') {
-            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_original_recovery) {
-                $member_original_recovery->ptax = $request->amount;
-                $member_original_recovery->update();
-            }
-        }
-
-        if ($rule_name == 'DA') {
-            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_credit) {
-                $member_credit->da = $request->amount;
-                $member_credit->update();
-            }
-        }
-
-        // HRA in credit
-        if ($rule_name == 'HRA') {
-            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_credit) {
-                $member_credit->hra = $request->amount;
-                $member_credit->update();
-            }
-        }
-
-        // CGHS in debit
-        if ($rule_name == 'CGHS') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_debit) {
-                $member_debit->cghs = $request->amount;
-                $member_debit->update();
-            }
-        }
-
-        // CGEGIS in debit
-        if ($rule_name == 'CGEGIS') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_debit) {
-                $member_debit->cgegis = $request->amount;
-                $member_debit->update();
-            }
-        }
-
-        return response()->json(['message' => 'Member expectation added successfully', 'data' => $expectation_store]);
+        return response()->json(['message' => 'Member expectation added successfully', 'data' => $monthy_expectation_store]);
     }
 
     public function memberExpectationEdit($id)
     {
-        $member_expectation = MemberExpectation::find($id);
+        $member_expectation = MemberMonthlyDataExpectation::find($id);
         $rules = Rule::orderBy('id', 'desc')->get() ?? '';
         $edit = true;
-        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit', 'member_expectation', 'rules'))->render()]);
+        $currentMonth = $member_expectation->month;
+        $currentYear = $member_expectation->year;
+        return response()->json(['view' => view('frontend.members.expectation.form', compact('edit', 'member_expectation', 'rules', 'currentMonth', 'currentYear'))->render()]);
     }
 
     public function memberExpectationUpdate(Request $request)
@@ -1762,19 +1930,22 @@ class MemberController extends Controller
         $data = explode(',', $selectedValue);
         $rule_name = $data[0];
 
-        $expectation_info = MemberExpectation::where('id', $request->member_expectation_id)->first();
+        $expectation_info = MemberMonthlyDataExpectation::where('id', $request->member_expectation_id)->first();
         $expectation_info->percent = $request->percent;
         $expectation_info->amount = $request->amount;
         $expectation_info->remark = $request->remark;
         $expectation_info->update();
 
+        $month = $request->current_month;
+        $year = $request->current_year;
+
         if ($rule_name == 'GPF') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
                 $member_debit->gpa_sub = $request->amount;
                 $member_debit->update();
             }
-            $member_core = MemberCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_core = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_core) {
                 $member_core->gpf_sub = $request->amount;
                 $member_core->update();
@@ -1782,7 +1953,7 @@ class MemberController extends Controller
         }
 
         if ($rule_name == 'GMC') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
                 $member_debit->cmg = $request->amount;
                 $member_debit->update();
@@ -1791,7 +1962,7 @@ class MemberController extends Controller
 
         // TPT on credit
         if ($rule_name == 'TPT') {
-            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_credit = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_credit) {
                 $member_credit->tpt = $request->amount;
                 $member_credit->da_on_tpt = $request->amount / 2;
@@ -1800,31 +1971,31 @@ class MemberController extends Controller
         }
 
         if ($rule_name == 'Wellfare') {
-            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_original_recovery) {
-                $member_original_recovery->wel_sub = $request->amount;
-                $member_original_recovery->update();
+            $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
+            if ($member_recovery) {
+                $member_recovery->wel_sub = $request->amount;
+                $member_recovery->update();
             }
         }
 
         if ($rule_name == 'MESS') {
-            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_original_recovery) {
-                $member_original_recovery->mess = $request->amount;
-                $member_original_recovery->update();
+            $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
+            if ($member_recovery) {
+                $member_recovery->mess = $request->amount;
+                $member_recovery->update();
             }
         }
 
         if ($rule_name == 'Prof TAX') {
-            $member_original_recovery = MemberOriginalRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_original_recovery) {
-                $member_original_recovery->ptax = $request->amount;
-                $member_original_recovery->update();
+            $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
+            if ($member_recovery) {
+                $member_recovery->ptax = $request->amount;
+                $member_recovery->update();
             }
         }
 
         if ($rule_name == 'DA') {
-            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_credit = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_credit) {
                 $member_credit->da = $request->amount;
                 $member_credit->update();
@@ -1833,7 +2004,7 @@ class MemberController extends Controller
 
         // HRA in credit
         if ($rule_name == 'HRA') {
-            $member_credit = MemberCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_credit = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_credit) {
                 $member_credit->hra = $request->amount;
                 $member_credit->update();
@@ -1842,7 +2013,7 @@ class MemberController extends Controller
 
         // CGHS in debit
         if ($rule_name == 'CGHS') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
                 $member_debit->cghs = $request->amount;
                 $member_debit->update();
@@ -1851,7 +2022,7 @@ class MemberController extends Controller
 
         // CGEGIS in debit
         if ($rule_name == 'CGEGIS') {
-            $member_debit = MemberDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
                 $member_debit->cgegis = $request->amount;
                 $member_debit->update();
@@ -1864,7 +2035,7 @@ class MemberController extends Controller
 
     public function memberExpectationDelete($id)
     {
-        $delete_expectation = MemberExpectation::where('id', $id)->first();
+        $delete_expectation = MemberMonthlyDataExpectation::where('id', $id)->first();
         $delete_expectation->delete();
 
         return response()->json(['message' => 'Member expectation deleted successfully']);
@@ -2027,7 +2198,8 @@ class MemberController extends Controller
 
         $member = Member::where('id', $request->memberID)->first();
 
-        $member_credit = MemberCredit::where('member_id', $request->memberID)->orderBy('id', 'desc')->first() ?? '';
+        $member_credit = MemberMonthlyDataCredit::where('member_id', $request->memberID)->where('month', $request->current_month)->orderBy('id', 'desc')->first() ?? '';
+
         $daAmount = $member_credit->da ?? 0;
         $hraAmount = $member_credit->hra ?? 0;
         $tptAmount = $member_credit->tpt ?? 0;
@@ -2088,7 +2260,7 @@ class MemberController extends Controller
             }
             if (($hasEOL) || ($hasHPL)) {
                 // check if member has nps
-                $coreInfo = MemberCoreInfo::where('member_id', $request->memberID)->first();
+                $coreInfo = MemberMonthlyDataCoreInfo::where('member_id', $request->memberID)->where('month', $request->current_month)->where('year', $request->current_year)->first();
                 $nps = $coreInfo->pran_no ?? null;
 
                 $no_of_days = $leave->no_of_days;
@@ -2267,6 +2439,39 @@ class MemberController extends Controller
             if (Schema::hasColumn('member_loan_infos', 'member_id')) {
                 MemberLoanInfo::where('member_id', $id)->delete();
             }
+
+            if (Schema::hasColumn('member_monthly_data_core_infos', 'member_id')) {
+                MemberMonthlyDataCoreInfo::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_expectations', 'member_id')) {
+                MemberMonthlyDataExpectation::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_loan_infos', 'member_id')) {
+                MemberMonthlyDataLoanInfo::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_credits', 'member_id')) {
+                MemberMonthlyDataCredit::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_debits', 'member_id')) {
+                MemberMonthlyDataDebit::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_var_infos', 'member_id')) {
+                MemberMonthlyDataVarInfo::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_recoveries', 'member_id')) {
+                MemberMonthlyDataRecovery::where('member_id', $id)->delete();
+            }
+
+            if (Schema::hasColumn('member_monthly_data_policy_info', 'member_id')) {
+                MemberMonthlyDataPolicyInfo::where('member_id', $id)->delete();
+            }
+
             if (Schema::hasColumn('member_loans', 'member_id')) {
                 MemberLoan::where('member_id', $id)->delete();
             }
@@ -2364,6 +2569,46 @@ class MemberController extends Controller
             }
         }
 
+        $member_credit_data_monthly = [
+            'month' => date('m'),
+            'year' => date('Y'),
+            'apply_date' => date('Y-m-d'),
+            'member_id' => $member->id,
+            'pay' => $member->basic,
+            'da' => $daAmount,
+            'tpt' => $tptAmount,
+            'cr_rent' => 0,
+            'g_pay' => $member->g_pay,
+            'hra' => $hraAmount,
+            'da_on_tpt' => $tptDa,
+            'cr_elec' => 0,
+            'fpa' => 0,
+            's_pay' => 0,
+            'pua' => 0,
+            'hindi' => 0,
+            'cr_water' => 0,
+            'add_inc2' => 0,
+            'npa' => 0,
+            'deptn_alw' => 0,
+            'misc1' => 0,
+            'var_incr' => 0,
+            'wash_alw' => 0,
+            'dis_alw' => 0,
+            'misc2' => 0,
+            'risk_alw' => 0,
+            'spl_incentive' => 0,
+            'incentive' => 0,
+            'variable_amount' => 0,
+            'arrs_pay_alw' => 0,
+            'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay,
+            'remarks' => 'Initial credit data created'
+        ];
+
+        $member_credit_monthly = MemberMonthlyDataCredit::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_credit_data_monthly
+        );
+
         $member_credit_data = [
             'member_id' => $member->id,
             'pay' => $member->basic,
@@ -2438,6 +2683,95 @@ class MemberController extends Controller
                 $deductionsTotal += $cgegisDeduction;
             }
         }
+
+        $member_debit_data_monthly = [
+            'month' => date('m'),
+            'year' => date('Y'),
+            'apply_date' => date('Y-m-d'),
+            'member_id' => $member->id,
+            'gpa_sub' => $gpfDeduction,
+            'nps_sub' => $npsSubTotal,
+            'nps_rec' => 0,
+            'nps_arr' => 0,
+            'eol' => 0,
+            'ccl' => 0,
+            'rent' => 0,
+            'lf_arr' => 0,
+            'tada' => 0,
+            'hba' => 0,
+            'misc1' => 0,
+            'gpf_rec' => 0,
+            'i_tax' => 0,
+            'elec' => 0,
+            'elec_arr' => 0,
+            'medi' => 0,
+            'pc' => 0,
+            'misc2' => 0,
+            'gpf_arr' => 0,
+            'ecess' => 0,
+            'water' => 0,
+            'water_arr' => 0,
+            'ltc' => 0,
+            'fadv' => 0,
+            'misc3' => 0,
+            'cgegis' => $cgegisDeduction,
+            'cda' => 0,
+            'furn' => 0,
+            'furn_arr' => 0,
+            'car' => 0,
+            'hra_rec' => 0,
+            'cghs' => 0,
+            'ptax' => 0,
+            'cmg' => $npsGMCTotal,
+            'pli' => 0,
+            'scooter' => 0,
+            'tpt_rec' => 0,
+            'tot_debits' => $deductionsTotal,
+            'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay) - $deductionsTotal,
+            'basic' => $basicPay,
+            'gpf_adv' => 0,
+            'hba_int' => 0,
+            'comp_adv' => 0,
+            'comp_int' => 0,
+            'leave_rec' => 0,
+            'pension_rec' => 0,
+            'car_int' => 0,
+            'sco_int' => 0,
+            'quarter_charges' => 0,
+            'cgeis_arr' => 0,
+            'cghs_arr' => 0,
+            'penal_intr' => 0,
+            'society' => 0,
+            'arrear_pay' => 0,
+            'npsg' => 0,
+            'npsg_arr' => 0,
+            'npsg_adj' => 0,
+            'hba_cur_instl' => 0,
+            'hba_total_instl' => 0,
+            'hba_int_cur_instl' => 0,
+            'hba_int_total_instl' => 0,
+            'car_adv_prin_instl' => 0,
+            'car_adv_total_instl' => 0,
+            'scot_adv_prin_instl' => 0,
+            'sco_adv_int_curr_instl' => 0,
+            'sco_adv_int_total_instl' => 0,
+            'comp_prin_curr_instl' => 0,
+            'comp_prin_total_instl' => 0,
+            'comp_adv_int' => 0,
+            'comp_int_curr_instl' => 0,
+            'comp_int_total_instl' => 0,
+            'fest_adv_prin_cur' => 0,
+            'fest_adv_total_cur' => 0,
+            'ltc_rec' => 0,
+            'medical_rec' => 0,
+            'tada_rec' => 0,
+            'remarks' => 'Initial debit data created'
+        ];
+
+        $member_debit_monthly = MemberMonthlyDataDebit::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_debit_data_monthly
+        );
 
         $member_debit_data = [
             'member_id' => $member->id,
@@ -2528,6 +2862,23 @@ class MemberController extends Controller
         // 3. Recovery data - variable increments
         $pmLevelData = PmLevel::find($member->pm_level);
         if ($pmLevelData && $pmLevelData->var_incr > 0 && $pmLevelData->noi > 0) {
+            $recovery_data_monthly = [
+                'month' => date('m'),
+                'year' => date('Y'),
+                'apply_date' => date('Y-m-d'),
+                'member_id' => $member->id,
+                'v_incr' => $pmLevelData->var_incr,
+                'noi' => $pmLevelData->noi,
+                'noi_pending' => $pmLevelData->noi,
+                'total' => $pmLevelData->var_incr * $pmLevelData->noi,
+                'stop' => 'No'
+            ];
+
+            $member_recovery_monthly = MemberMonthlyDataVarInfo::updateOrCreate(
+                ['member_id' => $member->id],
+                $recovery_data_monthly
+            );
+
             $recovery_data = [
                 'member_id' => $member->id,
                 'v_incr' => $pmLevelData->var_incr,
@@ -2561,6 +2912,40 @@ class MemberController extends Controller
         }
 
         // 4. Original recovery data
+        $member_org_recovery_data_monthly = [
+            'month' => date('m'),
+            'year' => date('Y'),
+            'apply_date' => date('Y-m-d'),
+            'member_id' => $member->id,
+            'ccs_sub' => 0,
+            'mess' => 0,
+            'security' => 0,
+            'misc1' => 0,
+            'ccs_rec' => 0,
+            'asso_fee' => 0,
+            'dbf' => 0,
+            'misc2' => 0,
+            'wel_sub' => $welSub,
+            'ben' => 0,
+            'med_ins' => $medIns,
+            'tot_rec' => 0,
+            'wel_rec' => 200,
+            'hdfc' => 0,
+            'maf' => 0,
+            'final_pay' => 0,
+            'lic' => 0,
+            'cort_atch' => 0,
+            'ogpf' => 0,
+            'ntp' => 0,
+            'ptax' => 0,
+            'remarks' => 'Initial recovery data created'
+        ];
+
+        $member_org_recovery_monthly = MemberMonthlyDataRecovery::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_org_recovery_data_monthly
+        );
+
         $member_org_recovery_data = [
             'member_id' => $member->id,
             'ccs_sub' => 0,
@@ -2575,7 +2960,7 @@ class MemberController extends Controller
             'ben' => 0,
             'med_ins' => $medIns,
             'tot_rec' => 0,
-            'wel_rec' => 0,
+            'wel_rec' => 200,
             'hdfc' => 0,
             'maf' => 0,
             'final_pay' => 0,
@@ -2583,7 +2968,7 @@ class MemberController extends Controller
             'cort_atch' => 0,
             'ogpf' => 0,
             'ntp' => 0,
-            'ptax' => 200,
+            'ptax' => 0,
             'remarks' => 'Initial recovery data created'
         ];
 
@@ -2593,6 +2978,33 @@ class MemberController extends Controller
         );
 
         // 5. Core info data
+        $member_core_data_monthly = [
+            'month' => date('m'),
+            'year' => date('Y'),
+            'apply_date' => date('Y-m-d'),
+            'member_id' => $member->id,
+            'bank_acc_no' => '',
+            'ccs_mem_no' => '',
+            'fpa' => 0,
+            'bank' => null,
+            'gpf_sub' => $member->fund_type == 'GPF' ? ($basicPay * 10 / 100) : 0,
+            'add2' => 0,
+            'gpf_acc_no' => $member->gpf_number ?? '',
+            'i_tax' => 0,
+            'pran_no' => $member->pran_number ?? '',
+            'pan_no' => '',
+            'ecess' => 0,
+            'ben_acc_no' => '',
+            'dcmaf_no' => '',
+            's_pay' => 0,
+            'ifsc' => ''
+        ];
+
+        $member_core_monthly = MemberMonthlyDataCoreInfo::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_core_data_monthly
+        );
+
         $member_core_data = [
             'member_id' => $member->id,
             'bank_acc_no' => '',

@@ -143,14 +143,18 @@
                                 <div class="row">
                                     <div class="form-group col-md-6 mb-2">
                                         <div class="row align-items-center">
+                                            @php
+                                                $current_year = request('year') ?? $currentYear;
+                                                $current_month = request('month') ?? $currentMonth;
+                                            @endphp
+
                                             <!-- Year Dropdown -->
                                             <div class="form-group col-md-6 mb-2">
                                                 <label for="year">Year</label>
-                                                <select class="form-select " name="year" id="year">
-                                                    @php $currentYear = date('Y'); @endphp
-                                                    @for ($i = $currentYear; $i >= 2000; $i--)
+                                                <select class="form-select" name="year" id="year">
+                                                    @for ($i = date('Y'); $i >= 2000; $i--)
                                                         <option value="{{ $i }}"
-                                                            {{ $i == $currentYear ? 'selected' : '' }}>
+                                                            {{ $i == $current_year ? 'selected' : '' }}>
                                                             {{ $i }}
                                                         </option>
                                                     @endfor
@@ -161,11 +165,11 @@
                                             <!-- Month Dropdown -->
                                             <div class="form-group col-md-6 mb-2">
                                                 <label for="month">Month</label>
-                                                <select class="form-select " name="month" id="month">
-                                                    @php $currentMonth = date('m'); @endphp
+                                                <select class="form-select" name="month" id="month">
                                                     @foreach (range(1, 12) as $m)
-                                                        <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}"
-                                                            {{ str_pad($m, 2, '0', STR_PAD_LEFT) == $currentMonth ? 'selected' : '' }}>
+                                                        @php $monthVal = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
+                                                        <option value="{{ $monthVal }}"
+                                                            {{ $monthVal == $current_month ? 'selected' : '' }}>
                                                             {{ date('F', mktime(0, 0, 0, $m, 1)) }}
                                                         </option>
                                                     @endforeach
@@ -197,8 +201,3 @@
 
     </div>
 @endsection
-
-
-
-
-

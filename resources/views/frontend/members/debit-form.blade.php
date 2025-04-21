@@ -64,7 +64,7 @@
                 </div>
             </div>
         @endif
-
+        {{-- @dd($member->fund_type) --}}
         @if ($member->fund_type == 'NPS')
             <div class="col-md-2">
                 <div class="form-group mb-2">

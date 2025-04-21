@@ -65,6 +65,9 @@ class MemberMonthlyDataDebit extends Model
         'penal_intr',
         'society',
         'remarks',
+        'month',
+        'year',
+        'apply_date'
     ];
 
 

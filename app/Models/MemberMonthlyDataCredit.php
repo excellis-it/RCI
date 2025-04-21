@@ -39,6 +39,9 @@ class MemberMonthlyDataCredit extends Model
         'risk_alw',
         'tot_credits',
         'remarks',
+        'month',
+        'year',
+        'apply_date'
     ];
 
     public function member()

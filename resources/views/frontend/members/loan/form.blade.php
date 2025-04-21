@@ -5,7 +5,9 @@
 
         <input type="hidden" name="member_loan_id" id="member_loan_id" value="{{ $member_loan->id }}">
         <input type="hidden" name="member_id" id="member_id" value="{{ $member_loan->member_id }}">
-
+        <input type="hidden" name="current_year" value="{{ $currentYear }}">
+        <input type="hidden" name="current_month" value="{{ $currentMonth }}">
+        
         <div class="row">
 
             <div class="form-group mb-2">
@@ -197,7 +199,8 @@
         @csrf
 
         <input type="hidden" name="member_id" value="{{ $member->id }}">
-
+        <input type="hidden" name="current_year" value="{{ $currentYear }}">
+        <input type="hidden" name="current_month" value="{{ $currentMonth }}">
         <div class="row">
 
             <div class="form-group mb-2">

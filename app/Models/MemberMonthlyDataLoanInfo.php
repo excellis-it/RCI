@@ -15,4 +15,13 @@ class MemberMonthlyDataLoanInfo extends Model
     {
         return $this->belongsTo(Member::class);
     }
+
+    public function loan()
+    {
+        return $this->belongsTo(Loan::class, 'loan_id', 'id');
+    }
+    public function loanInfoFirst()
+    {
+        return $this->hasOne(MemberLoan::class, 'loan_info_id', 'id')->latest();
+    }
 }

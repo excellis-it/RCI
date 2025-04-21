@@ -1,33 +1,27 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="credits-tab" data-bs-toggle="tab"
-            data-bs-target="#credits-tab-pane" type="button" role="tab"
-            aria-controls="credits-tab-pane" aria-selected="true">Credits</button>
+        <button class="nav-link active" id="credits-tab" data-bs-toggle="tab" data-bs-target="#credits-tab-pane"
+            type="button" role="tab" aria-controls="credits-tab-pane" aria-selected="true">Credits</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link debit-recv" id="debits-tab" data-bs-toggle="tab"
-            data-bs-target="#debits-tab-pane" type="button" role="tab"
-            aria-controls="debits-tab-pane" aria-selected="false">Debits</button>
+        <button class="nav-link debit-recv" id="debits-tab" data-bs-toggle="tab" data-bs-target="#debits-tab-pane"
+            type="button" role="tab" aria-controls="debits-tab-pane" aria-selected="false">Debits</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link debit-recv" id="recovery-tab" data-bs-toggle="tab"
-            data-bs-target="#recovery-tab-pane" type="button" role="tab"
-            aria-controls="recovery-tab-pane" aria-selected="false">Recoveries</button>
+        <button class="nav-link debit-recv" id="recovery-tab" data-bs-toggle="tab" data-bs-target="#recovery-tab-pane"
+            type="button" role="tab" aria-controls="recovery-tab-pane" aria-selected="false">Recoveries</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="core-tab" data-bs-toggle="tab"
-            data-bs-target="#core-tab-pane" type="button" role="tab"
-            aria-controls="core-tab-pane" aria-selected="false">Core Info</button>
+        <button class="nav-link" id="core-tab" data-bs-toggle="tab" data-bs-target="#core-tab-pane" type="button"
+            role="tab" aria-controls="core-tab-pane" aria-selected="false">Core Info</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="policy-tab" data-bs-toggle="tab"
-            data-bs-target="#policy-tab-pane" type="button" role="tab"
-            aria-controls="policy-tab-pane" aria-selected="false">Policy Info</button>
+        <button class="nav-link" id="policy-tab" data-bs-toggle="tab" data-bs-target="#policy-tab-pane" type="button"
+            role="tab" aria-controls="policy-tab-pane" aria-selected="false">Policy Info</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="loan-tab" data-bs-toggle="tab"
-            data-bs-target="#loan-tab-pane" type="button" role="tab"
-            aria-controls="loan-tab-pane" aria-selected="false">Loan Info</button>
+        <button class="nav-link" id="loan-tab" data-bs-toggle="tab" data-bs-target="#loan-tab-pane" type="button"
+            role="tab" aria-controls="loan-tab-pane" aria-selected="false">Loan Info</button>
     </li>
     {{-- <li class="nav-item" role="presentation">
         <button class="nav-link" id="var-tab" data-bs-toggle="tab"
@@ -36,25 +30,22 @@
     </li> --}}
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="var-tab" data-bs-toggle="tab"
-            data-bs-target="#var-tab-pane" type="button" role="tab"
-            aria-controls="var-tab-pane" aria-selected="false">Var.Info</button>
+        <button class="nav-link" id="var-tab" data-bs-toggle="tab" data-bs-target="#var-tab-pane" type="button"
+            role="tab" aria-controls="var-tab-pane" aria-selected="false">Var.Info</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pers-tab" data-bs-toggle="tab"
-            data-bs-target="#pers-tab-pane" type="button" role="tab"
-            aria-controls="pers-tab-pane" aria-selected="false">Pers Info</button>
+        <button class="nav-link" id="pers-tab" data-bs-toggle="tab" data-bs-target="#pers-tab-pane" type="button"
+            role="tab" aria-controls="pers-tab-pane" aria-selected="false">Pers Info</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="exp-tab" data-bs-toggle="tab"
-            data-bs-target="#exp-tab-pane" type="button" role="tab"
-            aria-controls="exp-tab-pane" aria-selected="false">Exceptions</button>
+        <button class="nav-link" id="exp-tab" data-bs-toggle="tab" data-bs-target="#exp-tab-pane" type="button"
+            role="tab" aria-controls="exp-tab-pane" aria-selected="false">Exceptions</button>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     {{-- credit --}}
-    <div class="tab-pane fade show active" id="credits-tab-pane" role="tabpanel"
-        aria-labelledby="credits-tab" tabindex="0">
+    <div class="tab-pane fade show active" id="credits-tab-pane" role="tabpanel" aria-labelledby="credits-tab"
+        tabindex="0">
         <div class="credit-frm">
             @include('frontend.members.credit-form')
         </div>
@@ -62,8 +53,7 @@
     {{-- credit end --}}
 
     {{-- debit --}}
-    <div class="tab-pane fade" id="debits-tab-pane" role="tabpanel"
-        aria-labelledby="debits-tab" tabindex="0">
+    <div class="tab-pane fade" id="debits-tab-pane" role="tabpanel" aria-labelledby="debits-tab" tabindex="0">
         <div class="credit-frm">
             @include('frontend.members.debit-form')
 
@@ -72,8 +62,7 @@
     {{-- debit end --}}
 
     {{-- var info  --}}
-    <div class="tab-pane fade" id="var-tab-pane" role="tabpanel"
-        aria-labelledby="var-tab" tabindex="0">
+    <div class="tab-pane fade" id="var-tab-pane" role="tabpanel" aria-labelledby="var-tab" tabindex="0">
         <div class="credit-frm">
             @include('frontend.members.recovery-form')
 
@@ -82,8 +71,7 @@
     {{-- var info end --}}
 
     {{-- core --}}
-    <div class="tab-pane fade" id="core-tab-pane" role="tabpanel"
-        aria-labelledby="core-tab" tabindex="0">
+    <div class="tab-pane fade" id="core-tab-pane" role="tabpanel" aria-labelledby="core-tab" tabindex="0">
         <div class="credit-frm">
             @include('frontend.members.core-form')
 
@@ -92,14 +80,12 @@
     {{-- core end --}}
 
     {{-- policy --}}
-    <div class="tab-pane fade" id="policy-tab-pane" role="tabpanel"
-        aria-labelledby="policy-tab" tabindex="0">
+    <div class="tab-pane fade" id="policy-tab-pane" role="tabpanel" aria-labelledby="policy-tab" tabindex="0">
         <div class="credit-frm">
             <div class="row mb-3">
                 <div class="col-md-12">
                     <div class="recov-table">
-                        <table class="table customize-table mb-0 align-middle bg_tbody"
-                            id="policy-table">
+                        <table class="table customize-table mb-0 align-middle bg_tbody" id="policy-table">
                             <thead class="text-white fs-4 bg_blue">
                                 <tr>
                                     <th>Policy </th>
@@ -131,15 +117,13 @@
     {{-- policy end --}}
 
     {{-- loan --}}
-    <div class="tab-pane fade" id="loan-tab-pane" role="tabpanel"
-        aria-labelledby="loan-tab" tabindex="0">
+    <div class="tab-pane fade" id="loan-tab-pane" role="tabpanel" aria-labelledby="loan-tab" tabindex="0">
         <div class="credit-frm">
 
             <div class="row mb-3">
                 <div class="col-md-7">
                     <div class="recov-table">
-                        <table class="table customize-table mb-0 align-middle bg_tbody"
-                            id="loan-table">
+                        <table class="table customize-table mb-0 align-middle bg_tbody" id="loan-table">
                             <thead class="text-white fs-4 bg_blue">
                                 <tr>
                                     <th>Loan Name</th>
@@ -168,16 +152,15 @@
 
 
     {{-- recovery --}}
-    <div class="tab-pane fade" id="recovery-tab-pane" role="tabpanel"
-        aria-labelledby="recovery-tab" tabindex="0">
+    <div class="tab-pane fade" id="recovery-tab-pane" role="tabpanel" aria-labelledby="recovery-tab"
+        tabindex="0">
         <div class="credit-frm">
             @include('frontend.members.recovery-original-form')
         </div>
     </div>
 
     {{-- personal info --}}
-    <div class="tab-pane fade" id="pers-tab-pane" role="tabpanel"
-        aria-labelledby="pers-tab" tabindex="0">
+    <div class="tab-pane fade" id="pers-tab-pane" role="tabpanel" aria-labelledby="pers-tab" tabindex="0">
         <div class="credit-frm">
             @include('frontend.members.personal-form')
         </div>
@@ -185,14 +168,12 @@
     {{-- personal info end --}}
 
     {{-- expectation  --}}
-    <div class="tab-pane fade" id="exp-tab-pane" role="tabpanel"
-        aria-labelledby="exp-tab" tabindex="0">
+    <div class="tab-pane fade" id="exp-tab-pane" role="tabpanel" aria-labelledby="exp-tab" tabindex="0">
         <div class="credit-frm">
             <div class="row mb-3">
                 <div class="col-md-7">
                     <div class="recov-table">
-                        <table class="table customize-table mb-0 align-middle bg_tbody"
-                            id="expectation-table">
+                        <table class="table customize-table mb-0 align-middle bg_tbody" id="expectation-table">
                             <thead class="text-white fs-4 bg_blue">
                                 <tr>
                                     <th>Rule</th>
@@ -229,36 +210,36 @@
     <div class="col-md-2">
         <div class="form-group">
             <label for="gross_pay">Gross Pay</label>
-            <input type="number" step="any" class="form-control" id="total_gross_pay"
-                name="gross_pay" value="0" readonly>
+            <input type="number" step="any" class="form-control" id="total_gross_pay" name="gross_pay"
+                value="0" readonly>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             <label for="total_debits">Total Debits</label>
-            <input type="number" step="any" class="form-control" id="total_debits"
-                name="total_debits" value="0" readonly>
+            <input type="number" step="any" class="form-control" id="total_debits" name="total_debits"
+                value="0" readonly>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             <label for="net_pay">Net Pay</label>
-            <input type="number" step="any" class="form-control" id="total_net_pay"
-                name="net_pay" value="0" readonly>
+            <input type="number" step="any" class="form-control" id="total_net_pay" name="net_pay"
+                value="0" readonly>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             <label for="total_recovery">Total Recovery</label>
-            <input type="number" step="any" class="form-control" id="total_recovery"
-                name="total_recovery" value="0" readonly>
+            <input type="number" step="any" class="form-control" id="total_recovery" name="total_recovery"
+                value="0" readonly>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             <label for="take_home">Take Home</label>
-            <input type="number" step="any" class="form-control" id="take_home"
-                name="take_home" value="0" readonly>
+            <input type="number" step="any" class="form-control" id="take_home" name="take_home"
+                value="0" readonly>
         </div>
     </div>
 </div>
@@ -291,8 +272,13 @@
 
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
-                        }, 100);
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
+
+                        }, 200);
                     },
                     error: function(xhr) {
                         $('.text-danger').html('');
@@ -369,7 +355,9 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                     basicPay: basicPay,
-                    memberID: memberID
+                    memberID: memberID,
+                    current_year: "{{ $currentYear }}",
+                    current_month: "{{ $currentMonth }}",
                 },
                 success: function(response) {
                     $('#da_percentage').val(response.daAmount);
@@ -446,7 +434,11 @@
                     success: function(response) {
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
                     },
                     error: function(xhr) {
@@ -520,7 +512,11 @@
                         // $('#delete-recovery').attr('href', deleteUrl);
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
 
 
@@ -636,7 +632,11 @@
                     success: function(response) {
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
                     },
                     error: function(xhr) {
@@ -682,7 +682,11 @@
                     success: function(response) {
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
                     },
                     error: function(xhr) {
@@ -792,7 +796,12 @@
                         // Show success message if needed
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
+
                         }, 200);
                     },
                     error: function(xhr) {
@@ -1060,7 +1069,11 @@
                         $('#rec_stop').val('');
                         // Append new row to table
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
 
                     },
@@ -1308,7 +1321,11 @@
                         // Append new row to table
                         $('#expectation-table tbody').append(newRow);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
                     },
                     error: function(xhr) {
@@ -1564,7 +1581,11 @@
                     success: function(response) {
                         toastr.success(response.message);
                         setTimeout(() => {
-                            window.location.reload();
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
                         }, 200);
                     },
                     error: function(xhr) {
@@ -1622,6 +1643,8 @@
                 type: 'POST',
                 data: {
                     memberID: memberID
+                    current_month: '{{ $currentMonth }}',
+                    current_year: '{{ $currentYear }}'
                 },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1652,7 +1675,9 @@
                 url: "{{ route('members.eol-hpl') }}",
                 type: 'POST',
                 data: {
-                    memberID: memberID
+                    memberID: memberID,
+                    current_month: '{{ $currentMonth }}',
+                    current_year: '{{ $currentYear }}'
                 },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1711,13 +1736,12 @@
 </script>
 
 
-
 <script>
     $(document).ready(function() {
-        // Trigger AJAX when year or month is changed
+        // === Filter Data by Year and Month ===
         $('#year, #month').on('change', function() {
-            let year = $('#year').val();
-            let month = $('#month').val();
+            const year = $('#year').val();
+            const month = $('#month').val();
 
             if (year && month) {
                 $.ajax({
@@ -1732,16 +1756,16 @@
                         $('#filter-year-month').html('<div>Loading...</div>');
                     },
                     success: function(response) {
-                        // Update the #filter-year-month with the new data
                         $('#filter-year-month').html(response);
 
-                        // After the data is loaded, perform the necessary calculations
-                        calculateLoanTotal();
-                        getALlTotal();
-                        calculateOrgRecoTotal(); // Added parentheses to call the function
-                        updateTotalDebit();
-                        // Add event listeners to the new input fields
+                        // Update browser URL with query params
+                        const baseUrl = window.location.origin + window.location.pathname;
+                        history.pushState(null, '',
+                            `${baseUrl}?year=${year}&month=${month}`);
 
+                        calculateLoanTotal();
+                        updateTotalDebit();
+                        calculateOrgRecoTotal();
                     },
                     error: function(xhr) {
                         console.error(xhr.responseText);
@@ -1752,202 +1776,93 @@
             }
         });
 
-        // Perform initial calculations when the page loads
-        calculateLoanTotal();
-        getALlTotal();
-        calculateOrgRecoTotal(); // Added parentheses to call the function
-
-
+        // === Calculate Total Loan Installment ===
         function calculateLoanTotal() {
             let total = 0;
-            // Check if loan_inst_amounts elements exist
-            if ($('.loan_inst_amounts').length > 0) {
-                $('.loan_inst_amounts').each(function() {
-                    let value = parseFloat($(this).val()) || 0; // Get value and convert to float
-                    total += value; // Add to total
-                });
-                console.log("Total Loan Amounts: " + total);
-            } else {
-                console.log("No loan installment amounts found");
-            }
-            // Check if the target element exists before setting value
-            if ($('#total_loan_inst_amount').length > 0) {
-                $('#total_loan_inst_amount').val(total.toFixed(2)); // Set total in any input field
-            }
-            return total; // Return the total for use in other functions
-        }
-
-        // Get updated totals for credits, debits, net pay, recovery, and take home
-        function getALlTotal() {
-            var total_loan_amounts = $('#total_loan_inst_amount').length ? (parseFloat($(
-                    '#total_loan_inst_amount')
-                .val()) || 0) : 0;
-            var total_credits = $('#tot_credits').val();
-            var total_debits = parseFloat($('#tot_debits').val()) + parseFloat(total_loan_amounts);
-
-            var total_net_pay = total_credits - total_debits;
-            var total_recovery = $('#tot_rec').val();
-            var take_home = total_net_pay - total_recovery;
-            // Set values in the input fields
-            $("#total_gross_pay").val(Math.round(total_credits) + '.00');
-            $('#total_debits').val(Math.round(total_debits) + '.00');
-            $('#total_net_pay').val(Math.round(total_net_pay) + '.00');
-            $('#total_recovery').val(Math.round(total_recovery) + '.00');
-            $('#take_home').val(Math.round(take_home) + '.00');
-        }
-
-        const inputFields = [
-            'ccs_sub',
-            'mess',
-            'security',
-            'misc7',
-            'ccs_rec',
-            'asso_fee',
-            'dbf',
-            'misc8',
-            'wel_sub',
-            'ben',
-            'med_ins',
-            'wel_rec',
-            'hdfc',
-            'maf',
-            'final_pay',
-            'lic',
-            'cort_atch',
-            'ogpf',
-            'ntp',
-            'ptax'
-        ];
-
-        // Function to calculate the total
-        function calculateOrgRecoTotal() {
-            let total = 0;
-
-            inputFields.forEach(fieldId => {
-                const field = $('#' + fieldId);
-                if (field.length && field.val().trim() !== '') {
-                    const value = parseFloat(field.val()) || 0;
-                    total += value;
-                }
+            $('.loan_inst_amounts').each(function() {
+                total += parseFloat($(this).val()) || 0;
             });
 
-            // Update the tot_rec field with the calculated total
-            const totRecField = $('#tot_rec');
-            if (totRecField.length) {
-                totRecField.val(total.toFixed(2));
-            }
-            getALlTotal();
+            $('#total_loan_inst_amount').val(total.toFixed(2));
+            return total;
         }
 
-        // Add event listeners to all input fields
-        inputFields.forEach(fieldId => {
-            if (fieldId !== 'tot_rec') { // Don't add listener to the total field
-                const field = $('#' + fieldId);
-                if (field.length) {
-                    field.on('input', calculateOrgRecoTotal);
-                }
-            }
+        // === Calculate Organization Recovery Total ===
+        const orgFields = [
+            'ccs_sub', 'mess', 'security', 'misc7', 'ccs_rec', 'asso_fee', 'dbf', 'misc8',
+            'wel_sub', 'ben', 'med_ins', 'wel_rec', 'hdfc', 'maf', 'final_pay', 'lic',
+            'cort_atch', 'ogpf', 'ntp', 'ptax'
+        ];
+
+        function calculateOrgRecoTotal() {
+            let total = 0;
+            orgFields.forEach(id => {
+                const val = parseFloat($('#' + id).val()) || 0;
+                total += val;
+            });
+            $('#tot_rec').val(total.toFixed(2));
+            getAllTotal(); // Refresh totals after update
+        }
+
+        // Attach listeners to org recovery fields
+        orgFields.forEach(id => {
+            $('#' + id).on('input', calculateOrgRecoTotal);
         });
 
-
-        const fields = [
-            "#gpa_sub",
-            "#gpa_adv",
-            //"#gpf_arr",
-            "#cgegis",
-            "#cghs",
-            "#hba",
-            "#hba_interest",
-            "#car",
-            "#car_interest",
-            "#scooter",
-            "#scooter_interest",
-            "#comp_adv",
-            "#comp_int",
-            "#fadv",
-            "#ltc",
-            "#medi",
-            "#tada",
-            "#leave_rec",
-            "#pension_rec",
-            "#i_tax",
-            "#ecess",
-            "#pli",
-            "#misc1",
-            "#misc2",
-            "#quarter_charge",
-            //  "#cghs",
-            //  "#cgeis_arr",
-            "#penal_interest",
-            "#nps_sub",
-            "#nps_rec",
-            //   "#nps_arr",
-            "#eol",
-            "#ccl",
-            "#rent",
-            //  "#lf_arr",
-            "#elec",
-            //  "#elec_arr",
-            "#pc",
-            //  "#water_arr",
-            "#water",
-            "#arrear_pay",
-            "#npsg",
-            //   "#npsg_arr",
-            "#npsg_adj",
-            "#ltc_rec",
-            "#medical_rec",
-            "#tada_rec",
-            "#misc3",
-            "#cda",
-            "#furn",
-            //   "#furn_arr",
-            "#hra_rec",
-            "#cmg",
-            "#tpt_rec",
-            //   "#cghs_arr",
-            "#society",
-
+        // === Calculate Debits from Deductions ===
+        const debitFields = [
+            "#gpa_sub", "#gpa_adv", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car", "#car_interest",
+            "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
+            "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
+            "#penal_interest", "#nps_sub", "#nps_rec", "#eol", "#ccl", "#rent", "#elec", "#pc", "#water",
+            "#arrear_pay", "#npsg", "#npsg_adj", "#ltc_rec", "#medical_rec", "#tada_rec", "#misc3",
+            "#cda", "#furn", "#hra_rec", "#cmg", "#tpt_rec", "#society"
         ];
-        var tot_credits = parseInt($('#tot_credits').val()) || 0;
 
         function updateTotalDebit() {
             let total = 0;
-            fields.forEach(field => {
-                // Check if the field exists in the DOM
+            debitFields.forEach(field => {
                 if ($(field).length) {
-                    const value = $(field).val();
-                    if (value > 0) {
-                        console.log('field name:', field);
-                        console.log('field value:', value);
-                    }
-                    // If the value is empty, null, undefined or NaN, use 0
-                    total += (value && !isNaN(parseFloat(value))) ? parseFloat(value) : 0;
-                    console.log('total:', total);
-                } else {
-                    // Field doesn't exist, add 0
-                    total += 0;
+                    const val = parseFloat($(field).val()) || 0;
+                    total += val;
                 }
             });
 
-            $('#tot_debits').val((total).toFixed(2));
+            $('#tot_debits').val(total.toFixed(2));
 
-
-
-            const netPay = Math.max(tot_credits - total, 0);
+            const totalCredits = parseFloat($('#tot_credits').val()) || 0;
+            const netPay = Math.max(totalCredits - total, 0);
             $('#net_pay').val(netPay.toFixed(2));
-            getALlTotal();
+
+            getAllTotal(); // Refresh totals after update
         }
-        // Trigger the AJAX request when the page loads
-        updateTotalDebit();
 
-        // Event listener for changes in the fields
-        fields.forEach(field => {
-            $(document).on("keyup", field, function() {
-                updateTotalDebit();
-            });
+        // Attach listeners to debit fields
+        debitFields.forEach(field => {
+            $(field).on('keyup', updateTotalDebit);
         });
-    });
 
-    // Calculate total loan amount
+        // === Calculate Net Pay and Take Home ===
+        function getAllTotal() {
+            const loanTotal = parseFloat($('#total_loan_inst_amount').val()) || 0;
+            const totalCredits = parseFloat($('#tot_credits').val()) || 0;
+            const otherDebits = parseFloat($('#tot_debits').val()) || 0;
+
+            const totalDebits = otherDebits + loanTotal;
+            const netPay = totalCredits - totalDebits;
+            const recovery = parseFloat($('#tot_rec').val()) || 0;
+            const takeHome = netPay - recovery;
+
+            $('#total_gross_pay').val(totalCredits.toFixed(2));
+            $('#total_debits').val(totalDebits.toFixed(2));
+            $('#total_net_pay').val(netPay.toFixed(2));
+            $('#total_recovery').val(recovery.toFixed(2));
+            $('#take_home').val(takeHome.toFixed(2));
+        }
+
+        // === Initial Calculations on Page Load ===
+        calculateLoanTotal();
+        calculateOrgRecoTotal();
+        updateTotalDebit();
+    });
 </script>

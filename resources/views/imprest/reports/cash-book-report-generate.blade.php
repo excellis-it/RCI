@@ -868,7 +868,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ $report_date }}
+                                        {{ $print_date }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -1231,7 +1231,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cda_bill->variableType->var_no ?? '' }}
+                                                {{ $cda_bill->adv_no ?? '' }}
 
                                             </td>
                                             <td

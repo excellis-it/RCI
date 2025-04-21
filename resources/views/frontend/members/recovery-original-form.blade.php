@@ -4,7 +4,7 @@
     <input type="hidden" name="member_id" value="{{ $member->id ?? '' }}">
     <input type="hidden" name="current_year" value="{{ $currentYear }}">
     <input type="hidden" name="current_month" value="{{ $currentMonth }}">
-    
+
     <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">
@@ -190,7 +190,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="wel_rec" id="wel_rec"
-                            value="{{ $member_original_recovery->wel_rec ?? (old('wel_rec') ?? '') }}">
+                            value="{{ $member_original_recovery->wel_rec ?? (old('wel_rec') ?? 200) }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -306,7 +306,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="ptax" id="ptax"
-                            value="{{ $member_original_recovery->ptax ?? (old('ptax') ?? 200) }}" readonly>
+                            value="{{ $member_original_recovery->ptax ?? (old('ptax') ?? 0) }}" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
