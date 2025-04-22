@@ -306,7 +306,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="ptax" id="ptax"
-                            value="{{ $member_original_recovery->ptax ?? (old('ptax') ?? 0) }}" readonly>
+                            value="{{ $member_original_recovery->ptax ?? (old('ptax') ?? 200) }}" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

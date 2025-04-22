@@ -283,7 +283,7 @@ class MemberController extends Controller
         $member->member_core_info_data = MemberMonthlyDataCoreInfo::where('member_id', $member->id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
 
         $member->member_personal_info = MemberPersonalInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first() ?? '';
-
+        // dd( $member->member_personal_info);
 
 
         $member_credit = MemberMonthlyDataCredit::where('member_id', $id)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->first() ?? '';
@@ -1310,6 +1310,8 @@ class MemberController extends Controller
         //     'pay_stop' => 'required'
         // ]);
 
+        $current_month = $request->current_month ?? date('m');
+        $current_year = $request->current_year ?? date('Y');
         //memebers details update
         $member_details = Member::where('id', $request->member_id)->first();
         $member_details->emp_id = $request->emp_id;
@@ -1338,9 +1340,12 @@ class MemberController extends Controller
         $member_details->e_status = $request->e_status;
         $member_details->update();
 
+
+
         $check_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->get();
         if (count($check_personal_member) > 0) {
             $update_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
+
             $update_personal_member->basic = $request->basic;
             $update_personal_member->emp_id = $request->emp_id;
             $update_personal_member->name = $request->name;
@@ -1431,9 +1436,7 @@ class MemberController extends Controller
             }
 
 
-
-            // session()->flash('message', 'Member personal info updated successfully');
-            return response()->json(['message' => 'Member personal info updated successfully']);
+            $meassage = 'Member personal info updated successfully';
         } else {
 
             $personal_member = new MemberPersonalInfo();
@@ -1475,8 +1478,55 @@ class MemberController extends Controller
 
 
             // session()->flash('message', 'Member personal info added successfully');
-            return response()->json(['message' => 'Member personal info added successfully']);
+            $meassage = 'Member personal info added successfully';
         }
+
+
+
+        $records = MemberMonthlyDataCredit::where('member_id', $request->member_id)->whereHas('member', function ($query) use ($request) {
+            $query->where('pm_level', $request->pm_level);
+        })
+            ->where(function ($query) use ($current_month, $current_year) {
+                $query->where('year', '>', $current_year)
+                    ->orWhere(function ($q) use ($current_month, $current_year) {
+                        $q->where('year', $current_year)
+                            ->where('month', '>=', $current_month);
+                    });
+            })
+            ->get();
+        // dd($records->toArray());
+        $tpt = Tpta::where('pay_level_id', $request->pm_level)->where('status', 1)->first();
+        if ($tpt) {
+            foreach ($records as $record) {
+                $record->tpt = $tpt->tpt_allowance;
+                $record->da_on_tpt = $tpt->tpt_da; // da_on_tpt set based on TPT value
+                $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($tpt->tpt_allowance + $tpt->tpt_da);
+                $record->save();
+            }
+        }
+
+
+        $wel_rec = 0;
+        $category = Category::where('id', $request->category)->first();
+        // dd($category, $request->category);
+        if ($category) {
+            if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+                $wel_rec = 20;
+            } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+                $wel_rec = 10;
+            }
+        }
+
+         MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where(function ($query) use ($current_month, $current_year) {
+                $query->where('year', '>', $current_year)
+                    ->orWhere(function ($q) use ($current_month, $current_year) {
+                        $q->where('year', $current_year)
+                            ->where('month', '>=', $current_month);
+                    });
+            })
+            ->update(['wel_rec' => $wel_rec]);
+
+        return response()->json(['message' => $meassage]);
     }
 
     public function memberLoanInfoStore(Request $request)
@@ -2721,7 +2771,7 @@ class MemberController extends Controller
             'car' => 0,
             'hra_rec' => 0,
             'cghs' => 0,
-            'ptax' => 0,
+            'ptax' => 200,
             'cmg' => $npsGMCTotal,
             'pli' => 0,
             'scooter' => 0,
@@ -2807,7 +2857,7 @@ class MemberController extends Controller
             'car' => 0,
             'hra_rec' => 0,
             'cghs' => 0,
-            'ptax' => 0,
+            'ptax' => 200,
             'cmg' => $npsGMCTotal,
             'pli' => 0,
             'scooter' => 0,
@@ -2911,6 +2961,14 @@ class MemberController extends Controller
             $welSub = $category->wel_sub ?? 0;
         }
 
+        $wel_rec = 0;
+
+        if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+            $wel_rec = 20;
+        } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+            $wel_rec = 10;
+        }
+
         // 4. Original recovery data
         $member_org_recovery_data_monthly = [
             'month' => date('m'),
@@ -2929,7 +2987,7 @@ class MemberController extends Controller
             'ben' => 0,
             'med_ins' => $medIns,
             'tot_rec' => 0,
-            'wel_rec' => 200,
+            'wel_rec' => $wel_rec,
             'hdfc' => 0,
             'maf' => 0,
             'final_pay' => 0,
@@ -2937,7 +2995,7 @@ class MemberController extends Controller
             'cort_atch' => 0,
             'ogpf' => 0,
             'ntp' => 0,
-            'ptax' => 0,
+            'ptax' => 200,
             'remarks' => 'Initial recovery data created'
         ];
 
@@ -2960,7 +3018,7 @@ class MemberController extends Controller
             'ben' => 0,
             'med_ins' => $medIns,
             'tot_rec' => 0,
-            'wel_rec' => 200,
+            'wel_rec' => $wel_rec,
             'hdfc' => 0,
             'maf' => 0,
             'final_pay' => 0,
@@ -2968,7 +3026,7 @@ class MemberController extends Controller
             'cort_atch' => 0,
             'ogpf' => 0,
             'ntp' => 0,
-            'ptax' => 0,
+            'ptax' => 200,
             'remarks' => 'Initial recovery data created'
         ];
 

@@ -9,6 +9,7 @@ use App\Models\Tpta;
 use App\Models\DearnessAllowancePercentage;
 use App\Models\Member;
 use App\Models\MemberCredit;
+use App\Models\MemberMonthlyDataCredit;
 
 class TptaController extends Controller
 {
@@ -17,7 +18,7 @@ class TptaController extends Controller
      */
     public function index()
     {
-        $tptas = Tpta::paginate(10);
+        $tptas = Tpta::orderBy('id', 'desc')->paginate(10);
         $payLevels = PmLevel::all();
 
         return view('frontend.tptas.list', compact('tptas', 'payLevels'));
@@ -74,9 +75,30 @@ class TptaController extends Controller
         $tpta->save();
 
         // update the old datas inactive
-        if ($lastTptaData) {
+        if ($lastTptaData && $request->status == 1) {
             $lastTptaData->status = 0;
             $lastTptaData->update();
+
+            $current_month = date('m');
+            $current_year = date('Y');
+            $records = MemberMonthlyDataCredit::whereHas('member', function ($query) use ($tpta) {
+                $query->where('pm_level', $tpta->pay_level_id);
+            })
+                ->where(function ($query) use ($current_month, $current_year) {
+                    $query->where('year', '>', $current_year)
+                        ->orWhere(function ($q) use ($current_month, $current_year) {
+                            $q->where('year', $current_year)
+                                ->where('month', '>=', $current_month);
+                        });
+                })
+                ->get();
+
+            foreach ($records as $record) {
+                $record->tpt = $request->tpt_allowance;
+                $record->da_on_tpt = $request->tpt_da; // da_on_tpt set based on TPT value
+                $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($request->tpt_allowance + $request->tpt_da);
+                $record->save();
+            }
         }
 
         $members = Member::where('pm_level', $request->pay_level_id)->pluck('id');
@@ -131,10 +153,27 @@ class TptaController extends Controller
 
 
         $members = Member::where('pm_level', $request->pay_level_id)->pluck('id');
-        MemberCredit::whereIn('member_id', $members)->update([
-            'tpt' => $request->tpt_allowance,
-            'da_on_tpt' => $request->tpt_da,
-        ]);
+        $current_month = date('m');
+        $current_year = date('Y');
+        $records = MemberMonthlyDataCredit::whereHas('member', function ($query) use ($tpta) {
+            $query->where('pm_level', $tpta->pay_level_id);
+        })
+            ->where(function ($query) use ($current_month, $current_year) {
+                $query->where('year', '>', $current_year)
+                    ->orWhere(function ($q) use ($current_month, $current_year) {
+                        $q->where('year', $current_year)
+                            ->where('month', '>=', $current_month);
+                    });
+            })
+            ->get();
+
+        foreach ($records as $record) {
+            $record->tpt = $request->tpt_allowance;
+            $record->da_on_tpt = $request->tpt_da; // da_on_tpt set based on TPT value
+            $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($request->tpt_allowance + $request->tpt_da);
+            $record->save();
+        }
+
 
         session()->flash('message', 'TPTA updated successfully');
         return response()->json(['success' => 'TPTA updated successfully']);

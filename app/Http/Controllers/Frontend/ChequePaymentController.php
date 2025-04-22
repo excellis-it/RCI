@@ -490,10 +490,13 @@ class ChequePaymentController extends Controller
         // return $category;
 
         // $payments = DB::table('cheque_payments')->where('vr_date', $vr_date)->get();
-        $payments = ChequePayment::where('cheq_date', $chq_date)->get()->sortByDesc('cheq_no')->groupBy('cheq_no');
+        $payments = ChequePayment::where('cheq_date', $chq_date)
+        ->get()
+        ->sortBy('cheq_no') // or sortByAsc('cheq_no')
+        ->groupBy('cheq_no');
         $payment_members = ChequePaymentMember::with(['chequePayment', 'member', 'reciepts'])
         ->where('cheq_date', $chq_date)
-        ->orderByRaw('CAST(cheq_no AS UNSIGNED) DESC') // Ensure numeric sorting
+        ->orderByRaw('CAST(cheq_no AS UNSIGNED) ASC') // Ensure numeric sorting
         ->get()
         ->chunk(25);
      // Chunk after fetching data

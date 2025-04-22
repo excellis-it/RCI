@@ -6,7 +6,9 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DearnessAllowancePercentage;
+use App\Models\MemberMonthlyDataCredit;
 use App\Models\PayCommission;
+use App\Models\Tpta;
 
 class DearnessAllowancePercentageController extends Controller
 {
@@ -52,6 +54,45 @@ class DearnessAllowancePercentageController extends Controller
         $dearnessAllowancePercentage->month = $request->month;
         $dearnessAllowancePercentage->is_active = $request->status;
         $dearnessAllowancePercentage->save();
+
+        if ($request->status == 1) {
+            $tpts = Tpta::where('status', true)->get();
+
+            $percentage = $request->percentage;
+            $current_month = date('m');
+            $current_year = date('Y');
+            // $records_array = [];
+            foreach ($tpts as $tpt) {
+                // Calculate and update TPT DA
+                $total = $tpt->tpt_allowance * $percentage / 100;
+                $tpt->tpt_da = $total;
+                $tpt->save();
+
+                // Update related MemberMonthlyDataCredit records
+                $records = MemberMonthlyDataCredit::whereHas('member', function ($query) use ($tpt) {
+                    $query->where('pm_level', $tpt->pay_level_id);
+                })
+                    ->where(function ($query) use ($current_month, $current_year) {
+                        $query->where('year', '>', $current_year)
+                            ->orWhere(function ($q) use ($current_month, $current_year) {
+                                $q->where('year', $current_year)
+                                    ->where('month', '>=', $current_month);
+                            });
+                    })
+                    ->get();
+
+                // $records_array[] = $records->toArray();
+                foreach ($records as $record) {
+                    $da_amount = ($record->pay * $percentage) / 100;
+
+                    $record->da = $da_amount;
+                    $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
+                    $record->tot_credits =(($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
+                    $record->save();
+                }
+            }
+        }
+
 
         // make the older dearness allowance percentage inactive
         $lastDa = DearnessAllowancePercentage::latest()->first();
@@ -115,6 +156,45 @@ class DearnessAllowancePercentageController extends Controller
         $dearnessAllowancePercentage->month = $request->month;
         $dearnessAllowancePercentage->is_active = $request->status;
         $dearnessAllowancePercentage->update();
+
+        if ($request->status == 1) {
+            $tpts = Tpta::where('status', true)->get();
+
+            $percentage = $request->percentage;
+            $current_month = date('m');
+            $current_year = date('Y');
+            // $records_array = [];
+            foreach ($tpts as $tpt) {
+                // Calculate and update TPT DA
+                $total = $tpt->tpt_allowance * $percentage / 100;
+                $tpt->tpt_da = $total;
+                $tpt->save();
+
+                // Update related MemberMonthlyDataCredit records
+                $records = MemberMonthlyDataCredit::whereHas('member', function ($query) use ($tpt) {
+                    $query->where('pm_level', $tpt->pay_level_id);
+                })
+                    ->where(function ($query) use ($current_month, $current_year) {
+                        $query->where('year', '>', $current_year)
+                            ->orWhere(function ($q) use ($current_month, $current_year) {
+                                $q->where('year', $current_year)
+                                    ->where('month', '>=', $current_month);
+                            });
+                    })
+                    ->get();
+
+                // $records_array[] = $records->toArray();
+                foreach ($records as $record) {
+                    $da_amount = ($record->pay * $percentage) / 100;
+
+                    $record->da = $da_amount;
+                    $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
+                    $record->tot_credits =(($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
+                    $record->save();
+                }
+            }
+        }
+        // dd($records_array);
 
         session()->flash('message', 'Dearness Allowance Percentage updated successfully');
         return response()->json([

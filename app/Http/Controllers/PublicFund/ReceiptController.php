@@ -560,8 +560,9 @@ class ReceiptController extends Controller
                 'receipts.category_id'
             )
             ->where('receipts.vr_date', $vr_date)
-            ->orderBy('receipts.vr_no', 'asc')
+            ->orderByRaw('CAST(receipts.vr_no AS UNSIGNED)')
             ->get();
+
 
         // Fetch related rows from receipt_members for each receipt
         foreach ($receipts as $receipt) {
