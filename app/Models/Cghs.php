@@ -13,4 +13,9 @@ class Cghs extends Model
     {
         return $this->belongsTo(PmLevel::class, 'pay_level_id');
     }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
+    }
 }

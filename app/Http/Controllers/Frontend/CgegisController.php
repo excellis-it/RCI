@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cgegis;
+use App\Models\Designation;
 use App\Models\Group;
 use App\Models\Member;
 
@@ -17,7 +18,8 @@ class CgegisController extends Controller
     {
         $cgeGis = Cgegis::orderBy('id', 'desc')->paginate(10);
         $groups = Group::where('status', 1)->get();
-        return view('frontend.cgegis.list',compact('cgeGis','groups'));
+        $designations = Designation::orderBy('id', 'desc')->get();
+        return view('frontend.cgegis.list',compact('cgeGis','groups', 'designations'));
     }
 
     public function fetchData(Request $request)
@@ -55,11 +57,13 @@ class CgegisController extends Controller
     {
         $request->validate([
             'group_id' => 'required',
+            'designation_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_value = new Cgegis();
+        $cgegis_value->designation_id = $request->designation_id;
         $cgegis_value->group_id = $request->group_id;
         $cgegis_value->value = $request->value;
         $cgegis_value->status = $request->status;
@@ -67,7 +71,7 @@ class CgegisController extends Controller
 
         session()->flash('message', 'Cgegis added successfully');
         return response()->json(['success' => 'Cgegis added successfully']);
-        
+
     }
 
     /**
@@ -85,8 +89,9 @@ class CgegisController extends Controller
     {
         $cgegis = Cgegis::find($id);
         $groups = Group::where('status', 1)->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis','groups'))->render()]);
+        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis','groups', 'designations'))->render()]);
     }
 
     /**
@@ -95,13 +100,15 @@ class CgegisController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'group_id' => 'required', 
+            'group_id' => 'required',
+            'designation_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_update = Cgegis::find($id);
         $cgegis_update->group_id = $request->group_id;
+        $cgegis_update->designation_id = $request->designation_id;
         $cgegis_update->value = $request->value;
         $cgegis_update->status = $request->status;
         $cgegis_update->save();
@@ -118,7 +125,7 @@ class CgegisController extends Controller
         //
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         $related_members = Member::where('cgegis', $id)->exists();
 

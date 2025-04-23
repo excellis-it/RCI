@@ -217,9 +217,46 @@ class MemberPayGenerate extends Controller
                 foreach ($DebitCommonColumns as $column) {
                     $member_debit_monthly_data->$column = $member_debit->$column;
                 }
+                $deduction = 0;
+                if ($member->fund_type == 'GPF') {
+                    if ($member_debit->gpa_sub == 0) {
+                        $gpfDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                        $member_debit_monthly_data->gpa_sub = $gpfDeduction;
+                        $deduction += $gpfDeduction;
+                    }
+                }
+
+                if ($member->fund_type == 'NPS') {
+                    if ($member_debit->nps_sub == 0) {
+                        $npsDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                        $member_debit_monthly_data->nps_sub = $npsDeduction;
+                        $deduction += $npsDeduction;
+                    }
+                    if ($member_debit->cmg == 0) {
+                        $gmcDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100;
+                        $npsGMCTotal = $gmcDeduction;
+                        $member_debit_monthly_data->cmg = $npsGMCTotal;
+                        $deduction += $npsGMCTotal;
+                    }
+                }
+
+
+                if ($member->desig) {
+                    $cgaData = Cghs::where('designation_id', $member->desig)->first();
+                    if ($member_debit->cghs == 0) {
+                        if ($cgaData) {
+                            $cghsDeduction = $cgaData->amount;
+                            $member_debit_monthly_data->cghs = $cghsDeduction;
+                            $deduction += $cghsDeduction;
+                        }
+                    }
+                }
+
                 $member_debit_monthly_data->month = $month;
                 $member_debit_monthly_data->year = $year;
                 $member_debit_monthly_data->apply_date = date('Y-m-d');
+                $member_debit_monthly_data->tot_debits = $member_debit_monthly_data->tot_debits + $deduction;
+                $member_debit_monthly_data->net_pay = $member_debit_monthly_data->net_pay + $deduction;
                 $member_debit_monthly_data->save();
                 $member_monthly_data->debit_id = $member_debit_monthly_data->id;
             }
@@ -231,6 +268,35 @@ class MemberPayGenerate extends Controller
                 foreach ($RecoveryCommonColumns as $column) {
                     $member_recovery_monthly_data->$column = $member_recovery->$column;
                 }
+
+
+                if ($member_recovery->wel_sub == 0 || $member_recovery->med_ins == 0) {
+                    $category = Category::where('id', $member->category)->first();
+                    $welSub = 0;
+                    if ($category) {
+                        $member_pg = Member::where('id', $member->id)->first()->pg;
+                        if ($member_pg == 1) {
+                            $medIns = 0;
+                        } else {
+                            $medIns = $category->med_ins ?? 0;;
+                        }
+                        $welSub = $category->wel_sub ?? 0;
+                    }
+
+                    $member_recovery_monthly_data->wel_sub = $welSub;
+                    $member_recovery_monthly_data->med_ins = $medIns;
+                }
+                if ($member_recovery->wel_rec == 0) {
+                    $wel_rec = 0;
+
+                    if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+                        $wel_rec = 20;
+                    } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+                        $wel_rec = 10;
+                    }
+                    $member_recovery_monthly_data->wel_rec = $wel_rec;
+                }
+
                 $member_recovery_monthly_data->month = $month;
                 $member_recovery_monthly_data->year = $year;
                 $member_recovery_monthly_data->apply_date = date('Y-m-d');
@@ -400,9 +466,46 @@ class MemberPayGenerate extends Controller
                     foreach ($DebitCommonColumns as $column) {
                         $member_debit_monthly_data->$column = $member_debit->$column;
                     }
+                    $deduction = 0;
+                    if ($member->fund_type == 'GPF') {
+                        if ($member_debit->gpa_sub == 0) {
+                            $gpfDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                            $member_debit_monthly_data->gpa_sub = $gpfDeduction;
+                            $deduction += $gpfDeduction;
+                        }
+                    }
+
+                    if ($member->fund_type == 'NPS') {
+                        if ($member_debit->nps_sub == 0) {
+                            $npsDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                            $member_debit_monthly_data->nps_sub = $npsDeduction;
+                            $deduction += $npsDeduction;
+                        }
+                        if ($member_debit->cmg == 0) {
+                            $gmcDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100;
+                            $npsGMCTotal = $gmcDeduction;
+                            $member_debit_monthly_data->cmg = $npsGMCTotal;
+                            $deduction += $npsGMCTotal;
+                        }
+                    }
+
+
+                    if ($member->desig) {
+                        $cgaData = Cghs::where('designation_id', $member->desig)->first();
+                        if ($member_debit->cghs == 0) {
+                            if ($cgaData) {
+                                $cghsDeduction = $cgaData->amount;
+                                $member_debit_monthly_data->cghs = $cghsDeduction;
+                                $deduction += $cghsDeduction;
+                            }
+                        }
+                    }
+
                     $member_debit_monthly_data->month = $month;
                     $member_debit_monthly_data->year = $year;
                     $member_debit_monthly_data->apply_date = date('Y-m-d');
+                    $member_debit_monthly_data->tot_debits = $member_debit_monthly_data->tot_debits + $deduction;
+                    $member_debit_monthly_data->net_pay = $member_debit_monthly_data->net_pay + $deduction;
                     $member_debit_monthly_data->save();
                     $member_monthly_data->debit_id = $member_debit_monthly_data->id;
                 }
@@ -414,6 +517,35 @@ class MemberPayGenerate extends Controller
                     foreach ($RecoveryCommonColumns as $column) {
                         $member_recovery_monthly_data->$column = $member_recovery->$column;
                     }
+
+
+                    if ($member_recovery->wel_sub == 0 || $member_recovery->med_ins == 0) {
+                        $category = Category::where('id', $member->category)->first();
+                        $welSub = 0;
+                        if ($category) {
+                            $member_pg = Member::where('id', $member->id)->first()->pg;
+                            if ($member_pg == 1) {
+                                $medIns = 0;
+                            } else {
+                                $medIns = $category->med_ins ?? 0;;
+                            }
+                            $welSub = $category->wel_sub ?? 0;
+                        }
+
+                        $member_recovery_monthly_data->wel_sub = $welSub;
+                        $member_recovery_monthly_data->med_ins = $medIns;
+                    }
+                    if ($member_recovery->wel_rec == 0) {
+                        $wel_rec = 0;
+
+                        if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+                            $wel_rec = 20;
+                        } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+                            $wel_rec = 10;
+                        }
+                        $member_recovery_monthly_data->wel_rec = $wel_rec;
+                    }
+
                     $member_recovery_monthly_data->month = $month;
                     $member_recovery_monthly_data->year = $year;
                     $member_recovery_monthly_data->apply_date = date('Y-m-d');

@@ -298,7 +298,7 @@ class MemberController extends Controller
 
         $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
         $member_personal = MemberPersonalInfo::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $member_cghs = Cghs::where('pay_level_id', $member->pm_level)->orderBy('id', 'desc')->first() ?? '';
+        $member_cghs = Cghs::where('designation_id', $member->desig)->orderBy('id', 'desc')->first() ?? '';
 
         $paybands = PaybandType::orderBy('id', 'desc')->get() ?? '';
         $categories = Category::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
@@ -406,7 +406,7 @@ class MemberController extends Controller
 
         $member_var_info = PmLevel::where('id', $member->pm_level)->select('var_incr', 'noi')->first() ?? '';
         $member_personal = MemberPersonalInfo::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
-        $member_cghs = Cghs::where('pay_level_id', $member->pm_level)->orderBy('id', 'desc')->first() ?? '';
+        $member_cghs = Cghs::where('designation_id', $member->desig)->orderBy('id', 'desc')->first() ?? '';
 
         $paybands = PaybandType::orderBy('id', 'desc')->get() ?? '';
         $categories = Category::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
@@ -1310,8 +1310,8 @@ class MemberController extends Controller
         //     'pay_stop' => 'required'
         // ]);
 
-        $current_month = $request->current_month ?? date('m');
-        $current_year = $request->current_year ?? date('Y');
+        $current_month = $current_month ?? date('m');
+        $current_year = $current_year ?? date('Y');
         //memebers details update
         $member_details = Member::where('id', $request->member_id)->first();
         $member_details->emp_id = $request->emp_id;
@@ -1390,12 +1390,20 @@ class MemberController extends Controller
                 $member_debit->save();
             }
 
-            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
+            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+            // dd($member_debit_monthly, $current_month);
             if ($member_debit_monthly) {
                 $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
                 $cgegis_amount = $cgegis_amount->value ?? 0;
                 $member_debit_monthly->cgegis = $cgegis_amount;
                 $member_debit_monthly->save();
+
+                $cgaData = Cghs::where('designation_id', $request->desig)->first();
+
+                if ($cgaData) {
+                    $member_debit_monthly->cghs =  $cgaData->amount;
+                    $member_debit_monthly->save();
+                }
             }
 
             // update pg in memeber
@@ -1411,7 +1419,7 @@ class MemberController extends Controller
                     $member_recovery->save();
                 }
 
-                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->first();
                 if ($member_recovery_monthly) {
                     $member_recovery_monthly->med_ins = 0;
                     $member_recovery_monthly->save();
@@ -1425,7 +1433,7 @@ class MemberController extends Controller
                     $member_recovery->med_ins = $med_ins_amount;
                     $member_recovery->save();
                 }
-                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->first();
                 if ($member_recovery_monthly) {
                     //get med_ins amount from category
                     $med_ins_amount = Category::where('id', $request->category)->first() ?? '';
@@ -1434,6 +1442,50 @@ class MemberController extends Controller
                     $member_recovery_monthly->save();
                 }
             }
+
+            $records = MemberMonthlyDataCredit::where('member_id', $request->member_id)->whereHas('member', function ($query) use ($request) {
+                $query->where('pm_level', $request->pm_level);
+            })
+                ->where(function ($query) use ($current_month, $current_year) {
+                    $query->where('year', '>', $current_year)
+                        ->orWhere(function ($q) use ($current_month, $current_year) {
+                            $q->where('year', $current_year)
+                                ->where('month', '>=', $current_month);
+                        });
+                })
+                ->get();
+            // dd($records->toArray());
+            $tpt = Tpta::where('pay_level_id', $request->pm_level)->where('status', 1)->first();
+            if ($tpt) {
+                foreach ($records as $record) {
+                    $record->tpt = $tpt->tpt_allowance;
+                    $record->da_on_tpt = $tpt->tpt_da; // da_on_tpt set based on TPT value
+                    $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($tpt->tpt_allowance + $tpt->tpt_da);
+                    $record->save();
+                }
+            }
+
+
+            $wel_rec = 0;
+            $category = Category::where('id', $request->category)->first();
+            // dd($category, $request->category);
+            if ($category) {
+                if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+                    $wel_rec = 20;
+                } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+                    $wel_rec = 10;
+                }
+            }
+
+            MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where(function ($query) use ($current_month, $current_year) {
+                $query->where('year', '>', $current_year)
+                    ->orWhere(function ($q) use ($current_month, $current_year) {
+                        $q->where('year', $current_year)
+                            ->where('month', '>=', $current_month);
+                    });
+            })
+                ->update(['wel_rec' => $wel_rec]);
+
 
 
             $meassage = 'Member personal info updated successfully';
@@ -1480,51 +1532,6 @@ class MemberController extends Controller
             // session()->flash('message', 'Member personal info added successfully');
             $meassage = 'Member personal info added successfully';
         }
-
-
-
-        $records = MemberMonthlyDataCredit::where('member_id', $request->member_id)->whereHas('member', function ($query) use ($request) {
-            $query->where('pm_level', $request->pm_level);
-        })
-            ->where(function ($query) use ($current_month, $current_year) {
-                $query->where('year', '>', $current_year)
-                    ->orWhere(function ($q) use ($current_month, $current_year) {
-                        $q->where('year', $current_year)
-                            ->where('month', '>=', $current_month);
-                    });
-            })
-            ->get();
-        // dd($records->toArray());
-        $tpt = Tpta::where('pay_level_id', $request->pm_level)->where('status', 1)->first();
-        if ($tpt) {
-            foreach ($records as $record) {
-                $record->tpt = $tpt->tpt_allowance;
-                $record->da_on_tpt = $tpt->tpt_da; // da_on_tpt set based on TPT value
-                $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($tpt->tpt_allowance + $tpt->tpt_da);
-                $record->save();
-            }
-        }
-
-
-        $wel_rec = 0;
-        $category = Category::where('id', $request->category)->first();
-        // dd($category, $request->category);
-        if ($category) {
-            if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
-                $wel_rec = 20;
-            } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
-                $wel_rec = 10;
-            }
-        }
-
-         MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where(function ($query) use ($current_month, $current_year) {
-                $query->where('year', '>', $current_year)
-                    ->orWhere(function ($q) use ($current_month, $current_year) {
-                        $q->where('year', $current_year)
-                            ->where('month', '>=', $current_month);
-                    });
-            })
-            ->update(['wel_rec' => $wel_rec]);
 
         return response()->json(['message' => $meassage]);
     }
@@ -2734,6 +2741,22 @@ class MemberController extends Controller
             }
         }
 
+        $cghsDeduction = 0;
+        // $cgegisDeduction = 0;
+        if ($member->desig) {
+            // $cgegisData = Cgegis::where('designation_id', $member->desig)->first();
+            // if ($cgegisData) {
+            //     $cgegisDeduction = $cgegisData->amount + $daAmount;
+            //     $deductionsTotal += $cgegisDeduction;
+            // }
+
+            $cgaData = Cghs::where('designation_id', $member->desig)->first();
+            if ($cgaData) {
+                $cghsDeduction = $cgaData->amount;
+                $deductionsTotal += $cgegisDeduction;
+            }
+        }
+
         $member_debit_data_monthly = [
             'month' => date('m'),
             'year' => date('Y'),
@@ -2770,7 +2793,7 @@ class MemberController extends Controller
             'furn_arr' => 0,
             'car' => 0,
             'hra_rec' => 0,
-            'cghs' => 0,
+            'cghs' => $cghsDeduction,
             'ptax' => 200,
             'cmg' => $npsGMCTotal,
             'pli' => 0,
@@ -2856,7 +2879,7 @@ class MemberController extends Controller
             'furn_arr' => 0,
             'car' => 0,
             'hra_rec' => 0,
-            'cghs' => 0,
+            'cghs' => $cghsDeduction,
             'ptax' => 200,
             'cmg' => $npsGMCTotal,
             'pli' => 0,

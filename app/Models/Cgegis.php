@@ -13,4 +13,9 @@ class Cgegis extends Model
     {
         return $this->belongsTo(Group::class, 'group_id');
     }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
+    }
 }

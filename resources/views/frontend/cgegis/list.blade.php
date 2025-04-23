@@ -49,6 +49,7 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
+                                                <th >Designation </th>
                                                 <th >Group </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
                                                     style="cursor: pointer">CGEGIS Value <span id="value_icon"><i
@@ -172,19 +173,19 @@
             $('#cgegis-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');

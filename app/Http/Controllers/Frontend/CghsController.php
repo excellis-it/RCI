@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Cghs;
+use App\Models\Designation;
 use App\Models\PmLevel;
 
 class CghsController extends Controller
@@ -17,8 +18,8 @@ class CghsController extends Controller
     {
         $cghs = Cghs::paginate(10);
         $pay_levels = PmLevel::get();
-
-        return view('frontend.cghs.list', compact('cghs', 'pay_levels'));
+        $designations = Designation::orderBy('id', 'desc')->get();
+        return view('frontend.cghs.list', compact('cghs', 'pay_levels', 'designations'));
     }
 
     public function fetchData(Request $request)
@@ -54,13 +55,15 @@ class CghsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'designation_id' => 'required',
             'pay_level_id' => 'required',
             'contribution' => 'required',
         ]);
 
         $cghs = new Cghs();
-        $cghs->pay_level_id = $request->pay_level_id;
+        $cghs->designation_id = $request->designation_id;
         $cghs->contribution = $request->contribution;
+        $cghs->pay_level_id = $request->pay_level_id;
         $cghs->status = $request->status;
         $cghs->save();
 
@@ -83,8 +86,9 @@ class CghsController extends Controller
     {
         $cghs = Cghs::find($id);
         $pay_levels = PmLevel::get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $edit = true;
-        return response()->json(['view' => view('frontend.cghs.form', compact('edit', 'cghs', 'pay_levels'))->render()]);
+        return response()->json(['view' => view('frontend.cghs.form', compact('edit', 'cghs', 'pay_levels', 'designations'))->render()]);
     }
 
     /**
@@ -94,10 +98,14 @@ class CghsController extends Controller
     {
         $request->validate([
             'contribution' => 'required',
+            'designation_id' => 'required',
+            'pay_level_id' => 'required',
         ]);
 
         $cghs = Cghs::find($id);
+        $cghs->designation_id = $request->designation_id;
         $cghs->contribution = $request->contribution;
+        $cghs->pay_level_id = $request->pay_level_id;
         $cghs->status = $request->status;
         $cghs->update();
 

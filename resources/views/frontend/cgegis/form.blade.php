@@ -23,6 +23,25 @@
                         </div>
                     </div>
 
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="designation_id" id="designation_id">
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}"
+                                            {{ $cgegis->designation_id == $designation->id ? 'selected' : '' }}>
+                                            {{ $designation->designation }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -76,7 +95,7 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Group</label>
@@ -86,6 +105,22 @@
                                     <option value="">Select Group</option>
                                     @foreach ($groups as $group)
                                         <option value="{{ $group->id }}">{{ $group->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="designation_id" id="designation_id">
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}">{{ $designation->designation }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

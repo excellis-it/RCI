@@ -327,7 +327,7 @@
             "#hra",
             "#tpt",
             "#da_on_tpt",
-            "#s_pay",
+            "#s_pay",   
             "#spl_incentive",
             "#incentive",
             "#dis_alw",
@@ -376,7 +376,7 @@
                     $('#tot_credits').val(total);
                     var gross_pay = $('#tot_credits').val();
 
-                    getALlTotal();
+                    getAllTotal();
 
                 },
                 error: function(xhr) {
@@ -397,7 +397,24 @@
             });
         });
 
-        getALlTotal();
+        function getAllTotal() {
+            const loanTotal = parseFloat($('#total_loan_inst_amount').val()) || 0;
+            const totalCredits = parseFloat($('#tot_credits').val()) || 0;
+            const otherDebits = parseFloat($('#tot_debits').val()) || 0;
+
+            const totalDebits = otherDebits + loanTotal;
+            const netPay = totalCredits - totalDebits;
+            const recovery = parseFloat($('#tot_rec').val()) || 0;
+            const takeHome = netPay - recovery;
+
+            $('#total_gross_pay').val(totalCredits.toFixed(2));
+            $('#total_debits').val(totalDebits.toFixed(2));
+            $('#total_net_pay').val(netPay.toFixed(2));
+            $('#total_recovery').val(recovery.toFixed(2));
+            $('#take_home').val(takeHome.toFixed(2));
+        }
+
+        getAllTotal();
     });
 </script>
 
@@ -1642,7 +1659,7 @@
                 url: "{{ route('members.check-credit-available') }}",
                 type: 'POST',
                 data: {
-                    memberID: memberID
+                    memberID: memberID,
                     current_month: '{{ $currentMonth }}',
                     current_year: '{{ $currentYear }}'
                 },
@@ -1735,7 +1752,6 @@
     });
 </script>
 
-
 <script>
     $(document).ready(function() {
         // === Filter Data by Year and Month ===
@@ -1801,10 +1817,9 @@
                 total += val;
             });
             $('#tot_rec').val(total.toFixed(2));
-            getAllTotal(); // Refresh totals after update
+            getAllTotal(); // ✅ Corrected function name
         }
 
-        // Attach listeners to org recovery fields
         orgFields.forEach(id => {
             $('#' + id).on('input', calculateOrgRecoTotal);
         });
@@ -1834,10 +1849,9 @@
             const netPay = Math.max(totalCredits - total, 0);
             $('#net_pay').val(netPay.toFixed(2));
 
-            getAllTotal(); // Refresh totals after update
+            getAllTotal(); // ✅ Corrected function name
         }
 
-        // Attach listeners to debit fields
         debitFields.forEach(field => {
             $(field).on('keyup', updateTotalDebit);
         });
