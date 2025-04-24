@@ -1321,7 +1321,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        0
+                                        0.00
                                     </td>
                                     <td
                                         style="
@@ -1426,8 +1426,14 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
+
+                    @php
+                      $grand_total_cash = ($book2_data['closing_balance_cash_in_hand'] ?? 0) + ($book2_data['totalPaymentsForTheDay'] ?? 0);
+
+                    @endphp
+                     {{-- @dd($book2_data['closing_balance_cash_in_hand'], $book2_data['totalPaymentsForTheDay'], $grand_total_cash) --}}
                                         {{-- {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }} --}}
-                                        {{ number_format($book2_data['closing_balance_cash_in_hand'], 2) ?? 0 }}
+                                        {{ number_format($grand_total_cash, 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
