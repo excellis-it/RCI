@@ -1500,6 +1500,43 @@
             <tbody>
                 <tr>
                     <td style="padding: 0 0px">
+
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: left;
+
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        
+                                    </td>
+                                    <td
+                                        style="
+
+                                    line-height: 14px;
+                                    font-weight: 600;
+                                    color: #000;
+                                    text-align: right;
+
+                                    margin: 0px 0px !important;
+                                    text-transform: uppercase;
+
+                                  ">
+                                        {{ $print_date }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
                         <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                             <tbody>
                                 <tr>
