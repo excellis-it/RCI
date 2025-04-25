@@ -1232,7 +1232,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cda_bill->adv_no ?? '' }}
+                                                {{ $cda_bill->bill_voucher_no ?? '' }}
 
                                             </td>
                                             <td
@@ -1432,7 +1432,6 @@
                                             $grand_total_cash =
                                                 ($book2_data['closing_balance_cash_in_hand'] ?? 0) +
                                                 ($book2_data['totalPaymentsForTheDay'] ?? 0);
-
                                         @endphp
                                         {{-- @dd($book2_data['closing_balance_cash_in_hand'], $book2_data['totalPaymentsForTheDay'], $grand_total_cash) --}}
                                         {{-- {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }} --}}

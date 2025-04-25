@@ -72,7 +72,7 @@
                         <table class="table customize-table mb-0 align-middle bg_tbody">
                             <thead class="text-white fs-4 bg_blue">
                                 <tr>
-
+                                    <th>Voucher No</th>
                                     <th>CDA Bill No</th>
                                     <th>CDA Bill Date</th>
                                     <th>Adv No</th>
@@ -93,6 +93,7 @@
                                 @if (count($advance_bills) > 0)
                                     @foreach ($advance_bills as $key => $advance_bill)
                                         <tr>
+                                            <td>{{ $advance_bill->bill_voucher_no }}</td>
                                             <td>{{ $advance_bill->cda_bill_no }}</td>
                                             <td>{{ $advance_bill->cda_bill_date }}</td>
 
@@ -113,7 +114,8 @@
                                                         data-id="{{ $advance_bill->id }}" title="Edit">
                                                         <i class="ti ti-pencil"></i>
                                                     </a>
-                                                    <a href="javascript:void(0);" class="delete-cda-bill edit_pencil text-danger ms-2"
+                                                    <a href="javascript:void(0);"
+                                                        class="delete-cda-bill edit_pencil text-danger ms-2"
                                                         data-route="{{ route('cda-bills.delete', $advance_bill->id) }}">
                                                         <i class="ti ti-trash"></i>
                                                     </a>
@@ -174,6 +176,48 @@
                         });
                     }
                 });
+            });
+
+            // Update bill_voucher_no when date changes
+            $(document).on('change', '#cda_bill_date', function() {
+                var date = $(this).val();
+
+                if (date) {
+                    $.ajax({
+                        url: "{{ route('cda-bills.get-last-bill-voucher-no') }}",
+                        type: 'GET',
+                        data: {
+                            date: date
+                        },
+                        success: function(response) {
+                            $('#bill_voucher_no').val(response.billVoucherNo);
+                        },
+                        error: function(xhr) {
+                            console.log('Error getting last voucher number');
+                        }
+                    });
+                }
+            });
+
+            // Also update bill_voucher_no when date changes in edit form
+            $(document).on('change', '#edit-form #cda_bill_date', function() {
+                var date = $(this).val();
+
+                if (date) {
+                    $.ajax({
+                        url: "{{ route('cda-bills.get-last-bill-voucher-no') }}",
+                        type: 'GET',
+                        data: {
+                            date: date
+                        },
+                        success: function(response) {
+                            $('#edit-form #bill_voucher_no').val(response.billVoucherNo);
+                        },
+                        error: function(xhr) {
+                            console.log('Error getting last voucher number');
+                        }
+                    });
+                }
             });
         });
     </script>

@@ -132,8 +132,6 @@ class CdaBillAuditTeamController extends Controller
      */
     public function store(Request $request)
     {
-
-
         // Validate input
         $request->validate([
             'bills' => 'required|array',
@@ -150,6 +148,7 @@ class CdaBillAuditTeamController extends Controller
             'variable_id' => 'required|array',
             'cda_bill_no' => 'required|string',
             'cda_bill_date' => 'required|date',
+            'bill_voucher_no' => 'required|integer',
         ]);
 
         // Process only the selected rows from the `bills[]` array
@@ -171,6 +170,7 @@ class CdaBillAuditTeamController extends Controller
                 $receiptPayment->variable_id = $request->variable_id[$index];
                 $receiptPayment->cda_bill_no = $request->cda_bill_no;
                 $receiptPayment->cda_bill_date = $request->cda_bill_date;
+                $receiptPayment->bill_voucher_no = $request->bill_voucher_no;
                 $receiptPayment->created_by = auth()->id();
 
                 $receiptPayment->save();
@@ -213,10 +213,6 @@ class CdaBillAuditTeamController extends Controller
                 ]);
             }
         }
-
-
-
-
 
         session()->flash('message', 'CDA bill added successfully');
         return response()->json(['success' => 'CDA bill added successfully']);
@@ -265,12 +261,14 @@ class CdaBillAuditTeamController extends Controller
             'cda_bill_no' => 'required|string',
             'cda_bill_date' => 'required|date',
             'variable_id' => 'required|integer',
+            'bill_voucher_no' => 'required|integer',
         ]);
 
         // Update the CDA bill
         $cdaBill->cda_bill_no = $request->cda_bill_no;
         $cdaBill->cda_bill_date = $request->cda_bill_date;
         $cdaBill->variable_id = $request->variable_id;
+        $cdaBill->bill_voucher_no = $request->bill_voucher_no;
         $cdaBill->save();
 
         session()->flash('message', 'CDA bill updated successfully');
@@ -308,5 +306,23 @@ class CdaBillAuditTeamController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Get the last bill voucher number by date
+     */
+    public function getLastBillVoucherNoByDate(Request $request)
+    {
+        $date = $request->input('date');
+
+        $lastBill = CdaBillAuditTeam::whereYear('cda_bill_date', date('Y', strtotime($date)))
+            ->whereMonth('cda_bill_date', date('m', strtotime($date)))
+            ->orderBy('bill_voucher_no', 'desc')
+            ->first();
+
+        $lastVoucherNo = $lastBill ? $lastBill->bill_voucher_no : 0;
+        $nextVoucherNo = $lastVoucherNo + 1;
+
+        return response()->json(['billVoucherNo' => $nextVoucherNo]);
     }
 }
