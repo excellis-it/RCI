@@ -255,4 +255,41 @@ class CdaReceiptController extends Controller
     {
         //
     }
+
+    /**
+     * Delete the specified resource from storage.
+     */
+    public function delete($bill_id)
+    {
+        try {
+            // Find the receipt by bill_id
+            $cdaReceipt = CDAReceipt::where('bill_id', $bill_id)->first();
+
+            if ($cdaReceipt) {
+                // Get the related advance settlement
+                $advBill = CdaBillAuditTeam::find($bill_id);
+
+                if ($advBill && $advBill->settle_id) {
+                    // Update the receipt_status back to 0 in AdvanceSettlement
+                    $advSettlement = AdvanceSettlement::find($advBill->settle_id);
+                    if ($advSettlement) {
+                        $advSettlement->receipt_status = 0;
+                        $advSettlement->save();
+                    }
+                }
+
+                // Delete the CDA receipt
+                $cdaReceipt->delete();
+
+                session()->flash('message', 'CDA receipt deleted successfully.');
+                return redirect()->back()->with('message', 'CDA receipt deleted successfully.');
+            } else {
+                session()->flash('error', 'CDA receipt not found.');
+                return redirect()->back()->with('error', 'CDA receipt not found.');
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error deleting CDA receipt: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error deleting CDA receipt: ' . $e->getMessage());
+        }
+    }
 }

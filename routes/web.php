@@ -1042,6 +1042,9 @@ Route::middleware('permssions')->group(function () {
         Route::get('/advance-settlement-bill-delete/{id}', [AdvanceSettlementController::class, 'deleteAdvanceSettleBill'])->name('advance-settle-bills.delete');
 
         Route::post('/advance-settlement-get-adv', [AdvanceSettlementController::class, 'getAdv'])->name('advance-settle-bills.get-adv');
+
+        // Add this new route for getting last Bill Voucher No by date
+        Route::get('/cda-bills-get-last-bill-voucher-no', [CdaBillAuditTeamController::class, 'getLastBillVoucherNoByDate'])->name('cda-bills.get-last-bill-voucher-no');
     });
 
     // Cash Deposit Routes

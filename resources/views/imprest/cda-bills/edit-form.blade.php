@@ -5,16 +5,35 @@
             @csrf
 
             <div class="row align-items-center">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
+                    <label for="">Voucher No</label>
+                    <input readonly type="number" class="form-control" name="bill_voucher_no" id="bill_voucher_no"
+                        value="{{ $cdaBill->bill_voucher_no }}">
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
                     <label for="">CDA Bill No</label>
                     <input type="text" class="form-control" name="cda_bill_no" id="cda_bill_no"
                         value="{{ $cdaBill->cda_bill_no }}">
                     <span class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="">CDA Bill Date</label>
                     <input type="date" class="form-control" name="cda_bill_date" id="cda_bill_date"
                         value="{{ $cdaBill->cda_bill_date }}">
+                    <span class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="">Variable Type</label>
+                    <select class="form-control form-select" name="variable_id" id="variable_id">
+                        @foreach ($variable_types as $variable_type)
+                            <option value="{{ $variable_type->id }}"
+                                {{ $cdaBill->variable_id == $variable_type->id ? 'selected' : '' }}>
+                                {{ $variable_type->name }}
+                            </option>
+                        @endforeach
+                    </select>
                     <span class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-4 mt-4">
@@ -49,14 +68,13 @@
             <tr>
                 <th>Project</th>
                 <td>{{ $cdaBill->project->name ?? 'N/A' }}</td>
-                <th>Variable Type</th>
-                <td>{{ $cdaBill->variableType->name ?? 'N/A' }}</td>
-            </tr>
-            <tr>
                 <th>Cheque No</th>
                 <td>{{ $cdaBill->chq_no ?? 'N/A' }}</td>
+            </tr>
+            <tr>
                 <th>Cheque Date</th>
                 <td>{{ $cdaBill->chq_date ?? 'N/A' }}</td>
+                <td colspan="2"></td>
             </tr>
         </table>
     </div>

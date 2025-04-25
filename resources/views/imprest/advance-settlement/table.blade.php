@@ -20,12 +20,16 @@
                     <i class="ti ti-trash"></i>
             </td> --}}
             {{-- add a edit button --}}
-            <td>
+            <td class="sepharate">
                 @if ($advance_settlement->isEditable())
-                    <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil ms-2"
-                        id="advance-sttl-edit"
+                    <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil ms-2" id="advance-sttl-edit"
                         data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
                         <i class="ti ti-pencil"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2"
+                        id="advance-sttl-delete"
+                        data-route="{{ route('advance-settlement.delete', $advance_settlement->id) }}">
+                        <i class="ti ti-trash"></i>
                     </a>
                 @endif
             </td>

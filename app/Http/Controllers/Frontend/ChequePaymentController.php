@@ -36,6 +36,8 @@ class ChequePaymentController extends Controller
 
         $limit = $request->get('limit', 10) ?? 10;
 
+        $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->get();
+
         // Fetch the data based on the limit; use paginate if it's not 'All'
         if ($limit === 'All') {
             $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->get();
@@ -43,7 +45,19 @@ class ChequePaymentController extends Controller
             $AllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->paginate((int) $limit);
         }
 
-        return view('frontend.public-fund.cheque-payment.list', compact('cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments', 'limit'));
+        $uniqueChequeNumbers = [];
+        $lastCheqNoCount = 0;
+        foreach ($initAllPayments as $payment) {
+            if ($payment->cheq_no && !in_array($payment->cheq_no, $uniqueChequeNumbers)) {
+                $uniqueChequeNumbers[] = $payment->cheq_no;
+                $lastCheqNoCount += 1;
+            }
+        }
+
+
+        // return $lastCheqNoCount;
+
+        return view('frontend.public-fund.cheque-payment.list', compact('lastCheqNoCount', 'cheque_receipt_nos', 'paymentCategories', 'members', 'receipt_nos', 'lastPayment', 'allReceipts', 'AllPayments', 'limit'));
     }
 
     public function getReceiptNoDetail(Request $request)
@@ -491,17 +505,36 @@ class ChequePaymentController extends Controller
 
         // $payments = DB::table('cheque_payments')->where('vr_date', $vr_date)->get();
         $payments = ChequePayment::where('cheq_date', $chq_date)
-        ->get()
-        ->sortBy('cheq_no') // or sortByAsc('cheq_no')
-        ->groupBy('cheq_no');
-        $payment_members = ChequePaymentMember::with(['chequePayment', 'member', 'reciepts'])
-        ->where('cheq_date', $chq_date)
-        ->orderByRaw('CAST(cheq_no AS UNSIGNED) ASC') // Ensure numeric sorting
-        ->get()
-        ->chunk(25);
-     // Chunk after fetching data
+            ->get()
+            ->sortBy('cheq_no') // or sortByAsc('cheq_no')
+            ->groupBy('cheq_no');
+        $payment_members = ChequePaymentMember::with(['chequePayment', 'member.desigs', 'reciepts'])
+            ->where('cheq_date', $chq_date)
+            ->orderByRaw('CAST(cheq_no AS UNSIGNED) ASC') // Ensure numeric sorting
+            ->get()
+            ->chunk(25);
+        // Chunk after fetching data
         // dd($payment_members->toArray());
         // dd($payments);
+
+        // // get and set in the payments array data for each row set each unique cheque number starting from 1
+        // // Get unique cheque numbers and create a numbered serial for each
+        // $unique_cheque_numbers = $payments->keys()->values()->toArray();
+        // $serial_counter = 1;
+
+        // $payments_array = [];
+        // foreach ($unique_cheque_numbers as $cheq_no) {
+        //     $payments_for_cheque = $payments[$cheq_no];
+        //     // Assign a serial number to this cheque number
+        //     foreach ($payments_for_cheque as $payment) {
+        //         $payment->cheq_no_serial = $serial_counter;
+        //     }
+        //     $payments_array[$cheq_no] = $payments_for_cheque;
+        //     $serial_counter++;
+        // }
+
+        // Now $payments has each unique cheque number with a serial starting from 1
+
         $settings = Setting::orderBy('id', 'desc')->first();
 
         $receipts = DB::table('receipts')
