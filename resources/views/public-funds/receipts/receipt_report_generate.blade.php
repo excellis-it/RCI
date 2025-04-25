@@ -315,8 +315,7 @@
                                             $memberName =
                                                 $members->firstWhere('id', $member['member_id'])->name ?? 'N/A';
                                             $memberDesign =
-                                                $members->firstWhere('id', $member['member_id'])->designation
-                                                    ->designation_type ?? 'N/A';
+                                                $members->firstWhere('id', $member['member_id'])->desigs->designation ?? 'N/A';
                                         @endphp
                                         <tr
                                             style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">

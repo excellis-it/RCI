@@ -35,7 +35,8 @@
 
         <div class="row">
             <div class="col-md-6 text-start mb-3">
-                <h5>Last Payment - {{ !empty($lastPayment->vr_no) ? $lastPayment->vr_no : '' }}</h5>
+                {{-- <h5>Last Payment - {{ !empty($lastPayment->vr_no) ? $lastPayment->vr_no : '' }}</h5> --}}
+                <h5>Last Payment - {{ $lastCheqNoCount ?? 0 }}</h5>
             </div>
             <div class="col-md-6 text-end mb-3">
                 <h5>Last Payment Date -

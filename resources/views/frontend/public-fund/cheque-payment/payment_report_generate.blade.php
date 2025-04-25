@@ -45,6 +45,18 @@
     <body>
         @php
             use App\Helpers\Helper;
+
+            // Generate sequential serial numbers for unique cheque numbers
+            $chequeSerialNumbers = [];
+            $serialCounter = 1;
+
+            if (isset($payments) && count($payments) > 0) {
+                foreach ($payments as $key => $payment) {
+                    if (!isset($chequeSerialNumbers[$key])) {
+                        $chequeSerialNumbers[$key] = $serialCounter++;
+                    }
+                }
+            }
         @endphp
         <center>
             <img src="{{ public_path('storage/' . $logo->logo) }}" style="max-width: 50px;padding-bottom: 5px">
@@ -264,8 +276,8 @@
                                         {{ \Carbon\Carbon::parse($payment->first()->cheq_date)->format('d/m/Y') }}
                                     </td>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-
+                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 0px !important; margin: 0px 0px !important;">
+                                        {{ $chequeSerialNumbers[$key] ?? '' }}
                                     </td>
                                     <td
                                         style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -304,10 +316,11 @@
 
                                         <td rowspan="{{ count($check_payment) + 1 }}"
                                             style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            {{ $vr_no_print->vr_no }}
+                                            {{-- {{ $vr_no_print->vr_no }} --}}
+                                            {{-- {{ $chequeSerialNumbers[$key] ?? '' }} --}}
                                         </td>
                                         <td
-                                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             {{ $new_count_cvr == 0 ? 'Cheque No.-' . $key ?? '-' : '' }}
                                         </td>
                                         <td
@@ -340,7 +353,7 @@
                                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                     ({{ $count + 1 }})
                                                     {{ $member['member']['name'] ?? '' }},
-                                                    {{ $member['member']['designation']['designation'] ?? '' }} (CBRE -
+                                                    {{ $member['member']['desigs']['designation'] ?? '' }} (CBRE -
                                                     {{ $vr_no_print->vr_no ?? '' }},
                                                     {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})
                                                 </td>
@@ -564,7 +577,7 @@
                             </td>
                             <td
                                 style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-
+                                {{ $chequeSerialNumbers[$key] ?? '' }}
                             </td>
                             <td
                                 style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -590,7 +603,8 @@
 
                                 <td rowspan="{{ $vr_no_print->chequePaymentMembers->count() + 1 }}"
                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                    {{ $vr_no_print->vr_no }}
+                                    {{-- {{ $vr_no_print->vr_no }} --}}
+                                    {{ $vr_no_print->cheq_no_serial }}
                                 </td>
                                 <td
                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
@@ -620,7 +634,7 @@
                                             style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             ({{ $count + 1 }})
                                             {{ $member['member']['name'] ?? '' }},
-                                            {{ $member['member']['designation']['designation'] ?? '' }} (CBRE -
+                                            {{ $member['member']['desigs']['designation'] ?? '' }} (CBRE -
                                             {{ $vr_no_print->vr_no ?? '' }},
                                             {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})
                                         </td>

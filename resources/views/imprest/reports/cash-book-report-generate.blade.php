@@ -1062,7 +1062,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        From Whom
+                                        To Whom
                                     </td>
                                     <td
                                         style="
@@ -1187,7 +1187,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                               {{ $cda_bill->member->name ?? '' }}, {{ $cda_bill->member->desigs->designation ?? '' }}
+                                                {{ $cda_bill->member->name ?? '' }},
+                                                {{ $cda_bill->member->desigs->designation ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -1427,11 +1428,13 @@
                       height: 5px;
                     ">
 
-                    @php
-                      $grand_total_cash = ($book2_data['closing_balance_cash_in_hand'] ?? 0) + ($book2_data['totalPaymentsForTheDay'] ?? 0);
+                                        @php
+                                            $grand_total_cash =
+                                                ($book2_data['closing_balance_cash_in_hand'] ?? 0) +
+                                                ($book2_data['totalPaymentsForTheDay'] ?? 0);
 
-                    @endphp
-                     {{-- @dd($book2_data['closing_balance_cash_in_hand'], $book2_data['totalPaymentsForTheDay'], $grand_total_cash) --}}
+                                        @endphp
+                                        {{-- @dd($book2_data['closing_balance_cash_in_hand'], $book2_data['totalPaymentsForTheDay'], $grand_total_cash) --}}
                                         {{-- {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }} --}}
                                         {{ number_format($grand_total_cash, 2) ?? 0 }}
                                     </td>
@@ -1516,7 +1519,7 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        
+
                                     </td>
                                     <td
                                         style="
