@@ -236,6 +236,7 @@ class CdaBillAuditTeamController extends Controller
     public function edit(string $id)
     {
         $cdaBill = CdaBillAuditTeam::findOrFail($id);
+        $variable_types = VariableType::orderBy('id', 'desc')->where('status', 1)->get();
 
         // Check if the bill is editable
         if (!$cdaBill->isEditable()) {
@@ -243,7 +244,7 @@ class CdaBillAuditTeamController extends Controller
         }
 
         return response()->json([
-            'view' => view('imprest.cda-bills.edit-form', compact('cdaBill'))->render()
+            'view' => view('imprest.cda-bills.edit-form', compact('cdaBill', 'variable_types'))->render()
         ]);
     }
 
@@ -263,11 +264,13 @@ class CdaBillAuditTeamController extends Controller
         $request->validate([
             'cda_bill_no' => 'required|string',
             'cda_bill_date' => 'required|date',
+            'variable_id' => 'required|integer',
         ]);
 
         // Update the CDA bill
         $cdaBill->cda_bill_no = $request->cda_bill_no;
         $cdaBill->cda_bill_date = $request->cda_bill_date;
+        $cdaBill->variable_id = $request->variable_id;
         $cdaBill->save();
 
         session()->flash('message', 'CDA bill updated successfully');
@@ -276,18 +279,28 @@ class CdaBillAuditTeamController extends Controller
 
     public function delete($id)
     {
+        $cda_bill = CdaBillAuditTeam::findOrFail($id);
 
-        $cda_bill =  CdaBillAuditTeam::findOrFail($id);
+        // First fetch the related settlement
+        $advSettlement = AdvanceSettlement::find($cda_bill->settle_id);
+
+        if ($advSettlement) {
+
+            // Update bill status in AdvanceSettlement
+            $advSettlement->bill_status = 0;
+            $advSettlement->receipt_status = 0;
+            $advSettlement->save();
+        }
+
+        // Delete related CDA receipts
         CDAReceipt::where('bill_id', $id)->delete();
-        AdvanceSettlement::where('id', $id)
-            ->update(['bill_status' => 0, 'receipt_status' => 0]);
+
+        // Delete the CDA bill itself
         $cda_bill->delete();
 
         session()->flash('message', 'CDA bill deleted successfully');
         return redirect()->back()->with('message', 'CDA bill deleted successfully');
     }
-
-
 
     /**
      * Remove the specified resource from storage.

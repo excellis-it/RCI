@@ -44,8 +44,15 @@
                         <td>{{ $advance_settel->chq_date ?? 'N/A' }}
                             <input type="hidden" name="chq_date[]" value="{{ $advance_settel->chq_date }}">
                         </td>
-                        <td>{{ $advance_settel->variableType->name ?? 'N/A' }}
-                            <input type="hidden" name="variable_id[]" value="{{ $advance_settel->var_type_id }}">
+                        <td>
+                            <select class="form-control form-select" name="variable_id[]">
+                                @foreach ($variable_types as $variable_type)
+                                    <option value="{{ $variable_type->id }}"
+                                        {{ $advance_settel->var_type_id == $variable_type->id ? 'selected' : '' }}>
+                                        {{ $variable_type->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </td>
                         <td><input class="bill_check_input" type="checkbox" name="bills[]"
                                 value="{{ $advance_settel->id }}" id="">
