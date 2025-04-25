@@ -84,10 +84,15 @@
                                             <td>{{ $receipt_bill->dv_no ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->dv_date ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->rct_vr_amount ?? 'N/A' }}</td>
-                                            <td>
+                                            <td class="sepharate">
                                                 <a href="#" class="edit-receipt edit_pencil ms-2"
                                                     data-id="{{ $receipt_bill->id }}">
                                                     <i class="ti ti-pencil"></i>
+                                                </a>
+                                                <a href="javascript:void(0);"
+                                                    class="delete-receipt edit_pencil text-danger ms-2" id="delete"
+                                                    data-route="{{ route('cda-receipts.delete', $receipt_bill->bill_id) }}">
+                                                    <i class="ti ti-trash"></i>
                                                 </a>
                                             </td>
                                         </tr>

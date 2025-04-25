@@ -274,17 +274,18 @@ class CdaBillAuditTeamController extends Controller
         return response()->json(['success' => 'CDA bill updated successfully']);
     }
 
-    // public function delete($id)
-    // {
+    public function delete($id)
+    {
 
-    //     $cda_bill =  CdaBillAuditTeam::findOrFail($id);
-    //     CDAReceipt::where('bill_id', $id)->delete();
-    //     AdvanceSettlement::where('id', $id)
-    //     ->update(['bill_status'=>0,'receipt_status'=>0]);
-    //     $cda_bill->delete();
+        $cda_bill =  CdaBillAuditTeam::findOrFail($id);
+        CDAReceipt::where('bill_id', $id)->delete();
+        AdvanceSettlement::where('id', $id)
+            ->update(['bill_status' => 0, 'receipt_status' => 0]);
+        $cda_bill->delete();
 
-    //     return redirect()->back()->with('message', 'CDA bill deleted successfully');
-    // }
+        session()->flash('message', 'CDA bill deleted successfully');
+        return redirect()->back()->with('message', 'CDA bill deleted successfully');
+    }
 
 
 

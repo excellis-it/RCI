@@ -321,7 +321,7 @@
                                         </td>
                                         <td
                                             style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            {{ $new_count_cvr == 0 ? 'Cheque No.-' . $key ?? '-' : '' }}
+                                            {{ $new_count_cvr == 0 ? 'CHQ PMT, CHQ NO.-' . $key . ', ' . (isset($vr_no_print->cheq_date) ? \Carbon\Carbon::parse($vr_no_print->cheq_date)->format('d-m-Y') : '') : '' }}
                                         </td>
                                         <td
                                             style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -608,7 +608,8 @@
                                 </td>
                                 <td
                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
-                                    {{ $new_count_cvr == 0 ? 'Cheque No.-' . $key ?? '-' : '' }}
+                                    {{-- {{ $new_count_cvr == 0 ? 'Cheque No.-' . $key ?? '-' : '' }} --}}
+                                    {{ $new_count_cvr == 0 ? 'CHQ PMT, CHQ NO.-' . $key . ', ' . (isset($vr_no_print->cheq_date) ? \Carbon\Carbon::parse($vr_no_print->cheq_date)->format('d-m-Y') : '') : '' }}
                                 </td>
                                 <td
                                     style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">

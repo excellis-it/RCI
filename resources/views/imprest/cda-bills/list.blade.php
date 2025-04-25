@@ -107,11 +107,15 @@
                                             <td>{{ $advance_bill->chq_no ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->chq_date ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->variableType->name ?? 'N/A' }}</td>
-                                            <td>
+                                            <td class="sepharate">
                                                 @if ($advance_bill->isEditable())
                                                     <a href="#" class="edit-bill edit_pencil ms-2"
                                                         data-id="{{ $advance_bill->id }}" title="Edit">
                                                         <i class="ti ti-pencil"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="delete-cda-bill edit_pencil text-danger ms-2"
+                                                        data-route="{{ route('cda-bills.delete', $advance_bill->id) }}">
+                                                        <i class="ti ti-trash"></i>
                                                     </a>
                                                 @else
                                                     {{-- <i class="ti ti-lock text-muted"
@@ -174,7 +178,7 @@
         });
     </script>
     <script>
-        $(document).on('click', '#delete', function(e) {
+        $(document).on('click', '.delete-cda-bill', function(e) {
             swal({
                     title: "Are you sure?",
                     text: "To delete this Cda Bill!",

@@ -17,7 +17,7 @@
                     <a data-route="{{ route('advance-funds.edit', $advance_fund->id) }}" href="javascript:void(0);"
                         class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
 
-                    <a href="javascript:void(0);" class="delete-advance-funds edit_pencil ms-2"
+                    <a href="javascript:void(0);" class="delete-advance-funds edit_pencil text-danger ms-2"
                         id="delete-advance-funds" data-route="{{ route('advance-funds.delete', $advance_fund->id) }}">
                         <i class="ti ti-trash"></i>
                     </a>
