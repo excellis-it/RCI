@@ -191,106 +191,80 @@ class MemberController extends Controller
             'month_year' => 'required',
         ]);
 
-        // Extract month and year from month_year (format: MM-YYYY)
-        $monthYear = explode('-', $request->month_year);
-        $month = $monthYear[0];
-        $year = $monthYear[1];
+        // Extract month and year
+        [$month, $year] = explode('-', $request->month_year);
 
-        // Check if record already exists
+        $data = $request->only([
+            'annual_rent',
+            'ph_disable',
+            'fd_int',
+            'nsc_ctd',
+            't_fee',
+            'hba_int',
+            'edu_loan_int',
+            'nscint',
+            'hba_prncpl',
+            'ohters_s',
+            'hba_int_80ee',
+            'others_d',
+            'letout',
+            'pli',
+            'infa_bond',
+            'ac_int_80tta',
+            'pension',
+            'js_sukanya',
+            'nsdl',
+            'med_trt',
+            'equity_mf',
+            'ppf',
+            'lic',
+            'sec_89',
+            'cancer',
+            'cancer_amount',
+            'cea',
+            'bonds',
+            'ulip',
+            'ph',
+            'med_ins_80d',
+            'med_ins_senior_dependent',
+            'cancer_80ddb_senior_dependent',
+            'med_tri_80dd_disability',
+            'ph_disable_80u_disability',
+            'it_rules'
+        ]);
+
+        // Convert checkboxes/select values to boolean
+        $data['med_ins_80d'] = $request->med_ins == 'Yes' ? 1 : 0;
+        $data['med_ins_senior_dependent'] = $request->med_ins == 'Yes' ? 1 : 0;
+        $data['cancer_80ddb_senior_dependent'] = $request->cancer == 'Yes' ? 1 : 0;
+        $data['med_tri_80dd_disability'] = $request->med_tri == 'Yes' ? 1 : 0;
+        $data['ph_disable_80u_disability'] = $request->server_dis == 'Yes' ? 1 : 0;
+        $data['it_rules'] = $request->it_rules == 'Yes' ? 1 : 0;
+
+        $data['member_id'] = $request->member_id;
+        $data['month'] = $month;
+        $data['year'] = $year;
+
         $existingSaving = IncomeTaxSaving::where('member_id', $request->member_id)
             ->where('month', $month)
             ->where('year', $year)
             ->first();
 
-
-
         if ($existingSaving) {
-            // Update existing record
-            $existingSaving->update([
-                'var_incr' => $request->var_incr,
-                'misc' => $request->misc,
-                'p_tax' => $request->p_tax,
-                'hdfc' => $request->hdfc,
-                'basic' => $request->basic,
-                'da' => $request->da,
-                'ot' => $request->ot,
-                'i_tax' => $request->i_tax,
-                'd_misc' => $request->d_misc,
-                'd_pay' => $request->d_pay,
-                'hra' => $request->hra,
-                'arrears' => $request->arrears,
-                'hba' => $request->hba,
-                'gmc' => $request->gmc,
-                's_pay' => $request->s_pay,
-                'cca' => $request->cca,
-                'gpf' => $request->gpf,
-                'pli' => $request->pli,
-                'e_pay' => $request->e_pay,
-                'tpt' => $request->tpt,
-                'cgeis' => $request->cgeis,
-                'lic' => $request->lic,
-                'add_incr' => $request->add_incr,
-                'wash_ajw' => $request->wash_ajw,
-                'cghs' => $request->cghs,
-                'eol_hpl' => $request->eol_hpl,
-                'med_ins_80d' => $request->med_ins == 'Yes' ? 1 : 0,
-                'med_ins_senior_dependent' => $request->med_ins == 'Yes' ? 1 : 0,
-                'cancer_80ddb_senior_dependent' => $request->cancer == 'Yes' ? 1 : 0,
-                'med_tri_80dd_disability' => $request->med_tri == 'Yes' ? 1 : 0,
-                'ph_disable_80u_disability' => $request->server_dis == 'Yes' ? 1 : 0,
-                'it_rules' => $request->it_rules == 'Yes' ? 1 : 0,
-            ]);
-
+            $existingSaving->update($data);
             return response()->json([
                 'status' => true,
                 'message' => 'Savings data updated successfully',
             ]);
         } else {
-            // Create new record
-            IncomeTaxSaving::create([
-                'member_id' => $request->member_id,
-                'month' => $month,
-                'year' => $year,
-                'var_incr' => $request->var_incr,
-                'misc' => $request->misc,
-                'p_tax' => $request->p_tax,
-                'hdfc' => $request->hdfc,
-                'basic' => $request->basic,
-                'da' => $request->da,
-                'ot' => $request->ot,
-                'i_tax' => $request->i_tax,
-                'd_misc' => $request->d_misc,
-                'd_pay' => $request->d_pay,
-                'hra' => $request->hra,
-                'arrears' => $request->arrears,
-                'hba' => $request->hba,
-                'gmc' => $request->gmc,
-                's_pay' => $request->s_pay,
-                'cca' => $request->cca,
-                'gpf' => $request->gpf,
-                'pli' => $request->pli,
-                'e_pay' => $request->e_pay,
-                'tpt' => $request->tpt,
-                'cgeis' => $request->cgeis,
-                'lic' => $request->lic,
-                'add_incr' => $request->add_incr,
-                'wash_ajw' => $request->wash_ajw,
-                'cghs' => $request->cghs,
-                'eol_hpl' => $request->eol_hpl,
-                'med_ins_80d' => $request->med_ins == 'Yes' ? 1 : 0,
-                'med_ins_senior_dependent' => $request->med_ins == 'Yes' ? 1 : 0,
-                'cancer_80ddb_senior_dependent' => $request->cancer == 'Yes' ? 1 : 0,
-                'med_tri_80dd_disability' => $request->med_tri == 'Yes' ? 1 : 0,
-                'ph_disable_80u_disability' => $request->server_dis == 'Yes' ? 1 : 0,
-                'it_rules' => $request->it_rules == 'Yes' ? 1 : 0,
-            ]);
-
+            IncomeTaxSaving::create($data);
             return response()->json([
                 'status' => true,
                 'message' => 'Savings data added successfully',
             ]);
         }
     }
+
 
     public function getSavingData(Request $request)
     {
