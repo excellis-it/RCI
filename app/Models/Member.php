@@ -125,31 +125,31 @@ class Member extends Model
 
     public function memberCredit()
     {
-        return $this->hasOne(MemberCredit::class, 'member_id')->orderBy('id', 'desc');
+        return $this->hasOne(MemberMonthlyDataCredit::class, 'member_id')->orderBy('id', 'desc');
     }
 
 
 
     public function memberDebit()
     {
-        return $this->hasMany(MemberDebit::class, 'member_id')->latest();
+        return $this->hasMany(MemberMonthlyDataDebit::class, 'member_id')->latest();
     }
 
 
     public function memberOneDebit()
     {
-        return $this->hasOne(MemberDebit::class, 'member_id')->latest();
+        return $this->hasOne(MemberMonthlyDataDebit::class, 'member_id')->latest();
     }
 
     public function memberOneRecovery()
     {
-        return $this->hasOne(MemberRecovery::class, 'member_id')->latest();
+        return $this->hasOne(MemberMonthlyDataRecovery::class, 'member_id')->latest();
     }
 
 
     public function memberRecovery()
     {
-        return $this->hasMany(MemberRecovery::class, 'member_id')->latest();
+        return $this->hasMany(MemberMonthlyDataRecovery::class, 'member_id')->latest();
     }
 
     public function memberPersonalInfo()
@@ -159,7 +159,7 @@ class Member extends Model
 
     public function memberCoreInfo()
     {
-        return $this->hasOne(MemberCoreInfo::class, 'member_id');
+        return $this->hasOne(MemberMonthlyDataCoreInfo::class, 'member_id');
     }
 
     public function gPay()

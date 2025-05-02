@@ -163,6 +163,7 @@
                                             </div>
 
                                             <!-- Month Dropdown -->
+                                            {{-- @dd( $current_month) --}}
                                             <div class="form-group col-md-6 mb-2">
                                                 <label for="month">Month</label>
                                                 <select class="form-select" name="month" id="month">
@@ -201,3 +202,47 @@
 
     </div>
 @endsection
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1; // getMonth returns 0-indexed value
+
+        // Function to populate months
+        function populateMonths(selectedYear) {
+            let $monthSelect = $('#month');
+            let prevSelected = $monthSelect.val(); // store previously selected month
+            $monthSelect.empty(); // clear existing options
+
+            let maxMonth = 12;
+            if (parseInt(selectedYear) == currentYear) {
+                maxMonth = currentMonth;
+            }
+
+            for (let m = 1; m <= maxMonth; m++) {
+                let monthVal = m.toString().padStart(2, '0');
+                let monthName = new Date(2000, m - 1, 1).toLocaleString('default', { month: 'long' });
+
+                // Select currentMonth if year is current and no previous selection,
+                // or retain previous selected month if it exists
+                let isSelected =
+                    (selectedYear == currentYear && m === currentMonth && !prevSelected) ||
+                    (monthVal === prevSelected);
+
+                $monthSelect.append(
+                    `<option value="${monthVal}" ${isSelected ? 'selected' : ''}>${monthName}</option>`
+                );
+            }
+        }
+
+        // Initial call on page load
+        populateMonths($('#year').val());
+
+        // Change event on year dropdown
+        $('#year').on('change', function () {
+            populateMonths($(this).val());
+        });
+    });
+</script>
+
+@endpush

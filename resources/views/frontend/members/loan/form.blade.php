@@ -7,7 +7,7 @@
         <input type="hidden" name="member_id" id="member_id" value="{{ $member_loan->member_id }}">
         <input type="hidden" name="current_year" value="{{ $currentYear }}">
         <input type="hidden" name="current_month" value="{{ $currentMonth }}">
-        
+
         <div class="row">
 
             <div class="form-group mb-2">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
-                            value="{{ $member_loan->present_inst_no }}" placeholder="">
+                            value="{{ $member_loan->present_inst_no }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
-                            value="" placeholder="">
+                            value="1" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

@@ -6,7 +6,7 @@
         <input type="hidden" name="member_id" id="exp_member_id" value="{{ $member_expectation->member_id }}">
         <input type="hidden" name="current_year" value="{{ $currentYear }}">
         <input type="hidden" name="current_month" value="{{ $currentMonth }}">
-        
+
         <div class="form-group mb-2">
             <div class="row align-items-center">
                 <div class="col-md-12">
@@ -54,7 +54,7 @@
                                 <label>Year</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" value="{{ $member_expectation->year }}" name="year"
+                                <input type="text" value="{{ $member_expectation->amount_year }}" name="year"
                                     class="form-control" id="exp_year" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -66,7 +66,7 @@
                                 <label>Month</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" value="{{ $member_expectation->month }}" name="month"
+                                <input type="text" value="{{ $member_expectation->amount_month }}" name="month"
                                     class="form-control" id="exp_month" readonly>
                                 <span class="text-danger"></span>
                             </div>
@@ -186,28 +186,28 @@
                                 <select class="form-select" name="month" id="exp_month">
                                     <option value="">Select</option>
                                     @php
-                                        $monthsSe = [
-                                            1 => 'January',
-                                            2 => 'February',
-                                            3 => 'March',
-                                            4 => 'April',
-                                            5 => 'May',
-                                            6 => 'June',
-                                            7 => 'July',
-                                            8 => 'August',
-                                            9 => 'September',
-                                            10 => 'October',
-                                            11 => 'November',
-                                            12 => 'December',
-                                        ];
-                                        $currentMonth = (int) date('m');
-                                    @endphp
+                                    $monthsSe = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                    $currentMonth = date('m');
+                                @endphp
 
                                     @foreach ($monthsSe as $num => $name)
-                                        <option value="{{ $num }}"
-                                            {{ $num == $currentMonth ? 'selected' : '' }}>{{ $name }}</option>
+                                        <option value="{{ $num }}" {{ $num === $currentMonth ? 'selected' : '' }}>{{ $name }}</option>
                                     @endforeach
                                 </select>
+
                                 <span class="text-danger"></span>
                             </div>
                         </div>

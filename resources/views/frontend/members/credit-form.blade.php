@@ -4,7 +4,7 @@
     <input type="hidden" name="member_id" value="{{ $member->id }}">
     <input type="hidden" name="current_year" value="{{ $currentYear }}">
     <input type="hidden" name="current_month" value="{{ $currentMonth }}">
-    
+
     <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">
@@ -239,6 +239,7 @@
                 </div>
             </div>
         </div>
+        {{-- @dd($member_credit) --}}
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -247,7 +248,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="var_incr" id="var_incr"
-                            {{-- value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}" --}} value="{{ $member->var_inc_amount ?? (old('var_incr') ?? '') }}"
+                            {{-- value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}" --}} value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}"
                             placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
@@ -399,7 +400,7 @@
                         </div>
                     </div>
                 </div> --}}
-
+                {{-- @dd($member_credit->tot_credits) --}}
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">

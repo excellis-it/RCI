@@ -66,6 +66,8 @@ class MemberPayGenerate extends Controller
         $month = $month; // e.g., '04'
         $year = $year;   // e.g., '2025'
 
+        $same_date = strtotime("$year-$month-01");
+
         $previous_date = strtotime("$year-$month-01 -1 month");
 
         $previous_month = date('m', $previous_date);
@@ -180,26 +182,78 @@ class MemberPayGenerate extends Controller
                 if ($var_noi) {
                     if ($var_noi->stop == 'No') {
 
-                        $var_inc_amount = $var_noi->total;
+                        $var_inc_amount = $var_noi->v_incr;
                     }
                 }
                 // $member->var_inc_amount = $var_inc_amount;
+                $exception_this_month = MemberMonthlyDataExpectation::where('member_id', $member->id)->where('amount_month', $month)->where('amount_year', $year)->first();
 
-
-                $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
-                if (count($check_recovery_member) > 0) {
-                    $update_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
-                    if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
-                        $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
-                        $update_recovery_member->update();
-                    }
-                }
+                // $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
+                // if (count($check_recovery_member) > 0) {
+                //     $update_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
+                //     if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
+                //         $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
+                //         $update_recovery_member->update();
+                //     }
+                // }
 
 
                 $member_credit_monthly_data = new MemberMonthlyDataCredit();
                 foreach ($CreditCommonColumns as $column) {
                     $member_credit_monthly_data->$column = $member_credit->$column;
                 }
+                if ($exception_this_month) {
+                    if ($exception_this_month->rule_name == 'GPF') {
+                        $member_credit_monthly_data->gpa_sub = $exception_this_month->amount;
+                    }
+
+                    if ($exception_this_month->rule_name == 'GMC') {
+                        $member_credit_monthly_data->cmg = $exception_this_month->amount;
+                    }
+
+                    if ($exception_this_month->rule_name == 'CGHS') {
+                        $member_credit_monthly_data->cghs = $exception_this_month->amount;
+                    }
+
+                    if ($exception_this_month->rule_name == 'CGEGIS') {
+                        $member_credit_monthly_data->cgegis = $exception_this_month->amount;
+                    }
+                }
+                $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+                $basicPay = $member->basic;
+                $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+
+                $tptAmount = 0;
+                $tptDa = 0;
+                if ($member->member_city) {
+                    $city = City::find($member->member_city);
+                    if ($city && $city->tpt_type) {
+                        $tptData = Tpta::where('tpt_type', $city->tpt_type)
+                            ->where('pay_level_id', $member->pm_level)
+                            ->where('status', 1)
+                            ->first();
+                        if ($tptData) {
+                            $tptAmount = $tptData->tpt_allowance;
+                            $tptDa = ($tptAmount) / 2;
+                        }
+                    }
+                }
+
+                $hraAmount = 0;
+                if ($member->member_city) {
+                    $city = City::find($member->member_city);
+                    if ($city) {
+                        $hraPercentage = Hra::where('city_category', $city->city_type)
+                            ->where('status', 1)
+                            ->first();
+                        $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
+                    }
+                }
+
+                $member_credit_monthly_data->da = $daAmount;
+                $member_credit_monthly_data->tpt = $tptAmount;
+                $member_credit_monthly_data->da_on_tpt = $tptDa;
+                $member_credit_monthly_data->hra = $hraAmount;
 
                 $member_credit_monthly_data->var_incr = $var_inc_amount;
 
@@ -207,8 +261,56 @@ class MemberPayGenerate extends Controller
                 $member_credit_monthly_data->year = $year;
                 $member_credit_monthly_data->apply_date = date('Y-m-d');
                 $member_credit_monthly_data->save();
+
                 $member_monthly_data->credit_id = $member_credit_monthly_data->id;
+                $record_member_credit = MemberMonthlyDataCredit::find($member_monthly_data->credit_id);
+                $creditFields = [
+                    'pay',
+                    'da',
+                    'tpt',
+                    'cr_rent',
+                    'g_pay',
+                    'hra',
+                    'da_on_tpt',
+                    'cr_elec',
+                    'fpa',
+                    's_pay',
+                    'pua',
+                    'hindi',
+                    'cr_water',
+                    'add_inc2',
+                    'npa',
+                    'deptn_alw',
+                    'misc1',
+                    'var_incr',
+                    'wash_alw',
+                    'dis_alw',
+                    'misc2',
+                    'spl_incentive',
+                    'incentive',
+                    'variable_amount',
+                    'arrs_pay_alw',
+                    'risk_alw',
+                    'landline_allow',
+                    'mobile_allow',
+                    'broad_band_allow',
+                    'gpa_sub',
+                    'cmg',
+                    'cghs',
+                    'cgegis',
+                ];
+
+                $totalCredits = 0;
+                foreach ($creditFields as $field) {
+                    $value = (float) $record_member_credit->$field ?? 0;
+                    $totalCredits += $value;
+                }
+
+                $record_member_credit->tot_credits = $totalCredits;
+                $record_member_credit->save();
             }
+
+            $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
 
             // insert member debit data to member monthly data debit
             $member_debit = MemberMonthlyDataDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
@@ -252,6 +354,25 @@ class MemberPayGenerate extends Controller
                     }
                 }
 
+
+                if ($exception_this_month) {
+                    if ($exception_this_month->rule_name == 'TPT') {
+                        $member_debit_monthly_data->tpt = $exception_this_month->amount;
+                        $member_debit_monthly_data->da_on_tpt = $exception_this_month->amount / 2;
+                    }
+
+                    if ($exception_this_month->rule_name == 'DA') {
+                        $member_debit_monthly_data->da = $exception_this_month->amount;
+                    }
+
+                    if ($exception_this_month->rule_name == 'HRA') {
+                        $member_debit_monthly_data->hra = $exception_this_month->amount;
+                    }
+                }
+
+                $member_debit_monthly_data->eol = 0;
+                $member_debit_monthly_data->ccl = 0;
+
                 $member_debit_monthly_data->month = $month;
                 $member_debit_monthly_data->year = $year;
                 $member_debit_monthly_data->apply_date = date('Y-m-d');
@@ -259,6 +380,106 @@ class MemberPayGenerate extends Controller
                 $member_debit_monthly_data->net_pay = $member_debit_monthly_data->net_pay + $deduction;
                 $member_debit_monthly_data->save();
                 $member_monthly_data->debit_id = $member_debit_monthly_data->id;
+
+                $record_member_debit = MemberMonthlyDataDebit::find($member_monthly_data->debit_id);
+                $debitFields = [
+                    'gpa_sub',
+                    'gpf_adv',
+                    'nps_sub',
+                    'nps_rec',
+                    'nps_arr',
+                    'eol',
+                    'ccl',
+                    'rent',
+                    'lf_arr',
+                    'tada',
+                    'hba',
+                    'hba_cur_instl',
+                    'hba_total_instl',
+                    'hba_adv',
+                    'hba_int',
+                    'hba_int_cur_instl',
+                    'hba_int_total_instl',
+                    'misc1',
+                    'gpf_rec',
+                    'i_tax',
+                    'elec',
+                    'elec_arr',
+                    'medi',
+                    'pc',
+                    'misc2',
+                    'gpf_arr',
+                    'ecess',
+                    'water',
+                    'water_arr',
+                    'ltc',
+                    'fadv',
+                    'fest_adv_prin_cur',
+                    'fest_adv_total_cur',
+                    'misc3',
+                    'cgegis',
+                    'cda',
+                    'furn',
+                    'furn_arr',
+                    'car',
+                    'car_adv',
+                    'car_adv_prin_instl',
+                    'car_adv_total_instl',
+                    'car_int',
+                    'hra_rec',
+                    'cghs',
+                    'ptax',
+                    'cmg',
+                    'pli',
+                    'scooter',
+                    'sco_adv',
+                    'scot_adv_prin_instl',
+                    'scot_adv_total_instl',
+                    'sco_int',
+                    'sco_adv_int_curr_instl',
+                    'sco_adv_int_total_instl',
+                    'comp_adv',
+                    'comp_prin_curr_instl',
+                    'comp_prin_total_instl',
+                    'comp_adv_int',
+                    'comp_int_curr_instl',
+                    'comp_int_total_instl',
+                    'comp_int',
+                    'tpt_rec',
+                    'leave_rec',
+                    'ltc_rec',
+                    'medical_rec',
+                    'tada_rec',
+                    'pension_rec',
+                    'quarter_charges',
+                    'cgeis_arr',
+                    'cghs_arr',
+                    'penal_intr',
+                    'arrear_pay',
+                    'npsg',
+                    'npsg_arr',
+                    'npsg_adj',
+                    'society'
+                ];
+
+                $totalDebits = 0;
+                foreach ($debitFields as $field) {
+                    $totalDebits += (float) $record_member_debit->$field;
+                }
+
+                $total_loan = 0;
+                if (count($member_loan_infos) > 0) {
+                    foreach ($member_loan_infos as $member_loan) {
+                        if ($member_loan->tot_no_of_inst > $member_loan->present_inst_no) {
+                            $total_loan += $member_loan->inst_amount;
+                        }
+                    }
+                }
+
+                $grossDebits = $totalDebits + $total_loan;
+                $record_member_debit->tot_debits =  $grossDebits;
+                $record_member_debit->net_pay =   $totalCredits - $grossDebits;
+                $record_member_debit->save();
             }
 
             // insert member recovery data to member monthly data recovery
@@ -297,11 +518,58 @@ class MemberPayGenerate extends Controller
                     $member_recovery_monthly_data->wel_rec = $wel_rec;
                 }
 
+                if ($exception_this_month) {
+                    if ($exception_this_month->rule_name == 'Wellfare') {
+                        $member_recovery_monthly_data->wel_sub = $exception_this_month->amount;
+                    }
+
+                    if ($exception_this_month->rule_name == 'MESS') {
+                        $member_recovery_monthly_data->mess = $exception_this_month->amount;
+                    }
+
+                    if ($exception_this_month->rule_name == 'Prof TAX') {
+                        $member_recovery_monthly_data->ptax = $exception_this_month->amount;
+                    }
+                }
+
                 $member_recovery_monthly_data->month = $month;
                 $member_recovery_monthly_data->year = $year;
                 $member_recovery_monthly_data->apply_date = date('Y-m-d');
                 $member_recovery_monthly_data->save();
                 $member_monthly_data->recovery_id = $member_recovery_monthly_data->id;
+
+
+                $record_member_recovery = MemberMonthlyDataRecovery::find($member_monthly_data->recovery_id);
+                $recoveryFields = [
+                    'ccs_sub',
+                    'ptax',
+                    'mess',
+                    'security',
+                    'misc1',
+                    'ccs_rec',
+                    'asso_fee',
+                    'dbf',
+                    'misc2',
+                    'wel_sub',
+                    'ben',
+                    'med_ins',
+                    'wel_rec',
+                    'hdfc',
+                    'maf',
+                    'final_pay',
+                    'lic',
+                    'cort_atch',
+                    'ogpf',
+                    'ntp',
+                ];
+
+                $totalRecoveries = 0;
+                foreach ($recoveryFields as $field) {
+                    $totalRecoveries += (float) $record_member_recovery->$field;
+                }
+
+                $record_member_recovery->tot_rec = $totalRecoveries;
+                $record_member_recovery->save();
             }
 
             // insert member core info data to member monthly data core info
@@ -311,6 +579,13 @@ class MemberPayGenerate extends Controller
                 foreach ($CoreInfoCommonColumns as $column) {
                     $member_core_info_monthly_data->$column = $member_core_info->$column;
                 }
+
+                if ($exception_this_month) {
+                    if ($exception_this_month->rule_name == 'GPF') {
+                        $member_core_info_monthly_data->gpf_sub = $exception_this_month->amount;
+                    }
+                }
+
                 $member_core_info_monthly_data->month = $month;
                 $member_core_info_monthly_data->year = $year;
                 $member_core_info_monthly_data->apply_date = date('Y-m-d');
@@ -337,19 +612,24 @@ class MemberPayGenerate extends Controller
             }
 
             // insert member loan info data to member monthly data loan info
-            $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
+
             $loan_info_ids = [];
             if (count($member_loan_infos) > 0) {
                 foreach ($member_loan_infos as $member_loan_info) {
-                    $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
-                    foreach ($LoanInfoCommonColumns as $column) {
-                        $member_loan_info_monthly_data->$column = $member_loan_info->$column;
+                    if ($member_loan_info->tot_no_of_inst > $member_loan_info->present_inst_no) {
+                        $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
+
+                        foreach ($LoanInfoCommonColumns as $column) {
+                            $member_loan_info_monthly_data->$column = $member_loan_info->$column;
+                        }
+
+                        $member_loan_info->present_inst_no = $member_loan_info->present_inst_no - 1;
+                        $member_loan_info_monthly_data->month = $month;
+                        $member_loan_info_monthly_data->year = $year;
+                        $member_loan_info_monthly_data->apply_date = date('Y-m-d');
+                        $member_loan_info_monthly_data->save();
+                        $loan_info_ids[] = $member_loan_info_monthly_data->id;
                     }
-                    $member_loan_info_monthly_data->month = $month;
-                    $member_loan_info_monthly_data->year = $year;
-                    $member_loan_info_monthly_data->apply_date = date('Y-m-d');
-                    $member_loan_info_monthly_data->save();
-                    $loan_info_ids[] = $member_loan_info_monthly_data->id;
                 }
                 // $member_monthly_data->loan_info_ids = json_encode($loan_info_ids);
             }
@@ -359,15 +639,23 @@ class MemberPayGenerate extends Controller
             $expectation_ids = [];
             if (count($member_expectations) > 0) {
                 foreach ($member_expectations as $member_expectation) {
-                    $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
-                    foreach ($ExpectationCommonColumns as $column) {
-                        $member_expectation_monthly_data->$column = $member_expectation->$column;
+                    // Check if the member's amount_year and amount_month is >= selected year and month
+                    $expYear = (int)$member_expectation->amount_year;
+                    $expMonth = (int)$member_expectation->amount_month;
+                    $selectedYear = (int)$year;
+                    $selectedMonth = (int)$month;
+
+                    if ($expYear > $selectedYear || ($expYear === $selectedYear && $expMonth >= $selectedMonth)) {
+                        $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
+                        foreach ($ExpectationCommonColumns as $column) {
+                            $member_expectation_monthly_data->$column = $member_expectation->$column;
+                        }
+                        $member_expectation_monthly_data->month = $month;
+                        $member_expectation_monthly_data->year = $year;
+                        $member_expectation_monthly_data->apply_date = date('Y-m-d');
+                        $member_expectation_monthly_data->save();
+                        $expectation_ids[] = $member_expectation_monthly_data->id;
                     }
-                    $member_expectation_monthly_data->month = $month;
-                    $member_expectation_monthly_data->year = $year;
-                    $member_expectation_monthly_data->apply_date = date('Y-m-d');
-                    $member_expectation_monthly_data->save();
-                    $expectation_ids[] = $member_expectation_monthly_data->id;
                 }
                 // $member_monthly_data->expectation_ids = json_encode($expectation_ids);
             }
@@ -379,6 +667,7 @@ class MemberPayGenerate extends Controller
                 foreach ($VarInfoCommonColumns as $column) {
                     $member_var_info_monthly_data->$column = $member_var_info->$column;
                 }
+
                 $member_var_info_monthly_data->month = $month;
                 $member_var_info_monthly_data->year = $year;
                 $member_var_info_monthly_data->apply_date = date('Y-m-d');
@@ -429,26 +718,78 @@ class MemberPayGenerate extends Controller
                     if ($var_noi) {
                         if ($var_noi->stop == 'No') {
 
-                            $var_inc_amount = $var_noi->total;
+                            $var_inc_amount = $var_noi->v_incr;
                         }
                     }
                     // $member->var_inc_amount = $var_inc_amount;
+                    $exception_this_month = MemberMonthlyDataExpectation::where('member_id', $member->id)->where('amount_month', $month)->where('amount_year', $year)->first();
 
-
-                    $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
-                    if (count($check_recovery_member) > 0) {
-                        $update_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
-                        if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
-                            $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
-                            $update_recovery_member->update();
-                        }
-                    }
+                    // $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
+                    // if (count($check_recovery_member) > 0) {
+                    //     $update_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->first();
+                    //     if ($update_recovery_member->noi_pending > 0 && $update_recovery_member->stop == 'No') {
+                    //         $update_recovery_member->noi_pending = $update_recovery_member->noi_pending - 1;
+                    //         $update_recovery_member->update();
+                    //     }
+                    // }
 
 
                     $member_credit_monthly_data = new MemberMonthlyDataCredit();
                     foreach ($CreditCommonColumns as $column) {
                         $member_credit_monthly_data->$column = $member_credit->$column;
                     }
+                    if ($exception_this_month) {
+                        if ($exception_this_month->rule_name == 'GPF') {
+                            $member_credit_monthly_data->gpa_sub = $exception_this_month->amount;
+                        }
+
+                        if ($exception_this_month->rule_name == 'GMC') {
+                            $member_credit_monthly_data->cmg = $exception_this_month->amount;
+                        }
+
+                        if ($exception_this_month->rule_name == 'CGHS') {
+                            $member_credit_monthly_data->cghs = $exception_this_month->amount;
+                        }
+
+                        if ($exception_this_month->rule_name == 'CGEGIS') {
+                            $member_credit_monthly_data->cgegis = $exception_this_month->amount;
+                        }
+                    }
+                    $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+                    $basicPay = $member->basic;
+                    $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+
+                    $tptAmount = 0;
+                    $tptDa = 0;
+                    if ($member->member_city) {
+                        $city = City::find($member->member_city);
+                        if ($city && $city->tpt_type) {
+                            $tptData = Tpta::where('tpt_type', $city->tpt_type)
+                                ->where('pay_level_id', $member->pm_level)
+                                ->where('status', 1)
+                                ->first();
+                            if ($tptData) {
+                                $tptAmount = $tptData->tpt_allowance;
+                                $tptDa = ($tptAmount) / 2;
+                            }
+                        }
+                    }
+
+                    $hraAmount = 0;
+                    if ($member->member_city) {
+                        $city = City::find($member->member_city);
+                        if ($city) {
+                            $hraPercentage = Hra::where('city_category', $city->city_type)
+                                ->where('status', 1)
+                                ->first();
+                            $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
+                        }
+                    }
+
+                    $member_credit_monthly_data->da = $daAmount;
+                    $member_credit_monthly_data->tpt = $tptAmount;
+                    $member_credit_monthly_data->da_on_tpt = $tptDa;
+                    $member_credit_monthly_data->hra = $hraAmount;
 
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
@@ -456,8 +797,56 @@ class MemberPayGenerate extends Controller
                     $member_credit_monthly_data->year = $year;
                     $member_credit_monthly_data->apply_date = date('Y-m-d');
                     $member_credit_monthly_data->save();
+
                     $member_monthly_data->credit_id = $member_credit_monthly_data->id;
+                    $record_member_credit = MemberMonthlyDataCredit::find($member_monthly_data->credit_id);
+                    $creditFields = [
+                        'pay',
+                        'da',
+                        'tpt',
+                        'cr_rent',
+                        'g_pay',
+                        'hra',
+                        'da_on_tpt',
+                        'cr_elec',
+                        'fpa',
+                        's_pay',
+                        'pua',
+                        'hindi',
+                        'cr_water',
+                        'add_inc2',
+                        'npa',
+                        'deptn_alw',
+                        'misc1',
+                        'var_incr',
+                        'wash_alw',
+                        'dis_alw',
+                        'misc2',
+                        'spl_incentive',
+                        'incentive',
+                        'variable_amount',
+                        'arrs_pay_alw',
+                        'risk_alw',
+                        'landline_allow',
+                        'mobile_allow',
+                        'broad_band_allow',
+                        'gpa_sub',
+                        'cmg',
+                        'cghs',
+                        'cgegis',
+                    ];
+
+                    $totalCredits = 0;
+                    foreach ($creditFields as $field) {
+                        $value = (float) $record_member_credit->$field ?? 0;
+                        $totalCredits += $value;
+                    }
+
+                    $record_member_credit->tot_credits = $totalCredits;
+                    $record_member_credit->save();
                 }
+
+                $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
 
                 // insert member debit data to member monthly data debit
                 $member_debit = MemberMonthlyDataDebit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
@@ -501,6 +890,23 @@ class MemberPayGenerate extends Controller
                         }
                     }
 
+
+                    if ($exception_this_month) {
+                        if ($exception_this_month->rule_name == 'TPT') {
+                            $member_debit_monthly_data->tpt = $exception_this_month->amount;
+                            $member_debit_monthly_data->da_on_tpt = $exception_this_month->amount / 2;
+                        }
+
+                        if ($exception_this_month->rule_name == 'DA') {
+                            $member_debit_monthly_data->da = $exception_this_month->amount;
+                        }
+
+                        if ($exception_this_month->rule_name == 'HRA') {
+                            $member_debit_monthly_data->hra = $exception_this_month->amount;
+                        }
+                    }
+
+
                     $member_debit_monthly_data->month = $month;
                     $member_debit_monthly_data->year = $year;
                     $member_debit_monthly_data->apply_date = date('Y-m-d');
@@ -508,6 +914,107 @@ class MemberPayGenerate extends Controller
                     $member_debit_monthly_data->net_pay = $member_debit_monthly_data->net_pay + $deduction;
                     $member_debit_monthly_data->save();
                     $member_monthly_data->debit_id = $member_debit_monthly_data->id;
+
+                    $record_member_debit = MemberMonthlyDataDebit::find($member_monthly_data->debit_id);
+                    $debitFields = [
+                        'gpa_sub',
+                        'gpf_adv',
+                        'nps_sub',
+                        'nps_rec',
+                        'nps_arr',
+                        'eol',
+                        'ccl',
+                        'rent',
+                        'lf_arr',
+                        'tada',
+                        'hba',
+                        'hba_cur_instl',
+                        'hba_total_instl',
+                        'hba_adv',
+                        'hba_int',
+                        'hba_int_cur_instl',
+                        'hba_int_total_instl',
+                        'misc1',
+                        'gpf_rec',
+                        'i_tax',
+                        'elec',
+                        'elec_arr',
+                        'medi',
+                        'pc',
+                        'misc2',
+                        'gpf_arr',
+                        'ecess',
+                        'water',
+                        'water_arr',
+                        'ltc',
+                        'fadv',
+                        'fest_adv_prin_cur',
+                        'fest_adv_total_cur',
+                        'misc3',
+                        'cgegis',
+                        'cda',
+                        'furn',
+                        'furn_arr',
+                        'car',
+                        'car_adv',
+                        'car_adv_prin_instl',
+                        'car_adv_total_instl',
+                        'car_int',
+                        'hra_rec',
+                        'cghs',
+                        'ptax',
+                        'cmg',
+                        'pli',
+                        'scooter',
+                        'sco_adv',
+                        'scot_adv_prin_instl',
+                        'scot_adv_total_instl',
+                        'sco_int',
+                        'sco_adv_int_curr_instl',
+                        'sco_adv_int_total_instl',
+                        'comp_adv',
+                        'comp_prin_curr_instl',
+                        'comp_prin_total_instl',
+                        'comp_adv_int',
+                        'comp_int_curr_instl',
+                        'comp_int_total_instl',
+                        'comp_int',
+                        'tpt_rec',
+                        'basic',
+                        'leave_rec',
+                        'ltc_rec',
+                        'medical_rec',
+                        'tada_rec',
+                        'pension_rec',
+                        'quarter_charges',
+                        'cgeis_arr',
+                        'cghs_arr',
+                        'penal_intr',
+                        'arrear_pay',
+                        'npsg',
+                        'npsg_arr',
+                        'npsg_adj',
+                        'society'
+                    ];
+
+                    $totalDebits = 0;
+                    foreach ($debitFields as $field) {
+                        $totalDebits += (float) $record_member_debit->$field;
+                    }
+
+                    $total_loan = 0;
+                    if (count($member_loan_infos) > 0) {
+                        foreach ($member_loan_infos as $member_loan) {
+                            if ($member_loan->tot_no_of_inst > $member_loan->present_inst_no) {
+                                $total_loan += $member_loan->inst_amount;
+                            }
+                        }
+                    }
+
+                    $grossDebits = $totalDebits + $total_loan;
+                    $record_member_debit->tot_debits =  $grossDebits;
+                    $record_member_debit->net_pay =   $totalCredits - $grossDebits;
+                    $record_member_debit->save();
                 }
 
                 // insert member recovery data to member monthly data recovery
@@ -546,11 +1053,58 @@ class MemberPayGenerate extends Controller
                         $member_recovery_monthly_data->wel_rec = $wel_rec;
                     }
 
+                    if ($exception_this_month) {
+                        if ($exception_this_month->rule_name == 'Wellfare') {
+                            $member_recovery_monthly_data->wel_sub = $exception_this_month->amount;
+                        }
+
+                        if ($exception_this_month->rule_name == 'MESS') {
+                            $member_recovery_monthly_data->mess = $exception_this_month->amount;
+                        }
+
+                        if ($exception_this_month->rule_name == 'Prof TAX') {
+                            $member_recovery_monthly_data->ptax = $exception_this_month->amount;
+                        }
+                    }
+
                     $member_recovery_monthly_data->month = $month;
                     $member_recovery_monthly_data->year = $year;
                     $member_recovery_monthly_data->apply_date = date('Y-m-d');
                     $member_recovery_monthly_data->save();
                     $member_monthly_data->recovery_id = $member_recovery_monthly_data->id;
+
+
+                    $record_member_recovery = MemberMonthlyDataRecovery::find($member_monthly_data->recovery_id);
+                    $recoveryFields = [
+                        'ccs_sub',
+                        'ptax',
+                        'mess',
+                        'security',
+                        'misc1',
+                        'ccs_rec',
+                        'asso_fee',
+                        'dbf',
+                        'misc2',
+                        'wel_sub',
+                        'ben',
+                        'med_ins',
+                        'wel_rec',
+                        'hdfc',
+                        'maf',
+                        'final_pay',
+                        'lic',
+                        'cort_atch',
+                        'ogpf',
+                        'ntp',
+                    ];
+
+                    $totalRecoveries = 0;
+                    foreach ($recoveryFields as $field) {
+                        $totalRecoveries += (float) $record_member_recovery->$field;
+                    }
+
+                    $record_member_recovery->tot_rec = $totalRecoveries;
+                    $record_member_recovery->save();
                 }
 
                 // insert member core info data to member monthly data core info
@@ -560,6 +1114,13 @@ class MemberPayGenerate extends Controller
                     foreach ($CoreInfoCommonColumns as $column) {
                         $member_core_info_monthly_data->$column = $member_core_info->$column;
                     }
+
+                    if ($exception_this_month) {
+                        if ($exception_this_month->rule_name == 'GPF') {
+                            $member_core_info_monthly_data->gpf_sub = $exception_this_month->amount;
+                        }
+                    }
+
                     $member_core_info_monthly_data->month = $month;
                     $member_core_info_monthly_data->year = $year;
                     $member_core_info_monthly_data->apply_date = date('Y-m-d');
@@ -586,19 +1147,24 @@ class MemberPayGenerate extends Controller
                 }
 
                 // insert member loan info data to member monthly data loan info
-                $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get();
+
                 $loan_info_ids = [];
                 if (count($member_loan_infos) > 0) {
                     foreach ($member_loan_infos as $member_loan_info) {
-                        $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
-                        foreach ($LoanInfoCommonColumns as $column) {
-                            $member_loan_info_monthly_data->$column = $member_loan_info->$column;
+                        if ($member_loan_info->tot_no_of_inst > $member_loan_info->present_inst_no) {
+                            $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
+
+                            foreach ($LoanInfoCommonColumns as $column) {
+                                $member_loan_info_monthly_data->$column = $member_loan_info->$column;
+                            }
+
+                            $member_loan_info->present_inst_no = $member_loan_info->present_inst_no - 1;
+                            $member_loan_info_monthly_data->month = $month;
+                            $member_loan_info_monthly_data->year = $year;
+                            $member_loan_info_monthly_data->apply_date = date('Y-m-d');
+                            $member_loan_info_monthly_data->save();
+                            $loan_info_ids[] = $member_loan_info_monthly_data->id;
                         }
-                        $member_loan_info_monthly_data->month = $month;
-                        $member_loan_info_monthly_data->year = $year;
-                        $member_loan_info_monthly_data->apply_date = date('Y-m-d');
-                        $member_loan_info_monthly_data->save();
-                        $loan_info_ids[] = $member_loan_info_monthly_data->id;
                     }
                     // $member_monthly_data->loan_info_ids = json_encode($loan_info_ids);
                 }
@@ -608,15 +1174,23 @@ class MemberPayGenerate extends Controller
                 $expectation_ids = [];
                 if (count($member_expectations) > 0) {
                     foreach ($member_expectations as $member_expectation) {
-                        $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
-                        foreach ($ExpectationCommonColumns as $column) {
-                            $member_expectation_monthly_data->$column = $member_expectation->$column;
+                        // Check if the member's amount_year and amount_month is >= selected year and month
+                        $expYear = (int)$member_expectation->amount_year;
+                        $expMonth = (int)$member_expectation->amount_month;
+                        $selectedYear = (int)$year;
+                        $selectedMonth = (int)$month;
+
+                        if ($expYear > $selectedYear || ($expYear === $selectedYear && $expMonth >= $selectedMonth)) {
+                            $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
+                            foreach ($ExpectationCommonColumns as $column) {
+                                $member_expectation_monthly_data->$column = $member_expectation->$column;
+                            }
+                            $member_expectation_monthly_data->month = $month;
+                            $member_expectation_monthly_data->year = $year;
+                            $member_expectation_monthly_data->apply_date = date('Y-m-d');
+                            $member_expectation_monthly_data->save();
+                            $expectation_ids[] = $member_expectation_monthly_data->id;
                         }
-                        $member_expectation_monthly_data->month = $month;
-                        $member_expectation_monthly_data->year = $year;
-                        $member_expectation_monthly_data->apply_date = date('Y-m-d');
-                        $member_expectation_monthly_data->save();
-                        $expectation_ids[] = $member_expectation_monthly_data->id;
                     }
                     // $member_monthly_data->expectation_ids = json_encode($expectation_ids);
                 }
@@ -628,6 +1202,7 @@ class MemberPayGenerate extends Controller
                     foreach ($VarInfoCommonColumns as $column) {
                         $member_var_info_monthly_data->$column = $member_var_info->$column;
                     }
+
                     $member_var_info_monthly_data->month = $month;
                     $member_var_info_monthly_data->year = $year;
                     $member_var_info_monthly_data->apply_date = date('Y-m-d');

@@ -76,28 +76,31 @@ class ReportController extends Controller
             'report_type' => 'required',
         ]);
 
+        $month = str_pad($request->month, 2, '0', STR_PAD_LEFT); // Ensure two digits (e.g., 03)
+        $year = $request->year;
+
         if ($request->report_type == 'group') {
 
-            $month = $request->month;
-            $year = $request->year;
 
             $all_members = Member::with([
                 'memberCredit' => function ($query) use ($month, $year) {
-                    $query->whereMonth('created_at', $month)
-                        ->whereYear('created_at', $year);
+                    $query->where('month', $month)
+                        ->where('year', $year);
                 },
                 'memberOneDebit' => function ($query) use ($month, $year) {
-                    $query->whereMonth('created_at', $month)
-                        ->whereYear('created_at', $year);
+                    $query->where('month', $month)
+                        ->where('year', $year);
                 },
                 'memberCoreInfo' =>
-                function ($query) {
-                    $query->latest();
+                function ($query) use ($month, $year) {
+                    $query->where('month', $month)
+                        ->where('year', $year)->latest();
                 },
                 'memberOneRecovery' =>
                 // no month year ch3ecking
-                function ($query) {
-                    $query->latest();
+                function ($query) use ($month, $year) {
+                    $query->where('month', $month)
+                        ->where('year', $year)->latest();
                 },
             ])
 
@@ -142,10 +145,15 @@ class ReportController extends Controller
 
 
             $member_data = Member::where('id', $request->member_id)->first() ?? '';
-            $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first() ?? '';
-            $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first() ?? '';
-            $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first() ?? '';
-            $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first() ?? '';
+            $member_credit_data = MemberMonthlyDataCredit::where('member_id', $request->member_id)->first() ?? '';
+            $member_debit_data = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $month)
+                ->where('year', $year)->first() ?? '';
+            $member_core_info = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $month)
+                ->where('year', $year)->first() ?? '';
+            $member_recoveries_data = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $month)
+                ->where('year', $year)->first() ?? '';
+
+            // dd($member_credit_data, $member_debit_data,$member_core_info, $month, $year);
             $month = $request->month;
             $dateObj = \DateTime::createFromFormat('!m', $month);
             $monthName = $dateObj->format('F');
@@ -153,10 +161,38 @@ class ReportController extends Controller
             $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
             $logo = Helper::logo() ?? '';
 
-            //  return view('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'));
+            //  return view('frontend.reports.payslip-generate',[
+            //     'logo' => $logo,
+            //     'member_data' => $member_data,
+            //     'member_credit_data' => $member_credit_data,
+            //     'member_debit_data' => $member_debit_data,
+            //     'member_core_info' => $member_core_info,
+            //     'monthName' => $monthName,
+            //     'year' => $year,
+            //     'member_quarter_charge' => $member_quarter_charge,
+            // ]);
             $setting = Setting::first();
             $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.payslip-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'monthName', 'year', 'member_quarter_charge'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('frontend.reports.payslip-generate', [
+                'logo' => $logo,
+                'member_data' => $member_data,
+                'member_credit_data' => $member_credit_data,
+                'member_debit_data' => $member_debit_data,
+                'member_core_info' => $member_core_info,
+                'monthName' => $monthName,
+                'year' => $year,
+                'member_quarter_charge' => $member_quarter_charge,
+            ])->setPaper('a4', $paperType)->setOption('enable-local-file-access', true)   // so your @font-face URLs work
+                ->setOption('encoding', 'UTF-8');
+            $pdf->set_option('isHtml5ParserEnabled', true);
+            $pdf->set_option('isPhpEnabled', true);
+            $pdf->set_option('isRemoteEnabled', true);
+            $pdf->set_option('dpi', 120);
+            // $pdf->set_option('defaultFont', 'dejavusans');               // ensure ;
+
+            // Optional: To force Unicode rendering
+            // $pdf->getDomPDF()->set_option("isHtml5ParserEnabled", true);
+            // $pdf->getDomPDF()->set_option("isPhpEnabled", true);
             return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
         }
     }
@@ -177,11 +213,23 @@ class ReportController extends Controller
             'category' => 'required',
             'month' => 'required',
             'year' => 'required',
+            'report_type' => 'required',
         ]);
 
-        $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
-        // return $themonth;
+        $report_type = $request->report_type;
 
+        if ($report_type == 'paybill') {
+            return $this->downloadPayBill($request); // Pass the request object
+        }
+
+        // Handle other report types if needed
+        return redirect()->back()->with('error', 'Invalid report type selected.');
+    }
+
+
+    private function downloadPayBill(Request $request)
+    {
+        $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
         $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
         $all_members_info = [];
 
@@ -198,13 +246,11 @@ class ReportController extends Controller
             ->with('desigs')
             ->get();
 
-
         if ($member_datas->count() == 0) {
             return redirect()->back()->with('error', 'No data found for the selected criteria');
         }
 
         foreach ($member_datas as $member_data) {
-
             $member_details = [
                 'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
@@ -221,7 +267,6 @@ class ReportController extends Controller
                 'member_core_info' => MemberMonthlyDataCoreInfo::where('member_id', $member_data->id)
                     ->where('year', $request->year)
                     ->where('month', $themonth)
-                    ->with('banks')
                     ->first(),
                 'member_loans' => [
                     'hba_inst' => Helper::getLoanInstalment($member_data->id, 4, $themonth, $request->year),
@@ -229,10 +274,7 @@ class ReportController extends Controller
                     'edu_inst' => Helper::getLoanInstalment($member_data->id, 2, $themonth, $request->year),
                     'comp_inst' => Helper::getLoanInstalment($member_data->id, 3, $themonth, $request->year),
                 ],
-
             ];
-
-
 
             $combined_member_info = [
                 'member_data' => $member_data,
@@ -242,28 +284,26 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
-        // dd($member_datas);
-
-        // Convert the array to a Laravel Collection to use chunk method
         $groupedData = collect($all_members_info)->chunk(3);
-
-        // dd($all_members_info);
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
-
-
-
         $year = $request->year;
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
-        // dd($member_datas);
-        //  return $all_members_info;
-        // return $all_members_info;
-        $setting = Setting::first();
-        $paperType = $request->paper_type ?? $setting->pdf_page_type;
-        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact('pay_bill_no', 'month', 'year', 'logo', 'da_percent', 'all_members_info', 'groupedData'))->setPaper('a4', $paperType);
+
+
+        $pdf = PDF::loadView('frontend.reports.paybill-generate', compact(
+            'pay_bill_no',
+            'month',
+            'year',
+            'logo',
+            'da_percent',
+            'all_members_info',
+            'groupedData'
+        ))->setPaper('a4', 'landscape');
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
     }
+
 
 
 

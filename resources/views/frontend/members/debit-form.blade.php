@@ -669,6 +669,7 @@
                 </div>
             </div>
         </div>
+        {{-- @dd($member_credit) --}}
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -677,7 +678,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="net_pay" id="net_pay"
-                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? 0) }}" readonly>
+                            value="{{ $member_debit->net_pay ?? (old('net_pay') ?? 0) }}" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -801,12 +802,12 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>{{ $loan_info->loan->loan_name }} Inst Amount</label>
+                                    <label>{{ $loan_info->loan_name }} Inst Amount</label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control loan_inst_amounts" name="loan_amounts"
                                         id=""
-                                        value="{{ round($loan_info->loanInfoFirst->emi_amount, 2) ?? 0 }}"
+                                        value="{{ round($loan_info->inst_amount, 2) ?? 0 }}"
                                         placeholder="0" readonly>
                                     <span class="text-danger"></span>
                                 </div>

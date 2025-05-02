@@ -2,5 +2,25 @@
     "hind": {
         "normal": "C:\\xampp\\htdocs\\shreeja\\RCI\\storage\\fonts\/hind_normal_78de7bd2a18ba6ef7e8417fb7aecfc3c",
         "bold": "hind_bold_0427cc0f476c5cccedf97751c7092bda"
+    },
+    "notosansdevanagari": {
+        "normal": "notosansdevanagari_normal_b6b84f2780f5a4d127299efb91f792f0",
+        "bold": "C:\\xampp\\htdocs\\RCI\\storage\\fonts\/notosansdevanagari_bold_1a7d45ebb6fd95f69fe98c98e7c032f7"
+    },
+    "kruti dev": {
+        "normal": "kruti_dev_normal_d7c34ea41cf1d32a18c3b5316a4ee972"
+    },
+    "dejavu sans": {
+        "bold": "C:\\xampp\\htdocs\\RCI\\vendor\\dompdf\\dompdf\/lib\/fonts\/DejaVuSans-Bold",
+        "bold_italic": "C:\\xampp\\htdocs\\RCI\\vendor\\dompdf\\dompdf\/lib\/fonts\/DejaVuSans-BoldOblique",
+        "italic": "C:\\xampp\\htdocs\\RCI\\vendor\\dompdf\\dompdf\/lib\/fonts\/DejaVuSans-Oblique",
+        "normal": "dejavu_sans_normal_2e5efd6f610a0eee57c67254483ba4ee"
+    },
+    "dejavusans": {
+        "bold": "C:\\xampp\\htdocs\\RCI\\storage\\fonts\/dejavusans_bold_6441a23b78d0a9a8b3829b28bf9abf2c",
+        "italic": "dejavusans_italic_3dfb2ae517f4f39582fc326c998f1085"
+    },
+    "hindifont": {
+        "normal": "hindifont_normal_412cb8c6de148bc3bf5259f62b0ac13f"
     }
 }

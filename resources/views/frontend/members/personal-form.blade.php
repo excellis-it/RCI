@@ -1,6 +1,8 @@
 <form action="{{ route('members.personal.update') }}" id="member-personal-form" method="post">
     @csrf
     <input type="hidden" name="member_id" value="{{ $member->id }}">
+    <input type="hidden" name="current_year" value="{{ $currentYear }}">
+    <input type="hidden" name="current_month" value="{{ $currentMonth }}">
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="row">

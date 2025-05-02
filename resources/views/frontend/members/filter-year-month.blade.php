@@ -327,7 +327,7 @@
             "#hra",
             "#tpt",
             "#da_on_tpt",
-            "#s_pay",   
+            "#s_pay",
             "#spl_incentive",
             "#incentive",
             "#dis_alw",
@@ -335,6 +335,7 @@
             "#arrs_pay_allowance",
             "#risk_alw",
             "#misc_1",
+            "#add_inc2",
             "#misc_2",
             "#var_incr",
             "#cr_rent",
@@ -1684,7 +1685,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
         function updateEolHpl() {
             var memberID = "{{ $member->id }}";
@@ -1713,7 +1714,7 @@
         // Trigger the AJAX request when the page loads
         updateEolHpl();
     });
-</script>
+</script> --}}
 
 
 <script>
@@ -1827,6 +1828,7 @@
         // === Calculate Debits from Deductions ===
         const debitFields = [
             "#gpa_sub", "#gpa_adv", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car", "#car_interest",
+            '#gpf_rec', '#npsg_arr',
             "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
             "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
             "#penal_interest", "#nps_sub", "#nps_rec", "#eol", "#ccl", "#rent", "#elec", "#pc", "#water",
@@ -1843,7 +1845,13 @@
                 }
             });
 
-            $('#tot_debits').val(total.toFixed(2));
+            const loanTotal = parseFloat($('#total_loan_inst_amount').val()) || 0;
+            // alert(loanTotal)
+            // alert(total)
+            let grandTotal = total + loanTotal;
+
+            $('#tot_debits').val(grandTotal.toFixed(2)); // sets with 2 decimal places
+
 
             const totalCredits = parseFloat($('#tot_credits').val()) || 0;
             const netPay = Math.max(totalCredits - total, 0);
@@ -1858,11 +1866,12 @@
 
         // === Calculate Net Pay and Take Home ===
         function getAllTotal() {
-            const loanTotal = parseFloat($('#total_loan_inst_amount').val()) || 0;
             const totalCredits = parseFloat($('#tot_credits').val()) || 0;
             const otherDebits = parseFloat($('#tot_debits').val()) || 0;
+            // alert(loanTotal);
+            // alert(otherDebits);
 
-            const totalDebits = otherDebits + loanTotal;
+            const totalDebits = otherDebits;
             const netPay = totalCredits - totalDebits;
             const recovery = parseFloat($('#tot_rec').val()) || 0;
             const takeHome = netPay - recovery;

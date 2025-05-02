@@ -99,7 +99,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group col-md-4 mb-2">
+                                            <div class="form-group col-md-4 mb-4">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
                                                         <label>Month</label>
@@ -116,6 +116,48 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="form-group col-md-12 mb-4">
+                                                <div class="card p-3 shadow-sm border rounded">
+                                                    <label class="mb-2"><strong>Select Report Type</strong></label>
+
+                                                    @php
+                                                        $reportTypes = [
+                                                            'paybill' => 'Paybill',
+                                                            'credit_summary' => 'Credit Summary Report',
+                                                            'debit_summary' => 'Debit Summary Report',
+                                                            'debit2_summary' => 'Debit2 Summary Report for Bill No',
+                                                            'category_summary_ns' => 'Summary for Category NS for the Month',
+                                                            'change_statement_credits' => 'Change Statement (Credits) - NIE NPS Bill',
+                                                            'change_statement_debits' => 'Change Statement (Debits) - NIE NPS Bill',
+                                                            'recovery_cgegis' => 'Recovery Schedule of CGEGIS',
+                                                            'grand_summary_cgegis' => 'Grand Summary of CGEGIS',
+                                                            'recovery_cghs' => 'Recovery Schedule of CGHS',
+                                                            'grand_summary_cghs' => 'Grand Summary of CGHS',
+                                                            'recovery_quarter' => 'Recovery Schedule of Quarter Charges',
+                                                            'recovery_misc' => 'Recovery Schedule of MISC',
+                                                            'recovery_employee_contribution' => 'Recovery Schedule of Employee Monthly Contribution',
+                                                            'grand_summary_pension' => 'Grand Summary Pension',
+                                                        ];
+                                                    @endphp
+
+                                                    @foreach ($reportTypes as $value => $label)
+                                                        <div class="form-check form-check-inline me-4 mb-2">
+                                                            <input class="form-check-input" type="radio" name="report_type" id="{{ $value }}" value="{{ $value }}" {{ old('report_type', 'paybill') == $value ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="{{ $value }}">
+                                                                {{ $label }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+
+                                                    @if ($errors->has('report_type'))
+                                                        <div class="error mt-2" style="color:red;">
+                                                            {{ $errors->first('report_type') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                     <div class="col-md-3">

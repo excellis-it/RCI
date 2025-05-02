@@ -31,6 +31,10 @@ use App\Models\Amount;
 use App\Models\Setting;
 use App\Models\CdaBillAuditTeam;
 use App\Models\CashDeposit;
+use App\Models\MemberMonthlyDataCredit;
+use App\Models\MemberMonthlyDataDebit;
+use App\Models\MemberMonthlyDataLoanInfo;
+use App\Models\MemberMonthlyDataRecovery;
 
 class Helper
 {
@@ -248,17 +252,17 @@ class Helper
 
         $amount_withdraw_query = CashWithdrawal::query();
         $amount_withdraw_query->whereDate('vr_date', '>=', $financialYearStart)
-                             ->whereDate('vr_date', '<', $date);
+            ->whereDate('vr_date', '<', $date);
         $amount_withdraw = $amount_withdraw_query->sum('amount');
 
         $amount_advance_query = AdvanceFundToEmployee::query();
         $amount_advance_query->whereDate('adv_date', '>=', $financialYearStart)
-                            ->whereDate('adv_date', '<', $date);
+            ->whereDate('adv_date', '<', $date);
         $amount_advance = $amount_advance_query->sum('adv_amount');
 
         $amount_settled_partial_returned_query = AdvanceSettlement::query();
         $amount_settled_partial_returned_query->whereDate('var_date', '>=', $financialYearStart)
-                                             ->whereDate('var_date', '<', $date);
+            ->whereDate('var_date', '<', $date);
         $amount_settled_partial_returned = $amount_settled_partial_returned_query->sum('balance');
 
         // $amount_deposit_query = CashDeposit::query();
@@ -791,5 +795,208 @@ class Helper
     {
         $stock = InventoryItemStock::where('inv_id', $inv_id)->where('item_id', $item_id)->first();
         return $stock;
+    }
+
+    public static function updateTotalCredit($member_id, $month, $year)
+    {
+        $record_member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first();
+        // dd($record_member_credit,$member_id, $month, $year);
+        if ($record_member_credit) {
+            $creditFields = [
+                'pay',
+                'da',
+                'tpt',
+                'cr_rent',
+                'g_pay',
+                'hra',
+                'da_on_tpt',
+                'cr_elec',
+                'fpa',
+                's_pay',
+                'pua',
+                'hindi',
+                'cr_water',
+                'add_inc2',
+                'npa',
+                'deptn_alw',
+                'misc1',
+                'var_incr',
+                'wash_alw',
+                'dis_alw',
+                'misc2',
+                'spl_incentive',
+                'incentive',
+                'variable_amount',
+                'arrs_pay_alw',
+                'risk_alw',
+                'landline_allow',
+                'mobile_allow',
+                'broad_band_allow',
+                'gpa_sub',
+                'cmg',
+                'cghs',
+                'cgegis',
+            ];
+
+            $totalCredits = 0;
+            foreach ($creditFields as $field) {
+                $value = (float) $record_member_credit->$field ?? 0;
+                $totalCredits += $value;
+            }
+
+            $record_member_credit->tot_credits = $totalCredits;
+            $record_member_credit->save();
+
+            return $record_member_credit;
+        }
+    }
+
+    public static function updateTotalDebit($member_id, $month, $year)
+    {
+        $record_member_debit = MemberMonthlyDataDebit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first();
+
+
+        if ($record_member_debit) {
+            $debitFields = [
+                'gpa_sub',
+                'gpf_adv',
+                'nps_sub',
+                'nps_rec',
+                'nps_arr',
+                'eol',
+                'ccl',
+                'rent',
+                'lf_arr',
+                'tada',
+                'hba',
+                'hba_cur_instl',
+                'hba_total_instl',
+                'hba_adv',
+                'hba_int',
+                'hba_int_cur_instl',
+                'hba_int_total_instl',
+                'misc1',
+                'gpf_rec',
+                'i_tax',
+                'elec',
+                'elec_arr',
+                'medi',
+                'pc',
+                'misc2',
+                'gpf_arr',
+                'ecess',
+                'water',
+                'water_arr',
+                'ltc',
+                'fadv',
+                'fest_adv_prin_cur',
+                'fest_adv_total_cur',
+                'misc3',
+                'cgegis',
+                'cda',
+                'furn',
+                'furn_arr',
+                'car',
+                'car_adv',
+                'car_adv_prin_instl',
+                'car_adv_total_instl',
+                'car_int',
+                'hra_rec',
+                'cghs',
+                'ptax',
+                'cmg',
+                'pli',
+                'scooter',
+                'sco_adv',
+                'scot_adv_prin_instl',
+                'scot_adv_total_instl',
+                'sco_int',
+                'sco_adv_int_curr_instl',
+                'sco_adv_int_total_instl',
+                'comp_adv',
+                'comp_prin_curr_instl',
+                'comp_prin_total_instl',
+                'comp_adv_int',
+                'comp_int_curr_instl',
+                'comp_int_total_instl',
+                'comp_int',
+                'tpt_rec',
+                'leave_rec',
+                'ltc_rec',
+                'medical_rec',
+                'tada_rec',
+                'pension_rec',
+                'quarter_charges',
+                'cgeis_arr',
+                'cghs_arr',
+                'penal_intr',
+                'arrear_pay',
+                'npsg',
+                'npsg_arr',
+                'npsg_adj',
+                'society'
+            ];
+            $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $month)->where('year', $year)->get();
+            $total_credits = MemberMonthlyDataCredit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first()['tot_credits'] ?? 0;
+            $totalDebits = 0;
+            foreach ($debitFields as $field) {
+                $totalDebits += (float) $record_member_debit->$field;
+            }
+
+            $total_loan = 0;
+            if (count($member_loan_infos) > 0) {
+                foreach ($member_loan_infos as $member_loan) {
+                    if ($member_loan->tot_no_of_inst >= $member_loan->present_inst_no) {
+                        $total_loan += $member_loan->inst_amount;
+                    }
+                }
+            }
+
+            // dd($total_credits,   $totalDebits, $total_loan);
+
+            $grossDebits = $totalDebits + $total_loan;
+            $record_member_debit->tot_debits =  $grossDebits;
+            $record_member_debit->net_pay =   $total_credits - $grossDebits;
+            $record_member_debit->save();
+
+            return $record_member_debit;
+        }
+    }
+
+    public static function updateTotalRecovery($member_id, $month, $year)
+    {
+        $record_member_recovery = MemberMonthlyDataRecovery::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first();
+        if ($record_member_recovery) {
+            $recoveryFields = [
+                'ccs_sub',
+                'ptax',
+                'mess',
+                'security',
+                'misc1',
+                'ccs_rec',
+                'asso_fee',
+                'dbf',
+                'misc2',
+                'wel_sub',
+                'ben',
+                'med_ins',
+                'wel_rec',
+                'hdfc',
+                'maf',
+                'final_pay',
+                'lic',
+                'cort_atch',
+                'ogpf',
+                'ntp',
+            ];
+
+            $totalRecoveries = 0;
+            foreach ($recoveryFields as $field) {
+                $totalRecoveries += (float) $record_member_recovery->$field;
+            }
+
+            $record_member_recovery->tot_rec = $totalRecoveries;
+            $record_member_recovery->save();
+        }
     }
 }
