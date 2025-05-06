@@ -405,17 +405,17 @@
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Tot.Credits</label>
+                                <label>PUA</label>
                             </div>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="tot_credits" id="tot_credits"
-                                    value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? '') }}"
-                                    placeholder="" readonly>
+                                <input type="text" class="form-control" name="pua" id="pua"
+                                    value="{{ $member_credit->pua ?? (old('pua') ?? '') }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -448,11 +448,57 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>PUA</label>
+                        <label>NPSC (14%)</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="pua" id="pua"
-                            value="{{ $member_credit->pua ?? (old('pua') ?? '') }}" placeholder="">
+                        <input type="text" class="form-control" name="npsc" id="npsc"
+                            value="{{ $member_credit->npsc ?? (old('npsc') ?? '') }}"
+                            placeholder="" >
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPSG ARRS(14%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="npg_arrs" id="npg_arrs"
+                            value="{{ $member_credit->npg_arrs ?? (old('npg_arrs') ?? '') }}"
+                            placeholder="" >
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPS ADJ(14%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="npg_adj" id="npg_adj"
+                            value="{{ $member_credit->npg_adj ?? (old('npg_adj') ?? '') }}"
+                            placeholder="" >
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Tot.Credits</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tot_credits" id="tot_credits"
+                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? '') }}"
+                            placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

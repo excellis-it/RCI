@@ -55,6 +55,7 @@ use App\Models\Pension;
 use App\Models\MemberOriginalRecovery;
 use App\Models\MemberMonthlyDataCredit;
 use App\Models\MemberMonthlyDataDebit;
+use App\Models\MemberMonthlyDataLoanInfo;
 use App\Models\MemberMonthlyDataRecovery;
 use App\Models\Setting;
 
@@ -269,10 +270,26 @@ class ReportController extends Controller
                     ->where('month', $themonth)
                     ->first(),
                 'member_loans' => [
-                    'hba_inst' => Helper::getLoanInstalment($member_data->id, 4, $themonth, $request->year),
-                    'car_inst' => Helper::getLoanInstalment($member_data->id, 1, $themonth, $request->year),
-                    'edu_inst' => Helper::getLoanInstalment($member_data->id, 2, $themonth, $request->year),
-                    'comp_inst' => Helper::getLoanInstalment($member_data->id, 3, $themonth, $request->year),
+                    'hba_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 4)
+                        ->first()['inst_amount'] ?? 0,
+                    'car_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 1)
+                        ->first()['inst_amount'] ?? 0,
+                    'edu_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 2)
+                        ->first()['inst_amount'] ?? 0,
+                    'comp_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 3)
+                        ->first()['inst_amount'] ?? 0,
                 ],
             ];
 
@@ -284,13 +301,21 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
-        $groupedData = collect($all_members_info)->chunk(3);
+        $groupedData = collect($all_members_info)->chunk(5);
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
         $year = $request->year;
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
 
-
+        // return view('frontend.reports.paybill-generate', compact(
+        //     'pay_bill_no',
+        //     'month',
+        //     'year',
+        //     'logo',
+        //     'da_percent',
+        //     'all_members_info',
+        //     'groupedData'
+        // ));
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact(
             'pay_bill_no',
             'month',
@@ -299,7 +324,7 @@ class ReportController extends Controller
             'da_percent',
             'all_members_info',
             'groupedData'
-        ))->setPaper('a4', 'landscape');
+        ))->setPaper('a3', 'landscape');
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
     }

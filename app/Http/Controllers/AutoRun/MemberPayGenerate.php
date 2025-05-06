@@ -255,6 +255,14 @@ class MemberPayGenerate extends Controller
                 $member_credit_monthly_data->da_on_tpt = $tptDa;
                 $member_credit_monthly_data->hra = $hraAmount;
 
+                $npsc = (($basicPay + $daAmount) * 14) / 100;
+                $npg_arrs = (($basicPay + $daAmount) * 14) / 100;
+                $npg_adj = (($basicPay + $daAmount) * 14) / 100;
+
+                $member_credit_monthly_data->npsc = $npsc;
+                $member_credit_monthly_data->npg_arrs = $npg_arrs;
+                $member_credit_monthly_data->npg_adj = $npg_adj;
+
                 $member_credit_monthly_data->var_incr = $var_inc_amount;
 
                 $member_credit_monthly_data->month = $month;
@@ -276,6 +284,9 @@ class MemberPayGenerate extends Controller
                     'fpa',
                     's_pay',
                     'pua',
+                    'npsc',
+                    'npg_arrs',
+                    'npg_adj',
                     'hindi',
                     'cr_water',
                     'add_inc2',
@@ -373,11 +384,16 @@ class MemberPayGenerate extends Controller
                 $member_debit_monthly_data->eol = 0;
                 $member_debit_monthly_data->ccl = 0;
 
+                $npsg = (($basicPay + $daAmount) * 14) / 100;
+                $npsg_arr = (($basicPay + $daAmount) * 14) / 100;
+                $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
+
+                $member_debit_monthly_data->npsg = $npsg;
+                $member_debit_monthly_data->npsg_arr = $npsg_arr;
+                $member_debit_monthly_data->npsg_adj = $npsg_adj;
                 $member_debit_monthly_data->month = $month;
                 $member_debit_monthly_data->year = $year;
                 $member_debit_monthly_data->apply_date = date('Y-m-d');
-                $member_debit_monthly_data->tot_debits = $member_debit_monthly_data->tot_debits + $deduction;
-                $member_debit_monthly_data->net_pay = $member_debit_monthly_data->net_pay + $deduction;
                 $member_debit_monthly_data->save();
                 $member_monthly_data->debit_id = $member_debit_monthly_data->id;
 
@@ -793,6 +809,15 @@ class MemberPayGenerate extends Controller
 
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
+                    $npsc = (($basicPay + $daAmount) * 14) / 100;
+                    $npg_arrs = (($basicPay + $daAmount) * 14) / 100;
+                    $npg_adj = (($basicPay + $daAmount) * 14) / 100;
+
+                    $member_credit_monthly_data->npsc = $npsc;
+                    $member_credit_monthly_data->npg_arrs = $npg_arrs;
+                    $member_credit_monthly_data->npg_adj = $npg_adj;
+
+
                     $member_credit_monthly_data->month = $month;
                     $member_credit_monthly_data->year = $year;
                     $member_credit_monthly_data->apply_date = date('Y-m-d');
@@ -812,6 +837,9 @@ class MemberPayGenerate extends Controller
                         'fpa',
                         's_pay',
                         'pua',
+                        'npsc',
+                        'npg_arrs',
+                        'npg_adj',
                         'hindi',
                         'cr_water',
                         'add_inc2',
@@ -906,12 +934,17 @@ class MemberPayGenerate extends Controller
                         }
                     }
 
+                    $npsg = (($basicPay + $daAmount) * 14) / 100;
+                    $npsg_arr = (($basicPay + $daAmount) * 14) / 100;
+                    $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
+
+                    $member_debit_monthly_data->npsg = $npsg;
+                    $member_debit_monthly_data->npsg_arr = $npsg_arr;
+                    $member_debit_monthly_data->npsg_adj = $npsg_adj;
 
                     $member_debit_monthly_data->month = $month;
                     $member_debit_monthly_data->year = $year;
                     $member_debit_monthly_data->apply_date = date('Y-m-d');
-                    $member_debit_monthly_data->tot_debits = $member_debit_monthly_data->tot_debits + $deduction;
-                    $member_debit_monthly_data->net_pay = $member_debit_monthly_data->net_pay + $deduction;
                     $member_debit_monthly_data->save();
                     $member_monthly_data->debit_id = $member_debit_monthly_data->id;
 
@@ -980,7 +1013,6 @@ class MemberPayGenerate extends Controller
                         'comp_int_total_instl',
                         'comp_int',
                         'tpt_rec',
-                        'basic',
                         'leave_rec',
                         'ltc_rec',
                         'medical_rec',

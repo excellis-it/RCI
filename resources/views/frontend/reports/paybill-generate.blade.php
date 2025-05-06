@@ -66,8 +66,9 @@
                                 <tr>
                                     <td colspan="4"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;  border-right: 0px;">
-                                        PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF {{ $month ?? 'N/A' }}
-                                        - {{ $year ?? 'N/A' }} </br>GPF OFFICER
+                                        PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? 'N/A') }}
+                                        - {{ $year ?? 'N/A' }} </br>NPS STAFF
                                     </td>
                                     <td colspan="4" style="text-align: center;border-left:0px;border-right:0px;">
                                         <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;border-right:0px;border-left:0px;"
@@ -94,13 +95,9 @@
                                         style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         CREDITS
                                     </th>
-                                    <th colspan="5"
+                                    <th colspan="6"
                                         style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         DEBITS
-                                    </th>
-                                    <th
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
-                                        Loans
                                     </th>
                                     <th
                                         style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
@@ -143,10 +140,10 @@
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         GPF SUB<br>GPF ADV<br>GPF ARRS<br>CCEGIS<br>CGHS<br>HBA ADV
                                     </td>
-                                    {{-- <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
-                                            HBA INT<br>CAR ADV<br>CAR INT<br>SCO ADV<br>SCO INT<br>COMP ADV
-                                        </td> --}}
+                                    <td valign="top"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        HBA INT<br>CAR ADV<br>CAR INT<br>EDU ADV<br>EDU INT<br>COMP ADV
+                                    </td>
 
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
@@ -167,10 +164,10 @@
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         CGHS ARR<br>CGEIS ARR<br>PENAL INTR
                                     </td>
-                                    <td valign="top"
+                                    {{-- <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         HBA Inst<br>Comp Inst<br>Edu Inst<br>Car/Bike Inst
-                                    </td>
+                                    </td> --}}
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         LICENCE FEE<br>ELECT<br>WATER<br>FURN<br>MISC RENT
@@ -239,7 +236,17 @@
                                 $totalCarBikeInst = 0;
 
                                 $totalLoans = 0;
-
+                                $totalNpscCreditIt = 0;
+                                $totalNpgArrsCreditIt = 0;
+                                $totalNpgAdgCredit = 0;
+                                $totalHbaAdv = 0;
+                                $totalCarAdv = 0;
+                                $totalEduAdv = 0;
+                                $totalCompAdv = 0;
+                                $totalNpsg = 0;
+                                $totalNpsgArr = 0;
+                                $totalNpsAdj = 0;
+                                $totalPayslipPay = 0;
                             @endphp
 
 
@@ -253,6 +260,7 @@
                                         $totalDaOnTpt += $member_info['details']['member_credit']->da_on_tpt ?? 0; // total da on
                                         $totalSpay += $member_info['details']['member_credit']->s_pay ?? 0;
                                         $totalVarIncr += $member_info['details']['member_credit']->var_incr ?? 0;
+
                                         $totalSplIncent += $member_info['details']['member_credit']->spl_incentive ?? 0;
                                         $totalIncentive += $member_info['details']['member_credit']->incentive ?? 0;
                                         $totaldressAllow += $member_info['details']['member_credit']->dis_alw ?? 0;
@@ -260,53 +268,117 @@
                                             $member_info['details']['member_credit']->variable_amount ?? 0;
                                         $totalPayAllow += $member_info['details']['member_credit']->arrs_pay_alw ?? 0;
                                         $totalRiskAllow += $member_info['details']['member_credit']->risk_alw ?? 0;
+
+                                        $totalNpscCreditIt += $member_info['details']['member_credit']->npsc ?? 0;
+                                        $totalNpgArrsCreditIt +=
+                                            $member_info['details']['member_credit']->npg_arrs ?? 0;
+                                        $totalNpgAdgCredit += $member_info['details']['member_credit']->npg_adj ?? 0;
                                         $totalMiscCreditIt += $member_info['details']['member_credit']->misc1 ?? 0;
                                         $totalMiscCredit += $member_info['details']['member_credit']->misc2 ?? 0;
+
                                         $totalGpfSub += $member_info['details']['member_debit']->gpa_sub ?? 0;
                                         $totalGpfAdv += $member_info['details']['member_debit']->gpf_adv ?? 0;
                                         $totalCgegis += $member_info['details']['member_debit']->cgegis ?? 0;
                                         $totalCghs += $member_info['details']['member_debit']->cghs ?? 0;
+                                        $totalHbaAdv += $member_info['details']['member_loans']['hba_inst'] ?? 0;
+
+                                        $totalCarAdv += $member_info['details']['member_loans']['car_inst'] ?? 0;
+                                        $totalEduAdv += $member_info['details']['member_loans']['edu_inst'] ?? 0;
+                                        $totalCompAdv += $member_info['details']['member_loans']['comp_inst'] ?? 0;
 
                                         $totalLtc += $member_info['details']['member_debit']->ltc ?? 0;
                                         $totalMedDebit += $member_info['details']['member_debit']->medi ?? 0;
                                         $totalTada += $member_info['details']['member_debit']->tada ?? 0;
                                         $totalLeaveRec += $member_info['details']['member_debit']->leave_rec ?? 0;
+
                                         $totalPensionRec += $member_info['details']['member_debit']->pension_rec ?? 0;
                                         $totalIncomeTax += $member_info['details']['member_debit']->i_tax ?? 0;
                                         $totalEduCess += $member_info['details']['member_debit']->ecess ?? 0;
                                         $totalPlInsur += $member_info['details']['member_debit']->pli ?? 0;
                                         $totalMiscDebit += $member_info['details']['member_debit']->misc1 ?? 0;
                                         $totalMiscDebitIt += $member_info['details']['member_debit']->misc2 ?? 0;
-                                        $totalNps10Rec += $member_info['details']['member_debit']->gpa_sub ?? 0;
+
+                                        $totalNpsg += $member_info['details']['member_debit']->npsg ?? 0;
+                                        $totalNpsgArr += $member_info['details']['member_debit']->npsg_arr ?? 0;
+                                        $totalNpsAdj += $member_info['details']['member_debit']->npsg_adj ?? 0;
+
                                         $totalCgeisArr += $member_info['details']['member_debit']->cgeis_arr ?? 0;
                                         $totalCghsArr += $member_info['details']['member_debit']->cghs_arr ?? 0;
                                         $totalPenalIntr += $member_info['details']['member_debit']->penal_intr ?? 0;
+
                                         $totalElec += $member_info['details']['member_debit']->elec ?? 0;
                                         $totalWater += $member_info['details']['member_debit']->water ?? 0;
                                         $totalFurn += $member_info['details']['member_debit']->furn ?? 0;
-                                        $totalMiscRent += $member_info['details']['member_debit']->misc3misc3 ?? 0;
-                                        $totalcredit += $member_info['details']['member_credit']->tot_credits ?? 0;
-                                        $totalDebit += $member_info['details']['member_debit']->tot_debits ?? 0;
-                                        $totalNetPay += $member_info['details']['member_debit']->net_pay ?? 0;
+                                        $totalMiscRent += $member_info['details']['member_debit']->misc3 ?? 0;
 
-                                        $totalTableRec +=
+                                        $singleTotalCredit =
+                                            $member_info['details']['member_credit']->pay +
+                                            $member_info['details']['member_credit']->da +
+                                            $member_info['details']['member_credit']->hra +
+                                            $member_info['details']['member_credit']->tpt +
+                                            $member_info['details']['member_credit']->da_on_tpt +
+                                            $member_info['details']['member_credit']->s_pay +
+                                            $member_info['details']['member_credit']->var_incr +
+                                            $member_info['details']['member_credit']->spl_incentive +
+                                            $member_info['details']['member_credit']->incentive +
+                                            $member_info['details']['member_credit']->dis_alw +
+                                            $member_info['details']['member_credit']->variable_amount +
+                                            $member_info['details']['member_credit']->arrs_pay_alw +
+                                            $member_info['details']['member_credit']->risk_alw +
+                                            $member_info['details']['member_credit']->npsc +
+                                            $member_info['details']['member_credit']->npg_arrs +
+                                            $member_info['details']['member_credit']->npg_adj +
+                                            $member_info['details']['member_credit']->misc1 +
+                                            $member_info['details']['member_credit']->misc2;
+
+                                        $totalcredit += $singleTotalCredit;
+
+                                        $singleTotalDebit =
+                                            $member_info['details']['member_debit']->gpa_sub +
+                                            $member_info['details']['member_debit']->gpf_adv +
+                                            $member_info['details']['member_debit']->cgegis +
+                                            $member_info['details']['member_debit']->cghs +
+                                            $member_info['details']['member_loans']['hba_inst'] +
+                                            $member_info['details']['member_loans']['car_inst'] +
+                                            $member_info['details']['member_loans']['edu_inst'] +
+                                            $member_info['details']['member_loans']['comp_inst'] +
+                                            $member_info['details']['member_debit']->ltc +
+                                            $member_info['details']['member_debit']->medi +
+                                            $member_info['details']['member_debit']->tada +
+                                            $member_info['details']['member_debit']->leave_rec +
+                                            $member_info['details']['member_debit']->pension_rec +
+                                            $member_info['details']['member_debit']->i_tax +
+                                            $member_info['details']['member_debit']->ecess +
+                                            $member_info['details']['member_debit']->pli +
+                                            $member_info['details']['member_debit']->misc1 +
+                                            $member_info['details']['member_debit']->misc2 +
+                                            $member_info['details']['member_debit']->npsg +
+                                            $member_info['details']['member_debit']->npsg_arr +
+                                            $member_info['details']['member_debit']->npsg_adj +
+                                            $member_info['details']['member_debit']->cgeis_arr +
+                                            $member_info['details']['member_debit']->cghs_arr +
+                                            $member_info['details']['member_debit']->penal_intr +
+                                            $member_info['details']['member_debit']->elec +
+                                            $member_info['details']['member_debit']->water +
+                                            $member_info['details']['member_debit']->furn +
+                                            $member_info['details']['member_debit']->misc3;
+
+                                        $totalDebit += $singleTotalDebit;
+
+                                        $singleNetPay = $singleTotalCredit - $singleTotalDebit;
+
+                                        $totalNetPay += $totalcredit + $totalDebit;
+                                        $totalSingleTableRec =
                                             ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
                                             ($member_info['details']['member_recovery']?->wel_sub ?? 0) +
-                                            ($member_info['details']['member_recovery']?->ptax ?? 0);
+                                            ($member_info['details']['member_recovery']?->ptax ?? 0) +
+                                            ($member_info['details']['member_recovery']?->mess ?? 0);
 
-                                        // totalcredit total credits and totalDebit total debits
+                                        $totalTableRec += $totalSingleTableRec;
 
-                                        //Loans
-                                        $totalHbaInst += $member_info['details']['member_loans']['hba_inst'] ?? 0;
-                                        $totalCompInst += $member_info['details']['member_loans']['comp_inst'] ?? 0;
-                                        $totalEduInst += $member_info['details']['member_loans']['edu_inst'] ?? 0;
-                                        $totalCarBikeInst += $member_info['details']['member_loans']['car_inst'] ?? 0;
+                                        $totalPayslipPay += $totalNetPay - $totalTableRec;
 
-                                        // total loans
-                                        $totalLoans +=
-                                            $totalHbaInst + $totalCompInst + $totalEduInst + $totalCarBikeInst;
-                                        $total_credits_first =
-                                            $member_info['details']['member_credit']->tot_credits ?? 0;
+                                        $singlePayslipPay = $singleNetPay + $totalSingleTableRec;
                                     @endphp
 
                                     <tr>
@@ -325,7 +397,8 @@
                                 margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
                                             {{ $member_info['member_data']->pm_level ?? 'N/A' }}<br>
                                             {{ $member_info['member_data']->dob ?? '' }} <br>
-                                            {{ $member_info['details']['member_core_info']->gpf_acc_no ?? 'N/A' }}/{{ $member_info['member_data']->pran_number ?? 'N/A' }}
+                                            {{ !empty($member_info['details']['member_core_info']->gpf_acc_no) ? $member_info['details']['member_core_info']->gpf_acc_no . '/' : '' }}
+                                            {{ $member_info['member_data']->pran_number ?? 'N/A' }}
                                             <br>
                                             {{ $member_info['member_data']->doj_lab ?? '' }}<br>
                                             {{ $member_info['details']['member_credit']->var_incr ?? 'N/A' }}<br>
@@ -360,9 +433,9 @@
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            0 <br>
-                                            0 <br>
-                                            0 <br>
+                                            {{ round($member_info['details']['member_credit']->npsc ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_credit']->npg_arrs ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_credit']->npg_adj ?? 0) }} <br>
                                             {{ round($member_info['details']['member_credit']->misc1 ?? 0) }}<br>
                                             {{ round($member_info['details']['member_credit']->misc2 ?? 0) }}
 
@@ -372,15 +445,29 @@
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->gpa_sub ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->gpf_adv ?? 0) }}<br>
+                                            0 <br>
                                             {{ round($member_info['details']['member_debit']->cgegis ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->cghs ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_loans']['hba_inst'] ?? 0) }}<br>
+
+                                        </td>
+                                        <td valign="top"
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                         margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                            0<br>
+                                            {{ round($member_info['details']['member_loans']['car_inst'] ?? 0) }}<br>
+                                            0 <br>
+                                            {{ round($member_info['details']['member_loans']['edu_inst'] ?? 0) }}<br>
+                                            0<br>
+                                            {{ round($member_info['details']['member_loans']['comp_inst'] ?? 0) }} <br>
 
                                         </td>
 
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-
+                                            0 <br>
+                                            0 <br>
                                             {{ round($member_info['details']['member_debit']->ltc ?? 0) }}
                                             <br>
                                             {{ round($member_info['details']['member_debit']->medi ?? 0) }}
@@ -410,12 +497,11 @@
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             0 <br>
+                                            {{ round($member_info['details']['member_debit']->npsg ?? 0) }}<br>
                                             0 <br>
+                                            {{ round($member_info['details']['member_debit']->npsg_arr ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_debit']->npsg_adj ?? 0) }}<br>
                                             0 <br>
-                                            0 <br>
-                                            0 <br>
-                                            0 <br>
-                                            0
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
@@ -428,7 +514,7 @@
                                             <br>
 
                                         </td>
-                                        <td valign="top"
+                                        {{-- <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_loans']['hba_inst'] ?? 0) }}
@@ -438,15 +524,10 @@
                                             {{ round($member_info['details']['member_loans']['edu_inst'] ?? 0) }}
                                             <br>
                                             {{ round($member_info['details']['member_loans']['car_inst'] ?? 0) }}
-                                            @php
 
-                                                $allLoans =
-                                                    $member_info['details']['member_loans']['hba_inst'] +
-                                                    $member_info['details']['member_loans']['comp_inst'] +
-                                                    $member_info['details']['member_loans']['edu_inst'] +
-                                                    $member_info['details']['member_loans']['car_inst'];
-                                            @endphp
-                                        </td>
+                                        </td> --}}
+
+
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
@@ -463,17 +544,12 @@
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            {{ round($total_credits_first + ($member_info['details']['member_credit']->var_incr ?? 0)) }}<br>
-                                            {{ round(($member_info['details']['member_debit']->tot_debits ?? 0) + ($allLoans ?? 0)) }}<br>
-                                            {{ round($total_credits_first + ($member_info['details']['member_credit']->var_incr ?? 0) - (($member_info['details']['member_debit']->tot_debits ?? 0) + ($allLoans ?? 0))) }}<br>
-                                            {{ round(
-                                                ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
-                                                    ($member_info['details']['member_recovery']?->wel_sub ?? 0) +
-                                                    ($member_info['details']['member_recovery']?->ptax ?? 0),
-                                                2,
-                                            ) }}<br>
+                                            {{ round($singleTotalCredit ?? 0) }}<br>
+                                            {{ round($singleTotalDebit) }}<br>
+                                            {{ round($singleNetPay) }}<br>
+                                            {{ round($totalSingleTableRec) }}<br>
+                                            {{ round($singlePayslipPay) }} <br>
 
-                                            0 <br>
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
@@ -521,9 +597,9 @@
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        0 <br>
-                                        0 <br>
-                                        0 <br>
+                                        {{ round($totalNpscCreditIt) }} <br>
+                                        {{ round($totalNpgArrsCreditIt) }} <br>
+                                        {{ round($totalNpgAdgCredit) }} <br>
                                         {{ round($totalMiscCreditIt ?? 0) }}<br>
                                         {{ round($totalMiscCredit ?? 0) }}<br>
 
@@ -533,15 +609,28 @@
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalGpfSub ?? 0) }} <br>
                                         {{ round($totalGpfAdv ?? 0) }} <br>
+                                        0 <br>
                                         {{ round($totalCgegis ?? 0) }} <br>
                                         {{ round($totalCghs ?? 0) }} <br>
-
+                                        {{ round($totalHbaAdv ?? 0) }} <br>
                                     </td>
 
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
-                             margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                         margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                        0 <br>
+                                        {{ round($totalCarAdv ?? 0) }} <br>
+                                        0 <br>
+                                        {{ round($totalEduAdv ?? 0) }} <br>
+                                        0 <br>
+                                        {{ round($totalCompAdv ?? 0) }}
 
+                                    </td>
+                                    <td valign="top"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                             margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                        0 <br>
+                                        0 <br>
                                         {{ round($totalLtc ?? 0) }} <br>
                                         {{ round($totalMedDebit ?? 0) }} <br>
                                         {{ round($totalTada ?? 0) }} <br>
@@ -562,30 +651,22 @@
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ round($totalNps10Rec ?? 0) }} <br>
-                                        {{ round($totalIncomeTax ?? 0) }} <br>
-                                        {{ round($totalEduCess ?? 0) }} <br>
-                                        {{ round($totalPlInsur ?? 0) }} <br>
-                                        {{ round($totalMiscDebit ?? 0) }} <br>
-                                        {{ round($totalMiscDebitIt ?? 0) }}
-
+                                        0 <br>
+                                        {{ round($totalNpsg ?? 0) }} <br>
+                                        0 <br>
+                                        {{ round($totalNpsgArr ?? 0) }} <br>
+                                        {{ round($totalNpsAdj ?? 0) }} <br>
+                                        0
                                     </td>
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalCghsArr ?? 0) }}<br>
                                         {{ round($totalCgeisArr ?? 0) }}<br>
-                                        0
-                                    </td>
-                                    <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
-                         margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ round($totalHbaInst ?? 0) }}<br>
-                                        {{ round($totalCompInst ?? 0) }}<br>
-                                        {{ round($totalEduInst ?? 0) }}<br>
-                                        {{ round($totalCarBikeInst ?? 0) }}
+                                        {{ round($totalPenalIntr ?? 0) }}
 
                                     </td>
+
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
@@ -598,10 +679,11 @@
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ round(($totalcredit ?? 0) + ($totalVarIncr ?? 0)) }} <br>
-                                        {{ round(($totalDebit ?? 0) + ($totalLoans ?? 0)) }} <br>
-                                        {{ round((($totalcredit ?? 0) + ($totalVarIncr ?? 0)) - (($totalDebit ?? 0) + ($totalLoans ?? 0))) }} <br>
-                                        {{ round($totalTableRec ?? 0) }}
+                                        {{ round($totalcredit ?? 0) }}<br>
+                                        {{ round($totalDebit) }}<br>
+                                        {{ round($totalNetPay) }}<br>
+                                        {{ round($totalTableRec) }}<br>
+                                        {{ round($totalPayslipPay) }} <br>
                                     </td>
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;

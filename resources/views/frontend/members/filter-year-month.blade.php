@@ -347,6 +347,9 @@
             "#deptn_alw",
             "#wash_alw",
             "#pua",
+            "#npsc",
+            '#npg_arrs',
+            '#npg_adj'
         ];
 
         function updateDAPercentage(basicPay, memberID) {

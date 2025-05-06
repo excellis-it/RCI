@@ -437,6 +437,9 @@ class MemberController extends Controller
                 }
             }
         }
+        $npsc = (($basicPay + $daAmount) * 14) / 100;
+        $npg_arrs = (($basicPay + $daAmount) * 14) / 100;
+        $npg_adj = (($basicPay + $daAmount) * 14) / 100;
 
         $member_credit_data = [
             'member_id' => $member->id,
@@ -447,6 +450,9 @@ class MemberController extends Controller
             'g_pay' => $member->g_pay,
             'hra' => $hraAmount,
             'da_on_tpt' => $tptDa,
+            'npsc' => $npsc,
+            'npg_arrs' => $npg_arrs,
+            'npg_adj' =>$npg_adj,
             'cr_elec' => 0,
             'fpa' => 0,
             's_pay' => 0,
@@ -506,6 +512,10 @@ class MemberController extends Controller
             }
         }
 
+        $npsg = (($basicPay + $daAmount) * 14) / 100;
+        $npsg_arr = (($basicPay + $daAmount) * 14) / 100;
+        $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
+
         $member_debit_data = [
             'member_id' => $member->id,
             'gpa_sub' => $gpfDeduction,
@@ -562,9 +572,9 @@ class MemberController extends Controller
             'penal_intr' => 0,
             'society' => 0,
             'arrear_pay' => 0,
-            'npsg' => 0,
-            'npsg_arr' => 0,
-            'npsg_adj' => 0,
+            'npsg' => $npsg,
+            'npsg_arr' => $npsg_arr,
+            'npsg_adj' => $npsg_adj,
             'hba_cur_instl' => 0,
             'hba_total_instl' => 0,
             'hba_int_cur_instl' => 0,

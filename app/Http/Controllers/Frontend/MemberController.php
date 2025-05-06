@@ -581,6 +581,12 @@ class MemberController extends Controller
         $credit_member_monthly->incentive = $request->incentive;
         $credit_member_monthly->variable_amount = $request->var_amount;
         $credit_member_monthly->arrs_pay_alw = $request->arrs_pay_allowance;
+
+        $credit_member_monthly->npsc = $request->npsc;
+        $credit_member_monthly->npg_arrs = $request->npg_arrs;
+        $credit_member_monthly->npg_adj = $request->npg_adj;
+
+
         $credit_member_monthly->tot_credits = $request->tot_credits;
         $credit_member_monthly->remarks = $request->remarks;
         $credit_member_monthly->save();

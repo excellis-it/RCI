@@ -49,6 +49,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-2" hidden>
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
@@ -407,7 +408,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NPSG</label>
+                        <label>NPSG (14%)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npsg" id="npsg"
@@ -421,7 +422,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NPSG Arrear</label>
+                        <label>NPSG Arrear (14%)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npsg_arr" id="npsg_arr"
@@ -436,7 +437,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NPSG Adj</label>
+                        <label>NPSG Adj (10%)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npsg_adj" id="npsg_adj"
