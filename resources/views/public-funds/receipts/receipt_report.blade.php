@@ -171,7 +171,7 @@
                         console.log('send 2');
                         $("#paymentForm").submit();
 
-                    }, 1200);
+                    }, 2000);
                 });
 
                 // change date should change print date
