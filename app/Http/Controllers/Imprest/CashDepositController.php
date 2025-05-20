@@ -37,7 +37,7 @@ class CashDepositController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'vr_no' => 'required|unique:cash_deposits,vr_no',
+            'vr_no' => 'required|unique:imprest_cash_deposits,vr_no',
             'vr_date' => 'required|date',
             'rct_no' => 'required',
             'rct_date' => 'required|date',

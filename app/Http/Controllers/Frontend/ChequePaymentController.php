@@ -557,7 +557,7 @@ class ChequePaymentController extends Controller
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
-        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo','payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
+        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
     }
 
 
