@@ -26,7 +26,7 @@
             border: 1px solid #000;
             padding: 8px;
             text-align: left;
-            font-size: 20px;
+            font-size: 18px;
             line-height: 20px;
         }
 
@@ -271,36 +271,36 @@
                             @endphp
                             <tr style="border-top: 0; border-top: 1px solid #000">
                                 <td rowspan="{{ $new_count + 1 }}"
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     {{ \Carbon\Carbon::parse($payment->first()->cheq_date)->format('d/m/Y') }}
                                 </td>
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 0px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 0px !important; margin: 0px 0px !important;">
                                     {{ $chequeSerialNumbers[$key] ?? '' }}
                                 </td>
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     0
                                 </td>
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     {{ $bank_amount }}
                                 </td>
                                 @foreach ($category as $cat)
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     </td>
                                 @endforeach
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                             </tr>
@@ -314,31 +314,31 @@
                                 <tr>
 
                                     <td rowspan="{{ count($check_payment) + 1 }}"
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         {{-- {{ $vr_no_print->vr_no }} --}}
                                         {{-- {{ $chequeSerialNumbers[$key] ?? '' }} --}}
                                     </td>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         {{ $new_count_cvr == 0 ? 'CHQ PMT, CHQ NO.-' . $key . ', ' . (isset($vr_no_print->cheq_date) ? \Carbon\Carbon::parse($vr_no_print->cheq_date)->format('d-m-Y') : '') : '' }}
                                     </td>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                     </td>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     </td>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     </td>
                                     @foreach ($category as $cat)
                                         <td
-                                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         </td>
                                     @endforeach
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                     </td>
                                 </tr>
@@ -349,26 +349,26 @@
                                     @foreach ($check_payment as $count => $member)
                                         <tr>
                                             <td
-                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 ({{ $count + 1 }})
                                                 {{ $member['member']['name'] ?? '' }},
                                                 {{ $member['member']['desigs']['designation'] ?? '' }} (CBRE -
                                                 {{ $vr_no_print->vr_no ?? '' }},
-                                                {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})
+                                                {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})({{$member['bill_ref']}})
                                             </td>
                                             <td
-                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 {{ $new_count_cvr == 0 && $count == 0 ? $key ?? '-' : '' }}
                                             </td>
                                             <td
-                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             </td>
                                             <td
-                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             </td>
                                             @foreach ($category as $cat)
                                                 <td
-                                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                     @if (isset($member['reciepts']) && $member['reciepts']['category_id'] == $cat->id)
                                                         {{ $member['amount'] ? $member['amount'] : 0 }}
                                                         @php
@@ -390,7 +390,7 @@
                                                 </td>
                                             @endforeach
                                             <td
-                                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                             </td>
                                         </tr>
@@ -591,28 +591,28 @@
                     @endphp
                     <tr style="border-top: 0; border-top: 1px solid #000">
                         <td rowspan="{{ $new_count + 1 }}"
-                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                             {{ \Carbon\Carbon::parse($payment->first()->cheq_date)->format('d/m/Y') }}
                         </td>
                         <td
-                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                             {{ $chequeSerialNumbers[$key] ?? '' }}
                         </td>
                         <td
-                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                         <td
-                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                         @foreach ($category as $cat)
                             <td
-                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                             </td>
                         @endforeach
                         <td
-                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                     </tr>
@@ -621,26 +621,26 @@
                         <tr>
 
                             <td rowspan="{{ $vr_no_print->chequePaymentMembers->count() + 1 }}"
-                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                 {{-- {{ $vr_no_print->vr_no }} --}}
                                 {{ $vr_no_print->cheq_no_serial }}
                             </td>
                             <td
-                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
                                 {{-- {{ $new_count_cvr == 0 ? 'Cheque No.-' . $key ?? '-' : '' }} --}}
                                 {{ $new_count_cvr == 0 ? 'CHQ PMT, CHQ NO.-' . $key . ', ' . (isset($vr_no_print->cheq_date) ? \Carbon\Carbon::parse($vr_no_print->cheq_date)->format('d-m-Y') : '') : '' }}
                             </td>
                             <td
-                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                             </td>
                             @foreach ($category as $cat)
                                 <td
-                                    style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                 </td>
                             @endforeach
                             <td
-                                style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                             </td>
                         </tr>
@@ -651,7 +651,7 @@
                             @foreach ($vr_no_print->chequePaymentMembers as $count => $member)
                                 <tr>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         ({{ $count + 1 }})
                                         {{ $member['member']['name'] ?? '' }},
                                         {{ $member['member']['desigs']['designation'] ?? '' }} (CBRE -
@@ -659,12 +659,12 @@
                                         {{ isset($vr_no_print->vr_date) && $vr_no_print->vr_date ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y') : '' }})
                                     </td>
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         {{ $new_key == 0 && $count == 0 ? $key ?? '-' : '' }}
                                     </td>
                                     @foreach ($category as $cat)
                                         <td
-                                            style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                             @if (isset($member->reciepts) && $member->reciepts->category_id == $cat->id)
                                                 {{ $member->amount ? $member->amount : 0 }}
                                                 @php
@@ -680,7 +680,7 @@
                                         </td>
                                     @endforeach
                                     <td
-                                        style="font-size: 20px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                     </td>
                                 </tr>
@@ -694,7 +694,7 @@
                 @endforeach
 
                 <tr>
-                    <td height="700px"></td>
+                    <td height="600px"></td>
                     <td></td>
                     <td></td>
                     <td></td>

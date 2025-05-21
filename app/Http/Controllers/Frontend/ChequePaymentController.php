@@ -36,7 +36,7 @@ class ChequePaymentController extends Controller
 
         $limit = $request->get('limit', 10) ?? 10;
 
-        $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->orderBy('id', 'desc')->get();
+        $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('created_at', date('m'))->orderBy('id', 'desc')->get();
 
         // Fetch the data based on the limit; use paginate if it's not 'All'
         if ($limit === 'All') {
