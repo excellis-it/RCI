@@ -84,17 +84,26 @@
                                             <td>{{ $receipt_bill->dv_no ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->dv_date ?? 'N/A' }}</td>
                                             <td>{{ $receipt_bill->rct_vr_amount ?? 'N/A' }}</td>
-                                            <td class="sepharate">
-                                                <a href="#" class="edit-receipt edit_pencil ms-2"
-                                                    data-id="{{ $receipt_bill->id }}">
-                                                    <i class="ti ti-pencil"></i>
-                                                </a>
-                                                <a href="javascript:void(0);"
-                                                    class="delete-receipt edit_pencil text-danger ms-2" id="delete"
-                                                    data-route="{{ route('cda-receipts.delete', $receipt_bill->bill_id) }}">
-                                                    <i class="ti ti-trash"></i>
-                                                </a>
+                                            <td class="sepharate" style="cursor: pointer; position: relative;">
+                                                <div class="dots-toggle">
+                                                    <i class="ti ti-dots-vertical"></i>
+                                                </div>
+                                                <div class="action-buttons d-none">
+                                                    <div class="d-flex">
+                                                        <a href="#" class="edit-receipt edit_pencil ms-2"
+                                                            data-id="{{ $receipt_bill->id }}">
+                                                            <i class="ti ti-pencil"></i>
+                                                        </a>
+                                                        <a href="javascript:void(0);"
+                                                            class="delete-receipt edit_pencil text-danger ms-2"
+                                                            id="delete"
+                                                            data-route="{{ route('cda-receipts.delete', $receipt_bill->bill_id) }}">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </td>
+
                                         </tr>
                                     @endforeach
                                 @else
@@ -112,6 +121,31 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function () {
+        // Handle dot icon click
+        $(document).on('click', '.dots-toggle', function (e) {
+            e.stopPropagation();
+
+            // Hide all other actions
+            $('.action-buttons').addClass('d-none');
+            $('.dots-toggle').removeClass('d-none');
+
+            // Show action buttons for clicked row
+            $(this).addClass('d-none');
+            $(this).siblings('.action-buttons').removeClass('d-none');
+        });
+
+        // Hide all when clicking outside
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.sepharate').length) {
+                $('.action-buttons').addClass('d-none');
+                $('.dots-toggle').removeClass('d-none');
+            }
+        });
+    });
+</script>
+
     <script>
         $(document).ready(function() {
             // Handle create form submission

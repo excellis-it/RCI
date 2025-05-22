@@ -11,9 +11,15 @@
             <td>{{ $advance_fund->chq_date ?? 'N/A' }}</td>
             <td>{{ $advance_fund->variableType->name ?? 'N/A' }}</td>
 
-            <td class="sepharate">
+            <td class="sepharate" style="cursor: pointer; position: relative;">
+                <!-- Three Dots Icon -->
+                <div class="dots-toggle">
+                    <i class="ti ti-dots-vertical"></i>
+                </div>
 
-                @if ($advance_fund->isEditable())
+                <!-- Action Buttons (Initially Hidden) -->
+                <div class="action-buttons d-none">
+                   <div class="d-flex">
                     <a data-route="{{ route('advance-funds.edit', $advance_fund->id) }}" href="javascript:void(0);"
                         class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
 
@@ -21,9 +27,11 @@
                         id="delete-advance-funds" data-route="{{ route('advance-funds.delete', $advance_fund->id) }}">
                         <i class="ti ti-trash"></i>
                     </a>
-                @endif
-
+                   </div>
+                </div>
             </td>
+
+           
         </tr>
     @endforeach
     <tr class="toxic">

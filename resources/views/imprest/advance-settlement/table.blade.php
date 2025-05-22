@@ -20,19 +20,29 @@
                     <i class="ti ti-trash"></i>
             </td> --}}
             {{-- add a edit button --}}
-            <td class="sepharate">
-                @if ($advance_settlement->isEditable())
-                    <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil ms-2" id="advance-sttl-edit"
-                        data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
-                        <i class="ti ti-pencil"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2"
-                        id="advance-sttl-delete"
-                        data-route="{{ route('advance-settlement.delete', $advance_settlement->id) }}">
-                        <i class="ti ti-trash"></i>
-                    </a>
-                @endif
+            <td class="sepharate" style="cursor: pointer; position: relative;">
+                <!-- Three Dots Icon -->
+                <div class="dots-toggle">
+                    <i class="ti ti-dots-vertical"></i>
+                </div>
+
+                <!-- Action Buttons (Initially Hidden) -->
+                <div class="action-buttons d-none">
+                   <div class="d-flex">
+                    <a href="javascript:void(0);" class="edit-advance-settlement edit_pencil ms-2"
+                    data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
+                    <i class="ti ti-pencil"></i>
+                </a>
+                <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2"
+                    data-route="{{ route('advance-settlement.delete', $advance_settlement->id) }}">
+                    <i class="ti ti-trash"></i>
+                </a>
+                   </div>
+                </div>
             </td>
+
+
+
         </tr>
     @endforeach
     <tr class="toxic">

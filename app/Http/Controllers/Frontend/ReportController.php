@@ -219,19 +219,30 @@ class ReportController extends Controller
 
         $report_type = $request->report_type;
 
+        $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
+        $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
+
+        $request->merge([
+            'themonth' => $themonth,
+            'pay_bill_no' => $pay_bill_no
+        ]);
+
         if ($report_type == 'paybill') {
             return $this->downloadPayBill($request); // Pass the request object
         }
 
+        if ($report_type == 'credit_summary') {
+            return $this->downloadCreditSummary($request); // Pass the request object
+        }
         // Handle other report types if needed
         return redirect()->back()->with('error', 'Invalid report type selected.');
     }
 
-
-    private function downloadPayBill(Request $request)
+    private function downloadCreditSummary(Request $request)
     {
-        $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
-        $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
+        $themonth =  $request->themonth;
+        $pay_bill_no = $request->pay_bill_no;
+
         $all_members_info = [];
 
         $monthly_members_data = MemberMonthlyData::where('year', $request->year)
@@ -307,15 +318,99 @@ class ReportController extends Controller
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
 
-        // return view('frontend.reports.paybill-generate', compact(
-        //     'pay_bill_no',
-        //     'month',
-        //     'year',
-        //     'logo',
-        //     'da_percent',
-        //     'all_members_info',
-        //     'groupedData'
-        // ));
+        $pdf = PDF::loadView('frontend.reports.paybill-credit-summary', compact(
+            'pay_bill_no',
+            'month',
+            'year',
+            'logo',
+            'da_percent',
+            'all_members_info',
+            'groupedData'
+        ))->setPaper('a3', 'landscape');
+
+        return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
+    }
+
+
+    private function downloadPayBill(Request $request)
+    {
+        $themonth =  $request->themonth;
+        $pay_bill_no = $request->pay_bill_no;
+        $all_members_info = [];
+
+        $monthly_members_data = MemberMonthlyData::where('year', $request->year)
+            ->where('month', $themonth)
+            ->pluck('member_id');
+
+        $member_datas = Member::whereIn('id', $monthly_members_data)
+            ->where('e_status', $request->e_status)
+            ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')
+            ->orderBy('id', 'asc')
+            ->with('desigs')
+            ->get();
+
+        if ($member_datas->count() == 0) {
+            return redirect()->back()->with('error', 'No data found for the selected criteria');
+        }
+
+        foreach ($member_datas as $member_data) {
+            $member_details = [
+                'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->first(),
+                'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->first(),
+                'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->first(),
+                'member_core_info' => MemberMonthlyDataCoreInfo::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->first(),
+                'member_loans' => [
+                    'hba_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 4)
+                        ->first()['inst_amount'] ?? 0,
+                    'car_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 1)
+                        ->first()['inst_amount'] ?? 0,
+                    'edu_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 2)
+                        ->first()['inst_amount'] ?? 0,
+                    'comp_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 3)
+                        ->first()['inst_amount'] ?? 0,
+                ],
+            ];
+
+            $combined_member_info = [
+                'member_data' => $member_data,
+                'details' => $member_details,
+            ];
+
+            $all_members_info[] = $combined_member_info;
+        }
+
+        $groupedData = collect($all_members_info)->chunk(5);
+        $month =  date('F', mktime(0, 0, 0, $request->month, 10));
+        $year = $request->year;
+        $logo = Helper::logo() ?? '';
+        $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
+
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact(
             'pay_bill_no',
             'month',

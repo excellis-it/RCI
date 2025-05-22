@@ -256,8 +256,8 @@ class MemberPayGenerate extends Controller
                 $member_credit_monthly_data->hra = $hraAmount;
 
                 $npsc = (($basicPay + $daAmount) * 14) / 100;
-                $npg_arrs = (($basicPay + $daAmount) * 14) / 100;
-                $npg_adj = (($basicPay + $daAmount) * 14) / 100;
+                $npg_arrs = 0;
+                $npg_adj = 0;
 
                 $member_credit_monthly_data->npsc = $npsc;
                 $member_credit_monthly_data->npg_arrs = $npg_arrs;
@@ -385,8 +385,8 @@ class MemberPayGenerate extends Controller
                 $member_debit_monthly_data->ccl = 0;
 
                 $npsg = (($basicPay + $daAmount) * 14) / 100;
-                $npsg_arr = (($basicPay + $daAmount) * 14) / 100;
-                $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
+                $npsg_arr = 0;
+                $npsg_adj = 0;
 
                 $member_debit_monthly_data->npsg = $npsg;
                 $member_debit_monthly_data->npsg_arr = $npsg_arr;
@@ -475,6 +475,9 @@ class MemberPayGenerate extends Controller
                     'npsg',
                     'npsg_arr',
                     'npsg_adj',
+                    'nps_10_rec',
+                    'nps_10_arr',
+                    'nps_14_adj',,
                     'society'
                 ];
 
@@ -810,8 +813,8 @@ class MemberPayGenerate extends Controller
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
                     $npsc = (($basicPay + $daAmount) * 14) / 100;
-                    $npg_arrs = (($basicPay + $daAmount) * 14) / 100;
-                    $npg_adj = (($basicPay + $daAmount) * 14) / 100;
+                    $npg_arrs = 0;
+                    $npg_adj = 0;
 
                     $member_credit_monthly_data->npsc = $npsc;
                     $member_credit_monthly_data->npg_arrs = $npg_arrs;
@@ -935,7 +938,7 @@ class MemberPayGenerate extends Controller
                     }
 
                     $npsg = (($basicPay + $daAmount) * 14) / 100;
-                    $npsg_arr = (($basicPay + $daAmount) * 14) / 100;
+                    $npsg_arr = 0;
                     $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
 
                     $member_debit_monthly_data->npsg = $npsg;
@@ -1026,7 +1029,10 @@ class MemberPayGenerate extends Controller
                         'npsg',
                         'npsg_arr',
                         'npsg_adj',
-                        'society'
+                        'society',
+                        'nps_10_rec',
+                        'nps_10_arr',
+                        'nps_14_adj',
                     ];
 
                     $totalDebits = 0;

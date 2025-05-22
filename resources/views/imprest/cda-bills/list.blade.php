@@ -108,21 +108,31 @@
                                             <td>{{ $advance_bill->chq_no ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->chq_date ?? 'N/A' }}</td>
                                             <td>{{ $advance_bill->variableType->name ?? 'N/A' }}</td>
-                                            <td class="sepharate">
-                                                @if ($advance_bill->isEditable())
-                                                    <a href="#" class="edit-bill edit_pencil ms-2"
-                                                        data-id="{{ $advance_bill->id }}" title="Edit">
-                                                        <i class="ti ti-pencil"></i>
-                                                    </a>
-                                                    <a href="javascript:void(0);"
-                                                        class="delete-cda-bill edit_pencil text-danger ms-2"
-                                                        data-route="{{ route('cda-bills.delete', $advance_bill->id) }}">
-                                                        <i class="ti ti-trash"></i>
-                                                    </a>
-                                                @else
-                                                    {{-- <i class="ti ti-lock text-muted"
+                                            <td class="sepharate" style="cursor: pointer; position: relative;">
+                                                {{-- @if ($advance_bill->isEditable()) --}}
+                                                <!-- Three Dots Icon -->
+                                                <div class="dots-toggle">
+                                                    <i class="ti ti-dots-vertical"></i>
+                                                </div>
+
+                                                <!-- Action Buttons (Initially Hidden) -->
+                                                <div class="action-buttons d-none">
+                                                    <div class="d-flex">
+                                                        <a href="#" class="edit-bill edit_pencil ms-2"
+                                                            data-id="{{ $advance_bill->id }}" title="Edit">
+                                                            <i class="ti ti-pencil"></i>
+                                                        </a>
+                                                        <a href="javascript:void(0);"
+                                                            class="delete-cda-bill edit_pencil text-danger ms-2"
+                                                            data-route="{{ route('cda-bills.delete', $advance_bill->id) }}">
+                                                            <i class="ti ti-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {{-- @else --}}
+                                            {{-- <i class="ti ti-lock text-muted"
                                                         title="Cannot edit - has CDA receipt"></i> --}}
-                                                @endif
+                                            {{-- @endif --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -145,6 +155,31 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function () {
+        // Handle dot icon click
+        $(document).on('click', '.dots-toggle', function (e) {
+            e.stopPropagation();
+
+            // Hide all other actions
+            $('.action-buttons').addClass('d-none');
+            $('.dots-toggle').removeClass('d-none');
+
+            // Show action buttons for clicked row
+            $(this).addClass('d-none');
+            $(this).siblings('.action-buttons').removeClass('d-none');
+        });
+
+        // Hide all when clicking outside
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.sepharate').length) {
+                $('.action-buttons').addClass('d-none');
+                $('.dots-toggle').removeClass('d-none');
+            }
+        });
+    });
+</script>
+
     <script>
         $(document).ready(function() {
             $('#cda-bills-create-form').submit(function(e) {

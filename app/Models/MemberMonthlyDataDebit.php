@@ -67,7 +67,13 @@ class MemberMonthlyDataDebit extends Model
         'remarks',
         'month',
         'year',
-        'apply_date'
+        'apply_date',
+        'npsg',
+        'npsg_arr',
+        'npsg_adj',
+        'nps_10_rec',
+        'nps_10_arr',
+        'nps_14_adj'
     ];
 
 

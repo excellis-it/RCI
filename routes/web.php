@@ -160,6 +160,9 @@ Route::get('/login', function () {
     return view('welcome');
 });
 
+
+
+
 Route::get('/subscription', function () {
     Artisan::call('migrate:session "2026-09-01" "20ExcellisRcKey25"');
 });

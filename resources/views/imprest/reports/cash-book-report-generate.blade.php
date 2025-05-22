@@ -1202,7 +1202,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cda_bill->variableType->name ?? '' }}
+                                                {{ 'MISC' }}
                                             </td>
 
                                             <td

@@ -937,7 +937,10 @@ class Helper
                 'npsg',
                 'npsg_arr',
                 'npsg_adj',
-                'society'
+                'society',
+                'nps_10_rec',
+                'nps_10_arr',
+                'nps_14_adj',
             ];
             $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $month)->where('year', $year)->get();
             $total_credits = MemberMonthlyDataCredit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first()['tot_credits'] ?? 0;

@@ -438,8 +438,8 @@ class MemberController extends Controller
             }
         }
         $npsc = (($basicPay + $daAmount) * 14) / 100;
-        $npg_arrs = (($basicPay + $daAmount) * 14) / 100;
-        $npg_adj = (($basicPay + $daAmount) * 14) / 100;
+        $npg_arrs = 0;
+        $npg_adj = 0;
 
         $member_credit_data = [
             'member_id' => $member->id,
@@ -513,8 +513,8 @@ class MemberController extends Controller
         }
 
         $npsg = (($basicPay + $daAmount) * 14) / 100;
-        $npsg_arr = (($basicPay + $daAmount) * 14) / 100;
-        $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
+        $npsg_arr = 0;
+        $npsg_adj = 0;
 
         $member_debit_data = [
             'member_id' => $member->id,

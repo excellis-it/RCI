@@ -113,6 +113,33 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function () {
+        // Handle dot icon click
+        $(document).on('click', '.dots-toggle', function (e) {
+            e.stopPropagation();
+
+            // Hide all other actions
+            $('.action-buttons').addClass('d-none');
+            $('.dots-toggle').removeClass('d-none');
+
+            // Show action buttons for clicked row
+            $(this).addClass('d-none');
+            $(this).siblings('.action-buttons').removeClass('d-none');
+        });
+
+        // Hide all when clicking outside
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.sepharate').length) {
+                $('.action-buttons').addClass('d-none');
+                $('.dots-toggle').removeClass('d-none');
+            }
+        });
+    });
+</script>
+
+
+
     <script>
         $(document).ready(function() {
 

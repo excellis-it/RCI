@@ -404,6 +404,22 @@
                 </div>
             </div>
         </div>
+         <!-- NPS 10 Rec -->
+         <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPS Rec(10%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="nps_10_rec" id="nps_10_rec"
+                            value="{{ $member_debit->nps_10_rec ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -413,6 +429,21 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npsg" id="npsg"
                             value="{{ $member_debit->npsg ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <!-- NPS 10 Arr -->
+          <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPS Arr (10%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="nps_10_arr" id="nps_10_arr"
+                            value="{{ $member_debit->nps_10_arr ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -437,7 +468,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NPSG Adj (10%)</label>
+                        <label>NPS Adj (10%)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npsg_adj" id="npsg_adj"
@@ -448,6 +479,21 @@
             </div>
         </div>
 
+        <!-- NPG 14 Adj -->
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPS Adj(14%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="nps_14_adj" id="nps_14_adj"
+                            value="{{ $member_debit->nps_14_adj ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -807,8 +853,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control loan_inst_amounts" name="loan_amounts"
-                                        id=""
-                                        value="{{ round($loan_info->inst_amount, 2) ?? 0 }}"
+                                        id="" value="{{ round($loan_info->inst_amount, 2) ?? 0 }}"
                                         placeholder="0" readonly>
                                     <span class="text-danger"></span>
                                 </div>
