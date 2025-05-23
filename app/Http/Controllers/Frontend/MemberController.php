@@ -806,6 +806,12 @@ class MemberController extends Controller
         $check_debit_member_monthly->npsg = $request->npsg;
         $check_debit_member_monthly->npsg_arr = $request->npsg_arr;
         $check_debit_member_monthly->npsg_adj = $request->npsg_adj;
+
+        $check_debit_member_monthly->nps_10_rec = $request->nps_10_rec ?? 0;
+        $check_debit_member_monthly->nps_10_arr = $request->nps_10_arr ?? 0;
+        $check_debit_member_monthly->nps_14_adj = $request->nps_14_adj ?? 0;
+
+
         $check_debit_member_monthly->hba_cur_instl = $request->hba_cur_instl;
         $check_debit_member_monthly->hba_total_instl = $request->hba_total_instl;
         $check_debit_member_monthly->hba_int_cur_instl = $request->hba_int_cur_instl;
@@ -887,9 +893,15 @@ class MemberController extends Controller
             $update_debit_member->penal_intr = $request->penal_interest;
             $update_debit_member->society = $request->society;
             $update_debit_member->arrear_pay = $request->arrear_pay;
+
             $update_debit_member->npsg = $request->npsg;
             $update_debit_member->npsg_arr = $request->npsg_arr;
             $update_debit_member->npsg_adj = $request->npsg_adj;
+
+            $update_debit_member->nps_10_rec = $request->nps_10_rec ?? 0;
+            $update_debit_member->nps_10_arr = $request->nps_10_arr ?? 0;
+            $update_debit_member->nps_14_adj = $request->nps_14_adj ?? 0;
+
             $update_debit_member->hba_cur_instl = $request->hba_cur_instl;
             $update_debit_member->hba_total_instl = $request->hba_total_instl;
             $update_debit_member->hba_int_cur_instl = $request->hba_int_cur_instl;
@@ -2660,6 +2672,10 @@ class MemberController extends Controller
                 }
             }
         }
+        $npsc =0;
+        if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+            $npsc = (($basicPay + $daAmount) * 14) / 100;
+        }
 
         $member_credit_data_monthly = [
             'month' => date('m'),
@@ -2682,6 +2698,7 @@ class MemberController extends Controller
             'add_inc2' => 0,
             'npa' => 0,
             'deptn_alw' => 0,
+            'npsc' => $npsc,
             'misc1' => 0,
             'var_incr' => 0,
             'wash_alw' => 0,
@@ -2792,6 +2809,13 @@ class MemberController extends Controller
             }
         }
 
+        $npsg =0;
+        $nps_10_rec = 0;
+        if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+            $npsg = (($basicPay + $daAmount) * 14) / 100;
+            $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
+        }
+
         $member_debit_data_monthly = [
             'month' => date('m'),
             'year' => date('Y'),
@@ -2851,9 +2875,16 @@ class MemberController extends Controller
             'penal_intr' => 0,
             'society' => 0,
             'arrear_pay' => 0,
-            'npsg' => 0,
+
+            'npsg' => $npsg,
             'npsg_arr' => 0,
             'npsg_adj' => 0,
+
+
+            'nps_10_rec' => $nps_10_rec,
+            'nps_10_arr' => 0,
+            'nps_14_adj' => 0,
+
             'hba_cur_instl' => 0,
             'hba_total_instl' => 0,
             'hba_int_cur_instl' => 0,

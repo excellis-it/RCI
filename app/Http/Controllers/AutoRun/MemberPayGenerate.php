@@ -384,13 +384,25 @@ class MemberPayGenerate extends Controller
                 $member_debit_monthly_data->eol = 0;
                 $member_debit_monthly_data->ccl = 0;
 
-                $npsg = (($basicPay + $daAmount) * 14) / 100;
+                $npsg = 0;
                 $npsg_arr = 0;
                 $npsg_adj = 0;
+                $nps_10_rec = 0;
+
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                    $npsg = (($basicPay + $daAmount) * 14) / 100;
+                    $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
+                }
 
                 $member_debit_monthly_data->npsg = $npsg;
                 $member_debit_monthly_data->npsg_arr = $npsg_arr;
                 $member_debit_monthly_data->npsg_adj = $npsg_adj;
+
+                $member_debit_monthly_data->nps_10_rec = $nps_10_rec;
+                $member_debit_monthly_data->nps_10_arr = 0;
+                $member_debit_monthly_data->nps_14_adj = 0;
+
+
                 $member_debit_monthly_data->month = $month;
                 $member_debit_monthly_data->year = $year;
                 $member_debit_monthly_data->apply_date = date('Y-m-d');
@@ -477,7 +489,7 @@ class MemberPayGenerate extends Controller
                     'npsg_adj',
                     'nps_10_rec',
                     'nps_10_arr',
-                    'nps_14_adj',,
+                    'nps_14_adj',
                     'society'
                 ];
 
@@ -937,13 +949,22 @@ class MemberPayGenerate extends Controller
                         }
                     }
 
-                    $npsg = (($basicPay + $daAmount) * 14) / 100;
+                    $npsg = 0;
                     $npsg_arr = 0;
-                    $npsg_adj = (($basicPay + $daAmount) * 10) / 100;
+                    $npsg_adj = 0;
+                    $nps_10_rec = 0;
+
+                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                        $npsg = (($basicPay + $daAmount) * 14) / 100;
+                        $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
+                    }
 
                     $member_debit_monthly_data->npsg = $npsg;
                     $member_debit_monthly_data->npsg_arr = $npsg_arr;
                     $member_debit_monthly_data->npsg_adj = $npsg_adj;
+                    $member_debit_monthly_data->nps_10_rec = $nps_10_rec;
+                    $member_debit_monthly_data->nps_10_arr = 0;
+                    $member_debit_monthly_data->nps_14_adj = 0;
 
                     $member_debit_monthly_data->month = $month;
                     $member_debit_monthly_data->year = $year;

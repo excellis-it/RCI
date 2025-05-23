@@ -124,6 +124,7 @@
     @if (count($receipt_members) > 0)
         @php
             $count_new_member = 0;
+            $start = 0;
             $all_cheque_payment_member_id = [];
             $total_previous_balance = [];
             $total_previous_balance_carried_forward = [];
@@ -161,6 +162,7 @@
                             //    $totalPayments[$cat->id] = 0;
                             $totalPaymentsToday[$cat->id] = 0;
                             if ($count_new_member > 0) {
+                                // dd($total_opening_bank_balance , $total_previous_balance[$cat->id]);
                                 $total_opening_bank_balance += $total_previous_balance[$cat->id];
                             } else {
                                 $total_opening_bank_balance += Helper::get_openings_balance($cat->id, $pre_vr_date);
@@ -175,26 +177,39 @@
                             ->toArray();
 
                     @endphp
+                    @if ($count_new_member > 0)
 
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
-                        <td></td>
-                        <td>Opening Balance</td>
-                        <td>0</td>
-                        <td>{{ $total_opening_bank_balance }}</td>
-                        @foreach ($category as $cat)
-                            <td>
-                                @if ($count_new_member > 0)
+                        {{-- @dd($total_opening_bank_balance); --}}
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
+                            <td></td>
+                            <td>Bought Forward</td>
+                            <td>0</td>
+                            <td>{{ $total_opening_bank_balance }}</td>
+                            @foreach ($category as $cat)
+                                <td>
                                     {{ $total_previous_balance[$cat->id] }}
-                                @else
+                                </td>
+                            @endforeach
+                            <td></td>
+
+                        </tr>
+                    @else
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
+                            <td></td>
+                            <td>Opening Balance</td>
+                            <td>0</td>
+                            <td>{{ $total_opening_bank_balance }}</td>
+                            @foreach ($category as $cat)
+                                <td>
                                     {{ Helper::get_openings_balance($cat->id, $pre_vr_date) }}
-                                @endif
-                            </td>
-                        @endforeach
-                        <td></td>
+                                </td>
+                            @endforeach
+                            <td></td>
 
-                    </tr>
-
+                        </tr>
+                    @endif
                     @foreach ($receipts as $key => $receipt)
                         @if (isset($data_member_group_by_with_reciept_id[$receipt->id]))
                             {{-- @dd($receipt, $data_member_group_by_with_reciept_id[$receipt->id]) --}}
@@ -321,7 +336,8 @@
                                         style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">
                                         <td
                                             style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            {{ $member['serial_no'] }}. {{ $memberName }} - {{ $memberDesign }} ( {{ $member['bill_ref'] ?? ''}})
+                                            {{ $member['serial_no'] }}. {{ $memberName }} - {{ $memberDesign }} (
+                                            {{ $member['bill_ref'] ?? '' }})
                                         </td>
                                         <td
                                             style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -355,10 +371,10 @@
                     @endforeach
                     @if (count($new_member) <= 22)
                         @php
-                            $pixel_table = 650 - (33.5 * count($new_member));
+                            $pixel_table = 650 - 33.5 * count($new_member);
                         @endphp
                         <tr>
-                            <td height="{{$pixel_table}}px"></td>
+                            <td height="{{ $pixel_table }}px"></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -377,16 +393,21 @@
                         $total_payment_bank = 0;
                         $balance_carried_forword = 0;
                         foreach ($category as $cat) {
-                            $total_bank_amount +=
-                                $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
+
                             $total_payment_bank += $totalPaymentsToday[$cat->id];
 
                             if ($count_new_member > 0) {
+                                  $total_bank_amount +=
+                                $categoryAmounts[$cat->id];
+
                                 $balance_carried_forword +=
                                     $categoryAmounts[$cat->id] +
                                     $total_previous_balance[$cat->id] -
                                     $totalPaymentsToday[$cat->id];
                             } else {
+                                  $total_bank_amount +=
+                                $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
+
                                 $balance_carried_forword +=
                                     $categoryAmounts[$cat->id] +
                                     Helper::get_openings_balance($cat->id, $pre_vr_date) -
@@ -398,28 +419,48 @@
                     <tr>
                         <td colspan="3">Total Receipts</td>
                         <td>0</td>
-                        <td>{{ $total_bank_amount }}</td>
+                        <td>
+                            @if ($count_new_member > 0)
+                             {{ $total_bank_amount + $total_opening_bank_balance }}
+                            @else
+ {{ $total_bank_amount }}
+                            @endif
+
+                        </td>
                         @foreach ($category as $cat)
-                            <td>{{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                            <td>
+                                @if ($count_new_member > 0)
+                                    {{ ($categoryAmounts[$cat->id] + $total_previous_balance[$cat->id]) }}
+                                    @php
+                                        $total_previous_balance[$cat->id] =
+                                        $categoryAmounts[$cat->id] + $total_previous_balance[$cat->id];
+                                    @endphp
+                                @else
+                                    {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                                    @php
+                                        $total_previous_balance[$cat->id] =
+                                            $categoryAmounts[$cat->id] +
+                                            Helper::get_openings_balance($cat->id, $pre_vr_date);
+                                    @endphp
+                                @endif
                             </td>
                         @endforeach
                         <td></td>
                     </tr>
 
-                    <tr>
+                    {{-- <tr>
                         <td colspan="3">Total Payments</td>
                         <td>0</td>
                         <td>{{ $total_payment_bank }}</td>
                         @foreach ($category as $cat)
                             <td>
                                 {{ $totalPaymentsToday[$cat->id] }}
-                                {{-- {{ Helper::total_payment_today($cat->id, $vr_date) }} --}}
                             </td>
                         @endforeach
                         <td></td>
-                    </tr>
+                    </tr> --}}
 
-                    <tr>
+                    {{-- <tr>
                         <td colspan="3">Balance Carried Forward</td>
                         <td>0</td>
                         <td>{{ $balance_carried_forword }}</td>
@@ -447,7 +488,7 @@
                             </td>
                         @endforeach
                         <td></td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
             @php
@@ -683,32 +724,31 @@
                     <td></td>
                 </tr>
 
-                <tr>
+                {{-- <tr>
                     <td colspan="3">Total Payments</td>
                     <td>0</td>
                     <td>{{ $total_payment_bank }} </td>
                     @foreach ($category as $cat)
                         <td>
                             {{ Helper::total_payment_today($cat->id, $vr_date) }}
-                            {{-- {{ $totalPayments[$cat->id] }} --}}
+
                         </td>
                     @endforeach
                     <td></td>
-                </tr>
+                </tr> --}}
 
-                <tr>
+                {{-- <tr>
                     <td colspan="3">Balance Carried Forward</td>
                     <td>0</td>
                     <td>{{ $balance_carried_forword }} </td>
                     @foreach ($category as $cat)
                         <td>
                             {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - Helper::total_payment_today($cat->id, $vr_date) }}
-                            {{-- {{ $categoryAmounts[$cat->id] - $totalPayments[$cat->id] }} --}}
 
                         </td>
                     @endforeach
                     <td></td>
-                </tr>
+                </tr> --}}
 
 
             </tbody>

@@ -1831,7 +1831,9 @@
         // === Calculate Debits from Deductions ===
         const debitFields = [
             "#gpa_sub", "#gpa_adv", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car", "#car_interest",
-            '#gpf_rec', '#npsg_arr',
+            '#gpf_rec', '#npsg_arr', '#nps_10_rec',
+            '#nps_10_arr',
+            '#nps_14_adj',
             "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
             "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
             "#penal_interest", "#nps_sub", "#nps_rec", "#eol", "#ccl", "#rent", "#elec", "#pc", "#water",

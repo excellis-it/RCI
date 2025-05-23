@@ -544,7 +544,7 @@ class ReceiptController extends Controller
             $query->where('vr_date', $vr_date);
         })->orderBy('vr_no', 'asc')->get()->chunk(23);
 
-        // dd($receipt_members->toArray());
+        // dd($receipt_members->toArray()->pluck('id'));
 
         $receipts = DB::table('receipts')
             ->leftJoin('payment_categories', 'receipts.category_id', '=', 'payment_categories.id')
