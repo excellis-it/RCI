@@ -520,8 +520,6 @@ class MemberController extends Controller
             'member_id' => $member->id,
             'gpa_sub' => $gpfDeduction,
             'nps_sub' => $npsSubTotal,
-            'nps_rec' => 0,
-            'nps_arr' => 0,
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,

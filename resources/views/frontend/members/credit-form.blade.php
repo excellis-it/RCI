@@ -102,7 +102,8 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="da_on_tpt" id="da_on_tpt"
-                            value="{{ $member_credit->da_on_tpt ?? (old('da_on_tpt') ?? '') }}" placeholder="" readonly>
+                            value="{{ $member_credit->da_on_tpt ?? (old('da_on_tpt') ?? '') }}" placeholder=""
+                            readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -142,7 +143,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Spl Pay</label>
+                        <label>S. Pay</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="s_pay" id="s_pay"
@@ -170,6 +171,24 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
+                        <label>Cr Water</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="cr_water" id="cr_water"
+                            value="{{ $member_credit->cr_water ?? (old('cr_water') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
                         <label>2 Add Inc</label>
                     </div>
                     <div class="col-md-12">
@@ -180,23 +199,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-3">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Cr Water</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="cr_water" id="cr_water"
-                            value="{{ $member_credit->cr_water ?? (old('cr_water') ?? '') }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-    </div>
-    <div class="row">
-
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -229,7 +231,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc Credit(IT)</label>
+                        <label>Misc 1</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc_1" id="misc_1"
@@ -240,6 +242,9 @@
             </div>
         </div>
         {{-- @dd($member_credit) --}}
+
+    </div>
+    <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -255,9 +260,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -290,7 +292,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc Credit</label>
+                        <label>Misc 2</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc_2" id="misc_2"
@@ -300,21 +302,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>SPL Incentive</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="spl_incentive" id="spl_incentive"
-                            value="{{ $member_credit->spl_incentive ?? (old('spl_incentive') ?? '') }}"
-                            placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -452,8 +440,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npsc" id="npsc"
-                            value="{{ $member_credit->npsc ?? (old('npsc') ?? '') }}"
-                            placeholder="" >
+                            value="{{ $member_credit->npsc ?? (old('npsc') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -467,8 +454,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npg_arrs" id="npg_arrs"
-                            value="{{ $member_credit->npg_arrs ?? (old('npg_arrs') ?? '') }}"
-                            placeholder="" >
+                            value="{{ $member_credit->npg_arrs ?? (old('npg_arrs') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -482,8 +468,22 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="npg_adj" id="npg_adj"
-                            value="{{ $member_credit->npg_adj ?? (old('npg_adj') ?? '') }}"
-                            placeholder="" >
+                            value="{{ $member_credit->npg_adj ?? (old('npg_adj') ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>SPL Incentive</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="spl_incentive" id="spl_incentive"
+                            value="{{ $member_credit->spl_incentive ?? (old('spl_incentive') ?? '') }}"
+                            placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -497,8 +497,8 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tot_credits" id="tot_credits"
-                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? '') }}"
-                            placeholder="" readonly>
+                            value="{{ $member_credit->tot_credits ?? (old('tot_credits') ?? '') }}" placeholder=""
+                            readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>

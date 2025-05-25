@@ -750,8 +750,6 @@ class MemberController extends Controller
         $check_debit_member_monthly->member_id = $request->member_id;
         $check_debit_member_monthly->gpa_sub = $request->gpa_sub ?? 0;
         $check_debit_member_monthly->nps_sub = $request->nps_sub ?? 0;
-        $check_debit_member_monthly->nps_rec = $request->nps_rec ?? 0;
-        $check_debit_member_monthly->nps_arr = $request->nps_arr ?? 0;
 
         $check_debit_member_monthly->eol = $request->eol;
         $check_debit_member_monthly->ccl = $request->ccl;
@@ -841,8 +839,6 @@ class MemberController extends Controller
 
             $update_debit_member->gpa_sub = $request->gpa_sub ?? 0;
             $update_debit_member->nps_sub = $request->nps_sub ?? 0;
-            $update_debit_member->nps_rec = $request->nps_rec ?? 0;
-            $update_debit_member->nps_arr = $request->nps_arr ?? 0;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->ccl = $request->ccl;
             $update_debit_member->rent = $request->rent;
@@ -931,8 +927,6 @@ class MemberController extends Controller
             $debit_member->member_id = $request->member_id;
             $debit_member->gpa_sub = $request->gpa_sub ?? 0;
             $debit_member->nps_sub = $request->nps_sub ?? 0;
-            $debit_member->nps_rec = $request->nps_rec ?? 0;
-            $debit_member->nps_arr = $request->nps_arr ?? 0;
             $debit_member->eol = $request->eol;
             $debit_member->ccl = $request->ccl;
             $debit_member->rent = $request->rent;
@@ -2823,8 +2817,6 @@ class MemberController extends Controller
             'member_id' => $member->id,
             'gpa_sub' => $gpfDeduction,
             'nps_sub' => $npsSubTotal,
-            'nps_rec' => 0,
-            'nps_arr' => 0,
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,
@@ -2916,8 +2908,6 @@ class MemberController extends Controller
             'member_id' => $member->id,
             'gpa_sub' => $gpfDeduction,
             'nps_sub' => $npsSubTotal,
-            'nps_rec' => 0,
-            'nps_arr' => 0,
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,

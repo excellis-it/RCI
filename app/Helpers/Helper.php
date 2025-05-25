@@ -864,8 +864,6 @@ class Helper
                 'gpa_sub',
                 'gpf_adv',
                 'nps_sub',
-                'nps_rec',
-                'nps_arr',
                 'eol',
                 'ccl',
                 'rent',

@@ -1836,9 +1836,9 @@
             '#nps_14_adj',
             "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
             "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
-            "#penal_interest", "#nps_sub", "#nps_rec", "#eol", "#ccl", "#rent", "#elec", "#pc", "#water",
+            "#penal_interest", "#nps_sub",  "#eol", "#ccl", "#rent", "#elec","#elec_arr", "#pc", "#water", "#water_arr",
             "#arrear_pay", "#npsg", "#npsg_adj", "#ltc_rec", "#medical_rec", "#tada_rec", "#misc3",
-            "#cda", "#furn", "#hra_rec", "#cmg", "#tpt_rec", "#society"
+            "#cda", "#furn","#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#society"
         ];
 
         function updateTotalDebit() {
