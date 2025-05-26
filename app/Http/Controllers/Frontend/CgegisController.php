@@ -8,6 +8,7 @@ use App\Models\Cgegis;
 use App\Models\Designation;
 use App\Models\Group;
 use App\Models\Member;
+use App\Models\PmLevel;
 
 class CgegisController extends Controller
 {
@@ -19,7 +20,8 @@ class CgegisController extends Controller
         $cgeGis = Cgegis::orderBy('id', 'desc')->paginate(10);
         $groups = Group::where('status', 1)->get();
         $designations = Designation::orderBy('id', 'desc')->get();
-        return view('frontend.cgegis.list',compact('cgeGis','groups', 'designations'));
+        $pay_levels = PmLevel::get();
+        return view('frontend.cgegis.list',compact('cgeGis','groups', 'designations', 'pay_levels'));
     }
 
     public function fetchData(Request $request)
@@ -58,12 +60,14 @@ class CgegisController extends Controller
         $request->validate([
             'group_id' => 'required',
             'designation_id' => 'required',
+            'pay_level_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_value = new Cgegis();
         $cgegis_value->designation_id = $request->designation_id;
+        $cgegis_value->pay_level_id = $request->pay_level_id;
         $cgegis_value->group_id = $request->group_id;
         $cgegis_value->value = $request->value;
         $cgegis_value->status = $request->status;
@@ -90,8 +94,9 @@ class CgegisController extends Controller
         $cgegis = Cgegis::find($id);
         $groups = Group::where('status', 1)->get();
         $designations = Designation::orderBy('id', 'desc')->get();
+        $pay_levels = PmLevel::get();
         $edit = true;
-        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis','groups', 'designations'))->render()]);
+        return response()->json(['view' => view('frontend.cgegis.form', compact('edit','cgegis','groups', 'designations','pay_levels'))->render()]);
     }
 
     /**
@@ -104,9 +109,12 @@ class CgegisController extends Controller
             'designation_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
+            'pay_level_id' => 'required',
         ]);
 
         $cgegis_update = Cgegis::find($id);
+
+        $cgegis_update->pay_level_id = $request->pay_level_id;
         $cgegis_update->group_id = $request->group_id;
         $cgegis_update->designation_id = $request->designation_id;
         $cgegis_update->value = $request->value;

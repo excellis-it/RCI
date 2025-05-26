@@ -11,7 +11,7 @@
                                 <label>Pay Level</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="group_id" id="group_id">
+                                <select class="form-select" name="pay_level_id" id="pay_level_id">
                                     @foreach ($pay_levels as $pay_level)
                                         <option value="{{ $pay_level->id }}"
                                             {{ $cghs->pay_level_id == $pay_level->id ? 'selected' : '' }}>

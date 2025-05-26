@@ -169,6 +169,7 @@
                             }
                         }
 
+                        // dd($total_opening_bank_balance);
                         $new_count_cvr = 0;
 
                         $data_member_group_by_with_reciept_id = $new_member
@@ -178,17 +179,15 @@
 
                     @endphp
                     @if ($count_new_member > 0)
-
-                        {{-- @dd($total_opening_bank_balance); --}}
                         <tr>
                             <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
                             <td></td>
-                            <td>Bought Forward</td>
+                            <td>Brought Forward</td>
                             <td>0</td>
-                            <td>{{ $total_opening_bank_balance }}</td>
+                            <td>{{ (number_format($total_opening_bank_balance)) }}</td>
                             @foreach ($category as $cat)
                                 <td>
-                                    {{ $total_previous_balance[$cat->id] }}
+                                    {{ number_format($total_previous_balance[$cat->id]) }}
                                 </td>
                             @endforeach
                             <td></td>
@@ -200,10 +199,10 @@
                             <td></td>
                             <td>Opening Balance</td>
                             <td>0</td>
-                            <td>{{ $total_opening_bank_balance }}</td>
+                            <td>{{ number_format($total_opening_bank_balance) }}</td>
                             @foreach ($category as $cat)
                                 <td>
-                                    {{ Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                                    {{ number_format(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                                 </td>
                             @endforeach
                             <td></td>
@@ -353,7 +352,7 @@
                                                 style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 @if ($receipt->category_id == $cat->id)
                                                     @if (isset($categoryMemberAmounts[$cat->id]))
-                                                        {{ $member['amount'] }}
+                                                        {{ number_format($member['amount']) }}
                                                     @endif
                                                 @endif
                                             </td>
@@ -394,24 +393,22 @@
                         $balance_carried_forword = 0;
                         foreach ($category as $cat) {
 
-                            $total_payment_bank += $totalPaymentsToday[$cat->id];
 
                             if ($count_new_member > 0) {
-                                  $total_bank_amount +=
-                                $categoryAmounts[$cat->id];
-
                                 $balance_carried_forword +=
                                     $categoryAmounts[$cat->id] +
                                     $total_previous_balance[$cat->id] -
                                     $totalPaymentsToday[$cat->id];
+                                    $total_bank_amount +=  $categoryAmounts[$cat->id] + $total_previous_balance[$cat->id];
                             } else {
-                                  $total_bank_amount +=
-                                $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
-
                                 $balance_carried_forword +=
                                     $categoryAmounts[$cat->id] +
                                     Helper::get_openings_balance($cat->id, $pre_vr_date) -
                                     $totalPaymentsToday[$cat->id];
+
+                                    $total_bank_amount +=
+                                $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date);
+                            $total_payment_bank += $totalPaymentsToday[$cat->id];
                             }
                         }
                     @endphp
@@ -420,23 +417,18 @@
                         <td colspan="3">Total Receipts</td>
                         <td>0</td>
                         <td>
-                            @if ($count_new_member > 0)
-                             {{ $total_bank_amount + $total_opening_bank_balance }}
-                            @else
- {{ $total_bank_amount }}
-                            @endif
-
+                            {{ number_format($total_bank_amount) }}
                         </td>
                         @foreach ($category as $cat)
                             <td>
                                 @if ($count_new_member > 0)
-                                    {{ ($categoryAmounts[$cat->id] + $total_previous_balance[$cat->id]) }}
+                                    {{ number_format($categoryAmounts[$cat->id] + $total_previous_balance[$cat->id]) }}
                                     @php
                                         $total_previous_balance[$cat->id] =
                                         $categoryAmounts[$cat->id] + $total_previous_balance[$cat->id];
                                     @endphp
                                 @else
-                                    {{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                                    {{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                                     @php
                                         $total_previous_balance[$cat->id] =
                                             $categoryAmounts[$cat->id] +
@@ -530,10 +522,10 @@
                     <td></td>
                     <td>Opening Balance</td>
                     <td>0</td>
-                    <td>{{ $total_opening_bank_amount }}</td>
+                    <td>{{ number_format($total_opening_bank_amount )}}</td>
                     @foreach ($category as $cat)
                         <td>
-                            {{ Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                            {{ number_format(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                         </td>
                     @endforeach
                     <td></td>
@@ -653,7 +645,7 @@
                                         style="font-size: 18px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         @if ($receipt->category_id == $cat->id)
                                             @if (isset($categoryMemberAmounts[$cat->id]))
-                                                {{ $member->amount }}
+                                                {{ number_format($member->amount) }}
                                             @endif
                                         @endif
                                     </td>
@@ -716,9 +708,9 @@
                 <tr>
                     <td colspan="3">Total Receipts</td>
                     <td>0</td>
-                    <td>{{ $total_bank_amount }} </td>
+                    <td>{{ number_format($total_bank_amount) }} </td>
                     @foreach ($category as $cat)
-                        <td>{{ $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) }}
+                        <td>{{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                         </td>
                     @endforeach
                     <td></td>

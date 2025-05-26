@@ -24,7 +24,7 @@
     @font-face {
         font-family: 'NotoSansDevanagari';
         src: url("{{ public_path('font/NotoSansDevanagari-Bold.ttf') }}") format('truetype');
-        font-weight: bold;
+        font-weight: normal;
         font-style: normal;
     }
 
@@ -38,7 +38,7 @@
     @font-face {
         font-family: 'NotoSansDevanagari';
         src: url("{{ public_path('font/NotoSansDevanagari-BoldItalic.ttf') }}") format('truetype');
-        font-weight: bold;
+        font-weight: normal;
         font-style: italic;
     }
 
@@ -58,7 +58,7 @@
                         <tbody>
                             <tr>
                                 <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center; padding: 0px 5px !important;
+                                    style="font-size: 10px; font-weight: normal; line-height: 14px;  color: #000; text-align: center; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                     भारत सरकार , रक्षा मंत्रालय
                                     GOVT. OF INDIA , MINISTRY OF DEFENCE<br>
@@ -126,15 +126,15 @@
                         <tbody>
                             <tr>
                                 <th colspan="2"
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                     जमा / CREDITS</th>
                                 <th colspan="2"
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                     कटौती - १ / DEDUCTION - I </th>
                                 <th colspan="2"
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                     कटौती - २ / DEDUCTION - II</th>
                             </tr>
@@ -1022,7 +1022,7 @@
                             </tr>
                             <tr>
                                 <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                     कुल / TOTAL
                                 </td>
@@ -1062,12 +1062,12 @@
                             </tr>
                             <tr>
                                 <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 10px; line-height: 14px; font-weight: bold; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
 
                                 </td>

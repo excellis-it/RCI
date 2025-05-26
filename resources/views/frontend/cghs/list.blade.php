@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   CGHS List
+    CGHS List
 @endsection
 
 @push('styles')
@@ -49,8 +49,8 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th >Designation </th>
-                                                <th >Pay Level </th>
+                                                <th>Designation </th>
+                                                <th>Pay Level </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
                                                     style="cursor: pointer">CGHS Contribution <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
@@ -239,10 +239,16 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '-error').html(value[0]);
+                            console.log($('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]));
+
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
                         });
                     }
                 });

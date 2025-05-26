@@ -8,6 +8,24 @@
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Pay Level</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="pay_level_id" id="pay_level_id">
+                                    <option value="">Select Pay Lavel</option>
+                                    @foreach ($pay_levels as $pay_level)
+                                        <option value="{{ $pay_level->id }}"
+                                            {{ $cgegis->pay_level_id == $pay_level->id ? 'selected' : '' }}>
+                                            {{ $pay_level->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Group</label>
                             </div>
                             <div class="col-md-12">
@@ -95,7 +113,23 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
-                <div class="form-group col-md-5 mb-2">
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Pay Level</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="pay_level_id" id="pay_level_id">
+                                    <option value="">Select Pay Level</option>
+                                    @foreach ($pay_levels as $pay_level)
+                                        <option value="{{ $pay_level->id }}">{{ $pay_level->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Group</label>
@@ -120,7 +154,8 @@
                                 <select class="form-select" name="designation_id" id="designation_id">
                                     <option value="">Select Designation</option>
                                     @foreach ($designations as $designation)
-                                        <option value="{{ $designation->id }}">{{ $designation->designation }}</option>
+                                        <option value="{{ $designation->id }}">{{ $designation->designation }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

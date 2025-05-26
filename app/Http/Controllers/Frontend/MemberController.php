@@ -1413,7 +1413,7 @@ class MemberController extends Controller
                 $member_debit_monthly->cgegis = $cgegis_amount;
                 $member_debit_monthly->save();
 
-                $cgaData = Cghs::where('designation_id', $request->desig)->first();
+                $cgaData = Cghs::where('pay_level_id', $request->pm_level)->first();
 
                 if ($cgaData) {
                     $member_debit_monthly->cghs =  $cgaData->amount;
@@ -2778,25 +2778,25 @@ class MemberController extends Controller
         }
 
         // CGEGIS calculation
+        // $cgegisDeduction = 0;
+        // if ($member->cgegis) {
+        //     $cgegisData = Cgegis::find($member->cgegis);
+        //     if ($cgegisData) {
+        //         $cgegisDeduction = $cgegisData->amount;
+        //         $deductionsTotal += $cgegisDeduction;
+        //     }
+        // }
+
+        $cghsDeduction = 0;
         $cgegisDeduction = 0;
-        if ($member->cgegis) {
-            $cgegisData = Cgegis::find($member->cgegis);
+        if ($member->pm_level) {
+            $cgegisData = Cgegis::where('pay_level_id', $member->pm_level)->first();
             if ($cgegisData) {
                 $cgegisDeduction = $cgegisData->amount;
                 $deductionsTotal += $cgegisDeduction;
             }
-        }
 
-        $cghsDeduction = 0;
-        // $cgegisDeduction = 0;
-        if ($member->desig) {
-            // $cgegisData = Cgegis::where('designation_id', $member->desig)->first();
-            // if ($cgegisData) {
-            //     $cgegisDeduction = $cgegisData->amount + $daAmount;
-            //     $deductionsTotal += $cgegisDeduction;
-            // }
-
-            $cgaData = Cghs::where('designation_id', $member->desig)->first();
+            $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
             if ($cgaData) {
                 $cghsDeduction = $cgaData->amount;
                 $deductionsTotal += $cgegisDeduction;

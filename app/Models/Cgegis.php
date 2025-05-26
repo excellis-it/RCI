@@ -18,4 +18,10 @@ class Cgegis extends Model
     {
         return $this->belongsTo(Designation::class, 'designation_id');
     }
+
+    public function payLevel()
+    {
+        return $this->belongsTo(PmLevel::class, 'pay_level_id');
+    }
+
 }

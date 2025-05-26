@@ -354,8 +354,15 @@ class MemberPayGenerate extends Controller
                 }
 
 
-                if ($member->desig) {
-                    $cgaData = Cghs::where('designation_id', $member->desig)->first();
+                if ($member->pm_level) {
+                    $cgegisData = Cgegis::where('pay_level_id', $member->pm_level)->first();
+                    if ($cgegisData) {
+                        $cgegisDeduction = $cgegisData->amount;
+                        $member_debit_monthly_data->cgegis = $cgegisDeduction;
+                        $deduction += $cgegisDeduction;
+                    }
+
+                    $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
                     if ($member_debit->cghs == 0) {
                         if ($cgaData) {
                             $cghsDeduction = $cgaData->amount;
@@ -920,8 +927,15 @@ class MemberPayGenerate extends Controller
                     }
 
 
-                    if ($member->desig) {
-                        $cgaData = Cghs::where('designation_id', $member->desig)->first();
+                    if ($member->pm_level) {
+                        $cgegisData = Cgegis::where('pay_level_id', $member->pm_level)->first();
+                        if ($cgegisData) {
+                            $cgegisDeduction = $cgegisData->amount;
+                            $member_debit_monthly_data->cgegis = $cgegisDeduction;
+                            $deduction += $cgegisDeduction;
+                        }
+
+                        $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
                         if ($member_debit->cghs == 0) {
                             if ($cgaData) {
                                 $cghsDeduction = $cgaData->amount;
