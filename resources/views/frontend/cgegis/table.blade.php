@@ -2,7 +2,7 @@
     @foreach ($cgeGis as $key => $cge)
         <tr>
             <td> {{ ($cgeGis->currentPage()-1) * $cgeGis->perPage() + $loop->index + 1 }}</td>
-            <td>{{ $cge->payLevel->value ?? 'N/A'}}</td>
+            {{-- <td>{{ $cge->payLevel->value ?? 'N/A'}}</td> --}}
             <td>{{ $cge->designation->designation ?? 'N/A'}}</td>
             <td>{{ $cge->group->value ?? 'N/A'}}</td>
             <td>{{ number_format($cge->value ?? 0, 0) }}</td>

@@ -406,13 +406,18 @@
             const totalCredits = parseFloat($('#tot_credits').val()) || 0;
             const otherDebits = parseFloat($('#tot_debits').val()) || 0;
 
-            const totalDebits = otherDebits + loanTotal;
+            const totalDebits = otherDebits;
             const netPay = totalCredits - totalDebits;
             const recovery = parseFloat($('#tot_rec').val()) || 0;
             const takeHome = netPay - recovery;
 
+            // console.log('loan total'+loanTotal);
+            // console.log('other debits'+otherDebits);
+            // console.log('total debits'+totalDebits);
+
+
             $('#total_gross_pay').val(totalCredits.toFixed(2));
-            $('#total_debits').val(totalDebits.toFixed(2));
+            $('#total_debits').val(otherDebits.toFixed(2));
             $('#total_net_pay').val(netPay.toFixed(2));
             $('#total_recovery').val(recovery.toFixed(2));
             $('#take_home').val(takeHome.toFixed(2));
@@ -1150,49 +1155,11 @@
                 success: function(response) {
                     // response data replcae by id
                     toastr.success(response.message);
-                    $('#policy-delete').attr('data-id', response.data.id);
-
-                    var data = response.data;
-                    var save = response.save;
-                    console.log(save);
-                    if (save == true) {
-                        console.log(save);
-                        var id = data.id;
-                        // var route = '/members-policy-info-edit/' + data.id;
-                        var route =
-                            "{{ route('members.policy-info.edit', ['id' => ':id']) }}";
-                        route = route.replace(':id', id);
-
-                        //construct table row html
-                        var newRow = '<tr class="edit-route-policy"  data-id="' + data
-                            .id + '" data-route="' + route +
-                            '">';
-                        newRow += '<td>' + (data.policy_name ? data.policy_name :
-                                'N/A') +
-                            '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                        newRow += '<td>' + (data.policy_no ? data.policy_no : 'N/A') +
-                            '</td>';
-                        newRow += '<td>' + (data.amount ? data.amount : 'N/A') +
-                            '</td>';
-                        newRow += '<td>' + (data.rec_stop ? data.rec_stop : 'N/A') +
-                            '</td>';
-                        newRow += '</tr>';
-
-                        $('#policy-table tbody').append(newRow);
-                        $('#no-policy').hide();
-
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 200);
-
-                    } else {
-                        var id = data.id;
-                        var row = $('#policy-table tbody').find('tr[data-id="' + id + '"]');
-                        row.find('td:eq(0)').text(data.policy_name);
-                        row.find('td:eq(1)').text(data.policy_no);
-                        row.find('td:eq(2)').text(data.amount);
-                        row.find('td:eq(3)').text(data.rec_stop);
-                    }
+                    var year = "{{ request('year') }}";
+                    var month = "{{ request('month') }}";
+                    let baseUrl = @json(route('members.edit', $member->id));
+                    window.location.href = baseUrl + '?year=' + year +
+                        '&month=' + month;
 
                 },
                 error: function(xhr) {
@@ -1830,15 +1797,17 @@
 
         // === Calculate Debits from Deductions ===
         const debitFields = [
-            "#gpa_sub", "#gpa_adv", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car", "#car_interest",
+            "#gpa_sub", "#gpa_adv", "#gpf_arr", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car",
+            "#car_interest",
             '#gpf_rec', '#npsg_arr', '#nps_10_rec',
             '#nps_10_arr',
             '#nps_14_adj',
             "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
             "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
-            "#penal_interest", "#nps_sub",  "#eol", "#ccl", "#rent", "#elec","#elec_arr", "#pc", "#water", "#water_arr",
+            "#penal_interest", "#nps_sub", "#eol", "#ccl", "#rent", "#elec", "#elec_arr", "#pc", "#water",
+            "#water_arr",
             "#arrear_pay", "#npsg", "#npsg_adj", "#ltc_rec", "#medical_rec", "#tada_rec", "#misc3",
-            "#cda", "#furn","#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#society"
+            "#cda", "#furn", "#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#society"
         ];
 
         function updateTotalDebit() {
@@ -1859,7 +1828,10 @@
 
 
             const totalCredits = parseFloat($('#tot_credits').val()) || 0;
-            const netPay = Math.max(totalCredits - total, 0);
+            console.log('total credit-' + totalCredits);
+            console.log('total -' + total);
+
+            const netPay = Math.max(totalCredits - grandTotal, 0);
             $('#net_pay').val(netPay.toFixed(2));
 
             getAllTotal(); // ✅ Corrected function name
@@ -1893,4 +1865,12 @@
         calculateOrgRecoTotal();
         updateTotalDebit();
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.cancel-policy', function() {
+            location.reload();
+        })
+    })
 </script>

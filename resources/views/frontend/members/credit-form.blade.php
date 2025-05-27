@@ -432,6 +432,7 @@
     </div>
 
     <div class="row">
+        @if ($member->fund_type == 'NPS')
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -474,6 +475,7 @@
                 </div>
             </div>
         </div>
+        @endif
           <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">

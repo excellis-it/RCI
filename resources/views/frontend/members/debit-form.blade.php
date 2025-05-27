@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -48,9 +48,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="col-md-2" hidden>
+            <div class="col-md-2" >
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -171,6 +171,7 @@
                 </div>
             </div>
         </div>
+        @if ($member->fund_type == 'NPS')
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -185,6 +186,7 @@
                 </div>
             </div>
         </div>
+        @endif
  <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -272,7 +274,7 @@
                 </div>
             </div>
         </div>
-
+        @if ($member->fund_type == 'NPS')
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -287,6 +289,7 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -458,7 +461,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -471,7 +474,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -596,7 +599,7 @@
             </div>
         </div>
         <!-- NPS 10 Rec -->
-
+        @if ($member->fund_type == 'NPS')
 
         <div class="col-md-2">
             <div class="form-group mb-2">
@@ -661,7 +664,7 @@
         </div>
 
 
-
+        @endif
 
         <div class="col-md-2">
             <div class="form-group mb-2">
@@ -745,7 +748,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2" hidden>
+        <div class="col-md-2" >
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -759,7 +762,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2" hidden>
+        <div class="col-md-2" >
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">

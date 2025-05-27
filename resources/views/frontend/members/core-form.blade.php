@@ -98,7 +98,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>2 Add</label>
+                        <label>2 Add Incr</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="add2" id="add2"

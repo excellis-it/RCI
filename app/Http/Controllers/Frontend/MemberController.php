@@ -591,6 +591,9 @@ class MemberController extends Controller
         $credit_member_monthly->remarks = $request->remarks;
         $credit_member_monthly->save();
 
+          Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
+
+
         if (count($check_credit_member) > 0) {
             $update_credit_member = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->first();
             $update_credit_member->pay = $request->pay;
@@ -1142,6 +1145,23 @@ class MemberController extends Controller
         $recovery_member_monthly->save();
 
 
+        $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
+
+        if ($member_credit_monthly) {
+            if ($request->stop == 'No') {
+                $member_credit_monthly->var_incr = $request->v_incr;
+            } else {
+                $member_credit_monthly->var_incr = 0;
+            }
+
+            $member_credit_monthly->save();
+        }
+
+        Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
+          Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
+
+
+
         if (count($check_recovery_member) > 0) {
             $update_recovery_member = MemberRecovery::where('member_id', $request->member_id)->first();
             $update_recovery_member->v_incr = $request->v_incr;
@@ -1240,6 +1260,18 @@ class MemberController extends Controller
             $member_debit_monthly->ecess = $request->ecess;
             $member_debit_monthly->save();
         }
+
+        $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
+
+        if ($member_credit_monthly) {
+            $member_credit_monthly->fpa = $request->fpa;
+            $member_credit_monthly->add_inc2 = $request->add2;
+            $member_credit_monthly->s_pay = $request->s_pay;
+            $member_credit_monthly->save();
+        }
+
+        Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
+        Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
 
         if (count($check_core_member) > 0) {
             $update_core_member = MemberCoreInfo::where('member_id', $request->member_id)->first();
@@ -1402,8 +1434,17 @@ class MemberController extends Controller
                 $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
                 $cgegis_amount = $cgegis_amount->value ?? 0;
                 $member_debit->cgegis = $cgegis_amount;
-                $member_debit->save();
             }
+
+            $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+
+            if ($member_credit_monthly) {
+                if ($request->g_pay) {
+                    $member_credit_monthly->g_pay = $request->g_pay;
+                }
+                $member_credit_monthly->save();
+            }
+
 
             $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
             // dd($member_debit_monthly, $current_month);
@@ -1769,6 +1810,16 @@ class MemberController extends Controller
         // $policy_store->rec_stop = $request->rec_stop;
         // $policy_store->save();
 
+        $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->latest()->first();
+
+        if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
+           $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name' , 'LIC')->where('rec_stop' , 'No')->sum('amount');
+
+
+            $member_recovery->lic = $total_lic;
+        }
+        $member_recovery->save();
+
         return response()->json(['message' => 'Member policy info added successfully', 'data' => $policy_store]);
     }
 
@@ -1826,6 +1877,19 @@ class MemberController extends Controller
         $member_policy_monthly->amount = $request->amount;
         $member_policy_monthly->rec_stop = $request->rec_stop;
         $member_policy_monthly->save();
+
+
+        $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->latest()->first();
+
+        if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
+           $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name' , 'LIC')->where('rec_stop' , 'No')->sum('amount');
+            // dd($total_lic);
+
+            $member_recovery->lic = $total_lic;
+        }
+        $member_recovery->save();
+
+        Helper::updateTotalRecovery($request->member_id, $request->current_month, $request->current_year);
 
         // $policy_info = MemberPolicyInfo::where('id', $request->member_policy_id)->first();
         // $policy_info->policy_name = $request->policy_name;
@@ -2666,7 +2730,7 @@ class MemberController extends Controller
                 }
             }
         }
-        $npsc =0;
+        $npsc = 0;
         if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
             $npsc = (($basicPay + $daAmount) * 14) / 100;
         }
@@ -2778,32 +2842,25 @@ class MemberController extends Controller
         }
 
         // CGEGIS calculation
-        // $cgegisDeduction = 0;
-        // if ($member->cgegis) {
-        //     $cgegisData = Cgegis::find($member->cgegis);
-        //     if ($cgegisData) {
-        //         $cgegisDeduction = $cgegisData->amount;
-        //         $deductionsTotal += $cgegisDeduction;
-        //     }
-        // }
-
-        $cghsDeduction = 0;
         $cgegisDeduction = 0;
-        if ($member->pm_level) {
-            $cgegisData = Cgegis::where('pay_level_id', $member->pm_level)->first();
+        if ($member->cgegis) {
+            $cgegisData = Cgegis::find($member->cgegis);
             if ($cgegisData) {
                 $cgegisDeduction = $cgegisData->amount;
                 $deductionsTotal += $cgegisDeduction;
             }
+        }
 
+        $cghsDeduction = 0;
+        if ($member->pm_level) {
             $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
             if ($cgaData) {
                 $cghsDeduction = $cgaData->amount;
-                $deductionsTotal += $cgegisDeduction;
+                $deductionsTotal += $cghsDeduction;
             }
         }
 
-        $npsg =0;
+        $npsg = 0;
         $nps_10_rec = 0;
         if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
             $npsg = (($basicPay + $daAmount) * 14) / 100;

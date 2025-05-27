@@ -35,14 +35,7 @@
                             <label>Policy No</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="policy_no" id="policy_no">
-                                <option value="">Select</option>
-                                @foreach ($policies as $policy)
-                                    <option value="{{ $policy->policy_no }}"
-                                        {{ isset($member_policy->policy_no) && $policy->policy_no == $member_policy->policy_no ? 'selected' : '' }}>
-                                        {{ $policy->policy_no }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="policy_no" id="policy_no" class="form-control" value="{{ $policy->policy_no }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -89,9 +82,9 @@
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="submit" class="listing_add" id="policy-update">update</button>
                                 </div>
-                                
+
                                 <div class="form-group col-md-3 mb-2">
-                                    <button type="reset" class="listing_exit">Cancel</button>
+                                    <button type="reset" class="listing_exit cancel-policy">Cancel</button>
                                 </div>
                                 <div class="form-group col-md-3 mb-2">
                                     <button type="button" id="policy-delete" class="delete-btn-1" data-id="{{ isset($member_policy->id) ? $member_policy->id :'#' }}">Delete</button>
@@ -155,12 +148,8 @@
                             <label>Policy No</label>
                         </div>
                         <div class="col-md-12">
-                            <select class="form-select" name="policy_no" id="policy_no">
-                                <option value="">Select</option>
-                                @foreach ($policies as $policy)
-                                    <option value="{{ $policy->policy_no }}">{{ $policy->policy_no }}</option>
-                                @endforeach
-                            </select>
+                            <input class="form-control" name="policy_no" id="policy_no" >
+
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -215,7 +204,7 @@
                 </div>
             </div> --}}
 
-            
+
 
             <div class="row mt-3">
                 <div class="col-md-12">
@@ -240,3 +229,4 @@
         </div>
     </form>
 @endif
+

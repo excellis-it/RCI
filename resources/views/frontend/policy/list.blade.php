@@ -52,9 +52,7 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="policy_name"
                                                     style="cursor: pointer">Policy Name <span id="policy_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="policy_no"
-                                                    style="cursor: pointer">Policy No <span id="policy_no_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                              
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>
@@ -174,19 +172,19 @@
             $('#policy-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');

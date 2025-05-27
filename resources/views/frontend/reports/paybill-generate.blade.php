@@ -128,7 +128,9 @@
         $pageArraySingleTableRec = [];
     @endphp
 
+
     @foreach ($groupedData as $chunkKey => $chunkData)
+        {{-- @dd($chunkData) --}}
         @php
             // Initialize all arrays for the current chunkKey to 0 before processing members
             $pageArrayBasicPay[$chunkKey] = 0;
@@ -396,133 +398,129 @@
                             <tbody>
                                 @foreach ($chunkData as $key => $member_info)
                                     @php
-                                        $totalBasicPay += $member_info['details']['member_credit']->pay ?? 0; // total basic pay
-                                        $totalDa += $member_info['details']['member_credit']->da ?? 0; // total da
-                                        $totalHra += $member_info['details']['member_credit']->hra ?? 0; // total hra
-                                        $totalTpt += $member_info['details']['member_credit']->tpt ?? 0; // total tpt
-                                        $totalDaOnTpt += $member_info['details']['member_credit']->da_on_tpt ?? 0; // total da on
-                                        $totalSpay += $member_info['details']['member_credit']->s_pay ?? 0;
-                                        $totalVarIncr += $member_info['details']['member_credit']->var_incr ?? 0;
+                                        $credit = $member_info['details']['member_credit'] ?? null;
+                                        $debit = $member_info['details']['member_debit'] ?? null;
+                                        $loans = $member_info['details']['member_loans'] ?? [];
+                                        $recovery = $member_info['details']['member_recovery'] ?? null;
 
-                                        $totalSplIncent += $member_info['details']['member_credit']->spl_incentive ?? 0;
-                                        $totalIncentive += $member_info['details']['member_credit']->incentive ?? 0;
-                                        $totaldressAllow += $member_info['details']['member_credit']->dis_alw ?? 0;
-                                        $totalVariableAmount +=
-                                            $member_info['details']['member_credit']->variable_amount ?? 0;
-                                        $totalPayAllow += $member_info['details']['member_credit']->arrs_pay_alw ?? 0;
-                                        $totalRiskAllow += $member_info['details']['member_credit']->risk_alw ?? 0;
+                                        $totalBasicPay += $credit?->pay ?? 0;
+                                        $totalDa += $credit?->da ?? 0;
+                                        $totalHra += $credit?->hra ?? 0;
+                                        $totalTpt += $credit?->tpt ?? 0;
+                                        $totalDaOnTpt += $credit?->da_on_tpt ?? 0;
+                                        $totalSpay += $credit?->s_pay ?? 0;
+                                        $totalVarIncr += $credit?->var_incr ?? 0;
+                                        $totalSplIncent += $credit?->spl_incentive ?? 0;
+                                        $totalIncentive += $credit?->incentive ?? 0;
+                                        $totaldressAllow += $credit?->dis_alw ?? 0;
+                                        $totalVariableAmount += $credit?->variable_amount ?? 0;
+                                        $totalPayAllow += $credit?->arrs_pay_alw ?? 0;
+                                        $totalRiskAllow += $credit?->risk_alw ?? 0;
+                                        $totalNpscCreditIt += $credit?->npsc ?? 0;
+                                        $totalNpgArrsCreditIt += $credit?->npg_arrs ?? 0;
+                                        $totalNpgAdgCredit += $credit?->npg_adj ?? 0;
+                                        $totalMiscCreditIt += $credit?->misc1 ?? 0;
+                                        $totalMiscCredit += $credit?->misc2 ?? 0;
 
-                                        $totalNpscCreditIt += $member_info['details']['member_credit']->npsc ?? 0;
-                                        $totalNpgArrsCreditIt +=
-                                            $member_info['details']['member_credit']->npg_arrs ?? 0;
-                                        $totalNpgAdgCredit += $member_info['details']['member_credit']->npg_adj ?? 0;
-                                        $totalMiscCreditIt += $member_info['details']['member_credit']->misc1 ?? 0;
-                                        $totalMiscCredit += $member_info['details']['member_credit']->misc2 ?? 0;
+                                        $totalGpfSub += $debit?->gpa_sub ?? 0;
+                                        $totalGpfAdv += $debit?->gpf_adv ?? 0;
+                                        $totalCgegis += $debit?->cgegis ?? 0;
+                                        $totalCghs += $debit?->cghs ?? 0;
+                                        $totalHbaAdv += $loans['hba_inst'] ?? 0;
+                                        $totalCarAdv += $loans['car_inst'] ?? 0;
+                                        $totalEduAdv += $loans['edu_inst'] ?? 0;
+                                        $totalCompAdv += $loans['comp_inst'] ?? 0;
 
-                                        $totalGpfSub += $member_info['details']['member_debit']->gpa_sub ?? 0;
-                                        $totalGpfAdv += $member_info['details']['member_debit']->gpf_adv ?? 0;
-                                        $totalCgegis += $member_info['details']['member_debit']->cgegis ?? 0;
-                                        $totalCghs += $member_info['details']['member_debit']->cghs ?? 0;
-                                        $totalHbaAdv += $member_info['details']['member_loans']['hba_inst'] ?? 0;
-
-                                        $totalCarAdv += $member_info['details']['member_loans']['car_inst'] ?? 0;
-                                        $totalEduAdv += $member_info['details']['member_loans']['edu_inst'] ?? 0;
-                                        $totalCompAdv += $member_info['details']['member_loans']['comp_inst'] ?? 0;
-
-                                        $totalLtc += $member_info['details']['member_debit']->ltc ?? 0;
-                                        $totalMedDebit += $member_info['details']['member_debit']->medi ?? 0;
-                                        $totalTada += $member_info['details']['member_debit']->tada ?? 0;
-                                        $totalLeaveRec += $member_info['details']['member_debit']->leave_rec ?? 0;
-
-                                        $totalPensionRec += $member_info['details']['member_debit']->pension_rec ?? 0;
-                                        $totalIncomeTax += $member_info['details']['member_debit']->i_tax ?? 0;
-                                        $totalEduCess += $member_info['details']['member_debit']->ecess ?? 0;
-                                        $totalPlInsur += $member_info['details']['member_debit']->pli ?? 0;
-                                        $totalMiscDebit += $member_info['details']['member_debit']->misc1 ?? 0;
-                                        $totalMiscDebitIt += $member_info['details']['member_debit']->misc2 ?? 0;
-
-                                        $totalNpsg += $member_info['details']['member_debit']->npsg ?? 0;
-                                        $totalNpsgArr += $member_info['details']['member_debit']->npsg_arr ?? 0;
-                                        $totalNpsAdj += $member_info['details']['member_debit']->npsg_adj ?? 0;
-
-                                        $total_nps_10_rec += $member_info['details']['member_debit']->nps_10_rec ?? 0;
-                                        $total_nps_10_arr += $member_info['details']['member_debit']->nps_10_arr ?? 0;
-                                        $total_nps_14_adj += $member_info['details']['member_debit']->nps_14_adj ?? 0;
-
-                                        $totalCgeisArr += $member_info['details']['member_debit']->cgeis_arr ?? 0;
-                                        $totalCghsArr += $member_info['details']['member_debit']->cghs_arr ?? 0;
-                                        $totalPenalIntr += $member_info['details']['member_debit']->penal_intr ?? 0;
-
-                                        $totalElec += $member_info['details']['member_debit']->elec ?? 0;
-                                        $totalWater += $member_info['details']['member_debit']->water ?? 0;
-                                        $totalFurn += $member_info['details']['member_debit']->furn ?? 0;
-                                        $totalMiscRent += $member_info['details']['member_debit']->misc3 ?? 0;
+                                        $totalLtc += $debit?->ltc ?? 0;
+                                        $totalMedDebit += $debit?->medi ?? 0;
+                                        $totalTada += $debit?->tada ?? 0;
+                                        $totalLeaveRec += $debit?->leave_rec ?? 0;
+                                        $totalPensionRec += $debit?->pension_rec ?? 0;
+                                        $totalIncomeTax += $debit?->i_tax ?? 0;
+                                        $totalEduCess += $debit?->ecess ?? 0;
+                                        $totalPlInsur += $debit?->pli ?? 0;
+                                        $totalMiscDebit += $debit?->misc1 ?? 0;
+                                        $totalMiscDebitIt += $debit?->misc2 ?? 0;
+                                        $totalNpsg += $debit?->npsg ?? 0;
+                                        $totalNpsgArr += $debit?->npsg_arr ?? 0;
+                                        $totalNpsAdj += $debit?->npsg_adj ?? 0;
+                                        $total_nps_10_rec += $debit?->nps_10_rec ?? 0;
+                                        $total_nps_10_arr += $debit?->nps_10_arr ?? 0;
+                                        $total_nps_14_adj += $debit?->nps_14_adj ?? 0;
+                                        $totalCgeisArr += $debit?->cgeis_arr ?? 0;
+                                        $totalCghsArr += $debit?->cghs_arr ?? 0;
+                                        $totalPenalIntr += $debit?->penal_intr ?? 0;
+                                        $totalElec += $debit?->elec ?? 0;
+                                        $totalWater += $debit?->water ?? 0;
+                                        $totalFurn += $debit?->furn ?? 0;
+                                        $totalMiscRent += $debit?->misc3 ?? 0;
 
                                         $singleTotalCredit =
-                                            $member_info['details']['member_credit']->pay +
-                                            $member_info['details']['member_credit']->da +
-                                            $member_info['details']['member_credit']->hra +
-                                            $member_info['details']['member_credit']->tpt +
-                                            $member_info['details']['member_credit']->da_on_tpt +
-                                            $member_info['details']['member_credit']->s_pay +
-                                            $member_info['details']['member_credit']->var_incr +
-                                            $member_info['details']['member_credit']->spl_incentive +
-                                            $member_info['details']['member_credit']->incentive +
-                                            $member_info['details']['member_credit']->dis_alw +
-                                            $member_info['details']['member_credit']->variable_amount +
-                                            $member_info['details']['member_credit']->arrs_pay_alw +
-                                            $member_info['details']['member_credit']->risk_alw +
-                                            $member_info['details']['member_credit']->npsc +
-                                            $member_info['details']['member_credit']->npg_arrs +
-                                            $member_info['details']['member_credit']->npg_adj +
-                                            $member_info['details']['member_credit']->misc1 +
-                                            $member_info['details']['member_credit']->misc2;
+                                            ($credit?->pay ?? 0) +
+                                            ($credit?->da ?? 0) +
+                                            ($credit?->hra ?? 0) +
+                                            ($credit?->tpt ?? 0) +
+                                            ($credit?->da_on_tpt ?? 0) +
+                                            ($credit?->s_pay ?? 0) +
+                                            ($credit?->var_incr ?? 0) +
+                                            ($credit?->spl_incentive ?? 0) +
+                                            ($credit?->incentive ?? 0) +
+                                            ($credit?->dis_alw ?? 0) +
+                                            ($credit?->variable_amount ?? 0) +
+                                            ($credit?->arrs_pay_alw ?? 0) +
+                                            ($credit?->risk_alw ?? 0) +
+                                            ($credit?->npsc ?? 0) +
+                                            ($credit?->npg_arrs ?? 0) +
+                                            ($credit?->npg_adj ?? 0) +
+                                            ($credit?->misc1 ?? 0) +
+                                            ($credit?->misc2 ?? 0);
 
                                         $totalcredit += $singleTotalCredit;
 
                                         $singleTotalDebit =
-                                            $member_info['details']['member_debit']->gpa_sub +
-                                            $member_info['details']['member_debit']->gpf_adv +
-                                            $member_info['details']['member_debit']->cgegis +
-                                            $member_info['details']['member_debit']->cghs +
-                                            $member_info['details']['member_loans']['hba_inst'] +
-                                            $member_info['details']['member_loans']['car_inst'] +
-                                            $member_info['details']['member_loans']['edu_inst'] +
-                                            $member_info['details']['member_loans']['comp_inst'] +
-                                            $member_info['details']['member_debit']->ltc +
-                                            $member_info['details']['member_debit']->medi +
-                                            $member_info['details']['member_debit']->tada +
-                                            $member_info['details']['member_debit']->leave_rec +
-                                            $member_info['details']['member_debit']->pension_rec +
-                                            $member_info['details']['member_debit']->i_tax +
-                                            $member_info['details']['member_debit']->ecess +
-                                            $member_info['details']['member_debit']->pli +
-                                            $member_info['details']['member_debit']->misc1 +
-                                            $member_info['details']['member_debit']->misc2 +
-                                            $member_info['details']['member_debit']->npsg +
-                                            $member_info['details']['member_debit']->npsg_arr +
-                                            $member_info['details']['member_debit']->npsg_adj +
-                                            $member_info['details']['member_debit']->nps_10_rec +
-                                            $member_info['details']['member_debit']->nps_10_arr +
-                                            $member_info['details']['member_debit']->nps_14_adj +
-                                            $member_info['details']['member_debit']->cgeis_arr +
-                                            $member_info['details']['member_debit']->cghs_arr +
-                                            $member_info['details']['member_debit']->penal_intr +
-                                            $member_info['details']['member_debit']->elec +
-                                            $member_info['details']['member_debit']->water +
-                                            $member_info['details']['member_debit']->furn +
-                                            $member_info['details']['member_debit']->misc3;
+                                            ($debit?->gpa_sub ?? 0) +
+                                            ($debit?->gpf_adv ?? 0) +
+                                            ($debit?->cgegis ?? 0) +
+                                            ($debit?->cghs ?? 0) +
+                                            ($loans['hba_inst'] ?? 0) +
+                                            ($loans['car_inst'] ?? 0) +
+                                            ($loans['edu_inst'] ?? 0) +
+                                            ($loans['comp_inst'] ?? 0) +
+                                            ($debit?->ltc ?? 0) +
+                                            ($debit?->medi ?? 0) +
+                                            ($debit?->tada ?? 0) +
+                                            ($debit?->leave_rec ?? 0) +
+                                            ($debit?->pension_rec ?? 0) +
+                                            ($debit?->i_tax ?? 0) +
+                                            ($debit?->ecess ?? 0) +
+                                            ($debit?->pli ?? 0) +
+                                            ($debit?->misc1 ?? 0) +
+                                            ($debit?->misc2 ?? 0) +
+                                            ($debit?->npsg ?? 0) +
+                                            ($debit?->npsg_arr ?? 0) +
+                                            ($debit?->npsg_adj ?? 0) +
+                                            ($debit?->nps_10_rec ?? 0) +
+                                            ($debit?->nps_10_arr ?? 0) +
+                                            ($debit?->nps_14_adj ?? 0) +
+                                            ($debit?->cgeis_arr ?? 0) +
+                                            ($debit?->cghs_arr ?? 0) +
+                                            ($debit?->penal_intr ?? 0) +
+                                            ($debit?->elec ?? 0) +
+                                            ($debit?->water ?? 0) +
+                                            ($debit?->furn ?? 0) +
+                                            ($debit?->misc3 ?? 0);
 
                                         $totalDebit += $singleTotalDebit;
 
                                         $singleNetPay = $singleTotalCredit - $singleTotalDebit;
 
                                         $totalNetPay += $totalcredit + $totalDebit;
+
                                         $totalSingleTableRec =
-                                            ($member_info['details']['member_recovery']?->ccs_sub ?? 0) +
-                                            ($member_info['details']['member_recovery']?->wel_sub ?? 0) +
-                                            ($member_info['details']['member_recovery']?->ptax ?? 0) +
-                                            ($member_info['details']['member_recovery']?->mess ?? 0);
+                                            ($recovery?->ccs_sub ?? 0) +
+                                            ($recovery?->wel_sub ?? 0) +
+                                            ($recovery?->ptax ?? 0) +
+                                            ($recovery?->mess ?? 0);
 
                                         $totalTableRec += $totalSingleTableRec;
 
@@ -1391,6 +1389,7 @@ background: #cdcdcd;
                         </thead>
                         <tbody>
                             <tr>
+                                
                                 <td
                                     style="
             font-size: 10px;

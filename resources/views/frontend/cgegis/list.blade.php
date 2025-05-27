@@ -49,7 +49,7 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th >Pay Lavel </th>
+                                                {{-- <th >Pay Lavel </th> --}}
                                                 <th >Designation </th>
                                                 <th >Group </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
