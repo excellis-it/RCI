@@ -591,7 +591,7 @@ class MemberController extends Controller
         $credit_member_monthly->remarks = $request->remarks;
         $credit_member_monthly->save();
 
-          Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
+        Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
 
 
         if (count($check_credit_member) > 0) {
@@ -1158,7 +1158,7 @@ class MemberController extends Controller
         }
 
         Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
-          Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
+        Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
 
 
 
@@ -1813,7 +1813,7 @@ class MemberController extends Controller
         $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->latest()->first();
 
         if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
-           $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name' , 'LIC')->where('rec_stop' , 'No')->sum('amount');
+            $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name', 'LIC')->where('rec_stop', 'No')->sum('amount');
 
 
             $member_recovery->lic = $total_lic;
@@ -1882,7 +1882,7 @@ class MemberController extends Controller
         $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->latest()->first();
 
         if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
-           $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name' , 'LIC')->where('rec_stop' , 'No')->sum('amount');
+            $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name', 'LIC')->where('rec_stop', 'No')->sum('amount');
             // dd($total_lic);
 
             $member_recovery->lic = $total_lic;
@@ -2732,7 +2732,8 @@ class MemberController extends Controller
         }
         $npsc = 0;
         if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-            $npsc = (($basicPay + $daAmount) * 14) / 100;
+            $npsc = round((($basicPay + $daAmount) * 14) / 100);
+
         }
 
         $member_credit_data_monthly = [
@@ -2863,8 +2864,8 @@ class MemberController extends Controller
         $npsg = 0;
         $nps_10_rec = 0;
         if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-            $npsg = (($basicPay + $daAmount) * 14) / 100;
-            $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
+            $npsg = round((($basicPay + $daAmount) * 14) / 100);
+            $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
         }
 
         $member_debit_data_monthly = [
@@ -2963,8 +2964,8 @@ class MemberController extends Controller
 
         $member_debit_data = [
             'member_id' => $member->id,
-            'gpa_sub' => $gpfDeduction,
-            'nps_sub' => $npsSubTotal,
+            'gpa_sub' => round($gpfDeduction),
+            'nps_sub' => round($npsSubTotal),
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,
@@ -2986,15 +2987,15 @@ class MemberController extends Controller
             'ltc' => 0,
             'fadv' => 0,
             'misc3' => 0,
-            'cgegis' => $cgegisDeduction,
+            'cgegis' => round($cgegisDeduction),
             'cda' => 0,
             'furn' => 0,
             'furn_arr' => 0,
             'car' => 0,
             'hra_rec' => 0,
-            'cghs' => $cghsDeduction,
+            'cghs' => round($cghsDeduction),
             'ptax' => 200,
-            'cmg' => $npsGMCTotal,
+            'cmg' => round($npsGMCTotal),
             'pli' => 0,
             'scooter' => 0,
             'tpt_rec' => 0,

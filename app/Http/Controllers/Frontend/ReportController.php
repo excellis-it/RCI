@@ -233,6 +233,12 @@ class ReportController extends Controller
             ->where('month', $themonth)
             ->pluck('member_id');
 
+        $category_fund_type = Category::where('id', $request->category)->first()['fund_type'];
+        // dd()
+        if (!$category_fund_type && empty($category_fund_type)) {
+            return redirect()->back()->with('error', 'No fund type add for this category');
+        }
+
         $member_datas = Member::whereIn('id', $monthly_members_data)
             ->where('e_status', $request->e_status)
             ->where('category', $request->category)
@@ -309,8 +315,19 @@ class ReportController extends Controller
             'logo',
             'da_percent',
             'all_members_info',
-            'groupedData'
+            'groupedData',
+            'category_fund_type'
         ))->setPaper('a3', 'landscape');
+        // return view('frontend.reports.paybill-generate')->with(compact(
+        //     'pay_bill_no',
+        //     'month',
+        //     'year',
+        //     'logo',
+        //     'da_percent',
+        //     'all_members_info',
+        //     'groupedData',
+        // 'category_fund_type'
+        // ));
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
 
@@ -411,7 +428,7 @@ class ReportController extends Controller
     }
 
 
- 
+
 
 
 

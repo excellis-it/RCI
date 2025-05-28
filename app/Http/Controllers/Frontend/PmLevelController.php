@@ -39,7 +39,7 @@ class PmLevelController extends Controller
                     ->orWhere('basic', 'like', '%' . $query . '%')
                     ->orWhere('year', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
-                
+
             })
             ->orderBy($sort_by, $sort_type)
             ->paginate(10);
@@ -47,7 +47,7 @@ class PmLevelController extends Controller
             $pay_bands = Payband::get();
 
 
-            return response()->json(['data' => view('frontend.pm-levels.table', compact('pm_levels', 'pay_commisions', 'pay_bands'))->render()]);
+            return response()->json(['data' => view('frontend.pm-levels.table', compact('pm_levels', 'pay_commissions', 'pay_bands'))->render()]);
         }
     }
 
@@ -72,7 +72,7 @@ class PmLevelController extends Controller
             'status' => 'required',
         ]);
 
-        
+
         $pm_level_value = new PmLevel();
         $pm_level_value->payband = $request->payband;
         $pm_level_value->pay_commission = $request->pay_commission;
@@ -104,7 +104,7 @@ class PmLevelController extends Controller
     {
         $pm_level = PmLevel::find($id);
         $pay_commissions = PayCommission::orderBy('id', 'desc')->get();
-        
+
         $financialYears = Helper::getFinancialYears();
         $pay_bands = Payband::where('year', $pm_level->year)->get();
         $edit = true;
