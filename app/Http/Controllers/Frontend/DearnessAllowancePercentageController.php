@@ -64,7 +64,7 @@ class DearnessAllowancePercentageController extends Controller
             // $records_array = [];
             foreach ($tpts as $tpt) {
                 // Calculate and update TPT DA
-                $total = $tpt->tpt_allowance * $percentage / 100;
+                $total = round($tpt->tpt_allowance * $percentage / 100);
                 $tpt->tpt_da = $total;
                 $tpt->save();
 
@@ -83,12 +83,15 @@ class DearnessAllowancePercentageController extends Controller
 
                 // $records_array[] = $records->toArray();
                 foreach ($records as $record) {
-                    $da_amount = ($record->pay * $percentage) / 100;
+                    $da_amount = round(($record->pay * $percentage) / 100);
 
                     $record->da = $da_amount;
                     $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
-                    $record->tot_credits =(($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
+                    $record->tot_credits = (($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
                     $record->save();
+
+                    Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
+                    Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
                 }
             }
         }
@@ -166,7 +169,7 @@ class DearnessAllowancePercentageController extends Controller
             // $records_array = [];
             foreach ($tpts as $tpt) {
                 // Calculate and update TPT DA
-                $total = $tpt->tpt_allowance * $percentage / 100;
+                $total = round($tpt->tpt_allowance * $percentage / 100);
                 $tpt->tpt_da = $total;
                 $tpt->save();
 
@@ -185,12 +188,14 @@ class DearnessAllowancePercentageController extends Controller
 
                 // $records_array[] = $records->toArray();
                 foreach ($records as $record) {
-                    $da_amount = ($record->pay * $percentage) / 100;
+                    $da_amount = round(($record->pay * $percentage) / 100);
 
                     $record->da = $da_amount;
                     $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
-                    $record->tot_credits =(($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
+                    $record->tot_credits = (($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
                     $record->save();
+                    Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
+                    Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
                 }
             }
         }

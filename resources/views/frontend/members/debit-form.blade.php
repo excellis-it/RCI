@@ -6,7 +6,7 @@
     <input type="hidden" name="current_month" value="{{ $currentMonth }}">
 
     <div class="row">
-        @if ($member->fund_type == 'GPF')
+        @if ($member->memberCategory->fund_type == 'GPF')
             <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
@@ -65,8 +65,8 @@
                 </div>
             </div>
         @endif
-        {{-- @dd($member->fund_type) --}}
-        @if ($member->fund_type == 'NPS')
+        {{-- @dd($member->memberCategory->fund_type) --}}
+        @if ($member->memberCategory->fund_type == 'NPS')
             <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
@@ -171,7 +171,7 @@
                 </div>
             </div>
         </div>
-        @if ($member->fund_type == 'NPS')
+        @if ($member->memberCategory->fund_type == 'NPS')
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -274,7 +274,7 @@
                 </div>
             </div>
         </div>
-        @if ($member->fund_type == 'NPS')
+        @if ($member->memberCategory->fund_type == 'NPS')
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -599,7 +599,7 @@
             </div>
         </div>
         <!-- NPS 10 Rec -->
-        @if ($member->fund_type == 'NPS')
+        @if ($member->memberCategory->fund_type == 'NPS')
 
         <div class="col-md-2">
             <div class="form-group mb-2">

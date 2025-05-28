@@ -240,7 +240,7 @@ class MemberPayGenerate extends Controller
                             ->first();
                         if ($tptData) {
                             $tptAmount = $tptData->tpt_allowance;
-                            $tptDa = ($tptAmount) / 2;
+                            $tptDa = round(($tptAmount) / 2);
                         }
                     }
                 }
@@ -252,7 +252,7 @@ class MemberPayGenerate extends Controller
                         $hraPercentage = Hra::where('city_category', $city->city_type)
                             ->where('status', 1)
                             ->first();
-                        $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
+                        $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
                     }
                 }
 
@@ -261,8 +261,8 @@ class MemberPayGenerate extends Controller
                 $member_credit_monthly_data->da_on_tpt = $tptDa;
                 $member_credit_monthly_data->hra = $hraAmount;
 
-                if (isset($member->fund_type) && $member->fund_type == 'NPS') {
-                    $npsc = (($basicPay + $daAmount) * 14) / 100;
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                    $npsc = round((($basicPay + $daAmount) * 14) / 100);
                 } else {
                     $npsc = 0;
                 }
@@ -342,22 +342,22 @@ class MemberPayGenerate extends Controller
                     $member_debit_monthly_data->$column = $member_debit->$column;
                 }
                 $deduction = 0;
-                if ($member->fund_type == 'GPF') {
+                if ($member->memberCategory->fund_type == 'GPF') {
                     if ($member_debit->gpa_sub == 0) {
-                        $gpfDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                        $gpfDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
                         $member_debit_monthly_data->gpa_sub = $gpfDeduction;
                         $deduction += $gpfDeduction;
                     }
                 }
 
-                if ($member->fund_type == 'NPS') {
+                if ($member->memberCategory->fund_type == 'NPS') {
                     if ($member_debit->nps_sub == 0) {
-                        $npsDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                        $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
                         $member_debit_monthly_data->nps_sub = $npsDeduction;
                         $deduction += $npsDeduction;
                     }
                     if ($member_debit->cmg == 0) {
-                        $gmcDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100;
+                        $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
                         $npsGMCTotal = $gmcDeduction;
                         $member_debit_monthly_data->cmg = $npsGMCTotal;
                         $deduction += $npsGMCTotal;
@@ -391,7 +391,7 @@ class MemberPayGenerate extends Controller
                 if ($exception_this_month) {
                     if ($exception_this_month->rule_name == 'TPT') {
                         $member_debit_monthly_data->tpt = $exception_this_month->amount;
-                        $member_debit_monthly_data->da_on_tpt = $exception_this_month->amount / 2;
+                        $member_debit_monthly_data->da_on_tpt = round($exception_this_month->amount / 2);
                     }
 
                     if ($exception_this_month->rule_name == 'DA') {
@@ -411,9 +411,9 @@ class MemberPayGenerate extends Controller
                 $npsg_adj = 0;
                 $nps_10_rec = 0;
 
-                if (isset($member->fund_type) && $member->fund_type == 'NPS') {
-                    $npsg = (($basicPay + $daAmount) * 14) / 100;
-                    $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                    $npsg = round((($basicPay + $daAmount) * 14) / 100);
+                    $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
                 }
 
                 $member_debit_monthly_data->npsg = round($npsg);
@@ -822,7 +822,7 @@ class MemberPayGenerate extends Controller
                     }
                     $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
                     $basicPay = $member->basic;
-                    $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+                    $daAmount = $da_percentage ? round(($basicPay * $da_percentage->percentage) / 100) : 0;
 
                     $tptAmount = 0;
                     $tptDa = 0;
@@ -835,7 +835,7 @@ class MemberPayGenerate extends Controller
                                 ->first();
                             if ($tptData) {
                                 $tptAmount = $tptData->tpt_allowance;
-                                $tptDa = ($tptAmount) / 2;
+                                $tptDa = round(($tptAmount) / 2);
                             }
                         }
                     }
@@ -847,7 +847,7 @@ class MemberPayGenerate extends Controller
                             $hraPercentage = Hra::where('city_category', $city->city_type)
                                 ->where('status', 1)
                                 ->first();
-                            $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
+                            $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
                         }
                     }
 
@@ -858,8 +858,8 @@ class MemberPayGenerate extends Controller
 
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
-                    if (isset($member->fund_type) && $member->fund_type == 'NPS') {
-                        $npsc = (($basicPay + $daAmount) * 14) / 100;
+                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                        $npsc = round((($basicPay + $daAmount) * 14) / 100);
                     } else {
                         $npsc = 0;
                     }
@@ -938,22 +938,22 @@ class MemberPayGenerate extends Controller
                         $member_debit_monthly_data->$column = $member_debit->$column;
                     }
                     $deduction = 0;
-                    if ($member->fund_type == 'GPF') {
+                    if ($member->memberCategory->fund_type == 'GPF') {
                         if ($member_debit->gpa_sub == 0) {
-                            $gpfDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                            $gpfDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
                             $member_debit_monthly_data->gpa_sub = $gpfDeduction;
                             $deduction += $gpfDeduction;
                         }
                     }
 
-                    if ($member->fund_type == 'NPS') {
+                    if ($member->memberCategory->fund_type == 'NPS') {
                         if ($member_debit->nps_sub == 0) {
-                            $npsDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
+                            $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
                             $member_debit_monthly_data->nps_sub = $npsDeduction;
                             $deduction += $npsDeduction;
                         }
                         if ($member_debit->cmg == 0) {
-                            $gmcDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100;
+                            $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
                             $npsGMCTotal = $gmcDeduction;
                             $member_debit_monthly_data->cmg = $npsGMCTotal;
                             $deduction += $npsGMCTotal;
@@ -986,7 +986,7 @@ class MemberPayGenerate extends Controller
                     if ($exception_this_month) {
                         if ($exception_this_month->rule_name == 'TPT') {
                             $member_debit_monthly_data->tpt = $exception_this_month->amount;
-                            $member_debit_monthly_data->da_on_tpt = $exception_this_month->amount / 2;
+                            $member_debit_monthly_data->da_on_tpt = round($exception_this_month->amount / 2);
                         }
 
                         if ($exception_this_month->rule_name == 'DA') {
@@ -1003,9 +1003,9 @@ class MemberPayGenerate extends Controller
                     $npsg_adj = 0;
                     $nps_10_rec = 0;
 
-                    if (isset($member->fund_type) && $member->fund_type == 'NPS') {
-                        $npsg = (($basicPay + $daAmount) * 14) / 100;
-                        $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
+                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                        $npsg = round((($basicPay + $daAmount) * 14) / 100);
+                        $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
                     }
 
                     $member_debit_monthly_data->npsg = round($npsg);
