@@ -82,9 +82,11 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataCreditTableName = (new \App\Models\MemberMonthlyDataCredit())->getTable();
         $MemberMonthlyDataCreditColumns = Schema::getColumnListing($MemberMonthlyDataCreditTableName);
         $CreditCommonColumns = array_intersect(
-            array_diff($MemberCreditColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberCreditColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataCreditColumns, ['id', 'created_at', 'updated_at'])
         );
+
+
 
         // member debit and member mothly data debit columns
         $MemberDebitTableName = (new \App\Models\MemberDebit())->getTable();
@@ -92,7 +94,7 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataDebitTableName = (new \App\Models\MemberMonthlyDataDebit())->getTable();
         $MemberMonthlyDataDebitColumns = Schema::getColumnListing($MemberMonthlyDataDebitTableName);
         $DebitCommonColumns = array_intersect(
-            array_diff($MemberDebitColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberDebitColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataDebitColumns, ['id', 'created_at', 'updated_at'])
         );
 
@@ -102,7 +104,7 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataRecoveryTableName = (new \App\Models\MemberMonthlyDataRecovery())->getTable();
         $MemberMonthlyDataRecoveryColumns = Schema::getColumnListing($MemberMonthlyDataRecoveryTableName);
         $RecoveryCommonColumns = array_intersect(
-            array_diff($MemberRecoveryColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberRecoveryColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataRecoveryColumns, ['id', 'created_at', 'updated_at'])
         );
 
@@ -112,7 +114,7 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataCoreInfoTableName = (new \App\Models\MemberMonthlyDataCoreInfo())->getTable();
         $MemberMonthlyDataCoreInfoColumns = Schema::getColumnListing($MemberMonthlyDataCoreInfoTableName);
         $CoreInfoCommonColumns = array_intersect(
-            array_diff($MemberCoreInfoColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberCoreInfoColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataCoreInfoColumns, ['id', 'created_at', 'updated_at'])
         );
 
@@ -122,7 +124,7 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataPolicyInfoTableName = (new \App\Models\MemberMonthlyDataPolicyInfo())->getTable();
         $MemberMonthlyDataPolicyInfoColumns = Schema::getColumnListing($MemberMonthlyDataPolicyInfoTableName);
         $PolicyInfoCommonColumns = array_intersect(
-            array_diff($MemberPolicyInfoColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberPolicyInfoColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataPolicyInfoColumns, ['id', 'created_at', 'updated_at'])
         );
 
@@ -132,9 +134,11 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataLoanInfoTableName = (new \App\Models\MemberMonthlyDataLoanInfo())->getTable();
         $MemberMonthlyDataLoanInfoColumns = Schema::getColumnListing($MemberMonthlyDataLoanInfoTableName);
         $LoanInfoCommonColumns = array_intersect(
-            array_diff($MemberLoanInfoColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberLoanInfoColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataLoanInfoColumns, ['id', 'created_at', 'updated_at'])
         );
+
+        // dd($LoanInfoCommonColumns);
 
         // member expectation and member monthly data expectation columns
         $MemberExpectationTableName = (new \App\Models\MemberExpectation())->getTable();
@@ -142,7 +146,7 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataExpectationTableName = (new \App\Models\MemberMonthlyDataExpectation())->getTable();
         $MemberMonthlyDataExpectationColumns = Schema::getColumnListing($MemberMonthlyDataExpectationTableName);
         $ExpectationCommonColumns = array_intersect(
-            array_diff($MemberExpectationColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberExpectationColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataExpectationColumns, ['id', 'created_at', 'updated_at'])
         );
 
@@ -152,9 +156,10 @@ class MemberPayGenerate extends Controller
         $MemberMonthlyDataVarInfoTableName = (new \App\Models\MemberMonthlyDataVarInfo())->getTable();
         $MemberMonthlyDataVarInfoColumns = Schema::getColumnListing($MemberMonthlyDataVarInfoTableName);
         $VarInfoCommonColumns = array_intersect(
-            array_diff($MemberVarInfoColumns, ['id', 'created_at', 'updated_at']),
+            // array_diff($MemberVarInfoColumns, ['id', 'created_at', 'updated_at']),
             array_diff($MemberMonthlyDataVarInfoColumns, ['id', 'created_at', 'updated_at'])
         );
+        // dd( $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $previous_month)->where('year', $previous_year)->get());
 
         if ($member_id) {
             $existing_data = MemberMonthlyData::where('month', $month)
@@ -240,7 +245,7 @@ class MemberPayGenerate extends Controller
                             ->first();
                         if ($tptData) {
                             $tptAmount = $tptData->tpt_allowance;
-                            $tptDa = round(($tptAmount) / 2);
+                            $tptDa = ($tptAmount) / 2;
                         }
                     }
                 }
@@ -252,7 +257,7 @@ class MemberPayGenerate extends Controller
                         $hraPercentage = Hra::where('city_category', $city->city_type)
                             ->where('status', 1)
                             ->first();
-                        $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
+                        $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
                     }
                 }
 
@@ -261,8 +266,8 @@ class MemberPayGenerate extends Controller
                 $member_credit_monthly_data->da_on_tpt = $tptDa;
                 $member_credit_monthly_data->hra = $hraAmount;
 
-                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-                    $npsc = round((($basicPay + $daAmount) * 14) / 100);
+                if (isset($member->fund_type) && $member->fund_type == 'NPS') {
+                    $npsc = (($basicPay + $daAmount) * 14) / 100;
                 } else {
                     $npsc = 0;
                 }
@@ -342,22 +347,22 @@ class MemberPayGenerate extends Controller
                     $member_debit_monthly_data->$column = $member_debit->$column;
                 }
                 $deduction = 0;
-                if ($member->memberCategory->fund_type == 'GPF') {
+                if ($member->fund_type == 'GPF') {
                     if ($member_debit->gpa_sub == 0) {
-                        $gpfDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
+                        $gpfDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
                         $member_debit_monthly_data->gpa_sub = $gpfDeduction;
                         $deduction += $gpfDeduction;
                     }
                 }
 
-                if ($member->memberCategory->fund_type == 'NPS') {
+                if ($member->fund_type == 'NPS') {
                     if ($member_debit->nps_sub == 0) {
-                        $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
+                        $npsDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
                         $member_debit_monthly_data->nps_sub = $npsDeduction;
                         $deduction += $npsDeduction;
                     }
                     if ($member_debit->cmg == 0) {
-                        $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
+                        $gmcDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100;
                         $npsGMCTotal = $gmcDeduction;
                         $member_debit_monthly_data->cmg = $npsGMCTotal;
                         $deduction += $npsGMCTotal;
@@ -391,7 +396,7 @@ class MemberPayGenerate extends Controller
                 if ($exception_this_month) {
                     if ($exception_this_month->rule_name == 'TPT') {
                         $member_debit_monthly_data->tpt = $exception_this_month->amount;
-                        $member_debit_monthly_data->da_on_tpt = round($exception_this_month->amount / 2);
+                        $member_debit_monthly_data->da_on_tpt = $exception_this_month->amount / 2;
                     }
 
                     if ($exception_this_month->rule_name == 'DA') {
@@ -411,9 +416,9 @@ class MemberPayGenerate extends Controller
                 $npsg_adj = 0;
                 $nps_10_rec = 0;
 
-                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-                    $npsg = round((($basicPay + $daAmount) * 14) / 100);
-                    $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
+                if (isset($member->fund_type) && $member->fund_type == 'NPS') {
+                    $npsg = (($basicPay + $daAmount) * 14) / 100;
+                    $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
                 }
 
                 $member_debit_monthly_data->npsg = round($npsg);
@@ -521,7 +526,7 @@ class MemberPayGenerate extends Controller
                 $total_loan = 0;
                 if (count($member_loan_infos) > 0) {
                     foreach ($member_loan_infos as $member_loan) {
-                        if ($member_loan->tot_no_of_inst >= $member_loan->present_inst_no) {
+                        if ($member_loan->tot_no_of_inst > $member_loan->present_inst_no) {
                             $total_loan += $member_loan->inst_amount;
                         }
                     }
@@ -676,7 +681,7 @@ class MemberPayGenerate extends Controller
             $loan_info_ids = [];
             if (count($member_loan_infos) > 0) {
                 foreach ($member_loan_infos as $member_loan_info) {
-                    if ($member_loan_info->tot_no_of_inst >= $member_loan_info->present_inst_no) {
+                    if ($member_loan_info->tot_no_of_inst > $member_loan_info->present_inst_no) {
                         $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
 
                         foreach ($LoanInfoCommonColumns as $column) {
@@ -684,6 +689,7 @@ class MemberPayGenerate extends Controller
                         }
 
                         $member_loan_info_monthly_data->present_inst_no = $member_loan_info->present_inst_no + 1;
+                        $member_loan_info_monthly_data->balance = $member_loan_info->balance - $member_loan_info->inst_amount;
                         $member_loan_info_monthly_data->month = $month;
                         $member_loan_info_monthly_data->year = $year;
                         $member_loan_info_monthly_data->apply_date = date('Y-m-d');
@@ -822,7 +828,7 @@ class MemberPayGenerate extends Controller
                     }
                     $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
                     $basicPay = $member->basic;
-                    $daAmount = $da_percentage ? round(($basicPay * $da_percentage->percentage) / 100) : 0;
+                    $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
 
                     $tptAmount = 0;
                     $tptDa = 0;
@@ -835,7 +841,7 @@ class MemberPayGenerate extends Controller
                                 ->first();
                             if ($tptData) {
                                 $tptAmount = $tptData->tpt_allowance;
-                                $tptDa = round(($tptAmount) / 2);
+                                $tptDa = ($tptAmount) / 2;
                             }
                         }
                     }
@@ -847,7 +853,7 @@ class MemberPayGenerate extends Controller
                             $hraPercentage = Hra::where('city_category', $city->city_type)
                                 ->where('status', 1)
                                 ->first();
-                            $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
+                            $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
                         }
                     }
 
@@ -858,8 +864,8 @@ class MemberPayGenerate extends Controller
 
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
-                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-                        $npsc = round((($basicPay + $daAmount) * 14) / 100);
+                    if (isset($member->fund_type) && $member->fund_type == 'NPS') {
+                        $npsc = (($basicPay + $daAmount) * 14) / 100;
                     } else {
                         $npsc = 0;
                     }
@@ -938,22 +944,22 @@ class MemberPayGenerate extends Controller
                         $member_debit_monthly_data->$column = $member_debit->$column;
                     }
                     $deduction = 0;
-                    if ($member->memberCategory->fund_type == 'GPF') {
+                    if ($member->fund_type == 'GPF') {
                         if ($member_debit->gpa_sub == 0) {
-                            $gpfDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
+                            $gpfDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
                             $member_debit_monthly_data->gpa_sub = $gpfDeduction;
                             $deduction += $gpfDeduction;
                         }
                     }
 
-                    if ($member->memberCategory->fund_type == 'NPS') {
+                    if ($member->fund_type == 'NPS') {
                         if ($member_debit->nps_sub == 0) {
-                            $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
+                            $npsDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100;
                             $member_debit_monthly_data->nps_sub = $npsDeduction;
                             $deduction += $npsDeduction;
                         }
                         if ($member_debit->cmg == 0) {
-                            $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
+                            $gmcDeduction = ($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100;
                             $npsGMCTotal = $gmcDeduction;
                             $member_debit_monthly_data->cmg = $npsGMCTotal;
                             $deduction += $npsGMCTotal;
@@ -986,7 +992,7 @@ class MemberPayGenerate extends Controller
                     if ($exception_this_month) {
                         if ($exception_this_month->rule_name == 'TPT') {
                             $member_debit_monthly_data->tpt = $exception_this_month->amount;
-                            $member_debit_monthly_data->da_on_tpt = round($exception_this_month->amount / 2);
+                            $member_debit_monthly_data->da_on_tpt = $exception_this_month->amount / 2;
                         }
 
                         if ($exception_this_month->rule_name == 'DA') {
@@ -1003,9 +1009,9 @@ class MemberPayGenerate extends Controller
                     $npsg_adj = 0;
                     $nps_10_rec = 0;
 
-                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-                        $npsg = round((($basicPay + $daAmount) * 14) / 100);
-                        $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
+                    if (isset($member->fund_type) && $member->fund_type == 'NPS') {
+                        $npsg = (($basicPay + $daAmount) * 14) / 100;
+                        $nps_10_rec = (($basicPay + $daAmount) * 10) / 100;
                     }
 
                     $member_debit_monthly_data->npsg = round($npsg);
@@ -1111,7 +1117,7 @@ class MemberPayGenerate extends Controller
                     $total_loan = 0;
                     if (count($member_loan_infos) > 0) {
                         foreach ($member_loan_infos as $member_loan) {
-                            if ($member_loan->tot_no_of_inst >= $member_loan->present_inst_no) {
+                            if ($member_loan->tot_no_of_inst > $member_loan->present_inst_no) {
                                 $total_loan += $member_loan->inst_amount;
                             }
                         }
@@ -1267,7 +1273,7 @@ class MemberPayGenerate extends Controller
                 $loan_info_ids = [];
                 if (count($member_loan_infos) > 0) {
                     foreach ($member_loan_infos as $member_loan_info) {
-                        if ($member_loan_info->tot_no_of_inst >= $member_loan_info->present_inst_no) {
+                        if ($member_loan_info->tot_no_of_inst > $member_loan_info->present_inst_no) {
                             $member_loan_info_monthly_data = new MemberMonthlyDataLoanInfo();
 
                             foreach ($LoanInfoCommonColumns as $column) {
@@ -1275,6 +1281,7 @@ class MemberPayGenerate extends Controller
                             }
 
                             $member_loan_info_monthly_data->present_inst_no = $member_loan_info->present_inst_no + 1;
+                            $member_loan_info_monthly_data->balance = $member_loan_info->balance - $member_loan_info->inst_amount;
                             $member_loan_info_monthly_data->month = $month;
                             $member_loan_info_monthly_data->year = $year;
                             $member_loan_info_monthly_data->apply_date = date('Y-m-d');

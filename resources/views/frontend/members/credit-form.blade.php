@@ -446,8 +446,7 @@
     </div>
 
     <div class="row">
-        {{-- @dd($member->memberCategory->fund_type) --}}
-        @if ($member->memberCategory->fund_type == 'NPS')
+        @if ($member->fund_type == 'NPS')
             <div class="col-md-3">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">

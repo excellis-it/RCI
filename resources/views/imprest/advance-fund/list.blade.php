@@ -110,12 +110,12 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="emp_id"
                                                     style="cursor: pointer">EMP ID.<span id="adv_eid_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="name"
                                                     style="cursor: pointer">Name<span id="adv_ename_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th> --}}
+                                                            class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="adv_no"
                                                     style="cursor: pointer">ADV NO.<span id="adv_no_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>

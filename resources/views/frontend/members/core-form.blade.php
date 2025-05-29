@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-        @if ($member->memberCategory->fund_type == 'GPF')
+        @if ($member->fund_type == 'GPF')
         <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">

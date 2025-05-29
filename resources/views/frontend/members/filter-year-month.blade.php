@@ -128,9 +128,11 @@
                                 <tr>
                                     <th>Loan Name</th>
                                     <th>Loan Amount</th>
-                                    {{-- <th>Interest Rate</th>
-                                    <th>Interest Amount</th> --}}
                                     <th>Inst Amount</th>
+                                    <th>Balance</th>
+                                    <th>Interest Percentage (%)</th>
+                                    <th>Interest Amount</th>
+
                                     <th>Start Date</th>
                                     <th>Remarks</th>
                                 </tr>
@@ -798,26 +800,7 @@
 
                         // var route = '/members-loan-edit/' + data.id;
                         // Construct table row HTML
-                        var newRow = '<tr class="edit-route-loan"  data-id="' + id +
-                            '" data-route="' + route +
-                            '">';
-                        newRow += '<td>' + data.loan_name +
-                            '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                        newRow += '<td>' + (data.present_inst_no ? data
-                            .present_inst_no : 'N/A') + '</td>';
-                        newRow += '<td>' + data.total_amount + '</td>';
-                        newRow += '<td>' + new Date(data.created_at).toLocaleDateString(
-                            'en-GB', {
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric'
-                            }).split('/').join('-'); + '</td>';
-                        newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
-                            '</td>';
-                        newRow += '</tr>';
 
-                        // Append new row to table
-                        $('#loan-table tbody').append(newRow);
 
                         // Show success message if needed
                         toastr.success(response.message);
@@ -882,56 +865,15 @@
                     // respobnse data replcae by id
                     var data = response.data;
                     var save = response.save;
-                    console.log(save);
-                    if (save == true) {
-                        console.log(save);
-                        var id = data.id;
-                        var route =
-                            "{{ route('members.loan.edit', ['id' => ':id']) }}";
-                        route = route.replace(':id', id);
-
-                        //construct table row html
-                        var newRow = '<tr class="edit-route-loan" data-id="' +
-                            id + '" data-route="' + route +
-                            '">';
-                        newRow += '<td>' + (data.loan_name ? data.loan_name : 'N/A') +
-                            '</td>'; // Use loanName directly if it's a string, adjust accordingly
-                        newRow += '<td>' + (data.inst_rate ? data.inst_rate : 'N/A') +
-                            '</td>';
-                        newRow += '<td>' + (data.total_amount ? data.total_amount : 'N/A') +
-                            '</td>';
-                        newRow += '<td>' + new Date(data.created_at).toLocaleDateString(
-                            'en-GB', {
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric'
-                            }).split('/').join('-'); + '</td>';
-                        newRow += '<td>' + (data.remark ? data.remark : 'N/A') +
-                            '</td>';
-                        newRow += '</tr>';
-
-
-                        // Append new row to table
-                        $('#loan-table tbody').append(newRow);
-                    } else {
-
-                        var data = response.data;
-                        var row = $('#loan-table tbody').find('tr[data-id="' + data.id +
-                            '"]');
-                        row.find('td:eq(0)').text(data.loan_name);
-                        row.find('td:eq(1)').text(data.inst_rate);
-                        row.find('td:eq(2)').text(data.total_amount);
-                        row.find('td:eq(3)').text(new Date(data.created_at).getDate() +
-                            '-' + (new Date(data.created_at).getMonth() + 1) + '-' +
-                            new Date(data.created_at).getFullYear().toString().substr(-
-                                2));
-                        row.find('td:eq(4)').text(data.remark);
-                    }
-
                     toastr.success(response.message);
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 200);
+                        setTimeout(() => {
+                            var year = "{{ request('year') }}";
+                            var month = "{{ request('month') }}";
+                            let baseUrl = @json(route('members.edit', $member->id));
+                            window.location.href = baseUrl + '?year=' + year +
+                                '&month=' + month;
+
+                        }, 200);
 
                 },
                 error: function(xhr) {
@@ -1715,9 +1657,8 @@
 
     $(document).ready(function() {
         $('.itax_core').on('keyup', function() {
-            // alert('hi');
-            var i_tax = $(this).val();
-            var ecess = i_tax * 0.04;
+            var i_tax = parseFloat($(this).val()) || 0;
+            var ecess = Math.round(i_tax * 0.04);
             $('.ecess_core').val(ecess);
         });
     });
@@ -1874,3 +1815,65 @@
         })
     })
 </script>
+
+<script>
+    $(document).ready(function() {
+        function calculateInstallment() {
+            let totalAmount = parseFloat($('#total_amount').val()) || 0;
+            let noOfInst = parseFloat($('#tot_no_of_inst').val()) || 0;
+            if (totalAmount > 0 && noOfInst > 0) {
+                let instAmount = Math.round(totalAmount / noOfInst);
+                $('#inst_amount').val(instAmount);
+                calculateBalance();
+            } else {
+                $('#inst_amount').val('');
+                $('#balance').val('');
+            }
+        }
+
+        function calculateBalance() {
+            let noOfInst = parseFloat($('#tot_no_of_inst').val()) || 0;
+            let presentInst = parseFloat($('#present_inst_no').val()) || 0;
+            let instAmount = parseFloat($('#inst_amount').val()) || 0;
+            let remainingInst = noOfInst - presentInst;
+            let balance = Math.round(remainingInst * instAmount);
+            $('#balance').val(balance);
+        }
+        $(document).on('input', '#total_amount, #tot_no_of_inst', calculateInstallment);
+        $(document).on('input', '#tot_no_of_inst, #present_inst_no, #inst_amount', calculateBalance);
+
+        function calculateInterst() {
+            let totalAmount = parseFloat($('#total_amount').val()) || 0;
+            let interestPercentage = parseFloat($('#interst_percentage').val()) || 0;
+
+            if (totalAmount > 0 && interestPercentage > 0) {
+                let interestAmount = Math.round((totalAmount * interestPercentage) / 100);
+                $('#total_interest').val(interestAmount);
+            } else {
+                $('#total_interest').val('');
+            }
+        }
+
+        $(document).on('input', '#total_amount, #interst_percentage', calculateInterst);
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+      $(document).on('change', '#loan_name', function () {
+        const selectedText = $('#loan_name option:selected').text();
+
+        if (selectedText.includes('INT')) {
+          $('#interst_percentage').closest('.form-group').hide();
+          $('#total_interest').closest('.form-group').hide();
+        } else {
+          $('#interst_percentage').closest('.form-group').show();
+          $('#total_interest').closest('.form-group').show();
+        }
+      });
+
+      // Trigger change on page load if value is already selected
+    //   $('#loan_name').trigger('change');
+    });
+  </script>

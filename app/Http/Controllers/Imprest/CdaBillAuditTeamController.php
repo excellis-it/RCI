@@ -317,7 +317,7 @@ class CdaBillAuditTeamController extends Controller
 
         $lastBill = CdaBillAuditTeam::whereYear('cda_bill_date', date('Y', strtotime($date)))
             ->whereMonth('cda_bill_date', date('m', strtotime($date)))
-            ->orderBy('bill_voucher_no', 'desc')
+            ->orderBy('id', 'desc')
             ->first();
 
         $lastVoucherNo = $lastBill ? $lastBill->bill_voucher_no : 0;

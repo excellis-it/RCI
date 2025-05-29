@@ -74,10 +74,15 @@ class AdvanceFundController extends Controller
                     ->orWhere('adv_date', 'like', '%' . $query . '%')
                     ->orWhere('adv_amount', 'like', '%' . $query . '%')
                     ->orWhere('chq_no', 'like', '%' . $query . '%')
-                    ->orWhere('chq_date', 'like', '%' . $query . '%');
+                    ->orWhere('chq_date', 'like', '%' . $query . '%')
+                    ->orWhereHas('member', function ($q) use ($query) {
+                        $q->where('emp_id', 'like', '%' . $query . '%')
+                          ->orWhere('name', 'like', '%' . $query . '%');
+                    });
             })
-                ->orderBy($sort_by, $sort_type)
-                ->paginate(10);
+            ->with('member') // eager load the member
+            ->orderBy($sort_by, $sort_type)
+            ->paginate(10);
 
             $variable_types = VariableType::orderBy('id', 'desc')->get();
             $projects = Project::orderBy('id', 'desc')->get();

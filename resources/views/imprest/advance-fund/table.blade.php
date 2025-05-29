@@ -1,8 +1,8 @@
 @if (count($advance_funds) > 0)
     @foreach ($advance_funds as $key => $advance_fund)
         <tr>
-            {{-- <td>{{ $advance_fund->emp_id ?? 'N/A' }}</td>
-            <td>{{ $advance_fund->member->name ?? 'N/A' }}</td> --}}
+            <td>{{ $advance_fund->emp_id ?? 'N/A' }}</td>
+            <td>{{ $advance_fund->member->name ?? 'N/A' }}</td>
             <td>{{ $advance_fund->adv_no ?? 'N/A' }}</td>
             <td>{{ $advance_fund->adv_date ?? 'N/A' }}</td>
             <td>{{ $advance_fund->adv_amount ?? 'N/A' }}</td>
@@ -31,7 +31,7 @@
                 </div>
             </td>
 
-           
+
         </tr>
     @endforeach
     <tr class="toxic">

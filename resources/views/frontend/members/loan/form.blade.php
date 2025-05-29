@@ -16,7 +16,7 @@
                         <label>Loan Name</label>
                     </div>
                     <div class="col-md-12">
-                        <select class="form-select" name="loan_name" id="loan_name">
+                        <select class="form-select" name="loan_name" id="loan_name" disabled>
                             <option value="">Select Loan</option>
                             @foreach ($loans as $loan)
                                 <option value="{{ $loan->id }}"
@@ -24,45 +24,6 @@
                                     {{ $loan->loan_name }}</option>
                             @endforeach
                         </select>
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group col-md-6 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Inst Amt</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="inst_amount" id="inst_amount"
-                            value="{{ $member_loan->inst_amount }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group col-md-6 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Present Inst No</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
-                            value="{{ $member_loan->present_inst_no }}" placeholder="" readonly>
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-2" hidden>
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Inst Rate</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="inst_rate" id="inst_rate"
-                            value="{{ $member_loan->inst_rate }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -81,6 +42,7 @@
                 </div>
             </div>
 
+
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -89,6 +51,33 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
                             value="{{ $member_loan->tot_no_of_inst }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Inst Amt</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="inst_amount" id="inst_amount"
+                            value="{{ $member_loan->inst_amount }}" placeholder="" readonly>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Present Inst No</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
+                            value="{{ $member_loan->present_inst_no }}" placeholder="" readonly>
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -107,6 +96,53 @@
                 </div>
             </div>
 
+            <div class="form-group mb-2" hidden>
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Inst Rate</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="inst_rate" id="inst_rate"
+                            value="{{ $member_loan->inst_rate }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            @php
+                $hideFields = false;
+                if (isset($member_loan->loan->loan_name) && Str::contains($member_loan->loan->loan_name, 'INT')) {
+                    $hideFields = true;
+                }
+            @endphp
+            @if (!$hideFields)
+                <div class="form-group col-md-6 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Interst Percentage (%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="interst_percentage"
+                                id="interst_percentage" value="{{ $member_loan->interst_percentage }}"
+                                placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>Total Interest</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="total_interest" id="total_interest"
+                                value="{{ $member_loan->total_interest }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -224,10 +260,36 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
+                        <label>Tot Amt</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="total_amount" id="total_amount"
+                            value="" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Tot No of Inst</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
+                            placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
                         <label>Inst Amt</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="inst_amount" id="inst_amount"
+                        <input type="text" class="form-control" name="inst_amount" id="inst_amount" readonly
                             value="" placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -261,31 +323,9 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Tot Amt</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="total_amount" id="total_amount"
-                            value="" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group col-md-6 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Tot No of Inst</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
-                            placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+
+
 
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
@@ -295,6 +335,33 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="balance" id="balance" value=""
                             placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Interst Percentage (%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="interst_percentage" id="interst_percentage"
+                            value="" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Total Interest</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="total_interest" id="total_interest"
+                            value="" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
