@@ -26,11 +26,11 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="city_category" id="city_category">
                                     <option value="">Select City Category</option>
-                                    <option value="x" {{ $hra->city_category == 'x' ? 'selected' : '' }}>X
+                                    <option value="X" {{ $hra->city_category == 'X' ? 'selected' : '' }}>X
                                     </option>
-                                    <option value="y" {{ $hra->city_category == 'y' ? 'selected' : '' }}>Y
+                                    <option value="Y" {{ $hra->city_category == 'Y' ? 'selected' : '' }}>Y
                                     </option>
-                                    <option value="z" {{ $hra->city_category == 'z' ? 'selected' : '' }}>Z
+                                    <option value="Z" {{ $hra->city_category == 'Z' ? 'selected' : '' }}>Z
                                     </option>
                                 </select>
                                 <span class="text-danger"></span>
@@ -117,9 +117,9 @@
                             <div class="col-md-12">
                                 <select class="form-select" name="city_category" id="city_category">
                                     <option value="">Select Category</option>
-                                    <option value="x">X</option>
-                                    <option value="y">Y</option>
-                                    <option value="z">Z</option>
+                                    <option value="X">X</option>
+                                    <option value="Y">Y</option>
+                                    <option value="Z">Z</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>

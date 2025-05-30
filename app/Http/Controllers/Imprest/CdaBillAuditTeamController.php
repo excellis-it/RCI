@@ -157,60 +157,65 @@ class CdaBillAuditTeamController extends Controller
             $index = array_search($billId, $request->settle_id);
 
             if ($index !== false) {
-                $receiptPayment = new CdaBillAuditTeam();
-                $receiptPayment->settle_id = $request->settle_id[$index];
-                $receiptPayment->adv_no = $request->adv_no[$index];
-                $receiptPayment->adv_date = $request->adv_date[$index];
-                $receiptPayment->member_id = $request->member_id[$index];
-                $receiptPayment->adv_amount = $request->adv_amount[$index];
-                $receiptPayment->bill_amount = $request->bill_amount[$index];
-                $receiptPayment->project_id = $request->project_id[$index];
-                $receiptPayment->chq_no = $request->chq_no[$index];
-                $receiptPayment->chq_date = $request->chq_date[$index];
-                $receiptPayment->variable_id = $request->variable_id[$index];
-                $receiptPayment->cda_bill_no = $request->cda_bill_no;
-                $receiptPayment->cda_bill_date = $request->cda_bill_date;
-                $receiptPayment->bill_voucher_no = $request->bill_voucher_no;
-                $receiptPayment->created_by = auth()->id();
+                if (isset($request->settle_id[$index])) {
+                    $count = CdaBillAuditTeam::where('settle_id', $request->settle_id[$index])->count();
+                    if ($count == 0) {
+                        $receiptPayment = new CdaBillAuditTeam();
+                        $receiptPayment->settle_id = $request->settle_id[$index];
+                        $receiptPayment->adv_no = $request->adv_no[$index];
+                        $receiptPayment->adv_date = $request->adv_date[$index];
+                        $receiptPayment->member_id = $request->member_id[$index];
+                        $receiptPayment->adv_amount = $request->adv_amount[$index];
+                        $receiptPayment->bill_amount = $request->bill_amount[$index];
+                        $receiptPayment->project_id = $request->project_id[$index];
+                        $receiptPayment->chq_no = $request->chq_no[$index];
+                        $receiptPayment->chq_date = $request->chq_date[$index];
+                        $receiptPayment->variable_id = $request->variable_id[$index];
+                        $receiptPayment->cda_bill_no = $request->cda_bill_no;
+                        $receiptPayment->cda_bill_date = $request->cda_bill_date;
+                        $receiptPayment->bill_voucher_no = $request->bill_voucher_no;
+                        $receiptPayment->created_by = auth()->id();
 
-                $receiptPayment->save();
+                        $receiptPayment->save();
 
-                // Update bill status in AdvanceSettlement
-                $advSettlement = AdvanceSettlement::find($request->settle_id[$index]);
-                if ($advSettlement) {
-                    $advSettlement->bill_status = 1;
-                    $advSettlement->save();
+                        // Update bill status in AdvanceSettlement
+                        $advSettlement = AdvanceSettlement::find($request->settle_id[$index]);
+                        if ($advSettlement) {
+                            $advSettlement->bill_status = 1;
+                            $advSettlement->save();
+                        }
+
+
+                        $lastIMBRecord =  Helper::getLastImprestBalance($request->cda_bill_date);
+
+                        $imprestBalanceData = [
+                            'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
+                            'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
+                            'cash_in_bank' => $lastIMBRecord->cash_in_bank ?? 0,
+                            'opening_cash_in_bank' => $lastIMBRecord->opening_cash_in_bank ?? 0,
+                            'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
+                            'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
+                            'cda_bill' => ($lastIMBRecord->cda_bill ?? 0) + $request->bill_amount[$index],
+                            'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
+                            'adv_fund_outstand' => $lastIMBRecord->adv_fund_outstand ?? 0,
+                            'adv_settle_outstand' => ($lastIMBRecord->adv_settle_outstand ?? 0) - $request->bill_amount[$index],
+                            'cda_bill_outstand' => ($lastIMBRecord->cda_bill_outstand ?? 0) + $request->bill_amount[$index],
+                            'adv_fund_id' => $advSettlement->af_id,
+                            'adv_settle_id' => $advSettlement->id,
+                            'cda_bill_id' => $receiptPayment->id,
+                            'date' => $request->input('cda_bill_date', now()->toDateString()),
+                            'time' => now()->toTimeString(),
+                        ];
+
+                        ImprestBalance::create($imprestBalanceData);
+
+                        Helper::updateBalancesAfterDate($request->cda_bill_date, [
+                            'adv_settle_outstand' => -$request->bill_amount[$index],
+                            'cda_bill' => $request->bill_amount[$index],
+                            'cda_bill_outstand' => $request->bill_amount[$index],
+                        ]);
+                    }
                 }
-
-
-                $lastIMBRecord =  Helper::getLastImprestBalance($request->cda_bill_date);
-
-                $imprestBalanceData = [
-                    'cash_in_hand' => $lastIMBRecord->cash_in_hand ?? 0,
-                    'opening_cash_in_hand' => $lastIMBRecord->opening_cash_in_hand ?? 0,
-                    'cash_in_bank' => $lastIMBRecord->cash_in_bank ?? 0,
-                    'opening_cash_in_bank' => $lastIMBRecord->opening_cash_in_bank ?? 0,
-                    'adv_fund' => $lastIMBRecord->adv_fund ?? 0,
-                    'adv_settle' => $lastIMBRecord->adv_settle ?? 0,
-                    'cda_bill' => ($lastIMBRecord->cda_bill ?? 0) + $request->bill_amount[$index],
-                    'cda_receipt' => $lastIMBRecord->cda_receipt ?? 0,
-                    'adv_fund_outstand' => $lastIMBRecord->adv_fund_outstand ?? 0,
-                    'adv_settle_outstand' => ($lastIMBRecord->adv_settle_outstand ?? 0) - $request->bill_amount[$index],
-                    'cda_bill_outstand' => ($lastIMBRecord->cda_bill_outstand ?? 0) + $request->bill_amount[$index],
-                    'adv_fund_id' => $advSettlement->af_id,
-                    'adv_settle_id' => $advSettlement->id,
-                    'cda_bill_id' => $receiptPayment->id,
-                    'date' => $request->input('cda_bill_date', now()->toDateString()),
-                    'time' => now()->toTimeString(),
-                ];
-
-                ImprestBalance::create($imprestBalanceData);
-
-                Helper::updateBalancesAfterDate($request->cda_bill_date, [
-                    'adv_settle_outstand' => -$request->bill_amount[$index],
-                    'cda_bill' => $request->bill_amount[$index],
-                    'cda_bill_outstand' => $request->bill_amount[$index],
-                ]);
             }
         }
 

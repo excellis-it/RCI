@@ -111,8 +111,14 @@
 
         $pageArrayHbaAdv = [];
         $pageArrayCarAdv = [];
-        $pageArrayEduAdv = [];
+        $pageArrayScoAdv = [];
         $pageArrayCompAdv = [];
+        $pageArrayFestAdv = [];
+        $pageArrayHbaInt = [];
+        $pageArrayCarInt = [];
+        $pageArrayScoInt = [];
+        $pageArrayCompInt = [];
+
         $pageArrayNpsg = [];
         $pageArrayNpsgArr = [];
         $pageArrayNpsAdj = [];
@@ -157,10 +163,17 @@
             $pageArrayGpfArr[$chunkKey] = 0;
             $pageArrayCgegis[$chunkKey] = 0;
             $pageArrayCghs[$chunkKey] = 0;
+
             $pageArrayHbaAdv[$chunkKey] = 0;
             $pageArrayCarAdv[$chunkKey] = 0;
-            $pageArrayEduAdv[$chunkKey] = 0;
+            $pageArrayScoAdv[$chunkKey] = 0;
             $pageArrayCompAdv[$chunkKey] = 0;
+            $pageArrayFestAdv[$chunkKey] = 0;
+            $pageArrayHbaInt[$chunkKey] = 0;
+            $pageArrayCarInt[$chunkKey] = 0;
+            $pageArrayScoInt[$chunkKey] = 0;
+            $pageArrayCompInt[$chunkKey] = 0;
+
             $pageArrayLtc[$chunkKey] = 0;
             $pageArrayMedDebit[$chunkKey] = 0;
             $pageArrayTada[$chunkKey] = 0;
@@ -375,19 +388,21 @@
                                 $totalTableRec = 0;
 
                                 //Loans
-                                $totalHbaInst = 0;
-                                $totalCompInst = 0;
-                                $totalEduInst = 0;
-                                $totalCarBikeInst = 0;
+                                $totalHbaAdv = 0;
+                                $totalCarAdv = 0;
+                                $totalScoAdv = 0;
+                                $totalCompAdv = 0;
+                                $totalFestAdv = 0;
+                                $totalHbaInt = 0;
+                                $totalCompInt = 0;
+                                $totalScoInt = 0;
+                                $totalCarInt = 0;
 
                                 $totalLoans = 0;
                                 $totalNpscCreditIt = 0;
                                 $totalNpgArrsCreditIt = 0;
                                 $totalNpgAdgCredit = 0;
-                                $totalHbaAdv = 0;
-                                $totalCarAdv = 0;
-                                $totalEduAdv = 0;
-                                $totalCompAdv = 0;
+
                                 $totalNpsg = 0;
                                 $totalNpsgArr = 0;
                                 $totalNpsAdj = 0;
@@ -430,10 +445,16 @@
                                         $totalGpfArr += $debit?->gpf_arr ?? 0;
                                         $totalCgegis += $debit?->cgegis ?? 0;
                                         $totalCghs += $debit?->cghs ?? 0;
-                                        $totalHbaAdv += $loans['hba_inst'] ?? 0;
-                                        $totalCarAdv += $loans['car_inst'] ?? 0;
-                                        $totalEduAdv += $loans['edu_inst'] ?? 0;
-                                        $totalCompAdv += $loans['comp_inst'] ?? 0;
+
+                                        $totalHbaAdv += $loans['hba_adv'] ?? 0;
+                                        $totalCarAdv += $loans['car_adv'] ?? 0;
+                                        $totalScoAdv += $loans['sco_adv'] ?? 0;
+                                        $totalCompAdv += $loans['comp_adv'] ?? 0;
+                                        $totalFestAdv += $loans['fest_adv'] ?? 0;
+                                        $totalHbaInt += $loans['hba_int'] ?? 0;
+                                        $totalCarInt += $loans['car_int'] ?? 0;
+                                        $totalScoInt += $loans['sco_int'] ?? 0;
+                                        $totalCompInt += $loans['comp_int'] ?? 0;
 
                                         $totalLtc += $debit?->ltc ?? 0;
                                         $totalMedDebit += $debit?->medi ?? 0;
@@ -484,12 +505,18 @@
                                         $singleTotalDebit =
                                             ($debit?->gpa_sub ?? 0) +
                                             ($debit?->gpf_adv ?? 0) +
+                                            ($debit?->gpf_arr ?? 0) +
                                             ($debit?->cgegis ?? 0) +
                                             ($debit?->cghs ?? 0) +
-                                            ($loans['hba_inst'] ?? 0) +
-                                            ($loans['car_inst'] ?? 0) +
-                                            ($loans['edu_inst'] ?? 0) +
-                                            ($loans['comp_inst'] ?? 0) +
+                                            ($loans['hba_adv'] ?? 0) +
+                                            ($loans['car_adv'] ?? 0) +
+                                            ($loans['sco_adv'] ?? 0) +
+                                            ($loans['comp_adv'] ?? 0) +
+                                            ($loans['fest_adv'] ?? 0) +
+                                            ($loans['hba_int'] ?? 0) +
+                                            ($loans['car_int'] ?? 0) +
+                                            ($loans['sco_int'] ?? 0) +
+                                            ($loans['comp_int'] ?? 0) +
                                             ($debit?->ltc ?? 0) +
                                             ($debit?->medi ?? 0) +
                                             ($debit?->tada ?? 0) +
@@ -582,14 +609,27 @@
                                             $member_info['details']['member_debit']->cgegis ?? 0;
                                         $pageArrayCghs[$chunkKey] += $member_info['details']['member_debit']->cghs ?? 0;
                                         $pageArrayHbaAdv[$chunkKey] +=
-                                            $member_info['details']['member_loans']['hba_inst'] ?? 0;
+                                            $member_info['details']['member_loans']['hba_adv'] ?? 0;
 
                                         $pageArrayCarAdv[$chunkKey] +=
-                                            $member_info['details']['member_loans']['car_inst'] ?? 0;
-                                        $pageArrayEduAdv[$chunkKey] +=
-                                            $member_info['details']['member_loans']['edu_inst'] ?? 0;
+                                            $member_info['details']['member_loans']['car_adv'] ?? 0;
+                                        $pageArrayScoAdv[$chunkKey] +=
+                                            $member_info['details']['member_loans']['sco_adv'] ?? 0;
                                         $pageArrayCompAdv[$chunkKey] +=
-                                            $member_info['details']['member_loans']['comp_inst'] ?? 0;
+                                            $member_info['details']['member_loans']['comp_adv'] ?? 0;
+
+                                        $pageArrayFestAdv[$chunkKey] +=
+                                            $member_info['details']['member_loans']['fest_adv'] ?? 0;
+
+                                        $pageArrayHbaInt[$chunkKey] +=
+                                            $member_info['details']['member_loans']['hba_int'] ?? 0;
+
+                                        $pageArrayCarInt[$chunkKey] +=
+                                            $member_info['details']['member_loans']['car_int'] ?? 0;
+                                        $pageArrayScoInt[$chunkKey] +=
+                                            $member_info['details']['member_loans']['sco_int'] ?? 0;
+                                        $pageArrayCompInt[$chunkKey] +=
+                                            $member_info['details']['member_loans']['comp_int'] ?? 0;
 
                                         $pageArrayLtc[$chunkKey] += $member_info['details']['member_debit']->ltc ?? 0;
                                         $pageArrayMedDebit[$chunkKey] +=
@@ -664,12 +704,18 @@
                                         $currentMemberDebit =
                                             ($member_info['details']['member_debit']->gpa_sub ?? 0) +
                                             ($member_info['details']['member_debit']->gpf_adv ?? 0) +
+                                            ($member_info['details']['member_debit']->gpf_arr ?? 0) +
                                             ($member_info['details']['member_debit']->cgegis ?? 0) +
                                             ($member_info['details']['member_debit']->cghs ?? 0) +
-                                            ($member_info['details']['member_loans']['hba_inst'] ?? 0) +
-                                            ($member_info['details']['member_loans']['car_inst'] ?? 0) +
-                                            ($member_info['details']['member_loans']['edu_inst'] ?? 0) +
-                                            ($member_info['details']['member_loans']['comp_inst'] ?? 0) +
+                                            ($member_info['details']['member_loans']['hba_adv'] ?? 0) +
+                                            ($member_info['details']['member_loans']['car_adv'] ?? 0) +
+                                            ($member_info['details']['member_loans']['sco_adv'] ?? 0) +
+                                            ($member_info['details']['member_loans']['comp_adv'] ?? 0) +
+                                            ($member_info['details']['member_loans']['fest_adv'] ?? 0) +
+                                            ($member_info['details']['member_loans']['hba_int'] ?? 0) +
+                                            ($member_info['details']['member_loans']['car_int'] ?? 0) +
+                                            ($member_info['details']['member_loans']['sco_int'] ?? 0) +
+                                            ($member_info['details']['member_loans']['comp_int'] ?? 0) +
                                             ($member_info['details']['member_debit']->ltc ?? 0) +
                                             ($member_info['details']['member_debit']->medi ?? 0) +
                                             ($member_info['details']['member_debit']->tada ?? 0) +
@@ -774,29 +820,29 @@
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->gpa_sub ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->gpf_adv ?? 0) }}<br>
-                                            0 <br>
+                                            {{ round($member_info['details']['member_debit']->gpf_arr ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->cgegis ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->cghs ?? 0) }}<br>
-                                            {{ round($member_info['details']['member_loans']['hba_inst'] ?? 0) }}<br>
+                                            <br>
 
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            0<br>
-                                            {{ round($member_info['details']['member_loans']['car_inst'] ?? 0) }}<br>
-                                            0 <br>
-                                            {{ round($member_info['details']['member_loans']['edu_inst'] ?? 0) }}<br>
-                                            0<br>
-                                            {{ round($member_info['details']['member_loans']['comp_inst'] ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_loans']['hba_int'] ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_loans']['car_adv'] ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_loans']['car_int'] ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_loans']['sco_adv'] ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_loans']['sco_int'] ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_loans']['comp_adv'] ?? 0) }} <br>
 
                                         </td>
 
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            0 <br>
-                                            0 <br>
+                                            {{ round($member_info['details']['member_loans']['comp_int'] ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_loans']['fest_adv'] ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->ltc ?? 0) }}
                                             <br>
                                             {{ round($member_info['details']['member_debit']->medi ?? 0) }}
@@ -846,13 +892,13 @@
                                         {{-- <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            {{ round($member_info['details']['member_loans']['hba_inst'] ?? 0) }}
+                                            {{ round($member_info['details']['member_loans']['hba_adv'] ?? 0) }}
                                             <br>
-                                            {{ round($member_info['details']['member_loans']['comp_inst'] ?? 0) }}
+                                            {{ round($member_info['details']['member_loans']['comp_adv'] ?? 0) }}
                                             <br>
-                                            {{ round($member_info['details']['member_loans']['edu_inst'] ?? 0) }}
+                                            {{ round($member_info['details']['member_loans']['sco_adv'] ?? 0) }}
                                             <br>
-                                            {{ round($member_info['details']['member_loans']['car_inst'] ?? 0) }}
+                                            {{ round($member_info['details']['member_loans']['car_adv'] ?? 0) }}
 
                                         </td> --}}
 
@@ -885,6 +931,125 @@
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         </td>
                                     </tr>
+                                    @if (
+                                        ($member_info['details']['member_loans']['hba_adv'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['hba_int'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['car_adv'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['car_int'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['sco_adv'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['sco_int'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['comp_adv'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['comp_int'] ?? 0) > 0 ||
+                                            ($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0)
+                                        <tr>
+                                            <td colspan="14"
+                                                style=" font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; ">
+                                                @if (($member_info['details']['member_loans']['hba_adv'] ?? 0) > 0)
+                                                    HBA
+                                                    {{ $member_info['details']['member_loans']['hba_adv_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['hba_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['hba_adv'] ?? 0 }} TOT
+                                                    ADV:-
+                                                    {{ $member_info['details']['member_loans']['hba_adv_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['hba_adv_data']['balance'] ?? 0 }}
+                                                @endif
+                                                @if (($member_info['details']['member_loans']['hba_int'] ?? 0) > 0)
+                                                    HBA
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['hba_int'] ?? 0 }} TOT
+                                                    INT:-
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['balance'] ?? 0 }}
+                                                @endif
+
+                                                @if (($member_info['details']['member_loans']['car_adv'] ?? 0) > 0)
+                                                    CAR
+                                                    {{ $member_info['details']['member_loans']['car_adv_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['car_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['car_adv'] ?? 0 }} TOT
+                                                    ADV:-
+                                                    {{ $member_info['details']['member_loans']['car_adv_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['car_adv_data']['balance'] ?? 0 }}
+                                                @endif
+                                                @if (($member_info['details']['member_loans']['car_int'] ?? 0) > 0)
+                                                    CAR
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['car_int'] ?? 0 }} TOT
+                                                    INT:-
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['hba_int_data']['balance'] ?? 0 }}
+                                                @endif
+
+                                                @if (($member_info['details']['member_loans']['sco_adv'] ?? 0) > 0)
+                                                    SCO
+                                                    {{ $member_info['details']['member_loans']['sco_adv_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['sco_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['sco_adv'] ?? 0 }}
+                                                    TOT ADV:-
+                                                    {{ $member_info['details']['member_loans']['sco_adv_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['sco_adv_data']['balance'] ?? 0 }}
+                                                @endif
+                                                @if (($member_info['details']['member_loans']['sco_int'] ?? 0) > 0)
+                                                    SCO
+                                                    {{ $member_info['details']['member_loans']['sco_int_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['sco_int_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['sco_int'] ?? 0 }}
+                                                    TOT INT:-
+                                                    {{ $member_info['details']['member_loans']['sco_int_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['sco_int_data']['balance'] ?? 0 }}
+                                                @endif
+
+                                                @if (($member_info['details']['member_loans']['comp_adv'] ?? 0) > 0)
+                                                    COMP
+                                                    {{ $member_info['details']['member_loans']['comp_adv_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['comp_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['comp_adv'] ?? 0 }}
+                                                    TOT ADV:-
+                                                    {{ $member_info['details']['member_loans']['comp_adv_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['comp_adv_data']['balance'] ?? 0 }}
+                                                @endif
+                                                @if (($member_info['details']['member_loans']['comp_int'] ?? 0) > 0)
+                                                    COMP
+                                                    {{ $member_info['details']['member_loans']['comp_int_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['comp_int_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['comp_int'] ?? 0 }}
+                                                    TOT INT:-
+                                                    {{ $member_info['details']['member_loans']['comp_int_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['comp_int_data']['balance'] ?? 0 }}
+                                                @endif
+
+                                                @if (($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0)
+                                                    FEST
+                                                    {{ $member_info['details']['member_loans']['fest_adv_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['fest_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['fest_adv'] ?? 0 }}
+                                                    TOT ADV:-
+                                                    {{ $member_info['details']['member_loans']['fest_adv_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['fest_adv_data']['balance'] ?? 0 }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
 
                             <tfoot>
@@ -947,19 +1112,19 @@
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        0 <br>
+                                        {{ round($totalHbaInt ?? 0) }}<br>
                                         {{ round($totalCarAdv ?? 0) }} <br>
-                                        0 <br>
-                                        {{ round($totalEduAdv ?? 0) }} <br>
-                                        0 <br>
+                                        {{ round($totalCarInt ?? 0) }} <br>
+                                        {{ round($totalScoAdv ?? 0) }} <br>
+                                        {{ round($totalScoInt ?? 0) }}<br>
                                         {{ round($totalCompAdv ?? 0) }}
 
                                     </td>
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        0 <br>
-                                        0 <br>
+                                        {{ round($totalCompInt ?? 0) }} <br>
+                                        {{ round($totalfestAdv ?? 0) }} <br>
                                         {{ round($totalLtc ?? 0) }} <br>
                                         {{ round($totalMedDebit ?? 0) }} <br>
                                         {{ round($totalTada ?? 0) }} <br>
@@ -2776,9 +2941,18 @@ background: #cdcdcd;
                             $totalGpfArr = round(array_sum($pageArrayGpfArr));
                             $totalCgegis = round(array_sum($pageArrayCgegis));
                             $totalCghs = round(array_sum($pageArrayCghs));
+
                             $totalHbaAdv = round(array_sum($pageArrayHbaAdv));
                             $totalCarAdv = round(array_sum($pageArrayCarAdv));
                             $totalCompAdv = round(array_sum($pageArrayCompAdv));
+                            $totalScoAdv = round(array_sum($pageArrayScoAdv));
+                            $totalFestAdv = round(array_sum($pageArrayFestAdv));
+
+                            $totalHbaInt = round(array_sum($pageArrayHbaInt));
+                            $totalCarInt = round(array_sum($pageArrayCarInt));
+                            $totalCompInt = round(array_sum($pageArrayCompInt));
+                            $totalScoInt = round(array_sum($pageArrayScoInt));
+
                             $totalLtc = round(array_sum($pageArrayLtc));
                             $totalMedDebit = round(array_sum($pageArrayMedDebit));
                             $totalTada = round(array_sum($pageArrayTada));
@@ -2814,9 +2988,18 @@ background: #cdcdcd;
                                     $gpfArr = $pageArrayGpfArr[$key] ?? 0;
                                     $cgegis = $pageArrayCgegis[$key] ?? 0;
                                     $cghs = $pageArrayCghs[$key] ?? 0;
+
                                     $hbaAdv = $pageArrayHbaAdv[$key] ?? 0;
                                     $carAdv = $pageArrayCarAdv[$key] ?? 0;
                                     $compAdv = $pageArrayCompAdv[$key] ?? 0;
+                                    $scoAdv = $pageArrayScoAdv[$key] ?? 0;
+                                    $festAdv = $pageArrayFestAdv[$key] ?? 0;
+
+                                    $hbaInt = $pageArrayHbaInt[$key] ?? 0;
+                                    $carInt = $pageArrayCarInt[$key] ?? 0;
+                                    $compInt = $pageArrayCompInt[$key] ?? 0;
+                                    $scoInt = $pageArrayScoInt[$key] ?? 0;
+
                                     $ltc = $pageArrayLtc[$key] ?? 0;
                                     $medDebit = $pageArrayMedDebit[$key] ?? 0;
                                     $tada = $pageArrayTada[$key] ?? 0;
@@ -2849,14 +3032,14 @@ background: #cdcdcd;
                                         $cgegis +
                                         $cghs +
                                         $hbaAdv +
-                                        0 +
+                                        $hbaInt +
                                         $carAdv +
-                                        0 +
-                                        0 +
-                                        0 +
+                                        $carInt +
+                                        $scoAdv +
+                                        $scoInt +
                                         $compAdv +
-                                        0 +
-                                        0 +
+                                        $compInt +
+                                        $festAdv +
                                         $ltc +
                                         $medDebit +
                                         $tada +
@@ -3016,7 +3199,7 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                        {{ $pageArrayHbaInt[$key] ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -3048,7 +3231,7 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                        {{ $pageArrayCarInt[$key] ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -3064,7 +3247,7 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                        {{ $pageArrayScoAdv[$key] ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -3080,7 +3263,7 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                        {{ $pageArrayScoInt[$key] ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -3112,7 +3295,7 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                        {{ $pageArrayCompInt[$key] ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -3128,7 +3311,7 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                        {{ $pageArrayFestAdv[$key] ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -5386,7 +5569,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalHbaInt ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -5453,7 +5636,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalCarInt ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -5486,7 +5669,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalScoAdv ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -5519,7 +5702,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalScoInt ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -5586,7 +5769,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalCompInt ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -5619,7 +5802,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalFestAdv ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -6510,7 +6693,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                           {{ (is_array($columnTotals) ? array_sum($columnTotals) : 0) - ($total_sum_debit ?? 0) }}
+                                                {{ (is_array($columnTotals) ? array_sum($columnTotals) : 0) - ($total_sum_debit ?? 0) }}
 
                                             </td>
                                         </tr>
@@ -6544,7 +6727,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                {{$tot_sum_record}}
+                                                {{ $tot_sum_record }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -6577,11 +6760,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                {{
-                                                    (is_array($columnTotals) ? array_sum($columnTotals) : 0)
-                                                    - ($total_sum_debit ?? 0)
-                                                    - ($tot_sum_record ?? 0)
-                                                }}
+                                                {{ (is_array($columnTotals) ? array_sum($columnTotals) : 0) - ($total_sum_debit ?? 0) - ($tot_sum_record ?? 0) }}
 
                                             </td>
                                         </tr>
@@ -6600,10 +6779,34 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                             ">
-                                                <p style="font-size: 20px; text-align: center;">Nett  {{ (is_array($columnTotals) ? array_sum($columnTotals) : 0) - ($total_sum_debit ?? 0) }}</p>
-                                                NAT PAY AFTER TOTAL DEDUCTION & TABLE RECOVERY
+                                                @php
+                                                    $total =
+                                                        (is_array($columnTotals) ? array_sum($columnTotals) : 0) -
+                                                        ($total_sum_debit ?? 0);
 
-                                                <P style="font-size:18px; text-align: center; ">DATE: 23-4-2025</P>
+                                                    $formatter = new NumberFormatter(
+                                                        'en_IN',
+                                                        NumberFormatter::SPELLOUT,
+                                                    );
+                                                    $whole = floor($total);
+                                                    $decimal = round(($total - $whole) * 100);
+
+                                                    $rupees = ucfirst($formatter->format($whole)) . ' rupees';
+                                                    $paise =
+                                                        $decimal > 0
+                                                            ? ' and ' . $formatter->format($decimal) . ' paise'
+                                                            : '';
+                                                    $totalInWords = $rupees . $paise . ' only';
+
+                                                    $totalInWords = ucwords(str_replace('-',' ',$totalInWords));
+                                                @endphp
+                                                <p style="font-size: 20px; text-align: center;">Nett
+                                                    {{ $total }}
+                                                </p>
+                                                Rupees {{ $totalInWords }} <br>
+
+                                                <P style="font-size:18px; text-align: center; ">DATE:
+                                                    {{ date('d-m-Y') }}</P>
                                             </td>
 
                                         </tr>

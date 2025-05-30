@@ -172,7 +172,7 @@
             <div class="form-group mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Tot No of Inst</label>
+                        <label>Tot No of z</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"

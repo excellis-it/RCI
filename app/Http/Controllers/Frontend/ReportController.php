@@ -271,26 +271,104 @@ class ReportController extends Controller
                     ->where('month', $themonth)
                     ->first(),
                 'member_loans' => [
-                    'hba_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
-                        ->where('year', $request->year)
-                        ->where('month', $themonth)
-                        ->where('loan_id', 4)
-                        ->first()['inst_amount'] ?? 0,
-                    'car_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'hba_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 1)
                         ->first()['inst_amount'] ?? 0,
-                    'edu_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
-                        ->where('year', $request->year)
-                        ->where('month', $themonth)
-                        ->where('loan_id', 2)
-                        ->first()['inst_amount'] ?? 0,
-                    'comp_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'car_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 3)
                         ->first()['inst_amount'] ?? 0,
+                    'sco_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 5)
+                        ->first()['inst_amount'] ?? 0,
+                    'comp_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 7)
+                        ->first()['inst_amount'] ?? 0,
+
+                    'fest_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 9)
+                        ->first()['inst_amount'] ?? 0,
+
+
+                    'hba_int' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 2)
+                        ->first()['inst_amount'] ?? 0,
+                    'car_int' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 4)
+                        ->first()['inst_amount'] ?? 0,
+                    'sco_int' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 6)
+                        ->first()['inst_amount'] ?? 0,
+                    'comp_int' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 8)
+                        ->first()['inst_amount'] ?? 0,
+
+                        'hba_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 1)
+                        ->first() ?? 0,
+                    'car_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 3)
+                        ->first() ?? 0,
+                    'sco_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 5)
+                        ->first() ?? 0,
+                    'comp_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 7)
+                        ->first() ?? 0,
+
+                    'fest_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 9)
+                        ->first() ?? 0,
+
+
+                    'hba_int_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 2)
+                        ->first() ?? 0,
+                    'car_int_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 4)
+                        ->first() ?? 0,
+                    'sco_int_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 6)
+                        ->first() ?? 0,
+                    'comp_int_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 8)
+                        ->first() ?? 0,
+
                 ],
             ];
 
@@ -377,22 +455,22 @@ class ReportController extends Controller
                     ->where('month', $themonth)
                     ->first(),
                 'member_loans' => [
-                    'hba_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'hba_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 4)
                         ->first()['inst_amount'] ?? 0,
-                    'car_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'car_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 1)
                         ->first()['inst_amount'] ?? 0,
-                    'edu_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'sco_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 2)
                         ->first()['inst_amount'] ?? 0,
-                    'comp_inst' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'comp_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 3)

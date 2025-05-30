@@ -95,7 +95,8 @@ class CdaReceiptController extends Controller
             'dv_date' => 'required|date',
             'rct_vr_amount' => 'required|numeric',
             'remark' => 'nullable|string|max:255',
-            'bill_no' => 'required',
+            'bill_no' => 'required|unique:cda_receipts,bill_id',
+
         ]);
 
         // Insert new records into CDAReceipt based on cda_bill_no

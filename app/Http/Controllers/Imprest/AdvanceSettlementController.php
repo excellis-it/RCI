@@ -137,7 +137,8 @@ class AdvanceSettlementController extends Controller
             'bill_amount' => 'required',
             'firm' => 'required',
             'balance' => 'required',
-            'member_id' => 'required'
+            'member_id' => 'required',
+            'af_id' => 'required|unique:advance_settlements,af_id',
         ]);
 
         $newBalance = 0;

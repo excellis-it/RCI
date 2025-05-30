@@ -353,12 +353,12 @@ class MemberController extends Controller
 
         // nps sub val if member fund type nps
         $nps_sub_val = 0;
-        if ($member->fund_type == 'NPS') {
+        if ($member->memberCategory->fund_type == 'NPS') {
             $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
             $basicPay = $member->basic;
-            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
-            $nsv1 = ($daAmount + $member->basic) * 10 / 100;
-            $nsv2 = ($daAmount + $member->basic) * 14 / 100;
+            $daAmount = $da_percentage_val ? round(($basicPay * $da_percentage_val->percentage) / 100) : 0;
+            $nsv1 = round(($daAmount + $member->basic) * 10 / 100);
+            $nsv2 = round(($daAmount + $member->basic) * 14 / 100);
             $nps_sub_val = $nsv1 + $nsv2;
         }
         $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
@@ -367,7 +367,7 @@ class MemberController extends Controller
         if ($member_expectation_da) {
             $daAmount = $member_expectation_da->amount;
         } else {
-            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+            $daAmount = $da_percentage_val ? round(($basicPay * $da_percentage_val->percentage) / 100) : 0;
         }
 
 
@@ -462,12 +462,15 @@ class MemberController extends Controller
 
         // nps sub val if member fund type nps
         $nps_sub_val = 0;
-        if ($member->fund_type == 'NPS') {
+        if ($member->memberCategory->fund_type == 'NPS') {
             $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
-            $basicPay = $member->basic;
-            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
-            $nsv1 = ($daAmount + $member->basic) * 10 / 100;
-            $nsv2 = ($daAmount + $member->basic) * 14 / 100;
+            $basicPay = $member->basic ?? 0;
+            $daAmount = $da_percentage_val ? round(($basicPay * $da_percentage_val->percentage) / 100) : 0;
+
+            $basic = $member->basic ?? 0;
+
+            $nsv1 = round(($daAmount + $basic) * 10 / 100);
+            $nsv2 = round(($daAmount + $basic) * 14 / 100);
             $nps_sub_val = $nsv1 + $nsv2;
         }
         $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
@@ -476,7 +479,7 @@ class MemberController extends Controller
         if ($member_expectation_da) {
             $daAmount = $member_expectation_da->amount;
         } else {
-            $daAmount = $da_percentage_val ? ($basicPay * $da_percentage_val->percentage) / 100 : 0;
+            $daAmount = $da_percentage_val ? round(($basicPay * $da_percentage_val->percentage) / 100) : 0;
         }
 
         return view('frontend.members.filter-year-month', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentYear', 'currentMonth'));
@@ -745,6 +748,8 @@ class MemberController extends Controller
         } else {
             $check_debit_member_monthly = new MemberMonthlyDataDebit();
         }
+
+        // dd($request->gpf_arr);
 
         $check_debit_member_monthly->month = $request->current_month;
         $check_debit_member_monthly->year = $request->current_year;
@@ -1393,6 +1398,107 @@ class MemberController extends Controller
         if (count($check_personal_member) > 0) {
             $update_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
 
+            $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+
+            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+
+
+
+            if ($update_personal_member->basic != $request->basic) {
+                $member = Member::where('id', $request->member_id)->first();
+
+                $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+                $basicPay = $request->basic;
+                $daAmount = $da_percentage ? round(($basicPay * $da_percentage->percentage) / 100) : 0;
+
+                // HRA calculation based on city category
+                $hraAmount = 0;
+                if ($member->member_city) {
+                    $city = City::find($member->member_city);
+                    if ($city) {
+                        $hraPercentage = Hra::where('city_category', $city->city_type)
+                            ->where('status', 1)
+                            ->first();
+                        $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
+                    }
+                }
+
+                // TPT calculation
+                $tptAmount = 0;
+                $tptDa = 0;
+                if ($member->member_city) {
+                    $city = City::find($member->member_city);
+                    if ($city && $city->tpt_type) {
+                        $tptData = Tpta::where('tpt_type', $city->tpt_type)
+                            ->where('pay_level_id', $member->pm_level)
+                            ->where('status', 1)
+                            ->first();
+                        if ($tptData) {
+                            $tptAmount = $tptData->tpt_allowance;
+                            $tptDa = ($tptAmount) / 2;
+                        }
+                    }
+                }
+                $npsc = 0;
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                    $npsc = round((($basicPay + $daAmount) * 14) / 100);
+                }
+
+                if ($member_credit_monthly) {
+                    $member_credit_monthly->pay = $basicPay;
+                    $member_credit_monthly->da = $daAmount;
+                    $member_credit_monthly->tpt = $tptAmount;
+                    $member_credit_monthly->hra = $hraAmount;
+                    $member_credit_monthly->da_on_tpt = $tptDa;
+                    $member_credit_monthly->npsc = $npsc;
+                    $member_credit_monthly->save();
+                }
+
+
+                    // NPS calculations if applicable
+                    $npsDeduction = 0;
+                    $npsDeductionGovt = 0;
+                    $gmcDeduction = 0;
+                    $npsSubTotal = 0;
+                    $npsGMCTotal = 0;
+                    if ($member->memberCategory->fund_type == 'NPS') {
+                        $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
+                        //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
+                        $npsSubTotal = $npsDeduction + $npsDeductionGovt;
+
+                    }
+                    if ($member->memberCategory->fund_type == 'NPS') {
+                        $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
+                        $npsGMCTotal = $gmcDeduction;
+
+                    }
+
+                    // GPF calculations if applicable
+                    $gpfDeduction = 0;
+                    if ($member->memberCategory->fund_type == 'GPF') {
+                        $gpfDeduction = round(($basicPay + $daAmount) * 10 / 100);
+
+                    }
+
+                    $npsg = 0;
+                    $nps_10_rec = 0;
+                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                        $npsg = round((($basicPay + $daAmount) * 14) / 100);
+                        $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
+                    }
+
+                if ($member_debit_monthly) {
+
+                    $member_debit_monthly->gpa_sub = $gpfDeduction;
+                    $member_debit_monthly->nps_sub = $npsSubTotal;
+                    $member_debit_monthly->cmg = $npsGMCTotal;
+                    $member_debit_monthly->basic = $basicPay;
+                    $member_debit_monthly->npsg = $npsg;
+                    $member_debit_monthly->nps_10_rec = $nps_10_rec;
+                    $member_debit_monthly->save();
+                }
+            }
+
             $update_personal_member->basic = $request->basic;
             $update_personal_member->emp_id = $request->emp_id;
             $update_personal_member->name = $request->name;
@@ -1428,15 +1534,7 @@ class MemberController extends Controller
             $update_personal_member->e_status = $request->e_status;
             $update_personal_member->update();
 
-            // member debit cgegis update
-            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->first() ?? '';
-            if ($member_debit) {
-                $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
-                $cgegis_amount = $cgegis_amount->value ?? 0;
-                $member_debit->cgegis = $cgegis_amount;
-            }
 
-            $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
 
             if ($member_credit_monthly) {
                 if ($request->g_pay) {
@@ -1446,7 +1544,7 @@ class MemberController extends Controller
             }
 
 
-            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+
             // dd($member_debit_monthly, $current_month);
             if ($member_debit_monthly) {
                 $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
@@ -1827,15 +1925,17 @@ class MemberController extends Controller
         // $policy_store->save();
 
         $member_recovery = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->latest()->first();
+        // dd($member_recovery, $request->current_month, $request->current_year);
+        if ($member_recovery) {
 
-        if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
-            $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name', 'LIC')->where('rec_stop', 'No')->sum('amount');
+            if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
+                $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name', 'LIC')->where('rec_stop', 'No')->sum('amount');
 
 
-            $member_recovery->lic = $total_lic;
+                $member_recovery->lic = $total_lic;
+            }
+            $member_recovery->save();
         }
-        $member_recovery->save();
-
         return response()->json(['message' => 'Member policy info added successfully', 'data' => $policy_store]);
     }
 
@@ -2403,7 +2503,7 @@ class MemberController extends Controller
             ->first();
 
         $edu_cess_rate = $tax_rate->edu_cess_rate;
-        $edu_cal = (($request->i_tax * $edu_cess_rate) / 100);
+        $edu_cal = round(($request->i_tax * $edu_cess_rate) / 100);
 
         return response()->json(['edu_cal' => $edu_cal]);
     }
@@ -2465,8 +2565,8 @@ class MemberController extends Controller
                     $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)((($basic + $da) * $result[$leave->leave_type_id]['no_of_days']) / $result[$leave->leave_type_id]['daysInMonth']), 2);
 
                     if ($nps != null) {
-                        $npsDeductionown = ($result[$leave->leave_type_id]['eolHplDeduction'] * 10) / 100;
-                        $npsDeductionGovt = ($result[$leave->leave_type_id]['eolHplDeduction'] * 14) / 100;
+                        $npsDeductionown = round(($result[$leave->leave_type_id]['eolHplDeduction'] * 10) / 100);
+                        $npsDeductionGovt = round(($result[$leave->leave_type_id]['eolHplDeduction'] * 14) / 100);
                         $result[$leave->leave_type_id]['npsDeductionown'] = $npsDeductionown;
                         $result[$leave->leave_type_id]['npsDeductionGovt'] = $npsDeductionGovt;
                     }
@@ -2716,7 +2816,7 @@ class MemberController extends Controller
         // 1. Credit data update - Calculate various allowances
         $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
         $basicPay = $member->basic;
-        $daAmount = $da_percentage ? ($basicPay * $da_percentage->percentage) / 100 : 0;
+        $daAmount = $da_percentage ? round(($basicPay * $da_percentage->percentage) / 100) : 0;
 
         // HRA calculation based on city category
         $hraAmount = 0;
@@ -2726,7 +2826,7 @@ class MemberController extends Controller
                 $hraPercentage = Hra::where('city_category', $city->city_type)
                     ->where('status', 1)
                     ->first();
-                $hraAmount = $hraPercentage ? ($basicPay * $hraPercentage->percentage) / 100 : 0;
+                $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
             }
         }
 
@@ -2742,7 +2842,7 @@ class MemberController extends Controller
                     ->first();
                 if ($tptData) {
                     $tptAmount = $tptData->tpt_allowance;
-                    $tptDa = ($tptAmount) / 2;
+                    $tptDa = round(($tptAmount) / 2);
                 }
             }
         }
@@ -2783,7 +2883,7 @@ class MemberController extends Controller
             'incentive' => 0,
             'variable_amount' => 0,
             'arrs_pay_alw' => 0,
-            'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay,
+            'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc,
             'remarks' => 'Initial credit data created'
         ];
 
@@ -2838,22 +2938,22 @@ class MemberController extends Controller
         $gmcDeduction = 0;
         $npsSubTotal = 0;
         $npsGMCTotal = 0;
-        if ($member->fund_type == 'NPS') {
-            $npsDeduction = ($basicPay + $daAmount) * 10 / 100;
+        if ($member->memberCategory->fund_type == 'NPS') {
+            $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
             //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
             $npsSubTotal = $npsDeduction + $npsDeductionGovt;
             $deductionsTotal += $npsSubTotal;
         }
-        if ($member->fund_type == 'NPS') {
-            $gmcDeduction = ($basicPay + $daAmount) * 14 / 100;
+        if ($member->memberCategory->fund_type == 'NPS') {
+            $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
             $npsGMCTotal = $gmcDeduction;
             $deductionsTotal += $npsGMCTotal;
         }
 
         // GPF calculations if applicable
         $gpfDeduction = 0;
-        if ($member->fund_type == 'GPF') {
-            $gpfDeduction = ($basicPay + $daAmount) * 10 / 100;
+        if ($member->memberCategory->fund_type == 'GPF') {
+            $gpfDeduction = round(($basicPay + $daAmount) * 10 / 100);
             $deductionsTotal += $gpfDeduction;
         }
 
@@ -2880,7 +2980,9 @@ class MemberController extends Controller
         $nps_10_rec = 0;
         if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
             $npsg = round((($basicPay + $daAmount) * 14) / 100);
+            $deductionsTotal += $npsg;
             $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
+            $deductionsTotal += $nps_10_rec;
         }
 
         $member_debit_data_monthly = [
@@ -2924,7 +3026,7 @@ class MemberController extends Controller
             'scooter' => 0,
             'tpt_rec' => 0,
             'tot_debits' => $deductionsTotal,
-            'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay) - $deductionsTotal,
+            'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc) - $deductionsTotal,
             'basic' => $basicPay,
             'gpf_adv' => 0,
             'hba_int' => 0,
@@ -3197,7 +3299,7 @@ class MemberController extends Controller
             'ccs_mem_no' => '',
             'fpa' => 0,
             'bank' => null,
-            'gpf_sub' => $member->fund_type == 'GPF' ? ($basicPay * 10 / 100) : 0,
+            'gpf_sub' => $member->memberCategory->fund_type == 'GPF' ? round(($basicPay * 10 / 100)) : 0,
             'add2' => 0,
             'gpf_acc_no' => $member->gpf_number ?? '',
             'i_tax' => 0,
@@ -3221,7 +3323,7 @@ class MemberController extends Controller
             'ccs_mem_no' => '',
             'fpa' => 0,
             'bank' => null,
-            'gpf_sub' => $member->fund_type == 'GPF' ? ($basicPay * 10 / 100) : 0,
+            'gpf_sub' => $member->memberCategory->fund_type == 'GPF' ? round($basicPay * 10 / 100) : 0,
             'add2' => 0,
             'gpf_acc_no' => $member->gpf_number ?? '',
             'i_tax' => 0,

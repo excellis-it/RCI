@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            assignRoleSeeder::class,
-            assignAdminSeeder::class,
-            assignMaterialManagerSeeder::class,
+            // assignRoleSeeder::class,
+            // assignAdminSeeder::class,
+            // assignMaterialManagerSeeder::class,
+            LoanSeeder::class
         ]);
     }
 }

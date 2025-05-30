@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\PmLevel;
 use Illuminate\Http\Request;
@@ -98,6 +99,8 @@ class TptaController extends Controller
                 $record->da_on_tpt = $request->tpt_da; // da_on_tpt set based on TPT value
                 $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($request->tpt_allowance + $request->tpt_da);
                 $record->save();
+                Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
+                Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
             }
         }
 
@@ -172,6 +175,9 @@ class TptaController extends Controller
             $record->da_on_tpt = $request->tpt_da; // da_on_tpt set based on TPT value
             $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($request->tpt_allowance + $request->tpt_da);
             $record->save();
+
+            Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
+            Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
         }
 
 

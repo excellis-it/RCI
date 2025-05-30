@@ -32,7 +32,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Tot Amt</label>
+                        <label>Loan Amount</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="total_amount" id="total_amount"
@@ -46,7 +46,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Tot No of Inst</label>
+                        <label>Loan No of Installment</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
@@ -60,7 +60,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Inst Amt</label>
+                        <label>Installment Amount</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="inst_amount" id="inst_amount"
@@ -73,7 +73,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Present Inst No</label>
+                        <label>Present Installment No</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
@@ -99,7 +99,7 @@
             <div class="form-group mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Inst Rate</label>
+                        <label>Installment Rate</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="inst_rate" id="inst_rate"
@@ -159,7 +159,7 @@
             <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Penal Inst Rate</label>
+                        <label>Penal Installment Rate</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="penal_inst_rate" id="penal_inst_rate"
@@ -260,7 +260,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Tot Amt</label>
+                        <label>Loan Amount</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="total_amount" id="total_amount"
@@ -273,7 +273,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Tot No of Inst</label>
+                        <label>Total No of Installment</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tot_no_of_inst" id="tot_no_of_inst"
@@ -286,7 +286,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Inst Amt</label>
+                        <label>Installment Amount</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="inst_amount" id="inst_amount" readonly
@@ -299,7 +299,7 @@
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Present Inst No</label>
+                        <label>Present Installment No</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
@@ -313,7 +313,7 @@
             <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Inst Rate</label>
+                        <label>Installment Rate</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="inst_rate" id="inst_rate" value="0"
@@ -383,7 +383,7 @@
             <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Penal Inst Rate</label>
+                        <label>Penal Installment Rate</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="penal_inst_rate" id="penal_inst_rate"
